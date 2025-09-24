@@ -1,0 +1,31 @@
+# onvif/services/security/authorizationserver.py
+
+from ...operator import ONVIFOperator
+from ...utils import ONVIFWSDL
+
+
+class AuthorizationServer:
+    def __init__(self, xaddr=None, **kwargs):
+        definition = ONVIFWSDL.get_definition("authorizationserver")
+        self.operator = ONVIFOperator(
+            definition["path"],
+            binding=f"{{{definition['namespace']}}}{definition['binding']}",
+            xaddr=xaddr,
+            **kwargs,
+        )
+
+    def GetAuthorizationServerConfigurations(self, Token=None):
+        return self.operator.call("GetAuthorizationServerConfigurations", Token=Token)
+
+    def CreateAuthorizationServerConfiguration(self, Configuration):
+        return self.operator.call(
+            "CreateAuthorizationServerConfiguration", Configuration=Configuration
+        )
+
+    def SetAuthorizationServerConfiguration(self, Configuration):
+        return self.operator.call(
+            "SetAuthorizationServerConfiguration", Configuration=Configuration
+        )
+
+    def DeleteAuthorizationServerConfiguration(self, Token):
+        return self.operator.call("DeleteAuthorizationServerConfiguration", Token=Token)

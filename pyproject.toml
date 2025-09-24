@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "onvif-python"
+version = "0.0.1"
+description = "A comprehensive and developer-friendly Python library for working with ONVIF-compliant devices"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    {name = "Nirsimetri Technologies®", email = "open@nirsimetri.com"},
+]
+maintainers = [
+    {name = "Kaburagi"},
+]
+keywords = ["ONVIF", "onvif", "Camera", "onvif-python", "ip-camera", "cctv", "soap", "surveillance", "cctv cameras", "soap-client", "onvif-client", "onvif-library", "onvif-specifications"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    'Environment :: Console',
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    'Intended Audience :: Science/Research',
+    "Topic :: Software Development :: Libraries",
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    "Topic :: Security",
+    "Topic :: Multimedia :: Video",
+    'Topic :: Multimedia :: Sound/Audio',
+    "Topic :: Communications",
+    "Natural Language :: English",
+]
+license = "MIT"
+
+dependencies = [
+    "zeep>=4.2.1",
+    "requests>=2.28.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black",
+    "flake8",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["onvif*"]
+exclude = ["examples*", "tests*"]
+
+[tool.setuptools.package-data]
+onvif = ["wsdl/*"]
+
+[project.urls]
+Homepage = "https://github.com/nirsimetri/onvif-python"
+Issues = "https://github.com/nirsimetri/onvif-python/issues"
+Documentation = "https://deepwiki.com/nirsimetri/onvif-python"
+Repository = "https://github.com/nirsimetri/onvif-python.git"
+Changelog = "https://github.com/nirsimetri/onvif-python/releases"

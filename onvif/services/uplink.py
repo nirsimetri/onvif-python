@@ -1,0 +1,28 @@
+# onvif/services/uplink.py
+
+from ..operator import ONVIFOperator
+from ..utils import ONVIFWSDL
+
+
+class Uplink:
+    def __init__(self, xaddr=None, **kwargs):
+        definition = ONVIFWSDL.get_definition("uplink")
+        self.operator = ONVIFOperator(
+            definition["path"],
+            binding=f"{{{definition['namespace']}}}{definition['binding']}",
+            service_path="Uplink",  # fallback
+            xaddr=xaddr,
+            **kwargs,
+        )
+
+    def GetServiceCapabilities(self):
+        return self.operator.call("GetServiceCapabilities")
+
+    def GetUplinks(self):
+        return self.operator.call("GetUplinks")
+
+    def SetUplink(self, Configuration):
+        return self.operator.call("SetUplink", Configuration=Configuration)
+
+    def DeleteUplink(self, RemoteAddress):
+        return self.operator.call("SetUplink", RemoteAddress=RemoteAddress)

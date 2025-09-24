@@ -1,0 +1,38 @@
+# Ignore Python and environment
+*.pyc
+*.pyo
+*.env
+.env
+venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# SQLite database files
+*.sqlite
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Optional: caches in subdirectories
+**/__pycache__/
+
+# VSCode settings
+.vscode/
+
+# MacOS files
+.DS_Store
+
+# Windows files
+Thumbs.db
+
+# others
+README_draft.md
+KNOWN_ISSUES.md
+ISSUE_TEMPLATE.md
+examples/test.py
+examples/README.md
