@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/badge/Release-v0.0.1-green?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
 [![PyPI](https://img.shields.io/badge/PyPI-0.0.1-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
-[![Downloads](https://img.shields.io/pypi/dd/onvif-python?label=PyPI%20Downloads)](https://pypi.org/project/onvif-python/)
+[![Downloads](https://img.shields.io/pypi/dd/onvif-python?label=PyPI%20Downloads&color=white)](https://pypi.org/project/onvif-python/)
 
 Are you having trouble finding a Python ONVIF library that supports your device?  
 Are you confused about the compatibility of the various ONVIF versions, which are updated every six months?
@@ -69,11 +69,8 @@ client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
 - `client.events()` — Events
 - `client.imaging()` — Imaging
 - `client.media()` — Media
-- `client.media2()` — Media 2
 - `client.ptz()` — PTZ (Pan-Tilt-Zoom)
-- `client.deviceio()` — Device IO
 - `client.analytics()` — Analytics
-- `client.recording()` — Recording
 
 and so on, check [Implemented ONVIF Services](https://github.com/nirsimetri/onvif-python?tab=readme-ov-file#implemented-onvif-services) for more details
 
@@ -161,7 +158,7 @@ This library fully supports all major ONVIF Profiles listed below. Each profile 
 | Profile_T | [Document](https://www.onvif.org/wp-content/uploads/2018/09/ONVIF_Profile_T_Specification_v1-0.pdf) | Advanced video streaming (H.265, analytics metadata, motion detection) | Modern cameras and clients | ✅ Yes |
 | Profile_C | [Document](https://www.onvif.org/wp-content/uploads/2017/01/2013_12_ONVIF_Profile_C_Specification_v1-0.pdf) | Access control, door monitoring | Door controllers, access systems | ✅ Yes |
 | Profile_A | [Document](https://www.onvif.org/wp-content/uploads/2017/06/ONVIF_Profile_A_Specification_v1-0.pdf) | Advanced access control configuration, credential management | Access control clients and devices | ✅ Yes |
-| Profile_D | [Document](https://www.onvif.org/wp-content/uploads/2017/06/ONVIF_Profile_D_Specification_v1-0.pdf) | Access control peripherals (locks, sensors, relays) | Peripheral devices for access control | ✅ Yes |
+| Profile_D | [Document](https://www.onvif.org/wp-content/uploads/2021/06/onvif-profile-d-specification-v1-0.pdf) | Access control peripherals (locks, sensors, relays) | Peripheral devices for access control | ✅ Yes |
 | Profile_M | [Document](https://www.onvif.org/wp-content/uploads/2024/04/onvif-profile-m-specification-v1-1.pdf) | Metadata, analytics events, object detection | Analytics devices, metadata clients | ✅ Yes |
 
 For a full description of each profile and its features, visit [ONVIF Profiles](https://www.onvif.org/profiles/).
