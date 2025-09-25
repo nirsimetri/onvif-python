@@ -130,29 +130,33 @@ class ONVIFClient:
         self._authorizationserver = None
         self._mediasigning = None
 
+
     def _get_xaddr(self, service_name: str, service_path: str):
         """
         Resolve XAddr from GetCapabilities. Fallback to default if not present.
+        Now supports nested Extension for services like DeviceIO, Recording, etc.
         """
         svc = getattr(self.capabilities, service_name, None)
+        # If not found at top level, check Extension
+        if svc is None and hasattr(self.capabilities, "Extension"):
+            ext = getattr(self.capabilities, "Extension", None)
+            if ext and hasattr(ext, service_name):
+                svc = getattr(ext, service_name, None)
+
         if svc and hasattr(svc, "XAddr") and svc.XAddr:
             parsed = urlparse(svc.XAddr)
-
             # Host/port from device
             device_host = parsed.hostname
             device_port = parsed.port
-
             # Host/port from connection
             connect_host = self.common_args["host"]
             connect_port = self.common_args["port"]
-
             # if host/port differ, rewrite XAddr to use connection values
             if (device_host != connect_host) or (device_port != connect_port):
                 protocol = parsed.scheme
                 new_netloc = f"{connect_host}:{connect_port}"
                 rewritten = urlunparse((protocol, new_netloc, parsed.path, "", "", ""))
                 return rewritten
-
             return svc.XAddr
 
         # fallback (legacy style)
