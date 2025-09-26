@@ -50,7 +50,7 @@ class ONVIFOperator:
         cache: CacheMode = CacheMode.ALL,  # all | db | mem | none
         cache_path: str = None,
         use_https: bool = False,
-        verify_ssl: bool = False,
+        verify_ssl: bool = True,
     ):
         self.wsdl_path = wsdl_path
         self.host = host

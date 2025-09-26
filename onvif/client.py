@@ -53,7 +53,7 @@ class ONVIFClient:
         timeout=10,
         cache=CacheMode.ALL,
         use_https=False,
-        verify_ssl=False,
+        verify_ssl=True,
     ):
         self.common_args = {
             "host": host,
@@ -134,17 +134,26 @@ class ONVIFClient:
     def _get_xaddr(self, service_name: str, service_path: str):
         """
         Resolve XAddr from GetCapabilities. Fallback to default if not present.
-        Now supports nested Extension for services like DeviceIO, Recording, etc.
+        Now supports nested Extension with _value_1 dict (after normalized parsing).
         """
         svc = getattr(self.capabilities, service_name, None)
-        # If not found at top level, check Extension
-        if svc is None and hasattr(self.capabilities, "Extension"):
+
+        # Step 1: check direct attribute (e.g. capabilities.Media)
+        if svc and hasattr(svc, "XAddr"):
+            xaddr = svc.XAddr
+        else:
+            # Step 2: try legacy Extension.service_name
             ext = getattr(self.capabilities, "Extension", None)
             if ext and hasattr(ext, service_name):
                 svc = getattr(ext, service_name, None)
+                xaddr = getattr(svc, "XAddr", None) if svc else None
+            else:
+                # Step 3: try new-style _value_1 dict inside Extension
+                ext_dict = getattr(ext, "_value_1", {})
+                xaddr = ext_dict.get(service_name, {}).get("XAddr") if isinstance(ext_dict, dict) else None
 
-        if svc and hasattr(svc, "XAddr") and svc.XAddr:
-            parsed = urlparse(svc.XAddr)
+        if xaddr:
+            parsed = urlparse(xaddr)
             # Host/port from device
             device_host = parsed.hostname
             device_port = parsed.port
@@ -157,9 +166,9 @@ class ONVIFClient:
                 new_netloc = f"{connect_host}:{connect_port}"
                 rewritten = urlunparse((protocol, new_netloc, parsed.path, "", "", ""))
                 return rewritten
-            return svc.XAddr
+            return xaddr
 
-        # fallback (legacy style)
+        # Fallback default
         protocol = "https" if self.common_args["use_https"] else "http"
         return f"{protocol}://{self.common_args['host']}:{self.common_args['port']}/onvif/{service_path}"
 

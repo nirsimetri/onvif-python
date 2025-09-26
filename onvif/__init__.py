@@ -3,6 +3,7 @@
 from .client import ONVIFClient
 from .operator import ONVIFOperator, CacheMode
 from .utils import ONVIFWSDL, ONVIFOperationException
+from .utils.zeep import apply_patch
 
 __all__ = [
     "ONVIFClient",
@@ -11,3 +12,5 @@ __all__ = [
     "ONVIFWSDL",
     "ONVIFOperationException",
 ]
+
+apply_patch()
