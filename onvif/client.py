@@ -53,7 +53,7 @@ class ONVIFClient:
         timeout=10,
         cache=CacheMode.ALL,
         use_https=False,
-        verify_ssl=True,
+        verify_ssl=False,
     ):
         self.common_args = {
             "host": host,
