@@ -29,7 +29,11 @@ pullpoint = client.pullpoint(subscription)
 
 # Inject HistoryPlugin to zeep client if available
 history_plugin = HistoryPlugin()
-if hasattr(pullpoint, 'operator') and hasattr(pullpoint.operator, 'client') and hasattr(pullpoint.operator.client, 'plugins'):
+if (
+    hasattr(pullpoint, "operator")
+    and hasattr(pullpoint.operator, "client")
+    and hasattr(pullpoint.operator.client, "plugins")
+):
     pullpoint.operator.client.plugins.append(history_plugin)
 
 # 3. Pull events for 10 minutes
@@ -42,25 +46,32 @@ while datetime.datetime.now() < end_time:
         # Timeout can be adjusted as needed and in ISO 8601 format
         msgs = pullpoint.PullMessages(Timeout="PT5S", MessageLimit=1000)
         notifications = getattr(msgs, "NotificationMessage", None)
-        
+
         if notifications:
             if not isinstance(notifications, list):
                 notifications = [notifications]
-                
+
             for n in notifications:
                 # Extract Topic from raw XML using ElementTree
                 topic_val = None
                 try:
                     # Get last raw response from HistoryPlugin
-                    last_raw_xml = history_plugin.last_received['envelope'] if hasattr(history_plugin, 'last_received') and 'envelope' in history_plugin.last_received else None
+                    last_raw_xml = (
+                        history_plugin.last_received["envelope"]
+                        if hasattr(history_plugin, "last_received")
+                        and "envelope" in history_plugin.last_received
+                        else None
+                    )
                     if last_raw_xml is not None:
                         # If lxml.etree._Element, convert to string first
-                        if hasattr(last_raw_xml, 'tag'):
-                            xml_str = ET.tostring(last_raw_xml, encoding='utf-8')
+                        if hasattr(last_raw_xml, "tag"):
+                            xml_str = ET.tostring(last_raw_xml, encoding="utf-8")
                         else:
                             xml_str = last_raw_xml
                         root = ET.fromstring(xml_str)
-                        topic_elems = root.findall('.//{http://docs.oasis-open.org/wsn/b-2}Topic')
+                        topic_elems = root.findall(
+                            ".//{http://docs.oasis-open.org/wsn/b-2}Topic"
+                        )
                         # Index of current notification
                         idx = notifications.index(n)
                         if idx < len(topic_elems):
@@ -79,15 +90,17 @@ while datetime.datetime.now() < end_time:
                     # Extract timestamp from UtcTime attribute
                     utc_str = msg_elem.get("UtcTime")
                     if utc_str:
-                        ts_utc = datetime.datetime.fromisoformat(utc_str.replace("Z", "+00:00"))
+                        ts_utc = datetime.datetime.fromisoformat(
+                            utc_str.replace("Z", "+00:00")
+                        )
                         ts = ts_utc.astimezone()
                     else:
                         ts = datetime.datetime.now().astimezone()
 
                     print("\n=== Event received @", ts, "===")
 
-                    #print("PullMessages Response:\n", msgs)
-                    
+                    # print("PullMessages Response:\n", msgs)
+
                     print("Operation ->", msg_elem.get("PropertyOperation"))
 
                     print("Topic ->", topic_val)
@@ -115,11 +128,11 @@ while datetime.datetime.now() < end_time:
                         print("Data ->", ", ".join(data_tokens))
 
                     # Print raw XML of the event
-                    #try:
-                        #raw_xml = ET.tostring(msg_elem, encoding="unicode")
-                        #print("Raw XML:\n", raw_xml)
-                    #except Exception as ex:
-                        #print("Could not print raw XML:", ex)
+                    # try:
+                    # raw_xml = ET.tostring(msg_elem, encoding="unicode")
+                    # print("Raw XML:\n", raw_xml)
+                    # except Exception as ex:
+                    # print("Could not print raw XML:", ex)
                 else:
                     print("\n-> Event without Message")
         else:
@@ -127,6 +140,6 @@ while datetime.datetime.now() < end_time:
     except Exception as e:
         print("\n-> ❌ Error while pulling events:", e)
 
-    #time.sleep(1)  # small delay between requests
+    # time.sleep(1)  # small delay between requests
 
 print("\n✅ Finished: 15 minutes event pulling ended")

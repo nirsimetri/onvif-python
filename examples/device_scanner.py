@@ -1,3 +1,12 @@
+"""
+Path: examples/device_scanner.py
+Author: @kaburagisec
+Created: September 19, 2025
+
+This script scans a given subnet for ONVIF-compliant devices by checking common ports.
+It uses nmap for port scanning and sends a SOAP request to verify ONVIF compliance.
+"""
+
 import nmap
 import requests
 import json
@@ -5,7 +14,7 @@ import argparse
 
 
 def is_onvif(ip, port, timeout=3):
-    url = f"http://{ip}:{port}/onvif/service"
+    url = f"http://{ip}:{port}/onvif/device_service"
     headers = {"Content-Type": "application/soap+xml; charset=utf-8"}
 
     soap_body = """<?xml version="1.0" encoding="utf-8"?>

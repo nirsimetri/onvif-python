@@ -16,9 +16,7 @@ class Device:
         )
 
     def GetServices(self, IncludeCapability):
-        return self.operator.call(
-            "GetServices", IncludeCapability=IncludeCapability
-        )
+        return self.operator.call("GetServices", IncludeCapability=IncludeCapability)
 
     def GetServiceCapabilities(self):
         return self.operator.call("GetServiceCapabilities")
