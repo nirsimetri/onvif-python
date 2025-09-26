@@ -153,7 +153,7 @@ class ONVIFClient:
             connect_port = self.common_args["port"]
             # if host/port differ, rewrite XAddr to use connection values
             if (device_host != connect_host) or (device_port != connect_port):
-                protocol = parsed.scheme
+                protocol = "https" if self.common_args["use_https"] else "http"
                 new_netloc = f"{connect_host}:{connect_port}"
                 rewritten = urlunparse((protocol, new_netloc, parsed.path, "", "", ""))
                 return rewritten

@@ -10,7 +10,7 @@ class Search:
         self.operator = ONVIFOperator(
             definition["path"],
             binding=f"{{{definition['namespace']}}}{definition['binding']}",
-            service_path="Search",  # fallback
+            service_path="SearchRecording",  # fallback
             xaddr=xaddr,
             **kwargs,
         )
