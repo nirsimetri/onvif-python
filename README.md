@@ -209,7 +209,8 @@ ONVIF services are defined by WSDL bindings. In this library, there are two main
 
 Most ONVIF services use a single binding, mapping directly to one endpoint. These are accessed via simple client methods, and the binding/xAddr is always known from device capabilities.
 
-**Examples:**
+<details>
+<summary>Examples:</summary>
 
 ```python
 client.devicemgmt()   # DeviceBinding
@@ -220,13 +221,16 @@ client.ptz()          # PTZBinding
 
 ✅ These are considered fixed and always accessed directly.
 
+</details>
+
 ### 2. Multi-Binding Services
 
 Some ONVIF services have multiple bindings in the same WSDL. These typically include:
 - A **root binding** (main entry point)
 - One or more **sub-bindings**, discovered or created dynamically (e.g. after subscription/configuration creation)
 
-**Examples:**
+<details>
+<summary>Examples:</summary>
 
 1. **Events**
    - **Root:** `EventBinding`
@@ -274,6 +278,8 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
    client.analytics()   # root binding
    client.ruleengine()  # sub-binding accessor
    ```
+</details>
+
 ### Summary
 
 - **Single binding services:** Always accessed directly (e.g. `client.media()`).
