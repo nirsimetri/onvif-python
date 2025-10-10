@@ -87,7 +87,7 @@ Retrieve basic information about the device, such as manufacturer, model, firmwa
 ```python
 info = device.GetDeviceInformation()
 print(info)
-# Example output: {'Manufacturer': '...', 'Model': '...', 'FirmwareVersion': '...', 'SerialNumber': '...'}
+# Example output: {'Manufacturer': '..', 'Model': '..', 'FirmwareVersion': '..', 'SerialNumber': '..'}
 ```
 
 **4. Get RTSP URL**
@@ -322,7 +322,6 @@ If you are looking for other ONVIF Python libraries, here are some alternatives:
 - [ONVIF Official Specifications](https://www.onvif.org/profiles/specifications/specification-history/)
 - [ONVIF Official Specs Repository](https://github.com/onvif/specs)
 - [ONVIF 2.0 Service Operation Index](https://www.onvif.org/onvif/ver20/util/operationIndex.html)
-- [Project Specs Folder](../../specifications)
 - [Usage Examples](./examples/)
 
 ## Legal Notice

@@ -72,7 +72,7 @@ class Keystore:
 
     def CreatePKCS10CSR(self, Subject, KeyID, SignatureAlgorithm, CSRAttribute=None):
         return self.operator.call(
-            "DeleteKey",
+            "CreatePKCS10CSR",
             Subject=Subject,
             KeyID=KeyID,
             CSRAttribute=CSRAttribute,
