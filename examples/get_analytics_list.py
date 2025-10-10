@@ -8,11 +8,6 @@ This script connects to an ONVIF-compliant device and retrieves the list of supp
 analytics modules using the Analytics service.
 """
 
-import sys, os
-
-# Make sure local library path is prioritized
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 from onvif import ONVIFClient
 
 HOST = "192.168.1.3"
