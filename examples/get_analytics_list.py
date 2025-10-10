@@ -18,9 +18,11 @@ PASSWORD = "admin123"
 try:
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
     profile = client.media().GetProfiles()[0]  # use the first profile
-    services = client.analytics().GetSupportedAnalyticsModules(
+    analytics = client.analytics()
+    
+    analytics_modules = analytics.GetSupportedAnalyticsModules(
         ConfigurationToken=profile.VideoAnalyticsConfiguration.token
     )
-    print(services)
+    print(analytics_modules)
 except Exception as e:
     print(e)
