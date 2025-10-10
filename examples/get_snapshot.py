@@ -17,10 +17,12 @@ PASSWORD = "admin123"
 
 try:
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
-    profile = client.media().GetProfiles()[0]  # use the first profile
+    media = client.media()
+    
+    profile = media.GetProfiles()[0]  # use the first profile
     print("Profile Name:", profile.Name)
 
-    snapshot_uri = client.media().GetSnapshotUri(ProfileToken=profile.token)
+    snapshot_uri = media.GetSnapshotUri(ProfileToken=profile.token)
     print("Snapshot URI:", snapshot_uri.Uri)
 except Exception as e:
     print(e)
