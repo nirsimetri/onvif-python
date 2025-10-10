@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/badge/Release-v0.0.3-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
 [![PyPI](https://img.shields.io/badge/PyPI-0.0.3-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
-[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://pypi.org/project/onvif-python/)
+[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 Are you having trouble finding a Python ONVIF library that supports your device?  
 Are you confused about the compatibility of the various ONVIF versions, which are updated every six months?
