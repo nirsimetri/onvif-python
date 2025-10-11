@@ -72,25 +72,47 @@ def flatten_xsd_any_fields(obj, _visited=None):
             value_data = values[value_key]
 
             # Only process if _value_N is a dict (from our patched parser)
-            if isinstance(value_data, dict):
+            if isinstance(value_data, dict) and "__original_elements__" in value_data:
                 # Extract original elements first
                 original_elements = value_data.get("__original_elements__")
 
-                # Copy all non-private fields from _value_N dict to parent
-                for key, val in list(value_data.items()):
-                    # Skip __original_elements__ and other private keys
-                    if key.startswith("_"):
-                        continue
-
-                    # Only copy if field exists in parent and is None
-                    if key in values and values[key] is None:
-                        values[key] = val
+                # Check if this is a single-tag wrapper (like {"Capabilities": {...}})
+                # If so, flatten one level by extracting the inner content
+                non_private_keys = [k for k in value_data.keys() if not k.startswith("_")]
+                
+                if len(non_private_keys) == 1:
+                    # Single tag wrapper - flatten it
+                    tag_name = non_private_keys[0]
+                    inner_content = value_data[tag_name]
+                    
+                    if isinstance(inner_content, dict):
+                        # Copy fields from inner dict to parent
+                        for key, val in inner_content.items():
+                            if key in values and values[key] is None:
+                                values[key] = val
+                            elif key not in values:
+                                values[key] = val
+                    else:
+                        # If inner content is not a dict, just copy it directly
+                        if tag_name in values and values[tag_name] is None:
+                            values[tag_name] = inner_content
+                        elif tag_name not in values:
+                            values[tag_name] = inner_content
+                else:
+                    # Multiple tags or no tags - copy all non-private fields
+                    for key, val in list(value_data.items()):
+                        if key.startswith("_"):
+                            continue
+                        
+                        if key in values and values[key] is None:
+                            values[key] = val
+                        elif key not in values:
+                            values[key] = val
 
                 # Replace _value_N with ONLY the original elements list
                 if original_elements is not None:
                     values[value_key] = original_elements
                 else:
-                    # If no original elements, set to None
                     values[value_key] = None
 
             value_n += 1
@@ -102,19 +124,39 @@ def flatten_xsd_any_fields(obj, _visited=None):
             value_key = f"_value_{value_n}"
             value_data = getattr(obj, value_key)
 
-            if isinstance(value_data, dict):
+            if isinstance(value_data, dict) and "__original_elements__" in value_data:
                 # Extract original elements first (before any modification)
                 original_elements = value_data.get("__original_elements__")
 
-                # Copy all non-private fields from _value_N to parent
-                for key, val in value_data.items():
-                    # Skip __original_elements__ and other private keys
-                    if key.startswith("_"):
-                        continue
-
-                    # Only copy if field exists in parent and is None
-                    if hasattr(obj, key) and getattr(obj, key) is None:
-                        setattr(obj, key, val)
+                # Check if this is a single-tag wrapper
+                non_private_keys = [k for k in value_data.keys() if not k.startswith("_")]
+                
+                if len(non_private_keys) == 1:
+                    # Single tag wrapper - flatten it
+                    tag_name = non_private_keys[0]
+                    inner_content = value_data[tag_name]
+                    
+                    if isinstance(inner_content, dict):
+                        for key, val in inner_content.items():
+                            if hasattr(obj, key) and getattr(obj, key) is None:
+                                setattr(obj, key, val)
+                            elif not hasattr(obj, key):
+                                setattr(obj, key, val)
+                    else:
+                        if hasattr(obj, tag_name) and getattr(obj, tag_name) is None:
+                            setattr(obj, tag_name, inner_content)
+                        elif not hasattr(obj, tag_name):
+                            setattr(obj, tag_name, inner_content)
+                else:
+                    # Multiple tags - copy all non-private fields
+                    for key, val in value_data.items():
+                        if key.startswith("_"):
+                            continue
+                        
+                        if hasattr(obj, key) and getattr(obj, key) is None:
+                            setattr(obj, key, val)
+                        elif not hasattr(obj, key):
+                            setattr(obj, key, val)
 
                 # Replace _value_N with ONLY the original elements list
                 if original_elements is not None:
@@ -172,13 +214,21 @@ def patched_parse_xmlelements(self, xmlelements, schema, name=None, context=None
                     )
                     child_result[child_qname.localname] = val
                 except Exception:
-                    if list(child):
+                    # If schema lookup fails, try to parse manually
+                    # Check if child has attributes (common in ONVIF capabilities)
+                    if child.attrib:
+                        # Parse attributes as a dict
+                        attr_dict = {k: parse_text_value(v) for k, v in child.attrib.items()}
+                        child_result[child_qname.localname] = attr_dict
+                    elif list(child):
+                        # Has nested children
                         nested = {
                             QName(sub.tag).localname: parse_text_value(sub.text)
                             for sub in child
                         }
                         child_result[child_qname.localname] = nested
                     else:
+                        # Only has text content
                         child_result[child_qname.localname] = parse_text_value(
                             child.text
                         )
