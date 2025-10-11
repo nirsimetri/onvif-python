@@ -244,6 +244,7 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
    client.events()                    # root binding
    client.pullpoint(subscription)     # sub-binding (dynamic, via SubscriptionReference.Address)
    client.subscription(subscription)  # sub-binding (dynamic, via SubscriptionReference.Address)
+   client.notification()              # sub-binding accessor
    ```
 
 2. **Security (Advanced Security)**
@@ -251,7 +252,6 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
    - **Sub-bindings:**
      - `AuthorizationServerBinding`
      - `KeystoreBinding`
-     - `CredentialBinding`
      - `JWTBinding`
      - `Dot1XBinding`
      - `TLSServerBinding`
@@ -261,7 +261,7 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
    ```python
    client.security()                  # root binding
    client.authorizationserver(xaddr)  # sub-binding accessor (requires xAddr)
-   client.keystore(xaddr)
+   client.keystore(xaddr)             # ..
    client.jwt(xaddr)
    client.dot1x(xaddr)
    client.tlsserver(xaddr)
@@ -287,6 +287,7 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
 
 ## Future Improvements (Stay tuned and star ⭐ this repo)
 
+- [ ] Add ONVIF CLI program to interact directly with ONVIF devices via terminal.
 - [ ] Implement structured data models for ONVIF Schemas using [xsdata](https://github.com/tefra/xsdata).
 - [ ] Integrate [xmltodict](https://github.com/martinblech/xmltodict) for simplified XML parsing and conversion.
 - [ ] Add functionality for `ONVIFClient` to accept a custom `wsdl_path` service.

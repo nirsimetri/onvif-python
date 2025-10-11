@@ -244,6 +244,7 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
    client.events()                    # root binding
    client.pullpoint(subscription)     # sub-binding (dinamis, via SubscriptionReference.Address)
    client.subscription(subscription)  # sub-binding (dinamis, via SubscriptionReference.Address)
+   client.notification()              # sub-binding accessor
    ```
 
 2. **Security (Advanced Security)**
@@ -251,7 +252,6 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
    - **Sub-binding:**
      - `AuthorizationServerBinding`
      - `KeystoreBinding`
-     - `CredentialBinding`
      - `JWTBinding`
      - `Dot1XBinding`
      - `TLSServerBinding`
@@ -261,7 +261,7 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
    ```python
    client.security()                  # root binding
    client.authorizationserver(xaddr)  # sub-binding accessor (memerlukan xAddr)
-   client.keystore(xaddr)
+   client.keystore(xaddr)             # ..
    client.jwt(xaddr)
    client.dot1x(xaddr)
    client.tlsserver(xaddr)
@@ -287,6 +287,7 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
 
 ## Peningkatan Mendatang (Pantau dan beri bintang ⭐ repo ini)
 
+- [ ] Menambahkan program ONVIF CLI untuk berinteraksi langsung dengan perangkat ONVIF melalui terminal.
 - [ ] Mengimplementasikan model data terstruktur untuk Skema ONVIF menggunakan [xsdata](https://github.com/tefra/xsdata).
 - [ ] Integrasi [xmltodict](https://github.com/martinblech/xmltodict) untuk parsing dan konversi XML yang lebih sederhana.
 - [ ] Menambahkan kemampuan agar `ONVIFClient` menerima layanan `wsdl_path` kustom.
