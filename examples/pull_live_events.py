@@ -11,14 +11,14 @@ and continuously pulls live events for 10 minutes, printing event details to the
 import datetime
 import xml.etree.ElementTree as ET
 from zeep.plugins import HistoryPlugin
-from onvif import ONVIFClient
+from onvif import ONVIFClient, CacheMode
 
-HOST = "192.168.1.6"
-PORT = 8000
+HOST = "192.168.1.3"
+PORT = 80
 USERNAME = "admin"
 PASSWORD = "admin123"
 
-client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
 
 # 1. Create PullPoint Subscription from Events service
 subscription = client.events().CreatePullPointSubscription()
@@ -80,11 +80,14 @@ while datetime.datetime.now() < end_time:
                     print("⚠️ HistoryPlugin topic parse error:", e)
 
                 # Extract Message (XML element)
+                # After the patch, _value_1 is directly a list of Elements (not a dict)
                 msg_elem = None
-                if isinstance(n.Message, dict) and "_value_1" in n.Message:
-                    msg_elem = n.Message["_value_1"]
-                elif hasattr(n.Message, "_value_1"):
-                    msg_elem = n.Message._value_1
+                if hasattr(n.Message, "_value_1") and n.Message._value_1:
+                    # _value_1 is now a list of Elements, take the first one
+                    if isinstance(n.Message._value_1, list) and len(n.Message._value_1) > 0:
+                        msg_elem = n.Message._value_1[0]
+                    else:
+                        msg_elem = n.Message._value_1
 
                 if msg_elem is not None:
                     # Extract timestamp from UtcTime attribute
