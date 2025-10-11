@@ -2,9 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Release](https://img.shields.io/badge/Release-v0.0.4-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Release](https://img.shields.io/badge/Release-v0.0.5-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.4-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.0.5-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 Are you having trouble finding a Python ONVIF library that supports your device?  
@@ -109,32 +109,64 @@ Explore more advanced usage and service-specific operations in the [`examples/`]
 > [!IMPORTANT]
 > If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course). Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](#legal-notice) for details.
 
-## Device Verification: Why Use GetCapabilities First?
+## Service Discovery: Understanding Device Capabilities
 
 > [!WARNING]
-> Before performing any operations on an ONVIF device, it is highly recommended to verify which capabilities and services are available and supported by the device using the `GetCapabilities` method from `devicemgmt()` service instance. This step ensures that your application interacts only with features that the device actually implements, preventing errors and improving compatibility.
+> Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device. This library automatically uses `GetServices` during initialization to discover service endpoints, but you can also query services manually for detailed information including capabilities.
 
-**Why verify device capabilities with GetCapabilities?**
+**Why discover device services?**
 
-- **Device Diversity:** Not all ONVIF devices support every capability or service. Capabilities may vary by manufacturer, model, firmware, or configuration.
-- **Error Prevention:** Attempting to use unsupported features can result in failed requests, exceptions, or undefined behavior.
-- **Dynamic Feature Detection:** Devices may enable or disable capabilities over time (e.g., after firmware updates or configuration changes).
-- **Optimized Integration:** By checking available capabilities, your application can adapt its workflow and UI to match the device's actual features.
+- **Device Diversity:** Not all ONVIF devices support every service. Available services may vary by manufacturer, model, firmware, or configuration.
+- **Error Prevention:** Attempting to use unsupported services can result in failed requests, exceptions, or undefined behavior.
+- **Dynamic Feature Detection:** Devices may enable or disable services over time (e.g., after firmware updates or configuration changes).
+- **Optimized Integration:** By checking available services, your application can adapt its workflow and UI to match the device's actual features.
 
-**How to verify device capabilities:**
+**How service discovery works in this library:**
 
-Call `GetCapabilities` on your `devicemgmt()` instance:
+The `ONVIFClient` automatically calls `GetServices` during initialization to build a service map. This map is used internally to resolve service endpoints:
 
 ```python
 from onvif import ONVIFClient
 
 client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
-capabilities = client.devicemgmt().GetCapabilities()
-print(capabilities)
-# Example output: {'Media': {'XAddr': 'http://192.168.1.17:8000/onvif/media_service', ...}, 'PTZ': {...}, ...}
+
+# Access the discovered services
+print(client.services)
+# Example output: [{'Namespace': 'http://www.onvif.org/ver10/device/wsdl', 'XAddr': '...', 'Version': {...}}, ...]
+
+# Check the service map (namespace -> XAddr mapping)
+print(client._service_map)
+# Example output: {'http://www.onvif.org/ver10/media/wsdl': 'http://192.168.1.17:8000/onvif/Media', ...}
 ```
 
-Review the returned dictionary to determine which capabilities and services (e.g., Media, PTZ, Analytics) are available before invoking further operations.
+**Get detailed service information with capabilities:**
+
+If you need detailed capability information for each service, call `GetServices` with `IncludeCapability=True`:
+
+```python
+device = client.devicemgmt()
+services = device.GetServices(IncludeCapability=True)
+
+for service in services:
+    print(f"Service: {service.Namespace}")
+    print(f"Endpoint: {service.XAddr}")
+    print(f"Version: {service.Version.Major}.{service.Version.Minor}")
+    if hasattr(service, 'Capabilities') and service.Capabilities:
+        print(f"Capabilities: {service.Capabilities}")
+```
+
+**Alternative: Use GetCapabilities for legacy compatibility:**
+
+For backward compatibility or when you need a quick overview of major service categories, you can still use `GetCapabilities`:
+
+```python
+capabilities = client.devicemgmt().GetCapabilities()
+print(capabilities)
+# Example output: {'Media': {'XAddr': '...', ...}, 'PTZ': {...}, 'Events': {...}, ...}
+```
+
+> [!TIP]
+> The library handles service discovery automatically, so you typically don't need to call `GetServices` manually unless you need detailed capability information or want to refresh the service list after device configuration changes.
 
 ## Tested Devices
 

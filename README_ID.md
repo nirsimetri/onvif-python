@@ -2,9 +2,9 @@
 
 [![Lisensi](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Rilis](https://img.shields.io/badge/Release-v0.0.4-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Rilis](https://img.shields.io/badge/Release-v0.0.5-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.4-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.0.5-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Unduhan](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 Apakah Anda kesulitan menemukan pustaka Python ONVIF yang mendukung perangkat Anda?  
@@ -109,32 +109,64 @@ Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`
 > [!IMPORTANT]
 > Jika Anda baru mengenal ONVIF dan ingin mempelajari lebih lanjut, kami sangat menyarankan untuk mengikuti kursus online gratis resmi yang disediakan oleh ONVIF di [Kursus Pengantar ONVIF](https://www.onvif.org/about/introduction-to-onvif-course). Harap dicatat bahwa kami tidak didukung atau disponsori oleh ONVIF, lihat [Pemberitahuan Hukum](#legal-notice) untuk detailnya.
 
-## Verifikasi Perangkat: Mengapa Menggunakan GetCapabilities Terlebih Dahulu?
+## Penemuan Layanan: Memahami Kapabilitas Perangkat
 
 > [!WARNING]
-> Sebelum melakukan operasi apa pun pada perangkat ONVIF, sangat disarankan untuk memverifikasi kemampuan dan layanan apa yang tersedia dan didukung oleh perangkat menggunakan metode `GetCapabilities` dari instance layanan `devicemgmt()`. Langkah ini memastikan bahwa aplikasi Anda hanya berinteraksi dengan fitur yang benar-benar diimplementasikan oleh perangkat, mencegah kesalahan, dan meningkatkan kompatibilitas.
+> Sebelum melakukan operasi apa pun pada perangkat ONVIF, sangat disarankan untuk menemukan layanan mana yang tersedia dan didukung oleh perangkat. Pustaka ini secara otomatis menggunakan `GetServices` selama inisialisasi untuk menemukan endpoint layanan, tetapi Anda juga dapat melakukan query layanan secara manual untuk informasi detail termasuk kapabilitas.
 
-**Mengapa memverifikasi kemampuan perangkat dengan GetCapabilities?**
+**Mengapa menemukan layanan perangkat?**
 
-- **Keanekaragaman Perangkat:** Tidak semua perangkat ONVIF mendukung setiap kemampuan atau layanan. Kemampuan dapat bervariasi berdasarkan produsen, model, firmware, atau konfigurasi.
-- **Pencegahan Kesalahan:** Mencoba menggunakan fitur yang tidak didukung dapat mengakibatkan permintaan gagal, pengecualian, atau perilaku yang tidak terdefinisi.
-- **Deteksi Fitur Dinamis:** Perangkat dapat mengaktifkan atau menonaktifkan kemampuan dari waktu ke waktu (misalnya, setelah pembaruan firmware atau perubahan konfigurasi).
-- **Integrasi yang Dioptimalkan:** Dengan memeriksa kemampuan yang tersedia, aplikasi Anda dapat menyesuaikan alur kerja dan UI untuk mencocokkan fitur perangkat yang sebenarnya.
+- **Keanekaragaman Perangkat:** Tidak semua perangkat ONVIF mendukung setiap layanan. Layanan yang tersedia dapat bervariasi berdasarkan produsen, model, firmware, atau konfigurasi.
+- **Pencegahan Kesalahan:** Mencoba menggunakan layanan yang tidak didukung dapat mengakibatkan permintaan gagal, pengecualian, atau perilaku yang tidak terdefinisi.
+- **Deteksi Fitur Dinamis:** Perangkat dapat mengaktifkan atau menonaktifkan layanan dari waktu ke waktu (misalnya, setelah pembaruan firmware atau perubahan konfigurasi).
+- **Integrasi yang Dioptimalkan:** Dengan memeriksa layanan yang tersedia, aplikasi Anda dapat menyesuaikan alur kerja dan UI untuk mencocokkan fitur perangkat yang sebenarnya.
 
-**Cara memverifikasi kemampuan perangkat:**
+**Cara kerja penemuan layanan di pustaka ini:**
 
-Panggil `GetCapabilities` pada instance `devicemgmt()` Anda:
+`ONVIFClient` secara otomatis memanggil `GetServices` selama inisialisasi untuk membangun peta layanan. Peta ini digunakan secara internal untuk menyelesaikan endpoint layanan:
 
 ```python
 from onvif import ONVIFClient
 
 client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
-capabilities = client.devicemgmt().GetCapabilities()
-print(capabilities)
-# Contoh: {'Media': {'XAddr': 'http://192.168.1.17:8000/onvif/media_service', ...}, 'PTZ': {...}, ...}
+
+# Akses layanan yang ditemukan
+print(client.services)
+# Contoh: [{'Namespace': 'http://www.onvif.org/ver10/device/wsdl', 'XAddr': '...', 'Version': {...}}, ...]
+
+# Periksa peta layanan (namespace -> pemetaan XAddr)
+print(client._service_map)
+# Contoh: {'http://www.onvif.org/ver10/media/wsdl': 'http://192.168.1.17:8000/onvif/Media', ...}
 ```
 
-Tinjau kamus yang dikembalikan untuk menentukan kemampuan dan layanan (misalnya, Media, PTZ, Analitik) yang tersedia sebelum melakukan operasi lebih lanjut.
+**Dapatkan informasi layanan detail dengan kapabilitas:**
+
+Jika Anda memerlukan informasi kapabilitas detail untuk setiap layanan, panggil `GetServices` dengan `IncludeCapability=True`:
+
+```python
+device = client.devicemgmt()
+services = device.GetServices(IncludeCapability=True)
+
+for service in services:
+    print(f"Layanan: {service.Namespace}")
+    print(f"Endpoint: {service.XAddr}")
+    print(f"Versi: {service.Version.Major}.{service.Version.Minor}")
+    if hasattr(service, 'Capabilities') and service.Capabilities:
+        print(f"Kapabilitas: {service.Capabilities}")
+```
+
+**Alternatif: Gunakan GetCapabilities untuk kompatibilitas legacy:**
+
+Untuk kompatibilitas mundur atau ketika Anda memerlukan gambaran cepat tentang kategori layanan utama, Anda masih dapat menggunakan `GetCapabilities`:
+
+```python
+capabilities = client.devicemgmt().GetCapabilities()
+print(capabilities)
+# Contoh: {'Media': {'XAddr': '...', ...}, 'PTZ': {...}, 'Events': {...}, ...}
+```
+
+> [!TIP]
+> Pustaka menangani penemuan layanan secara otomatis, jadi Anda biasanya tidak perlu memanggil `GetServices` secara manual kecuali Anda memerlukan informasi kapabilitas detail atau ingin menyegarkan daftar layanan setelah perubahan konfigurasi perangkat.
 
 ## Perangkat yang Diuji
 
