@@ -43,13 +43,19 @@ def flatten_xsd_any_fields(obj, _visited=None):
     if _visited is None:
         _visited = set()
     
+    # Handle list of objects
+    if isinstance(obj, list):
+        for item in obj:
+            flatten_xsd_any_fields(item, _visited)
+        return obj
+    
     obj_id = id(obj)
     if obj_id in _visited:
         return obj
     _visited.add(obj_id)
     
-    # Skip dict-like objects
-    if isinstance(obj, (dict, list, str, int, float, bool, type(None))):
+    # Skip primitive types
+    if isinstance(obj, (dict, str, int, float, bool, type(None))):
         return obj
     
     if not hasattr(obj, '__dict__'):
@@ -65,33 +71,27 @@ def flatten_xsd_any_fields(obj, _visited=None):
             value_key = f'_value_{value_n}'
             value_data = values[value_key]
             
-            if value_data is not None:
-                # Check if we have original elements stored
-                original_elements = None
-                if isinstance(value_data, dict) and '__original_elements__' in value_data:
-                    original_elements = value_data.pop('__original_elements__')
+            # Only process if _value_N is a dict (from our patched parser)
+            if isinstance(value_data, dict):
+                # Extract original elements first
+                original_elements = value_data.get('__original_elements__')
                 
-                # Handle both dict and zeep object cases
-                if isinstance(value_data, dict):
-                    value_dict = value_data
-                elif hasattr(value_data, '__dict__'):
-                    value_dict = value_data.__dict__
-                else:
-                    value_dict = {}
-                
-                # Iterate through all keys in __values__
-                for key in list(values.keys()):
-                    # Skip private fields and _value_N fields themselves
+                # Copy all non-private fields from _value_N dict to parent
+                for key, val in list(value_data.items()):
+                    # Skip __original_elements__ and other private keys
                     if key.startswith('_'):
                         continue
                     
-                    # If field is None and exists in _value_N, copy it
-                    if values[key] is None and key in value_dict:
-                        values[key] = value_dict[key]
+                    # Only copy if field exists in parent and is None
+                    if key in values and values[key] is None:
+                        values[key] = val
                 
-                # Restore original XML elements to _value_N
+                # Replace _value_N with ONLY the original elements list
                 if original_elements is not None:
                     values[value_key] = original_elements
+                else:
+                    # If no original elements, set to None
+                    values[value_key] = None
             
             value_n += 1
     
@@ -102,35 +102,25 @@ def flatten_xsd_any_fields(obj, _visited=None):
             value_key = f'_value_{value_n}'
             value_data = getattr(obj, value_key)
             
-            if value_data is not None:
-                # Check if we have original elements stored
-                original_elements = None
-                if isinstance(value_data, dict) and '__original_elements__' in value_data:
-                    original_elements = value_data.pop('__original_elements__')
+            if isinstance(value_data, dict):
+                # Extract original elements first (before any modification)
+                original_elements = value_data.get('__original_elements__')
                 
-                # Handle both dict and zeep object cases
-                if isinstance(value_data, dict):
-                    value_dict = value_data
-                elif hasattr(value_data, '__dict__'):
-                    value_dict = value_data.__dict__
-                else:
-                    value_dict = {}
-                
-                # Iterate through all attributes of the main object
-                for key in list(obj.__dict__.keys()):
-                    # Skip private fields and _value_N fields themselves
+                # Copy all non-private fields from _value_N to parent
+                for key, val in value_data.items():
+                    # Skip __original_elements__ and other private keys
                     if key.startswith('_'):
                         continue
                     
-                    val = getattr(obj, key)
-                    
-                    # If field is None and exists in _value_N, copy it
-                    if val is None and key in value_dict:
-                        setattr(obj, key, value_dict[key])
+                    # Only copy if field exists in parent and is None
+                    if hasattr(obj, key) and getattr(obj, key) is None:
+                        setattr(obj, key, val)
                 
-                # Restore original XML elements to _value_N
+                # Replace _value_N with ONLY the original elements list
                 if original_elements is not None:
                     setattr(obj, value_key, original_elements)
+                else:
+                    setattr(obj, value_key, None)
             
             value_n += 1
     
