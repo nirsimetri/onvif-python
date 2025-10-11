@@ -41,6 +41,7 @@ from .services import (
     MediaSigning,
 )
 from .operator import CacheMode
+from .utils.zeep import apply_patch as _apply_zeep_patch, remove_patch as _remove_zeep_patch
 
 
 class ONVIFClient:
@@ -54,7 +55,16 @@ class ONVIFClient:
         cache=CacheMode.ALL,
         use_https=False,
         verify_ssl=True,
+        apply_patch=True,
     ):
+        self.apply_patch = apply_patch
+        
+        # Apply or remove zeep patch based on user preference
+        if apply_patch:
+            _apply_zeep_patch()
+        else:
+            _remove_zeep_patch()
+        
         self.common_args = {
             "host": host,
             "port": port,
@@ -64,6 +74,7 @@ class ONVIFClient:
             "cache": cache,
             "use_https": use_https,
             "verify_ssl": verify_ssl,
+            "apply_flatten": apply_patch,  # Pass to ONVIFOperator
         }
 
         # Device Management (Core) service is always available

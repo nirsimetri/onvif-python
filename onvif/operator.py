@@ -11,6 +11,7 @@ from zeep.exceptions import Fault
 from zeep.wsse.username import UsernameToken
 
 from .utils import ONVIFOperationException
+from .utils.zeep import flatten_xsd_any_fields
 
 
 class CacheMode(Enum):
@@ -51,6 +52,7 @@ class ONVIFOperator:
         cache_path: str = None,
         use_https: bool = False,
         verify_ssl: bool = True,
+        apply_flatten: bool = True,
     ):
         self.wsdl_path = wsdl_path
         self.host = host
@@ -58,6 +60,7 @@ class ONVIFOperator:
         self.username = username
         self.password = password
         self.timeout = timeout
+        self.apply_flatten = apply_flatten
 
         if xaddr:
             self.address = xaddr
@@ -121,7 +124,11 @@ class ONVIFOperator:
             raise ONVIFOperationException(operation=method, original_exception=e)
 
         try:
-            return func(*args, **kwargs)
+            result = func(*args, **kwargs)
+            # Post-process to flatten xsd:any fields if enabled
+            if self.apply_flatten:
+                return flatten_xsd_any_fields(result)
+            return result
         except Fault as e:
             # logging.error(f"SOAP Fault in {method}: {e}")
             raise ONVIFOperationException(operation=method, original_exception=e)
