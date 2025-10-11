@@ -12,6 +12,6 @@ __all__ = [
     "ONVIFWSDL",
     "ONVIFOperationException",
     "apply_patch",
-    "remove_patch", 
+    "remove_patch",
     "is_patched",
 ]

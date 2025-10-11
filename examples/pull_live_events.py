@@ -5,7 +5,7 @@ Created: September 22, 2025
 Tested devices: EZVIZ H8C (https://www.ezviz.com/inter/product/h8c/43162)
 
 This script connects to an ONVIF-compliant device, creates a PullPoint subscription,
-and continuously pulls live events for 10 minutes, printing event details to the console.
+and continuously pulls live events for 15 minutes, printing event details to the console.
 """
 
 import datetime
@@ -36,7 +36,7 @@ if (
 ):
     pullpoint.operator.client.plugins.append(history_plugin)
 
-# 3. Pull events for 10 minutes
+# 3. Pull events for 15 minutes
 end_time = datetime.datetime.now() + datetime.timedelta(minutes=15)
 print("\n✅ Start pulling events for 15 minutes...")
 
@@ -80,11 +80,14 @@ while datetime.datetime.now() < end_time:
                     print("⚠️ HistoryPlugin topic parse error:", e)
 
                 # Extract Message (XML element)
-                # After the patch, _value_1 is directly a list of Elements (not a dict)
+                # After the patch (> v0.0.4), _value_1 is directly a list of Elements (not a dict)
                 msg_elem = None
                 if hasattr(n.Message, "_value_1") and n.Message._value_1:
                     # _value_1 is now a list of Elements, take the first one
-                    if isinstance(n.Message._value_1, list) and len(n.Message._value_1) > 0:
+                    if (
+                        isinstance(n.Message._value_1, list)
+                        and len(n.Message._value_1) > 0
+                    ):
                         msg_elem = n.Message._value_1[0]
                     else:
                         msg_elem = n.Message._value_1

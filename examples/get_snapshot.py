@@ -18,7 +18,7 @@ PASSWORD = "admin123"
 try:
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
     media = client.media()
-    
+
     profile = media.GetProfiles()[0]  # use the first profile
     print("Profile Name:", profile.Name)
 

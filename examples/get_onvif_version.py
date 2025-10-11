@@ -21,7 +21,9 @@ try:
 
     services = device.GetServices(IncludeCapability=False)
     for service in services:
-        if service['Namespace'] == 'http://www.onvif.org/ver10/device/wsdl': # ONVIF Version is from Device service
-            print(service['Version'])
+        if (
+            service["Namespace"] == "http://www.onvif.org/ver10/device/wsdl"
+        ):  # ONVIF Version is from Device service
+            print(service["Version"])
 except Exception as e:
     print(e)

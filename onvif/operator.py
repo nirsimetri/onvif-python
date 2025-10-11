@@ -125,7 +125,7 @@ class ONVIFOperator:
 
         try:
             result = func(*args, **kwargs)
-            # Post-process to flatten xsd:any fields if enabled
+            # Post-process to flatten xsd:any fields if enabled (> v0.0.4 patch)
             if self.apply_flatten:
                 return flatten_xsd_any_fields(result)
             return result

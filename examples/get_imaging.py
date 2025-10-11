@@ -19,9 +19,11 @@ try:
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
     profile = client.media().GetProfiles()[0]  # use the first profile
     imaging = client.imaging()
-    
-    print(imaging.GetImagingSettings(
-        VideoSourceToken=profile.VideoSourceConfiguration.SourceToken
-    ))
+
+    print(
+        imaging.GetImagingSettings(
+            VideoSourceToken=profile.VideoSourceConfiguration.SourceToken
+        )
+    )
 except Exception as e:
     print(e)

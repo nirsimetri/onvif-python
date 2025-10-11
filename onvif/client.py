@@ -41,7 +41,10 @@ from .services import (
     MediaSigning,
 )
 from .operator import CacheMode
-from .utils.zeep import apply_patch as _apply_zeep_patch, remove_patch as _remove_zeep_patch
+from .utils.zeep import (
+    apply_patch as _apply_zeep_patch,
+    remove_patch as _remove_zeep_patch,
+)
 
 
 class ONVIFClient:
@@ -58,13 +61,13 @@ class ONVIFClient:
         apply_patch=True,
     ):
         self.apply_patch = apply_patch
-        
+
         # Apply or remove zeep patch based on user preference
         if apply_patch:
             _apply_zeep_patch()
         else:
             _remove_zeep_patch()
-        
+
         self.common_args = {
             "host": host,
             "port": port,
@@ -141,7 +144,6 @@ class ONVIFClient:
         self._authorizationserver = None
         self._mediasigning = None
 
-
     def _get_xaddr(self, service_name: str, service_path: str):
         """
         Resolve XAddr from GetCapabilities. Fallback to default if not present.
@@ -161,7 +163,11 @@ class ONVIFClient:
             else:
                 # Step 3: try new-style _value_1 dict inside Extension
                 ext_dict = getattr(ext, "_value_1", {})
-                xaddr = ext_dict.get(service_name, {}).get("XAddr") if isinstance(ext_dict, dict) else None
+                xaddr = (
+                    ext_dict.get(service_name, {}).get("XAddr")
+                    if isinstance(ext_dict, dict)
+                    else None
+                )
 
         if xaddr:
             parsed = urlparse(xaddr)

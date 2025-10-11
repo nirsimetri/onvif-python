@@ -19,7 +19,7 @@ try:
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
     profile = client.media().GetProfiles()[0]  # use the first profile
     analytics = client.analytics()
-    
+
     analytics_modules = analytics.GetSupportedAnalyticsModules(
         ConfigurationToken=profile.VideoAnalyticsConfiguration.token
     )

@@ -25,7 +25,7 @@ class Device:
         return self.operator.call("GetDeviceInformation")
 
     def SetSystemDateAndTime(
-        self, DateTimeType, DaylightSavings=True, TimeZone=None, UTCDateTime=None
+        self, DateTimeType, DaylightSavings, TimeZone=None, UTCDateTime=None
     ):
         return self.operator.call(
             "SetSystemDateAndTime",
