@@ -45,6 +45,7 @@ from .utils.zeep import (
     apply_patch as _apply_zeep_patch,
     remove_patch as _remove_zeep_patch,
 )
+from .utils.wsdl import ONVIFWSDL
 
 
 class ONVIFClient:
@@ -83,8 +84,15 @@ class ONVIFClient:
         # Device Management (Core) service is always available
         self._devicemgmt = Device(**self.common_args)
 
-        # Retrieve device capabilities once and reuse
-        self.capabilities = self._devicemgmt.GetCapabilities(Category="All")
+        # Retrieve device services once and create namespace -> XAddr mapping
+        self.services = self._devicemgmt.GetServices(IncludeCapability=False)
+        self._service_map = {}
+        for service in self.services:
+            namespace = getattr(service, "Namespace", None)
+            xaddr = getattr(service, "XAddr", None)
+
+            if namespace and xaddr:
+                self._service_map[namespace] = xaddr
 
         # Lazy init for other services
 
@@ -146,46 +154,47 @@ class ONVIFClient:
 
     def _get_xaddr(self, service_name: str, service_path: str):
         """
-        Resolve XAddr from GetCapabilities. Fallback to default if not present.
-        Now supports nested Extension with _value_1 dict (after normalized parsing).
+        Resolve XAddr from GetServices based on namespace mapping.
+        Falls back to default URL if service not found.
         """
-        svc = getattr(self.capabilities, service_name, None)
+        # Get the namespace for this service from WSDL_MAP
+        try:
+            # Try to get the service definition from WSDL_MAP
+            # Most services use ver10, some use ver20
+            service_key = service_name.lower()
+            wsdl_def = None
 
-        # Step 1: check direct attribute (e.g. capabilities.Media)
-        if svc and hasattr(svc, "XAddr"):
-            xaddr = svc.XAddr
-        else:
-            # Step 2: try legacy Extension.service_name
-            ext = getattr(self.capabilities, "Extension", None)
-            if ext and hasattr(ext, service_name):
-                svc = getattr(ext, service_name, None)
-                xaddr = getattr(svc, "XAddr", None) if svc else None
-            else:
-                # Step 3: try new-style _value_1 dict inside Extension
-                ext_dict = getattr(ext, "_value_1", {})
-                xaddr = (
-                    ext_dict.get(service_name, {}).get("XAddr")
-                    if isinstance(ext_dict, dict)
-                    else None
-                )
+            # Try ver10 first, then ver20
+            if service_key in ONVIFWSDL.WSDL_MAP:
+                if "ver10" in ONVIFWSDL.WSDL_MAP[service_key]:
+                    wsdl_def = ONVIFWSDL.WSDL_MAP[service_key]["ver10"]
+                elif "ver20" in ONVIFWSDL.WSDL_MAP[service_key]:
+                    wsdl_def = ONVIFWSDL.WSDL_MAP[service_key]["ver20"]
 
-        if xaddr:
-            parsed = urlparse(xaddr)
-            # Host/port from device
-            device_host = parsed.hostname
-            device_port = parsed.port
-            # Host/port from connection
-            connect_host = self.common_args["host"]
-            connect_port = self.common_args["port"]
-            # if host/port differ, rewrite XAddr to use connection values
-            if (device_host != connect_host) or (device_port != connect_port):
-                protocol = "https" if self.common_args["use_https"] else "http"
-                new_netloc = f"{connect_host}:{connect_port}"
-                rewritten = urlunparse((protocol, new_netloc, parsed.path, "", "", ""))
-                return rewritten
-            return xaddr
+            if wsdl_def:
+                namespace = wsdl_def["namespace"]
+                xaddr = self._service_map.get(namespace)
 
-        # Fallback default
+                if xaddr:
+                    # Rewrite host/port if needed
+                    parsed = urlparse(xaddr)
+                    device_host = parsed.hostname
+                    device_port = parsed.port
+                    connect_host = self.common_args["host"]
+                    connect_port = self.common_args["port"]
+
+                    if (device_host != connect_host) or (device_port != connect_port):
+                        protocol = "https" if self.common_args["use_https"] else "http"
+                        new_netloc = f"{connect_host}:{connect_port}"
+                        rewritten = urlunparse(
+                            (protocol, new_netloc, parsed.path, "", "", "")
+                        )
+                        return rewritten
+                    return xaddr
+        except Exception:
+            pass
+
+        # Fallback to default URL
         protocol = "https" if self.common_args["use_https"] else "http"
         return f"{protocol}://{self.common_args['host']}:{self.common_args['port']}/onvif/{service_path}"
 
