@@ -6,6 +6,10 @@ from ...utils import ONVIFWSDL
 
 class PullPoint:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - PullPointSubscriptionBinding (ver10/events/wsdl/event-vs.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl
+
         definition = ONVIFWSDL.get_definition("pullpoint")
         self.operator = ONVIFOperator(
             definition["path"],

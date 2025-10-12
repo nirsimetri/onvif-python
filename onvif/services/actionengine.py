@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class ActionEngine:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.2 (September 2012) Release Notes
+        # - ActionEngineBinding (ver10/actionengine.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/actionengine.wsdl
+
         definition = ONVIFWSDL.get_definition("actionengine")
         self.operator = ONVIFOperator(
             definition["path"],

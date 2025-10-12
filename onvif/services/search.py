@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class Search:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.1 (June 2011) Split from Core 2.0
+        # - SearchBinding (ver10/search.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/search.wsdl
+
         definition = ONVIFWSDL.get_definition("search")
         self.operator = ONVIFOperator(
             definition["path"],

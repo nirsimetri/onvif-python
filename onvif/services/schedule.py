@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class Schedule:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.6 (June 2015) Release Notes
+        # - ScheduleBinding (ver10/schedule/wsdl/schedule.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schedule/wsdl/schedule.wsdl
+
         definition = ONVIFWSDL.get_definition("schedule")
         self.operator = ONVIFOperator(
             definition["path"],

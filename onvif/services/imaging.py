@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class Imaging:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.1 (June 2011) Split from Core 2.0
+        # - ImagingBinding (ver20/imaging/wsdl/imaging.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/imaging/wsdl/imaging.wsdl
+
         definition = ONVIFWSDL.get_definition("imaging", "ver20")
         self.operator = ONVIFOperator(
             definition["path"],

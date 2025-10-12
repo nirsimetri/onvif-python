@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class AccessRules:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.6 (June 2015) Release Notes
+        # - AccessRulesBinding (ver10/accessrules/wsdl/accessrules.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/accessrules/wsdl/accessrules.wsdl
+
         definition = ONVIFWSDL.get_definition("accessrules")
         self.operator = ONVIFOperator(
             definition["path"],

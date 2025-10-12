@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class Device:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Core
+        # - DeviceBinding (ver10/device/wsdl/devicemgmt.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl
+
         definition = ONVIFWSDL.get_definition("devicemgmt")
         self.operator = ONVIFOperator(
             definition["path"],

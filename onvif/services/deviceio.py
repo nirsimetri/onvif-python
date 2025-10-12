@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class DeviceIO:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.1 (June 2011) Split from Core 2.0
+        # - DeviceIOBinding (ver10/deviceio.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/deviceio.wsdl
+
         definition = ONVIFWSDL.get_definition("deviceio")
         self.operator = ONVIFOperator(
             definition["path"],

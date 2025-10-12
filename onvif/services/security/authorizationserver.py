@@ -6,6 +6,11 @@ from ...utils import ONVIFWSDL
 
 class AuthorizationServer:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 23.12 (December 2023) Release Notes
+        # - AuthorizationServerBinding (ver10/advancedsecurity/wsdl/advancedsecurity.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl
+
         definition = ONVIFWSDL.get_definition("authorizationserver")
         self.operator = ONVIFOperator(
             definition["path"],

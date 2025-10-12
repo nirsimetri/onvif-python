@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class AppManagement:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 19.12 (December 2019) Release Notes
+        # - AppManagementBinding (ver10/appmgmt/wsdl/appmgmt.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/appmgmt/wsdl/appmgmt.wsdl
+
         definition = ONVIFWSDL.get_definition("appmgmt")
         self.operator = ONVIFOperator(
             definition["path"],

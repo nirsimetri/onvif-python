@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class Credential:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.6 (June 2015) Release Notes
+        # - CredentialBinding (ver10/credential/wsdl/credential.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/credential/wsdl/credential.wsdl
+
         definition = ONVIFWSDL.get_definition("credential")
         self.operator = ONVIFOperator(
             definition["path"],

@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class AccessControl:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.3 (May 2013) Release Notes
+        # - PACSBinding (ver10/pacs/accesscontrol.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/accesscontrol.wsdl
+
         definition = ONVIFWSDL.get_definition("accesscontrol")
         self.operator = ONVIFOperator(
             definition["path"],

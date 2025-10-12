@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class Thermal:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 16.06 (June 2016) Release Notes
+        # - ThermalBinding (ver10/thermal/wsdl/thermal.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/thermal/wsdl/thermal.wsdl
+
         definition = ONVIFWSDL.get_definition("thermal")
         self.operator = ONVIFOperator(
             definition["path"],

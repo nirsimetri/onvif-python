@@ -15,11 +15,12 @@ class AnalyticsDevice:
         # (pre-2019) that may still expose an AnalyticsDevice XAddr.
         #
         # In modern ONVIF-compliant devices, you should prefer using the Analytics
-        # service (`onvif/services/analytics.py`). If the device does not advertise
-        # an AnalyticsDevice capability in GetCapabilities → Extension, then calling
-        # this class will result in SOAP faults.
+        # service (`onvif/services/analytics/analytics.py`). If the device does not list
+        # AnalyticsDevice in `GetServices` response, then this service is not available
+        # on the device and calling this class will result in SOAP faults.
         #
         # References:
+        # - Introduce in ONVIF Release 2.1 (June 2011) Split from Core 2.0
         # - ONVIF Release 18.12 (December 2018) Release Notes
         # - AnalyticsDeviceBinding (ver10/analyticsdevice.wsdl)
         # - Successor: Analytics Service (ver20/analytics/wsdl/analytics.wsdl)

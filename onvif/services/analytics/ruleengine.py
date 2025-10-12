@@ -6,6 +6,11 @@ from ...utils import ONVIFWSDL
 
 class RuleEngine:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.41 (December 2013) Release Notes
+        # - RuleEngineBinding (ver20/analytics/wsdl/analytics.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/wsdl/analytics.wsdl
+
         definition = ONVIFWSDL.get_definition("ruleengine", "ver20")
         self.operator = ONVIFOperator(
             definition["path"],

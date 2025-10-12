@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class PTZ:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.1 (June 2011) Split from Core 2.0
+        # - PTZBinding (ver20/ptz/wsdl/ptz.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/ptz/wsdl/ptz.wsdl
+
         definition = ONVIFWSDL.get_definition("ptz", "ver20")
         self.operator = ONVIFOperator(
             definition["path"],

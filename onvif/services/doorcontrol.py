@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class DoorControl:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.3 (May 2013) Release Notes
+        # - DoorControlBinding (ver10/pacs/doorcontrol.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/doorcontrol.wsdl
+
         definition = ONVIFWSDL.get_definition("doorcontrol")
         self.operator = ONVIFOperator(
             definition["path"],

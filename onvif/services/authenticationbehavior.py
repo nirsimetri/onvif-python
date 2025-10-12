@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class AuthenticationBehavior:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 18.06 (June 2018) Release Notes
+        # - AuthenticationBehaviorBinding (ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl
+
         definition = ONVIFWSDL.get_definition("authenticationbehavior")
         self.operator = ONVIFOperator(
             definition["path"],

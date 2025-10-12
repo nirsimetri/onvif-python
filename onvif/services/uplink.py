@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class Uplink:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 18.12 (December 2018) Release Notes
+        # - UplinkBinding (ver10/uplink/wsdl/uplink.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/uplink/wsdl/uplink.wsdl
+
         definition = ONVIFWSDL.get_definition("uplink")
         self.operator = ONVIFOperator(
             definition["path"],

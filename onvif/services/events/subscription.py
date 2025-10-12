@@ -6,6 +6,10 @@ from ...utils import ONVIFWSDL
 
 class Subscription:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - SubscriptionManagerBinding (ver10/events/wsdl/event-vs.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl
+
         definition = ONVIFWSDL.get_definition("subscription")
         self.operator = ONVIFOperator(
             definition["path"],

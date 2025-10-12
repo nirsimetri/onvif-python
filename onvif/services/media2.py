@@ -6,6 +6,11 @@ from ..utils import ONVIFWSDL
 
 class Media2:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Release 2.61 (December 2015) Release Notes
+        # - Media2Binding (ver20/media/wsdl/media.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/media/wsdl/media.wsdl
+
         definition = ONVIFWSDL.get_definition("media2", "ver20")
         self.operator = ONVIFOperator(
             definition["path"],

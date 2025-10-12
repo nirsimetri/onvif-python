@@ -6,6 +6,10 @@ from ...utils import ONVIFWSDL
 
 class Notification:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - NotificationProducerBinding (ver10/events/wsdl/event-vs.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl
+
         definition = ONVIFWSDL.get_definition("notification")
         self.operator = ONVIFOperator(
             definition["path"],

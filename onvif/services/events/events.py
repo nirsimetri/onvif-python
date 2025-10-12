@@ -6,6 +6,11 @@ from ...utils import ONVIFWSDL
 
 class Events:
     def __init__(self, xaddr=None, **kwargs):
+        # References:
+        # - ONVIF Core
+        # - EventBinding (ver10/events/wsdl/event-vs.wsdl)
+        # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl
+
         definition = ONVIFWSDL.get_definition("events")
         self.operator = ONVIFOperator(
             definition["path"],
