@@ -456,7 +456,7 @@ class ONVIFClient:
     def search(self):
         if self._search is None:
             self._search = Search(
-                xaddr=self._get_xaddr("Search", "Search"),
+                xaddr=self._get_xaddr("Search", "SearchRecording"),
                 **self.common_args,
             )
         return self._search

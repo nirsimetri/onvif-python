@@ -23,7 +23,7 @@ class Imaging:
             "GetImagingSettings", VideoSourceToken=VideoSourceToken
         )
 
-    def SetImagingSettings(self, VideoSourceToken, ImagingSettings, ForcePersistence):
+    def SetImagingSettings(self, VideoSourceToken, ImagingSettings, ForcePersistence=None):
         return self.operator.call(
             "SetImagingSettings",
             VideoSourceToken=VideoSourceToken,
