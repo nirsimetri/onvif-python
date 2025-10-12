@@ -53,6 +53,7 @@ class ONVIFOperator:
         use_https: bool = False,
         verify_ssl: bool = True,
         apply_flatten: bool = True,
+        plugins: list = None,
     ):
         self.wsdl_path = wsdl_path
         self.host = host
@@ -109,6 +110,7 @@ class ONVIFOperator:
             transport=transport,
             settings=settings,
             wsse=wsse,
+            plugins=plugins,
         )
 
         if not binding:

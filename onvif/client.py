@@ -46,6 +46,7 @@ from .utils.zeep import (
     remove_patch as _remove_zeep_patch,
 )
 from .utils.wsdl import ONVIFWSDL
+from .utils.xml_capture import XMLCapturePlugin
 
 
 class ONVIFClient:
@@ -60,6 +61,7 @@ class ONVIFClient:
         use_https=False,
         verify_ssl=True,
         apply_patch=True,
+        capture_xml=False,
     ):
         self.apply_patch = apply_patch
 
@@ -69,6 +71,12 @@ class ONVIFClient:
         else:
             _remove_zeep_patch()
 
+        # Initialize XML capture plugin if requested
+        self.xml_plugin = None
+        if capture_xml:
+            self.xml_plugin = XMLCapturePlugin()
+
+        # Pass to ONVIFOperator
         self.common_args = {
             "host": host,
             "port": port,
@@ -78,7 +86,8 @@ class ONVIFClient:
             "cache": cache,
             "use_https": use_https,
             "verify_ssl": verify_ssl,
-            "apply_flatten": apply_patch,  # Pass to ONVIFOperator
+            "apply_flatten": apply_patch,
+            "plugins": [self.xml_plugin] if self.xml_plugin else None,
         }
 
         # Device Management (Core) service is always available

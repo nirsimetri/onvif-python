@@ -323,7 +323,7 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
 - [ ] Mengimplementasikan model data terstruktur untuk Skema ONVIF menggunakan [xsdata](https://github.com/tefra/xsdata).
 - [ ] Integrasi [xmltodict](https://github.com/martinblech/xmltodict) untuk parsing dan konversi XML yang lebih sederhana.
 - [ ] Menambahkan kemampuan agar `ONVIFClient` menerima layanan `wsdl_path` kustom.
-- [ ] Menambahkan mode debugging dengan raw XML pada permintaan dan respons SOAP.
+- [x] Menambahkan mode debugging dengan raw XML pada permintaan dan respons SOAP.
 - [ ] Meningkatkan dokumentasi dengan referensi API dan diagram (bukan dari [AI Wiki](https://deepwiki.com/nirsimetri/onvif-python)).
 - [ ] Menambah lebih banyak contoh penggunaan untuk fitur lanjutan.
 - [ ] Menambah benchmarking dan metrik performa.
