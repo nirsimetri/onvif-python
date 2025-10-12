@@ -220,11 +220,11 @@ class ONVIFClient:
             )
         return self._events
 
-    def pullpoint(self, Subscription):
+    def pullpoint(self, SubscriptionRef):
         if self._pullpoint is None:
             xaddr = None
             try:
-                addr_obj = Subscription["SubscriptionReference"]["Address"]
+                addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
                 if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
                     xaddr = addr_obj["_value_1"]
                 elif hasattr(addr_obj, "_value_1"):
@@ -247,11 +247,11 @@ class ONVIFClient:
             )
         return self._notification
 
-    def subscription(self, Subscription):
+    def subscription(self, SubscriptionRef):
         if self._subscription is None:
             xaddr = None
             try:
-                addr_obj = Subscription["SubscriptionReference"]["Address"]
+                addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
                 if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
                     xaddr = addr_obj["_value_1"]
                 elif hasattr(addr_obj, "_value_1"):
