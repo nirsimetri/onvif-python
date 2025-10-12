@@ -161,15 +161,14 @@ class ONVIFClient:
         try:
             # Try to get the service definition from WSDL_MAP
             # Most services use ver10, some use ver20
-            service_key = service_name.lower()
             wsdl_def = None
 
             # Try ver10 first, then ver20
-            if service_key in ONVIFWSDL.WSDL_MAP:
-                if "ver10" in ONVIFWSDL.WSDL_MAP[service_key]:
-                    wsdl_def = ONVIFWSDL.WSDL_MAP[service_key]["ver10"]
-                elif "ver20" in ONVIFWSDL.WSDL_MAP[service_key]:
-                    wsdl_def = ONVIFWSDL.WSDL_MAP[service_key]["ver20"]
+            if service_name in ONVIFWSDL.WSDL_MAP:
+                if "ver10" in ONVIFWSDL.WSDL_MAP[service_name]:
+                    wsdl_def = ONVIFWSDL.WSDL_MAP[service_name]["ver10"]
+                elif "ver20" in ONVIFWSDL.WSDL_MAP[service_name]:
+                    wsdl_def = ONVIFWSDL.WSDL_MAP[service_name]["ver20"]
 
             if wsdl_def:
                 namespace = wsdl_def["namespace"]
@@ -208,7 +207,7 @@ class ONVIFClient:
     def events(self):
         if self._events is None:
             self._events = Events(
-                xaddr=self._get_xaddr("Events", "Events"), **self.common_args
+                xaddr=self._get_xaddr("events", "Events"), **self.common_args
             )
         return self._events
 
@@ -235,7 +234,7 @@ class ONVIFClient:
     def notification(self):
         if self._notification is None:
             self._notification = Notification(
-                xaddr=self._get_xaddr("Events", "Events"), **self.common_args
+                xaddr=self._get_xaddr("notification", "Events"), **self.common_args
             )
         return self._notification
 
@@ -264,7 +263,7 @@ class ONVIFClient:
     def imaging(self):
         if self._imaging is None:
             self._imaging = Imaging(
-                xaddr=self._get_xaddr("Imaging", "Imaging"), **self.common_args
+                xaddr=self._get_xaddr("imaging", "Imaging"), **self.common_args
             )
         return self._imaging
 
@@ -273,14 +272,14 @@ class ONVIFClient:
     def media(self):
         if self._media is None:
             self._media = Media(
-                xaddr=self._get_xaddr("Media", "Media"), **self.common_args
+                xaddr=self._get_xaddr("media", "Media"), **self.common_args
             )
         return self._media
 
     def media2(self):
         if self._media2 is None:
             self._media2 = Media2(
-                xaddr=self._get_xaddr("Media2", "Media2"), **self.common_args
+                xaddr=self._get_xaddr("media2", "Media2"), **self.common_args
             )
         return self._media2
 
@@ -288,7 +287,7 @@ class ONVIFClient:
 
     def ptz(self):
         if self._ptz is None:
-            self._ptz = PTZ(xaddr=self._get_xaddr("PTZ", "PTZ"), **self.common_args)
+            self._ptz = PTZ(xaddr=self._get_xaddr("ptz", "PTZ"), **self.common_args)
         return self._ptz
 
     # DeviceIO
@@ -296,7 +295,7 @@ class ONVIFClient:
     def deviceio(self):
         if self._deviceio is None:
             self._deviceio = DeviceIO(
-                xaddr=self._get_xaddr("DeviceIO", "DeviceIO"), **self.common_args
+                xaddr=self._get_xaddr("deviceio", "DeviceIO"), **self.common_args
             )
         return self._deviceio
 
@@ -305,7 +304,7 @@ class ONVIFClient:
     def display(self):
         if self._display is None:
             self._display = Display(
-                xaddr=self._get_xaddr("Display", "Display"), **self.common_args
+                xaddr=self._get_xaddr("display", "Display"), **self.common_args
             )
         return self._display
 
@@ -314,21 +313,21 @@ class ONVIFClient:
     def analytics(self):
         if self._analytics is None:
             self._analytics = Analytics(
-                xaddr=self._get_xaddr("Analytics", "Analytics"), **self.common_args
+                xaddr=self._get_xaddr("analytics", "Analytics"), **self.common_args
             )
         return self._analytics
 
     def ruleengine(self):
         if self._ruleengine is None:
             self._ruleengine = RuleEngine(
-                xaddr=self._get_xaddr("Analytics", "Analytics"), **self.common_args
+                xaddr=self._get_xaddr("ruleengine", "Analytics"), **self.common_args
             )
         return self._ruleengine
 
     def analyticsdevice(self):
         if self._analyticsdevice is None:
             self._analyticsdevice = AnalyticsDevice(
-                xaddr=self._get_xaddr("AnalyticsDevice", "AnalyticsDevice"),
+                xaddr=self._get_xaddr("analyticsdevice", "AnalyticsDevice"),
                 **self.common_args,
             )
         return self._analyticsdevice
@@ -338,7 +337,7 @@ class ONVIFClient:
     def accesscontrol(self):
         if self._accesscontrol is None:
             self._accesscontrol = AccessControl(
-                xaddr=self._get_xaddr("AccessControl", "AccessControl"),
+                xaddr=self._get_xaddr("accesscontrol", "AccessControl"),
                 **self.common_args,
             )
         return self._accesscontrol
@@ -346,7 +345,7 @@ class ONVIFClient:
     def doorcontrol(self):
         if self._doorcontrol is None:
             self._doorcontrol = DoorControl(
-                xaddr=self._get_xaddr("DoorControl", "DoorControl"), **self.common_args
+                xaddr=self._get_xaddr("doorcontrol", "DoorControl"), **self.common_args
             )
         return self._doorcontrol
 
@@ -355,7 +354,7 @@ class ONVIFClient:
     def accessrules(self):
         if self._accessrules is None:
             self._accessrules = AccessRules(
-                xaddr=self._get_xaddr("AccessRules", "AccessRules"), **self.common_args
+                xaddr=self._get_xaddr("accessrules", "AccessRules"), **self.common_args
             )
         return self._accessrules
 
@@ -364,7 +363,7 @@ class ONVIFClient:
     def actionengine(self):
         if self._actionengine is None:
             self._actionengine = ActionEngine(
-                xaddr=self._get_xaddr("ActionEngine", "ActionEngine"),
+                xaddr=self._get_xaddr("actionengine", "ActionEngine"),
                 **self.common_args,
             )
         return self._actionengine
@@ -374,7 +373,7 @@ class ONVIFClient:
     def appmanagement(self):
         if self._appmanagement is None:
             self._appmanagement = AppManagement(
-                xaddr=self._get_xaddr("AppManagement", "AppManagement"),
+                xaddr=self._get_xaddr("appmgmt", "AppManagement"),
                 **self.common_args,
             )
         return self._appmanagement
@@ -385,7 +384,7 @@ class ONVIFClient:
         if self._authenticationbehavior is None:
             self._authenticationbehavior = AuthenticationBehavior(
                 xaddr=self._get_xaddr(
-                    "AuthenticationBehavior", "AuthenticationBehavior"
+                    "authenticationbehavior", "AuthenticationBehavior"
                 ),
                 **self.common_args,
             )
@@ -396,7 +395,7 @@ class ONVIFClient:
     def credential(self):
         if self._credential is None:
             self._credential = Credential(
-                xaddr=self._get_xaddr("Credential", "Credential"),
+                xaddr=self._get_xaddr("credential", "Credential"),
                 **self.common_args,
             )
         return self._credential
@@ -406,7 +405,7 @@ class ONVIFClient:
     def recording(self):
         if self._recording is None:
             self._recording = Recording(
-                xaddr=self._get_xaddr("Recording", "Recording"),
+                xaddr=self._get_xaddr("recording", "Recording"),
                 **self.common_args,
             )
         return self._recording
@@ -416,7 +415,7 @@ class ONVIFClient:
     def replay(self):
         if self._replay is None:
             self._replay = Replay(
-                xaddr=self._get_xaddr("Replay", "Replay"),
+                xaddr=self._get_xaddr("replay", "Replay"),
                 **self.common_args,
             )
         return self._replay
@@ -426,7 +425,7 @@ class ONVIFClient:
     def provisioning(self):
         if self._provisioning is None:
             self._provisioning = Provisioning(
-                xaddr=self._get_xaddr("Provisioning", "Provisioning"),
+                xaddr=self._get_xaddr("provisioning", "Provisioning"),
                 **self.common_args,
             )
         return self._provisioning
@@ -436,7 +435,7 @@ class ONVIFClient:
     def receiver(self):
         if self._receiver is None:
             self._receiver = Receiver(
-                xaddr=self._get_xaddr("Receiver", "Receiver"),
+                xaddr=self._get_xaddr("receiver", "Receiver"),
                 **self.common_args,
             )
         return self._receiver
@@ -446,7 +445,7 @@ class ONVIFClient:
     def schedule(self):
         if self._schedule is None:
             self._schedule = Schedule(
-                xaddr=self._get_xaddr("Schedule", "Schedule"),
+                xaddr=self._get_xaddr("schedule", "Schedule"),
                 **self.common_args,
             )
         return self._schedule
@@ -456,7 +455,7 @@ class ONVIFClient:
     def search(self):
         if self._search is None:
             self._search = Search(
-                xaddr=self._get_xaddr("Search", "SearchRecording"),
+                xaddr=self._get_xaddr("search", "SearchRecording"),
                 **self.common_args,
             )
         return self._search
@@ -466,7 +465,7 @@ class ONVIFClient:
     def thermal(self):
         if self._thermal is None:
             self._thermal = Thermal(
-                xaddr=self._get_xaddr("Thermal", "Thermal"),
+                xaddr=self._get_xaddr("thermal", "Thermal"),
                 **self.common_args,
             )
         return self._thermal
@@ -476,7 +475,7 @@ class ONVIFClient:
     def uplink(self):
         if self._uplink is None:
             self._uplink = Uplink(
-                xaddr=self._get_xaddr("Uplink", "Uplink"),
+                xaddr=self._get_xaddr("uplink", "Uplink"),
                 **self.common_args,
             )
         return self._uplink
@@ -486,7 +485,7 @@ class ONVIFClient:
     def security(self):
         if self._security is None:
             self._security = AdvancedSecurity(
-                xaddr=self._get_xaddr("Security", "Security"),
+                xaddr=self._get_xaddr("advancedsecurity", "Security"),
                 **self.common_args,
             )
         return self._security
