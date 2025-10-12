@@ -319,17 +319,18 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
 
 ## Peningkatan Mendatang (Pantau dan beri bintang ⭐ repo ini)
 
-- [ ] Menambahkan program ONVIF CLI untuk berinteraksi langsung dengan perangkat ONVIF melalui terminal.
+- [x] Menambahkan mode debugging dengan raw XML pada permintaan dan respons SOAP. ([c258162](https://github.com/nirsimetri/onvif-python/commit/c258162))
+- [ ] Menambahkan dukungan asynchronous (async/await) untuk operasi ONVIF non-blocking dan komunikasi perangkat secara bersamaan.
+- [ ] Menambahkan program `ONVIF CLI` untuk berinteraksi langsung dengan perangkat ONVIF melalui terminal.
+- [ ] Menambahkan fungsionalitas agar `ONVIFClient` dapat menerima layanan `wsdl_path` kustom.
 - [ ] Mengimplementasikan model data terstruktur untuk Skema ONVIF menggunakan [xsdata](https://github.com/tefra/xsdata).
-- [ ] Integrasi [xmltodict](https://github.com/martinblech/xmltodict) untuk parsing dan konversi XML yang lebih sederhana.
-- [ ] Menambahkan kemampuan agar `ONVIFClient` menerima layanan `wsdl_path` kustom.
-- [x] Menambahkan mode debugging dengan raw XML pada permintaan dan respons SOAP.
+- [ ] Mengintegrasikan [xmltodict](https://github.com/martinblech/xmltodict) untuk parsing dan konversi XML yang lebih sederhana.
 - [ ] Meningkatkan dokumentasi dengan referensi API dan diagram (bukan dari [AI Wiki](https://deepwiki.com/nirsimetri/onvif-python)).
-- [ ] Menambah lebih banyak contoh penggunaan untuk fitur lanjutan.
-- [ ] Menambah benchmarking dan metrik performa.
-- [ ] Menambah template konfigurasi perangkat dari komunitas.
+- [ ] Menambahkan lebih banyak contoh penggunaan untuk fitur lanjutan.
+- [ ] Menambahkan benchmarking dan metrik performa.
+- [ ] Menambahkan template konfigurasi perangkat yang dikontribusikan oleh komunitas.
 - [ ] Mengimplementasikan layanan ONVIF yang hilang atau masih parsial.
-- [ ] Menambahkan fungsi untuk mengekspos perangkat ONVIF (untuk tujuan debug oleh komunitas).
+- [ ] Menambahkan fungsi untuk mengekspos perangkat ONVIF (untuk tujuan debugging oleh komunitas).
 
 ## Proyek Terkait
 

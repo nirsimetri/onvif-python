@@ -319,11 +319,12 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
 
 ## Future Improvements (Stay tuned and star ⭐ this repo)
 
-- [ ] Add ONVIF CLI program to interact directly with ONVIF devices via terminal.
+- [x] Add debugging mode with raw xml on SOAP requests and responses. ([c258162](https://github.com/nirsimetri/onvif-python/commit/c258162))
+- [ ] Add functionality for `ONVIFClient` to accept a custom `wsdl_path` service.
+- [ ] Add asynchronous (async/await) support for non-blocking ONVIF operations and concurrent device communication.
+- [ ] Add `ONVIF CLI` program to interact directly with ONVIF devices via terminal.
 - [ ] Implement structured data models for ONVIF Schemas using [xsdata](https://github.com/tefra/xsdata).
 - [ ] Integrate [xmltodict](https://github.com/martinblech/xmltodict) for simplified XML parsing and conversion.
-- [ ] Add functionality for `ONVIFClient` to accept a custom `wsdl_path` service.
-- [x] Add debugging mode with raw xml on SOAP requests and responses.
 - [ ] Enhance documentation with API references and diagrams (not from [AI Wiki](https://deepwiki.com/nirsimetri/onvif-python)).
 - [ ] Add more usage examples for advanced features.
 - [ ] Add benchmarking and performance metrics.
