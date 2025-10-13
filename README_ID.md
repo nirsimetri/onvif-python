@@ -2,9 +2,9 @@
 
 [![Lisensi](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Rilis](https://img.shields.io/badge/Release-v0.0.6-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Rilis](https://img.shields.io/badge/Release-v0.0.5-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.6-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.0.5-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Unduhan](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 Apakah Anda kesulitan menemukan pustaka Python ONVIF yang mendukung perangkat Anda?  
