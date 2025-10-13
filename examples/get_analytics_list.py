@@ -20,9 +20,14 @@ try:
     profile = client.media().GetProfiles()[0]  # use the first profile
     analytics = client.analytics()
 
-    analytics_modules = analytics.GetSupportedAnalyticsModules(
+    analytics_modules = analytics.GetAnalyticsModules(
         ConfigurationToken=profile.VideoAnalyticsConfiguration.token
     )
-    print(analytics_modules)
+    print("Analytics Modules:\n{}".format(analytics_modules))
+
+    supported_analytics_modules = analytics.GetSupportedAnalyticsModules(
+        ConfigurationToken=profile.VideoAnalyticsConfiguration.token
+    )
+    print("Supported Analytics Modules:\n{}".format(supported_analytics_modules))
 except Exception as e:
     print(e)
