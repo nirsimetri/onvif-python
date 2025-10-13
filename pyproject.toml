@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "onvif-python"
-version = "0.0.5"
+version = "0.0.6"
 description = "A comprehensive and developer-friendly Python library for working with ONVIF-compliant devices"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -14,9 +14,9 @@ authors = [
 maintainers = [
     {name = "Kaburagi"},
 ]
-keywords = ["ONVIF", "onvif", "Camera", "onvif-python", "ip-camera", "cctv", "soap", "surveillance", "cctv cameras", "soap-client", "onvif-client", "onvif-library", "onvif-specifications"]
+keywords = ["onvif", "Camera", "onvif-python", "ip-camera", "cctv", "soap", "surveillance", "cctv cameras", "soap-client", "onvif-client", "onvif-library", "onvif-specifications"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     'Environment :: Console',
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
@@ -30,7 +30,9 @@ classifiers = [
     "Topic :: Multimedia :: Video",
     'Topic :: Multimedia :: Sound/Audio',
     "Topic :: Communications",
+    "Topic :: Text Processing :: Markup :: XML",
     "Natural Language :: English",
+    "Natural Language :: Indonesian"
 ]
 license = "MIT"
 
