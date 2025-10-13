@@ -77,29 +77,38 @@ def flatten_xsd_any_fields(obj, _visited=None):
                 original_elements = value_data.get("__original_elements__")
 
                 # Check if this is a single-tag wrapper (like {"Capabilities": {...}})
-                # If so, flatten one level by extracting the inner content
+                # IMPORTANT: We should NOT flatten if the tag name already exists as a field in the schema
+                # This prevents DeviceIO, Recording, etc. from being incorrectly flattened
                 non_private_keys = [k for k in value_data.keys() if not k.startswith("_")]
                 
                 if len(non_private_keys) == 1:
-                    # Single tag wrapper - flatten it
+                    # Single tag wrapper - but check if it should be flattened
                     tag_name = non_private_keys[0]
                     inner_content = value_data[tag_name]
                     
-                    if isinstance(inner_content, dict):
-                        # Copy fields from inner dict to parent
-                        for key, val in inner_content.items():
-                            if key in values and values[key] is None:
-                                values[key] = val
-                            elif key not in values:
-                                values[key] = val
+                    # Only flatten if:
+                    # 1. The tag_name field exists in schema AND is None (placeholder)
+                    # 2. The inner_content is a dict (structured data)
+                    # This preserves proper structure for DeviceIO, Recording, etc.
+                    should_flatten = (
+                        tag_name in values and 
+                        values[tag_name] is None and 
+                        isinstance(inner_content, dict)
+                    )
+                    
+                    if should_flatten:
+                        # This is truly a wrapper - flatten by copying fields to parent
+                        # But still set the tag_name field to the inner_content
+                        values[tag_name] = inner_content
+                        # Don't copy fields up to parent - keep them in the structured object
                     else:
-                        # If inner content is not a dict, just copy it directly
+                        # Not a wrapper - just set the field directly
                         if tag_name in values and values[tag_name] is None:
                             values[tag_name] = inner_content
                         elif tag_name not in values:
                             values[tag_name] = inner_content
                 else:
-                    # Multiple tags or no tags - copy all non-private fields
+                    # Multiple tags - copy all non-private fields to their respective locations
                     for key, val in list(value_data.items()):
                         if key.startswith("_"):
                             continue
@@ -132,17 +141,22 @@ def flatten_xsd_any_fields(obj, _visited=None):
                 non_private_keys = [k for k in value_data.keys() if not k.startswith("_")]
                 
                 if len(non_private_keys) == 1:
-                    # Single tag wrapper - flatten it
+                    # Single tag wrapper - but check if it should be flattened
                     tag_name = non_private_keys[0]
                     inner_content = value_data[tag_name]
                     
-                    if isinstance(inner_content, dict):
-                        for key, val in inner_content.items():
-                            if hasattr(obj, key) and getattr(obj, key) is None:
-                                setattr(obj, key, val)
-                            elif not hasattr(obj, key):
-                                setattr(obj, key, val)
+                    # Only flatten if the tag_name field exists and is None (placeholder)
+                    should_flatten = (
+                        hasattr(obj, tag_name) and 
+                        getattr(obj, tag_name) is None and
+                        isinstance(inner_content, dict)
+                    )
+                    
+                    if should_flatten:
+                        # Set the field to the structured content
+                        setattr(obj, tag_name, inner_content)
                     else:
+                        # Not a wrapper - just set the field directly
                         if hasattr(obj, tag_name) and getattr(obj, tag_name) is None:
                             setattr(obj, tag_name, inner_content)
                         elif not hasattr(obj, tag_name):
