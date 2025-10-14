@@ -41,10 +41,7 @@ from .services import (
     MediaSigning,
 )
 from .operator import CacheMode
-from .utils.zeep import (
-    apply_patch as _apply_zeep_patch,
-    remove_patch as _remove_zeep_patch,
-)
+from .utils.zeep import ZeepPatcher
 from .utils.wsdl import ONVIFWSDL
 from .utils.xml_capture import XMLCapturePlugin
 
@@ -67,9 +64,9 @@ class ONVIFClient:
 
         # Apply or remove zeep patch based on user preference
         if apply_patch:
-            _apply_zeep_patch()
+            ZeepPatcher.apply_patch()
         else:
-            _remove_zeep_patch()
+            ZeepPatcher.remove_patch()
 
         # Initialize XML capture plugin if requested
         self.xml_plugin = None

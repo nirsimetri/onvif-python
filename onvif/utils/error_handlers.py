@@ -1,13 +1,5 @@
 # onvif/utils/error_handlers.py
 
-"""
-Error Handling Utilities for ONVIF Operations
-
-Provides utilities to gracefully handle ONVIF operation errors,
-especially ActionNotSupported SOAP faults from devices that don't
-support certain operations.
-"""
-
 import logging
 from zeep.exceptions import Fault
 from .exceptions import ONVIFOperationException

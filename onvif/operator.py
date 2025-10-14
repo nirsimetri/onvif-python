@@ -11,7 +11,7 @@ from zeep.exceptions import Fault
 from zeep.wsse.username import UsernameToken
 
 from .utils import ONVIFOperationException
-from .utils.zeep import flatten_xsd_any_fields
+from .utils.zeep import ZeepPatcher
 
 
 class CacheMode(Enum):
@@ -129,7 +129,7 @@ class ONVIFOperator:
             result = func(*args, **kwargs)
             # Post-process to flatten xsd:any fields if enabled (> v0.0.4 patch)
             if self.apply_flatten:
-                return flatten_xsd_any_fields(result)
+                return ZeepPatcher.flatten_xsd_any_fields(result)
             return result
         except Fault as e:
             # logging.error(f"SOAP Fault in {method}: {e}")
