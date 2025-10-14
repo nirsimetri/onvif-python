@@ -2,13 +2,10 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Release](https://img.shields.io/badge/Release-v0.0.7-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Release](https://img.shields.io/badge/Release-v0.0.8-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.7-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.0.8-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
-
-Are you having trouble finding a Python ONVIF library that supports your device?  
-Are you confused about the compatibility of the various ONVIF versions, which are updated every six months?
 
 **This project provides a comprehensive and developer-friendly Python library for working with ONVIF-compliant devices.** It is designed to be reliable, easy to integrate, and flexible enough to support a wide range of ONVIF profiles and services.  
 
@@ -575,8 +572,6 @@ This project is an **independent open-source implementation** of the [ONVIF](htt
 - All rights to the ONVIF specifications are reserved by ONVIF.
 
 If you require certified ONVIF-compliant devices or clients, please refer to the official [ONVIF conformant product list](https://www.onvif.org/conformant-products/). For authoritative reference and the latest official ONVIF specifications, please consult the [ONVIF Official Specifications](https://www.onvif.org/profiles/specifications/specification-history/).
-
-Use of this library is at your own risk. The authors and contributors assume no liability for any damages, direct or indirect, arising from its use.
 
 ## License
 

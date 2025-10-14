@@ -2,13 +2,10 @@
 
 [![Lisensi](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Rilis](https://img.shields.io/badge/Release-v0.0.7-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Rilis](https://img.shields.io/badge/Release-v0.0.8-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.7-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.0.8-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Unduhan](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
-
-Apakah Anda kesulitan menemukan pustaka Python ONVIF yang mendukung perangkat Anda?  
-Apakah Anda bingung dengan kompatibilitas berbagai versi ONVIF yang diperbarui setiap enam bulan?
 
 **Proyek ini menyediakan pustaka Python yang komprehensif dan ramah pengembang untuk bekerja dengan perangkat yang sesuai dengan ONVIF.** Pustaka ini dirancang agar andal, mudah diintegrasikan, dan cukup fleksibel untuk mendukung berbagai profil dan layanan ONVIF.  
 
@@ -574,8 +571,6 @@ Proyek ini adalah **implementasi open-source independen** dari spesifikasi [ONVI
 - Semua hak atas spesifikasi ONVIF adalah milik ONVIF.
 
 Jika Anda memerlukan perangkat atau klien yang tersertifikasi sesuai ONVIF, silakan merujuk ke [daftar produk konforman ONVIF](https://www.onvif.org/conformant-products/). Untuk referensi otoritatif dan spesifikasi ONVIF resmi terbaru, silakan lihat [Spesifikasi Resmi ONVIF](https://www.onvif.org/profiles/specifications/specification-history/).
-
-Penggunaan pustaka ini merupakan risiko Anda sendiri. Penulis dan kontributor tidak bertanggung jawab atas kerusakan apa pun, langsung maupun tidak langsung, yang timbul dari penggunaannya.
 
 ## Lisensi
 
