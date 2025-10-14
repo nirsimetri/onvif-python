@@ -2,9 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Release](https://img.shields.io/badge/Release-v0.0.6-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Release](https://img.shields.io/badge/Release-v0.0.7-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.6-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.0.7-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 Are you having trouble finding a Python ONVIF library that supports your device?  
@@ -108,6 +108,191 @@ Explore more advanced usage and service-specific operations in the [`examples/`]
 
 > [!IMPORTANT]
 > If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course). Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](#legal-notice) for details.
+
+## ONVIFClient Parameters
+
+The `ONVIFClient` class provides various configuration options to customize the connection behavior, caching strategy, security settings, and debugging capabilities. Below is a detailed description of all available parameters:
+
+### Basic Parameters
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `host` | `str` | ✅ Yes | - | IP address or hostname of the ONVIF device (e.g., `"192.168.1.17"`) |
+| `port` | `int` | ✅ Yes | - | Port number for ONVIF service (common ports: `80`, `8000`, `8080`) |
+| `username` | `str` | ✅ Yes | - | Username for device authentication (use digest authentication) |
+| `password` | `str` | ✅ Yes | - | Password for device authentication |
+
+### Connection Parameters
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `timeout` | `int` | ❌ No | `10` | Connection timeout in seconds for SOAP requests |
+| `use_https` | `bool` | ❌ No | `False` | Use HTTPS instead of HTTP for secure communication |
+| `verify_ssl` | `bool` | ❌ No | `True` | Verify SSL certificates when using HTTPS (set to `False` for self-signed certificates) |
+
+### Caching Parameters
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `cache` | `CacheMode` | ❌ No | `CacheMode.ALL` | WSDL caching strategy (see [Cache Modes](#cache-modes) below) |
+
+### Feature Parameters
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better xsd:any field parsing and automatic flattening |
+| `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses |
+
+### Cache Modes
+
+The library provides four caching strategies via the `CacheMode` enum:
+
+| Mode | Description | Best For | Startup Speed | Disk Usage | Memory Usage |
+|------|-------------|----------|---------------|------------|--------------|
+| `CacheMode.ALL` | In-memory + disk cache (SQLite) | Production servers, multi-device apps | ⚡⚡⚡ Fast | 💾 High | 🧠 High |
+| `CacheMode.DB` | Disk cache only (SQLite) | Batch jobs, CLI tools | ⚡⚡ Medium | 💾 Medium | 🧠 Low |
+| `CacheMode.MEM` | In-memory cache only | Short-lived scripts, demos | ⚡⚡ Medium | 💾 None | 🧠 Medium |
+| `CacheMode.NONE` | No caching | Testing, debugging | ⚡ Slow | 💾 None | 🧠 Low |
+
+**Recommendation:** Use `CacheMode.ALL` (default) for production applications to maximize performance.
+
+### Usage Examples
+
+**Basic Connection:**
+```python
+from onvif import ONVIFClient
+
+# Minimal configuration
+client = ONVIFClient("192.168.1.17", 80, "admin", "password")
+```
+
+**Secure Connection (HTTPS):**
+```python
+from onvif import ONVIFClient
+
+# Connect via HTTPS with custom timeout
+client = ONVIFClient(
+    "your-cctv-node.viewplexus.com", 
+    443,  # HTTPS port
+    "admin", 
+    "password",
+    timeout=30,
+    use_https=True,
+    verify_ssl=False  # For self-signed certificates
+)
+```
+
+**Performance Optimized (Memory Cache):**
+```python
+from onvif import ONVIFClient, CacheMode
+
+# Use memory-only cache for quick scripts
+client = ONVIFClient(
+    "192.168.1.17", 
+    80, 
+    "admin", 
+    "password",
+    cache=CacheMode.MEM
+)
+```
+
+**No Caching (Testing):**
+```python
+from onvif import ONVIFClient, CacheMode
+
+# Disable all caching for testing
+client = ONVIFClient(
+    "192.168.1.17", 
+    80, 
+    "admin", 
+    "password",
+    cache=CacheMode.NONE,
+    apply_patch=False  # Use original zeep behavior
+)
+```
+
+**Debugging Mode (XML Capture):**
+```python
+from onvif import ONVIFClient
+
+# Enable XML capture for debugging
+client = ONVIFClient(
+    "192.168.1.17", 
+    80, 
+    "admin", 
+    "password",
+    capture_xml=True  # Captures all SOAP requests/responses
+)
+
+# Make some ONVIF calls
+device = client.devicemgmt()
+info = device.GetDeviceInformation()
+services = device.GetCapabilities()
+
+# Access the XML capture plugin
+if client.xml_plugin:
+    # Get last captured request/response
+    print("Last Request XML:")
+    print(client.xml_plugin.last_sent_xml)
+    
+    print("\nLast Response XML:")
+    print(client.xml_plugin.last_received_xml)
+    
+    print(f"\nLast Operation: {client.xml_plugin.last_operation}")
+    
+    # Get complete history of all requests/responses
+    print(f"\nTotal captured operations: {len(client.xml_plugin.history)}")
+    for item in client.xml_plugin.history:
+        print(f"  - {item['operation']} ({item['type']})")
+    
+    # Save captured XML to files
+    client.xml_plugin.save_to_file(
+        request_file="last_request.xml",
+        response_file="last_response.xml"
+    )
+    
+    # Clear history when done
+    client.xml_plugin.clear_history()
+```
+
+> [!NOTE]
+> **XML Capture Plugin Methods:**
+> - `last_sent_xml` - Get the last SOAP request XML
+> - `last_received_xml` - Get the last SOAP response XML
+> - `last_operation` - Get the name of the last operation
+> - `history` - List of all captured requests/responses with metadata
+> - `get_last_request()` - Method to get last request
+> - `get_last_response()` - Method to get last response
+> - `get_history()` - Method to get all history
+> - `save_to_file(request_file, response_file)` - Save XML to files
+> - `clear_history()` - Clear captured history
+
+
+**Production Configuration:**
+```python
+from onvif import ONVIFClient, CacheMode
+
+# Recommended production settings
+client = ONVIFClient(
+    host="your-cctv-node.viewplexus.com",
+    port=443,
+    username="admin",
+    password="secure_password",
+    timeout=15,
+    cache=CacheMode.ALL,        # Maximum performance
+    use_https=True,             # Secure communication
+    verify_ssl=True,            # Verify certificates (default)
+    apply_patch=True,           # Enhanced parsing (default)
+    capture_xml=False           # Disable debug mode (default)
+)
+```
+
+### Notes
+
+- **Authentication:** This library uses **WS-UsernameToken with Digest** authentication by default, which is the standard for ONVIF devices.
+- **Patching:** The `apply_patch=True` (default) enables custom zeep patching that improves `xsd:any` field parsing. This is recommended for better compatibility with ONVIF responses.
+- **XML Capture:** Only use `capture_xml=True` during development/debugging as it increases memory usage and may expose sensitive data in logs.
+- **Cache Location:** Disk cache (when using `CacheMode.DB` or `CacheMode.ALL`) is stored in `~/.onvif-python/onvif_zeep_cache.sqlite`.
 
 ## Service Discovery: Understanding Device Capabilities
 

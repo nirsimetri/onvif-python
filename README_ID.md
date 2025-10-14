@@ -2,9 +2,9 @@
 
 [![Lisensi](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Rilis](https://img.shields.io/badge/Release-v0.0.6-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Rilis](https://img.shields.io/badge/Release-v0.0.7-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.6-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.0.7-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Unduhan](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 Apakah Anda kesulitan menemukan pustaka Python ONVIF yang mendukung perangkat Anda?  
@@ -108,6 +108,191 @@ Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`
 
 > [!IMPORTANT]
 > Jika Anda baru mengenal ONVIF dan ingin mempelajari lebih lanjut, kami sangat menyarankan untuk mengikuti kursus online gratis resmi yang disediakan oleh ONVIF di [Kursus Pengantar ONVIF](https://www.onvif.org/about/introduction-to-onvif-course). Harap dicatat bahwa kami tidak didukung atau disponsori oleh ONVIF, lihat [Pemberitahuan Hukum](#legal-notice) untuk detailnya.
+
+## Parameter ONVIFClient
+
+Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan perilaku koneksi, strategi caching, pengaturan keamanan, dan kemampuan debugging. Berikut adalah deskripsi detail dari semua parameter yang tersedia:
+
+### Parameter Dasar
+
+| Parameter | Tipe | Wajib | Default | Deskripsi |
+|-----------|------|-------|---------|-----------|
+| `host` | `str` | ✅ Ya | - | Alamat IP atau hostname perangkat ONVIF (mis., `"192.168.1.17"`) |
+| `port` | `int` | ✅ Ya | - | Nomor port untuk layanan ONVIF (port umum: `80`, `8000`, `8080`) |
+| `username` | `str` | ✅ Ya | - | Nama pengguna untuk autentikasi perangkat (menggunakan digest authentication) |
+| `password` | `str` | ✅ Ya | - | Kata sandi untuk autentikasi perangkat |
+
+### Parameter Koneksi
+
+| Parameter | Tipe | Wajib | Default | Deskripsi |
+|-----------|------|-------|---------|-----------|
+| `timeout` | `int` | ❌ Tidak | `10` | Timeout koneksi dalam detik untuk permintaan SOAP |
+| `use_https` | `bool` | ❌ Tidak | `False` | Gunakan HTTPS sebagai pengganti HTTP untuk komunikasi aman |
+| `verify_ssl` | `bool` | ❌ Tidak | `True` | Verifikasi sertifikat SSL saat menggunakan HTTPS (set ke `False` untuk sertifikat self-signed) |
+
+### Parameter Caching
+
+| Parameter | Tipe | Wajib | Default | Deskripsi |
+|-----------|------|-------|---------|-----------|
+| `cache` | `CacheMode` | ❌ Tidak | `CacheMode.ALL` | Strategi caching WSDL (lihat [Mode Cache](#mode-cache) di bawah) |
+
+### Parameter Fitur
+
+| Parameter | Tipe | Wajib | Default | Deskripsi |
+|-----------|------|-------|---------|-----------|
+| `apply_patch` | `bool` | ❌ Tidak | `True` | Aktifkan patching zeep untuk parsing field xsd:any yang lebih baik dan flattening otomatis |
+| `capture_xml` | `bool` | ❌ Tidak | `False` | Aktifkan plugin XML capture untuk debugging permintaan/respons SOAP |
+
+### Mode Cache
+
+Pustaka menyediakan empat strategi caching melalui enum `CacheMode`:
+
+| Mode | Deskripsi | Cocok Untuk | Kecepatan Startup | Penggunaan Disk | Penggunaan Memori |
+|------|-----------|-------------|-------------------|-----------------|-------------------|
+| `CacheMode.ALL` | Cache in-memory + disk (SQLite) | Server produksi, aplikasi multi-device | ⚡⚡⚡ Cepat | 💾 Tinggi | 🧠 Tinggi |
+| `CacheMode.DB` | Cache disk saja (SQLite) | Batch jobs, CLI tools | ⚡⚡ Sedang | 💾 Sedang | 🧠 Rendah |
+| `CacheMode.MEM` | Cache in-memory saja | Script singkat, demo | ⚡⚡ Sedang | 💾 Tidak ada | 🧠 Sedang |
+| `CacheMode.NONE` | Tanpa caching | Testing, debugging | ⚡ Lambat | 💾 Tidak ada | 🧠 Rendah |
+
+**Rekomendasi:** Gunakan `CacheMode.ALL` (default) untuk aplikasi produksi guna memaksimalkan performa.
+
+### Contoh Penggunaan
+
+**Koneksi Dasar:**
+```python
+from onvif import ONVIFClient
+
+# Konfigurasi minimal
+client = ONVIFClient("192.168.1.17", 80, "admin", "password")
+```
+
+**Koneksi Aman (HTTPS):**
+```python
+from onvif import ONVIFClient
+
+# Koneksi via HTTPS dengan timeout kustom
+client = ONVIFClient(
+    "your-cctv-node.viewplexus.com", 
+    443,  # Port HTTPS
+    "admin", 
+    "password",
+    timeout=30,
+    use_https=True,
+    verify_ssl=False  # Untuk sertifikat self-signed
+)
+```
+
+**Optimasi Performa (Cache Memori):**
+```python
+from onvif import ONVIFClient, CacheMode
+
+# Gunakan cache memory-only untuk script cepat
+client = ONVIFClient(
+    "192.168.1.17", 
+    80, 
+    "admin", 
+    "password",
+    cache=CacheMode.MEM
+)
+```
+
+**Tanpa Caching (Testing):**
+```python
+from onvif import ONVIFClient, CacheMode
+
+# Nonaktifkan semua caching untuk testing
+client = ONVIFClient(
+    "192.168.1.17", 
+    80, 
+    "admin", 
+    "password",
+    cache=CacheMode.NONE,
+    apply_patch=False  # Gunakan perilaku zeep original
+)
+```
+
+**Mode Debugging (XML Capture):**
+```python
+from onvif import ONVIFClient
+
+# Aktifkan XML capture untuk debugging
+client = ONVIFClient(
+    "192.168.1.17", 
+    80, 
+    "admin", 
+    "password",
+    capture_xml=True  # Menangkap semua permintaan/respons SOAP
+)
+
+# Lakukan beberapa pemanggilan ONVIF
+device = client.devicemgmt()
+info = device.GetDeviceInformation()
+services = device.GetCapabilities()
+
+# Akses plugin XML capture
+if client.xml_plugin:
+    # Dapatkan request/response terakhir yang ditangkap
+    print("XML Permintaan Terakhir:")
+    print(client.xml_plugin.last_sent_xml)
+    
+    print("\nXML Respons Terakhir:")
+    print(client.xml_plugin.last_received_xml)
+    
+    print(f"\nOperasi Terakhir: {client.xml_plugin.last_operation}")
+    
+    # Dapatkan riwayat lengkap semua permintaan/respons
+    print(f"\nTotal operasi yang ditangkap: {len(client.xml_plugin.history)}")
+    for item in client.xml_plugin.history:
+        print(f"  - {item['operation']} ({item['type']})")
+    
+    # Simpan captured XML ke file
+    client.xml_plugin.save_to_file(
+        request_file="last_request.xml",
+        response_file="last_response.xml"
+    )
+    
+    # Bersihkan riwayat setelah selesai
+    client.xml_plugin.clear_history()
+```
+
+> [!NOTE]
+> **Metode XML Capture Plugin:**
+> - `last_sent_xml` - Dapatkan XML permintaan SOAP terakhir
+> - `last_received_xml` - Dapatkan XML respons SOAP terakhir
+> - `last_operation` - Dapatkan nama operasi terakhir
+> - `history` - Daftar semua permintaan/respons yang ditangkap dengan metadata
+> - `get_last_request()` - Metode untuk mendapatkan permintaan terakhir
+> - `get_last_response()` - Metode untuk mendapatkan respons terakhir
+> - `get_history()` - Metode untuk mendapatkan semua riwayat
+> - `save_to_file(request_file, response_file)` - Simpan XML ke file
+> - `clear_history()` - Bersihkan riwayat yang ditangkap
+
+
+**Konfigurasi Produksi:**
+```python
+from onvif import ONVIFClient, CacheMode
+
+# Pengaturan produksi yang direkomendasikan
+client = ONVIFClient(
+    host="192.168.1.17",
+    port=80,
+    username="admin",
+    password="secure_password",
+    timeout=15,
+    cache=CacheMode.ALL,        # Performa maksimal
+    use_https=True,             # Komunikasi aman
+    verify_ssl=True,            # Verifikasi sertifikat
+    apply_patch=True,           # Enhanced parsing (default)
+    capture_xml=False           # Nonaktifkan mode debug (default)
+)
+```
+
+### Catatan
+
+- **Autentikasi:** Pustaka ini menggunakan autentikasi **WS-UsernameToken with Digest** secara default, yang merupakan standar untuk perangkat ONVIF.
+- **Patching:** `apply_patch=True` (default) mengaktifkan custom zeep patching yang meningkatkan parsing field `xsd:any`. Ini direkomendasikan untuk kompatibilitas yang lebih baik dengan respons ONVIF.
+- **XML Capture:** Hanya gunakan `capture_xml=True` selama development/debugging karena meningkatkan penggunaan memori dan dapat mengekspos data sensitif di log.
+- **Lokasi Cache:** Cache disk (saat menggunakan `CacheMode.DB` atau `CacheMode.ALL`) disimpan di `~/.onvif-python/onvif_zeep_cache.sqlite`.
 
 ## Penemuan Layanan: Memahami Kapabilitas Perangkat
 
