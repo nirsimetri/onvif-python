@@ -10,8 +10,7 @@ from zeep.cache import SqliteCache
 from zeep.exceptions import Fault
 from zeep.wsse.username import UsernameToken
 
-from .utils import ONVIFOperationException
-from .utils.zeep import ZeepPatcher
+from .utils import ONVIFOperationException, ZeepPatcher
 
 
 class CacheMode(Enum):
@@ -117,7 +116,7 @@ class ONVIFOperator:
             raise ValueError("Bindings must be set according to the WSDL service")
 
         self.service = self.client.create_service(binding, self.address)
-        #logging.debug(f"ONVIFOperator initialized {binding} at {self.address}")
+        # logging.debug(f"ONVIFOperator initialized {binding} at {self.address}")
 
     def call(self, method: str, *args, **kwargs):
         try:

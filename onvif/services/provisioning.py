@@ -10,7 +10,7 @@ class Provisioning:
         # - ONVIF Release 16.12 (December 2016) Release Notes
         # - ProvisioningBinding (ver10/provisioning/wsdl/provisioning.wsdl)
         # - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/provisioning/wsdl/provisioning.wsdl
-        
+
         definition = ONVIFWSDL.get_definition("provisioning")
         self.operator = ONVIFOperator(
             definition["path"],

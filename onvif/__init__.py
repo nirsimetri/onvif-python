@@ -11,5 +11,5 @@ __all__ = [
     "ONVIFWSDL",
     "ONVIFOperationException",
     "ONVIFErrorHandler",
-    "ZeepPatcher"
+    "ZeepPatcher",
 ]

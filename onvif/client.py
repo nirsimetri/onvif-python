@@ -41,9 +41,7 @@ from .services import (
     MediaSigning,
 )
 from .operator import CacheMode
-from .utils.zeep import ZeepPatcher
-from .utils.wsdl import ONVIFWSDL
-from .utils.xml_capture import XMLCapturePlugin
+from .utils import ONVIFWSDL, ZeepPatcher, XMLCapturePlugin
 
 
 class ONVIFClient:

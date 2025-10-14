@@ -8,44 +8,44 @@ from zeep.xsd.utils import max_occurs_iter
 class ZeepPatcher:
     """
     Utility class for patching zeep SOAP library to better handle ONVIF xsd:any fields.
-    
+
     This class provides methods to:
     1. Patch zeep's Any.parse_xmlelements to parse xsd:any fields into structured dicts
     2. Flatten parsed xsd:any fields (_value_1, _value_2, etc.) into parent objects
     3. Parse text values with proper type conversion (bool, int, float, str)
-    
+
     Usage:
         from onvif.utils.zeep import ZeepPatcher
-        
+
         # Apply patch at startup
         ZeepPatcher.apply_patch()
-        
+
         # Check if patched
         if ZeepPatcher.is_patched():
             print("Zeep is patched")
-        
+
         # Remove patch if needed
         ZeepPatcher.remove_patch()
     """
-    
+
     # Store original parse_xmlelements before patching
     _original_parse_xmlelements = None
     _is_patched = False
-    
+
     @staticmethod
     def parse_text_value(value):
         """
         Parse text value with type conversion.
-        
+
         Converts:
         - "true"/"false" → bool
         - "123" → int
         - "123.45" → float
         - Other → str
-        
+
         Args:
             value: Text value to parse
-            
+
         Returns:
             Parsed value with appropriate type
         """
@@ -115,30 +115,35 @@ class ZeepPatcher:
                 value_data = values[value_key]
 
                 # Only process if _value_N is a dict (from our patched parser)
-                if isinstance(value_data, dict) and "__original_elements__" in value_data:
+                if (
+                    isinstance(value_data, dict)
+                    and "__original_elements__" in value_data
+                ):
                     # Extract original elements first
                     original_elements = value_data.get("__original_elements__")
 
                     # Check if this is a single-tag wrapper (like {"Capabilities": {...}})
                     # IMPORTANT: We should NOT flatten if the tag name already exists as a field in the schema
                     # This prevents DeviceIO, Recording, etc. from being incorrectly flattened
-                    non_private_keys = [k for k in value_data.keys() if not k.startswith("_")]
-                    
+                    non_private_keys = [
+                        k for k in value_data.keys() if not k.startswith("_")
+                    ]
+
                     if len(non_private_keys) == 1:
                         # Single tag wrapper - but check if it should be flattened
                         tag_name = non_private_keys[0]
                         inner_content = value_data[tag_name]
-                        
+
                         # Only flatten if:
                         # 1. The tag_name field exists in schema AND is None (placeholder)
                         # 2. The inner_content is a dict (structured data)
                         # This preserves proper structure for DeviceIO, Recording, etc.
                         should_flatten = (
-                            tag_name in values and 
-                            values[tag_name] is None and 
-                            isinstance(inner_content, dict)
+                            tag_name in values
+                            and values[tag_name] is None
+                            and isinstance(inner_content, dict)
                         )
-                        
+
                         if should_flatten:
                             # This is truly a wrapper - flatten by copying fields to parent
                             # But still set the tag_name field to the inner_content
@@ -155,7 +160,7 @@ class ZeepPatcher:
                         for key, val in list(value_data.items()):
                             if key.startswith("_"):
                                 continue
-                            
+
                             if key in values and values[key] is None:
                                 values[key] = val
                             elif key not in values:
@@ -176,31 +181,39 @@ class ZeepPatcher:
                 value_key = f"_value_{value_n}"
                 value_data = getattr(obj, value_key)
 
-                if isinstance(value_data, dict) and "__original_elements__" in value_data:
+                if (
+                    isinstance(value_data, dict)
+                    and "__original_elements__" in value_data
+                ):
                     # Extract original elements first (before any modification)
                     original_elements = value_data.get("__original_elements__")
 
                     # Check if this is a single-tag wrapper
-                    non_private_keys = [k for k in value_data.keys() if not k.startswith("_")]
-                    
+                    non_private_keys = [
+                        k for k in value_data.keys() if not k.startswith("_")
+                    ]
+
                     if len(non_private_keys) == 1:
                         # Single tag wrapper - but check if it should be flattened
                         tag_name = non_private_keys[0]
                         inner_content = value_data[tag_name]
-                        
+
                         # Only flatten if the tag_name field exists and is None (placeholder)
                         should_flatten = (
-                            hasattr(obj, tag_name) and 
-                            getattr(obj, tag_name) is None and
-                            isinstance(inner_content, dict)
+                            hasattr(obj, tag_name)
+                            and getattr(obj, tag_name) is None
+                            and isinstance(inner_content, dict)
                         )
-                        
+
                         if should_flatten:
                             # Set the field to the structured content
                             setattr(obj, tag_name, inner_content)
                         else:
                             # Not a wrapper - just set the field directly
-                            if hasattr(obj, tag_name) and getattr(obj, tag_name) is None:
+                            if (
+                                hasattr(obj, tag_name)
+                                and getattr(obj, tag_name) is None
+                            ):
                                 setattr(obj, tag_name, inner_content)
                             elif not hasattr(obj, tag_name):
                                 setattr(obj, tag_name, inner_content)
@@ -209,7 +222,7 @@ class ZeepPatcher:
                         for key, val in value_data.items():
                             if key.startswith("_"):
                                 continue
-                            
+
                             if hasattr(obj, key) and getattr(obj, key) is None:
                                 setattr(obj, key, val)
                             elif not hasattr(obj, key):
@@ -226,7 +239,9 @@ class ZeepPatcher:
         # Recursively process nested objects
         if hasattr(obj, "__values__"):
             for val in obj.__values__.values():
-                if val is not None and not isinstance(val, (dict, str, int, float, bool)):
+                if val is not None and not isinstance(
+                    val, (dict, str, int, float, bool)
+                ):
                     if hasattr(val, "__dict__"):
                         ZeepPatcher.flatten_xsd_any_fields(val, _visited)
                     elif isinstance(val, list):
@@ -235,7 +250,9 @@ class ZeepPatcher:
                                 ZeepPatcher.flatten_xsd_any_fields(item, _visited)
         else:
             for key, val in list(obj.__dict__.items()):
-                if val is not None and not isinstance(val, (dict, str, int, float, bool)):
+                if val is not None and not isinstance(
+                    val, (dict, str, int, float, bool)
+                ):
                     if hasattr(val, "__dict__"):
                         ZeepPatcher.flatten_xsd_any_fields(val, _visited)
                     elif isinstance(val, list):
@@ -249,17 +266,17 @@ class ZeepPatcher:
     def _patched_parse_xmlelements(self, xmlelements, schema, name=None, context=None):
         """
         Patched version of zeep's Any.parse_xmlelements method.
-        
+
         This method parses xsd:any fields into structured dictionaries instead of
         leaving them as raw XML elements, making them easier to work with.
-        
+
         Args:
             self: The Any instance (injected by zeep)
             xmlelements: Deque of XML elements to parse
             schema: Zeep schema object
             name: Optional element name
             context: Optional parsing context
-            
+
         Returns:
             Dict containing parsed data with '__original_elements__' key for restoration
         """
@@ -291,19 +308,24 @@ class ZeepPatcher:
                         # Check if child has attributes (common in ONVIF capabilities)
                         if child.attrib:
                             # Parse attributes as a dict
-                            attr_dict = {k: ZeepPatcher.parse_text_value(v) for k, v in child.attrib.items()}
+                            attr_dict = {
+                                k: ZeepPatcher.parse_text_value(v)
+                                for k, v in child.attrib.items()
+                            }
                             child_result[child_qname.localname] = attr_dict
                         elif list(child):
                             # Has nested children
                             nested = {
-                                QName(sub.tag).localname: ZeepPatcher.parse_text_value(sub.text)
+                                QName(sub.tag).localname: ZeepPatcher.parse_text_value(
+                                    sub.text
+                                )
                                 for sub in child
                             }
                             child_result[child_qname.localname] = nested
                         else:
                             # Only has text content
-                            child_result[child_qname.localname] = ZeepPatcher.parse_text_value(
-                                child.text
+                            child_result[child_qname.localname] = (
+                                ZeepPatcher.parse_text_value(child.text)
                             )
                 parsed_result[tag_name] = child_result
             else:
@@ -319,10 +341,10 @@ class ZeepPatcher:
     def apply_patch(cls):
         """
         Inject the custom parse_xmlelements method into zeep.xsd.elements.any.Any.
-        
+
         This enables better parsing of xsd:any fields in ONVIF SOAP responses.
         Should be called once at application startup.
-        
+
         Example:
             from onvif.utils.zeep import ZeepPatcher
             ZeepPatcher.apply_patch()
@@ -336,9 +358,9 @@ class ZeepPatcher:
     def remove_patch(cls):
         """
         Restore the original parse_xmlelements method.
-        
+
         Reverts zeep to its original behavior. Useful for testing or debugging.
-        
+
         Example:
             from onvif.utils.zeep import ZeepPatcher
             ZeepPatcher.remove_patch()
@@ -351,10 +373,10 @@ class ZeepPatcher:
     def is_patched(cls):
         """
         Check if the patch is currently applied.
-        
+
         Returns:
             bool: True if patch is active, False otherwise
-            
+
         Example:
             from onvif.utils.zeep import ZeepPatcher
             if ZeepPatcher.is_patched():
