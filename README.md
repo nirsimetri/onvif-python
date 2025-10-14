@@ -194,8 +194,7 @@ client = ONVIFClient(
     "admin", 
     "password",
     timeout=30,
-    use_https=True,
-    verify_ssl=False  # For self-signed certificates
+    use_https=True
 )
 ```
 
@@ -213,7 +212,7 @@ client = ONVIFClient(
 )
 ```
 
-**No Caching (Testing):**
+**No Caching and No Zeep Patching (Testing):**
 ```python
 from onvif import ONVIFClient, CacheMode
 
@@ -272,7 +271,6 @@ if client.xml_plugin:
     client.xml_plugin.clear_history()
 ```
 
-> [!NOTE]
 > **XML Capture Plugin Methods:**
 > - `last_sent_xml` - Get the last SOAP request XML
 > - `last_received_xml` - Get the last SOAP response XML
@@ -299,7 +297,7 @@ client = ONVIFClient(
     username="admin",
     password="secure_password",
     timeout=15,
-    cache=CacheMode.ALL,        # Maximum performance
+    cache=CacheMode.ALL,        # Maximum performance (default)
     use_https=True,             # Secure communication
     verify_ssl=True,            # Verify certificates (default)
     apply_patch=True,           # Enhanced parsing (default)

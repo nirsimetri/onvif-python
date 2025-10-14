@@ -193,8 +193,7 @@ client = ONVIFClient(
     "admin", 
     "password",
     timeout=30,
-    use_https=True,
-    verify_ssl=False  # Untuk sertifikat self-signed
+    use_https=True
 )
 ```
 
@@ -212,7 +211,7 @@ client = ONVIFClient(
 )
 ```
 
-**Tanpa Caching (Testing):**
+**Tanpa Caching dan Zeep Patching (Testing):**
 ```python
 from onvif import ONVIFClient, CacheMode
 
@@ -271,7 +270,6 @@ if client.xml_plugin:
     client.xml_plugin.clear_history()
 ```
 
-> [!NOTE]
 > **Metode XML Capture Plugin:**
 > - `last_sent_xml` - Dapatkan XML permintaan SOAP terakhir
 > - `last_received_xml` - Dapatkan XML respons SOAP terakhir
@@ -298,9 +296,9 @@ client = ONVIFClient(
     username="admin",
     password="secure_password",
     timeout=15,
-    cache=CacheMode.ALL,        # Performa maksimal
+    cache=CacheMode.ALL,        # Performa maksimal (default)
     use_https=True,             # Komunikasi aman
-    verify_ssl=True,            # Verifikasi sertifikat
+    verify_ssl=True,            # Verifikasi sertifikat (default)
     apply_patch=True,           # Enhanced parsing (default)
     capture_xml=False           # Nonaktifkan mode debug (default)
 )
