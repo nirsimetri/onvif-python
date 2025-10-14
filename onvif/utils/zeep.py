@@ -64,6 +64,93 @@ class ZeepPatcher:
             return val
 
     @staticmethod
+    def _parse_element_recursive(element):
+        """
+        Recursively parse an XML element and its children into a dictionary.
+
+        Handles:
+        - Elements with attributes only (converted to dict)
+        - Elements with children only (recursively parsed)
+        - Elements with BOTH attributes AND children (merged into single dict)
+        - Elements with text content only (type-converted)
+
+        Args:
+            element: lxml Element to parse
+
+        Returns:
+            Dict, parsed value, or None
+        """
+        result = {}
+
+        for child in element:
+            child_qname = QName(child.tag)
+            child_name = child_qname.localname
+            child_has_attrib = bool(child.attrib)
+            child_has_children = bool(list(child))
+
+            if child_has_attrib and child_has_children:
+                # Element has BOTH attributes AND children - merge them
+                child_dict = {
+                    k: ZeepPatcher.parse_text_value(v) for k, v in child.attrib.items()
+                }
+                # Recursively parse children and merge into the same dict
+                nested = ZeepPatcher._parse_element_recursive(child)
+                if nested:
+                    child_dict.update(nested)
+                result[child_name] = child_dict
+            elif child_has_attrib:
+                # Element with attributes only
+                result[child_name] = {
+                    k: ZeepPatcher.parse_text_value(v) for k, v in child.attrib.items()
+                }
+            elif child_has_children:
+                # Element has nested children only
+                result[child_name] = ZeepPatcher._parse_element_recursive(child)
+            else:
+                # Element only has text content
+                result[child_name] = ZeepPatcher.parse_text_value(child.text)
+
+        return result if result else None
+
+    @staticmethod
+    def _zeep_object_to_dict(obj):
+        """
+        Convert zeep object to dictionary, including manually added attributes.
+
+        Args:
+            obj: Zeep object or primitive value
+
+        Returns:
+            Dict or primitive value
+        """
+        if obj is None:
+            return None
+        if isinstance(obj, (str, int, float, bool)):
+            return obj
+        if isinstance(obj, list):
+            return [ZeepPatcher._zeep_object_to_dict(item) for item in obj]
+        if isinstance(obj, dict):
+            return {k: ZeepPatcher._zeep_object_to_dict(v) for k, v in obj.items()}
+
+        # Handle zeep objects with __values__
+        if hasattr(obj, "__values__"):
+            result = {}
+            for key, val in obj.__values__.items():
+                if not key.startswith("_"):  # Skip private fields like _value_1
+                    result[key] = ZeepPatcher._zeep_object_to_dict(val)
+            return result
+
+        # Handle objects with __dict__
+        if hasattr(obj, "__dict__"):
+            result = {}
+            for key, val in obj.__dict__.items():
+                if not key.startswith("_"):
+                    result[key] = ZeepPatcher._zeep_object_to_dict(val)
+            return result
+
+        return obj
+
+    @staticmethod
     def flatten_xsd_any_fields(obj, _visited=None):
         """
         Post-process zeep objects to flatten xsd:any fields (_value_1, _value_2, etc.) into the main object.
@@ -147,10 +234,24 @@ class ZeepPatcher:
                         if should_flatten:
                             # This is truly a wrapper - flatten by copying fields to parent
                             # But still set the tag_name field to the inner_content
+                            # Convert zeep object to dict to preserve manually added attributes
+                            if hasattr(inner_content, "__values__") or hasattr(
+                                inner_content, "__dict__"
+                            ):
+                                inner_content = ZeepPatcher._zeep_object_to_dict(
+                                    inner_content
+                                )
                             values[tag_name] = inner_content
                             # Don't copy fields up to parent - keep them in the structured object
                         else:
                             # Not a wrapper - just set the field directly
+                            # Convert zeep object to dict to preserve manually added attributes
+                            if hasattr(inner_content, "__values__") or hasattr(
+                                inner_content, "__dict__"
+                            ):
+                                inner_content = ZeepPatcher._zeep_object_to_dict(
+                                    inner_content
+                                )
                             if tag_name in values and values[tag_name] is None:
                                 values[tag_name] = inner_content
                             elif tag_name not in values:
@@ -160,6 +261,10 @@ class ZeepPatcher:
                         for key, val in list(value_data.items()):
                             if key.startswith("_"):
                                 continue
+
+                            # Convert zeep object to dict to preserve manually added attributes
+                            if hasattr(val, "__values__") or hasattr(val, "__dict__"):
+                                val = ZeepPatcher._zeep_object_to_dict(val)
 
                             if key in values and values[key] is None:
                                 values[key] = val
@@ -207,9 +312,23 @@ class ZeepPatcher:
 
                         if should_flatten:
                             # Set the field to the structured content
+                            # Convert zeep object to dict to preserve manually added attributes
+                            if hasattr(inner_content, "__values__") or hasattr(
+                                inner_content, "__dict__"
+                            ):
+                                inner_content = ZeepPatcher._zeep_object_to_dict(
+                                    inner_content
+                                )
                             setattr(obj, tag_name, inner_content)
                         else:
                             # Not a wrapper - just set the field directly
+                            # Convert zeep object to dict to preserve manually added attributes
+                            if hasattr(inner_content, "__values__") or hasattr(
+                                inner_content, "__dict__"
+                            ):
+                                inner_content = ZeepPatcher._zeep_object_to_dict(
+                                    inner_content
+                                )
                             if (
                                 hasattr(obj, tag_name)
                                 and getattr(obj, tag_name) is None
@@ -222,6 +341,10 @@ class ZeepPatcher:
                         for key, val in value_data.items():
                             if key.startswith("_"):
                                 continue
+
+                            # Convert zeep object to dict to preserve manually added attributes
+                            if hasattr(val, "__values__") or hasattr(val, "__dict__"):
+                                val = ZeepPatcher._zeep_object_to_dict(val)
 
                             if hasattr(obj, key) and getattr(obj, key) is None:
                                 setattr(obj, key, val)
@@ -293,10 +416,42 @@ class ZeepPatcher:
 
             tag_name = QName(xmlelement.tag).localname
             children = list(xmlelement)
+
             if children and schema:
                 child_result = {}
+
+                # If xmlelement itself has attributes, add them first
+                if xmlelement.attrib:
+                    child_result.update(
+                        {
+                            k: ZeepPatcher.parse_text_value(v)
+                            for k, v in xmlelement.attrib.items()
+                        }
+                    )
+
                 for child in children:
                     child_qname = QName(child.tag)
+                    child_localname = child_qname.localname
+
+                    # If child has attributes, parse manually to preserve them
+                    # Schema parsing often loses attributes not in schema definition
+                    if child.attrib:
+                        parsed = {}
+                        # Add attributes first
+                        parsed.update(
+                            {
+                                k: ZeepPatcher.parse_text_value(v)
+                                for k, v in child.attrib.items()
+                            }
+                        )
+                        # Then add nested children
+                        nested = ZeepPatcher._parse_element_recursive(child)
+                        if nested:
+                            parsed.update(nested)
+                        child_result[child_localname] = parsed
+                        continue
+
+                    # No attributes - try schema parsing first
                     try:
                         xsd_el = schema.get_element(child_qname)
                         val = xsd_el.parse_xmlelement(
@@ -305,44 +460,28 @@ class ZeepPatcher:
                         child_result[child_qname.localname] = val
                     except Exception:
                         # If schema lookup fails, try to parse manually
-                        # Check if child has attributes (common in ONVIF capabilities)
+                        parsed = {}
+
+                        # Parse child's own attributes first (if any)
                         if child.attrib:
-                            # Parse attributes as a dict
-                            attr_dict = {
-                                k: ZeepPatcher.parse_text_value(v)
-                                for k, v in child.attrib.items()
-                            }
-                            child_result[child_qname.localname] = attr_dict
-                        elif list(child):
-                            # Has nested children - parse them recursively
-                            nested = {}
-                            for sub in child:
-                                sub_qname = QName(sub.tag)
-                                sub_name = sub_qname.localname
-                                
-                                # Check if sub element has attributes
-                                if sub.attrib:
-                                    # Element with attributes (like Translate x=".." y="..")
-                                    nested[sub_name] = {
-                                        k: ZeepPatcher.parse_text_value(v)
-                                        for k, v in sub.attrib.items()
-                                    }
-                                elif list(sub):
-                                    # Sub element has children - recurse deeper
-                                    nested[sub_name] = {
-                                        QName(subsub.tag).localname: ZeepPatcher.parse_text_value(subsub.text)
-                                        for subsub in sub
-                                    }
-                                else:
-                                    # Only has text content
-                                    nested[sub_name] = ZeepPatcher.parse_text_value(sub.text)
-                            
-                            child_result[child_qname.localname] = nested
-                        else:
-                            # Only has text content
-                            child_result[child_qname.localname] = (
-                                ZeepPatcher.parse_text_value(child.text)
+                            parsed.update(
+                                {
+                                    k: ZeepPatcher.parse_text_value(v)
+                                    for k, v in child.attrib.items()
+                                }
                             )
+
+                        # Parse child's nested children (if any)
+                        nested = ZeepPatcher._parse_element_recursive(child)
+                        if nested:
+                            parsed.update(nested)
+
+                        # If no attributes and no children, try text content
+                        if not parsed:
+                            parsed = ZeepPatcher.parse_text_value(child.text)
+
+                        child_result[child_qname.localname] = parsed
+
                 parsed_result[tag_name] = child_result
             else:
                 parsed_result[tag_name] = ZeepPatcher.parse_text_value(xmlelement.text)
