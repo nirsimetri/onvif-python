@@ -2,6 +2,7 @@
 
 from zeep import Plugin
 from lxml import etree
+from xml.dom import minidom
 
 
 class XMLCapturePlugin(Plugin):
@@ -35,12 +36,43 @@ class XMLCapturePlugin(Plugin):
         self.last_operation = None
         self.history = []  # Store all requests/responses
 
+    def _format_xml(self, element):
+        """
+        Format XML element with proper indentation using minidom.
+        
+        Args:
+            element: lxml Element to format
+            
+        Returns:
+            str: Pretty-printed XML string
+        """
+        try:
+            # Convert lxml element to string
+            xml_string = etree.tostring(element, encoding="unicode")
+            # Parse with minidom and pretty print
+            dom = minidom.parseString(xml_string)
+            # Use toprettyxml with proper indentation
+            pretty_xml = dom.toprettyxml(indent="  ", encoding=None)
+            # Remove extra blank lines and XML declaration
+            lines = [line for line in pretty_xml.split('\n') if line.strip()]
+            # Remove XML declaration line if present
+            if lines and lines[0].startswith('<?xml'):
+                lines = lines[1:]
+            return '\n'.join(lines)
+        except Exception as e:
+            # Fallback to lxml if minidom fails
+            return etree.tostring(element, pretty_print=True, encoding="unicode")
+
     def egress(self, envelope, http_headers, operation, binding_options):
         """Called before sending the SOAP request"""
-        # Serialize XML
-        self.last_sent_xml = etree.tostring(
-            envelope, pretty_print=self.pretty_print, encoding="unicode"
-        )
+        # Serialize XML with proper pretty printing
+        if self.pretty_print:
+            self.last_sent_xml = self._format_xml(envelope)
+        else:
+            self.last_sent_xml = etree.tostring(
+                envelope, pretty_print=False, encoding="unicode"
+            )
+        
         self.last_operation = operation.name
 
         # Store in history
@@ -57,10 +89,13 @@ class XMLCapturePlugin(Plugin):
 
     def ingress(self, envelope, http_headers, operation):
         """Called after receiving the SOAP response"""
-        # Serialize XML
-        self.last_received_xml = etree.tostring(
-            envelope, pretty_print=self.pretty_print, encoding="unicode"
-        )
+        # Serialize XML with proper pretty printing
+        if self.pretty_print:
+            self.last_received_xml = self._format_xml(envelope)
+        else:
+            self.last_received_xml = etree.tostring(
+                envelope, pretty_print=False, encoding="unicode"
+            )
 
         # Store in history
         self.history.append(
