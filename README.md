@@ -113,7 +113,9 @@ Explore more advanced usage and service-specific operations in the [`examples/`]
 
 The `ONVIFClient` class provides various configuration options to customize the connection behavior, caching strategy, security settings, and debugging capabilities. Below is a detailed description of all available parameters:
 
-### Basic Parameters
+
+<details>
+<summary><b>Basic Parameters</b></summary>
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
@@ -122,7 +124,10 @@ The `ONVIFClient` class provides various configuration options to customize the 
 | `username` | `str` | ✅ Yes | - | Username for device authentication (use digest authentication) |
 | `password` | `str` | ✅ Yes | - | Password for device authentication |
 
-### Connection Parameters
+</details>
+
+<details>
+<summary><b>Connection Parameters</b></summary>
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
@@ -130,33 +135,45 @@ The `ONVIFClient` class provides various configuration options to customize the 
 | `use_https` | `bool` | ❌ No | `False` | Use HTTPS instead of HTTP for secure communication |
 | `verify_ssl` | `bool` | ❌ No | `True` | Verify SSL certificates when using HTTPS (set to `False` for self-signed certificates) |
 
-### Caching Parameters
+</details>
+
+<details>
+<summary><b>Caching Parameters</b></summary>
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
 | `cache` | `CacheMode` | ❌ No | `CacheMode.ALL` | WSDL caching strategy (see [Cache Modes](#cache-modes) below) |
 
-### Feature Parameters
+</details>
+
+<details>
+<summary><b>Feature Parameters</b></summary>
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better xsd:any field parsing and automatic flattening |
+| `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better `xsd:any` field parsing and automatic flattening |
 | `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses |
 
-### Cache Modes
+</details>
+
+<details>
+<summary><b>Cache Modes</b></summary> 
 
 The library provides four caching strategies via the `CacheMode` enum:
 
 | Mode | Description | Best For | Startup Speed | Disk Usage | Memory Usage |
 |------|-------------|----------|---------------|------------|--------------|
-| `CacheMode.ALL` | In-memory + disk cache (SQLite) | Production servers, multi-device apps | ⚡⚡⚡ Fast | 💾 High | 🧠 High |
-| `CacheMode.DB` | Disk cache only (SQLite) | Batch jobs, CLI tools | ⚡⚡ Medium | 💾 Medium | 🧠 Low |
-| `CacheMode.MEM` | In-memory cache only | Short-lived scripts, demos | ⚡⚡ Medium | 💾 None | 🧠 Medium |
-| `CacheMode.NONE` | No caching | Testing, debugging | ⚡ Slow | 💾 None | 🧠 Low |
+| `CacheMode.ALL` | In-memory + disk cache (SQLite) | Production servers, multi-device apps | Fast | High | High |
+| `CacheMode.DB` | Disk cache only (SQLite) | Batch jobs, CLI tools | Medium | Medium | Low |
+| `CacheMode.MEM` | In-memory cache only | Short-lived scripts, demos | Medium | None | Medium |
+| `CacheMode.NONE` | No caching | Testing, debugging | Slow | None | Low |
 
 **Recommendation:** Use `CacheMode.ALL` (default) for production applications to maximize performance.
 
-### Usage Examples
+</details>
+
+<details>
+<summary><b>Usage Examples</b></summary>
 
 **Basic Connection:**
 ```python
@@ -267,8 +284,11 @@ if client.xml_plugin:
 > - `save_to_file(request_file, response_file)` - Save XML to files
 > - `clear_history()` - Clear captured history
 
+</details>
 
-**Production Configuration:**
+<details>
+<summary><b>Production Configuration</b></summary>
+
 ```python
 from onvif import ONVIFClient, CacheMode
 
@@ -286,6 +306,7 @@ client = ONVIFClient(
     capture_xml=False           # Disable debug mode (default)
 )
 ```
+</details>
 
 ### Notes
 

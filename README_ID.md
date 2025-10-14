@@ -113,7 +113,8 @@ Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`
 
 Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan perilaku koneksi, strategi caching, pengaturan keamanan, dan kemampuan debugging. Berikut adalah deskripsi detail dari semua parameter yang tersedia:
 
-### Parameter Dasar
+<details>
+<summary><b>Parameter Dasar</b></summary>
 
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 |-----------|------|-------|---------|-----------|
@@ -122,7 +123,10 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 | `username` | `str` | ✅ Ya | - | Nama pengguna untuk autentikasi perangkat (menggunakan digest authentication) |
 | `password` | `str` | ✅ Ya | - | Kata sandi untuk autentikasi perangkat |
 
-### Parameter Koneksi
+</details>
+
+<details>
+<summary><b>Parameter Koneksi</b></summary>
 
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 |-----------|------|-------|---------|-----------|
@@ -130,20 +134,29 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 | `use_https` | `bool` | ❌ Tidak | `False` | Gunakan HTTPS sebagai pengganti HTTP untuk komunikasi aman |
 | `verify_ssl` | `bool` | ❌ Tidak | `True` | Verifikasi sertifikat SSL saat menggunakan HTTPS (set ke `False` untuk sertifikat self-signed) |
 
-### Parameter Caching
+</details>
+
+<details>
+<summary><b>Parameter Caching</b></summary>
 
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 |-----------|------|-------|---------|-----------|
 | `cache` | `CacheMode` | ❌ Tidak | `CacheMode.ALL` | Strategi caching WSDL (lihat [Mode Cache](#mode-cache) di bawah) |
 
-### Parameter Fitur
+</details>
+
+<details>
+<summary><b>Parameter Fitur</b></summary>
 
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 |-----------|------|-------|---------|-----------|
 | `apply_patch` | `bool` | ❌ Tidak | `True` | Aktifkan patching zeep untuk parsing field xsd:any yang lebih baik dan flattening otomatis |
 | `capture_xml` | `bool` | ❌ Tidak | `False` | Aktifkan plugin XML capture untuk debugging permintaan/respons SOAP |
 
-### Mode Cache
+</details>
+
+<details>
+<summary><b>Mode Cache</b></summary>
 
 Pustaka menyediakan empat strategi caching melalui enum `CacheMode`:
 
@@ -156,7 +169,10 @@ Pustaka menyediakan empat strategi caching melalui enum `CacheMode`:
 
 **Rekomendasi:** Gunakan `CacheMode.ALL` (default) untuk aplikasi produksi guna memaksimalkan performa.
 
-### Contoh Penggunaan
+</details>
+
+<details>
+<summary><b>Contoh Penggunaan</b></summary> 
 
 **Koneksi Dasar:**
 ```python
@@ -267,8 +283,11 @@ if client.xml_plugin:
 > - `save_to_file(request_file, response_file)` - Simpan XML ke file
 > - `clear_history()` - Bersihkan riwayat yang ditangkap
 
+</details>
 
-**Konfigurasi Produksi:**
+<details>
+<summary><b>Konfigurasi Produksi</b></summary> 
+
 ```python
 from onvif import ONVIFClient, CacheMode
 
@@ -286,6 +305,7 @@ client = ONVIFClient(
     capture_xml=False           # Nonaktifkan mode debug (default)
 )
 ```
+</details>
 
 ### Catatan
 
