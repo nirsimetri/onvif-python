@@ -1,3 +1,5 @@
+# onvif/services/__init__.py
+
 from .devicemgmt import Device
 from .events.events import Events
 from .events.pullpoint import PullPoint
