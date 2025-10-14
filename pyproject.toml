@@ -66,8 +66,5 @@ extend-exclude = '''
 '''
 
 [project.urls]
-Homepage = "https://github.com/nirsimetri/onvif-python"
-Issues = "https://github.com/nirsimetri/onvif-python/issues"
 Documentation = "https://deepwiki.com/nirsimetri/onvif-python"
-Repository = "https://github.com/nirsimetri/onvif-python.git"
 Changelog = "https://github.com/nirsimetri/onvif-python/releases"
