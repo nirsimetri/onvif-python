@@ -314,13 +314,29 @@ class ZeepPatcher:
                             }
                             child_result[child_qname.localname] = attr_dict
                         elif list(child):
-                            # Has nested children
-                            nested = {
-                                QName(sub.tag).localname: ZeepPatcher.parse_text_value(
-                                    sub.text
-                                )
-                                for sub in child
-                            }
+                            # Has nested children - parse them recursively
+                            nested = {}
+                            for sub in child:
+                                sub_qname = QName(sub.tag)
+                                sub_name = sub_qname.localname
+                                
+                                # Check if sub element has attributes
+                                if sub.attrib:
+                                    # Element with attributes (like Translate x=".." y="..")
+                                    nested[sub_name] = {
+                                        k: ZeepPatcher.parse_text_value(v)
+                                        for k, v in sub.attrib.items()
+                                    }
+                                elif list(sub):
+                                    # Sub element has children - recurse deeper
+                                    nested[sub_name] = {
+                                        QName(subsub.tag).localname: ZeepPatcher.parse_text_value(subsub.text)
+                                        for subsub in sub
+                                    }
+                                else:
+                                    # Only has text content
+                                    nested[sub_name] = ZeepPatcher.parse_text_value(sub.text)
+                            
                             child_result[child_qname.localname] = nested
                         else:
                             # Only has text content
