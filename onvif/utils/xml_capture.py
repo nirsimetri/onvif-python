@@ -39,10 +39,10 @@ class XMLCapturePlugin(Plugin):
     def _format_xml(self, element):
         """
         Format XML element with proper indentation using minidom.
-        
+
         Args:
             element: lxml Element to format
-            
+
         Returns:
             str: Pretty-printed XML string
         """
@@ -54,11 +54,11 @@ class XMLCapturePlugin(Plugin):
             # Use toprettyxml with proper indentation
             pretty_xml = dom.toprettyxml(indent="  ", encoding=None)
             # Remove extra blank lines and XML declaration
-            lines = [line for line in pretty_xml.split('\n') if line.strip()]
+            lines = [line for line in pretty_xml.split("\n") if line.strip()]
             # Remove XML declaration line if present
-            if lines and lines[0].startswith('<?xml'):
+            if lines and lines[0].startswith("<?xml"):
                 lines = lines[1:]
-            return '\n'.join(lines)
+            return "\n".join(lines)
         except Exception as e:
             # Fallback to lxml if minidom fails
             return etree.tostring(element, pretty_print=True, encoding="unicode")
@@ -72,7 +72,7 @@ class XMLCapturePlugin(Plugin):
             self.last_sent_xml = etree.tostring(
                 envelope, pretty_print=False, encoding="unicode"
             )
-        
+
         self.last_operation = operation.name
 
         # Store in history

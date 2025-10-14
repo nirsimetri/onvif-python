@@ -56,6 +56,15 @@ exclude = ["examples*", "tests*"]
 [tool.setuptools.package-data]
 onvif = ["wsdl/*"]
 
+[tool.black]
+line-length = 88
+target-version = ['py39']
+extend-exclude = '''
+/(
+    raw
+)/
+'''
+
 [project.urls]
 Homepage = "https://github.com/nirsimetri/onvif-python"
 Issues = "https://github.com/nirsimetri/onvif-python/issues"
