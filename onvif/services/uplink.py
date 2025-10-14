@@ -30,4 +30,4 @@ class Uplink:
         return self.operator.call("SetUplink", Configuration=Configuration)
 
     def DeleteUplink(self, RemoteAddress):
-        return self.operator.call("SetUplink", RemoteAddress=RemoteAddress)
+        return self.operator.call("DeleteUplink", RemoteAddress=RemoteAddress)
