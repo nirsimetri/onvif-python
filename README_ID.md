@@ -162,10 +162,10 @@ Pustaka menyediakan empat strategi caching melalui enum `CacheMode`:
 
 | Mode | Deskripsi | Cocok Untuk | Kecepatan Startup | Penggunaan Disk | Penggunaan Memori |
 |------|-----------|-------------|-------------------|-----------------|-------------------|
-| `CacheMode.ALL` | Cache in-memory + disk (SQLite) | Server produksi, aplikasi multi-device | ⚡⚡⚡ Cepat | 💾 Tinggi | 🧠 Tinggi |
-| `CacheMode.DB` | Cache disk saja (SQLite) | Batch jobs, CLI tools | ⚡⚡ Sedang | 💾 Sedang | 🧠 Rendah |
-| `CacheMode.MEM` | Cache in-memory saja | Script singkat, demo | ⚡⚡ Sedang | 💾 Tidak ada | 🧠 Sedang |
-| `CacheMode.NONE` | Tanpa caching | Testing, debugging | ⚡ Lambat | 💾 Tidak ada | 🧠 Rendah |
+| `CacheMode.ALL` | Cache in-memory + disk (SQLite) | Server produksi, aplikasi multi-device | Cepat | Tinggi | Tinggi |
+| `CacheMode.DB` | Cache disk saja (SQLite) | Batch jobs, CLI tools | Sedang | Sedang | Rendah |
+| `CacheMode.MEM` | Cache in-memory saja | Script singkat, demo | Sedang | Tidak ada | Sedang |
+| `CacheMode.NONE` | Tanpa caching | Testing, debugging | Lambat | Tidak ada | Rendah |
 
 **Rekomendasi:** Gunakan `CacheMode.ALL` (default) untuk aplikasi produksi guna memaksimalkan performa.
 
