@@ -9,10 +9,12 @@
         'ElementItem': [
             {
                 '_value_1': [
-                    <Element {http://www.onvif.org/ver10/schema}CellLayout at 0x2201ba8b840>
+                    <Element {http://www.onvif.org/ver10/schema}CellLayout at 0x1fd85ddbac0>
                 ],
                 'Name': 'Layout',
                 'CellLayout': {
+                    'Columns': 22,
+                    'Rows': 18,
                     'Transformation': {
                         'Translate': {
                             'x': -1.0,
