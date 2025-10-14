@@ -117,7 +117,7 @@ class ONVIFOperator:
             raise ValueError("Bindings must be set according to the WSDL service")
 
         self.service = self.client.create_service(binding, self.address)
-        logging.debug(f"ONVIFCore initialized {binding} at {self.address}")
+        #logging.debug(f"ONVIFOperator initialized {binding} at {self.address}")
 
     def call(self, method: str, *args, **kwargs):
         try:
