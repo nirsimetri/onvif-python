@@ -57,6 +57,7 @@ class ONVIFClient:
         verify_ssl=True,
         apply_patch=True,
         capture_xml=False,
+        wsdl_dir=None,
     ):
         # Apply or remove zeep patch based on user preference
         if apply_patch:
@@ -68,6 +69,11 @@ class ONVIFClient:
         self.xml_plugin = None
         if capture_xml:
             self.xml_plugin = XMLCapturePlugin()
+
+        # Store custom WSDL directory if provided
+        self.wsdl_dir = wsdl_dir
+        if wsdl_dir:
+            ONVIFWSDL.set_custom_wsdl_dir(wsdl_dir)
 
         # Pass to ONVIFOperator
         self.common_args = {
