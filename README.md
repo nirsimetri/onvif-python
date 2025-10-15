@@ -276,6 +276,17 @@ if client.xml_plugin:
     client.xml_plugin.clear_history()
 ```
 
+> **XML Capture Plugin Methods:**
+> - `last_sent_xml` - Get the last SOAP request XML
+> - `last_received_xml` - Get the last SOAP response XML
+> - `last_operation` - Get the name of the last operation
+> - `history` - List of all captured requests/responses with metadata
+> - `get_last_request()` - Method to get last request
+> - `get_last_response()` - Method to get last response
+> - `get_history()` - Method to get all history
+> - `save_to_file(request_file, response_file)` - Save XML to files
+> - `clear_history()` - Clear captured history
+
 **Custom WSDL Directory:**
 ```python
 from onvif import ONVIFClient
@@ -302,17 +313,6 @@ ptz = client.ptz()
 # ├── imaging.wsdl
 # └── ... (other WSDL files)
 ```
-
-> **XML Capture Plugin Methods:**
-> - `last_sent_xml` - Get the last SOAP request XML
-> - `last_received_xml` - Get the last SOAP response XML
-> - `last_operation` - Get the name of the last operation
-> - `history` - List of all captured requests/responses with metadata
-> - `get_last_request()` - Method to get last request
-> - `get_last_response()` - Method to get last response
-> - `get_history()` - Method to get all history
-> - `save_to_file(request_file, response_file)` - Save XML to files
-> - `clear_history()` - Clear captured history
 
 </details>
 

@@ -275,6 +275,17 @@ if client.xml_plugin:
     client.xml_plugin.clear_history()
 ```
 
+> **Metode XML Capture Plugin:**
+> - `last_sent_xml` - Dapatkan XML permintaan SOAP terakhir
+> - `last_received_xml` - Dapatkan XML respons SOAP terakhir
+> - `last_operation` - Dapatkan nama operasi terakhir
+> - `history` - Daftar semua permintaan/respons yang ditangkap dengan metadata
+> - `get_last_request()` - Metode untuk mendapatkan permintaan terakhir
+> - `get_last_response()` - Metode untuk mendapatkan respons terakhir
+> - `get_history()` - Metode untuk mendapatkan semua riwayat
+> - `save_to_file(request_file, response_file)` - Simpan XML ke file
+> - `clear_history()` - Bersihkan riwayat yang ditangkap
+
 **Direktori WSDL Kustom:**
 ```python
 from onvif import ONVIFClient
@@ -301,17 +312,6 @@ ptz = client.ptz()
 # ├── imaging.wsdl
 # └── ... (file WSDL lainnya)
 ```
-
-> **Metode XML Capture Plugin:**
-> - `last_sent_xml` - Dapatkan XML permintaan SOAP terakhir
-> - `last_received_xml` - Dapatkan XML respons SOAP terakhir
-> - `last_operation` - Dapatkan nama operasi terakhir
-> - `history` - Daftar semua permintaan/respons yang ditangkap dengan metadata
-> - `get_last_request()` - Metode untuk mendapatkan permintaan terakhir
-> - `get_last_response()` - Metode untuk mendapatkan respons terakhir
-> - `get_history()` - Metode untuk mendapatkan semua riwayat
-> - `save_to_file(request_file, response_file)` - Simpan XML ke file
-> - `clear_history()` - Bersihkan riwayat yang ditangkap
 
 </details>
 
