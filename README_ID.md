@@ -161,9 +161,9 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 |-----------|------|-------|---------|-----------|
-| `apply_patch` | `bool` | ❌ Tidak | `True` | Aktifkan patching zeep untuk parsing field xsd:any yang lebih baik dan flattening otomatis, diterapkan pada (>= [`v0.0.4`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.4)) |
-| `capture_xml` | `bool` | ❌ Tidak | `False` | Aktifkan plugin XML capture untuk debugging permintaan/respons SOAP, diterapkan pada (>= [`v0.0.6`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.6)) |
-| `wsdl_dir`    | `str`  | ❌ Tidak | `None` | Path direktori WSDL kustom untuk menggunakan file WSDL eksternal sebagai pengganti yang built-in (mis., `/path/to/custom/wsdl`), diterapkan pada (>= [`v0.1.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.0)) |
+| `apply_patch` | `bool` | ❌ Tidak | `True` | Aktifkan patching zeep untuk parsing field xsd:any yang lebih baik dan flattening otomatis, diterapkan pada ([`>=v0.0.4`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.4)) |
+| `capture_xml` | `bool` | ❌ Tidak | `False` | Aktifkan plugin XML capture untuk debugging permintaan/respons SOAP, diterapkan pada ([`>=v0.0.6`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.6)) |
+| `wsdl_dir`    | `str`  | ❌ Tidak | `None` | Path direktori WSDL kustom untuk menggunakan file WSDL eksternal sebagai pengganti yang built-in (mis., `/path/to/custom/wsdl`), diterapkan pada ([`>=v0.1.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.0)) |
 
 </details>
 
