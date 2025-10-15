@@ -28,6 +28,13 @@ Pustaka ini menyederhanakan proses tersebut dengan membungkus komunikasi SOAP ke
 - **Perusahaan** yang membangun platform intelijen video, analitik, atau VMS  
 - **Integrator keamanan** yang membutuhkan interoperabilitas ONVIF yang andal di berbagai perangkat
 
+## Persyaratan
+
+- **Python**: 3.9 atau lebih tinggi
+- **Dependencies**:
+  - [`zeep>=4.3.0`](https://github.com/mvantellingen/python-zeep) - Klien SOAP untuk komunikasi ONVIF
+  - [`requests>=2.32.0`](https://github.com/psf/requests) - Library HTTP untuk permintaan jaringan
+
 ## Instalasi
 
 Dari [PyPI](https://pypi.org/project/onvif-python/) resmi:
