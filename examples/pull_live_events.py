@@ -11,14 +11,19 @@ and continuously pulls live events for 15 minutes, printing event details to the
 import datetime
 import xml.etree.ElementTree as ET
 from zeep.plugins import HistoryPlugin
+import sys, os
+import json
+
+# Make sure local library path is prioritized
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from onvif import ONVIFClient, CacheMode
 
-HOST = "192.168.1.3"
-PORT = 80
+HOST = "cctv.faceplexus.com"
+PORT = 443
 USERNAME = "admin"
 PASSWORD = "admin123"
 
-client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
+client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, use_https=True)
 
 # 1. Create PullPoint Subscription from Events service
 subscription = client.events().CreatePullPointSubscription()

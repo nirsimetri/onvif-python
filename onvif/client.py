@@ -120,9 +120,9 @@ class ONVIFClient:
         # Lazy init for other services
 
         self._events = None
-        self._pullpoint = None
+        self._pullpoints = {}  # Dictionary for multiple PullPoint instances
         self._notification = None
-        self._subscription = None
+        self._subscriptions = {}  # Dictionary for multiple Subscription instances
 
         self._imaging = None
 
@@ -292,24 +292,27 @@ class ONVIFClient:
         return self._events
 
     def pullpoint(self, SubscriptionRef):
-        if self._pullpoint is None:
-            xaddr = None
-            try:
-                addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-                if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-                    xaddr = addr_obj["_value_1"]
-                elif hasattr(addr_obj, "_value_1"):
-                    xaddr = addr_obj._value_1
-            except Exception:
-                pass
+        xaddr = None
+        try:
+            addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
+            if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
+                xaddr = addr_obj["_value_1"]
+            elif hasattr(addr_obj, "_value_1"):
+                xaddr = addr_obj._value_1
+            
+            xaddr = self._rewrite_xaddr_if_needed(xaddr)
+        except Exception:
+            pass
 
-            if not xaddr:
-                raise RuntimeError(
-                    "SubscriptionReference.Address missing in subscription response"
-                )
-
-            self._pullpoint = PullPoint(xaddr=xaddr, **self.common_args)
-        return self._pullpoint
+        if not xaddr:
+            raise RuntimeError(
+                "SubscriptionReference.Address missing in subscription response"
+            )
+        
+        if xaddr not in self._pullpoints:
+            self._pullpoints[xaddr] = PullPoint(xaddr=xaddr, **self.common_args)
+        
+        return self._pullpoints[xaddr]
 
     def notification(self):
         if self._notification is None:
@@ -319,24 +322,27 @@ class ONVIFClient:
         return self._notification
 
     def subscription(self, SubscriptionRef):
-        if self._subscription is None:
-            xaddr = None
-            try:
-                addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-                if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-                    xaddr = addr_obj["_value_1"]
-                elif hasattr(addr_obj, "_value_1"):
-                    xaddr = addr_obj._value_1
-            except Exception:
-                pass
+        xaddr = None
+        try:
+            addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
+            if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
+                xaddr = addr_obj["_value_1"]
+            elif hasattr(addr_obj, "_value_1"):
+                xaddr = addr_obj._value_1
+            
+            xaddr = self._rewrite_xaddr_if_needed(xaddr)
+        except Exception:
+            pass
 
-            if not xaddr:
-                raise RuntimeError(
-                    "SubscriptionReference.Address missing in subscription response"
-                )
-
-            self._subscription = Subscription(xaddr=xaddr, **self.common_args)
-        return self._subscription
+        if not xaddr:
+            raise RuntimeError(
+                "SubscriptionReference.Address missing in subscription response"
+            )
+        
+        if xaddr not in self._subscriptions:
+            self._subscriptions[xaddr] = Subscription(xaddr=xaddr, **self.common_args)
+        
+        return self._subscriptions[xaddr]
 
     # Imaging
 
@@ -572,26 +578,31 @@ class ONVIFClient:
 
     def jwt(self, xaddr):
         if self._jwt is None:
+            xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._jwt = JWT(xaddr=xaddr, **self.common_args)
         return self._jwt
 
     def keystore(self, xaddr):
         if self._keystore is None:
+            xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._keystore = Keystore(xaddr=xaddr, **self.common_args)
         return self._keystore
 
     def tlsserver(self, xaddr):
         if self._tlsserver is None:
+            xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._tlsserver = TLSServer(xaddr=xaddr, **self.common_args)
         return self._tlsserver
 
     def dot1x(self, xaddr):
         if self._dot1x is None:
+            xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._dot1x = Dot1X(xaddr=xaddr, **self.common_args)
         return self._dot1x
 
     def authorizationserver(self, xaddr):
         if self._authorizationserver is None:
+            xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._authorizationserver = AuthorizationServer(
                 xaddr=xaddr, **self.common_args
             )
@@ -599,5 +610,6 @@ class ONVIFClient:
 
     def mediasigning(self, xaddr):
         if self._mediasigning is None:
+            xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._mediasigning = MediaSigning(xaddr=xaddr, **self.common_args)
         return self._mediasigning
