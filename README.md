@@ -313,7 +313,7 @@ client = ONVIFClient(
 ## Service Discovery: Understanding Device Capabilities
 
 > [!WARNING]
-> Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device. This library automatically uses `GetServices` during initialization to discover service endpoints, but you can also query services manually for detailed information including capabilities.
+> Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device. This library automatically performs comprehensive service discovery during initialization using a robust fallback mechanism.
 
 **Why discover device services?**
 
@@ -324,50 +324,84 @@ client = ONVIFClient(
 
 **How service discovery works in this library:**
 
-The `ONVIFClient` automatically calls `GetServices` during initialization to build a service map. This map is used internally to resolve service endpoints:
+The `ONVIFClient` uses a **3-tier discovery approach** to maximize device compatibility:
+
+1. **GetServices (Preferred)** - Tries `GetServices` first for detailed service information
+2. **GetCapabilities (Fallback)** - Falls back to `GetCapabilities` if `GetServices` is not supported
+3. **Default URLs (Final Fallback)** - Uses standard ONVIF URLs as last resort
 
 ```python
 from onvif import ONVIFClient
 
 client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
 
-# Access the discovered services
-print(client.services)
-# Example output: [{'Namespace': 'http://www.onvif.org/ver10/device/wsdl', 'XAddr': '...', 'Version': {...}}, ...]
-
-# Check the service map (namespace -> XAddr mapping)
-print(client._service_map)
-# Example output: {'http://www.onvif.org/ver10/media/wsdl': 'http://192.168.1.17:8000/onvif/Media', ...}
+# Check what discovery method was used
+if client.services:
+    print("Service discovery: GetServices (preferred)")
+    print("Discovered services:", len(client.services))
+    print("Service map:", client._service_map)
+elif client.capabilities:
+    print("Service discovery: GetCapabilities (fallback)")
+    print("Available capabilities:", client.capabilities)
+else:
+    print("Service discovery: Using default URLs")
 ```
 
-**Get detailed service information with capabilities:**
+**Why this approach?**
 
-If you need detailed capability information for each service, call `GetServices` with `IncludeCapability=True`:
+- **GetServices** provides the most accurate and detailed service information, but it's **optional** in the ONVIF specification
+- **GetCapabilities** is **mandatory** for all ONVIF-compliant devices, ensuring broader compatibility
+- **Default URLs** guarantee basic connectivity even with non-compliant devices
+
+**Get detailed service information:**
+
+If you need comprehensive service details, you can manually call `GetServices` with capabilities:
 
 ```python
 device = client.devicemgmt()
-services = device.GetServices(IncludeCapability=True)
 
-for service in services:
-    print(f"Service: {service.Namespace}")
-    print(f"Endpoint: {service.XAddr}")
-    print(f"Version: {service.Version.Major}.{service.Version.Minor}")
-    if hasattr(service, 'Capabilities') and service.Capabilities:
-        print(f"Capabilities: {service.Capabilities}")
+try:
+    # Try to get detailed service information
+    services = device.GetServices(IncludeCapability=True)
+    for service in services:
+        print(f"Service: {service.Namespace}")
+        print(f"XAddr: {service.XAddr}")
+        if hasattr(service, 'Capabilities'):
+            print(f"Capabilities: {service.Capabilities}")
+except Exception:
+    # Fallback to GetCapabilities for legacy devices
+    capabilities = device.GetCapabilities()
+    print("Capabilities:", capabilities)
 ```
 
-**Alternative: Use GetCapabilities for legacy compatibility:**
+**Access capabilities information:**
 
-For backward compatibility or when you need a quick overview of major service categories, you can still use `GetCapabilities`:
+When using `GetCapabilities` fallback, you can access capability information:
 
 ```python
-capabilities = client.devicemgmt().GetCapabilities()
-print(capabilities)
-# Example output: {'Media': {'XAddr': '...', ...}, 'PTZ': {...}, 'Events': {...}, ...}
+device = client.devicemgmt()
+
+try:
+    # Get capabilities information from device
+    capabilities = device.GetCapabilities()
+    
+    # Main services (always available)
+    print("Media XAddr:", getattr(capabilities.Media, 'XAddr', 'Not available'))
+    print("PTZ XAddr:", getattr(capabilities.PTZ, 'XAddr', 'Not available'))
+    
+    # Extension services (device-dependent)
+    ext = getattr(capabilities, 'Extension', None)
+    if ext:
+        print("DeviceIO XAddr:", getattr(ext.DeviceIO, 'XAddr', 'Not available'))
+        print("Recording XAddr:", getattr(ext.Recording, 'XAddr', 'Not available'))
+        print("Search XAddr:", getattr(ext.Search, 'XAddr', 'Not available'))
+        print("Replay XAddr:", getattr(ext.Replay, 'XAddr', 'Not available'))
+except Exception as e:
+    print(f"Error getting capabilities: {e}")
 ```
 
 > [!TIP]
-> The library handles service discovery automatically, so you typically don't need to call `GetServices` manually unless you need detailed capability information or want to refresh the service list after device configuration changes.
+> The library handles service discovery automatically with intelligent fallback. You typically don't need to call discovery methods manually unless you need detailed capability information or want to refresh the service list after device configuration changes.
 
 ## Tested Devices
 

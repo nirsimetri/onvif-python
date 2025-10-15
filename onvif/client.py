@@ -58,8 +58,6 @@ class ONVIFClient:
         apply_patch=True,
         capture_xml=False,
     ):
-        self.apply_patch = apply_patch
-
         # Apply or remove zeep patch based on user preference
         if apply_patch:
             ZeepPatcher.apply_patch()
@@ -81,22 +79,37 @@ class ONVIFClient:
             "cache": cache,
             "use_https": use_https,
             "verify_ssl": verify_ssl,
-            "apply_flatten": apply_patch,
+            "apply_patch": apply_patch,
             "plugins": [self.xml_plugin] if self.xml_plugin else None,
         }
 
         # Device Management (Core) service is always available
         self._devicemgmt = Device(**self.common_args)
 
-        # Retrieve device services once and create namespace -> XAddr mapping
-        self.services = self._devicemgmt.GetServices(IncludeCapability=False)
+        # Try to retrieve device services and create namespace -> XAddr mapping
+        self.services = None
         self._service_map = {}
-        for service in self.services:
-            namespace = getattr(service, "Namespace", None)
-            xaddr = getattr(service, "XAddr", None)
+        
+        # Temporary variable to hold capabilities
+        self.capabilities = None
 
-            if namespace and xaddr:
-                self._service_map[namespace] = xaddr
+        try:
+            # Try GetServices first (preferred method)
+            self.services = self._devicemgmt.GetServices(IncludeCapability=False)
+            for service in self.services:
+                namespace = getattr(service, "Namespace", None)
+                xaddr = getattr(service, "XAddr", None)
+
+                if namespace and xaddr:
+                    self._service_map[namespace] = xaddr
+
+        except Exception:
+            # Fallback to GetCapabilities if GetServices is not supported on device
+            try:
+                self.capabilities = self._devicemgmt.GetCapabilities(Category="All")
+            except Exception:
+                # If both fail, we'll use default URLs
+                pass
 
         # Lazy init for other services
 
@@ -158,48 +171,105 @@ class ONVIFClient:
 
     def _get_xaddr(self, service_name: str, service_path: str):
         """
-        Resolve XAddr from GetServices based on namespace mapping.
-        Falls back to default URL if service not found.
+        Resolve XAddr for ONVIF services using a comprehensive 3-tier discovery approach.
+
+        1. GetServices: Try to resolve from GetServices response using namespace mapping
+        2. GetCapabilities: Fall back to GetCapabilities response with multiple lookup strategies:
+           - Direct capabilities.service_path
+           - Extension capabilities.Extension.service_path
+           - Nested Extension capabilities.Extension.Extension.service_path
+        3. Default URL: Generate default ONVIF URL as final fallback
+
+        Args:
+            service_name: Internal service name (e.g., 'imaging', 'media', 'deviceio')
+            service_path: ONVIF service path (e.g., 'Imaging', 'Media', 'DeviceIO')
+
+        Returns:
+            str: The resolved XAddr URL for the service
+
+        Notes:
+            - GetServices is the preferred method as it provides the most accurate service endpoints.
+              But not all devices implement it because it's optional in the ONVIF spec.
+            - GetCapabilities lookup tries multiple strategies to maximize chances of finding the XAddr.
+              And GetCapabilities is mandatory for ONVIF devices, so it's more widely supported.
+            - Fallback to default URL ensures basic connectivity even if the device lacks proper service discovery.
         """
-        # Get the namespace for this service from WSDL_MAP
-        try:
-            # Try to get the service definition from WSDL_MAP
-            # Most services use ver10, some use ver20
-            wsdl_def = None
 
-            # Try ver10 first, then ver20
-            if service_name in ONVIFWSDL.WSDL_MAP:
-                if "ver10" in ONVIFWSDL.WSDL_MAP[service_name]:
-                    wsdl_def = ONVIFWSDL.WSDL_MAP[service_name]["ver10"]
-                elif "ver20" in ONVIFWSDL.WSDL_MAP[service_name]:
-                    wsdl_def = ONVIFWSDL.WSDL_MAP[service_name]["ver20"]
+        # First try to get from GetServices mapping
+        if self.services:
+            # Get the namespace for this service from WSDL_MAP
+            try:
+                # Try to get the service definition from WSDL_MAP
+                # Most services use ver10, some use ver20
+                wsdl_def = None
 
-            if wsdl_def:
-                namespace = wsdl_def["namespace"]
-                xaddr = self._service_map.get(namespace)
+                # Try ver10 first, then ver20
+                if service_name in ONVIFWSDL.WSDL_MAP:
+                    if "ver10" in ONVIFWSDL.WSDL_MAP[service_name]:
+                        wsdl_def = ONVIFWSDL.WSDL_MAP[service_name]["ver10"]
+                    elif "ver20" in ONVIFWSDL.WSDL_MAP[service_name]:
+                        wsdl_def = ONVIFWSDL.WSDL_MAP[service_name]["ver20"]
+
+                if wsdl_def:
+                    namespace = wsdl_def["namespace"]
+                    xaddr = self._service_map.get(namespace)
+
+                    if xaddr:
+                        # Rewrite host/port if needed
+                        rewritten = self._rewrite_xaddr_if_needed(xaddr)
+                        return rewritten
+            except Exception:
+                pass
+
+        # If not found in service map and we have capabilities, try to get it dynamically from GetCapabilities
+        if self.capabilities:
+            try:
+                svc = getattr(self.capabilities, service_path, None)
+                # Step 1: check direct attribute capabilities.service_path (e.g. capabilities.Media)
+                if svc and hasattr(svc, "XAddr"):
+                    xaddr = svc.XAddr
+                else:
+                    # Step 2: try capabilities.Extension.service_path (e.g. capabilities.Extension.DeviceIO)
+                    ext = getattr(self.capabilities, "Extension", None)
+                    if ext and hasattr(ext, service_path):
+                        svc = getattr(ext, service_path, None)
+                        xaddr = getattr(svc, "XAddr", None) if svc else None
+                    else:
+                        # Step 3: try capabilities.Extension.Extension.service_path (e.g. capabilities.Extension.Extension.Provisioning)
+                        ext_ext = getattr(ext, "Extension", None)
+                        if ext_ext and hasattr(ext_ext, service_path):
+                            svc = getattr(ext_ext, service_path, None)
+                            xaddr = getattr(svc, "XAddr", None) if svc else None
 
                 if xaddr:
                     # Rewrite host/port if needed
-                    parsed = urlparse(xaddr)
-                    device_host = parsed.hostname
-                    device_port = parsed.port
-                    connect_host = self.common_args["host"]
-                    connect_port = self.common_args["port"]
-
-                    if (device_host != connect_host) or (device_port != connect_port):
-                        protocol = "https" if self.common_args["use_https"] else "http"
-                        new_netloc = f"{connect_host}:{connect_port}"
-                        rewritten = urlunparse(
-                            (protocol, new_netloc, parsed.path, "", "", "")
-                        )
-                        return rewritten
-                    return xaddr
-        except Exception:
-            pass
+                    rewritten = self._rewrite_xaddr_if_needed(xaddr)
+                    return rewritten
+            except Exception:
+                pass
 
         # Fallback to default URL
         protocol = "https" if self.common_args["use_https"] else "http"
         return f"{protocol}://{self.common_args['host']}:{self.common_args['port']}/onvif/{service_path}"
+
+    def _rewrite_xaddr_if_needed(self, xaddr: str):
+        """
+        Rewrite XAddr to use client's host/port if different from device's.
+        """
+        try:
+            parsed = urlparse(xaddr)
+            device_host = parsed.hostname
+            device_port = parsed.port
+            connect_host = self.common_args["host"]
+            connect_port = self.common_args["port"]
+
+            if (device_host != connect_host) or (device_port != connect_port):
+                protocol = "https" if self.common_args["use_https"] else "http"
+                new_netloc = f"{connect_host}:{connect_port}"
+                return urlunparse((protocol, new_netloc, parsed.path, "", "", ""))
+            return xaddr
+        except Exception:
+            return xaddr
 
     # Core (Device Management)
 
@@ -459,7 +529,7 @@ class ONVIFClient:
     def search(self):
         if self._search is None:
             self._search = Search(
-                xaddr=self._get_xaddr("search", "SearchRecording"),
+                xaddr=self._get_xaddr("search", "Search"),
                 **self.common_args,
             )
         return self._search

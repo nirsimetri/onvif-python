@@ -312,7 +312,7 @@ client = ONVIFClient(
 ## Penemuan Layanan: Memahami Kapabilitas Perangkat
 
 > [!WARNING]
-> Sebelum melakukan operasi apa pun pada perangkat ONVIF, sangat disarankan untuk menemukan layanan mana yang tersedia dan didukung oleh perangkat. Pustaka ini secara otomatis menggunakan `GetServices` selama inisialisasi untuk menemukan endpoint layanan, tetapi Anda juga dapat melakukan query layanan secara manual untuk informasi detail termasuk kapabilitas.
+> Sebelum melakukan operasi apa pun pada perangkat ONVIF, sangat disarankan untuk menemukan layanan mana yang tersedia dan didukung oleh perangkat. Pustaka ini secara otomatis melakukan penemuan layanan yang komprehensif selama inisialisasi menggunakan mekanisme fallback yang kuat.
 
 **Mengapa menemukan layanan perangkat?**
 
@@ -323,50 +323,84 @@ client = ONVIFClient(
 
 **Cara kerja penemuan layanan di pustaka ini:**
 
-`ONVIFClient` secara otomatis memanggil `GetServices` selama inisialisasi untuk membangun peta layanan. Peta ini digunakan secara internal untuk menyelesaikan endpoint layanan:
+`ONVIFClient` menggunakan **pendekatan penemuan 3-tingkat** untuk memaksimalkan kompatibilitas perangkat:
+
+1. **GetServices (Preferensi)** - Mencoba `GetServices` terlebih dahulu untuk informasi layanan yang detail
+2. **GetCapabilities (Fallback)** - Menggunakan `GetCapabilities` jika `GetServices` tidak didukung
+3. **URL Default (Fallback Akhir)** - Menggunakan URL ONVIF standar sebagai pilihan terakhir
 
 ```python
 from onvif import ONVIFClient
 
 client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
 
-# Akses layanan yang ditemukan
-print(client.services)
-# Contoh: [{'Namespace': 'http://www.onvif.org/ver10/device/wsdl', 'XAddr': '...', 'Version': {...}}, ...]
-
-# Periksa peta layanan (namespace -> pemetaan XAddr)
-print(client._service_map)
-# Contoh: {'http://www.onvif.org/ver10/media/wsdl': 'http://192.168.1.17:8000/onvif/Media', ...}
+# Periksa metode penemuan mana yang digunakan
+if client.services:
+    print("Penemuan layanan: GetServices (preferensi)")
+    print("Layanan yang ditemukan:", len(client.services))
+    print("Peta layanan:", client._service_map)
+elif client.capabilities:
+    print("Penemuan layanan: GetCapabilities (fallback)")
+    print("Kapabilitas yang tersedia:", client.capabilities)
+else:
+    print("Penemuan layanan: Menggunakan URL default")
 ```
 
-**Dapatkan informasi layanan detail dengan kapabilitas:**
+**Mengapa pendekatan ini?**
 
-Jika Anda memerlukan informasi kapabilitas detail untuk setiap layanan, panggil `GetServices` dengan `IncludeCapability=True`:
+- **GetServices** memberikan informasi layanan yang paling akurat dan detail, tetapi bersifat **opsional** dalam spesifikasi ONVIF
+- **GetCapabilities** bersifat **wajib** untuk semua perangkat yang sesuai dengan ONVIF, memastikan kompatibilitas yang lebih luas
+- **URL Default** menjamin konektivitas dasar bahkan dengan perangkat yang tidak sesuai
+
+**Dapatkan informasi layanan detail:**
+
+Jika Anda memerlukan detail layanan yang komprehensif, Anda dapat memanggil `GetServices` secara manual dengan kapabilitas:
 
 ```python
 device = client.devicemgmt()
-services = device.GetServices(IncludeCapability=True)
 
-for service in services:
-    print(f"Layanan: {service.Namespace}")
-    print(f"Endpoint: {service.XAddr}")
-    print(f"Versi: {service.Version.Major}.{service.Version.Minor}")
-    if hasattr(service, 'Capabilities') and service.Capabilities:
-        print(f"Kapabilitas: {service.Capabilities}")
+try:
+    # Coba dapatkan informasi layanan detail
+    services = device.GetServices(IncludeCapability=True)
+    for service in services:
+        print(f"Layanan: {service.Namespace}")
+        print(f"XAddr: {service.XAddr}")
+        if hasattr(service, 'Capabilities'):
+            print(f"Kapabilitas: {service.Capabilities}")
+except Exception:
+    # Fallback ke GetCapabilities untuk perangkat legacy
+    capabilities = device.GetCapabilities()
+    print("Kapabilitas:", capabilities)
 ```
 
-**Alternatif: Gunakan GetCapabilities untuk kompatibilitas legacy:**
+**Akses informasi kapabilitas:**
 
-Untuk kompatibilitas mundur atau ketika Anda memerlukan gambaran cepat tentang kategori layanan utama, Anda masih dapat menggunakan `GetCapabilities`:
+Saat menggunakan fallback `GetCapabilities`, Anda dapat mengakses informasi kapabilitas:
 
 ```python
-capabilities = client.devicemgmt().GetCapabilities()
-print(capabilities)
-# Contoh: {'Media': {'XAddr': '...', ...}, 'PTZ': {...}, 'Events': {...}, ...}
+device = client.devicemgmt()
+
+try:
+    # Dapatkan informasi kapabilitas dari perangkat
+    capabilities = device.GetCapabilities()
+    
+    # Layanan utama (selalu tersedia)
+    print("Media XAddr:", getattr(capabilities.Media, 'XAddr', 'Tidak tersedia'))
+    print("PTZ XAddr:", getattr(capabilities.PTZ, 'XAddr', 'Tidak tersedia'))
+    
+    # Layanan Extension (tergantung perangkat)
+    ext = getattr(capabilities, 'Extension', None)
+    if ext:
+        print("DeviceIO XAddr:", getattr(ext.DeviceIO, 'XAddr', 'Tidak tersedia'))
+        print("Recording XAddr:", getattr(ext.Recording, 'XAddr', 'Tidak tersedia'))
+        print("Search XAddr:", getattr(ext.Search, 'XAddr', 'Tidak tersedia'))
+        print("Replay XAddr:", getattr(ext.Replay, 'XAddr', 'Tidak tersedia'))
+except Exception as e:
+    print(f"Error mendapatkan kapabilitas: {e}")
 ```
 
 > [!TIP]
-> Pustaka menangani penemuan layanan secara otomatis, jadi Anda biasanya tidak perlu memanggil `GetServices` secara manual kecuali Anda memerlukan informasi kapabilitas detail atau ingin menyegarkan daftar layanan setelah perubahan konfigurasi perangkat.
+> Pustaka menangani penemuan layanan secara otomatis dengan fallback yang cerdas. Anda biasanya tidak perlu memanggil metode penemuan secara manual kecuali Anda memerlukan informasi kapabilitas detail atau ingin menyegarkan daftar layanan setelah perubahan konfigurasi perangkat.
 
 ## Perangkat yang Diuji
 

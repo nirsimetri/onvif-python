@@ -51,7 +51,7 @@ class ONVIFOperator:
         cache_path: str = None,
         use_https: bool = False,
         verify_ssl: bool = True,
-        apply_flatten: bool = True,
+        apply_patch: bool = True,
         plugins: list = None,
     ):
         self.wsdl_path = wsdl_path
@@ -60,7 +60,7 @@ class ONVIFOperator:
         self.username = username
         self.password = password
         self.timeout = timeout
-        self.apply_flatten = apply_flatten
+        self.apply_patch = apply_patch
 
         if xaddr:
             self.address = xaddr
@@ -127,7 +127,7 @@ class ONVIFOperator:
         try:
             result = func(*args, **kwargs)
             # Post-process to flatten xsd:any fields if enabled (> v0.0.4 patch)
-            if self.apply_flatten:
+            if self.apply_patch:
                 return ZeepPatcher.flatten_xsd_any_fields(result)
             return result
         except Fault as e:
