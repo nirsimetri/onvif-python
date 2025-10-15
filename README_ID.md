@@ -55,7 +55,14 @@ Buat instance `ONVIFClient` dengan memberikan alamat IP perangkat Anda, port, na
 ```python
 from onvif import ONVIFClient
 
+# Koneksi dasar
 client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
+
+# Dengan direktori WSDL kustom (opsional)
+client = ONVIFClient(
+    "192.168.1.17", 8000, "admin", "admin123",
+    wsdl_dir="/path/to/custom/wsdl"  # Gunakan direktori WSDL kustom
+)
 ```
 
 **2. Buat Instance Layanan**
@@ -149,6 +156,7 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 |-----------|------|-------|---------|-----------|
 | `apply_patch` | `bool` | ❌ Tidak | `True` | Aktifkan patching zeep untuk parsing field xsd:any yang lebih baik dan flattening otomatis |
 | `capture_xml` | `bool` | ❌ Tidak | `False` | Aktifkan plugin XML capture untuk debugging permintaan/respons SOAP |
+| `wsdl_dir`    | `str`  | ❌ Tidak | `None` | Path direktori WSDL kustom untuk menggunakan file WSDL eksternal sebagai pengganti yang built-in (mis., `/path/to/custom/wsdl`) |
 
 </details>
 
@@ -267,6 +275,33 @@ if client.xml_plugin:
     client.xml_plugin.clear_history()
 ```
 
+**Direktori WSDL Kustom:**
+```python
+from onvif import ONVIFClient
+
+# Gunakan file WSDL kustom sebagai pengganti yang built-in
+client = ONVIFClient(
+    "192.168.1.17", 
+    80, 
+    "admin", 
+    "password",
+    wsdl_dir="/path/to/custom/wsdl"  # Direktori WSDL kustom
+)
+
+# Semua layanan akan otomatis menggunakan file WSDL kustom
+device = client.devicemgmt()
+media = client.media()
+ptz = client.ptz()
+
+# Direktori WSDL kustom harus memiliki struktur flat:
+# /path/to/custom/wsdl/
+# ├── devicemgmt.wsdl
+# ├── media.wsdl
+# ├── ptz.wsdl
+# ├── imaging.wsdl
+# └── ... (file WSDL lainnya)
+```
+
 > **Metode XML Capture Plugin:**
 > - `last_sent_xml` - Dapatkan XML permintaan SOAP terakhir
 > - `last_received_xml` - Dapatkan XML respons SOAP terakhir
@@ -297,7 +332,8 @@ client = ONVIFClient(
     use_https=True,             # Komunikasi aman
     verify_ssl=True,            # Verifikasi sertifikat (default)
     apply_patch=True,           # Enhanced parsing (default)
-    capture_xml=False           # Nonaktifkan mode debug (default)
+    capture_xml=False,          # Nonaktifkan mode debug (default)
+    wsdl_dir=None               # Gunakan WSDL files bawaan (default)
 )
 ```
 </details>
@@ -307,6 +343,7 @@ client = ONVIFClient(
 - **Autentikasi:** Pustaka ini menggunakan autentikasi **WS-UsernameToken with Digest** secara default, yang merupakan standar untuk perangkat ONVIF.
 - **Patching:** `apply_patch=True` (default) mengaktifkan custom zeep patching yang meningkatkan parsing field `xsd:any`. Ini direkomendasikan untuk kompatibilitas yang lebih baik dengan respons ONVIF.
 - **XML Capture:** Hanya gunakan `capture_xml=True` selama development/debugging karena meningkatkan penggunaan memori dan dapat mengekspos data sensitif di log.
+- **WSDL Kustom:** Gunakan parameter `wsdl_dir` untuk menentukan direktori kustom yang berisi file WSDL. Direktori harus memiliki struktur flat dengan file WSDL langsung di root (mis., `/path/to/custom/wsdl/devicemgmt.wsdl`, `/path/to/custom/wsdl/media.wsdl`, dll.).
 - **Lokasi Cache:** Cache disk (saat menggunakan `CacheMode.DB` atau `CacheMode.ALL`) disimpan di `~/.onvif-python/onvif_zeep_cache.sqlite`.
 
 ## Penemuan Layanan: Memahami Kapabilitas Perangkat
@@ -553,10 +590,10 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
 
 ## Peningkatan Mendatang (Pantau dan beri bintang ⭐ repo ini)
 
-- [x] Menambahkan mode debugging dengan raw XML pada permintaan dan respons SOAP. ([c258162](https://github.com/nirsimetri/onvif-python/commit/c258162))
-- [ ] Menambahkan dukungan asynchronous (async/await) untuk operasi ONVIF non-blocking dan komunikasi perangkat secara bersamaan.
+- [x] ~~Menambahkan mode debugging dengan raw XML pada permintaan dan respons SOAP.~~ ([c258162](https://github.com/nirsimetri/onvif-python/commit/c258162))
+- [x] ~~Menambahkan fungsionalitas agar `ONVIFClient` dapat menerima layanan `wsdl_dir` kustom.~~ ([65f2570](https://github.com/nirsimetri/onvif-python/commit/65f257092e4c9daa23dd0d00825ed38a45d23b70))
 - [ ] Menambahkan program `ONVIF CLI` untuk berinteraksi langsung dengan perangkat ONVIF melalui terminal.
-- [ ] Menambahkan fungsionalitas agar `ONVIFClient` dapat menerima layanan `wsdl_path` kustom.
+- [ ] Menambahkan dukungan asynchronous (async/await) untuk operasi ONVIF non-blocking dan komunikasi perangkat secara bersamaan.
 - [ ] Mengimplementasikan model data terstruktur untuk Skema ONVIF menggunakan [xsdata](https://github.com/tefra/xsdata).
 - [ ] Mengintegrasikan [xmltodict](https://github.com/martinblech/xmltodict) untuk parsing dan konversi XML yang lebih sederhana.
 - [ ] Meningkatkan dokumentasi dengan referensi API dan diagram (bukan dari [AI Wiki](https://deepwiki.com/nirsimetri/onvif-python)).

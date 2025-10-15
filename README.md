@@ -55,7 +55,14 @@ Create an instance of `ONVIFClient` by providing your device's IP address, port,
 ```python
 from onvif import ONVIFClient
 
+# Basic connection
 client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
+
+# With custom WSDL directory (optional)
+client = ONVIFClient(
+    "192.168.1.17", 8000, "admin", "admin123",
+    wsdl_dir="/path/to/custom/wsdl"  # Use custom WSDL files in this path
+)
 ```
 
 **2. Create Service Instance**
@@ -150,6 +157,7 @@ The `ONVIFClient` class provides various configuration options to customize the 
 |-----------|------|----------|---------|-------------|
 | `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better `xsd:any` field parsing and automatic flattening |
 | `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses |
+| `wsdl_dir`    | `str`  | ❌ No | `None` | Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., `/path/to/custom/wsdl`) |
 
 </details>
 
@@ -268,6 +276,33 @@ if client.xml_plugin:
     client.xml_plugin.clear_history()
 ```
 
+**Custom WSDL Directory:**
+```python
+from onvif import ONVIFClient
+
+# Use custom WSDL files instead of built-in ones
+client = ONVIFClient(
+    "192.168.1.17", 
+    80, 
+    "admin", 
+    "password",
+    wsdl_dir="/path/to/custom/wsdl"  # Custom WSDL directory
+)
+
+# All services will automatically use custom WSDL files
+device = client.devicemgmt()
+media = client.media()
+ptz = client.ptz()
+
+# The custom WSDL directory should have a flat structure:
+# /path/to/custom/wsdl/
+# ├── devicemgmt.wsdl
+# ├── media.wsdl
+# ├── ptz.wsdl
+# ├── imaging.wsdl
+# └── ... (other WSDL files)
+```
+
 > **XML Capture Plugin Methods:**
 > - `last_sent_xml` - Get the last SOAP request XML
 > - `last_received_xml` - Get the last SOAP response XML
@@ -298,7 +333,8 @@ client = ONVIFClient(
     use_https=True,             # Secure communication
     verify_ssl=True,            # Verify certificates (default)
     apply_patch=True,           # Enhanced parsing (default)
-    capture_xml=False           # Disable debug mode (default)
+    capture_xml=False,          # Disable debug mode (default)
+    wsdl_dir=None               # Use built-in WSDL files (default)
 )
 ```
 </details>
@@ -308,6 +344,7 @@ client = ONVIFClient(
 - **Authentication:** This library uses **WS-UsernameToken with Digest** authentication by default, which is the standard for ONVIF devices.
 - **Patching:** The `apply_patch=True` (default) enables custom zeep patching that improves `xsd:any` field parsing. This is recommended for better compatibility with ONVIF responses.
 - **XML Capture:** Only use `capture_xml=True` during development/debugging as it increases memory usage and may expose sensitive data in logs.
+- **Custom WSDL:** Use `wsdl_dir` parameter to specify a custom directory containing WSDL files. The directory should have a flat structure with WSDL files directly in the root (e.g., `/path/to/custom/wsdl/devicemgmt.wsdl`, `/path/to/custom/wsdl/media.wsdl`, etc.).
 - **Cache Location:** Disk cache (when using `CacheMode.DB` or `CacheMode.ALL`) is stored in `~/.onvif-python/onvif_zeep_cache.sqlite`.
 
 ## Service Discovery: Understanding Device Capabilities
@@ -554,10 +591,10 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
 
 ## Future Improvements (Stay tuned and star ⭐ this repo)
 
-- [x] Add debugging mode with raw xml on SOAP requests and responses. ([c258162](https://github.com/nirsimetri/onvif-python/commit/c258162))
-- [ ] Add functionality for `ONVIFClient` to accept a custom `wsdl_path` service.
-- [ ] Add asynchronous (async/await) support for non-blocking ONVIF operations and concurrent device communication.
+- [x] ~~Add debugging mode with raw xml on SOAP requests and responses.~~ ([c258162](https://github.com/nirsimetri/onvif-python/commit/c258162))
+- [x] ~~Add functionality for `ONVIFClient` to accept a custom `wsdl_dir` service.~~ ([65f2570](https://github.com/nirsimetri/onvif-python/commit/65f257092e4c9daa23dd0d00825ed38a45d23b70))
 - [ ] Add `ONVIF CLI` program to interact directly with ONVIF devices via terminal.
+- [ ] Add asynchronous (async/await) support for non-blocking ONVIF operations and concurrent device communication.
 - [ ] Implement structured data models for ONVIF Schemas using [xsdata](https://github.com/tefra/xsdata).
 - [ ] Integrate [xmltodict](https://github.com/martinblech/xmltodict) for simplified XML parsing and conversion.
 - [ ] Enhance documentation with API references and diagrams (not from [AI Wiki](https://deepwiki.com/nirsimetri/onvif-python)).
