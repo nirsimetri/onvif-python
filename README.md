@@ -2,9 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Release](https://img.shields.io/badge/Release-v0.0.9-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Release](https://img.shields.io/badge/Release-v0.1.0-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.9-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.0-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 **This project provides a comprehensive and developer-friendly Python library for working with ONVIF-compliant devices.** It is designed to be reliable, easy to integrate, and flexible enough to support a wide range of ONVIF profiles and services.  
@@ -155,9 +155,9 @@ The `ONVIFClient` class provides various configuration options to customize the 
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better `xsd:any` field parsing and automatic flattening |
-| `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses |
-| `wsdl_dir`    | `str`  | ❌ No | `None` | Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., `/path/to/custom/wsdl`) |
+| `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better `xsd:any` field parsing and automatic flattening, applied at (>= [`v0.0.4`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.4)) |
+| `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses, applied at (>= [`v0.0.6`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.6)) |
+| `wsdl_dir`    | `str`  | ❌ No | `None` | Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., `/path/to/custom/wsdl`), applied at (>= [`v0.1.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.0)) |
 
 </details>
 

@@ -2,9 +2,9 @@
 
 [![Lisensi](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Rilis](https://img.shields.io/badge/Release-v0.0.9-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Rilis](https://img.shields.io/badge/Release-v0.1.0-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.0.9-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.0-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Unduhan](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 **Proyek ini menyediakan pustaka Python yang komprehensif dan ramah pengembang untuk bekerja dengan perangkat yang sesuai dengan ONVIF.** Pustaka ini dirancang agar andal, mudah diintegrasikan, dan cukup fleksibel untuk mendukung berbagai profil dan layanan ONVIF.  
@@ -154,9 +154,9 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 |-----------|------|-------|---------|-----------|
-| `apply_patch` | `bool` | ❌ Tidak | `True` | Aktifkan patching zeep untuk parsing field xsd:any yang lebih baik dan flattening otomatis |
-| `capture_xml` | `bool` | ❌ Tidak | `False` | Aktifkan plugin XML capture untuk debugging permintaan/respons SOAP |
-| `wsdl_dir`    | `str`  | ❌ Tidak | `None` | Path direktori WSDL kustom untuk menggunakan file WSDL eksternal sebagai pengganti yang built-in (mis., `/path/to/custom/wsdl`) |
+| `apply_patch` | `bool` | ❌ Tidak | `True` | Aktifkan patching zeep untuk parsing field xsd:any yang lebih baik dan flattening otomatis, diterapkan pada (>= [`v0.0.4`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.4)) |
+| `capture_xml` | `bool` | ❌ Tidak | `False` | Aktifkan plugin XML capture untuk debugging permintaan/respons SOAP, diterapkan pada (>= [`v0.0.6`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.6)) |
+| `wsdl_dir`    | `str`  | ❌ Tidak | `None` | Path direktori WSDL kustom untuk menggunakan file WSDL eksternal sebagai pengganti yang built-in (mis., `/path/to/custom/wsdl`), diterapkan pada (>= [`v0.1.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.0)) |
 
 </details>
 
