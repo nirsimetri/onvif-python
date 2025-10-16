@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import display
+from onvif.services.display import Display
 
 
 def test_display_import():
-    assert display is not None
+    assert Display is not None

@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import authenticationbehavior
+from onvif.services.authenticationbehavior import AuthenticationBehavior
 
 
 def test_authenticationbehavior_import():
-    assert authenticationbehavior is not None
+    assert AuthenticationBehavior is not None

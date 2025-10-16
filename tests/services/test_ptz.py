@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import ptz
+from onvif.services.ptz import PTZ
 
 
 def test_ptz_import():
-    assert ptz is not None
+    assert PTZ is not None

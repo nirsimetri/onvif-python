@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import recording
+from onvif.services.recording import Recording
 
 
 def test_recording_import():
-    assert recording is not None
+    assert Recording is not None

@@ -3,25 +3,41 @@ import pytest
 from onvif import ONVIFWSDL
 
 
-def test_get_wsdl_path_valid():
-    path = ONVIFWSDL.get_definition("device", "ver20")
-    assert os.path.exists(path), f"WSDL path not found: {path}"
+def test_get_wsdl_definition_valid():
+    """Test valid WSDL definition retrieval"""
+    definition = ONVIFWSDL.get_definition("devicemgmt", "ver10")
+    
+    assert isinstance(definition, dict)
+    assert "path" in definition
+    assert "binding" in definition
+    assert "namespace" in definition
+    assert os.path.exists(definition["path"]), f"WSDL path not found: {definition['path']}"
 
 
-def test_get_wsdl_path_invalid_service():
+def test_get_wsdl_definition_invalid_service():
+    """Test invalid service name"""
     with pytest.raises(ValueError) as excinfo:
-        ONVIFWSDL.get_definition("invalid_service", "ver20")
+        ONVIFWSDL.get_definition("invalid_service", "ver10")
     assert "Unknown service" in str(excinfo.value)
 
 
-def test_get_wsdl_path_invalid_version():
+def test_get_wsdl_definition_invalid_version():
+    """Test invalid version for existing service"""
     with pytest.raises(ValueError) as excinfo:
-        ONVIFWSDL.get_definition("device", "ver99")
+        ONVIFWSDL.get_definition("devicemgmt", "ver99")
     assert "not available" in str(excinfo.value)
 
 
-@pytest.mark.parametrize("service", ["device", "media"])
-@pytest.mark.parametrize("version", ["ver10", "ver20"])
-def test_get_wsdl_path_all_combinations(service, version):
-    path = ONVIFWSDL.get_definition(service, version)
-    assert os.path.exists(path), f"{service} {version} missing: {path}"
+@pytest.mark.parametrize("service", ["devicemgmt", "media"])
+@pytest.mark.parametrize("version", ["ver10"])
+def test_get_wsdl_definition_combinations(service, version):
+    """Test various service and version combinations"""
+    definition = ONVIFWSDL.get_definition(service, version)
+    
+    assert isinstance(definition, dict)
+    assert "path" in definition
+    assert os.path.exists(definition["path"]), f"{service} {version} missing: {definition['path']}"
+    
+    # Verify binding and namespace are present
+    assert definition["binding"] is not None
+    assert definition["namespace"] is not None

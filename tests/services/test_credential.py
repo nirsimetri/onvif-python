@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import credential
+from onvif.services.credential import Credential
 
 
 def test_credential_import():
-    assert credential is not None
+    assert Credential is not None

@@ -1,6 +1,6 @@
 import pytest
-from onvif.services.analytics import analytics
+from onvif.services.analytics.analytics import Analytics
 
 
 def test_analytics_import():
-    assert analytics is not None
+    assert Analytics is not None

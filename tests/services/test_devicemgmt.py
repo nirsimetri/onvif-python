@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import devicemgmt
+from onvif.services.devicemgmt import Device
 
 
 def test_devicemgmt_import():
-    assert devicemgmt is not None
+    assert Device is not None

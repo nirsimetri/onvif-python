@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import search
+from onvif.services.search import Search
 
 
 def test_search_import():
-    assert search is not None
+    assert Search is not None

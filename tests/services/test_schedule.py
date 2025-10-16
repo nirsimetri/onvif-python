@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import schedule
+from onvif.services.schedule import Schedule
 
 
 def test_schedule_import():
-    assert schedule is not None
+    assert Schedule is not None

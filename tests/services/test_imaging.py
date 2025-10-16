@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import imaging
+from onvif.services.imaging import Imaging
 
 
 def test_imaging_import():
-    assert imaging is not None
+    assert Imaging is not None

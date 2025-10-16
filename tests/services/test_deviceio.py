@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import deviceio
+from onvif.services.deviceio import DeviceIO
 
 
 def test_deviceio_import():
-    assert deviceio is not None
+    assert DeviceIO is not None

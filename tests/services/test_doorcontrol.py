@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import doorcontrol
+from onvif.services.doorcontrol import DoorControl
 
 
 def test_doorcontrol_import():
-    assert doorcontrol is not None
+    assert DoorControl is not None

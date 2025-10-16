@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import replay
+from onvif.services.replay import Replay
 
 
 def test_replay_import():
-    assert replay is not None
+    assert Replay is not None

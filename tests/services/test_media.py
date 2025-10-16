@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import media
+from onvif.services.media import Media
 
 
 def test_media_import():
-    assert media is not None
+    assert Media is not None

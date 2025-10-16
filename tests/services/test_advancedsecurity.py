@@ -1,6 +1,6 @@
 import pytest
-from onvif.services.security import advancedsecurity
+from onvif.services.security.advancedsecurity import AdvancedSecurity
 
 
 def test_advancedsecurity_import():
-    assert advancedsecurity is not None
+    assert AdvancedSecurity is not None

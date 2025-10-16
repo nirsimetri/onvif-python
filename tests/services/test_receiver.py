@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import receiver
+from onvif.services.receiver import Receiver
 
 
 def test_receiver_import():
-    assert receiver is not None
+    assert Receiver is not None

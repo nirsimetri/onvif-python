@@ -1,6 +1,6 @@
 import pytest
-from onvif.services.events import events
+from onvif.services.events.events import Events
 
 
-def test_event_import():
-    assert events is not None
+def test_events_import():
+    assert Events is not None

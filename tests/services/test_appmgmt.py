@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import appmgmt
+from onvif.services.appmgmt import AppManagement
 
 
 def test_appmgmt_import():
-    assert appmgmt is not None
+    assert AppManagement is not None

@@ -1,6 +1,6 @@
 import pytest
-from onvif.services import thermal
+from onvif.services.thermal import Thermal
 
 
 def test_thermal_import():
-    assert thermal is not None
+    assert Thermal is not None
