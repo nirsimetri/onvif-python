@@ -47,17 +47,17 @@ from .utils import ONVIFWSDL, ZeepPatcher, XMLCapturePlugin
 class ONVIFClient:
     def __init__(
         self,
-        host,
-        port,
-        username,
-        password,
-        timeout=10,
-        cache=CacheMode.ALL,
-        use_https=False,
-        verify_ssl=True,
-        apply_patch=True,
-        capture_xml=False,
-        wsdl_dir=None,
+        host: str,
+        port: int,
+        username: str,
+        password: str,
+        timeout: int = 10,
+        cache: CacheMode = CacheMode.ALL,
+        use_https: bool = False,
+        verify_ssl: bool = True,
+        apply_patch: bool = True,
+        capture_xml: bool = False,
+        wsdl_dir: str = None,
     ):
         # Apply or remove zeep patch based on user preference
         if apply_patch:
