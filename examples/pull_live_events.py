@@ -10,7 +10,6 @@ and continuously pulls live events for 15 minutes, printing event details to the
 
 import datetime
 import xml.etree.ElementTree as ET
-from zeep.plugins import HistoryPlugin
 from onvif import ONVIFClient, CacheMode
 
 HOST = "192.168.1.3"
@@ -18,7 +17,7 @@ PORT = 80
 USERNAME = "admin"
 PASSWORD = "admin123"
 
-client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
+client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE, capture_xml=True)
 
 # 1. Create PullPoint Subscription from Events service
 subscription = client.events().CreatePullPointSubscription()
@@ -26,15 +25,6 @@ print("Subscription Response:\n", subscription)
 
 # 2. Create PullPoint service instance with the Subscription reference
 pullpoint = client.pullpoint(subscription)
-
-# Inject HistoryPlugin to zeep client if available
-history_plugin = HistoryPlugin()
-if (
-    hasattr(pullpoint, "operator")
-    and hasattr(pullpoint.operator, "client")
-    and hasattr(pullpoint.operator.client, "plugins")
-):
-    pullpoint.operator.client.plugins.append(history_plugin)
 
 # 3. Pull events for 15 minutes
 end_time = datetime.datetime.now() + datetime.timedelta(minutes=15)
@@ -52,23 +42,13 @@ while datetime.datetime.now() < end_time:
                 notifications = [notifications]
 
             for n in notifications:
-                # Extract Topic from raw XML using ElementTree
+                # Extract Topic from raw XML using XMLCapturePlugin
                 topic_val = None
                 try:
-                    # Get last raw response from HistoryPlugin
-                    last_raw_xml = (
-                        history_plugin.last_received["envelope"]
-                        if hasattr(history_plugin, "last_received")
-                        and "envelope" in history_plugin.last_received
-                        else None
-                    )
+                    # Get last raw response from XMLCapturePlugin
+                    last_raw_xml = client.xml_plugin.last_received_xml if client.xml_plugin else None
                     if last_raw_xml is not None:
-                        # If lxml.etree._Element, convert to string first
-                        if hasattr(last_raw_xml, "tag"):
-                            xml_str = ET.tostring(last_raw_xml, encoding="utf-8")
-                        else:
-                            xml_str = last_raw_xml
-                        root = ET.fromstring(xml_str)
+                        root = ET.fromstring(last_raw_xml)
                         topic_elems = root.findall(
                             ".//{http://docs.oasis-open.org/wsn/b-2}Topic"
                         )
@@ -133,12 +113,6 @@ while datetime.datetime.now() < end_time:
                     if data_tokens:
                         print("Data ->", ", ".join(data_tokens))
 
-                    # Print raw XML of the event
-                    # try:
-                    # raw_xml = ET.tostring(msg_elem, encoding="unicode")
-                    # print("Raw XML:\n", raw_xml)
-                    # except Exception as ex:
-                    # print("Could not print raw XML:", ex)
                 else:
                     print("\n-> Event without Message")
         else:
