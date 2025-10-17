@@ -123,7 +123,7 @@ Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`
 ## ONVIF CLI
 
 > [!NOTE]
-> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak onvif-python versi [0.1.0](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1)
+> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak onvif-python versi [0.1.1](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1)
 
 Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berinteraksi dengan perangkat ONVIF langsung dari terminal Anda. CLI ini mendukung eksekusi perintah langsung dan mode shell interaktif, menyediakan cara yang fleksibel dan efisien untuk mengelola dan men-debug perangkat ONVIF.
 

@@ -123,7 +123,7 @@ Explore more advanced usage and service-specific operations in the [`examples/`]
 ## ONVIF CLI
 
 > [!NOTE]
-> The CLI is automatically installed when you install the `onvif-python` see [Installation](#installation). This feature has been available since onvif-python version [0.1.0](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1)
+> The CLI is automatically installed when you install the `onvif-python` see [Installation](#installation). This feature has been available since onvif-python version [0.1.1](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1)
 
 This library includes a powerful command-line interface (CLI) for interacting with ONVIF devices directly from your terminal. It supports both direct command execution and an interactive shell mode, providing a flexible and efficient way to manage and debug ONVIF devices.
 
