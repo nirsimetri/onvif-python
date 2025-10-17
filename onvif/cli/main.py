@@ -25,6 +25,9 @@ Examples:
   
   # Interactive mode
   {colorize('onvif', 'yellow')} --host 192.168.1.17 --port 8000 --username admin --password admin123 --interactive
+
+  # Prompting for username and password (if not provided)
+  {colorize('onvif', 'yellow')} --host 192.168.1.17 --port 8000 -i
   
   # Using HTTPS
   {colorize('onvif', 'yellow')} media GetProfiles --host camera.example.com --port 443 --username admin --password admin123 --https
@@ -69,9 +72,7 @@ Examples:
     parser.add_argument(
         "--debug", action="store_true", help="Enable debug mode with XML capture"
     )
-    parser.add_argument(
-        "--wsdl", help="Custom WSDL directory path"
-    )
+    parser.add_argument("--wsdl", help="Custom WSDL directory path")
 
     # Service and method (for direct command execution)
     parser.add_argument(
@@ -83,7 +84,7 @@ Examples:
         help="Service method name (e.g., GetCapabilities, GetProfiles)",
     )
     parser.add_argument(
-        "params", nargs="?", help="Method parameters as Simple Parameter or JSON string"
+        "params", nargs="*", help="Method parameters as Simple Parameter or JSON string"
     )
 
     return parser
@@ -98,7 +99,7 @@ def main():
         parser.print_help()
         sys.exit(0)
 
-    args = parser.parse_args()
+    args = parser.parse_intermixed_args()
 
     # Handle username prompt
     if not args.username:
@@ -121,7 +122,7 @@ def main():
     # Validate arguments
     if not args.interactive and (not args.service or not args.method):
         parser.error(
-            f"Either {colorize('--interactive', 'white')} mode or {colorize('service/method', 'white')} must be specified"
+            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} mode or {colorize('service/method', 'white')} must be specified"
         )
 
     try:
@@ -162,7 +163,8 @@ def main():
             shell.run()
         else:
             # Execute direct command
-            result = execute_command(client, args.service, args.method, args.params)
+            params_str = " ".join(args.params) if args.params else None
+            result = execute_command(client, args.service, args.method, params_str)
             print(str(result))
 
     except KeyboardInterrupt:

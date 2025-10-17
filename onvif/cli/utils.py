@@ -6,6 +6,7 @@ import os
 import inspect
 from typing import Any, Dict, Optional
 import xml.etree.ElementTree as ET
+import re
 
 
 # ONVIF namespace to service name mapping (used globally)
@@ -107,29 +108,45 @@ def parse_json_params(params_str: str) -> Dict[str, Any]:
             try:
                 v = json.loads(v_raw)
             except Exception:
-                # Fall back to shlex to handle simple quoted strings/words
-                try:
-                    parts = shlex.split(v_raw)
-                    v_token = parts[0] if parts else v_raw
-                except Exception:
-                    v_token = v_raw
+                # If it fails, it might be a quoted JSON string. Try unquoting it once.
+                v_token = v_raw
+                if (v_token.startswith("'") and v_token.endswith("'")) or (
+                    v_token.startswith('"') and v_token.endswith('"')
+                ):
+                    v_token = v_token[1:-1]
 
-                # Interpret booleans and null
-                if isinstance(v_token, str) and v_token.lower() == "true":
-                    v = True
-                elif isinstance(v_token, str) and v_token.lower() == "false":
-                    v = False
-                elif isinstance(v_token, str) and v_token.lower() in ("none", "null"):
-                    v = None
-                else:
-                    # Try numeric conversion
+                # Try parsing as JSON again
+                try:
+                    v = json.loads(v_token)
+                except Exception:
+                    # If it still fails, the shell might have stripped quotes from keys.
+                    # Let's try to fix it by adding quotes around keys.
                     try:
-                        if isinstance(v_token, str) and "." in v_token:
-                            v = float(v_token)
-                        else:
-                            v = int(v_token)
+                        # This regex finds keys (words followed by a colon) and adds quotes
+                        fixed_json_str = re.sub(
+                            r"([{\s,])([a-zA-Z0-9_]+)\s*:", r'\1"\2":', v_token
+                        )
+                        v = json.loads(fixed_json_str)
                     except Exception:
-                        v = v_token
+                        # If it's still not JSON, fall back to simple type interpretation
+                        if isinstance(v_token, str) and v_token.lower() == "true":
+                            v = True
+                        elif isinstance(v_token, str) and v_token.lower() == "false":
+                            v = False
+                        elif isinstance(v_token, str) and v_token.lower() in (
+                            "none",
+                            "null",
+                        ):
+                            v = None
+                        else:
+                            # Try numeric conversion
+                            try:
+                                if isinstance(v_token, str) and "." in v_token:
+                                    v = float(v_token)
+                                else:
+                                    v = int(v_token)
+                            except Exception:
+                                v = v_token  # It's just a string
 
             params[key] = v
 

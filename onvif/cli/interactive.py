@@ -1080,7 +1080,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
   up                       - Exit current service mode (go up one level)
   pwd                      - Show current service context
   clear                    - Clear terminal screen
-  desc <method>            - Show method documentation based on service
+  desc <method>            - Show method documentation in service mode
   
 {colorize('Method Execution:', 'yellow')}
   <method>                 - Execute method without parameters
