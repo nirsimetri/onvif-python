@@ -166,6 +166,128 @@ This library includes a powerful command-line interface (CLI) for interacting wi
   </tr>
 </table>
 
+### Help Command
+
+<details>
+<summary><b>1. Direct CLI</b></summary> 
+
+```bash
+usage: onvif [-h] --host HOST --port PORT [--username USERNAME] [--password PASSWORD] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch]
+             [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+             [service] [method] [params ...]
+
+ONVIF Terminal Client —
+https://github.com/nirsimetri/onvif-python
+
+positional arguments:
+  service               ONVIF service name (e.g., devicemgmt, media, ptz)
+  method                Service method name (e.g., GetCapabilities, GetProfiles)
+  params                Method parameters as Simple Parameter or JSON string
+
+options:
+  -h, --help            show this help message and exit
+  --host HOST, -H HOST  ONVIF device IP address or hostname
+  --port PORT, -P PORT  ONVIF device port (default: 80)
+  --username USERNAME, -u USERNAME
+                        Username for authentication
+  --password PASSWORD, -p PASSWORD
+                        Password for authentication
+  --timeout TIMEOUT     Connection timeout in seconds (default: 10)
+  --https               Use HTTPS instead of HTTP
+  --no-verify           Disable SSL certificate verification
+  --no-patch            Disable ZeepPatcher
+  --interactive, -i     Start interactive mode
+  --debug               Enable debug mode with XML capture
+  --wsdl WSDL           Custom WSDL directory path
+  --cache {all,db,mem,none}
+                        Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
+
+Examples:
+  # Direct command execution
+  onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
+  onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={"PanTilt": {"x": -0.1, "y": 0}} --host 192.168.1.17 --port 8000 --username admin --password admin123
+
+  # Interactive mode
+  onvif --host 192.168.1.17 --port 8000 --username admin --password admin123 --interactive
+
+  # Prompting for username and password
+  # (if not provided)
+  onvif -H 192.168.1.17 -P 8000 -i
+
+  # Using HTTPS
+  onvif media GetProfiles --host camera.example.com --port 443 --username admin --password admin123 --https
+```
+
+</details>
+
+<details>
+<summary><b>2. Interactive Shell</b></summary> 
+
+```bash
+ONVIF Interactive Shell Commands -
+https://github.com/nirsimetri/onvif-python
+
+Basic Commands:
+  capabilities, caps       - Show device capabilities
+  services                 - Show available services with details
+  info                     - Show connection and device information
+  exit, quit               - Exit the shell
+  shortcuts                - Show available shortcuts
+
+Navigation Commands:
+  <service>                - Enter service mode (e.g., devicemgmt, media)
+  cd <service>             - Enter service mode (alias)
+  ls                       - List commands/services/methods in grid format
+  up                       - Exit current service mode (go up one level)
+  pwd                      - Show current service context
+  clear                    - Clear terminal screen
+  desc <method>            - Show method documentation in service mode
+
+Method Execution:
+  <method>                 - Execute method without parameters
+  <method> {"param": "value"}  - Execute method with JSON parameters
+  <method> param=value     - Execute method with simple parameters
+
+Data Management:
+  store <name>             - Store last result with a name
+  show <name>              - Show stored data
+  show <name>.attribute    - Show specific attribute
+  show                     - List all stored data
+  rm <name>                - Remove stored data by name
+  cls                      - Clear all stored data
+
+Using Stored Data in Methods:
+  Use $variable syntax to reference stored data in method parameters:
+  - $profiles[0].token                    - Access list element and attribute
+  - $profiles[0].VideoSourceConfiguration.SourceToken
+
+  Example:
+    GetProfiles                           - Get profiles
+    store profiles                        - Store result
+    show profiles[0].token                - Show first profile token
+    GetImagingSettings VideoSourceToken=$profiles[0].VideoSourceConfiguration.SourceToken
+
+Debug Commands:
+  debug                    - Show last SOAP request & response (if --debug enabled)
+
+Tab Completion:
+  Use TAB key for auto-completion of commands, services, and methods
+  Type partial commands to see suggestions
+
+Examples:
+  192.168.1.17:8000 > caps                # Show capabilities
+  192.168.1.17:8000 > dev<TAB>            # Completes to 'devicemgmt'
+  192.168.1.17:8000 > cd devicemgmt       # Enter device management
+  192.168.1.17:8000/devicemgmt > Get<TAB> # Show methods starting with 'Get'
+  192.168.1.17:8000/devicemgmt > GetServices {"IncludeCapability": true}
+  192.168.1.17:8000/devicemgmt > GetServices IncludeCapability=True
+  192.168.1.17:8000/devicemgmt > store services_info
+  192.168.1.17:8000/devicemgmt > up       # Exit service mode
+  192.168.1.17:8000 >                     # Back to root context
+```
+
+</details>
+
 ### Usage
 
 **1. Interactive Mode**
