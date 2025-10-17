@@ -630,7 +630,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
     def print_topics(self, header, cmds, cmdlen, maxcol):
         """Override print_topics to use grid format for TAB completion"""
         if not cmds:
-            return
+            returncle
 
         # Print without header if it's empty or whitespace
         if header.strip():
@@ -645,7 +645,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
             if hasattr(self.client, "capabilities") and self.client.capabilities:
                 result = self.client.capabilities
             else:
-                result = self.client.devicemgmt().GetCapabilities()
+                result = self.client.devicemgmt().GetCapabilities(Category="All")
 
             self.stored_data["capabilities"] = result
             self.stored_metadata["capabilities"] = {
