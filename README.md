@@ -123,7 +123,12 @@ Explore more advanced usage and service-specific operations in the [`examples/`]
 ## ONVIF CLI
 
 > [!NOTE]
-> The CLI is automatically installed when you install the `onvif-python` see [Installation](#installation). This feature has been available since onvif-python version [`0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
+> The CLI is automatically installed when you install the `onvif-python` see [Installation](#installation). This feature has been available since `onvif-python` version [`0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
+
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=plastic&logo=gitforwindows&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=plastic&logo=linux&logoColor=black)
+![macOS](https://img.shields.io/badge/macOS-1A9FEE?style=plastic&logo=apple&logoColor=black)
+![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=plastic&logo=raspberrypi&logoColor=black)
 
 This library includes a powerful command-line interface (CLI) for interacting with ONVIF devices directly from your terminal. It supports both direct command execution and an interactive shell mode, providing a flexible and efficient way to manage and debug ONVIF devices.
 
@@ -134,18 +139,18 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 - **Automatic Discovery:** Automatically detects available services on the device.
 - **Connection Management:** Supports HTTP/HTTPS, custom timeouts, and SSL verification.
 - **Data Management:** Store results from commands and use them as parameters in subsequent commands.
-- **Cross-Platform:** Works on Windows, macOS, and Linux.
+- **Cross-Platform:** Works on Windows, macOS, Linux, and Raspberry Pi.
 
 ### Screenshoot
 
 <table>
   <tr>
-    <td width="33.8%">
+    <td width="34.2%">
       <a href="https://github.com/nirsimetri/onvif-python">
         <img src="./assets/onvif_cli.png" />
       </a>
     </td>
-    <td width="65.2%">
+    <td width="65.8%">
         <a href="https://github.com/nirsimetri/onvif-python">
         <img src="./assets/onvif_operations.png" />
         </a>
@@ -188,7 +193,8 @@ If you omit the username or password, you will be prompted to enter them securel
 | `show <name>` | Display a stored variable |
 | `exit` / `quit` | Exit the shell |
 
-You can see all the commands available in the interactive shell by trying them directly.
+> [!IMPORTANT]
+> You can see all the other commands available in the interactive shell by trying it out directly. The interactive shell runs periodic background health checks to detect connection loss. It uses silent TCP pings to avoid interrupting your work and will automatically exit if the device is unreachable, similar to an SSH session.
 
 **2. Direct Command Execution**
 

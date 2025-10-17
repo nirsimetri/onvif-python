@@ -712,7 +712,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
                     f"{colorize('Available methods:', 'yellow')} {methods_preview} ... and {colorize(f'{len(methods) - 10} more.', 'yellow')}"
                 )
                 print(
-                    f"Type {colorize('ls', 'cyan')}/{colorize('TAB', 'yellow')} to see all."
+                    f"Type {colorize('ls', 'cyan')}/press <{colorize('TAB', 'yellow')}> to see all."
                 )
             else:
                 print(f"{colorize('Available methods:', 'yellow')} {methods_preview}")
@@ -807,9 +807,9 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
     def do_pwd(self, line):
         """Show current service context"""
         if self.current_service_name:
-            print(f"Current service: {colorize(self.current_service_name, 'cyan')}")
+            print(f"{colorize('Current service:', 'yellow')} {colorize(self.current_service_name, 'cyan')}")
         else:
-            print(f"Current context: {colorize('root', 'blue')}")
+            print(f"{colorize('Current context:', 'yellow')} {colorize('root', 'blue')}")
 
     def do_shortcuts(self, line):
         """Show available shortcuts"""
@@ -817,10 +817,13 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
 {colorize('Available Shortcuts:', 'cyan')}
 
 {colorize('Navigation:', 'yellow')}
+  <service>                - Enter service mode (e.g., devicemgmt, media)
   cd <service>             - Enter service (same as '<service>')
   ls                       - List commands/services in grid format (like TAB)
   up                       - Go up one level
   pwd                      - Show current context
+  clear                    - Clear terminal screen
+  desc <method>            - Show method documentation in service mode
 
 {colorize('Quick Access:', 'yellow')}
   caps                     - Show capabilities (same as 'capabilities')
@@ -989,7 +992,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
             )
             if len(available_methods) > 5:
                 print(
-                    f"Type {colorize('ls', 'cyan')}/{colorize('<TAB>', 'yellow')}to see all available methods"
+                    f"Type {colorize('ls', 'cyan')}/press {colorize('<TAB>', 'yellow')} to see all available methods"
                 )
             return
 

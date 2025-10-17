@@ -123,34 +123,14 @@ Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`
 ## ONVIF CLI
 
 > [!NOTE]
-> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak onvif-python versi [`0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
+> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak `onvif-python` versi [`0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
+
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=plastic&logo=gitforwindows&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=plastic&logo=linux&logoColor=black)
+![macOS](https://img.shields.io/badge/macOS-1A9FEE?style=plastic&logo=apple&logoColor=black)
+![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=plastic&logo=raspberrypi&logoColor=black)
 
 Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berinteraksi dengan perangkat ONVIF langsung dari terminal Anda. CLI ini mendukung eksekusi perintah langsung dan mode shell interaktif, menyediakan cara yang fleksibel dan efisien untuk mengelola dan men-debug perangkat ONVIF.
-
-### Screenshoot
-
-<table>
-  <tr>
-    <td width="33.8%">
-      <a href="https://github.com/nirsimetri/onvif-python">
-        <img src="./assets/onvif_cli.png" />
-      </a>
-    </td>
-    <td width="65.2%">
-        <a href="https://github.com/nirsimetri/onvif-python">
-        <img src="./assets/onvif_operations.png" />
-        </a>
-    </td>
-  </tr>
-  <tr>
-    <th align="center">
-      Onboarding
-    </th>
-    <th align="center">
-      List available operations
-    </th>
-  </tr>
-</table>
 
 ### Fitur
 
@@ -159,7 +139,32 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
 - **Penemuan Otomatis:** Secara otomatis mendeteksi layanan yang tersedia di perangkat.
 - **Manajemen Koneksi:** Mendukung HTTP/HTTPS, timeout kustom, dan verifikasi SSL.
 - **Manajemen Data:** Simpan hasil dari perintah dan gunakan sebagai parameter dalam perintah berikutnya.
-- **Lintas Platform:** Bekerja di Windows, macOS, dan Linux.
+- **Lintas Platform:** Bekerja di Windows, macOS, Linux, dan Raspberry Pi.
+
+### Screenshoot
+
+<table>
+  <tr>
+    <td width="34.2%">
+      <a href="https://github.com/nirsimetri/onvif-python">
+        <img src="./assets/onvif_cli.png" />
+      </a>
+    </td>
+    <td width="65.8%">
+        <a href="https://github.com/nirsimetri/onvif-python">
+        <img src="./assets/onvif_operations.png" />
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <th align="center">
+      Tampilan pertama
+    </th>
+    <th align="center">
+      Daftar operasi yang tersedia
+    </th>
+  </tr>
+</table>
 
 ### Penggunaan
 
@@ -188,7 +193,8 @@ Jika Anda tidak menyertakan nama pengguna atau kata sandi, Anda akan diminta unt
 | `show <name>` | Tampilkan variabel yang disimpan |
 | `exit` / `quit` | Keluar dari shell |
 
-Anda dapat melihat semua perintah yang tersedia di shell interaktif dengan mencobanya langsung.
+> [!IMPORTANT]
+> Anda dapat melihat semua perintah lainnya yang tersedia di shell interaktif dengan mencobanya langsung. Shell interaktif menjalankan pemeriksaan kesehatan latar belakang secara berkala untuk mendeteksi kehilangan koneksi. Shell ini menggunakan ping TCP diam-diam agar tidak mengganggu pekerjaan Anda dan akan otomatis keluar jika perangkat tidak dapat dijangkau, mirip dengan sesi SSH.
 
 **2. Eksekusi Perintah Langsung**
 
