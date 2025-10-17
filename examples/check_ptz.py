@@ -22,9 +22,13 @@ try:
     ptz = client.ptz()
 
     ptz.ContinuousMove(
-        ProfileToken=profile.token, Velocity={"PanTilt": {"x": 0.1, "y": 1}}
+        ProfileToken=profile.token, Velocity={"PanTilt": {"x": 0.1, "y": 0}} # pan right
     )
-    sleep(3)
+    sleep(2)
+    ptz.ContinuousMove(
+        ProfileToken=profile.token, Velocity={"PanTilt": {"x": -0.1, "y": 0}} # pan left
+    )
+    sleep(2.5)
     ptz.Stop(ProfileToken=profile.token)
 except Exception as e:
     print(e)
