@@ -26,7 +26,8 @@ Examples:
   # Interactive mode
   {colorize('onvif', 'yellow')} --host 192.168.1.17 --port 8000 --username admin --password admin123 --interactive
 
-  # Prompting for username and password (if not provided)
+  # Prompting for username and password 
+  # (if not provided)
   {colorize('onvif', 'yellow')} --host 192.168.1.17 --port 8000 -i
   
   # Using HTTPS
@@ -73,6 +74,13 @@ Examples:
         "--debug", action="store_true", help="Enable debug mode with XML capture"
     )
     parser.add_argument("--wsdl", help="Custom WSDL directory path")
+    parser.add_argument(
+        "--cache",
+        choices=[mode.value for mode in CacheMode],
+        default=CacheMode.ALL.value,
+        help="Caching mode for ONVIFClient (default: all). "
+        "'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.",
+    )
 
     # Service and method (for direct command execution)
     parser.add_argument(
@@ -133,7 +141,7 @@ def main():
             username=args.username,
             password=args.password,
             timeout=args.timeout,
-            cache=CacheMode.ALL,
+            cache=CacheMode(args.cache),
             use_https=args.https,
             verify_ssl=not args.no_verify,
             apply_patch=not args.no_patch,
