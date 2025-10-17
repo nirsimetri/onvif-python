@@ -78,7 +78,11 @@ class InteractiveShell(cmd.Cmd):
             readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")
 
             # Enable tab completion, making it compatible with both GNU readline and libedit
-            if hasattr(readline, "__doc__") and readline.__doc__ and "libedit" in readline.__doc__:
+            if (
+                hasattr(readline, "__doc__")
+                and readline.__doc__
+                and "libedit" in readline.__doc__
+            ):
                 readline.parse_and_bind("bind ^I rl_complete")
             else:
                 readline.parse_and_bind("tab: complete")
@@ -534,7 +538,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
             print(f"{colorize('Did you mean:', 'yellow')} {', '.join(suggestions)}")
         else:
             print(f"{colorize('Unknown command:', 'red')} {line}")
-            print("Type 'help' for available commands")
+            print(f"Type {colorize('help', 'white')} for available commands")
 
     def get_suggestions(self, partial_cmd: str) -> List[str]:
         """Get command suggestions based on partial input"""
@@ -630,7 +634,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
     def print_topics(self, header, cmds, cmdlen, maxcol):
         """Override print_topics to use grid format for TAB completion"""
         if not cmds:
-            returncle
+            return
 
         # Print without header if it's empty or whitespace
         if header.strip():
@@ -807,9 +811,13 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
     def do_pwd(self, line):
         """Show current service context"""
         if self.current_service_name:
-            print(f"{colorize('Current service:', 'yellow')} {colorize(self.current_service_name, 'cyan')}")
+            print(
+                f"{colorize('Current service:', 'yellow')} {colorize(self.current_service_name, 'cyan')}"
+            )
         else:
-            print(f"{colorize('Current context:', 'yellow')} {colorize('root', 'blue')}")
+            print(
+                f"{colorize('Current context:', 'yellow')} {colorize('root', 'blue')}"
+            )
 
     def do_shortcuts(self, line):
         """Show available shortcuts"""

@@ -40,7 +40,8 @@ Examples:
         "--host", "-H", required=True, help="ONVIF device IP address or hostname"
     )
     parser.add_argument(
-        "--port", "-P",
+        "--port",
+        "-P",
         type=int,
         default=80,
         help="ONVIF device port (default: 80)",
