@@ -2,9 +2,9 @@
 
 [![Lisensi](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Rilis](https://img.shields.io/badge/Release-v0.1.0-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Rilis](https://img.shields.io/badge/Release-v0.1.1-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.0-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.1-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Unduhan](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 **Proyek ini menyediakan pustaka Python yang komprehensif dan ramah pengembang untuk bekerja dengan perangkat yang sesuai dengan ONVIF.** Pustaka ini dirancang agar andal, mudah diintegrasikan, dan cukup fleksibel untuk mendukung berbagai profil dan layanan ONVIF.  
@@ -119,6 +119,73 @@ Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`
 
 > [!IMPORTANT]
 > Jika Anda baru mengenal ONVIF dan ingin mempelajari lebih lanjut, kami sangat menyarankan untuk mengikuti kursus online gratis resmi yang disediakan oleh ONVIF di [Kursus Pengantar ONVIF](https://www.onvif.org/about/introduction-to-onvif-course). Harap dicatat bahwa kami tidak didukung atau disponsori oleh ONVIF, lihat [Pemberitahuan Hukum](#legal-notice) untuk detailnya.
+
+## ONVIF CLI
+
+> [!NOTE]
+> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak onvif-python versi [0.1.0](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1)
+
+Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berinteraksi dengan perangkat ONVIF langsung dari terminal Anda. CLI ini mendukung eksekusi perintah langsung dan mode shell interaktif, menyediakan cara yang fleksibel dan efisien untuk mengelola dan men-debug perangkat ONVIF.
+
+### Fitur
+
+- **Shell Interaktif:** Shell yang ramah pengguna dengan pelengkapan tab, riwayat perintah, dan output berwarna.
+- **Eksekusi Perintah Langsung:** Jalankan perintah ONVIF langsung dari terminal untuk skrip dan otomatisasi.
+- **Penemuan Otomatis:** Secara otomatis mendeteksi layanan yang tersedia di perangkat.
+- **Manajemen Koneksi:** Mendukung HTTP/HTTPS, timeout kustom, dan verifikasi SSL.
+- **Manajemen Data:** Simpan hasil dari perintah dan gunakan sebagai parameter dalam perintah berikutnya.
+- **Lintas Platform:** Bekerja di Windows, macOS, dan Linux.
+
+### Penggunaan
+
+**1. Mode Interaktif**
+
+Shell interaktif direkomendasikan untuk eksplorasi dan debugging. Ini menyediakan cara intuitif untuk menavigasi layanan, memanggil metode, dan melihat hasil.
+
+Untuk memulai shell interaktif, berikan detail koneksi:
+
+```bash
+onvif --host 192.168.1.17 --port 8000 --username admin --password admin123 -i
+```
+
+Jika Anda tidak menyertakan nama pengguna atau kata sandi, Anda akan diminta untuk memasukkannya secara aman.
+
+**Perintah Shell Interaktif:**
+| Perintah | Deskripsi |
+|---|---|
+| `help` | Tampilkan informasi bantuan |
+| `ls` | Daftar layanan atau metode yang tersedia dalam konteks saat ini |
+| `cd <service>` | Masuk ke mode layanan (mis., `cd devicemgmt`) |
+| `up` | Kembali ke konteks root |
+| `pwd` | Tampilkan konteks layanan saat ini |
+| `desc <method>` | Tampilkan dokumentasi untuk sebuah metode |
+| `store <name>` | Simpan hasil terakhir dengan nama variabel |
+| `show <name>` | Tampilkan variabel yang disimpan |
+| `exit` / `quit` | Keluar dari shell |
+
+Anda dapat melihat semua perintah yang tersedia di shell interaktif dengan mencobanya langsung.
+
+**2. Eksekusi Perintah Langsung**
+
+Anda juga dapat mengeksekusi satu perintah ONVIF secara langsung. Ini berguna untuk skrip atau pengecekan cepat.
+
+**Sintaks:**
+```bash
+onvif <service> <method> [parameters...] -H <host> -P <port> -u <user> -p <pass>
+```
+
+**Contoh:**
+```bash
+# Dapatkan kapabilitas perangkat
+onvif devicemgmt GetCapabilities Category=All -H 192.168.1.17 -P 8000 -u admin -p admin123
+
+# Gerakkan kamera PTZ
+onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity='{"PanTilt": {"x": 0.1}}' -H 192.168.1.17 -P 8000 -u admin -p admin123
+```
+
+### Parameter CLI
+
+Semua parameter `ONVIFClient` (seperti `--timeout`, `--https`, `--cache`, dll.) tersedia sebagai argumen baris perintah. Gunakan `onvif --help` untuk melihat semua opsi yang tersedia.
 
 ## Parameter ONVIFClient
 
@@ -551,8 +618,8 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
 ## Peningkatan Mendatang (Pantau dan beri bintang ⭐ repo ini)
 
 - [x] ~~Menambahkan mode debugging dengan raw XML pada permintaan dan respons SOAP.~~ ([c258162](https://github.com/nirsimetri/onvif-python/commit/c258162))
-- [x] ~~Menambahkan fungsionalitas agar `ONVIFClient` dapat menerima layanan `wsdl_dir` kustom.~~ ([65f2570](https://github.com/nirsimetri/onvif-python/commit/65f257092e4c9daa23dd0d00825ed38a45d23b70))
-- [ ] Menambahkan program `ONVIF CLI` untuk berinteraksi langsung dengan perangkat ONVIF melalui terminal.
+- [x] ~~Menambahkan fungsionalitas agar `ONVIFClient` dapat menerima layanan `wsdl_dir` kustom.~~ ([65f2570](https://github.com/nirsimetri/onvif-python/commit/65f2570))
+- [x] ~~Menambahkan program `ONVIF CLI` untuk berinteraksi langsung dengan perangkat ONVIF melalui terminal.~~ ([645be01](https://github.com/nirsimetri/onvif-python/commit/645be01))
 - [ ] Menambahkan dukungan asynchronous (async/await) untuk operasi ONVIF non-blocking dan komunikasi perangkat secara bersamaan.
 - [ ] Mengimplementasikan model data terstruktur untuk Skema ONVIF menggunakan [xsdata](https://github.com/tefra/xsdata).
 - [ ] Mengintegrasikan [xmltodict](https://github.com/martinblech/xmltodict) untuk parsing dan konversi XML yang lebih sederhana.

@@ -2,9 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![Release](https://img.shields.io/badge/Release-v0.1.0-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
+[![Release](https://img.shields.io/badge/Release-v0.1.1-red?logo=archive)](https://github.com/nirsimetri/onvif-python/releases)
 <br>
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.0-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.1-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 
 **This project provides a comprehensive and developer-friendly Python library for working with ONVIF-compliant devices.** It is designed to be reliable, easy to integrate, and flexible enough to support a wide range of ONVIF profiles and services.  
@@ -119,6 +119,73 @@ Explore more advanced usage and service-specific operations in the [`examples/`]
 
 > [!IMPORTANT]
 > If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course). Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](#legal-notice) for details.
+
+## ONVIF CLI
+
+> [!NOTE]
+> The CLI is automatically installed when you install the `onvif-python` see [Installation](#installation). This feature has been available since onvif-python version [0.1.0](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1)
+
+This library includes a powerful command-line interface (CLI) for interacting with ONVIF devices directly from your terminal. It supports both direct command execution and an interactive shell mode, providing a flexible and efficient way to manage and debug ONVIF devices.
+
+### Features
+
+- **Interactive Shell:** A user-friendly shell with tab completion, command history, and colorized output.
+- **Direct Command Execution:** Run ONVIF commands directly from the terminal for scripting and automation.
+- **Automatic Discovery:** Automatically detects available services on the device.
+- **Connection Management:** Supports HTTP/HTTPS, custom timeouts, and SSL verification.
+- **Data Management:** Store results from commands and use them as parameters in subsequent commands.
+- **Cross-Platform:** Works on Windows, macOS, and Linux.
+
+### Usage
+
+**1. Interactive Mode**
+
+The interactive shell is recommended for exploration and debugging. It provides an intuitive way to navigate services, call methods, and view results.
+
+To start the interactive shell, provide the connection details:
+
+```bash
+onvif --host 192.168.1.17 --port 8000 --username admin --password admin123 -i
+```
+
+If you omit the username or password, you will be prompted to enter them securely.
+
+**Interactive Shell Commands:**
+| Command | Description |
+|---|---|
+| `help` | Show help information |
+| `ls` | List available services or methods in the current context |
+| `cd <service>` | Enter a service mode (e.g., `cd devicemgmt`) |
+| `up` | Go back to the root context |
+| `pwd` | Show the current service context |
+| `desc <method>` | Show documentation for a method |
+| `store <name>` | Store the last result with a variable name |
+| `show <name>` | Display a stored variable |
+| `exit` / `quit` | Exit the shell |
+
+You can see all the commands available in the interactive shell by trying them directly.
+
+**2. Direct Command Execution**
+
+You can also execute a single ONVIF command directly. This is useful for scripting or quick checks.
+
+**Syntax:**
+```bash
+onvif <service> <method> [parameters...] -H <host> -P <port> -u <user> -p <pass>
+```
+
+**Example:**
+```bash
+# Get device capabilities
+onvif devicemgmt GetCapabilities Category=All -H 192.168.1.17 -P 8000 -u admin -p admin123
+
+# Move a PTZ camera
+onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity='{"PanTilt": {"x": 0.1}}' -H 192.168.1.17 -P 8000 -u admin -p admin123
+```
+
+### CLI Parameters
+
+All `ONVIFClient` parameters (like `--timeout`, `--https`, `--cache`, etc.) are available as command-line arguments. Use `onvif --help` to see all available options.
 
 ## ONVIFClient Parameters
 
@@ -552,8 +619,8 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
 ## Future Improvements (Stay tuned and star ⭐ this repo)
 
 - [x] ~~Add debugging mode with raw xml on SOAP requests and responses.~~ ([c258162](https://github.com/nirsimetri/onvif-python/commit/c258162))
-- [x] ~~Add functionality for `ONVIFClient` to accept a custom `wsdl_dir` service.~~ ([65f2570](https://github.com/nirsimetri/onvif-python/commit/65f257092e4c9daa23dd0d00825ed38a45d23b70))
-- [ ] Add `ONVIF CLI` program to interact directly with ONVIF devices via terminal.
+- [x] ~~Add functionality for `ONVIFClient` to accept a custom `wsdl_dir` service.~~ ([65f2570](https://github.com/nirsimetri/onvif-python/commit/65f2570))
+- [x] ~~Add `ONVIF CLI` program to interact directly with ONVIF devices via terminal.~~ ([645be01](https://github.com/nirsimetri/onvif-python/commit/645be01))
 - [ ] Add asynchronous (async/await) support for non-blocking ONVIF operations and concurrent device communication.
 - [ ] Implement structured data models for ONVIF Schemas using [xsdata](https://github.com/tefra/xsdata).
 - [ ] Integrate [xmltodict](https://github.com/martinblech/xmltodict) for simplified XML parsing and conversion.

@@ -78,7 +78,7 @@ class InteractiveShell(cmd.Cmd):
             readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")
 
             # Enable tab completion, making it compatible with both GNU readline and libedit
-            if "libedit" in readline.__doc__:
+            if hasattr(readline, "__doc__") and readline.__doc__ and "libedit" in readline.__doc__:
                 readline.parse_and_bind("bind ^I rl_complete")
             else:
                 readline.parse_and_bind("tab: complete")

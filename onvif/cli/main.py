@@ -28,7 +28,7 @@ Examples:
 
   # Prompting for username and password 
   # (if not provided)
-  {colorize('onvif', 'yellow')} --host 192.168.1.17 --port 8000 -i
+  {colorize('onvif', 'yellow')} -H 192.168.1.17 -P 8000 -i
   
   # Using HTTPS
   {colorize('onvif', 'yellow')} media GetProfiles --host camera.example.com --port 443 --username admin --password admin123 --https
@@ -37,17 +37,17 @@ Examples:
 
     # Connection parameters
     parser.add_argument(
-        "--host", required=True, help="ONVIF device IP address or hostname"
+        "--host", "-H", required=True, help="ONVIF device IP address or hostname"
     )
     parser.add_argument(
-        "--port",
+        "--port", "-P",
         required=True,
         type=int,
         default=80,
         help="ONVIF device port (default: 80)",
     )
-    parser.add_argument("--username", help="Username for authentication")
-    parser.add_argument("--password", help="Password for authentication")
+    parser.add_argument("--username", "-u", help="Username for authentication")
+    parser.add_argument("--password", "-p", help="Password for authentication")
 
     # Connection options
     parser.add_argument(
