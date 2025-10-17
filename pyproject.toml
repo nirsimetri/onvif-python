@@ -48,6 +48,9 @@ dev = [
     "flake8",
 ]
 
+[project.scripts]
+onvif = "onvif.cli.main:main"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["onvif*"]
