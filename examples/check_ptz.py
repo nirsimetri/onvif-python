@@ -22,11 +22,13 @@ try:
     ptz = client.ptz()
 
     ptz.ContinuousMove(
-        ProfileToken=profile.token, Velocity={"PanTilt": {"x": 0.1, "y": 0}} # pan right
+        ProfileToken=profile.token,
+        Velocity={"PanTilt": {"x": 0.1, "y": 0}},  # pan right
     )
     sleep(2)
     ptz.ContinuousMove(
-        ProfileToken=profile.token, Velocity={"PanTilt": {"x": -0.1, "y": 0}} # pan left
+        ProfileToken=profile.token,
+        Velocity={"PanTilt": {"x": -0.1, "y": 0}},  # pan left
     )
     sleep(2.5)
     ptz.Stop(ProfileToken=profile.token)

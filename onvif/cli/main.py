@@ -36,7 +36,11 @@ Examples:
         "--host", required=True, help="ONVIF device IP address or hostname"
     )
     parser.add_argument(
-        "--port", required=True, type=int, default=80, help="ONVIF device port (default: 80)"
+        "--port",
+        required=True,
+        type=int,
+        default=80,
+        help="ONVIF device port (default: 80)",
     )
     parser.add_argument("--username", help="Username for authentication")
     parser.add_argument("--password", help="Password for authentication")
@@ -75,7 +79,9 @@ Examples:
         nargs="?",
         help="Service method name (e.g., GetCapabilities, GetProfiles)",
     )
-    parser.add_argument("params", nargs="?", help="Method parameters as Simple Parameter or JSON string")
+    parser.add_argument(
+        "params", nargs="?", help="Method parameters as Simple Parameter or JSON string"
+    )
 
     return parser
 
@@ -83,12 +89,12 @@ Examples:
 def main():
     """Main CLI entry point"""
     parser = create_parser()
-    
+
     # Check if no arguments provided at all
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(0)
-    
+
     args = parser.parse_args()
 
     # Handle username prompt
@@ -102,14 +108,18 @@ def main():
     # Handle password securely if not provided
     if not args.password:
         try:
-            args.password = getpass.getpass(f"Enter password for {colorize(f'{args.username}@{args.host}', 'yellow')}: ")
+            args.password = getpass.getpass(
+                f"Enter password for {colorize(f'{args.username}@{args.host}', 'yellow')}: "
+            )
         except (EOFError, KeyboardInterrupt):
             print("\nPassword entry cancelled.")
             sys.exit(1)
 
     # Validate arguments
     if not args.interactive and (not args.service or not args.method):
-        parser.error(f"Either {colorize('--interactive', 'white')} mode or {colorize('service/method', 'white')} must be specified")
+        parser.error(
+            f"Either {colorize('--interactive', 'white')} mode or {colorize('service/method', 'white')} must be specified"
+        )
 
     try:
         # Create ONVIF client
@@ -132,13 +142,17 @@ def main():
                 # Try to get device information to verify connection
                 client.devicemgmt().GetDeviceInformation()
             except Exception as e:
-                print(f"{colorize('Error:', 'red')} Unable to connect to ONVIF device at {colorize(f'{args.host}:{args.port}', 'white')}", file=sys.stderr)
+                print(
+                    f"{colorize('Error:', 'red')} Unable to connect to ONVIF device at {colorize(f'{args.host}:{args.port}', 'white')}",
+                    file=sys.stderr,
+                )
                 print(f"Connection error: {e}", file=sys.stderr)
                 if args.debug:
                     import traceback
+
                     traceback.print_exc()
                 sys.exit(1)
-            
+
             # Start interactive shell
             shell = InteractiveShell(client, args)
             shell.run()
@@ -173,7 +187,9 @@ def execute_command(
     try:
         method = getattr(service, method_name)
     except AttributeError:
-        raise ValueError(f"{colorize('Unknown method', 'red')} '{method_name}' for service '{service_name}'")
+        raise ValueError(
+            f"{colorize('Unknown method', 'red')} '{method_name}' for service '{service_name}'"
+        )
 
     # Parse parameters
     params = parse_json_params(params_str) if params_str else {}

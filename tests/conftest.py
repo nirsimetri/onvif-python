@@ -21,20 +21,20 @@ def mock_device_response():
 def mock_capabilities():
     """Mock capabilities response"""
     mock_caps = Mock()
-    
+
     # Media capabilities
     mock_caps.Media = Mock()
     mock_caps.Media.XAddr = "http://192.168.1.17:8000/onvif/Media"
-    
+
     # PTZ capabilities
     mock_caps.PTZ = Mock()
     mock_caps.PTZ.XAddr = "http://192.168.1.17:8000/onvif/PTZ"
-    
+
     # Extension capabilities
     mock_caps.Extension = Mock()
     mock_caps.Extension.DeviceIO = Mock()
     mock_caps.Extension.DeviceIO.XAddr = "http://192.168.1.17:8000/onvif/DeviceIO"
-    
+
     return mock_caps
 
 
@@ -44,40 +44,40 @@ def mock_services():
     service1 = Mock()
     service1.Namespace = "http://www.onvif.org/ver10/media/wsdl"
     service1.XAddr = "http://192.168.1.17:8000/onvif/Media"
-    
+
     service2 = Mock()
     service2.Namespace = "http://www.onvif.org/ver20/ptz/wsdl"
     service2.XAddr = "http://192.168.1.17:8000/onvif/PTZ"
-    
+
     return [service1, service2]
 
 
 @pytest.fixture
 def mock_onvif_client():
     """Create a mocked ONVIF client for testing"""
-    with patch('onvif.client.Device') as mock_device_class:
+    with patch("onvif.client.Device") as mock_device_class:
         # Mock the Device class to avoid real network calls
         mock_device = Mock()
         mock_device_class.return_value = mock_device
-        
+
         client = ONVIFClient(
             host="192.168.1.17",
             port=8000,
-            username="admin", 
+            username="admin",
             password="admin123",
             timeout=5,
-            cache=CacheMode.NONE  # Disable caching for tests
+            cache=CacheMode.NONE,  # Disable caching for tests
         )
-        
+
         # Set up mock responses
         mock_device.GetDeviceInformation.return_value = Mock(
             Manufacturer="Test Manufacturer",
-            Model="Test Model", 
+            Model="Test Model",
             FirmwareVersion="1.0.0",
             SerialNumber="TEST123456",
-            HardwareId="TEST_HW_001"
+            HardwareId="TEST_HW_001",
         )
-        
+
         # Create mock capabilities
         mock_caps = Mock()
         mock_caps.Media = Mock()
@@ -88,7 +88,7 @@ def mock_onvif_client():
         mock_caps.Extension.DeviceIO = Mock()
         mock_caps.Extension.DeviceIO.XAddr = "http://192.168.1.17:8000/onvif/DeviceIO"
         mock_device.GetCapabilities.return_value = mock_caps
-        
+
         # Create mock services
         service1 = Mock()
         service1.Namespace = "http://www.onvif.org/ver10/media/wsdl"
@@ -97,7 +97,7 @@ def mock_onvif_client():
         service2.Namespace = "http://www.onvif.org/ver20/ptz/wsdl"
         service2.XAddr = "http://192.168.1.17:8000/onvif/PTZ"
         mock_device.GetServices.return_value = [service1, service2]
-        
+
         client._devicemgmt = mock_device
         yield client
 
@@ -107,9 +107,7 @@ def sample_subscription_ref():
     """Sample subscription reference for pullpoint tests"""
     return {
         "SubscriptionReference": {
-            "Address": {
-                "_value_1": "http://192.168.1.17:8000/onvif/Subscription/12345"
-            }
+            "Address": {"_value_1": "http://192.168.1.17:8000/onvif/Subscription/12345"}
         }
     }
 
@@ -123,5 +121,5 @@ def test_client_params():
         "username": "admin",
         "password": "admin123",
         "timeout": 5,
-        "cache": CacheMode.NONE
+        "cache": CacheMode.NONE,
     }

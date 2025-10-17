@@ -6,12 +6,14 @@ from onvif import ONVIFWSDL
 def test_get_wsdl_definition_valid():
     """Test valid WSDL definition retrieval"""
     definition = ONVIFWSDL.get_definition("devicemgmt", "ver10")
-    
+
     assert isinstance(definition, dict)
     assert "path" in definition
     assert "binding" in definition
     assert "namespace" in definition
-    assert os.path.exists(definition["path"]), f"WSDL path not found: {definition['path']}"
+    assert os.path.exists(
+        definition["path"]
+    ), f"WSDL path not found: {definition['path']}"
 
 
 def test_get_wsdl_definition_invalid_service():
@@ -33,11 +35,13 @@ def test_get_wsdl_definition_invalid_version():
 def test_get_wsdl_definition_combinations(service, version):
     """Test various service and version combinations"""
     definition = ONVIFWSDL.get_definition(service, version)
-    
+
     assert isinstance(definition, dict)
     assert "path" in definition
-    assert os.path.exists(definition["path"]), f"{service} {version} missing: {definition['path']}"
-    
+    assert os.path.exists(
+        definition["path"]
+    ), f"{service} {version} missing: {definition['path']}"
+
     # Verify binding and namespace are present
     assert definition["binding"] is not None
     assert definition["namespace"] is not None

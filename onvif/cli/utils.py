@@ -70,15 +70,15 @@ def parse_json_params(params_str: str) -> Dict[str, Any]:
             elif ch == '"' and not in_single:
                 in_double = not in_double
             elif not in_single and not in_double:
-                if ch in '{[(':
+                if ch in "{[(":
                     depth += 1
-                elif ch in '}])':
+                elif ch in "}])":
                     depth = max(0, depth - 1)
 
-            if depth == 0 and not in_single and not in_double and ch in [',', ' ']:
+            if depth == 0 and not in_single and not in_double and ch in [",", " "]:
                 # treat as separator only when buffer has content
                 if buf:
-                    token = ''.join(buf).strip()
+                    token = "".join(buf).strip()
                     if token:
                         tokens.append(token)
                     buf = []
@@ -88,7 +88,7 @@ def parse_json_params(params_str: str) -> Dict[str, Any]:
             buf.append(ch)
 
         if buf:
-            token = ''.join(buf).strip()
+            token = "".join(buf).strip()
             if token:
                 tokens.append(token)
 
@@ -98,9 +98,9 @@ def parse_json_params(params_str: str) -> Dict[str, Any]:
     tokens = split_top_level(params_str)
 
     for pair in tokens:
-        if '=' in pair:
-            key, value = pair.split('=', 1)
-            key = key.strip().strip('"\'')
+        if "=" in pair:
+            key, value = pair.split("=", 1)
+            key = key.strip().strip("\"'")
             v_raw = value.strip()
 
             # Try to parse the RHS as JSON first (to support nested objects/arrays)
@@ -115,16 +115,16 @@ def parse_json_params(params_str: str) -> Dict[str, Any]:
                     v_token = v_raw
 
                 # Interpret booleans and null
-                if isinstance(v_token, str) and v_token.lower() == 'true':
+                if isinstance(v_token, str) and v_token.lower() == "true":
                     v = True
-                elif isinstance(v_token, str) and v_token.lower() == 'false':
+                elif isinstance(v_token, str) and v_token.lower() == "false":
                     v = False
-                elif isinstance(v_token, str) and v_token.lower() in ('none', 'null'):
+                elif isinstance(v_token, str) and v_token.lower() in ("none", "null"):
                     v = None
                 else:
                     # Try numeric conversion
                     try:
-                        if isinstance(v_token, str) and '.' in v_token:
+                        if isinstance(v_token, str) and "." in v_token:
                             v = float(v_token)
                         else:
                             v = int(v_token)
@@ -161,9 +161,11 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
         wsdl_path = service_obj.operator.wsdl_path
         tree = ET.parse(wsdl_path)
         root = tree.getroot()
-        namespaces = {node[0]: node[1] for node in ET.iterparse(wsdl_path, events=['start-ns'])}
-        namespaces['wsdl'] = 'http://schemas.xmlsoap.org/wsdl/'
-        namespaces['xs'] = 'http://www.w3.org/2001/XMLSchema'
+        namespaces = {
+            node[0]: node[1] for node in ET.iterparse(wsdl_path, events=["start-ns"])
+        }
+        namespaces["wsdl"] = "http://schemas.xmlsoap.org/wsdl/"
+        namespaces["xs"] = "http://www.w3.org/2001/XMLSchema"
 
         # Find the operation
         operation = root.find(f".//wsdl:operation[@name='{method_name}']", namespaces)
@@ -171,66 +173,81 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
             return None
 
         # 1. Get documentation
-        doc_element = operation.find('wsdl:documentation', namespaces)
+        doc_element = operation.find("wsdl:documentation", namespaces)
         if doc_element is not None:
             # Handle mixed content (text and tags like <br/>, <ul>, <li>)
             text_parts = []
             if doc_element.text:
                 text_parts.append(doc_element.text)
-            
+
             for child in doc_element:
-                if child.tag.endswith('ul') or child.tag.endswith('ol'):
-                    text_parts.append('\n')
-                    if child.text: text_parts.append(child.text.strip())
+                if child.tag.endswith("ul") or child.tag.endswith("ol"):
+                    text_parts.append("\n")
+                    if child.text:
+                        text_parts.append(child.text.strip())
                     for i, li in enumerate(child):
-                        if li.tag.endswith('li'):
+                        if li.tag.endswith("li"):
                             # Join all text within the <li> tag, then strip and prepend '- '
-                            li_text = (''.join(li.itertext())).strip().replace('\n', ' ').replace('\r', '')
-                            li_text = ' '.join(li_text.split())
-                            text_parts.append(f"\n  - {i+1}. {li_text}" if child.tag.endswith('ol') else f"\n  - {li_text}")
+                            li_text = (
+                                ("".join(li.itertext()))
+                                .strip()
+                                .replace("\n", " ")
+                                .replace("\r", "")
+                            )
+                            li_text = " ".join(li_text.split())
+                            text_parts.append(
+                                f"\n  - {i+1}. {li_text}"
+                                if child.tag.endswith("ol")
+                                else f"\n  - {li_text}"
+                            )
                     if child.tail:
-                        if not child.tag.endswith('ol'):
-                            text_parts.append('\n\n')  # Add paragraph break after list
+                        if not child.tag.endswith("ol"):
+                            text_parts.append("\n\n")  # Add paragraph break after list
                         text_parts.append(child.tail)
-                elif child.tag.endswith('br'):
-                    text_parts.append('\n\n') # Paragraph break
-                    if child.tail: text_parts.append(child.tail)
-                else: # Other tags, just get text
-                    if child.text: text_parts.append(child.text)
-                    if child.tail: text_parts.append(child.tail)
+                elif child.tag.endswith("br"):
+                    text_parts.append("\n\n")  # Paragraph break
+                    if child.tail:
+                        text_parts.append(child.tail)
+                else:  # Other tags, just get text
+                    if child.text:
+                        text_parts.append(child.text)
+                    if child.tail:
+                        text_parts.append(child.tail)
 
             # Join all parts into a single string
             full_text = "".join(text_parts)
-            
+
             # Normalize whitespace while preserving paragraph and list structures
-            paragraphs = full_text.split('\n\n')
+            paragraphs = full_text.split("\n\n")
             cleaned_paragraphs = []
             for para in paragraphs:
                 # Check if the paragraph is a list
-                if '- ' in para:
-                    list_lines = para.strip().split('\n')
-                    cleaned_list_lines = [' '.join(line.split()) for line in list_lines if line.strip()]
-                    cleaned_paragraphs.append('\n'.join(cleaned_list_lines))
+                if "- " in para:
+                    list_lines = para.strip().split("\n")
+                    cleaned_list_lines = [
+                        " ".join(line.split()) for line in list_lines if line.strip()
+                    ]
+                    cleaned_paragraphs.append("\n".join(cleaned_list_lines))
                 else:
                     # It's a normal paragraph, collapse all whitespace
-                    cleaned_para = ' '.join(para.split())
+                    cleaned_para = " ".join(para.split())
                     cleaned_paragraphs.append(cleaned_para)
-            
-            doc_text = '\n\n'.join(cleaned_paragraphs)
+
+            doc_text = "\n\n".join(cleaned_paragraphs)
         else:
-            doc_text = colorize("No description available.", 'reset')
+            doc_text = colorize("No description available.", "reset")
 
         # 2. Get parameters from Python method signature using inspect
         method = getattr(service_obj, method_name)
         sig = inspect.signature(method)
         for param in sig.parameters.values():
-            if param.name != 'self':
+            if param.name != "self":
                 if param.default is inspect.Parameter.empty:
                     required_args.append(param.name)
                 else:
                     optional_args.append(param.name)
 
-        return {'doc': doc_text, 'required': required_args, 'optional': optional_args}
+        return {"doc": doc_text, "required": required_args, "optional": optional_args}
 
     except (ET.ParseError, FileNotFoundError, AttributeError, ValueError):
         # Fallback in case of any error, still try to get params
@@ -238,12 +255,16 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
             method = getattr(service_obj, method_name)
             sig = inspect.signature(method)
             for param in sig.parameters.values():
-                if param.name != 'self':
+                if param.name != "self":
                     if param.default is inspect.Parameter.empty:
                         required_args.append(param.name)
                     else:
                         optional_args.append(param.name)
-            return {'doc': doc_text, 'required': required_args, 'optional': optional_args}
+            return {
+                "doc": doc_text,
+                "required": required_args,
+                "optional": optional_args,
+            }
         except (AttributeError, ValueError):
             return None
     except Exception:
@@ -262,27 +283,29 @@ def truncate_output(text: str, max_length: int = 1000) -> str:
 def colorize(text: str, color: str) -> str:
     """Add color to text for terminal output"""
     # Enable ANSI colors on Windows
-    if not hasattr(colorize, '_colors_enabled'):
+    if not hasattr(colorize, "_colors_enabled"):
         colorize._colors_enabled = True
-        if os.name == 'nt':  # Windows
+        if os.name == "nt":  # Windows
             try:
                 import ctypes
                 from ctypes import wintypes
-                
+
                 # Enable ANSI escape sequences
                 kernel32 = ctypes.windll.kernel32
                 h_stdout = kernel32.GetStdHandle(-11)  # STD_OUTPUT_HANDLE
-                
+
                 # Get current console mode
                 mode = wintypes.DWORD()
                 kernel32.GetConsoleMode(h_stdout, ctypes.byref(mode))
-                
+
                 # Enable virtual terminal processing
                 ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
-                kernel32.SetConsoleMode(h_stdout, mode.value | ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+                kernel32.SetConsoleMode(
+                    h_stdout, mode.value | ENABLE_VIRTUAL_TERMINAL_PROCESSING
+                )
             except:
                 pass  # Fallback to no colors if error
-    
+
     colors = {
         "red": "\033[91m",
         "green": "\033[92m",
@@ -403,34 +426,34 @@ def format_services_list(services_list) -> str:
 def get_device_available_services(client) -> list:
     """Get list of services actually available on the connected device"""
     available_services = ["devicemgmt"]  # devicemgmt is always available
-    
+
     # Check if device has services information
-    if hasattr(client, 'services') and client.services:
+    if hasattr(client, "services") and client.services:
         for service in client.services:
-            namespace = getattr(service, 'Namespace', None)
+            namespace = getattr(service, "Namespace", None)
             if namespace and namespace in ONVIF_NAMESPACE_MAP:
                 service_name = ONVIF_NAMESPACE_MAP[namespace]
                 if service_name not in available_services:
                     available_services.append(service_name)
-    
+
     # Check capabilities as fallback
-    elif hasattr(client, 'capabilities') and client.capabilities:
+    elif hasattr(client, "capabilities") and client.capabilities:
         caps = client.capabilities
-        
+
         # Check various capability attributes for service availability
-        if hasattr(caps, 'Events') and caps.Events:
+        if hasattr(caps, "Events") and caps.Events:
             available_services.append("events")
-        if hasattr(caps, 'Imaging') and caps.Imaging:
+        if hasattr(caps, "Imaging") and caps.Imaging:
             available_services.append("imaging")
-        if hasattr(caps, 'Media') and caps.Media:
+        if hasattr(caps, "Media") and caps.Media:
             available_services.append("media")
-        if hasattr(caps, 'PTZ') and caps.PTZ:
+        if hasattr(caps, "PTZ") and caps.PTZ:
             available_services.append("ptz")
-        if hasattr(caps, 'DeviceIO') and caps.DeviceIO:
+        if hasattr(caps, "DeviceIO") and caps.DeviceIO:
             available_services.append("deviceio")
-        if hasattr(caps, 'Display') and caps.Display:
+        if hasattr(caps, "Display") and caps.Display:
             available_services.append("display")
-        if hasattr(caps, 'Analytics') and caps.Analytics:
+        if hasattr(caps, "Analytics") and caps.Analytics:
             available_services.append("analytics")
-    
+
     return sorted(list(set(available_services)))  # Remove duplicates and sort

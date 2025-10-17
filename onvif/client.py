@@ -95,7 +95,7 @@ class ONVIFClient:
         # Try to retrieve device services and create namespace -> XAddr mapping
         self.services = None
         self._service_map = {}
-        
+
         # Temporary variable to hold capabilities
         self.capabilities = None
 
@@ -299,7 +299,7 @@ class ONVIFClient:
                 xaddr = addr_obj["_value_1"]
             elif hasattr(addr_obj, "_value_1"):
                 xaddr = addr_obj._value_1
-            
+
             xaddr = self._rewrite_xaddr_if_needed(xaddr)
         except Exception:
             pass
@@ -308,10 +308,10 @@ class ONVIFClient:
             raise RuntimeError(
                 "SubscriptionReference.Address missing in subscription response"
             )
-        
+
         if xaddr not in self._pullpoints:
             self._pullpoints[xaddr] = PullPoint(xaddr=xaddr, **self.common_args)
-        
+
         return self._pullpoints[xaddr]
 
     def notification(self):
@@ -329,7 +329,7 @@ class ONVIFClient:
                 xaddr = addr_obj["_value_1"]
             elif hasattr(addr_obj, "_value_1"):
                 xaddr = addr_obj._value_1
-            
+
             xaddr = self._rewrite_xaddr_if_needed(xaddr)
         except Exception:
             pass
@@ -338,10 +338,10 @@ class ONVIFClient:
             raise RuntimeError(
                 "SubscriptionReference.Address missing in subscription response"
             )
-        
+
         if xaddr not in self._subscriptions:
             self._subscriptions[xaddr] = Subscription(xaddr=xaddr, **self.common_args)
-        
+
         return self._subscriptions[xaddr]
 
     # Imaging

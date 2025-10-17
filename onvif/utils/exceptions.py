@@ -56,17 +56,21 @@ class ONVIFOperationException(Exception):
             if detail is not None:
                 # Parse XML detail element to extract readable content
                 try:
-                    if hasattr(detail, 'text') and detail.text:
+                    if hasattr(detail, "text") and detail.text:
                         detail_text = detail.text.strip()
-                    elif hasattr(detail, '__iter__'):
+                    elif hasattr(detail, "__iter__"):
                         # Try to extract text from child elements
                         detail_parts = []
                         for child in detail:
-                            if hasattr(child, 'text') and child.text:
-                                detail_parts.append(f"{child.tag.split('}')[-1]}={child.text}")
-                            elif hasattr(child, 'tag'):
-                                detail_parts.append(child.tag.split('}')[-1])
-                        detail_text = ", ".join(detail_parts) if detail_parts else str(detail)
+                            if hasattr(child, "text") and child.text:
+                                detail_parts.append(
+                                    f"{child.tag.split('}')[-1]}={child.text}"
+                                )
+                            elif hasattr(child, "tag"):
+                                detail_parts.append(child.tag.split("}")[-1])
+                        detail_text = (
+                            ", ".join(detail_parts) if detail_parts else str(detail)
+                        )
                     else:
                         detail_text = str(detail)
                     parts.append(f"detail={detail_text}")

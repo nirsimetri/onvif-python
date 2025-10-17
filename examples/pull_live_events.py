@@ -17,7 +17,9 @@ PORT = 80
 USERNAME = "admin"
 PASSWORD = "admin123"
 
-client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE, capture_xml=True)
+client = ONVIFClient(
+    HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE, capture_xml=True
+)
 
 # 1. Create PullPoint Subscription from Events service
 subscription = client.events().CreatePullPointSubscription()
@@ -46,7 +48,11 @@ while datetime.datetime.now() < end_time:
                 topic_val = None
                 try:
                     # Get last raw response from XMLCapturePlugin
-                    last_raw_xml = client.xml_plugin.last_received_xml if client.xml_plugin else None
+                    last_raw_xml = (
+                        client.xml_plugin.last_received_xml
+                        if client.xml_plugin
+                        else None
+                    )
                     if last_raw_xml is not None:
                         root = ET.fromstring(last_raw_xml)
                         topic_elems = root.findall(
