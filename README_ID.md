@@ -123,9 +123,34 @@ Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`
 ## ONVIF CLI
 
 > [!NOTE]
-> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak onvif-python versi [0.1.1](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1)
+> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak onvif-python versi [`0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
 
 Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berinteraksi dengan perangkat ONVIF langsung dari terminal Anda. CLI ini mendukung eksekusi perintah langsung dan mode shell interaktif, menyediakan cara yang fleksibel dan efisien untuk mengelola dan men-debug perangkat ONVIF.
+
+### Screenshoot
+
+<table>
+  <tr>
+    <td width="33.8%">
+      <a href="https://github.com/nirsimetri/onvif-python">
+        <img src="./assets/onvif_cli.png" />
+      </a>
+    </td>
+    <td width="65.2%">
+        <a href="https://github.com/nirsimetri/onvif-python">
+        <img src="./assets/onvif_operations.png" />
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <th align="center">
+      Onboarding
+    </th>
+    <th align="center">
+      List available operations
+    </th>
+  </tr>
+</table>
 
 ### Fitur
 

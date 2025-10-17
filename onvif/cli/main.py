@@ -41,7 +41,6 @@ Examples:
     )
     parser.add_argument(
         "--port", "-P",
-        required=True,
         type=int,
         default=80,
         help="ONVIF device port (default: 80)",
