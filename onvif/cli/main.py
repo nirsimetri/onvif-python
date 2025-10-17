@@ -69,6 +69,9 @@ Examples:
     parser.add_argument(
         "--debug", action="store_true", help="Enable debug mode with XML capture"
     )
+    parser.add_argument(
+        "--wsdl", help="Custom WSDL directory path"
+    )
 
     # Service and method (for direct command execution)
     parser.add_argument(
@@ -134,6 +137,7 @@ def main():
             verify_ssl=not args.no_verify,
             apply_patch=not args.no_patch,
             capture_xml=args.debug,
+            wsdl_dir=args.wsdl,
         )
 
         if args.interactive:
