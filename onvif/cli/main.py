@@ -15,7 +15,7 @@ def create_parser():
     """Create argument parser for ONVIF CLI"""
     parser = argparse.ArgumentParser(
         prog="onvif",
-        description=f"{colorize("ONVIF Terminal Client", 'yellow')} —\nhttps://github.com/nirsimetri/onvif-python",
+        description=f"{colorize('ONVIF Terminal Client', 'yellow')} —\nhttps://github.com/nirsimetri/onvif-python",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 Examples:

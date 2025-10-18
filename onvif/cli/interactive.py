@@ -136,14 +136,15 @@ class InteractiveShell(cmd.Cmd):
                 # with basic device info if GetDeviceInformation succeeded.
                 pass
 
-        self.device_info_text = f"""
-{colorize('\n[Device Info]', 'cyan')}
-  Manufacturer  : {colorize(manufacturer, 'white')}
-  Model         : {colorize(model, 'white')}
-  Firmware      : {colorize(firmware, 'white')}
-  Serial        : {colorize(serial, 'white')}
-  HardwareId    : {colorize(hardware_id, 'white')}
-  ONVIF Version : {colorize(onvif_version, 'white')}"""
+        self.device_info_text = (
+    f"\n\n{colorize('[Device Info]', 'cyan')}\n"
+    f"  Manufacturer  : {colorize(manufacturer, 'white')}\n"
+    f"  Model         : {colorize(model, 'white')}\n"
+    f"  Firmware      : {colorize(firmware, 'white')}\n"
+    f"  Serial        : {colorize(serial, 'white')}\n"
+    f"  HardwareId    : {colorize(hardware_id, 'white')}\n"
+    f"  ONVIF Version : {colorize(onvif_version, 'white')}"
+)
 
         # Build connection and CLI options info
         options_info = []
