@@ -137,14 +137,14 @@ class InteractiveShell(cmd.Cmd):
                 pass
 
         self.device_info_text = (
-    f"\n\n{colorize('[Device Info]', 'cyan')}\n"
-    f"  Manufacturer  : {colorize(manufacturer, 'white')}\n"
-    f"  Model         : {colorize(model, 'white')}\n"
-    f"  Firmware      : {colorize(firmware, 'white')}\n"
-    f"  Serial        : {colorize(serial, 'white')}\n"
-    f"  HardwareId    : {colorize(hardware_id, 'white')}\n"
-    f"  ONVIF Version : {colorize(onvif_version, 'white')}"
-)
+            f"\n\n{colorize('[Device Info]', 'cyan')}\n"
+            f"  Manufacturer  : {colorize(manufacturer, 'white')}\n"
+            f"  Model         : {colorize(model, 'white')}\n"
+            f"  Firmware      : {colorize(firmware, 'white')}\n"
+            f"  Serial        : {colorize(serial, 'white')}\n"
+            f"  HardwareId    : {colorize(hardware_id, 'white')}\n"
+            f"  ONVIF Version : {colorize(onvif_version, 'white')}"
+        )
 
         # Build connection and CLI options info
         options_info = []
