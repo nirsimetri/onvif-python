@@ -2,6 +2,7 @@
 
 import argparse
 import sys
+import warnings
 import getpass
 from typing import Any, Optional, Tuple
 
@@ -111,6 +112,9 @@ Examples:
 
 def main():
     """Main CLI entry point"""
+    # Setup custom warning format for cleaner output
+    setup_warning_format()
+
     parser = create_parser()
 
     # Check if no arguments provided at all
@@ -466,6 +470,16 @@ def select_device_interactive(devices: list) -> Optional[Tuple[str, int]]:
             print(f"{colorize('Invalid input. Please enter a number.', 'red')}")
         except (EOFError, KeyboardInterrupt):
             return None
+
+
+def setup_warning_format():
+    """Setup custom warning format to show clean, concise warnings"""
+
+    def custom_warning_format(message, category, filename, lineno, line=None):
+        # Show only the warning message without file path and line number
+        return f"{category.__name__}: {message}\n"
+
+    warnings.formatwarning = custom_warning_format
 
 
 if __name__ == "__main__":
