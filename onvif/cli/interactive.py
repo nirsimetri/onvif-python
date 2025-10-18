@@ -189,7 +189,7 @@ class InteractiveShell(cmd.Cmd):
             colorize('https://github.com/nirsimetri/onvif-python', 'white'),
         ])
 
-        terminal_header = colorize('[ONVIF Terminal Client]', 'yellow')
+        terminal_header = colorize('\n[ONVIF Terminal Client]', 'yellow')
 
         self.intro = (
             f"{banner}\n"
