@@ -73,20 +73,18 @@ All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.
 
 Use the following commit/PR title types:
 
-| Type       | Description                                                                  |
-| ---------- | ---------------------------------------------------------------------------- |
-| `feat`     | ✨ **New feature**                                                           |
-| `fix`      | 🐛 **Bug fix**                                                               |
-| `chore`    | 🔧 Non-code tasks such as updating dependencies, configs, or build tools     |
-| `docs`     | 📚 Documentation-only changes                                                |
-| `style`    | 🎨 Code style changes (formatting, spacing, etc. — without affecting logic)  |
-| `refactor` | 🔨 Code refactoring without adding features or fixing bugs                   |
-| `test`     | ✅ Adding or modifying tests (unit tests, integration tests, etc.)           |
-| `perf`     | 🚀 Performance improvements                                                  |
-| `ci`       | ⚙️ Changes to CI/CD configuration or pipelines                               |
-| `build`    | 📦 Changes to the build system or external dependencies (e.g., Dockerfile)   |
-| `revert`   | ⏪ Reverting a previous commit                                               |
-| `code`     | General code changes that support but are not core features (e.g., examples) |
+- **`feat`** → ✨ New feature
+- **`fix`** → 🐛 Bug fix
+- **`chore`** → 🔧 Non-code tasks such as updating dependencies, configs, or build tools
+- **`docs`** → 📚 Documentation-only changes
+- **`style`** → 🎨 Code style changes (formatting, spacing, etc. — without affecting logic)
+- **`refactor`** → 🔨 Code refactoring without adding features or fixing bugs
+- **`test`** → ✅ Adding or modifying tests (unit tests, integration tests, etc.)
+- **`perf`** → 🚀 Performance improvements
+- **`ci`** → ⚙️ Changes to CI/CD configuration or pipelines
+- **`build`** → 📦 Changes to the build system or external dependencies (e.g., Dockerfile)
+- **`revert`** → ⏪ Reverting a previous commit
+- **`code`** → General code changes that support but are not core features (e.g., examples)
 
 ### Examples
 - `feat: add Media service auto path detection`  
