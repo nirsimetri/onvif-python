@@ -6,8 +6,16 @@ name: Python application
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "onvif/**"
+      - "tests/**"
+      - "examples/**"
   pull_request:
     branches: [ "main" ]
+    paths:
+      - "onvif/**"
+      - "tests/**"
+      - "examples/**"
 
 permissions:
   contents: read
