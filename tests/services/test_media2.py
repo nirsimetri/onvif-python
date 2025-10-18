@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.media2 import Media2
 
 

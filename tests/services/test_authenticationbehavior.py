@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.authenticationbehavior import AuthenticationBehavior
 
 

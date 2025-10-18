@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.security.advancedsecurity import AdvancedSecurity
 
 

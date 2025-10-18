@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.ptz import PTZ
 
 

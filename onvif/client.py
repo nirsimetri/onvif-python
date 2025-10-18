@@ -241,7 +241,8 @@ class ONVIFClient:
                         svc = getattr(ext, service_path, None)
                         xaddr = getattr(svc, "XAddr", None) if svc else None
                     else:
-                        # Step 3: try capabilities.Extension.Extension.service_path (e.g. capabilities.Extension.Extension.Provisioning)
+                        # Step 3: try capabilities.Extension.Extension.service_path
+                        # (e.g. capabilities.Extension.Extension.Provisioning)
                         ext_ext = getattr(ext, "Extension", None)
                         if ext_ext and hasattr(ext_ext, service_path):
                             svc = getattr(ext_ext, service_path, None)

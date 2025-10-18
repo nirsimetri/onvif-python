@@ -197,7 +197,7 @@ class InteractiveShell(cmd.Cmd):
   - up          : Exit service mode (go up one level)
   - info        : Show current device and connection info
   - exit/quit   : Exit shell
-  
+
 Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to see suggestions.
         """
 
@@ -341,7 +341,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
             import shutil
 
             term_width = shutil.get_terminal_size().columns
-        except:
+        except Exception:
             term_width = 80
 
         # Find the longest item length
@@ -504,8 +504,8 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
         # Check if we're in service mode and this might be a method call
         if self.current_service and line and not line.startswith("do_"):
             # Check if it's a known command first
-            cmd, arg, line = self.parseline(line)
-            if cmd and hasattr(self, f"do_{cmd}"):
+            command, arg, line = self.parseline(line)
+            if command and hasattr(self, f"do_{command}"):
                 # It's a known command, let parent handle it normally
                 return super().onecmd(line)
             else:
@@ -835,7 +835,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
 
 {colorize('Quick Access:', 'yellow')}
   caps                     - Show capabilities (same as 'capabilities')
-  
+
 {colorize('Tab Completion Examples:', 'yellow')}
   dev<TAB>                 - Completes to 'devicemgmt'
   med<TAB>                 - Completes to 'media'
@@ -1086,7 +1086,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
   info                     - Show connection and device information
   exit, quit               - Exit the shell
   shortcuts                - Show available shortcuts
-  
+
 {colorize('Navigation Commands:', 'yellow')}
   <service>                - Enter service mode (e.g., devicemgmt, media)
   cd <service>             - Enter service mode (alias)
@@ -1095,12 +1095,12 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
   pwd                      - Show current service context
   clear                    - Clear terminal screen
   desc <method>            - Show method documentation in service mode
-  
+
 {colorize('Method Execution:', 'yellow')}
   <method>                 - Execute method without parameters
   <method> {{"param": "value"}}  - Execute method with JSON parameters
   <method> param=value     - Execute method with simple parameters
-  
+
 {colorize('Data Management:', 'yellow')}
   store <name>             - Store last result with a name
   show <name>              - Show stored data
@@ -1109,18 +1109,18 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
   show                     - List all stored data
   rm <name>                - Remove stored data by name
   cls                      - Clear all stored data
-  
+
 {colorize('Using Stored Data in Methods:', 'yellow')}
   Use $variable syntax to reference stored data in method parameters:
   - $profiles[0].token                    - Access list element and attribute
   - $profiles[0].VideoSourceConfiguration.SourceToken
-  
+
   Example:
     GetProfiles                           - Get profiles
     store profiles                        - Store result
     show profiles[0].token                - Show first profile token
     GetImagingSettings VideoSourceToken=$profiles[0].VideoSourceConfiguration.SourceToken
-  
+
 {colorize('Debug Commands:', 'yellow')}
   debug                    - Show last SOAP request & response (if --debug enabled)
 
@@ -1129,7 +1129,7 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
   Type partial commands to see suggestions
 
 {colorize('Examples:', 'yellow')}
-  192.168.1.17:8000 > caps                # Show capabilities  
+  192.168.1.17:8000 > caps                # Show capabilities
   192.168.1.17:8000 > dev<TAB>            # Completes to 'devicemgmt'
   192.168.1.17:8000 > cd devicemgmt       # Enter device management
   192.168.1.17:8000/devicemgmt > Get<TAB> # Show methods starting with 'Get'

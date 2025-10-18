@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.security.authorizationserver import AuthorizationServer
 
 

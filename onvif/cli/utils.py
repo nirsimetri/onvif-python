@@ -1,7 +1,6 @@
 # onvif/cli/utils.py
 
 import json
-import shlex
 import os
 import inspect
 from typing import Any, Dict, Optional
@@ -320,7 +319,7 @@ def colorize(text: str, color: str) -> str:
                 kernel32.SetConsoleMode(
                     h_stdout, mode.value | ENABLE_VIRTUAL_TERMINAL_PROCESSING
                 )
-            except:
+            except Exception:
                 pass  # Fallback to no colors if error
 
     colors = {

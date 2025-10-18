@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.imaging import Imaging
 
 

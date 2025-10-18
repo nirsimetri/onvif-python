@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.security.tlsserver import TLSServer
 
 

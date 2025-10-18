@@ -59,7 +59,7 @@ class XMLCapturePlugin(Plugin):
             if lines and lines[0].startswith("<?xml"):
                 lines = lines[1:]
             return "\n".join(lines)
-        except Exception as e:
+        except Exception:
             # Fallback to lxml if minidom fails
             return etree.tostring(element, pretty_print=True, encoding="unicode")
 

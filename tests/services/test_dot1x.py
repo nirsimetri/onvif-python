@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.security.dot1x import Dot1X
 
 

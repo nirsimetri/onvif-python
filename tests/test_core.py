@@ -1,7 +1,7 @@
 # tests/test_core.py
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 from onvif.utils.wsdl import ONVIFWSDL
 from onvif.utils.zeep import ZeepPatcher
 from onvif.utils.xml_capture import XMLCapturePlugin
@@ -70,7 +70,7 @@ class TestZeepPatcher:
         """Test patch application"""
         # Test that patch can be applied
         ZeepPatcher.apply_patch()
-        assert ZeepPatcher.is_patched() == True
+        assert ZeepPatcher.is_patched()
 
         # Clean up
         ZeepPatcher.remove_patch()
@@ -79,11 +79,11 @@ class TestZeepPatcher:
         """Test patch removal"""
         # Apply first
         ZeepPatcher.apply_patch()
-        assert ZeepPatcher.is_patched() == True
+        assert ZeepPatcher.is_patched()
 
         # Then remove
         ZeepPatcher.remove_patch()
-        assert ZeepPatcher.is_patched() == False
+        assert not ZeepPatcher.is_patched()
 
     def test_patch_idempotency(self):
         """Test that applying patch multiple times is safe"""
@@ -95,7 +95,7 @@ class TestZeepPatcher:
         second_state = ZeepPatcher.is_patched()
 
         # Should remain consistent
-        assert first_state == second_state == True
+        assert first_state and second_state
 
         # Clean up
         ZeepPatcher.remove_patch()
@@ -103,25 +103,25 @@ class TestZeepPatcher:
     def test_patch_state_management(self):
         """Test patch state tracking"""
         # Test initial state
-        initial_state = ZeepPatcher.is_patched()
+        ZeepPatcher.is_patched()
 
         # Apply patch and test state
         ZeepPatcher.apply_patch()
         patched_state = ZeepPatcher.is_patched()
-        assert patched_state == True
+        assert patched_state
 
         # Remove patch and test state
         ZeepPatcher.remove_patch()
         removed_state = ZeepPatcher.is_patched()
-        assert removed_state == False
+        assert not removed_state
 
     def test_text_value_parsing(self):
         """Test text value parsing functionality"""
         # Test boolean parsing
-        assert ZeepPatcher.parse_text_value("true") == True
-        assert ZeepPatcher.parse_text_value("false") == False
-        assert ZeepPatcher.parse_text_value("TRUE") == True
-        assert ZeepPatcher.parse_text_value("FALSE") == False
+        assert ZeepPatcher.parse_text_value("true")
+        assert not ZeepPatcher.parse_text_value("false")
+        assert ZeepPatcher.parse_text_value("TRUE")
+        assert not ZeepPatcher.parse_text_value("FALSE")
 
         # Test integer parsing
         assert ZeepPatcher.parse_text_value("123") == 123
@@ -133,7 +133,7 @@ class TestZeepPatcher:
         # Test string parsing (fallback)
         assert ZeepPatcher.parse_text_value("hello") == "hello"
         assert ZeepPatcher.parse_text_value("") == ""
-        assert ZeepPatcher.parse_text_value(None) == None
+        assert ZeepPatcher.parse_text_value(None) is None
 
     def test_flatten_xsd_any_fields(self):
         """Test flattening of xsd:any fields"""
@@ -174,7 +174,7 @@ class TestXMLCapturePlugin:
         """Test XML capture plugin with custom options"""
         plugin = XMLCapturePlugin(pretty_print=False)
 
-        assert plugin.pretty_print == False
+        assert not plugin.pretty_print
 
     def test_request_capture(self):
         """Test XML request capture with egress method"""
@@ -352,13 +352,13 @@ class TestErrorHandlingInCore:
         # Should handle multiple operations gracefully
         ZeepPatcher.apply_patch()
         ZeepPatcher.apply_patch()  # Second apply
-        assert ZeepPatcher.is_patched() == True
+        assert ZeepPatcher.is_patched()
 
         ZeepPatcher.remove_patch()
-        assert ZeepPatcher.is_patched() == False
+        assert not ZeepPatcher.is_patched()
 
         ZeepPatcher.remove_patch()  # Second remove
-        assert ZeepPatcher.is_patched() == False
+        assert not ZeepPatcher.is_patched()
 
     def test_xml_capture_plugin_error_handling(self):
         """Test XML capture plugin error handling"""

@@ -1,4 +1,3 @@
-import pytest
 from onvif.services.recording import Recording
 
 

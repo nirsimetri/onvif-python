@@ -1,7 +1,7 @@
 # tests/conftest.py
 
 import pytest
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import Mock, patch
 from onvif import ONVIFClient, CacheMode
 
 

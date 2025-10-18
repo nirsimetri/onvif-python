@@ -3,7 +3,7 @@
 import argparse
 import sys
 import getpass
-from typing import Any, Dict
+from typing import Any
 
 from ..client import ONVIFClient
 from ..operator import CacheMode
@@ -22,14 +22,14 @@ Examples:
   # Direct command execution
   {colorize('onvif', 'yellow')} devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
   {colorize('onvif', 'yellow')} ptz ContinuousMove ProfileToken=Profile_1 Velocity={{"PanTilt": {{"x": -0.1, "y": 0}}}} --host 192.168.1.17 --port 8000 --username admin --password admin123
-  
+
   # Interactive mode
   {colorize('onvif', 'yellow')} --host 192.168.1.17 --port 8000 --username admin --password admin123 --interactive
 
-  # Prompting for username and password 
+  # Prompting for username and password
   # (if not provided)
   {colorize('onvif', 'yellow')} -H 192.168.1.17 -P 8000 -i
-  
+
   # Using HTTPS
   {colorize('onvif', 'yellow')} media GetProfiles --host camera.example.com --port 443 --username admin --password admin123 --https
         """,

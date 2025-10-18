@@ -1,6 +1,5 @@
 # onvif/utils/error_handlers.py
 
-import logging
 from zeep.exceptions import Fault
 from .exceptions import ONVIFOperationException
 
@@ -33,7 +32,7 @@ class ONVIFErrorHandler:
                                 return True
                         elif "ActionNotSupported" in str(subcode):
                             return True
-        except:
+        except Exception:
             pass
 
         return False
@@ -51,7 +50,7 @@ class ONVIFErrorHandler:
                 return default
             # Re-raise other errors
             raise
-        except Exception as e:
+        except Exception:
             # Wrap unexpected exceptions
             # if log_error:
             # logging.error(f"Unexpected error in safe_call: {e}")

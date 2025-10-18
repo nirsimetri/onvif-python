@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 190
+exclude = 
+    examples/*
+    raw/*
+    temp/*
+    onvif/__init__.py

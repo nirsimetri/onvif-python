@@ -1,7 +1,7 @@
 # tests/test_error_handlers.py
 
 import pytest
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 from onvif.utils.error_handlers import ONVIFErrorHandler
 from onvif.utils.exceptions import ONVIFOperationException
 
@@ -39,7 +39,7 @@ class TestONVIFErrorHandler:
         onvif_exception = ONVIFOperationException(operation, mock_fault)
 
         result = ONVIFErrorHandler.is_action_not_supported(onvif_exception)
-        assert result == True
+        assert result
 
     def test_is_action_not_supported_with_fault_directly(self):
         """Test ActionNotSupported detection with Fault directly"""
@@ -51,7 +51,7 @@ class TestONVIFErrorHandler:
         mock_fault.subcodes = [mock_subcode]
 
         result = ONVIFErrorHandler.is_action_not_supported(mock_fault)
-        assert result == True
+        assert result
 
     def test_is_action_not_supported_string_fallback(self):
         """Test ActionNotSupported detection with string fallback"""
@@ -62,7 +62,7 @@ class TestONVIFErrorHandler:
         mock_fault.subcodes = [mock_subcode]
 
         result = ONVIFErrorHandler.is_action_not_supported(mock_fault)
-        assert result == True
+        assert result
 
     def test_is_action_not_supported_false_case(self):
         """Test ActionNotSupported detection returns False for other errors"""
@@ -77,7 +77,7 @@ class TestONVIFErrorHandler:
         onvif_exception = ONVIFOperationException(operation, mock_fault)
 
         result = ONVIFErrorHandler.is_action_not_supported(onvif_exception)
-        assert result == False
+        assert not result
 
     def test_is_action_not_supported_no_subcodes(self):
         """Test ActionNotSupported detection with no subcodes"""
@@ -88,7 +88,7 @@ class TestONVIFErrorHandler:
         onvif_exception = ONVIFOperationException(operation, mock_fault)
 
         result = ONVIFErrorHandler.is_action_not_supported(onvif_exception)
-        assert result == False
+        assert not result
 
     def test_is_action_not_supported_non_fault_exception(self):
         """Test ActionNotSupported detection with non-Fault exception"""
@@ -97,7 +97,7 @@ class TestONVIFErrorHandler:
         onvif_exception = ONVIFOperationException(operation, generic_exception)
 
         result = ONVIFErrorHandler.is_action_not_supported(onvif_exception)
-        assert result == False
+        assert not result
 
     def test_is_action_not_supported_exception_handling(self):
         """Test ActionNotSupported detection handles exceptions gracefully"""
@@ -110,7 +110,7 @@ class TestONVIFErrorHandler:
 
         # Should not raise exception, should return False
         result = ONVIFErrorHandler.is_action_not_supported(mock_fault)
-        assert result == False
+        assert not result
 
     def test_safe_call_success(self):
         """Test safe_call with successful function execution"""
@@ -287,7 +287,7 @@ class TestErrorHandlerIntegration:
         mock_fault.subcodes = [mock_subcode1, mock_subcode2, mock_subcode3]
 
         result = ONVIFErrorHandler.is_action_not_supported(mock_fault)
-        assert result == True
+        assert result
 
     def test_real_world_scenario_safe_call(self):
         """Test safe_call in real-world scenario"""

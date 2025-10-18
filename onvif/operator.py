@@ -1,7 +1,6 @@
 # onvif/operator.py
 
 import os
-import logging
 import requests
 
 from enum import Enum

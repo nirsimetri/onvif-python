@@ -1,7 +1,7 @@
 # tests/test_client.py
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 from onvif import ONVIFClient, CacheMode
 from onvif.utils import ZeepPatcher, XMLCapturePlugin
 
@@ -11,7 +11,7 @@ class TestONVIFClientInitialization:
 
     def test_basic_initialization(self, test_client_params):
         """Test basic client initialization"""
-        with patch("onvif.client.Device") as mock_device:
+        with patch("onvif.client.Device"):
             client = ONVIFClient(**test_client_params)
 
             assert client.common_args["host"] == "192.168.1.17"
@@ -26,7 +26,7 @@ class TestONVIFClientInitialization:
         params = test_client_params.copy()
         params.update({"use_https": True, "verify_ssl": False})
 
-        with patch("onvif.client.Device") as mock_device:
+        with patch("onvif.client.Device"):
             client = ONVIFClient(**params)
 
             assert client.common_args["use_https"] is True
@@ -37,7 +37,7 @@ class TestONVIFClientInitialization:
         params = test_client_params.copy()
         params["capture_xml"] = True
 
-        with patch("onvif.client.Device") as mock_device:
+        with patch("onvif.client.Device"):
             client = ONVIFClient(**params)
 
             assert client.xml_plugin is not None
@@ -48,7 +48,7 @@ class TestONVIFClientInitialization:
         params = test_client_params.copy()
         params["wsdl_dir"] = "/custom/wsdl/path"
 
-        with patch("onvif.client.Device") as mock_device:
+        with patch("onvif.client.Device"):
             with patch("onvif.utils.ONVIFWSDL.set_custom_wsdl_dir") as mock_set_wsdl:
                 client = ONVIFClient(**params)
 
@@ -57,18 +57,18 @@ class TestONVIFClientInitialization:
 
     def test_zeep_patch_application(self, test_client_params):
         """Test ZeepPatcher application and removal"""
-        with patch("onvif.client.Device") as mock_device:
+        with patch("onvif.client.Device"):
             with patch.object(ZeepPatcher, "apply_patch") as mock_apply:
                 with patch.object(ZeepPatcher, "remove_patch") as mock_remove:
                     # Test patch application
                     params = test_client_params.copy()
                     params["apply_patch"] = True
-                    client = ONVIFClient(**params)
+                    ONVIFClient(**params)
                     mock_apply.assert_called_once()
 
                     # Test patch removal
                     params["apply_patch"] = False
-                    client = ONVIFClient(**params)
+                    ONVIFClient(**params)
                     mock_remove.assert_called_once()
 
 
@@ -261,7 +261,7 @@ class TestONVIFClientConfiguration:
             params = test_client_params.copy()
             params["cache"] = cache_mode
 
-            with patch("onvif.client.Device") as mock_device:
+            with patch("onvif.client.Device"):
                 client = ONVIFClient(**params)
                 assert client.common_args["cache"] == cache_mode
 
@@ -273,6 +273,6 @@ class TestONVIFClientConfiguration:
             params = test_client_params.copy()
             params["timeout"] = timeout
 
-            with patch("onvif.client.Device") as mock_device:
+            with patch("onvif.client.Device"):
                 client = ONVIFClient(**params)
                 assert client.common_args["timeout"] == timeout

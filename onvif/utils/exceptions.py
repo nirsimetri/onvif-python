@@ -44,7 +44,7 @@ class ONVIFOperationException(Exception):
                             # Fallback to string representation
                             subcode_strings.append(str(qname))
                     subcodes = ", ".join(subcode_strings)
-                except:
+                except Exception:
                     subcodes = str(subcodes)
 
             # Build comprehensive error message
