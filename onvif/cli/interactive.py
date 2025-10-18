@@ -174,34 +174,44 @@ class InteractiveShell(cmd.Cmd):
             options_display = "\n" + "\n".join(options_info)
 
         # Welcome message with enhanced info
-        self.intro = f"""
-{colorize('   ____  _   ___    ____________', 'cyan')}
-{colorize('  / __ \\/ | / / |  / /  _/ ____/', 'cyan')}
-{colorize(' / / / /  |/ /| | / // // /_    ', 'cyan')}
-{colorize('/ /_/ / /|  / | |/ // // __/    ', 'cyan')}
-{colorize('\\____/_/ |_/  |___/___/_/  v0.1.1', 'cyan')}
-{colorize('                                ', 'cyan')}
-{colorize('Star ⭐ this repo', 'white')}
-{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
-{colorize('\n[ONVIF Terminal Client]', 'yellow')}
-  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}{options_display}{self.device_info_text}
+        banner_lines = [
+            '   ____  _   ___    ____________',
+            '  / __ \\/ | / / |  / /  _/ ____/',
+            ' / / / /  |/ /| | / // // /_    ',
+            '/ /_/ / /|  / | |/ // // __/    ',
+            '\\____/_/ |_/  |___/___/_/  v0.1.1',
+            '                                ',
+        ]
 
-{colorize('[Quick Start]', 'green')}
-  - Type {colorize('dev', 'yellow')} + {colorize('TAB', 'yellow')} to see `devicemgmt` suggestion
-  - Type {colorize('devicemgmt', 'yellow')} to enter device management service
-  - Use {colorize('TAB', 'yellow')} completion for commands and methods
+        banner = "\n".join(colorize(line, 'cyan') for line in banner_lines)
+        repo_info = "\n".join([
+            colorize('Star ⭐ this repo', 'white'),
+            colorize('https://github.com/nirsimetri/onvif-python', 'white'),
+        ])
 
-{colorize('[Typical Commands]', 'magenta')}
-  - help        : Show help information
-  - ls          : List commands/services/methods in grid format
-  - <service>   : Enter service mode (e.g., devicemgmt)
-  - up          : Exit service mode (go up one level)
-  - info        : Show current device and connection info
-  - exit/quit   : Exit shell
+        terminal_header = colorize('[ONVIF Terminal Client]', 'yellow')
 
-Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to see suggestions.
-        """
-
+        self.intro = (
+            f"{banner}\n"
+            f"{repo_info}\n"
+            f"{terminal_header}\n"
+            f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}"
+            f"{options_display}{self.device_info_text}\n\n"
+            f"{colorize('[Quick Start]', 'green')}\n"
+            f"  - Type {colorize('dev', 'yellow')} + {colorize('TAB', 'yellow')} to see `devicemgmt` suggestion\n"
+            f"  - Type {colorize('devicemgmt', 'yellow')} to enter device management service\n"
+            f"  - Use {colorize('TAB', 'yellow')} completion for commands and methods\n\n"
+            f"{colorize('[Typical Commands]', 'magenta')}\n"
+            f"  - help        : Show help information\n"
+            f"  - ls          : List commands/services/methods in grid format\n"
+            f"  - <service>   : Enter service mode (e.g., devicemgmt)\n"
+            f"  - up          : Exit service mode (go up one level)\n"
+            f"  - info        : Show current device and connection info\n"
+            f"  - exit/quit   : Exit shell\n\n"
+            f"Use {colorize('TAB', 'yellow')} for auto-completion. "
+            f"Type partial commands to see suggestions.\n"
+        )
+        
         # Start background health check after successful initialization
         self._health_check_thread.start()
 
