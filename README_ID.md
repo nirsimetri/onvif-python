@@ -148,12 +148,12 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
   <tr>
     <td width="34.2%">
       <a href="https://github.com/nirsimetri/onvif-python">
-        <img src="./assets/onvif_cli.png" />
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/onvif_cli.png" />
       </a>
     </td>
     <td width="65.8%">
         <a href="https://github.com/nirsimetri/onvif-python">
-        <img src="./assets/onvif_operations.png" />
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/onvif_operations.png" />
         </a>
     </td>
   </tr>
@@ -337,6 +337,9 @@ onvif --discover --username admin --password admin123 --interactive
 
 # Bentuk singkat
 onvif -d -u admin -p admin123 -i
+
+# Temukan dan interaktif (akan meminta kredensial)
+onvif -d -i
 ```
 
 **Temukan dan Eksekusi Perintah:**

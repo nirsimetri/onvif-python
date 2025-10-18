@@ -148,12 +148,12 @@ This library includes a powerful command-line interface (CLI) for interacting wi
   <tr>
     <td width="34.2%">
       <a href="https://github.com/nirsimetri/onvif-python">
-        <img src="./assets/onvif_cli.png" />
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/onvif_cli.png" />
       </a>
     </td>
     <td width="65.8%">
         <a href="https://github.com/nirsimetri/onvif-python">
-        <img src="./assets/onvif_operations.png" />
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/onvif_operations.png" />
         </a>
     </td>
   </tr>
@@ -336,6 +336,9 @@ onvif --discover --username admin --password admin123 --interactive
 
 # Short form
 onvif -d -u admin -p admin123 -i
+
+# Discover and interactive (will prompt for credentials)
+onvif -d -i
 ```
 
 **Discover and Execute Command:**
