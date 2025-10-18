@@ -175,21 +175,23 @@ class InteractiveShell(cmd.Cmd):
 
         # Welcome message with enhanced info
         banner_lines = [
-            '   ____  _   ___    ____________',
-            '  / __ \\/ | / / |  / /  _/ ____/',
-            ' / / / /  |/ /| | / // // /_    ',
-            '/ /_/ / /|  / | |/ // // __/    ',
-            '\\____/_/ |_/  |___/___/_/  v0.1.1',
-            '                                ',
+            "   ____  _   ___    ____________",
+            "  / __ \\/ | / / |  / /  _/ ____/",
+            " / / / /  |/ /| | / // // /_    ",
+            "/ /_/ / /|  / | |/ // // __/    ",
+            "\\____/_/ |_/  |___/___/_/  v0.1.1",
+            "                                ",
         ]
 
-        banner = "\n".join(colorize(line, 'cyan') for line in banner_lines)
-        repo_info = "\n".join([
-            colorize('Star ⭐ this repo', 'white'),
-            colorize('https://github.com/nirsimetri/onvif-python', 'white'),
-        ])
+        banner = "\n".join(colorize(line, "cyan") for line in banner_lines)
+        repo_info = "\n".join(
+            [
+                colorize("Star ⭐ this repo", "white"),
+                colorize("https://github.com/nirsimetri/onvif-python", "white"),
+            ]
+        )
 
-        terminal_header = colorize('\n[ONVIF Terminal Client]', 'yellow')
+        terminal_header = colorize("\n[ONVIF Terminal Client]", "yellow")
 
         self.intro = (
             f"{banner}\n"
@@ -211,7 +213,7 @@ class InteractiveShell(cmd.Cmd):
             f"Use {colorize('TAB', 'yellow')} for auto-completion. "
             f"Type partial commands to see suggestions.\n"
         )
-        
+
         # Start background health check after successful initialization
         self._health_check_thread.start()
 

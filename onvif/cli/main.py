@@ -3,7 +3,7 @@
 import argparse
 import sys
 import getpass
-from typing import Any
+from typing import Any, Optional, Tuple
 
 from ..client import ONVIFClient
 from ..operator import CacheMode
@@ -19,6 +19,11 @@ def create_parser():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 Examples:
+  # Discover ONVIF devices on network
+  {colorize('onvif', 'yellow')} --discover --username admin --password admin123 --interactive
+  {colorize('onvif', 'yellow')} media GetProfiles --discover --username admin
+  {colorize('onvif', 'yellow')} -d -i
+
   # Direct command execution
   {colorize('onvif', 'yellow')} devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
   {colorize('onvif', 'yellow')} ptz ContinuousMove ProfileToken=Profile_1 Velocity={{"PanTilt": {{"x": -0.1, "y": 0}}}} --host 192.168.1.17 --port 8000 --username admin --password admin123
@@ -36,9 +41,7 @@ Examples:
     )
 
     # Connection parameters
-    parser.add_argument(
-        "--host", "-H", required=True, help="ONVIF device IP address or hostname"
-    )
+    parser.add_argument("--host", "-H", help="ONVIF device IP address or hostname")
     parser.add_argument(
         "--port",
         "-P",
@@ -48,6 +51,14 @@ Examples:
     )
     parser.add_argument("--username", "-u", help="Username for authentication")
     parser.add_argument("--password", "-p", help="Password for authentication")
+
+    # Device discovery
+    parser.add_argument(
+        "--discover",
+        "-d",
+        action="store_true",
+        help="Discover ONVIF devices on the network using WS-Discovery",
+    )
 
     # Connection options
     parser.add_argument(
@@ -108,6 +119,36 @@ def main():
         sys.exit(0)
 
     args = parser.parse_intermixed_args()
+
+    # Handle discovery mode
+    if args.discover:
+        if args.host:
+            parser.error(
+                f"{colorize('--discover', 'white')} cannot be used with {colorize('--host', 'white')}"
+            )
+
+        # Discover devices
+        devices = discover_devices(timeout=4)
+
+        if not devices:
+            print(f"\n{colorize('No ONVIF devices discovered. Exiting.', 'red')}")
+            sys.exit(1)
+
+        # Let user select a device
+        selected = select_device_interactive(devices)
+
+        if selected is None:
+            print(f"{colorize('Device selection cancelled.', 'cyan')}")
+            sys.exit(0)
+
+        # Set host and port from selected device
+        args.host, args.port = selected
+
+    # Validate that host is provided (either via --host or --discover)
+    if not args.host:
+        parser.error(
+            f"Either {colorize('--host', 'white')} or {colorize('--discover', 'white')} must be specified"
+        )
 
     # Handle username prompt
     if not args.username:
@@ -210,6 +251,221 @@ def execute_command(
 
     # Execute method
     return method(**params)
+
+
+def discover_devices(timeout: int = 4) -> list:
+    """Discover ONVIF devices on the network using WS-Discovery."""
+    import socket
+    import uuid
+    import xml.etree.ElementTree as ET
+    import struct
+
+    WS_DISCOVERY_PORT = 3702
+    WS_DISCOVERY_ADDRESS_IPv4 = "239.255.255.250"
+
+    # WS-Discovery Probe message
+    WS_DISCOVERY_PROBE_MESSAGE = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" '
+        'xmlns:tds="http://www.onvif.org/ver10/device/wsdl" '
+        'xmlns:tns="http://schemas.xmlsoap.org/ws/2005/04/discovery" '
+        'xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">'
+        "<soap:Header>"
+        "<wsa:Action>http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</wsa:Action>"
+        "<wsa:MessageID>urn:uuid:{uuid}</wsa:MessageID>"
+        "<wsa:To>urn:schemas-xmlsoap-org:ws:2005:04:discovery</wsa:To>"
+        "</soap:Header>"
+        "<soap:Body>"
+        "<tns:Probe>"
+        "<tns:Types>tds:Device</tns:Types>"
+        "</tns:Probe>"
+        "</soap:Body>"
+        "</soap:Envelope>"
+    )
+
+    # Get local network interface
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        local_ip = "0.0.0.0"
+
+    print(f"\n{colorize('Discovering ONVIF devices on network...', 'yellow')}")
+    print(f"Network interface: {colorize(local_ip, 'white')}")
+    print(f"Timeout: {timeout}s\n")
+
+    probe_uuid = str(uuid.uuid4())
+    probe = WS_DISCOVERY_PROBE_MESSAGE.format(uuid=probe_uuid)
+
+    responses = []
+
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sock.bind((local_ip, 0))
+        sock.settimeout(timeout)
+
+        ttl = struct.pack("b", 1)
+        sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
+
+        sock.sendto(
+            probe.encode("utf-8"), (WS_DISCOVERY_ADDRESS_IPv4, WS_DISCOVERY_PORT)
+        )
+
+        while True:
+            try:
+                data, addr = sock.recvfrom(8192)
+                response = data.decode("utf-8", errors="ignore").strip()
+
+                if response and len(response) > 10:
+                    if response.startswith("<?xml") or response.startswith("<"):
+                        responses.append({"xml": response, "address": addr[0]})
+
+            except socket.timeout:
+                break
+            except Exception:
+                break
+
+        sock.close()
+
+    except Exception as e:
+        print(f"{colorize('Error during discovery:', 'red')} {e}")
+        return []
+
+    # Parse responses
+    devices = []
+    namespaces = {
+        "soap": "http://www.w3.org/2003/05/soap-envelope",
+        "wsa": "http://schemas.xmlsoap.org/ws/2004/08/addressing",
+        "wsd": "http://schemas.xmlsoap.org/ws/2005/04/discovery",
+        "d": "http://schemas.xmlsoap.org/ws/2005/04/discovery",
+    }
+
+    for resp in responses:
+        try:
+            root = ET.fromstring(resp["xml"])
+            probe_match = root.find(".//d:ProbeMatch", namespaces) or root.find(
+                ".//wsd:ProbeMatch", namespaces
+            )
+
+            if probe_match is None:
+                continue
+
+            device_info = {
+                "epr": "",
+                "types": [],
+                "scopes": [],
+                "xaddrs": [],
+                "host": None,
+                "port": 80,
+            }
+
+            epr = probe_match.find(".//wsa:EndpointReference/wsa:Address", namespaces)
+            if epr is not None:
+                device_info["epr"] = epr.text
+
+            types_elem = probe_match.find(".//d:Types", namespaces) or probe_match.find(
+                ".//wsd:Types", namespaces
+            )
+            if types_elem is not None and types_elem.text:
+                device_info["types"] = types_elem.text.split()
+
+            scopes_elem = probe_match.find(
+                ".//d:Scopes", namespaces
+            ) or probe_match.find(".//wsd:Scopes", namespaces)
+            if scopes_elem is not None and scopes_elem.text:
+                device_info["scopes"] = scopes_elem.text.split()
+
+            xaddrs_elem = probe_match.find(
+                ".//d:XAddrs", namespaces
+            ) or probe_match.find(".//wsd:XAddrs", namespaces)
+            if xaddrs_elem is not None and xaddrs_elem.text:
+                device_info["xaddrs"] = xaddrs_elem.text.split()
+
+                # Extract host and port from first XAddr
+                if device_info["xaddrs"]:
+                    xaddr = device_info["xaddrs"][0]
+                    if "://" in xaddr:
+                        parts = xaddr.split("://")[1].split("/")[0]
+                        if ":" in parts:
+                            device_info["host"] = parts.split(":")[0]
+                            device_info["port"] = int(parts.split(":")[1])
+                        else:
+                            device_info["host"] = parts
+                            device_info["port"] = 80
+
+            if device_info["host"]:
+                devices.append(device_info)
+
+        except Exception:
+            continue
+
+    return devices
+
+
+def select_device_interactive(devices: list) -> Optional[Tuple[str, int]]:
+    """Display devices and allow user to select one interactively."""
+    if not devices:
+        print(f"\n{colorize('No ONVIF devices found.', 'red')}")
+        return None
+
+    print(f"{colorize(f'Found {len(devices)} ONVIF device(s):', 'green')}")
+
+    for idx, device in enumerate(devices, 1):
+        idx_str = colorize(f"[{idx}]", "yellow")
+        host_port = f"{device['host']}:{device['port']}"
+        print(f"\n{idx_str} {colorize(host_port, 'yellow')}")
+        print(f"    [id] {device['epr']}")
+
+        if device["xaddrs"]:
+            xaddrs_str = " ".join(device["xaddrs"])
+            print(f"    [xaddrs] {xaddrs_str}")
+
+        if device["types"]:
+            types_str = " ".join(device["types"])
+            print(f"    [types] {types_str}")
+
+        if device["scopes"]:
+            scope_parts = []
+            for scope in device["scopes"]:
+                # Remove the prefix "onvif://www.onvif.org/" if present
+                if scope.startswith("onvif://www.onvif.org/"):
+                    simplified = scope.replace("onvif://www.onvif.org/", "")
+                    scope_parts.append(f"[{simplified}]")
+                else:
+                    # Keep other scopes as-is (e.g., http:123)
+                    scope_parts.append(f"[{scope}]")
+
+            if scope_parts:
+                print(f"    [scopes] {' '.join(scope_parts)}")
+
+    # Simple selection (without arrow keys for cross-platform compatibility)
+    while True:
+        try:
+            selection = input(
+                f"\nSelect device number {colorize(f'1-{len(devices)}', 'white')} or {colorize('q', 'white')} to quit: "
+            )
+
+            if selection.lower() == "q":
+                return None
+
+            idx = int(selection)
+            if 1 <= idx <= len(devices):
+                selected = devices[idx - 1]
+                host_port = f"{selected['host']}:{selected['port']}"
+                print(
+                    f"\n{colorize('Selected:', 'green')} {colorize(host_port, 'yellow')}"
+                )
+                return (selected["host"], selected["port"])
+            else:
+                print(f"{colorize('Invalid selection. Please try again.', 'red')}")
+
+        except ValueError:
+            print(f"{colorize('Invalid input. Please enter a number.', 'red')}")
+        except (EOFError, KeyboardInterrupt):
+            return None
 
 
 if __name__ == "__main__":
