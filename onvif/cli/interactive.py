@@ -561,9 +561,9 @@ Use {colorize('TAB', 'yellow')} for auto-completion. Type partial commands to se
                 if service.lower().startswith(partial_cmd.lower()):
                     suggestions.append(colorize(service, "cyan"))
 
-            for cmd in commands:
-                if cmd.lower().startswith(partial_cmd.lower()):
-                    suggestions.append(cmd)
+            for cmd_base in commands:
+                if cmd_base.lower().startswith(partial_cmd.lower()):
+                    suggestions.append(cmd_base)
 
         return suggestions[:5]  # Limit to 5 suggestions
 
