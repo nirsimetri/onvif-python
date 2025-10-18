@@ -4,4 +4,3 @@ exclude =
     examples/*
     raw/*
     temp/*
-    onvif/__init__.py

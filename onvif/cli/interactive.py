@@ -989,7 +989,9 @@ class InteractiveShell(cmd.Cmd):
 
         # Display connection and device information using stored data
         print(
-            f"{colorize('\n[ONVIF Terminal Client]', 'yellow')}  \n  Connected to  : {colorize(f'{self.args.host}:{self.args.port}', 'yellow')}{options_display}{self.device_info_text}"
+            f"\n{colorize('[ONVIF Terminal Client]', 'yellow')}"
+            f"\n  Connected to  : {colorize(f'{self.args.host}:{self.args.port}', 'yellow')}"
+            f"{options_display}{self.device_info_text}"
         )
         print("")  # Extra newline for spacing
 
