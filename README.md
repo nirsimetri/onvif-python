@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.1-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.2-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -173,8 +173,8 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 <summary><b>1. Direct CLI</b></summary> 
 
 ```bash
-usage: onvif [-h] --host HOST --port PORT [--username USERNAME] [--password PASSWORD] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch]
-             [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--timeout TIMEOUT] [--https] [--no-verify]
+             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
              [service] [method] [params ...]
 
 ONVIF Terminal Client —
@@ -193,6 +193,7 @@ options:
                         Username for authentication
   --password PASSWORD, -p PASSWORD
                         Password for authentication
+  --discover, -d        Discover ONVIF devices on the network using WS-Discovery
   --timeout TIMEOUT     Connection timeout in seconds (default: 10)
   --https               Use HTTPS instead of HTTP
   --no-verify           Disable SSL certificate verification
@@ -204,6 +205,11 @@ options:
                         Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
 
 Examples:
+  # Discover ONVIF devices on network
+  onvif --discover --username admin --password admin123 --interactive
+  onvif media GetProfiles --discover --username admin
+  onvif -d -i
+
   # Direct command execution
   onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
   onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={"PanTilt": {"x": -0.1, "y": 0}} --host 192.168.1.17 --port 8000 --username admin --password admin123
@@ -319,7 +325,72 @@ If you omit the username or password, you will be prompted to enter them securel
 > [!IMPORTANT]
 > You can see all the other commands available in the interactive shell by trying it out directly. The interactive shell runs periodic background health checks to detect connection loss. It uses silent TCP pings to avoid interrupting your work and will automatically exit if the device is unreachable, similar to an SSH session.
 
-**2. Direct Command Execution**
+**2. Device Discovery (WS-Discovery)**
+
+The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol. This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand.
+
+**Discover and Connect Interactively:**
+```bash
+# Discover devices and enter interactive mode
+onvif --discover --username admin --password admin123 --interactive
+
+# Short form
+onvif -d -u admin -p admin123 -i
+```
+
+**Discover and Execute Command:**
+```bash
+# Discover devices and execute a command on the selected device
+onvif media GetProfiles --discover --username admin --password admin123
+
+# Short form
+onvif media GetProfiles -d -u admin -p admin123
+```
+
+**How Device Discovery Works:**
+
+1. **Automatic Network Scanning**: Sends a WS-Discovery Probe message to the multicast address `239.255.255.250:3702`
+2. **Device Detection**: Listens for ProbeMatch responses from ONVIF devices (default timeout: 4 seconds)
+3. **Interactive Selection**: Displays a numbered list of discovered devices with their details:
+   - Device UUID (Endpoint Reference)
+   - XAddrs (ONVIF service URLs)
+   - Device Types (e.g., NetworkVideoTransmitter)
+   - Scopes (name, location, hardware, profile information)
+4. **Connection**: Once you select a device, the CLI automatically connects using the discovered host and port
+
+**Example Discovery Output:**
+```
+Discovering ONVIF devices on network...
+Network interface: 192.168.1.100
+Timeout: 4s
+
+Found 2 ONVIF device(s):
+
+[1] 192.168.1.14:2020
+    [id] uuid:3fa1fe68-b915-4053-a3e1-a8294833fe3c
+    [xaddrs] http://192.168.1.14:2020/onvif/device_service
+    [types] tdn:NetworkVideoTransmitter
+    [scopes] [name/C210] [hardware/C210] [Profile/Streaming] [location/Hong Kong]
+
+[2] 192.168.1.17:8000
+    [id] urn:uuid:7d04ff31-61e6-11f0-a00c-6056eef47207
+    [xaddrs] http://192.168.1.17:8000/onvif/device_service
+    [types] dn:NetworkVideoTransmitter tds:Device
+    [scopes] [type/NetworkVideoTransmitter] [location/unknown] [name/IPC_123465959]
+
+Select device number 1-2 or q to quit: 1
+
+Selected: 192.168.1.14:2020
+```
+
+**Notes:**
+
+- Discovery only works on the local network (same subnet)
+- Some networks may block multicast traffic (check firewall settings)
+- The `--host` and `--port` arguments are not required when using `--discover`
+- You can still provide `--username` and `--password` upfront to avoid prompts
+
+**3. Direct Command Execution**
 
 You can also execute a single ONVIF command directly. This is useful for scripting or quick checks.
 

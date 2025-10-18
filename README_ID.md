@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.1-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.2-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -173,8 +173,8 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
 <summary><b>1. CLI Langsung</b></summary> 
 
 ```bash
-usage: onvif [-h] --host HOST --port PORT [--username USERNAME] [--password PASSWORD] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch]
-             [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--timeout TIMEOUT] [--https] [--no-verify]
+             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
              [service] [method] [params ...]
 
 ONVIF Terminal Client —
@@ -193,6 +193,7 @@ options:
                         Username for authentication
   --password PASSWORD, -p PASSWORD
                         Password for authentication
+  --discover, -d        Discover ONVIF devices on the network using WS-Discovery
   --timeout TIMEOUT     Connection timeout in seconds (default: 10)
   --https               Use HTTPS instead of HTTP
   --no-verify           Disable SSL certificate verification
@@ -204,6 +205,11 @@ options:
                         Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
 
 Examples:
+  # Discover ONVIF devices on network
+  onvif --discover --username admin --password admin123 --interactive
+  onvif media GetProfiles --discover --username admin
+  onvif -d -i
+
   # Direct command execution
   onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
   onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={"PanTilt": {"x": -0.1, "y": 0}} --host 192.168.1.17 --port 8000 --username admin --password admin123
@@ -320,7 +326,72 @@ Jika Anda tidak menyertakan nama pengguna atau kata sandi, Anda akan diminta unt
 > [!IMPORTANT]
 > Anda dapat melihat semua perintah lainnya yang tersedia di shell interaktif dengan mencobanya langsung. Shell interaktif menjalankan pemeriksaan kesehatan latar belakang secara berkala untuk mendeteksi kehilangan koneksi. Shell ini menggunakan ping TCP diam-diam agar tidak mengganggu pekerjaan Anda dan akan otomatis keluar jika perangkat tidak dapat dijangkau, mirip dengan sesi SSH.
 
-**2. Eksekusi Perintah Langsung**
+**2. Penemuan Perangkat (WS-Discovery)**
+
+CLI menyertakan fitur penemuan perangkat ONVIF otomatis menggunakan protokol WS-Discovery. Fitur ini memungkinkan Anda menemukan semua perangkat yang sesuai dengan ONVIF di jaringan lokal Anda tanpa perlu mengetahui alamat IP mereka terlebih dahulu.
+
+**Temukan dan Terhubung Secara Interaktif:**
+```bash
+# Temukan perangkat dan masuk ke mode interaktif
+onvif --discover --username admin --password admin123 --interactive
+
+# Bentuk singkat
+onvif -d -u admin -p admin123 -i
+```
+
+**Temukan dan Eksekusi Perintah:**
+```bash
+# Temukan perangkat dan eksekusi perintah pada perangkat yang dipilih
+onvif media GetProfiles --discover --username admin --password admin123
+
+# Bentuk singkat
+onvif media GetProfiles -d -u admin -p admin123
+```
+
+**Cara Kerja Penemuan Perangkat:**
+
+1. **Pemindaian Jaringan Otomatis**: Mengirim pesan WS-Discovery Probe ke alamat multicast `239.255.255.250:3702`
+2. **Deteksi Perangkat**: Mendengarkan respons ProbeMatch dari perangkat ONVIF (timeout default: 4 detik)
+3. **Pemilihan Interaktif**: Menampilkan daftar bernomor dari perangkat yang ditemukan dengan detail mereka:
+   - UUID Perangkat (Endpoint Reference)
+   - XAddrs (URL layanan ONVIF)
+   - Tipe Perangkat (mis., NetworkVideoTransmitter)
+   - Scopes (informasi nama, lokasi, hardware, profil)
+4. **Koneksi**: Setelah Anda memilih perangkat, CLI otomatis terhubung menggunakan host dan port yang ditemukan
+
+**Contoh Output Penemuan:**
+```
+Discovering ONVIF devices on network...
+Network interface: 192.168.1.100
+Timeout: 4s
+
+Found 2 ONVIF device(s):
+
+[1] 192.168.1.14:2020
+    [id] uuid:3fa1fe68-b915-4053-a3e1-a8294833fe3c
+    [xaddrs] http://192.168.1.14:2020/onvif/device_service
+    [types] tdn:NetworkVideoTransmitter
+    [scopes] [name/C210] [hardware/C210] [Profile/Streaming] [location/Hong Kong] [type/NetworkVideoTransmitter]
+
+[2] 192.168.1.17:8000
+    [id] urn:uuid:7d04ff31-61e6-11f0-a00c-6056eef47207
+    [xaddrs] http://192.168.1.17:8000/onvif/device_service
+    [types] dn:NetworkVideoTransmitter tds:Device
+    [scopes] [type/NetworkVideoTransmitter] [location/unknown] [name/IPC_123465959]
+
+Select device number 1-2 or q to quit: 1
+
+Selected: 192.168.1.14:2020
+```
+
+**Catatan:**
+
+- Penemuan hanya bekerja di jaringan lokal (subnet yang sama)
+- Beberapa jaringan mungkin memblokir lalu lintas multicast (periksa pengaturan firewall)
+- Argumen `--host` dan `--port` tidak diperlukan saat menggunakan `--discover`
+- Anda masih dapat memberikan `--username` dan `--password` di awal untuk menghindari prompt
+
+**3. Eksekusi Perintah Langsung**
 
 Anda juga dapat mengeksekusi satu perintah ONVIF secara langsung. Ini berguna untuk skrip atau pengecekan cepat.
 
