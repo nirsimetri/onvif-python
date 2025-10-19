@@ -21,6 +21,7 @@ from .utils import (
     format_capabilities_as_services,
     format_services_list,
     get_method_documentation,
+    get_operation_type_info,
 )
 
 
@@ -61,6 +62,7 @@ class InteractiveShell(cmd.Cmd):
             "pwd",
             "shortcuts",
             "desc",
+            "type",
         ]
 
         # For background health check
@@ -766,8 +768,9 @@ class InteractiveShell(cmd.Cmd):
 
         if not self.current_service:
             print(
-                f"{colorize('Error:', 'red')} This command can only be used within a service context."
+                f"{colorize('Error:', 'red')} You must be in a service mode to use 'desc'."
             )
+            print(f"Enter a service first (e.g., {colorize('devicemgmt', 'yellow')})")
             return
 
         if not method_name:
@@ -811,6 +814,161 @@ class InteractiveShell(cmd.Cmd):
     def help_desc(self):
         print(self.do_desc.__doc__)
 
+    def do_type(self, line):
+        """Show input and output types for an operation. Usage: type <operation_name>"""
+        operation_name = line.strip()
+
+        if not self.current_service:
+            print(
+                f"{colorize('Error:', 'red')} You must be in a service mode to use 'type'."
+            )
+            print(f"Enter a service first (e.g., {colorize('d', 'yellow')})")
+            return
+
+        if not operation_name:
+            print(f"Usage: {colorize('type <operation_name>', 'yellow')}")
+            return
+
+        if not hasattr(self.current_service, operation_name):
+            print(
+                f"{colorize('Error:', 'red')} Operation '{operation_name}' not found in service '{self.current_service_name}'."
+            )
+            print(
+                f"Use {colorize('ls', 'yellow')} to see available operations."
+            )
+            return
+
+        type_info = get_operation_type_info(self.current_service, operation_name)
+
+        if type_info:
+            # Helper function to display parameters recursively with tree-style indentation
+            def display_params(params, prefix_lines=None, is_root_level=False):
+                """
+                Display parameters with tree-style formatting.
+                
+                Args:
+                    params: List of parameter dictionaries
+                    prefix_lines: List of strings representing the tree prefix for each line
+                    is_root_level: If True, don't show tree characters at this level
+                """
+                if prefix_lines is None:
+                    prefix_lines = []
+                
+                for idx, param in enumerate(params):
+                    is_last = (idx == len(params) - 1)
+                    
+                    # Determine tree characters (only if not root level)
+                    if is_root_level:
+                        tree_branch = ""
+                        tree_continue = ""
+                    else:
+                        if is_last:
+                            tree_branch = "└── "
+                            tree_continue = "    "
+                        else:
+                            tree_branch = "├── "
+                            tree_continue = "│   "
+                    
+                    # Determine prefix symbol: + for attributes, - for elements
+                    prefix_symbol = "+" if param.get("is_attribute", False) else "-"
+                    
+                    # Format occurrences based on type
+                    occurs = ""
+                    if param.get("is_attribute", False):
+                        # For attributes: only show "required" if use="required"
+                        # Default for attributes is optional (no label needed)
+                        if param["minOccurs"] == "1":  # This means use="required"
+                            occurs = f" - {colorize('required', 'yellow')}"
+                        # If minOccurs == "0", it's optional (default), so no label
+                    else:
+                        # For elements: show unbounded, optional, or required
+                        if param["maxOccurs"] == "unbounded":
+                            occurs = f" - {colorize('unbounded', 'magenta')}"
+                        elif param["minOccurs"] == "0":
+                            occurs = f" - {colorize('optional', 'green')}"
+                        else:
+                            occurs = f" - {colorize('required', 'yellow')}"
+                    
+                    # Format type
+                    type_str = f"[{param['type']}]" if param['type'] else ""
+                    
+                    # Build the current line prefix from all previous levels
+                    current_prefix = "".join(prefix_lines)
+                    
+                    # Add spacing for root level items
+                    if is_root_level:
+                        current_prefix = "  "
+                    
+                    # Display parameter name with tree structure, prefix, occurrence, and type
+                    # Only add semicolon separator if there's an occurrence label
+                    separator = ";" if occurs else ""
+                    param_line = f"{current_prefix}{tree_branch}{prefix_symbol}{colorize(param['name'], 'white')}{occurs}{separator} {colorize(type_str, 'cyan')}"
+                    print(param_line)
+                    
+                    # Display documentation if available
+                    if param.get('documentation'):
+                        doc_lines = param['documentation'].split('\n')
+                        for doc_line in doc_lines:
+                            if doc_line.strip():
+                                # Add tree continuation for documentation
+                                if is_root_level:
+                                    doc_prefix = "  "
+                                else:
+                                    doc_prefix = current_prefix + tree_continue
+                                wrapped_doc = textwrap.fill(
+                                    doc_line.strip(),
+                                    width=96,  # Slightly less to account for tree chars
+                                    initial_indent=doc_prefix + "  ",
+                                    subsequent_indent=doc_prefix + "  "
+                                )
+                                print(colorize(wrapped_doc, 'reset'))
+                    
+                    # Display children recursively with updated prefix
+                    if param.get('children'):
+                        if is_root_level:
+                            # Start tree structure from children
+                            new_prefix_lines = ["  "]
+                        else:
+                            new_prefix_lines = prefix_lines + [tree_continue]
+                        display_params(param['children'], new_prefix_lines, is_root_level=False)
+            
+            # Display Input
+            if type_info["input"]:
+                input_msg = type_info["input"]
+                print(f"\n{colorize('Input:', 'cyan')}")
+                msg_name = f"[{input_msg['name']}]"
+                print(f"{colorize(msg_name, 'yellow')}")
+                
+                if input_msg["parameters"]:
+                    display_params(input_msg["parameters"], is_root_level=True)
+                else:
+                    print(f"  {colorize('(no parameters)', 'reset')}")
+            else:
+                print(f"\n{colorize('Input:', 'cyan')} {colorize('(not defined)', 'reset')}")
+
+            # Display Output
+            if type_info["output"]:
+                output_msg = type_info["output"]
+                print(f"\n{colorize('Output:', 'cyan')}")
+                msg_name = f"[{output_msg['name']}]"
+                print(f"{colorize(msg_name, 'yellow')}")
+                
+                if output_msg["parameters"]:
+                    display_params(output_msg["parameters"], is_root_level=True)
+                else:
+                    print(f"  {colorize('(no parameters)', 'reset')}")
+            else:
+                print(f"\n{colorize('Output:', 'cyan')} {colorize('(not defined)', 'reset')}")
+            
+            print()  # Add newline for spacing
+        else:
+            print(
+                f"{colorize('Error:', 'red')} Could not retrieve type information for '{operation_name}'."
+            )
+
+    def help_type(self):
+        print(self.do_type.__doc__)
+
     def do_cd(self, line):
         """Change to service directory (alias for entering service)"""
         if not line:
@@ -844,7 +1002,10 @@ class InteractiveShell(cmd.Cmd):
   up                       - Go up one level
   pwd                      - Show current context
   clear                    - Clear terminal screen
-  desc <method>            - Show method documentation in service mode
+
+{colorize('Service Mode Commands:', 'yellow')}
+  desc <method>            - Show method documentation
+  type <method>            - Show input/output types from WSDL
 
 {colorize('Quick Access:', 'yellow')}
   caps                     - Show capabilities (same as 'capabilities')
@@ -1109,7 +1270,10 @@ class InteractiveShell(cmd.Cmd):
   up                       - Exit current service mode (go up one level)
   pwd                      - Show current service context
   clear                    - Clear terminal screen
-  desc <method>            - Show method documentation in service mode
+
+{colorize('Service Mode Commands:', 'yellow')}
+  desc <method>            - Show method documentation
+  type <method>            - Show input/output types from WSDL
 
 {colorize('Method Execution:', 'yellow')}
   <method>                 - Execute method without parameters
