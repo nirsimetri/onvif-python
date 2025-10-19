@@ -1,9 +1,9 @@
 # ONVIF Python
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
-[![DeepWiki](https://img.shields.io/badge/DeepWiki-AI%20Wiki-orange)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.2-yellow?logo=archive)](https://pypi.org/project/onvif-python/)
-[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads)](https://clickpy.clickhouse.com/dashboard/onvif-python)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.2-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
 [![Upload Python Package](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml/badge.svg)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml)
