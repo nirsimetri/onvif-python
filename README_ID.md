@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.2-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.3-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -241,6 +241,7 @@ Basic Commands:
   info                     - Show connection and device information
   exit, quit               - Exit the shell
   shortcuts                - Show available shortcuts
+  help <command>           - Show help for a specific command
 
 Navigation Commands:
   <service>                - Enter service mode (e.g., devicemgmt, media)
@@ -249,7 +250,10 @@ Navigation Commands:
   up                       - Exit current service mode (go up one level)
   pwd                      - Show current service context
   clear                    - Clear terminal screen
-  desc <method>            - Show method documentation in service mode
+
+Service Mode Commands:
+  desc <method>            - Show method documentation
+  type <method>            - Show input/output types from WSDL
 
 Method Execution:
   <method>                 - Execute method without parameters
