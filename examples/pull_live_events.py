@@ -63,7 +63,7 @@ while datetime.datetime.now() < end_time:
                         if idx < len(topic_elems):
                             topic_val = topic_elems[idx].text
                 except Exception as e:
-                    print("⚠️ HistoryPlugin topic parse error:", e)
+                    print("⚠️ XMLCapturePlugin topic parse error:", e)
 
                 # Extract Message (XML element)
                 # After the patch (> v0.0.4), _value_1 is directly a list of Elements (not a dict)
