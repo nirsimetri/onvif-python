@@ -16,7 +16,7 @@ def create_parser():
     """Create argument parser for ONVIF CLI"""
     parser = argparse.ArgumentParser(
         prog="onvif",
-        description=f"{colorize('ONVIF Terminal Client', 'yellow')} —\nhttps://github.com/nirsimetri/onvif-python",
+        description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v1.0.3\nhttps://github.com/nirsimetri/onvif-python",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 Examples:
@@ -107,6 +107,11 @@ Examples:
         "params", nargs="*", help="Method parameters as Simple Parameter or JSON string"
     )
 
+    # ONVI CLI
+    parser.add_argument(
+        "--version", "-v", action="store_true", help="Show ONVIF CLI version and exit"
+    )
+
     return parser
 
 
@@ -123,6 +128,11 @@ def main():
         sys.exit(0)
 
     args = parser.parse_intermixed_args()
+
+    # Show ONVIF CLI version
+    if args.version:
+        print(colorize('1.0.3', 'yellow'))
+        sys.exit(0)
 
     # Validate arguments early (before discovery)
     if not args.interactive and (not args.service or not args.method):
