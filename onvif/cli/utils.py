@@ -547,36 +547,6 @@ def extract_documentation_text(doc_elem) -> str:
     return "".join(parts)
 
 
-def extract_documentation_text(doc_elem) -> str:
-    """
-    Extract full text from xs:documentation element including child elements.
-    This handles cases where documentation contains HTML tags like <a href="">.
-
-    Args:
-        doc_elem: The xs:documentation XML element
-
-    Returns:
-        Full text content including text from child elements
-    """
-    if doc_elem is None:
-        return ""
-
-    parts = []
-
-    # Get text before first child
-    if doc_elem.text:
-        parts.append(doc_elem.text)
-
-    # Get text from and after each child element
-    for child in doc_elem:
-        if child.text:
-            parts.append(child.text)
-        if child.tail:
-            parts.append(child.tail)
-
-    return "".join(parts)
-
-
 def get_operation_type_info(
     service_obj, operation_name: str
 ) -> Optional[Dict[str, Any]]:
@@ -641,7 +611,7 @@ def get_operation_type_info(
 
         return result
 
-    except Exception as e:
+    except Exception:
         return None
 
 
@@ -802,12 +772,11 @@ def resolve_element_type(
         return parameters
 
     # Get element documentation
-    element_doc = None
     doc_elem = element.find("xs:annotation/xs:documentation", namespaces)
     if doc_elem is not None:
         full_text = extract_documentation_text(doc_elem)
         if full_text:
-            element_doc = clean_documentation_html(full_text)
+            clean_documentation_html(full_text)
 
     # Check if it has a complexType
     complex_type = element.find("xs:complexType", namespaces)

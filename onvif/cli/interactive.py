@@ -183,7 +183,7 @@ class InteractiveShell(cmd.Cmd):
             "  / __ \\/ | / / |  / /  _/ ____/",
             " / / / /  |/ /| | / // // /_    ",
             "/ /_/ / /|  / | |/ // // __/    ",
-            "\\____/_/ |_/  |___/___/_/  v0.1.3",
+            "\\____/_/ |_/  |___/___/_/  v0.1.4",
             "                                ",
         ]
 
@@ -1300,7 +1300,7 @@ class InteractiveShell(cmd.Cmd):
             super().do_help(line)
         else:
             help_text = f"""
-{colorize('ONVIF Interactive Shell Commands - v1.0.3', 'cyan')}\n{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
+{colorize('ONVIF Interactive Shell Commands - v0.1.4', 'cyan')}\n{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
 
 {colorize('Basic Commands:', 'yellow')}
   capabilities, caps       - Show device capabilities

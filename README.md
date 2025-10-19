@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.3-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.4-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -174,10 +174,10 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 
 ```bash
 usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--timeout TIMEOUT] [--https] [--no-verify]
-             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client —
+ONVIF Terminal Client — v0.1.4
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -203,6 +203,7 @@ options:
   --wsdl WSDL           Custom WSDL directory path
   --cache {all,db,mem,none}
                         Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
+  --version, -v         Show ONVIF CLI version and exit
 
 Examples:
   # Discover ONVIF devices on network
@@ -231,7 +232,7 @@ Examples:
 <summary><b>2. Interactive Shell</b></summary> 
 
 ```bash
-ONVIF Interactive Shell Commands -
+ONVIF Interactive Shell Commands - v0.1.4
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -240,7 +241,6 @@ Basic Commands:
   info                     - Show connection and device information
   exit, quit               - Exit the shell
   shortcuts                - Show available shortcuts
-  help <command>           - Show help for a specific command
 
 Navigation Commands:
   <service>                - Enter service mode (e.g., devicemgmt, media)
@@ -249,6 +249,7 @@ Navigation Commands:
   up                       - Exit current service mode (go up one level)
   pwd                      - Show current service context
   clear                    - Clear terminal screen
+  help <command>           - Show help for a specific command
 
 Service Mode Commands:
   desc <method>            - Show method documentation
@@ -714,6 +715,9 @@ If your device is not listed right now, feel free to contribute your test result
 
 This library fully supports all major ONVIF Profiles listed below. Each profile represents a standardized set of features and use cases, ensuring interoperability between ONVIF-compliant devices and clients. You can use this library to integrate with devices and systems that implement any of these profiles.
 
+<details>
+<summary><b>ONVIF profiles list</b></summary>
+
 | Name      | Specifications | Main Features | Typical Use Case | Support |
 |-----------|----------------|---------------|------------------|---------|
 | Profile_S | [Document](https://www.onvif.org/wp-content/uploads/2019/12/ONVIF_Profile_-S_Specification_v1-3.pdf) | Video streaming, PTZ, audio, multicasting | Network video transmitters (cameras) and receivers (recorders, VMS) | ✅ Yes |
@@ -724,6 +728,8 @@ This library fully supports all major ONVIF Profiles listed below. Each profile 
 | Profile_D | [Document](https://www.onvif.org/wp-content/uploads/2021/06/onvif-profile-d-specification-v1-0.pdf) | Access control peripherals (locks, sensors, relays) | Peripheral devices for access control | ✅ Yes |
 | Profile_M | [Document](https://www.onvif.org/wp-content/uploads/2024/04/onvif-profile-m-specification-v1-1.pdf) | Metadata, analytics events, object detection | Analytics devices, metadata clients | ✅ Yes |
 
+</details>
+
 For a full description of each profile and its features, visit [ONVIF Profiles](https://www.onvif.org/profiles/).
 
 ## Implemented ONVIF Services
@@ -732,6 +738,9 @@ For a full description of each profile and its features, visit [ONVIF Profiles](
 > For details about the available service functions and methods already implemented in this library, see the source code in [`onvif/services/`](./onvif/services). Or if you want to read in a more proper format visit [onvif-python AI Wiki](https://deepwiki.com/nirsimetri/onvif-python).
 
 Below is a list of ONVIF services implemented and supported by this library, along with links to the official specifications, service definitions, and schema files as referenced from the [ONVIF Developer Specs](https://developer.onvif.org/pub/specs/branches/development/doc/index.html). This table provides a quick overview of the available ONVIF features and their technical documentation for integration and development purposes.
+
+<details>
+<summary><b>ONVIF services list</b></summary>
 
 | Service                | Specifications                | Service Definitions         | Schema Files                        | Status     |
 |------------------------|-------------------------------|-----------------------------|-------------------------------------|------------|
@@ -763,6 +772,8 @@ Below is a list of ONVIF services implemented and supported by this library, alo
 | Thermal                | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Thermal.xml)                | [thermal.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/thermal/wsdl/thermal.wsdl)               | [radiometry.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/radiometry.xsd)                       | ✅ Complete |
 | Uplink                 | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Uplink.xml)                 | [uplink.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/uplink/wsdl/uplink.wsdl)                | -                                     | ✅ Complete |
 | WebRTC                 | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/WebRTC.xml)                 | -                            | -                                     | ❌ Any idea? |
+
+</details>
 
 ## Service Bindings in ONVIF
 

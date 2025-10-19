@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.3-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.4-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -174,10 +174,10 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
 
 ```bash
 usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--timeout TIMEOUT] [--https] [--no-verify]
-             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client —
+ONVIF Terminal Client — v0.1.4
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -203,6 +203,7 @@ options:
   --wsdl WSDL           Custom WSDL directory path
   --cache {all,db,mem,none}
                         Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
+  --version, -v         Show ONVIF CLI version and exit
 
 Examples:
   # Discover ONVIF devices on network
@@ -232,7 +233,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell Commands -
+ONVIF Interactive Shell Commands - v0.1.4
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -241,7 +242,6 @@ Basic Commands:
   info                     - Show connection and device information
   exit, quit               - Exit the shell
   shortcuts                - Show available shortcuts
-  help <command>           - Show help for a specific command
 
 Navigation Commands:
   <service>                - Enter service mode (e.g., devicemgmt, media)
@@ -250,6 +250,7 @@ Navigation Commands:
   up                       - Exit current service mode (go up one level)
   pwd                      - Show current service context
   clear                    - Clear terminal screen
+  help <command>           - Show help for a specific command
 
 Service Mode Commands:
   desc <method>            - Show method documentation
@@ -714,6 +715,9 @@ Jika perangkat Anda belum terdaftar saat ini, jangan ragu untuk menyumbangkan ha
 
 Pustaka ini sepenuhnya mendukung semua Profil ONVIF utama yang tercantum di bawah ini. Setiap profil mewakili serangkaian fitur dan kasus penggunaan standar, memastikan interoperabilitas antara perangkat dan klien yang sesuai dengan ONVIF. Anda dapat menggunakan pustaka ini untuk berintegrasi dengan perangkat dan sistem yang mengimplementasikan salah satu profil ini.
 
+<details>
+<summary><b>Daftar profil ONVIF</b></summary>
+
 | Nama      | Spesifikasi | Fitur Utama | Kasus Penggunaan Umum | Dukungan |
 |-----------|----------------|---------------|------------------|---------|
 | Profile_S | [Dokumen](https://www.onvif.org/wp-content/uploads/2019/12/ONVIF_Profile_-S_Specification_v1-3.pdf) | Streaming video, PTZ, audio, multicasting | Pemancar video jaringan (kamera) dan penerima (perekam, VMS) | ✅ Ya |
@@ -724,6 +728,8 @@ Pustaka ini sepenuhnya mendukung semua Profil ONVIF utama yang tercantum di bawa
 | Profile_D | [Dokumen](https://www.onvif.org/wp-content/uploads/2021/06/onvif-profile-d-specification-v1-0.pdf) | Periferal kontrol akses (kunci, sensor, relai) | Perangkat periferal untuk kontrol akses | ✅ Ya |
 | Profile_M | [Dokumen](https://www.onvif.org/wp-content/uploads/2024/04/onvif-profile-m-specification-v1-1.pdf) | Metadata, analitik event, deteksi objek | Perangkat analitik, klien metadata | ✅ Ya |
 
+</details>
+
 Untuk deskripsi lengkap setiap profil dan fiturnya, kunjungi [Profil ONVIF](https://www.onvif.org/profiles/).
 
 ## Layanan ONVIF yang Diimplementasikan
@@ -732,6 +738,9 @@ Untuk deskripsi lengkap setiap profil dan fiturnya, kunjungi [Profil ONVIF](http
 > Untuk detail tentang fungsi dan metode layanan yang tersedia yang telah diimplementasikan dalam pustaka ini, lihat kode sumber di [`onvif/services/`](./onvif/services). Atau jika Anda ingin membaca dalam format yang lebih baik, kunjungi [onvif-python AI Wiki](https://deepwiki.com/nirsimetri/onvif-python).
 
 Berikut adalah daftar layanan ONVIF yang diimplementasikan dan didukung oleh pustaka ini, bersama dengan tautan ke spesifikasi resmi, definisi layanan, dan berkas skema seperti yang dirujuk dari [Spesifikasi Pengembang ONVIF](https://developer.onvif.org/pub/specs/branches/development/doc/index.html). Tabel ini memberikan gambaran cepat tentang fitur ONVIF yang tersedia dan dokumentasi teknisnya untuk tujuan integrasi dan pengembangan.
+
+<details>
+<summary><b>Daftar layanan ONVIF</b></summary>
 
 | Layanan                | Spesifikasi                | Definisi Layanan         | Skema                               | Status     |
 |------------------------|----------------------------|--------------------------|-------------------------------------|------------|
@@ -763,6 +772,8 @@ Berikut adalah daftar layanan ONVIF yang diimplementasikan dan didukung oleh pus
 | Thermal                | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Thermal.xml) | [thermal.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/thermal/wsdl/thermal.wsdl) | [radiometry.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/radiometry.xsd) | ✅ Lengkap |
 | Uplink                 | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Uplink.xml) | [uplink.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/uplink/wsdl/uplink.wsdl) | - | ✅ Lengkap |
 | WebRTC                 | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/WebRTC.xml) | - | - | ❌ Ada ide? |
+
+</details>
 
 ## Pengikatan Layanan (Service Bindings) di ONVIF
 
