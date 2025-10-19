@@ -830,9 +830,7 @@ class InteractiveShell(cmd.Cmd):
             print(
                 f"{colorize('Error:', 'red')} Operation '{operation_name}' not found in service '{self.current_service_name}'."
             )
-            print(
-                f"Use {colorize('ls', 'yellow')} to see available operations."
-            )
+            print(f"Use {colorize('ls', 'yellow')} to see available operations.")
             return
 
         type_info = get_operation_type_info(self.current_service, operation_name)
@@ -842,7 +840,7 @@ class InteractiveShell(cmd.Cmd):
             def display_params(params, prefix_lines=None, is_root_level=False):
                 """
                 Display parameters with tree-style formatting.
-                
+
                 Args:
                     params: List of parameter dictionaries
                     prefix_lines: List of strings representing the tree prefix for each line
@@ -850,10 +848,10 @@ class InteractiveShell(cmd.Cmd):
                 """
                 if prefix_lines is None:
                     prefix_lines = []
-                
+
                 for idx, param in enumerate(params):
-                    is_last = (idx == len(params) - 1)
-                    
+                    is_last = idx == len(params) - 1
+
                     # Determine tree characters (only if not root level)
                     if is_root_level:
                         tree_branch = ""
@@ -865,10 +863,10 @@ class InteractiveShell(cmd.Cmd):
                         else:
                             tree_branch = "├── "
                             tree_continue = "│   "
-                    
+
                     # Determine prefix symbol: + for attributes, - for elements
                     prefix_symbol = "+" if param.get("is_attribute", False) else "-"
-                    
+
                     # Format occurrences based on type
                     occurs = ""
                     if param.get("is_attribute", False):
@@ -885,26 +883,26 @@ class InteractiveShell(cmd.Cmd):
                             occurs = f" - {colorize('optional', 'green')}"
                         else:
                             occurs = f" - {colorize('required', 'yellow')}"
-                    
+
                     # Format type
-                    type_str = f"[{param['type']}]" if param['type'] else ""
-                    
+                    type_str = f"[{param['type']}]" if param["type"] else ""
+
                     # Build the current line prefix from all previous levels
                     current_prefix = "".join(prefix_lines)
-                    
+
                     # Add spacing for root level items
                     if is_root_level:
                         current_prefix = "  "
-                    
+
                     # Display parameter name with tree structure, prefix, occurrence, and type
                     # Only add semicolon separator if there's an occurrence label
                     separator = ";" if occurs else ""
                     param_line = f"{current_prefix}{tree_branch}{prefix_symbol}{colorize(param['name'], 'white')}{occurs}{separator} {colorize(type_str, 'cyan')}"
                     print(param_line)
-                    
+
                     # Display documentation if available
-                    if param.get('documentation'):
-                        doc_lines = param['documentation'].split('\n')
+                    if param.get("documentation"):
+                        doc_lines = param["documentation"].split("\n")
                         for doc_line in doc_lines:
                             if doc_line.strip():
                                 # Add tree continuation for documentation
@@ -916,32 +914,36 @@ class InteractiveShell(cmd.Cmd):
                                     doc_line.strip(),
                                     width=96,  # Slightly less to account for tree chars
                                     initial_indent=doc_prefix + "  ",
-                                    subsequent_indent=doc_prefix + "  "
+                                    subsequent_indent=doc_prefix + "  ",
                                 )
-                                print(colorize(wrapped_doc, 'reset'))
-                    
+                                print(colorize(wrapped_doc, "reset"))
+
                     # Display children recursively with updated prefix
-                    if param.get('children'):
+                    if param.get("children"):
                         if is_root_level:
                             # Start tree structure from children
                             new_prefix_lines = ["  "]
                         else:
                             new_prefix_lines = prefix_lines + [tree_continue]
-                        display_params(param['children'], new_prefix_lines, is_root_level=False)
-            
+                        display_params(
+                            param["children"], new_prefix_lines, is_root_level=False
+                        )
+
             # Display Input
             if type_info["input"]:
                 input_msg = type_info["input"]
                 print(f"\n{colorize('Input:', 'cyan')}")
                 msg_name = f"[{input_msg['name']}]"
                 print(f"{colorize(msg_name, 'yellow')}")
-                
+
                 if input_msg["parameters"]:
                     display_params(input_msg["parameters"], is_root_level=True)
                 else:
                     print(f"  {colorize('(no parameters)', 'reset')}")
             else:
-                print(f"\n{colorize('Input:', 'cyan')} {colorize('(not defined)', 'reset')}")
+                print(
+                    f"\n{colorize('Input:', 'cyan')} {colorize('(not defined)', 'reset')}"
+                )
 
             # Display Output
             if type_info["output"]:
@@ -949,14 +951,16 @@ class InteractiveShell(cmd.Cmd):
                 print(f"\n{colorize('Output:', 'cyan')}")
                 msg_name = f"[{output_msg['name']}]"
                 print(f"{colorize(msg_name, 'yellow')}")
-                
+
                 if output_msg["parameters"]:
                     display_params(output_msg["parameters"], is_root_level=True)
                 else:
                     print(f"  {colorize('(no parameters)', 'reset')}")
             else:
-                print(f"\n{colorize('Output:', 'cyan')} {colorize('(not defined)', 'reset')}")
-            
+                print(
+                    f"\n{colorize('Output:', 'cyan')} {colorize('(not defined)', 'reset')}"
+                )
+
             print()  # Add newline for spacing
         else:
             print(
