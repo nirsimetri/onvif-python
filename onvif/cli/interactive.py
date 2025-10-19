@@ -811,9 +811,6 @@ class InteractiveShell(cmd.Cmd):
                 f"No documentation or parameter info found for method '{method_name}'."
             )
 
-    def help_desc(self):
-        print(self.do_desc.__doc__)
-
     def do_type(self, line):
         """Show input and output types for an operation. Usage: type <operation_name>"""
         operation_name = line.strip()
@@ -966,9 +963,6 @@ class InteractiveShell(cmd.Cmd):
                 f"{colorize('Error:', 'red')} Could not retrieve type information for '{operation_name}'."
             )
 
-    def help_type(self):
-        print(self.do_type.__doc__)
-
     def do_cd(self, line):
         """Change to service directory (alias for entering service)"""
         if not line:
@@ -1002,6 +996,7 @@ class InteractiveShell(cmd.Cmd):
   up                       - Go up one level
   pwd                      - Show current context
   clear                    - Clear terminal screen
+  help <command>           - Show help for a command
 
 {colorize('Service Mode Commands:', 'yellow')}
   desc <method>            - Show method documentation
@@ -1262,6 +1257,7 @@ class InteractiveShell(cmd.Cmd):
   info                     - Show connection and device information
   exit, quit               - Exit the shell
   shortcuts                - Show available shortcuts
+  help <command>           - Show help for a specific command
 
 {colorize('Navigation Commands:', 'yellow')}
   <service>                - Enter service mode (e.g., devicemgmt, media)
