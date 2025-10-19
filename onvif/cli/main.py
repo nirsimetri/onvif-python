@@ -124,6 +124,12 @@ def main():
 
     args = parser.parse_intermixed_args()
 
+    # Validate arguments early (before discovery)
+    if not args.interactive and (not args.service or not args.method):
+        parser.error(
+            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} mode or {colorize('service/method', 'white')} must be specified"
+        )
+
     # Handle discovery mode
     if args.discover:
         if args.host:
@@ -174,12 +180,6 @@ def main():
         except (EOFError, KeyboardInterrupt):
             print("\nPassword entry cancelled.")
             sys.exit(1)
-
-    # Validate arguments
-    if not args.interactive and (not args.service or not args.method):
-        parser.error(
-            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} mode or {colorize('service/method', 'white')} must be specified"
-        )
 
     try:
         # Create ONVIF client
