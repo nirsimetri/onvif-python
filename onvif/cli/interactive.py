@@ -3,6 +3,8 @@
 import cmd
 import sys
 import socket
+import ssl
+import os
 import threading
 import textwrap
 from datetime import datetime
@@ -220,22 +222,39 @@ class InteractiveShell(cmd.Cmd):
         self._health_check_thread.start()
 
     def _periodic_health_check(self):
-        """Periodically checks device connection using a TCP socket ping."""
-        # Wait a moment before the first check to allow the shell to display the intro
+        """Periodically checks device connection using TCP or TLS depending on mode."""
+        # Wait before first check to allow intro to finish
         self._stop_health_check.wait(10.0)
+
         while not self._stop_health_check.is_set():
             sock = None
             try:
-                # Create a socket and set a short timeout
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.settimeout(3)  # 3-second timeout for the connection attempt
+                sock = socket.create_connection(
+                    (self.args.host, self.args.port), timeout=5.0
+                )
 
-                # Try to connect to the host and port
-                sock.connect((self.args.host, self.args.port))
+                # If HTTPS, perform a short TLS handshake check
+                if getattr(self.args, "https", False):
+                    context = ssl.create_default_context()
+                    context.check_hostname = False
+                    context.verify_mode = ssl.CERT_NONE
+
+                    with context.wrap_socket(
+                        sock, server_hostname=self.args.host
+                    ) as ssock:
+                        ssock.settimeout(5)
+                        # Try a minimal handshake
+                        ssock.do_handshake()
+
+                # If we reach here, the connection (and TLS if applicable) succeeded
+                pass
+
             except (
                 socket.timeout,
                 ConnectionRefusedError,
                 socket.gaierror,
+                ssl.SSLError,
+                ssl.SSLEOFError,
                 OSError,
             ) as e:
                 # Connection failed, trigger exit
@@ -244,7 +263,7 @@ class InteractiveShell(cmd.Cmd):
                     file=sys.stderr,
                 )
                 print(
-                    f"{colorize('Error:', 'red')} TCP check failed - {e}",
+                    f"{colorize('Error:', 'red')} Health check failed: {e}",
                     file=sys.stderr,
                 )
                 print(
@@ -253,15 +272,13 @@ class InteractiveShell(cmd.Cmd):
                 )
                 # Forcibly exit the entire process. This is necessary to interrupt
                 # the blocking input() call in the main thread.
-                import os
-
                 os._exit(1)
             finally:
                 # Ensure the socket is always closed
                 if sock:
                     sock.close()
 
-            # Wait for the next interval or until stopped
+            # Wait before next check or stop signal
             self._stop_health_check.wait(5.0)  # Check every 5 seconds
 
     def _handle_connection_error(self, e):
@@ -1141,8 +1158,6 @@ class InteractiveShell(cmd.Cmd):
 
     def do_clear(self, line):
         """Clear terminal screen"""
-        import os
-
         # Clear screen for both Windows and Unix-like systems
         os.system("cls" if os.name == "nt" else "clear")
 
