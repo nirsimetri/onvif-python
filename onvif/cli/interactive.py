@@ -811,6 +811,13 @@ class InteractiveShell(cmd.Cmd):
                 f"No documentation or parameter info found for method '{method_name}'."
             )
 
+    def complete_desc(self, text, line, begidx, endidx):
+        """Autocomplete method names for desc command"""
+        if not self.current_service:
+            return []
+        methods = get_service_methods(self.current_service)
+        return [m for m in methods if m.lower().startswith(text.lower())]
+
     def do_type(self, line):
         """Show input and output types for an operation. Usage: type <operation_name>"""
         operation_name = line.strip()
@@ -967,6 +974,13 @@ class InteractiveShell(cmd.Cmd):
                 f"{colorize('Error:', 'red')} Could not retrieve type information for '{operation_name}'."
             )
 
+    def complete_type(self, text, line, begidx, endidx):
+        """Autocomplete method names for type command"""
+        if not self.current_service:
+            return []
+        methods = get_service_methods(self.current_service)
+        return [m for m in methods if m.lower().startswith(text.lower())]
+
     def do_cd(self, line):
         """Change to service directory (alias for entering service)"""
         if not line:
@@ -976,6 +990,11 @@ class InteractiveShell(cmd.Cmd):
             print(f"Available services: {', '.join(colored_services)}")
             return
         return self.do_enter_service(line)
+
+    def complete_cd(self, text, line, begidx, endidx):
+        """Autocomplete service names for cd command"""
+        services = get_device_available_services(self.client)
+        return [s for s in services if s.lower().startswith(text.lower())]
 
     def do_pwd(self, line):
         """Show current service context"""
@@ -1085,6 +1104,10 @@ class InteractiveShell(cmd.Cmd):
         else:
             print(f"{colorize('Error:', 'red')} No stored data named '{line}'")
 
+    def complete_rm(self, text, line, begidx, endidx):
+        """Autocomplete stored variable names for rm command"""
+        return [name for name in self.stored_data.keys() if name.startswith(text)]
+
     def do_show(self, line):
         """Show stored data: show <name> or show <name>.<attribute> or show <name>[index]"""
         if not line:
@@ -1106,6 +1129,15 @@ class InteractiveShell(cmd.Cmd):
             print(str(result))
         else:
             print(f"{colorize('Error:', 'red')} Cannot resolve '{line}'")
+
+    def complete_show(self, text, line, begidx, endidx):
+        """Autocomplete stored variable names for show command"""
+        # Get the part being completed
+        parts = line.split()
+        if len(parts) <= 1 or (len(parts) == 2 and not line.endswith(" ")):
+            # Completing the variable name
+            return [name for name in self.stored_data.keys() if name.startswith(text)]
+        return []
 
     def do_clear(self, line):
         """Clear terminal screen"""
@@ -1261,7 +1293,6 @@ class InteractiveShell(cmd.Cmd):
   info                     - Show connection and device information
   exit, quit               - Exit the shell
   shortcuts                - Show available shortcuts
-  help <command>           - Show help for a specific command
 
 {colorize('Navigation Commands:', 'yellow')}
   <service>                - Enter service mode (e.g., devicemgmt, media)
@@ -1270,6 +1301,7 @@ class InteractiveShell(cmd.Cmd):
   up                       - Exit current service mode (go up one level)
   pwd                      - Show current service context
   clear                    - Clear terminal screen
+  help <command>           - Show help for a specific command
 
 {colorize('Service Mode Commands:', 'yellow')}
   desc <method>            - Show method documentation
