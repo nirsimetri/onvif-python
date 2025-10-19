@@ -131,8 +131,8 @@ def main():
                 f"{colorize('--discover', 'white')} cannot be used with {colorize('--host', 'white')}"
             )
 
-        # Discover devices
-        devices = discover_devices(timeout=4)
+        # Discover devices (pass --https flag to prioritize HTTPS XAddrs)
+        devices = discover_devices(timeout=4, prefer_https=args.https)
 
         if not devices:
             print(f"\n{colorize('No ONVIF devices discovered. Exiting.', 'red')}")
@@ -145,8 +145,11 @@ def main():
             print(f"{colorize('Device selection cancelled.', 'cyan')}")
             sys.exit(0)
 
-        # Set host and port from selected device
-        args.host, args.port = selected
+        # Set host, port, and HTTPS from selected device
+        args.host, args.port, device_use_https = selected
+
+        # Use device's detected protocol (already filtered by prefer_https in discover_devices)
+        # No need to override - device info already has correct protocol based on --https flag
 
     # Validate that host is provided (either via --host or --discover)
     if not args.host:
@@ -257,8 +260,16 @@ def execute_command(
     return method(**params)
 
 
-def discover_devices(timeout: int = 4) -> list:
-    """Discover ONVIF devices on the network using WS-Discovery."""
+def discover_devices(timeout: int = 4, prefer_https: bool = False) -> list:
+    """Discover ONVIF devices on the network using WS-Discovery.
+
+    Args:
+        timeout: Discovery timeout in seconds
+        prefer_https: If True, prioritize HTTPS XAddrs when available
+
+    Returns:
+        List of discovered devices with connection info
+    """
     import socket
     import uuid
     import xml.etree.ElementTree as ET
@@ -364,6 +375,7 @@ def discover_devices(timeout: int = 4) -> list:
                 "xaddrs": [],
                 "host": None,
                 "port": 80,
+                "use_https": False,  # Auto-detect HTTPS from XAddrs
             }
 
             epr = probe_match.find(".//wsa:EndpointReference/wsa:Address", namespaces)
@@ -388,17 +400,39 @@ def discover_devices(timeout: int = 4) -> list:
             if xaddrs_elem is not None and xaddrs_elem.text:
                 device_info["xaddrs"] = xaddrs_elem.text.split()
 
-                # Extract host and port from first XAddr
+                # Extract host, port, and protocol from XAddrs
+                # Use prefer_https parameter to decide which XAddr to use
                 if device_info["xaddrs"]:
-                    xaddr = device_info["xaddrs"][0]
+                    # Select XAddr based on prefer_https flag
+                    if prefer_https:
+                        # Try to find HTTPS XAddr first if prefer_https=True
+                        https_xaddr = next(
+                            (
+                                x
+                                for x in device_info["xaddrs"]
+                                if x.startswith("https://")
+                            ),
+                            None,
+                        )
+                        xaddr = https_xaddr or device_info["xaddrs"][0]
+                    else:
+                        # Use first XAddr (usually HTTP) if prefer_https=False
+                        xaddr = device_info["xaddrs"][0]
+
                     if "://" in xaddr:
+                        # Detect protocol
+                        protocol = xaddr.split("://")[0]
+                        device_info["use_https"] = protocol == "https"
+
+                        # Extract host and port
                         parts = xaddr.split("://")[1].split("/")[0]
                         if ":" in parts:
                             device_info["host"] = parts.split(":")[0]
                             device_info["port"] = int(parts.split(":")[1])
                         else:
                             device_info["host"] = parts
-                            device_info["port"] = 80
+                            # Set default port based on protocol
+                            device_info["port"] = 443 if protocol == "https" else 80
 
             if device_info["host"]:
                 devices.append(device_info)
@@ -409,8 +443,12 @@ def discover_devices(timeout: int = 4) -> list:
     return devices
 
 
-def select_device_interactive(devices: list) -> Optional[Tuple[str, int]]:
-    """Display devices and allow user to select one interactively."""
+def select_device_interactive(devices: list) -> Optional[Tuple[str, int, bool]]:
+    """Display devices and allow user to select one interactively.
+
+    Returns:
+        Tuple of (host, port, use_https) or None if cancelled
+    """
     if not devices:
         print(f"\n{colorize('No ONVIF devices found.', 'red')}")
         return None
@@ -419,8 +457,14 @@ def select_device_interactive(devices: list) -> Optional[Tuple[str, int]]:
 
     for idx, device in enumerate(devices, 1):
         idx_str = colorize(f"[{idx}]", "yellow")
+        protocol = "https" if device.get("use_https", False) else "http"
         host_port = f"{device['host']}:{device['port']}"
-        print(f"\n{idx_str} {colorize(host_port, 'yellow')}")
+        protocol_indicator = (
+            colorize("🔒 HTTPS", "green")
+            if device.get("use_https", False)
+            else colorize("HTTP", "white")
+        )
+        print(f"\n{idx_str} {colorize(host_port, 'yellow')} ({protocol_indicator})")
         print(f"    [id] {device['epr']}")
 
         if device["xaddrs"]:
@@ -458,11 +502,16 @@ def select_device_interactive(devices: list) -> Optional[Tuple[str, int]]:
             idx = int(selection)
             if 1 <= idx <= len(devices):
                 selected = devices[idx - 1]
+                protocol = "https" if selected.get("use_https", False) else "http"
                 host_port = f"{selected['host']}:{selected['port']}"
                 print(
-                    f"\n{colorize('Selected:', 'green')} {colorize(host_port, 'yellow')}"
+                    f"\n{colorize('Selected:', 'green')} {colorize(protocol, 'cyan')}://{colorize(host_port, 'yellow')}"
                 )
-                return (selected["host"], selected["port"])
+                return (
+                    selected["host"],
+                    selected["port"],
+                    selected.get("use_https", False),
+                )
             else:
                 print(f"{colorize('Invalid selection. Please try again.', 'red')}")
 
