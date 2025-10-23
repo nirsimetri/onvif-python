@@ -453,7 +453,7 @@ The `ONVIFClient` class provides various configuration options to customize the 
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| `cache` | `CacheMode` | ❌ No | `CacheMode.ALL` | WSDL caching strategy (see [Cache Modes](#cache-modes) below) |
+| `cache` | `CacheMode` | ❌ No | `CacheMode.ALL` | WSDL caching strategy (see **Cache Modes** below) |
 
 </details>
 

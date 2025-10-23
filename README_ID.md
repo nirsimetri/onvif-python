@@ -453,7 +453,7 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 |-----------|------|-------|---------|-----------|
-| `cache` | `CacheMode` | ❌ Tidak | `CacheMode.ALL` | Strategi caching WSDL (lihat [Mode Cache](#mode-cache) di bawah) |
+| `cache` | `CacheMode` | ❌ Tidak | `CacheMode.ALL` | Strategi caching WSDL (lihat **Mode Cache** di bawah) |
 
 </details>
 
