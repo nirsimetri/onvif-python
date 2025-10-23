@@ -171,8 +171,10 @@ class InteractiveShell(cmd.Cmd):
 
         if hasattr(args, "no_patch") and args.no_patch:
             options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
-        
-        if hasattr(args, "health_check_interval") and args.health_check_interval != 10:  # 10 is default
+
+        if (
+            hasattr(args, "health_check_interval") and args.health_check_interval != 10
+        ):  # 10 is default
             options_info.append(
                 f"  Health Check  : every {colorize(f'{args.health_check_interval}s', 'yellow')}"
             )
@@ -230,7 +232,7 @@ class InteractiveShell(cmd.Cmd):
         """Periodically checks device connection using TCP or TLS depending on mode."""
         # Get health check interval from args, default to 10 seconds
         health_check_interval = getattr(self.args, "health_check_interval", 10)
-        
+
         # Wait before first check to allow intro to finish
         self._stop_health_check.wait(health_check_interval)
 
@@ -1199,8 +1201,11 @@ class InteractiveShell(cmd.Cmd):
 
         if hasattr(self.args, "no_patch") and self.args.no_patch:
             options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
-        
-        if hasattr(self.args, "health_check_interval") and self.args.health_check_interval != 10:  # 10 is default
+
+        if (
+            hasattr(self.args, "health_check_interval")
+            and self.args.health_check_interval != 10
+        ):  # 10 is default
             options_info.append(
                 f"  Health Check  : every {colorize(f'{self.args.health_check_interval}s', 'yellow')}"
             )
