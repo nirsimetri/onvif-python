@@ -93,6 +93,12 @@ Examples:
         help="Caching mode for ONVIFClient (default: all). "
         "'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.",
     )
+    parser.add_argument(
+        "--health-check-interval", "-hci",
+        type=int,
+        default=10,
+        help="Health check interval in seconds for interactive mode (default: 10)",
+    )
 
     # Service and method (for direct command execution)
     parser.add_argument(
@@ -151,14 +157,14 @@ def main():
         devices = discover_devices(timeout=4, prefer_https=args.https)
 
         if not devices:
-            print(f"\n{colorize('No ONVIF devices discovered. Exiting.', 'red')}")
+            print(colorize('No ONVIF devices discovered. Exiting.', 'red'))
             sys.exit(1)
 
         # Let user select a device
         selected = select_device_interactive(devices)
 
         if selected is None:
-            print(f"{colorize('Device selection cancelled.', 'cyan')}")
+            print(colorize('Device selection cancelled.', 'cyan'))
             sys.exit(0)
 
         # Set host, port, and HTTPS from selected device
@@ -523,10 +529,10 @@ def select_device_interactive(devices: list) -> Optional[Tuple[str, int, bool]]:
                     selected.get("use_https", False),
                 )
             else:
-                print(f"{colorize('Invalid selection. Please try again.', 'red')}")
+                print(colorize('Invalid selection. Please try again.', 'red'))
 
         except ValueError:
-            print(f"{colorize('Invalid input. Please enter a number.', 'red')}")
+            print(colorize('Invalid input. Please enter a number.', 'red'))
         except (EOFError, KeyboardInterrupt):
             return None
 

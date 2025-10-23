@@ -171,6 +171,11 @@ class InteractiveShell(cmd.Cmd):
 
         if hasattr(args, "no_patch") and args.no_patch:
             options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
+        
+        if hasattr(args, "health_check_interval") and args.health_check_interval != 10:  # 10 is default
+            options_info.append(
+                f"  Health Check  : every {colorize(f'{args.health_check_interval}s', 'yellow')}"
+            )
 
         # Format options info
         options_display = ""
@@ -223,8 +228,11 @@ class InteractiveShell(cmd.Cmd):
 
     def _periodic_health_check(self):
         """Periodically checks device connection using TCP or TLS depending on mode."""
+        # Get health check interval from args, default to 10 seconds
+        health_check_interval = getattr(self.args, "health_check_interval", 10)
+        
         # Wait before first check to allow intro to finish
-        self._stop_health_check.wait(10.0)
+        self._stop_health_check.wait(health_check_interval)
 
         while not self._stop_health_check.is_set():
             sock = None
@@ -279,7 +287,7 @@ class InteractiveShell(cmd.Cmd):
                     sock.close()
 
             # Wait before next check or stop signal
-            self._stop_health_check.wait(5.0)  # Check every 5 seconds
+            self._stop_health_check.wait(health_check_interval)
 
     def _handle_connection_error(self, e):
         """Handle connection errors by notifying the user and exiting."""
@@ -1190,6 +1198,11 @@ class InteractiveShell(cmd.Cmd):
 
         if hasattr(self.args, "no_patch") and self.args.no_patch:
             options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
+        
+        if hasattr(self.args, "health_check_interval") and self.args.health_check_interval != 10:  # 10 is default
+            options_info.append(
+                f"  Health Check  : every {colorize(f'{self.args.health_check_interval}s', 'yellow')}"
+            )
 
         # Format options info
         options_display = ""
