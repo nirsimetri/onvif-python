@@ -55,7 +55,8 @@ def get_network_interface():
         local_ip = s.getsockname()[0]
         s.close()
         return local_ip
-    except Exception:
+    except Exception as e:
+        print(f"Warning: Error getting local network interface: {e}")
         return "0.0.0.0"
 
 
@@ -273,16 +274,16 @@ def discover_onvif_devices(network_interface=None, timeout=WS_DISCOVERY_TIMEOUT)
 def print_device_info(device, is_onvif=True):
     """Print formatted device information from ProbeMatch response."""
     print(f"[#{device['index']}] - {device.get('response_from', 'Unknown')}")
-    print(f"EndpointReference (EPR):")
+    print("EndpointReference (EPR):")
     print(f"  • {device['epr']}")
 
     if device["types"]:
-        print(f"Types (from ProbeMatch):")
+        print("Types (from ProbeMatch):")
         for type_info in device["types"]:
             print(f"  • {type_info}")
 
     if device["xaddrs"]:
-        print(f"Service Addresses (XAddrs):")
+        print("Service Addresses (XAddrs):")
         for xaddr in device["xaddrs"]:
             print(f"  • {xaddr}")
             # Extract and display IP address and port
@@ -302,11 +303,12 @@ def print_device_info(device, is_onvif=True):
                         print(
                             f"    → IP: {ip_part}, Port: {default_port}, Protocol: {protocol}"
                         )
-                except:
+                except Exception as e:
+                    print(f"Warning: Error parsing xaddrs: {e}")
                     pass
 
     if device["scopes"]:
-        print(f"Scopes (ONVIF Metadata):")
+        print("Scopes (ONVIF Metadata):")
         for scope in device["scopes"]:
             # Remove the prefix "onvif://www.onvif.org/" if present
             if scope.startswith("onvif://www.onvif.org/"):
