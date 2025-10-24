@@ -256,7 +256,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell Commands - v0.1.6
+ONVIF Interactive Shell — v0.1.6
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:

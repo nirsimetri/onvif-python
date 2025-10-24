@@ -1385,7 +1385,7 @@ class InteractiveShell(cmd.Cmd):
             super().do_help(line)
         else:
             help_text = f"""
-{colorize('ONVIF Interactive Shell Commands - v0.1.6', 'cyan')}\n{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
+{colorize('ONVIF Interactive Shell — v0.1.6', 'cyan')}\n{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
 
 {colorize('Basic Commands:', 'yellow')}
   capabilities, caps       - Show device capabilities
