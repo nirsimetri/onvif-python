@@ -98,6 +98,17 @@ class AccessControl:
     def DisableAccessPoint(self, Token):
         return self.operator.call("DisableAccessPoint", Token=Token)
 
+    def Feedback(
+        self, AccessPointToken, FeedbackType, RecognitionType=None, TextMessage=None
+    ):
+        return self.operator.call(
+            "Feedback",
+            AccessPointToken=AccessPointToken,
+            FeedbackType=FeedbackType,
+            RecognitionType=RecognitionType,
+            TextMessage=TextMessage,
+        )
+
     def ExternalAuthorization(
         self, AccessPointToken, Decision, CredentialToken=None, Reason=None
     ):
