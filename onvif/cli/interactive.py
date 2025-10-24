@@ -370,7 +370,7 @@ class InteractiveShell(cmd.Cmd):
 
         return parts
 
-    def _display_grid(self, items, force_recalc=False):
+    def _display_grid(self, items):
         """Display items in grid format matching TAB completion (vertical layout)"""
         if not items:
             return
@@ -663,17 +663,6 @@ class InteractiveShell(cmd.Cmd):
                     print("^C")
                     line = ""
 
-            # Handle TAB completion on empty line
-            if line == "\t":
-                print()  # Newline before grid
-                if self.current_service:
-                    self._display_grid(get_service_methods(self.current_service))
-                else:
-                    services = get_device_available_services(self.client)
-                    commands = self.base_commands
-                    self._display_grid(services + commands)
-                line = ""  # Reset line to show prompt again
-
             line = self.precmd(line)
             stop = self.onecmd(line)
             stop = self.postcmd(stop, line)
@@ -684,7 +673,7 @@ class InteractiveShell(cmd.Cmd):
             return
 
         # Use our grid display for TAB completion with coloring enabled
-        self._display_grid(items, force_recalc=True)
+        self._display_grid(items)
 
     def print_topics(self, header, cmds, cmdlen, maxcol):
         """Override print_topics to use grid format for TAB completion"""
@@ -696,7 +685,7 @@ class InteractiveShell(cmd.Cmd):
             self.stdout.write("%s\n" % str(header))
 
         # Use our grid display for TAB completion with coloring enabled
-        self._display_grid(cmds, force_recalc=True)
+        self._display_grid(cmds)
 
     def do_capabilities(self, line):
         """Show device capabilities in service format"""
