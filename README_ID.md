@@ -2,7 +2,7 @@
 
 [![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Project%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.5-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.6-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -56,7 +56,27 @@ pip install .
 
 Berikut adalah contoh sederhana untuk membantu Anda memulai dengan pustaka ONVIF Python. Contoh ini menunjukkan cara menghubungkan ke perangkat yang sesuai dengan ONVIF dan mengambil informasi dasar perangkat.
 
-**1. Inisialisasi ONVIFClient**
+**1. Menemukan Perangkat ONVIF (Opsional)**
+
+Sebelum menghubungkan ke perangkat tertentu, Anda dapat menemukan perangkat ONVIF di jaringan lokal Anda menggunakan kelas `ONVIFDiscovery` (diterapkan pada [`>=v0.1.6`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.6)):
+
+```python
+from onvif import ONVIFDiscovery
+
+# Buat instance discovery
+discovery = ONVIFDiscovery(timeout=5)
+
+# Temukan perangkat
+devices = discovery.discover()
+
+# Tampilkan perangkat yang ditemukan
+for device in devices:
+    print(f"Ditemukan perangkat di {device['host']}:{device['port']}")
+    print(f"  Scopes: {device.get('scopes', [])}")
+    print(f"  XAddrs: {device['xaddrs']}")
+```
+
+**2. Inisialisasi ONVIFClient**
 
 Buat instance `ONVIFClient` dengan memberikan alamat IP perangkat Anda, port, nama pengguna, dan kata sandi:
 
@@ -73,7 +93,7 @@ client = ONVIFClient(
 )
 ```
 
-**2. Buat Instance Layanan**
+**3. Buat Instance Layanan**
 
 `ONVIFClient` menyediakan beberapa layanan utama yang dapat diakses melalui metode berikut:
 
@@ -92,7 +112,7 @@ device = client.devicemgmt()      # Manajemen Perangkat (Inti)
 media = client.media()            # Media
 ```
 
-**3. Dapatkan Informasi Perangkat**
+**4. Dapatkan Informasi Perangkat**
 
 Ambil informasi dasar tentang perangkat, seperti produsen, model, versi firmware, dan nomor seri menggunakan layanan `devicemgmt()`:
 
@@ -102,7 +122,7 @@ print(info)
 # Contoh: {'Manufacturer': '..', 'Model': '..', 'FirmwareVersion': '..', 'SerialNumber': '..'}
 ```
 
-**4. Dapatkan URL RTSP**
+**5. Dapatkan URL RTSP**
 
 Ambil URL aliran RTSP untuk streaming video langsung dari perangkat menggunakan layanan `media()`:
 
@@ -135,6 +155,7 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
 
 ### Fitur
 
+- **Penemuan Perangkat:** Penemuan perangkat ONVIF otomatis di jaringan lokal menggunakan protokol WS-Discovery.
 - **Shell Interaktif:** Shell yang ramah pengguna dengan pelengkapan tab, riwayat perintah, dan output berwarna.
 - **Eksekusi Perintah Langsung:** Jalankan perintah ONVIF langsung dari terminal untuk skrip dan otomatisasi.
 - **Penemuan Otomatis:** Secara otomatis mendeteksi layanan yang tersedia di perangkat.
@@ -177,7 +198,7 @@ usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password 
              [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.1.5
+ONVIF Terminal Client — v0.1.6
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -235,7 +256,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell Commands - v0.1.5
+ONVIF Interactive Shell Commands - v0.1.6
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
