@@ -165,25 +165,19 @@ def main():
                 f"{colorize('--discover', 'white')} cannot be used with {colorize('--host', 'white')}"
             )
 
-        # Discover devices (pass --https flag to prioritize HTTPS XAddrs)
-        devices = discover_devices(timeout=4, prefer_https=args.https)
+        # Discover devices (pass --https flag to prioritize HTTPS XAddrs and search term)
+        devices = discover_devices(
+            timeout=4, prefer_https=args.https, search=args.search
+        )
 
         if not devices:
-            print(colorize("No ONVIF devices discovered. Exiting.", "red"))
-            sys.exit(1)
-
-        # Apply search filter if provided
-        if args.search:
-            original_count = len(devices)
-            devices = filter_devices(devices, args.search)
-            print(
-                f"Filtered {colorize(str(len(devices)), 'green')} of {colorize(str(original_count), 'white')} devices matching: {colorize(args.search, 'yellow')}\n"
-            )
-            if not devices:
+            if args.search:
                 print(
                     f"{colorize('No devices found matching search:', 'red')} {colorize(args.search, 'white')}"
                 )
-                sys.exit(1)
+            else:
+                print(colorize("No ONVIF devices discovered. Exiting.", "red"))
+            sys.exit(1)
 
         # Let user select a device
         selected = select_device_interactive(devices)
@@ -301,12 +295,15 @@ def execute_command(
     return method(**params)
 
 
-def discover_devices(timeout: int = 4, prefer_https: bool = False) -> list:
+def discover_devices(
+    timeout: int = 4, prefer_https: bool = False, search: Optional[str] = None
+) -> list:
     """Discover ONVIF devices on the network using WS-Discovery.
 
     Args:
         timeout: Discovery timeout in seconds
         prefer_https: If True, prioritize HTTPS XAddrs when available
+        search: Optional search term to filter devices by types or scopes
 
     Returns:
         List of discovered devices with connection info
@@ -317,41 +314,14 @@ def discover_devices(timeout: int = 4, prefer_https: bool = False) -> list:
 
     print(f"\n{colorize('Discovering ONVIF devices on network...', 'yellow')}")
     print(f"Network interface: {colorize(discovery._get_local_ip(), 'white')}")
-    print(f"Timeout: {timeout}s\n")
+    print(f"Timeout: {timeout}s")
+    if search:
+        print(f"Filter: {colorize(search, 'yellow')}")
+    print()
 
-    devices = discovery.discover(prefer_https=prefer_https)
+    devices = discovery.discover(prefer_https=prefer_https, search=search)
 
     return devices
-
-
-def filter_devices(devices: list, search_term: str) -> list:
-    """Filter devices based on search term in types or scopes.
-
-    Args:
-        devices: List of discovered devices
-        search_term: Search string to match against types/scopes (case-insensitive)
-
-    Returns:
-        Filtered list of devices matching the search term
-    """
-    if not search_term:
-        return devices
-
-    search_lower = search_term.lower()
-    filtered = []
-
-    for device in devices:
-        # Check types
-        types_match = any(search_lower in t.lower() for t in device.get("types", []))
-
-        # Check scopes
-        scopes_match = any(search_lower in s.lower() for s in device.get("scopes", []))
-
-        # Include device if match found in types or scopes
-        if types_match or scopes_match:
-            filtered.append(device)
-
-    return filtered
 
 
 def select_device_interactive(devices: list) -> Optional[Tuple[str, int, bool]]:

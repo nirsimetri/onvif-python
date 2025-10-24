@@ -92,11 +92,14 @@ class ONVIFDiscovery:
 
         return self._local_ip
 
-    def discover(self, prefer_https: bool = False) -> List[Dict[str, Any]]:
+    def discover(
+        self, prefer_https: bool = False, search: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
         """Discover ONVIF devices on the network.
 
         Args:
             prefer_https: If True, prioritize HTTPS XAddrs when available
+            search: Optional search term to filter devices by types or scopes (case-insensitive)
 
         Returns:
             List of discovered devices with connection information.
@@ -114,6 +117,10 @@ class ONVIFDiscovery:
             >>> devices = discovery.discover()
             >>> for device in devices:
             ...     print(f"{device['host']}:{device['port']}")
+
+            >>> # Filter devices by search term
+            >>> devices = discovery.discover(search="ptz")
+            >>> devices = discovery.discover(search="Hong Kong")
         """
         local_ip = self._get_local_ip()
 
@@ -158,7 +165,13 @@ class ONVIFDiscovery:
             return []
 
         # Parse responses
-        return self._parse_responses(responses, prefer_https)
+        devices = self._parse_responses(responses, prefer_https)
+
+        # Apply search filter if provided
+        if search:
+            devices = self._filter_devices(devices, search)
+
+        return devices
 
     def _parse_responses(
         self, responses: List[Dict[str, str]], prefer_https: bool = False
@@ -184,6 +197,41 @@ class ONVIFDiscovery:
                 continue
 
         return devices
+
+    def _filter_devices(
+        self, devices: List[Dict[str, Any]], search_term: str
+    ) -> List[Dict[str, Any]]:
+        """Filter devices based on search term in types or scopes.
+
+        Args:
+            devices: List of discovered devices
+            search_term: Search string to match against types/scopes (case-insensitive)
+
+        Returns:
+            Filtered list of devices matching the search term
+        """
+        if not search_term:
+            return devices
+
+        search_lower = search_term.lower()
+        filtered = []
+
+        for device in devices:
+            # Check types
+            types_match = any(
+                search_lower in t.lower() for t in device.get("types", [])
+            )
+
+            # Check scopes
+            scopes_match = any(
+                search_lower in s.lower() for s in device.get("scopes", [])
+            )
+
+            # Include device if match found in types or scopes
+            if types_match or scopes_match:
+                filtered.append(device)
+
+        return filtered
 
     def _parse_single_response(
         self, xml_data: str, prefer_https: bool = False
