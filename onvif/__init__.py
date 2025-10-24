@@ -2,7 +2,13 @@
 
 from .client import ONVIFClient
 from .operator import ONVIFOperator, CacheMode
-from .utils import ONVIFWSDL, ONVIFOperationException, ONVIFErrorHandler, ZeepPatcher
+from .utils import (
+    ONVIFWSDL,
+    ONVIFOperationException,
+    ONVIFErrorHandler,
+    ZeepPatcher,
+    ONVIFDiscovery,
+)
 from .cli import main as ONVIFCLI
 
 __all__ = [
@@ -14,4 +20,5 @@ __all__ = [
     "ONVIFErrorHandler",
     "ZeepPatcher",
     "ONVIFCLI",
+    "ONVIFDiscovery",
 ]

@@ -5,6 +5,7 @@ from .exceptions import ONVIFOperationException
 from .zeep import ZeepPatcher
 from .xml_capture import XMLCapturePlugin
 from .error_handlers import ONVIFErrorHandler
+from .discovery import ONVIFDiscovery
 
 
 __all__ = [
@@ -13,4 +14,5 @@ __all__ = [
     "ZeepPatcher",
     "XMLCapturePlugin",
     "ONVIFErrorHandler",
+    "ONVIFDiscovery",
 ]
