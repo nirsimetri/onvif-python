@@ -395,7 +395,7 @@ class InteractiveShell(cmd.Cmd):
 
         # Column width calculation: use same algorithm as cmd.Cmd.columnize()
         # Python's columnize uses: maxlen + 2 if maxlen > 0 else 2
-        col_width = longest_length + 1 if longest_length > 0 else 2
+        col_width = longest_length + 2 if longest_length > 0 else 2
 
         # Calculate number of columns that fit
         num_cols = max(1, term_width // col_width)
@@ -678,13 +678,13 @@ class InteractiveShell(cmd.Cmd):
             stop = self.onecmd(line)
             stop = self.postcmd(stop, line)
 
-    def columnize(self, list, displaywidth=80):
+    def columnize(self, items, displaywidth=80):
         """Override columnize to use grid format for TAB completion"""
-        if not list:
+        if not items:
             return
 
         # Use our grid display for TAB completion with coloring enabled
-        self._display_grid(list, force_recalc=True)
+        self._display_grid(items, force_recalc=True)
 
     def print_topics(self, header, cmds, cmdlen, maxcol):
         """Override print_topics to use grid format for TAB completion"""
