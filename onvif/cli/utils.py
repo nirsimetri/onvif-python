@@ -451,8 +451,8 @@ def format_capabilities_as_services(capabilities) -> str:
                     )
 
         # Handle nested extensions
-        if hasattr(ext, "Extension") and ext.Extension:
-            ext_ext = ext.Extension
+        if hasattr(ext, "Extensions") and ext.Extensions:
+            ext_ext = ext.Extensions
             for ext_name, service_func in ext_services.items():
                 if hasattr(ext_ext, ext_name):
                     ext_service = getattr(ext_ext, ext_name)
@@ -584,8 +584,8 @@ def get_device_available_services(client) -> list:
                 available_services.append("analyticsdevice")
 
             # Check for nested Extension (second level)
-            if hasattr(ext, "Extension") and ext.Extension:
-                ext_ext = ext.Extension
+            if hasattr(ext, "Extensions") and ext.Extensions:
+                ext_ext = ext.Extensions
 
                 if hasattr(ext_ext, "AccessControl") and ext_ext.AccessControl:
                     available_services.append("accesscontrol")

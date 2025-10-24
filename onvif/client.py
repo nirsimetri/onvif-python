@@ -183,7 +183,7 @@ class ONVIFClient:
         2. GetCapabilities: Fall back to GetCapabilities response with multiple lookup strategies:
            - Direct capabilities.service_path
            - Extension capabilities.Extension.service_path
-           - Nested Extension capabilities.Extension.Extension.service_path
+           - Nested Extension capabilities.Extension.Extensions.service_path
         3. Default URL: Generate default ONVIF URL as final fallback
 
         Args:
@@ -241,9 +241,9 @@ class ONVIFClient:
                         svc = getattr(ext, service_path, None)
                         xaddr = getattr(svc, "XAddr", None) if svc else None
                     else:
-                        # Step 3: try capabilities.Extension.Extension.service_path
-                        # (e.g. capabilities.Extension.Extension.Provisioning)
-                        ext_ext = getattr(ext, "Extension", None)
+                        # Step 3: try capabilities.Extension.Extensions.service_path
+                        # (e.g. capabilities.Extension.Extensions.Provisioning)
+                        ext_ext = getattr(ext, "Extensions", None)
                         if ext_ext and hasattr(ext_ext, service_path):
                             svc = getattr(ext_ext, service_path, None)
                             xaddr = getattr(svc, "XAddr", None) if svc else None
