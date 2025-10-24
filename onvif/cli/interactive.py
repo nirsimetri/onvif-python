@@ -18,6 +18,7 @@ from ..utils.exceptions import ONVIFOperationException
 from .utils import (
     parse_json_params,
     get_service_methods,
+    get_service_required_args,
     get_device_available_services,
     colorize,
     format_capabilities_as_services,
@@ -560,8 +561,17 @@ class InteractiveShell(cmd.Cmd):
 
     def default(self, line):
         """Handle unknown commands"""
-        # Check if it's a service call using device-specific services
-        if line in get_device_available_services(self.client):
+        available_services = get_device_available_services(self.client)
+
+        # Check if it's a service call (with or without arguments)
+        # Extract first word to check if it's a service name
+        first_word = line.split()[0] if line.split() else line
+
+        if first_word in available_services:
+            return self.do_enter_service(line)
+
+        # Check if the whole line (without arguments) is a service
+        if line in available_services:
             return self.do_enter_service(line)
 
         # Check if it's a method call in service context
@@ -732,8 +742,13 @@ class InteractiveShell(cmd.Cmd):
             else:
                 print(f"{colorize('Error:', 'red')} {e}")
 
-    def do_enter_service(self, service_name):
-        """Enter service mode"""
+    def do_enter_service(self, line):
+        """Enter service mode with optional arguments for services that require them"""
+        # Parse service name and arguments
+        parts = line.split(None, 1)
+        service_name = parts[0] if parts else ""
+        args_str = parts[1] if len(parts) > 1 else ""
+
         available_services = get_device_available_services(self.client)
         if service_name not in available_services:
             print(f"{colorize('Error:', 'red')} Unknown service '{service_name}'")
@@ -742,7 +757,63 @@ class InteractiveShell(cmd.Cmd):
             return
 
         try:
-            service = getattr(self.client, service_name)()
+            # Check if this service requires arguments
+            required_args = get_service_required_args(service_name)
+
+            if required_args:
+                # Service requires arguments
+                if not args_str:
+                    # No arguments provided, show help
+                    print(
+                        f"{colorize('Error:', 'red')} Service '{service_name}' requires arguments"
+                    )
+                    print(
+                        f"{colorize('Usage:', 'yellow')} {service_name} {' '.join([f'{arg}=<value>' for arg in required_args])}"
+                    )
+                    print(
+                        f"{colorize('Example:', 'yellow')} {service_name} {required_args[0]}=$subscription"
+                    )
+                    return
+
+                # Parse arguments
+                try:
+                    parsed_args = parse_json_params(args_str)
+                except Exception as e:
+                    print(f"{colorize('Error parsing arguments:', 'red')} {e}")
+                    return
+
+                # Check if all required arguments are provided
+                missing_args = [arg for arg in required_args if arg not in parsed_args]
+                if missing_args:
+                    print(
+                        f"{colorize('Error:', 'red')} Missing required arguments: {', '.join(missing_args)}"
+                    )
+                    print(
+                        f"{colorize('Usage:', 'yellow')} {service_name} {' '.join([f'{arg}=<value>' for arg in required_args])}"
+                    )
+                    return
+
+                # Resolve stored references in arguments
+                for arg_name in required_args:
+                    arg_value = parsed_args[arg_name]
+                    if isinstance(arg_value, str) and arg_value.startswith("$"):
+                        # Resolve stored reference
+                        reference = arg_value[1:]  # Remove $ prefix
+                        resolved_value = self._resolve_stored_reference(reference)
+                        if resolved_value is None:
+                            print(
+                                f"{colorize('Error:', 'red')} Could not resolve reference '{arg_value}'"
+                            )
+                            return
+                        parsed_args[arg_name] = resolved_value
+
+                # Call service method with arguments
+                service_method = getattr(self.client, service_name)
+                service = service_method(**parsed_args)
+            else:
+                # Service doesn't require arguments
+                service = getattr(self.client, service_name)()
+
             self.current_service = service
             self.current_service_name = service_name
             self.update_prompt()
@@ -767,6 +838,10 @@ class InteractiveShell(cmd.Cmd):
 
         except Exception as e:
             print(f"{colorize('Error entering service:', 'red')} {e}")
+            if self.args.debug:
+                import traceback
+
+                traceback.print_exc()
 
     def do_ls(self, line):
         """List available commands/services like TAB completion"""
@@ -854,7 +929,7 @@ class InteractiveShell(cmd.Cmd):
             print(
                 f"{colorize('Error:', 'red')} You must be in a service mode to use 'type'."
             )
-            print(f"Enter a service first (e.g., {colorize('d', 'yellow')})")
+            print(f"Enter a service first (e.g., {colorize('devicemgmt', 'yellow')})")
             return
 
         if not operation_name:

@@ -9,30 +9,63 @@ import re
 
 
 # ONVIF namespace to service name mapping (used globally)
+# Format: namespace -> list of (service_name, binding_pattern)
+# binding_pattern is used to identify specific binding in multi-binding services
 ONVIF_NAMESPACE_MAP = {
-    "http://www.onvif.org/ver10/device/wsdl": "devicemgmt",
-    "http://www.onvif.org/ver10/events/wsdl": "events",
-    "http://www.onvif.org/ver20/imaging/wsdl": "imaging",
-    "http://www.onvif.org/ver10/media/wsdl": "media",
-    "http://www.onvif.org/ver20/media/wsdl": "media2",
-    "http://www.onvif.org/ver20/ptz/wsdl": "ptz",
-    "http://www.onvif.org/ver10/deviceIO/wsdl": "deviceio",
-    "http://www.onvif.org/ver10/display/wsdl": "display",
-    "http://www.onvif.org/ver20/analytics/wsdl": "analytics",
-    "http://www.onvif.org/ver10/analyticsdevice/wsdl": "analyticsdevice",
-    "http://www.onvif.org/ver10/accesscontrol/wsdl": "accesscontrol",
-    "http://www.onvif.org/ver10/doorcontrol/wsdl": "doorcontrol",
-    "http://www.onvif.org/ver10/accessrules/wsdl": "accessrules",
-    "http://www.onvif.org/ver10/actionengine/wsdl": "actionengine",
-    "http://www.onvif.org/ver10/provisioning/wsdl": "provisioning",
-    "http://www.onvif.org/ver10/receiver/wsdl": "receiver",
-    "http://www.onvif.org/ver10/recording/wsdl": "recording",
-    "http://www.onvif.org/ver10/replay/wsdl": "replay",
-    "http://www.onvif.org/ver10/schedule/wsdl": "schedule",
-    "http://www.onvif.org/ver10/search/wsdl": "search",
-    "http://www.onvif.org/ver10/thermal/wsdl": "thermal",
-    "http://www.onvif.org/ver10/uplink/wsdl": "uplink",
-    "http://www.onvif.org/ver10/advancedsecurity/wsdl": "security",
+    "http://www.onvif.org/ver10/device/wsdl": [("devicemgmt", "DeviceBinding")],
+    "http://www.onvif.org/ver10/events/wsdl": [
+        ("events", "EventBinding"),
+        ("pullpoint", "PullPointSubscriptionBinding"),
+        ("notification", "NotificationProducerBinding"),
+        ("subscription", "SubscriptionManagerBinding"),
+    ],
+    "http://www.onvif.org/ver20/imaging/wsdl": [("imaging", "ImagingBinding")],
+    "http://www.onvif.org/ver10/media/wsdl": [("media", "MediaBinding")],
+    "http://www.onvif.org/ver20/media/wsdl": [("media2", "Media2Binding")],
+    "http://www.onvif.org/ver20/ptz/wsdl": [("ptz", "PTZBinding")],
+    "http://www.onvif.org/ver10/deviceIO/wsdl": [("deviceio", "DeviceIOBinding")],
+    "http://www.onvif.org/ver10/display/wsdl": [("display", "DisplayBinding")],
+    "http://www.onvif.org/ver20/analytics/wsdl": [
+        ("analytics", "AnalyticsEngineBinding"),
+        ("ruleengine", "RuleEngineBinding"),
+    ],
+    "http://www.onvif.org/ver10/analyticsdevice/wsdl": [
+        ("analyticsdevice", "AnalyticsDeviceBinding")
+    ],
+    "http://www.onvif.org/ver10/accesscontrol/wsdl": [("accesscontrol", "PACSBinding")],
+    "http://www.onvif.org/ver10/doorcontrol/wsdl": [
+        ("doorcontrol", "DoorControlBinding")
+    ],
+    "http://www.onvif.org/ver10/accessrules/wsdl": [
+        ("accessrules", "AccessRulesBinding")
+    ],
+    "http://www.onvif.org/ver10/actionengine/wsdl": [
+        ("actionengine", "ActionEngineBinding")
+    ],
+    "http://www.onvif.org/ver10/provisioning/wsdl": [
+        ("provisioning", "ProvisioningBinding")
+    ],
+    "http://www.onvif.org/ver10/receiver/wsdl": [("receiver", "ReceiverBinding")],
+    "http://www.onvif.org/ver10/recording/wsdl": [("recording", "RecordingBinding")],
+    "http://www.onvif.org/ver10/replay/wsdl": [("replay", "ReplayBinding")],
+    "http://www.onvif.org/ver10/schedule/wsdl": [("schedule", "ScheduleBinding")],
+    "http://www.onvif.org/ver10/search/wsdl": [("search", "SearchBinding")],
+    "http://www.onvif.org/ver10/thermal/wsdl": [("thermal", "ThermalBinding")],
+    "http://www.onvif.org/ver10/uplink/wsdl": [("uplink", "UplinkBinding")],
+    "http://www.onvif.org/ver10/appmgmt/wsdl": [("appmgmt", "AppManagementBinding")],
+    "http://www.onvif.org/ver10/authenticationbehavior/wsdl": [
+        ("authenticationbehavior", "AuthenticationBehaviorBinding")
+    ],
+    "http://www.onvif.org/ver10/credential/wsdl": [("credential", "CredentialBinding")],
+    "http://www.onvif.org/ver10/advancedsecurity/wsdl": [
+        ("advancedsecurity", "AdvancedSecurityServiceBinding"),
+        ("jwt", "JWTBinding"),
+        ("keystore", "KeystoreBinding"),
+        ("tlsserver", "TLSServerBinding"),
+        ("dot1x", "Dot1XBinding"),
+        ("authorizationserver", "AuthorizationServerBinding"),
+        ("mediasigning", "MediaSigningBinding"),
+    ],
 }
 
 
@@ -150,6 +183,29 @@ def parse_json_params(params_str: str) -> Dict[str, Any]:
             params[key] = v
 
     return params
+
+
+def get_service_required_args(service_name: str) -> Optional[list]:
+    """
+    Get required arguments for services that need them.
+    Returns list of required argument names, or None if service doesn't need args.
+
+    Services that require arguments:
+    - pullpoint, subscription: requires SubscriptionRef
+    - jwt, keystore, tlsserver, dot1x, authorizationserver, mediasigning: require xaddr
+    """
+    if service_name in ["pullpoint", "subscription"]:
+        return ["SubscriptionRef"]
+    elif service_name in [
+        "jwt",
+        "keystore",
+        "tlsserver",
+        "dot1x",
+        "authorizationserver",
+        "mediasigning",
+    ]:
+        return ["xaddr"]
+    return None
 
 
 def get_service_methods(service_obj) -> list:
@@ -343,11 +399,11 @@ def format_capabilities_as_services(capabilities) -> str:
     # Map of capability names to service function names
     service_map = {
         "Device": "devicemgmt",
+        "Analytics": "analytics",
         "Events": "events",
         "Imaging": "imaging",
         "Media": "media",
         "PTZ": "ptz",
-        "Analytics": "analytics",
         "Extension": None,  # Handle extensions separately
     }
 
@@ -356,29 +412,33 @@ def format_capabilities_as_services(capabilities) -> str:
             cap = getattr(capabilities, cap_name)
             if cap and "XAddr" in cap:
                 services.append(f"  {colorize(service_func, 'yellow')}")
-                services.append(f"    XAddr: {cap['XAddr']}")
+                services.append(f"    {colorize('XAddr:', 'white')} {cap['XAddr']}")
 
     # Handle extensions
     if hasattr(capabilities, "Extension") and capabilities.Extension:
         ext = capabilities.Extension
         ext_services = {
+            # first-level extension capabilities
             "DeviceIO": "deviceio",
+            "Display": "display",
             "Recording": "recording",
-            "Replay": "replay",
             "Search": "search",
+            "Replay": "replay",
+            "Receiver": "receiver",
+            "AnalyticsDevice": "analyticsdevice",
+            # second-level extension capabilities
             "AccessControl": "accesscontrol",
             "DoorControl": "doorcontrol",
             "AccessRules": "accessrules",
             "ActionEngine": "actionengine",
-            "appmgmt": "appmgmt",
+            "AppManagement": "appmgmt",
             "AuthenticationBehavior": "authenticationbehavior",
             "Credential": "credential",
             "Provisioning": "provisioning",
-            "Receiver": "receiver",
             "Schedule": "schedule",
             "Thermal": "thermal",
             "Uplink": "uplink",
-            "AdvancedSecurity": "security",
+            "Security": "advancedsecurity",
         }
 
         for ext_name, service_func in ext_services.items():
@@ -386,7 +446,9 @@ def format_capabilities_as_services(capabilities) -> str:
                 ext_service = getattr(ext, ext_name)
                 if ext_service and "XAddr" in ext_service:
                     services.append(f"  {colorize(service_func, 'yellow')}")
-                    services.append(f"    XAddr: {ext_service['XAddr']}")
+                    services.append(
+                        f"    {colorize('XAddr:', 'white')} {ext_service['XAddr']}"
+                    )
 
         # Handle nested extensions
         if hasattr(ext, "Extension") and ext.Extension:
@@ -396,7 +458,9 @@ def format_capabilities_as_services(capabilities) -> str:
                     ext_service = getattr(ext_ext, ext_name)
                     if ext_service and "XAddr" in ext_service:
                         services.append(f"  {colorize(service_func, 'yellow')}")
-                        services.append(f"    XAddr: {ext_service['XAddr']}")
+                        services.append(
+                            f"    {colorize('XAddr:', 'white')} {ext_service['XAddr']}"
+                        )
 
     if services:
         header = f"{colorize('Available Capabilities:', 'green')}"
@@ -408,7 +472,8 @@ def format_capabilities_as_services(capabilities) -> str:
 
 
 def format_services_list(services_list) -> str:
-    """Format GetServices response as service list with XAddr"""
+    """Format GetServices response as service list with XAddr and binding support.
+    Shows binding information for all services (single and multi-binding)."""
     if not services_list:
         return f"{colorize('No services available', 'yellow')}"
 
@@ -420,27 +485,53 @@ def format_services_list(services_list) -> str:
         xaddr = getattr(service, "XAddr", "")
         version = getattr(service, "Version", {})
 
-        service_func = ONVIF_NAMESPACE_MAP.get(namespace, f"unknown({namespace})")
+        # Get service mappings for this namespace
+        service_mappings = ONVIF_NAMESPACE_MAP.get(namespace, [])
 
-        services.append(f"  {colorize(service_func, 'cyan')}")
-        services.append(f"    XAddr: {xaddr}")
+        if not service_mappings:
+            # Unknown namespace
+            services.append(f"  {colorize(f'unknown({namespace})', 'yellow')}")
+            services.append(f"    {colorize('XAddr   :', 'white')} {xaddr}")
+        else:
+            # Add the main service entry (first service in mappings)
+            main_service = service_mappings[0][0]
+            services.append(f"  {colorize(main_service, 'cyan')}")
+            services.append(f"    {colorize('XAddr    :', 'white')} {xaddr}")
+            services.append(f"    {colorize('Namespace:', 'white')} {namespace}")
 
+            # Always show binding information for all services
+            if len(service_mappings) == 1:
+                # Single binding - still show it
+                service_name, binding = service_mappings[0]
+                services.append(f"    {colorize('Binding  :', 'white')} {binding}")
+            else:
+                # Multi-binding - show all bindings (no filtering)
+                # Always display all bindings for multi-binding services
+                services.append(f"    {colorize('Bindings :', 'white')}")
+                for service_name, binding in service_mappings:
+                    services.append(
+                        f"      - {colorize(service_name, 'green')} ({binding})"
+                    )
+
+        # Add version info
         if version:
             major = getattr(version, "Major", "")
             minor = getattr(version, "Minor", "")
             if major and minor:
-                services.append(f"    Version: {major}.{minor}")
+                services.append(
+                    f"    {colorize('Version  :', 'white')} {major}.{minor}"
+                )
             elif major:
-                services.append(f"    Version: {major}")
+                services.append(f"    {colorize('Version  :', 'white')} {major}")
 
-    header = f"{colorize('Available Services:', 'green')}"
     service_lines = "\n".join(services)
     result = f"{header}\n{service_lines}"
     return result
 
 
 def get_device_available_services(client) -> list:
-    """Get list of services actually available on the connected device"""
+    """Get list of services actually available on the connected device.
+    For multi-binding services, returns all available service names."""
     available_services = ["devicemgmt"]  # devicemgmt is always available
 
     # Check if device has services information
@@ -448,29 +539,92 @@ def get_device_available_services(client) -> list:
         for service in client.services:
             namespace = getattr(service, "Namespace", None)
             if namespace and namespace in ONVIF_NAMESPACE_MAP:
-                service_name = ONVIF_NAMESPACE_MAP[namespace]
-                if service_name not in available_services:
-                    available_services.append(service_name)
+                # Get all service names for this namespace (handles multi-binding)
+                service_mappings = ONVIF_NAMESPACE_MAP[namespace]
+                for service_name, binding in service_mappings:
+                    if service_name not in available_services:
+                        available_services.append(service_name)
 
     # Check capabilities as fallback
     elif hasattr(client, "capabilities") and client.capabilities:
         caps = client.capabilities
 
         # Check various capability attributes for service availability
+        if hasattr(caps, "Analytics") and caps.Analytics:
+            available_services.extend(["analytics", "ruleengine"])
         if hasattr(caps, "Events") and caps.Events:
-            available_services.append("events")
+            # Events namespace has multiple bindings
+            available_services.extend(
+                ["events", "pullpoint", "notification", "subscription"]
+            )
         if hasattr(caps, "Imaging") and caps.Imaging:
             available_services.append("imaging")
         if hasattr(caps, "Media") and caps.Media:
             available_services.append("media")
         if hasattr(caps, "PTZ") and caps.PTZ:
             available_services.append("ptz")
-        if hasattr(caps, "DeviceIO") and caps.DeviceIO:
-            available_services.append("deviceio")
-        if hasattr(caps, "Display") and caps.Display:
-            available_services.append("display")
-        if hasattr(caps, "Analytics") and caps.Analytics:
-            available_services.append("analytics")
+
+        # Check for services in Extension (first level)
+        if hasattr(caps, "Extension") and caps.Extension:
+            ext = caps.Extension
+
+            if hasattr(ext, "DeviceIO") and ext.DeviceIO:
+                available_services.append("deviceio")
+            if hasattr(ext, "Display") and ext.Display:
+                available_services.append("display")
+            if hasattr(ext, "Recording") and ext.Recording:
+                available_services.append("recording")
+            if hasattr(ext, "Search") and ext.Search:
+                available_services.append("search")
+            if hasattr(ext, "Replay") and ext.Replay:
+                available_services.append("replay")
+            if hasattr(ext, "Receiver") and ext.Receiver:
+                available_services.append("receiver")
+            if hasattr(ext, "AnalyticsDevice") and ext.AnalyticsDevice:
+                available_services.append("analyticsdevice")
+
+            # Check for nested Extension (second level)
+            if hasattr(ext, "Extension") and ext.Extension:
+                ext_ext = ext.Extension
+
+                if hasattr(ext_ext, "AccessControl") and ext_ext.AccessControl:
+                    available_services.append("accesscontrol")
+                if hasattr(ext_ext, "DoorControl") and ext_ext.DoorControl:
+                    available_services.append("doorcontrol")
+                if hasattr(ext_ext, "AccessRules") and ext_ext.AccessRules:
+                    available_services.append("accessrules")
+                if hasattr(ext_ext, "ActionEngine") and ext_ext.ActionEngine:
+                    available_services.append("actionengine")
+                if hasattr(ext_ext, "AppManagement") and ext_ext.AppManagement:
+                    available_services.append("appmgmt")
+                if (
+                    hasattr(ext_ext, "AuthenticationBehavior")
+                    and ext_ext.AuthenticationBehavior
+                ):
+                    available_services.append("authenticationbehavior")
+                if hasattr(ext_ext, "Credential") and ext_ext.Credential:
+                    available_services.append("credential")
+                if hasattr(ext_ext, "Provisioning") and ext_ext.Provisioning:
+                    available_services.append("provisioning")
+                if hasattr(ext_ext, "Schedule") and ext_ext.Schedule:
+                    available_services.append("schedule")
+                if hasattr(ext_ext, "Thermal") and ext_ext.Thermal:
+                    available_services.append("thermal")
+                if hasattr(ext_ext, "Uplink") and ext_ext.Uplink:
+                    available_services.append("uplink")
+                if hasattr(ext_ext, "Security") and ext_ext.Security:
+                    # Security namespace has multiple bindings
+                    available_services.extend(
+                        [
+                            "advancedsecurity",
+                            "jwt",
+                            "keystore",
+                            "tlsserver",
+                            "dot1x",
+                            "authorizationserver",
+                            "mediasigning",
+                        ]
+                    )
 
     return sorted(list(set(available_services)))  # Remove duplicates and sort
 
