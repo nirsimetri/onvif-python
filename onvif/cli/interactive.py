@@ -240,25 +240,27 @@ class InteractiveShell(cmd.Cmd):
         while not self._stop_health_check.is_set():
             sock = None
             try:
-                sock = socket.create_connection(
-                    (self.args.host, self.args.port), timeout=5.0
-                )
-
-                # If HTTPS, perform a short TLS handshake check
+                # For HTTPS, use ssl.create_connection for proper TLS handling
                 if getattr(self.args, "https", False):
                     context = ssl.create_default_context()
                     context.minimum_version = ssl.TLSVersion.TLSv1_2
                     context.check_hostname = False
                     context.verify_mode = ssl.CERT_NONE
 
-                    with context.wrap_socket(
-                        sock, server_hostname=self.args.host
-                    ) as ssock:
-                        ssock.settimeout(5)
-                        # Try a minimal handshake
-                        ssock.do_handshake()
+                    # Use ssl.create_connection instead of wrapping existing socket
+                    sock = context.wrap_socket(
+                        socket.socket(socket.AF_INET, socket.SOCK_STREAM),
+                        server_hostname=self.args.host,
+                    )
+                    sock.settimeout(5.0)
+                    sock.connect((self.args.host, self.args.port))
+                else:
+                    # For HTTP, simple TCP connection check
+                    sock = socket.create_connection(
+                        (self.args.host, self.args.port), timeout=5.0
+                    )
 
-                # If we reach here, the connection (and TLS if applicable) succeeded
+                # Connection successful
                 pass
 
             except (
@@ -933,7 +935,7 @@ class InteractiveShell(cmd.Cmd):
             return
 
         if not operation_name:
-            print(f"Usage: {colorize('type <operation_name>', 'yellow')}")
+            print("Usage: type <operation_name>")
             return
 
         if not hasattr(self.current_service, operation_name):
