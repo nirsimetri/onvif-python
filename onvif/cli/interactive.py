@@ -191,7 +191,7 @@ class InteractiveShell(cmd.Cmd):
             "  / __ \\/ | / / |  / /  _/ ____/",
             " / / / /  |/ /| | / // // /_    ",
             "/ /_/ / /|  / | |/ // // __/    ",
-            "\\____/_/ |_/  |___/___/_/  v0.1.4",
+            "\\____/_/ |_/  |___/___/_/  v0.1.5",
             "                                ",
         ]
 
@@ -1394,7 +1394,7 @@ class InteractiveShell(cmd.Cmd):
             super().do_help(line)
         else:
             help_text = f"""
-{colorize('ONVIF Interactive Shell Commands - v0.1.4', 'cyan')}\n{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
+{colorize('ONVIF Interactive Shell Commands - v0.1.5', 'cyan')}\n{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
 
 {colorize('Basic Commands:', 'yellow')}
   capabilities, caps       - Show device capabilities
@@ -1405,6 +1405,7 @@ class InteractiveShell(cmd.Cmd):
 
 {colorize('Navigation Commands:', 'yellow')}
   <service>                - Enter service mode (e.g., devicemgmt, media)
+  <service> <argument>     - Enter service mode with argument (e.g. pullpoint SubscriptionRef=<value>)
   cd <service>             - Enter service mode (alias)
   ls                       - List commands/services/methods in grid format
   up                       - Exit current service mode (go up one level)

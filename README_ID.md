@@ -1,9 +1,9 @@
 # ONVIF Python
 
-[![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/nirsimetri/onvif-python?tab=MIT-1-ov-file)
+[![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Project%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.4-orange?logo=archive)](https://pypi.org/project/onvif-python/)
-[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=PyPI%20Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.5-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
 [![Upload Python Package](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml/badge.svg)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml)
@@ -174,10 +174,10 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
 
 ```bash
 usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--timeout TIMEOUT] [--https] [--no-verify]
-             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--version]
+             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.1.4
+ONVIF Terminal Client — v0.1.5
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -203,6 +203,8 @@ options:
   --wsdl WSDL           Custom WSDL directory path
   --cache {all,db,mem,none}
                         Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
+  --health-check-interval HEALTH_CHECK_INTERVAL, -hci HEALTH_CHECK_INTERVAL
+                        Health check interval in seconds for interactive mode (default: 10)
   --version, -v         Show ONVIF CLI version and exit
 
 Examples:
@@ -233,7 +235,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell Commands - v0.1.4
+ONVIF Interactive Shell Commands - v0.1.5
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -245,6 +247,7 @@ Basic Commands:
 
 Navigation Commands:
   <service>                - Enter service mode (e.g., devicemgmt, media)
+  <service> <argument>     - Enter service mode with argument (e.g. pullpoint SubscriptionRef=<value>)
   cd <service>             - Enter service mode (alias)
   ls                       - List commands/services/methods in grid format
   up                       - Exit current service mode (go up one level)
@@ -264,6 +267,7 @@ Method Execution:
 Data Management:
   store <name>             - Store last result with a name
   show <name>              - Show stored data
+  show <name>[0]           - Show element at index (for lists)
   show <name>.attribute    - Show specific attribute
   show                     - List all stored data
   rm <name>                - Remove stored data by name
@@ -330,6 +334,27 @@ Jika Anda tidak menyertakan nama pengguna atau kata sandi, Anda akan diminta unt
 
 > [!IMPORTANT]
 > Anda dapat melihat semua perintah lainnya yang tersedia di shell interaktif dengan mencobanya langsung. Shell interaktif menjalankan pemeriksaan kesehatan latar belakang secara berkala untuk mendeteksi kehilangan koneksi. Shell ini menggunakan ping TCP diam-diam agar tidak mengganggu pekerjaan Anda dan akan otomatis keluar jika perangkat tidak dapat dijangkau, mirip dengan sesi SSH.
+
+**Perangkaian Perintah dengan `&&`:**
+
+CLI mendukung perangkaian beberapa perintah dalam satu baris menggunakan operator `&&`, memungkinkan Anda mengeksekusi operasi berurutan secara efisien:
+
+```bash
+# Masuk ke layanan dan eksekusi metode dalam satu baris
+192.168.1.17:8000 > media && GetProfiles && store profiles
+
+# Perangkaian beberapa pemanggilan metode
+192.168.1.17:8000 > devicemgmt && GetDeviceInformation && store device_info
+
+# Alur kerja kompleks
+192.168.1.17:8000 > media && GetProfiles && store profiles && up && imaging && GetImagingSettings VideoSourceToken=$profiles[0].VideoSourceConfiguration.SourceToken
+```
+
+Fitur ini sangat berguna untuk:
+- Operasi cepat tanpa memasuki mode layanan
+- Skrip tugas berulang
+- Menguji alur kerja
+- Mengotomasi prosedur multi-langkah
 
 **2. Penemuan Perangkat (WS-Discovery)**
 
