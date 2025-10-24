@@ -8,6 +8,7 @@ from typing import Any, Optional, Tuple
 
 from ..client import ONVIFClient
 from ..operator import CacheMode
+from ..utils.discovery import ONVIFDiscovery
 from .interactive import InteractiveShell
 from .utils import parse_json_params, colorize
 
@@ -287,36 +288,10 @@ def discover_devices(timeout: int = 4, prefer_https: bool = False) -> list:
     Returns:
         List of discovered devices with connection info
     """
-    import socket
-    import uuid
-    import xml.etree.ElementTree as ET
-    import struct
-
-    WS_DISCOVERY_PORT = 3702
-    WS_DISCOVERY_ADDRESS_IPv4 = "239.255.255.250"
-
-    # WS-Discovery Probe message
-    WS_DISCOVERY_PROBE_MESSAGE = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
-        '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" '
-        'xmlns:tds="http://www.onvif.org/ver10/device/wsdl" '
-        'xmlns:tns="http://schemas.xmlsoap.org/ws/2005/04/discovery" '
-        'xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">'
-        "<soap:Header>"
-        "<wsa:Action>http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</wsa:Action>"
-        "<wsa:MessageID>urn:uuid:{uuid}</wsa:MessageID>"
-        "<wsa:To>urn:schemas-xmlsoap-org:ws:2005:04:discovery</wsa:To>"
-        "</soap:Header>"
-        "<soap:Body>"
-        "<tns:Probe>"
-        "<tns:Types>tds:Device</tns:Types>"
-        "</tns:Probe>"
-        "</soap:Body>"
-        "</soap:Envelope>"
-    )
-
-    # Get local network interface
+    # Get local network interface for display
     try:
+        import socket
+
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
         local_ip = s.getsockname()[0]
@@ -328,134 +303,9 @@ def discover_devices(timeout: int = 4, prefer_https: bool = False) -> list:
     print(f"Network interface: {colorize(local_ip, 'white')}")
     print(f"Timeout: {timeout}s\n")
 
-    probe_uuid = str(uuid.uuid4())
-    probe = WS_DISCOVERY_PROBE_MESSAGE.format(uuid=probe_uuid)
-
-    responses = []
-
-    try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind((local_ip, 0))
-        sock.settimeout(timeout)
-
-        ttl = struct.pack("b", 1)
-        sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
-
-        sock.sendto(
-            probe.encode("utf-8"), (WS_DISCOVERY_ADDRESS_IPv4, WS_DISCOVERY_PORT)
-        )
-
-        while True:
-            try:
-                data, addr = sock.recvfrom(8192)
-                response = data.decode("utf-8", errors="ignore").strip()
-
-                if response and len(response) > 10:
-                    if response.startswith("<?xml") or response.startswith("<"):
-                        responses.append({"xml": response, "address": addr[0]})
-
-            except socket.timeout:
-                break
-            except Exception:
-                break
-
-        sock.close()
-
-    except Exception as e:
-        print(f"{colorize('Error during discovery:', 'red')} {e}")
-        return []
-
-    # Parse responses
-    devices = []
-    namespaces = {
-        "soap": "http://www.w3.org/2003/05/soap-envelope",
-        "wsa": "http://schemas.xmlsoap.org/ws/2004/08/addressing",
-        "wsd": "http://schemas.xmlsoap.org/ws/2005/04/discovery",
-        "d": "http://schemas.xmlsoap.org/ws/2005/04/discovery",
-    }
-
-    for resp in responses:
-        try:
-            root = ET.fromstring(resp["xml"])
-            probe_match = root.find(".//d:ProbeMatch", namespaces) or root.find(
-                ".//wsd:ProbeMatch", namespaces
-            )
-
-            if probe_match is None:
-                continue
-
-            device_info = {
-                "epr": "",
-                "types": [],
-                "scopes": [],
-                "xaddrs": [],
-                "host": None,
-                "port": 80,
-                "use_https": False,  # Auto-detect HTTPS from XAddrs
-            }
-
-            epr = probe_match.find(".//wsa:EndpointReference/wsa:Address", namespaces)
-            if epr is not None:
-                device_info["epr"] = epr.text
-
-            types_elem = probe_match.find(".//d:Types", namespaces) or probe_match.find(
-                ".//wsd:Types", namespaces
-            )
-            if types_elem is not None and types_elem.text:
-                device_info["types"] = types_elem.text.split()
-
-            scopes_elem = probe_match.find(
-                ".//d:Scopes", namespaces
-            ) or probe_match.find(".//wsd:Scopes", namespaces)
-            if scopes_elem is not None and scopes_elem.text:
-                device_info["scopes"] = scopes_elem.text.split()
-
-            xaddrs_elem = probe_match.find(
-                ".//d:XAddrs", namespaces
-            ) or probe_match.find(".//wsd:XAddrs", namespaces)
-            if xaddrs_elem is not None and xaddrs_elem.text:
-                device_info["xaddrs"] = xaddrs_elem.text.split()
-
-                # Extract host, port, and protocol from XAddrs
-                # Use prefer_https parameter to decide which XAddr to use
-                if device_info["xaddrs"]:
-                    # Select XAddr based on prefer_https flag
-                    if prefer_https:
-                        # Try to find HTTPS XAddr first if prefer_https=True
-                        https_xaddr = next(
-                            (
-                                x
-                                for x in device_info["xaddrs"]
-                                if x.startswith("https://")
-                            ),
-                            None,
-                        )
-                        xaddr = https_xaddr or device_info["xaddrs"][0]
-                    else:
-                        # Use first XAddr (usually HTTP) if prefer_https=False
-                        xaddr = device_info["xaddrs"][0]
-
-                    if "://" in xaddr:
-                        # Detect protocol
-                        protocol = xaddr.split("://")[0]
-                        device_info["use_https"] = protocol == "https"
-
-                        # Extract host and port
-                        parts = xaddr.split("://")[1].split("/")[0]
-                        if ":" in parts:
-                            device_info["host"] = parts.split(":")[0]
-                            device_info["port"] = int(parts.split(":")[1])
-                        else:
-                            device_info["host"] = parts
-                            # Set default port based on protocol
-                            device_info["port"] = 443 if protocol == "https" else 80
-
-            if device_info["host"]:
-                devices.append(device_info)
-
-        except Exception:
-            continue
+    # Use ONVIFDiscovery class
+    discovery = ONVIFDiscovery(timeout=timeout)
+    devices = discovery.discover(prefer_https=prefer_https)
 
     return devices
 
