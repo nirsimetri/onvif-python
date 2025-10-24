@@ -26,6 +26,11 @@ Examples:
   {colorize('onvif', 'yellow')} media GetProfiles --discover --username admin
   {colorize('onvif', 'yellow')} -d -i
 
+  # Discover with filtering
+  {colorize('onvif', 'yellow')} --discover --search ptz --interactive
+  {colorize('onvif', 'yellow')} -d -s "C210" -i
+  {colorize('onvif', 'yellow')} -d -s "audio_encoder" -u admin -p admin123 -i
+
   # Direct command execution
   {colorize('onvif', 'yellow')} devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
   {colorize('onvif', 'yellow')} ptz ContinuousMove ProfileToken=Profile_1 Velocity={{"PanTilt": {{"x": -0.1, "y": 0}}}} --host 192.168.1.17 --port 8000 --username admin --password admin123
@@ -60,6 +65,11 @@ Examples:
         "-d",
         action="store_true",
         help="Discover ONVIF devices on the network using WS-Discovery",
+    )
+    parser.add_argument(
+        "--search",
+        "-s",
+        help="Filter discovered devices by types or scopes (case-insensitive substring match)",
     )
 
     # Connection options
@@ -161,6 +171,19 @@ def main():
         if not devices:
             print(colorize("No ONVIF devices discovered. Exiting.", "red"))
             sys.exit(1)
+
+        # Apply search filter if provided
+        if args.search:
+            original_count = len(devices)
+            devices = filter_devices(devices, args.search)
+            print(
+                f"Filtered {colorize(str(len(devices)), 'green')} of {colorize(str(original_count), 'white')} devices matching: {colorize(args.search, 'yellow')}\n"
+            )
+            if not devices:
+                print(
+                    f"{colorize('No devices found matching search:', 'red')} {colorize(args.search, 'white')}"
+                )
+                sys.exit(1)
 
         # Let user select a device
         selected = select_device_interactive(devices)
@@ -288,26 +311,47 @@ def discover_devices(timeout: int = 4, prefer_https: bool = False) -> list:
     Returns:
         List of discovered devices with connection info
     """
-    # Get local network interface for display
-    try:
-        import socket
-
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        local_ip = s.getsockname()[0]
-        s.close()
-    except Exception:
-        local_ip = "0.0.0.0"
-
-    print(f"\n{colorize('Discovering ONVIF devices on network...', 'yellow')}")
-    print(f"Network interface: {colorize(local_ip, 'white')}")
-    print(f"Timeout: {timeout}s\n")
 
     # Use ONVIFDiscovery class
     discovery = ONVIFDiscovery(timeout=timeout)
+
+    print(f"\n{colorize('Discovering ONVIF devices on network...', 'yellow')}")
+    print(f"Network interface: {colorize(discovery._get_local_ip(), 'white')}")
+    print(f"Timeout: {timeout}s\n")
+
     devices = discovery.discover(prefer_https=prefer_https)
 
     return devices
+
+
+def filter_devices(devices: list, search_term: str) -> list:
+    """Filter devices based on search term in types or scopes.
+
+    Args:
+        devices: List of discovered devices
+        search_term: Search string to match against types/scopes (case-insensitive)
+
+    Returns:
+        Filtered list of devices matching the search term
+    """
+    if not search_term:
+        return devices
+
+    search_lower = search_term.lower()
+    filtered = []
+
+    for device in devices:
+        # Check types
+        types_match = any(search_lower in t.lower() for t in device.get("types", []))
+
+        # Check scopes
+        scopes_match = any(search_lower in s.lower() for s in device.get("scopes", []))
+
+        # Include device if match found in types or scopes
+        if types_match or scopes_match:
+            filtered.append(device)
+
+    return filtered
 
 
 def select_device_interactive(devices: list) -> Optional[Tuple[str, int, bool]]:
