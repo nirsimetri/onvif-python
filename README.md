@@ -2,7 +2,7 @@
 
 [![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Project%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.6-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.7-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -68,6 +68,10 @@ discovery = ONVIFDiscovery(timeout=5)
 
 # Discover devices
 devices = discovery.discover()
+
+# Or with
+# Discover with search filter by types or scopes (case-insensitive substring match)
+devices = discovery.discover(search="Profile/Streaming")
 
 # Display discovered devices
 for device in devices:
@@ -194,11 +198,12 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 <summary><b>1. Direct CLI</b></summary> 
 
 ```bash
-usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--timeout TIMEOUT] [--https] [--no-verify]
-             [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--search SEARCH] [--timeout TIMEOUT] [--https]
+             [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+             [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.1.6
+ONVIF Terminal Client — v0.1.7
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -215,6 +220,8 @@ options:
   --password PASSWORD, -p PASSWORD
                         Password for authentication
   --discover, -d        Discover ONVIF devices on the network using WS-Discovery
+  --search SEARCH, -s SEARCH
+                        Filter discovered devices by types or scopes (case-insensitive substring match)
   --timeout TIMEOUT     Connection timeout in seconds (default: 10)
   --https               Use HTTPS instead of HTTP
   --no-verify           Disable SSL certificate verification
@@ -233,6 +240,11 @@ Examples:
   onvif --discover --username admin --password admin123 --interactive
   onvif media GetProfiles --discover --username admin
   onvif -d -i
+
+  # Discover with filtering
+  onvif --discover --search ptz --interactive
+  onvif -d -s "C210" -i
+  onvif -d -s "audio_encoder" -u admin -p admin123 -i
 
   # Direct command execution
   onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
@@ -255,7 +267,7 @@ Examples:
 <summary><b>2. Interactive Shell</b></summary> 
 
 ```bash
-ONVIF Interactive Shell — v0.1.6
+ONVIF Interactive Shell — v0.1.7
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -387,6 +399,10 @@ onvif --discover --username admin --password admin123 --interactive
 
 # Short form
 onvif -d -u admin -p admin123 -i
+
+# Discover with search filter
+onvif --discover --search "C210" --interactive
+onvif -d -s ptz -u admin -p admin123 -i
 
 # Discover and interactive (will prompt for credentials)
 onvif -d -i

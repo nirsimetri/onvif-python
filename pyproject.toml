@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "onvif-python"
-version = "0.1.6"
+version = "0.1.7"
 description = "A comprehensive and developer-friendly Python library for working with ONVIF-compliant devices"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -69,5 +69,6 @@ extend-exclude = '''
 '''
 
 [project.urls]
+Homepage = "https://github.com/nirsimetri/onvif-python"
 Documentation = "https://deepwiki.com/nirsimetri/onvif-python"
 Changelog = "https://github.com/nirsimetri/onvif-python/releases"
