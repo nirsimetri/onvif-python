@@ -2,8 +2,8 @@
 
 import socket
 import uuid
-import xml.etree.ElementTree as ET
 import struct
+from lxml import etree
 from typing import List, Dict, Any, Optional
 
 
@@ -246,10 +246,17 @@ class ONVIFDiscovery:
             Device information dictionary or None if parsing fails
         """
         try:
-            root = ET.fromstring(xml_data)
-            probe_match = root.find(".//d:ProbeMatch", self.NAMESPACES) or root.find(
-                ".//wsd:ProbeMatch", self.NAMESPACES
+            # Use lxml's secure parser that prevents XXE attacks
+            parser = etree.XMLParser(
+                resolve_entities=False,  # Disable entity resolution
+                no_network=True,  # Disable network access
+                remove_blank_text=True,
             )
+            root = etree.fromstring(xml_data.encode("utf-8"), parser)
+
+            probe_match = probe_match = root.find(".//d:ProbeMatch", self.NAMESPACES)
+            if probe_match is None:
+                probe_match = root.find(".//wsd:ProbeMatch", self.NAMESPACES)
 
             if probe_match is None:
                 return None
@@ -268,27 +275,27 @@ class ONVIFDiscovery:
             epr = probe_match.find(
                 ".//wsa:EndpointReference/wsa:Address", self.NAMESPACES
             )
-            if epr is not None:
+            if epr is not None and epr.text:
                 device_info["epr"] = epr.text
 
             # Extract Types
-            types_elem = probe_match.find(
-                ".//d:Types", self.NAMESPACES
-            ) or probe_match.find(".//wsd:Types", self.NAMESPACES)
+            types_elem = probe_match.find(".//d:Types", self.NAMESPACES)
+            if types_elem is None:
+                types_elem = probe_match.find(".//wsd:Types", self.NAMESPACES)
             if types_elem is not None and types_elem.text:
                 device_info["types"] = types_elem.text.split()
 
             # Extract Scopes
-            scopes_elem = probe_match.find(
-                ".//d:Scopes", self.NAMESPACES
-            ) or probe_match.find(".//wsd:Scopes", self.NAMESPACES)
+            scopes_elem = probe_match.find(".//d:Scopes", self.NAMESPACES)
+            if scopes_elem is None:
+                scopes_elem = probe_match.find(".//wsd:Scopes", self.NAMESPACES)
             if scopes_elem is not None and scopes_elem.text:
                 device_info["scopes"] = scopes_elem.text.split()
 
             # Extract XAddrs
-            xaddrs_elem = probe_match.find(
-                ".//d:XAddrs", self.NAMESPACES
-            ) or probe_match.find(".//wsd:XAddrs", self.NAMESPACES)
+            xaddrs_elem = probe_match.find(".//d:XAddrs", self.NAMESPACES)
+            if xaddrs_elem is None:
+                xaddrs_elem = probe_match.find(".//wsd:XAddrs", self.NAMESPACES)
             if xaddrs_elem is not None and xaddrs_elem.text:
                 device_info["xaddrs"] = xaddrs_elem.text.split()
 
