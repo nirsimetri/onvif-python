@@ -12,7 +12,7 @@
 </div>
 
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/carbon_onvif.png" alt="onvif" width="850px">
+  <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/carbon_onvif.png" alt="onvif" width="750px">
   <br>
 </h1>
 
