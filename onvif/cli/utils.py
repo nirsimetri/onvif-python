@@ -4,7 +4,7 @@ import json
 import os
 import inspect
 from typing import Any, Dict, Optional
-import xml.etree.ElementTree as ET
+from lxml import etree
 import re
 
 
@@ -231,10 +231,17 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
     try:
         # 1. Get documentation from WSDL (existing logic)
         wsdl_path = service_obj.operator.wsdl_path
-        tree = ET.parse(wsdl_path)
+
+        # Use secure lxml parser
+        parser = etree.XMLParser(
+            resolve_entities=False,
+            no_network=True,
+            remove_blank_text=True,
+        )
+        tree = etree.parse(wsdl_path, parser)
         root = tree.getroot()
         namespaces = {
-            node[0]: node[1] for node in ET.iterparse(wsdl_path, events=["start-ns"])
+            node[0]: node[1] for node in etree.iterparse(wsdl_path, events=["start-ns"])
         }
         namespaces["wsdl"] = "http://schemas.xmlsoap.org/wsdl/"
         namespaces["xs"] = "http://www.w3.org/2001/XMLSchema"
@@ -321,7 +328,7 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
 
         return {"doc": doc_text, "required": required_args, "optional": optional_args}
 
-    except (ET.ParseError, FileNotFoundError, AttributeError, ValueError):
+    except (etree.ParseError, FileNotFoundError, AttributeError, ValueError):
         # Fallback in case of any error, still try to get params
         try:
             method = getattr(service_obj, method_name)
@@ -709,14 +716,19 @@ def get_operation_type_info(
     Returns a dictionary with 'input' and 'output' keys containing message details.
     """
     try:
-        import os
-
         wsdl_path = service_obj.operator.wsdl_path
-        tree = ET.parse(wsdl_path)
+
+        # Use secure lxml parser
+        parser = etree.XMLParser(
+            resolve_entities=False,
+            no_network=True,
+            remove_blank_text=True,
+        )
+        tree = etree.parse(wsdl_path, parser)
         root = tree.getroot()
 
         namespaces = {
-            node[0]: node[1] for node in ET.iterparse(wsdl_path, events=["start-ns"])
+            node[0]: node[1] for node in etree.iterparse(wsdl_path, events=["start-ns"])
         }
         namespaces["wsdl"] = "http://schemas.xmlsoap.org/wsdl/"
         namespaces["xs"] = "http://www.w3.org/2001/XMLSchema"
@@ -773,7 +785,6 @@ def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
     """
     Recursively load all imported and included schemas into the schema context.
     """
-    import os
 
     # Find all xs:import and xs:include in xs:schema elements
     for schema in root.findall(".//xs:schema", namespaces):
@@ -787,7 +798,13 @@ def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
 
                 if os.path.exists(schema_path):
                     try:
-                        imported_tree = ET.parse(schema_path)
+                        # Use secure parser for imported schemas
+                        parser = etree.XMLParser(
+                            resolve_entities=False,
+                            no_network=True,
+                            remove_blank_text=True,
+                        )
+                        imported_tree = etree.parse(schema_path, parser)
                         imported_root = imported_tree.getroot()
 
                         # Add to context if not already present
@@ -817,7 +834,13 @@ def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
 
                 if os.path.exists(schema_path):
                     try:
-                        included_tree = ET.parse(schema_path)
+                        # Use secure parser for included schemas
+                        parser = etree.XMLParser(
+                            resolve_entities=False,
+                            no_network=True,
+                            remove_blank_text=True,
+                        )
+                        included_tree = etree.parse(schema_path, parser)
                         included_root = included_tree.getroot()
 
                         # Add to context if not already present
