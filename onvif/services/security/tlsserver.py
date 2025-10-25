@@ -57,7 +57,7 @@ class TLSServer:
         return self.operator.call("GetClientAuthenticationRequired")
 
     def SetCnMapsToUser(self, cnMapsToUser):
-        return self.operator.call("SetCnMapsToUsername", cnMapsToUser=cnMapsToUser)
+        return self.operator.call("SetCnMapsToUser", cnMapsToUser=cnMapsToUser)
 
     def GetCnMapsToUser(self):
         return self.operator.call("GetCnMapsToUser")
