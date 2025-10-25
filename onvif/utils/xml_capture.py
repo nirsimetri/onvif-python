@@ -2,7 +2,6 @@
 
 from zeep import Plugin
 from lxml import etree
-from xml.dom import minidom
 
 
 class XMLCapturePlugin(Plugin):
@@ -38,7 +37,7 @@ class XMLCapturePlugin(Plugin):
 
     def _format_xml(self, element):
         """
-        Format XML element with proper indentation using minidom.
+        Format XML element with proper indentation using lxml.
 
         Args:
             element: lxml Element to format
@@ -47,21 +46,24 @@ class XMLCapturePlugin(Plugin):
             str: Pretty-printed XML string
         """
         try:
-            # Convert lxml element to string
-            xml_string = etree.tostring(element, encoding="unicode")
-            # Parse with minidom and pretty print
-            dom = minidom.parseString(xml_string)
-            # Use toprettyxml with proper indentation
-            pretty_xml = dom.toprettyxml(indent="  ", encoding=None)
-            # Remove extra blank lines and XML declaration
-            lines = [line for line in pretty_xml.split("\n") if line.strip()]
-            # Remove XML declaration line if present
-            if lines and lines[0].startswith("<?xml"):
-                lines = lines[1:]
-            return "\n".join(lines)
+            # Convert element to string first
+            xml_bytes = etree.tostring(element, encoding="utf-8")
+
+            # Re-parse with parser that removes blank text
+            # This is safe as we control the input (it's from zeep)
+            parser = etree.XMLParser(
+                remove_blank_text=True, resolve_entities=False, no_network=True
+            )
+            reparsed = etree.fromstring(xml_bytes, parser)
+
+            # Now pretty print the cleaned tree
+            xml_string = etree.tostring(
+                reparsed, pretty_print=True, encoding="unicode", xml_declaration=False
+            )
+            return xml_string.strip()
         except Exception:
-            # Fallback to lxml if minidom fails
-            return etree.tostring(element, pretty_print=True, encoding="unicode")
+            # Fallback to non-pretty printed version
+            return etree.tostring(element, pretty_print=False, encoding="unicode")
 
     def egress(self, envelope, http_headers, operation, binding_options):
         """Called before sending the SOAP request"""
