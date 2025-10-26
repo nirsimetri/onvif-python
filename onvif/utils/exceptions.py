@@ -1,17 +1,5 @@
 # onvif/utils/exceptions.py
 
-"""
-ONVIF Exception Handling Module
-
-This module provides custom exception classes for ONVIF operations with enhanced
-error information and categorization.
-
-Exception Categories:
-    1. SOAP Errors - Errors from ONVIF device SOAP responses
-    2. Transport/Protocol Errors - Network and HTTP-level errors
-    3. Application Errors - Generic application-level errors
-"""
-
 from zeep.exceptions import Fault
 import requests
 
@@ -61,7 +49,7 @@ class ONVIFOperationException(Exception):
         >>> # ONVIF operation 'SetVideoEncoderConfiguration' failed: SOAP Error: code=Sender, subcode=InvalidArgVal, msg=Invalid resolution, detail=Width=1920, Height=1080
         >>>
         >>> # Application Error - Missing Argument
-        >>> # ONVIF operation 'UpgradeSystemFirmware' failed: Application Error: Device.UpgradeSystemFirmware() missing 1 required positional argument: 'Firmware'
+        >>> # ONVIF operation 'UpgradeSystemFirmware' failed: Application Error: TypeError - Device.UpgradeSystemFirmware() missing 1 required positional argument: 'Firmware'
 
     Notes:
         - Always wraps the original exception for full error context
@@ -114,10 +102,12 @@ class ONVIFOperationException(Exception):
                     subcodes = str(subcodes)
 
             # Build comprehensive error message
-            parts = [f"code={code}"]
-            if subcodes is not None:
+            parts = []
+            if code:
+                parts.append(f"code={code}")
+            if subcodes:
                 parts.append(f"subcode={subcodes}")
-            if message is not None:
+            if message and message.strip():  # Only add if message has content
                 parts.append(f"msg={message}")
             if detail is not None:
                 # Parse XML detail element to extract readable content
@@ -152,6 +142,22 @@ class ONVIFOperationException(Exception):
         else:
             # Application or generic error
             category = "Application Error"
-            msg = f"{category}: {str(original_exception)}"
+
+            # For better error messages, include exception type
+            exception_type = type(original_exception).__name__
+            exception_msg = str(original_exception)
+
+            # For some exceptions like KeyError, TypeError, add more context
+            if isinstance(original_exception, KeyError):
+                msg = f"{category}: KeyError - Missing key {exception_msg}"
+            elif isinstance(original_exception, TypeError):
+                msg = f"{category}: TypeError - {exception_msg}"
+            elif isinstance(original_exception, ValueError):
+                msg = f"{category}: ValueError - {exception_msg}"
+            elif isinstance(original_exception, AttributeError):
+                msg = f"{category}: AttributeError - {exception_msg}"
+            else:
+                # Generic format with exception type
+                msg = f"{category}: {exception_type} - {exception_msg}"
 
         super().__init__(f"ONVIF operation '{operation}' failed: {msg}")
