@@ -317,7 +317,8 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
             doc_text = colorize("No description available.", "reset")
 
         # 2. Get parameters from Python method signature using inspect
-        method = getattr(service_obj, method_name)
+        # Use object.__getattribute__ to bypass ONVIFService wrapper and get original method
+        method = object.__getattribute__(service_obj, method_name)
         sig = inspect.signature(method)
         for param in sig.parameters.values():
             if param.name != "self":
@@ -331,7 +332,8 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
     except (etree.ParseError, FileNotFoundError, AttributeError, ValueError):
         # Fallback in case of any error, still try to get params
         try:
-            method = getattr(service_obj, method_name)
+            # Use object.__getattribute__ to bypass ONVIFService wrapper and get original method
+            method = object.__getattribute__(service_obj, method_name)
             sig = inspect.signature(method)
             for param in sig.parameters.values():
                 if param.name != "self":
