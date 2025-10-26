@@ -1,6 +1,7 @@
 # onvif/client.py
 
 from urllib.parse import urlparse, urlunparse
+from functools import wraps
 
 from .services import (
     Device,
@@ -41,7 +42,38 @@ from .services import (
     MediaSigning,
 )
 from .operator import CacheMode
-from .utils import ONVIFWSDL, ZeepPatcher, XMLCapturePlugin
+from .utils import ONVIFWSDL, ZeepPatcher, XMLCapturePlugin, ONVIFOperationException
+
+
+def service(func):
+    """Decorator to wrap service accessor methods with ONVIFOperationException handling.
+
+    This decorator catches any exception raised during service initialization and
+    wraps it in ONVIFOperationException for consistent error handling across all
+    ONVIF client service accessors.
+
+    Args:
+        func: Service accessor method to wrap
+
+    Returns:
+        Wrapped function that handles exceptions
+
+    Raises:
+        ONVIFOperationException: If service initialization fails
+    """
+
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        try:
+            return func(self, *args, **kwargs)
+        except ONVIFOperationException:
+            # Re-raise ONVIFOperationException as-is to avoid double-wrapping
+            raise
+        except Exception as e:
+            # Wrap any other exception in ONVIFOperationException
+            raise ONVIFOperationException(func.__name__, e)
+
+    return wrapper
 
 
 class ONVIFClient:
@@ -105,7 +137,8 @@ class ONVIFClient:
         }
 
         # Device Management (Core) service is always available
-        self._devicemgmt = Device(**self.common_args)
+        self._devicemgmt = None
+        self._devicemgmt = self.devicemgmt()
 
         # Try to retrieve device services and create namespace -> XAddr mapping
         self.services = None
@@ -295,11 +328,15 @@ class ONVIFClient:
 
     # Core (Device Management)
 
+    @service
     def devicemgmt(self):
+        if self._devicemgmt is None:
+            self._devicemgmt = Device(**self.common_args)
         return self._devicemgmt
 
     # Core (Events)
 
+    @service
     def events(self):
         if self._events is None:
             self._events = Events(
@@ -307,18 +344,16 @@ class ONVIFClient:
             )
         return self._events
 
+    @service
     def pullpoint(self, SubscriptionRef):
         xaddr = None
-        try:
-            addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-            if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-                xaddr = addr_obj["_value_1"]
-            elif hasattr(addr_obj, "_value_1"):
-                xaddr = addr_obj._value_1
+        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
+        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
+            xaddr = addr_obj["_value_1"]
+        elif hasattr(addr_obj, "_value_1"):
+            xaddr = addr_obj._value_1
 
-            xaddr = self._rewrite_xaddr_if_needed(xaddr)
-        except Exception:
-            pass
+        xaddr = self._rewrite_xaddr_if_needed(xaddr)
 
         if not xaddr:
             raise RuntimeError(
@@ -330,6 +365,7 @@ class ONVIFClient:
 
         return self._pullpoints[xaddr]
 
+    @service
     def notification(self):
         if self._notification is None:
             self._notification = Notification(
@@ -337,18 +373,16 @@ class ONVIFClient:
             )
         return self._notification
 
+    @service
     def subscription(self, SubscriptionRef):
         xaddr = None
-        try:
-            addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-            if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-                xaddr = addr_obj["_value_1"]
-            elif hasattr(addr_obj, "_value_1"):
-                xaddr = addr_obj._value_1
+        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
+        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
+            xaddr = addr_obj["_value_1"]
+        elif hasattr(addr_obj, "_value_1"):
+            xaddr = addr_obj._value_1
 
-            xaddr = self._rewrite_xaddr_if_needed(xaddr)
-        except Exception:
-            pass
+        xaddr = self._rewrite_xaddr_if_needed(xaddr)
 
         if not xaddr:
             raise RuntimeError(
@@ -362,6 +396,7 @@ class ONVIFClient:
 
     # Imaging
 
+    @service
     def imaging(self):
         if self._imaging is None:
             self._imaging = Imaging(
@@ -371,6 +406,7 @@ class ONVIFClient:
 
     # Media
 
+    @service
     def media(self):
         if self._media is None:
             self._media = Media(
@@ -378,6 +414,7 @@ class ONVIFClient:
             )
         return self._media
 
+    @service
     def media2(self):
         if self._media2 is None:
             self._media2 = Media2(
@@ -387,6 +424,7 @@ class ONVIFClient:
 
     # PTZ
 
+    @service
     def ptz(self):
         if self._ptz is None:
             self._ptz = PTZ(xaddr=self._get_xaddr("ptz", "PTZ"), **self.common_args)
@@ -394,6 +432,7 @@ class ONVIFClient:
 
     # DeviceIO
 
+    @service
     def deviceio(self):
         if self._deviceio is None:
             self._deviceio = DeviceIO(
@@ -403,6 +442,7 @@ class ONVIFClient:
 
     # Display
 
+    @service
     def display(self):
         if self._display is None:
             self._display = Display(
@@ -412,6 +452,7 @@ class ONVIFClient:
 
     # Analytics
 
+    @service
     def analytics(self):
         if self._analytics is None:
             self._analytics = Analytics(
@@ -419,6 +460,7 @@ class ONVIFClient:
             )
         return self._analytics
 
+    @service
     def ruleengine(self):
         if self._ruleengine is None:
             self._ruleengine = RuleEngine(
@@ -426,6 +468,7 @@ class ONVIFClient:
             )
         return self._ruleengine
 
+    @service
     def analyticsdevice(self):
         if self._analyticsdevice is None:
             self._analyticsdevice = AnalyticsDevice(
@@ -436,6 +479,7 @@ class ONVIFClient:
 
     # PACS
 
+    @service
     def accesscontrol(self):
         if self._accesscontrol is None:
             self._accesscontrol = AccessControl(
@@ -444,6 +488,7 @@ class ONVIFClient:
             )
         return self._accesscontrol
 
+    @service
     def doorcontrol(self):
         if self._doorcontrol is None:
             self._doorcontrol = DoorControl(
@@ -453,6 +498,7 @@ class ONVIFClient:
 
     # AccessRules
 
+    @service
     def accessrules(self):
         if self._accessrules is None:
             self._accessrules = AccessRules(
@@ -462,6 +508,7 @@ class ONVIFClient:
 
     # ActionEngine
 
+    @service
     def actionengine(self):
         if self._actionengine is None:
             self._actionengine = ActionEngine(
@@ -472,6 +519,7 @@ class ONVIFClient:
 
     # AppManagement
 
+    @service
     def appmanagement(self):
         if self._appmanagement is None:
             self._appmanagement = AppManagement(
@@ -482,6 +530,7 @@ class ONVIFClient:
 
     # AuthenticationBehavior
 
+    @service
     def authenticationbehavior(self):
         if self._authenticationbehavior is None:
             self._authenticationbehavior = AuthenticationBehavior(
@@ -494,6 +543,7 @@ class ONVIFClient:
 
     # Credential
 
+    @service
     def credential(self):
         if self._credential is None:
             self._credential = Credential(
@@ -504,6 +554,7 @@ class ONVIFClient:
 
     # Recording
 
+    @service
     def recording(self):
         if self._recording is None:
             self._recording = Recording(
@@ -514,6 +565,7 @@ class ONVIFClient:
 
     # Replay
 
+    @service
     def replay(self):
         if self._replay is None:
             self._replay = Replay(
@@ -524,6 +576,7 @@ class ONVIFClient:
 
     # Provisioning
 
+    @service
     def provisioning(self):
         if self._provisioning is None:
             self._provisioning = Provisioning(
@@ -534,6 +587,7 @@ class ONVIFClient:
 
     # Receiver
 
+    @service
     def receiver(self):
         if self._receiver is None:
             self._receiver = Receiver(
@@ -544,6 +598,7 @@ class ONVIFClient:
 
     # Schedule
 
+    @service
     def schedule(self):
         if self._schedule is None:
             self._schedule = Schedule(
@@ -552,8 +607,9 @@ class ONVIFClient:
             )
         return self._schedule
 
-    # Search
+    # Search Recording
 
+    @service
     def search(self):
         if self._search is None:
             self._search = Search(
@@ -564,6 +620,7 @@ class ONVIFClient:
 
     # Thermal
 
+    @service
     def thermal(self):
         if self._thermal is None:
             self._thermal = Thermal(
@@ -574,6 +631,7 @@ class ONVIFClient:
 
     # Uplink
 
+    @service
     def uplink(self):
         if self._uplink is None:
             self._uplink = Uplink(
@@ -584,6 +642,7 @@ class ONVIFClient:
 
     # Security - AdvancedSecurity
 
+    @service
     def security(self):
         if self._security is None:
             self._security = AdvancedSecurity(
@@ -592,30 +651,35 @@ class ONVIFClient:
             )
         return self._security
 
+    @service
     def jwt(self, xaddr):
         if self._jwt is None:
             xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._jwt = JWT(xaddr=xaddr, **self.common_args)
         return self._jwt
 
+    @service
     def keystore(self, xaddr):
         if self._keystore is None:
             xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._keystore = Keystore(xaddr=xaddr, **self.common_args)
         return self._keystore
 
+    @service
     def tlsserver(self, xaddr):
         if self._tlsserver is None:
             xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._tlsserver = TLSServer(xaddr=xaddr, **self.common_args)
         return self._tlsserver
 
+    @service
     def dot1x(self, xaddr):
         if self._dot1x is None:
             xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._dot1x = Dot1X(xaddr=xaddr, **self.common_args)
         return self._dot1x
 
+    @service
     def authorizationserver(self, xaddr):
         if self._authorizationserver is None:
             xaddr = self._rewrite_xaddr_if_needed(xaddr)
@@ -624,6 +688,7 @@ class ONVIFClient:
             )
         return self._authorizationserver
 
+    @service
     def mediasigning(self, xaddr):
         if self._mediasigning is None:
             xaddr = self._rewrite_xaddr_if_needed(xaddr)
