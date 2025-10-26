@@ -4,7 +4,7 @@
 	
 [![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.7-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.8-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -12,7 +12,7 @@
 </div>
 
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/carbon_onvif.png" alt="onvif" width="750px">
+  <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/carbon_onvif.png" alt="onvif" width="700px">
   <br>
 </h1>
 
@@ -156,7 +156,7 @@ Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`
 ## ONVIF CLI
 
 > [!NOTE]
-> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak `onvif-python` versi [`0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
+> CLI secara otomatis terinstal saat Anda menginstal paket `onvif-python`, lihat [Instalasi](#instalasi). Fitur ini telah tersedia sejak `onvif-python` versi [`>=0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
 
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=plastic&logo=gitforwindows&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=plastic&logo=linux&logoColor=black)
@@ -211,7 +211,7 @@ usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password 
              [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.1.7
+ONVIF Terminal Client — v0.1.8
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -276,7 +276,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell — v0.1.7
+ONVIF Interactive Shell — v0.1.8
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
