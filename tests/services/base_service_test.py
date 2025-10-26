@@ -4,20 +4,22 @@ import os
 import inspect
 from unittest.mock import Mock, patch
 from lxml import etree
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional, Type
 
 
 class ONVIFServiceTestBase:
     """Base class for ONVIF service testing to reduce code duplication."""
 
     # These should be overridden in subclasses
-    SERVICE_CLASS = None
-    SERVICE_NAME = ""
-    WSDL_PATH_COMPONENTS = []  # e.g., ["ver10", "device", "wsdl", "devicemgmt.wsdl"]
-    BINDING_NAME = ""  # e.g., "DeviceBinding"
-    NAMESPACE_PREFIX = ""  # e.g., "tds"
-    SERVICE_NAMESPACE = ""  # e.g., "http://www.onvif.org/ver10/device/wsdl"
-    XADDR_PATH = ""  # e.g., "/onvif/device_service"
+    SERVICE_CLASS: Optional[Type] = None
+    SERVICE_NAME: str = ""
+    WSDL_PATH_COMPONENTS: List[str] = (
+        []
+    )  # e.g., ["ver10", "device", "wsdl", "devicemgmt.wsdl"]
+    BINDING_NAME: str = ""  # e.g., "DeviceBinding"
+    NAMESPACE_PREFIX: str = ""  # e.g., "tds"
+    SERVICE_NAMESPACE: str = ""  # e.g., "http://www.onvif.org/ver10/device/wsdl"
+    XADDR_PATH: str = ""  # e.g., "/onvif/device_service"
 
     @classmethod
     def get_wsdl_operations(cls) -> Dict[str, Dict[str, List[str]]]:
@@ -261,6 +263,10 @@ class ONVIFServiceTestBase:
             mock_operator_class.return_value = mock_operator_instance
 
             # Create service instance
+            if not self.SERVICE_CLASS or not callable(self.SERVICE_CLASS):
+                raise TypeError(
+                    f"SERVICE_CLASS must be a callable class, got {type(self.SERVICE_CLASS)}"
+                )
             service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
 
             implemented_methods = self.get_implemented_methods()
@@ -341,6 +347,10 @@ class ONVIFServiceTestBase:
             mock_operator_class.return_value = mock_operator_instance
             mock_operator_instance.call.return_value = {}
 
+            if not self.SERVICE_CLASS or not callable(self.SERVICE_CLASS):
+                raise TypeError(
+                    f"SERVICE_CLASS must be a callable class, got {type(self.SERVICE_CLASS)}"
+                )
             service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
             implemented_methods = self.get_implemented_methods()
             errors = []
@@ -419,6 +429,10 @@ class ONVIFServiceTestBase:
             mock_operator_class.return_value = mock_operator_instance
             mock_operator_instance.call.return_value = {}
 
+            if not self.SERVICE_CLASS or not callable(self.SERVICE_CLASS):
+                raise TypeError(
+                    f"SERVICE_CLASS must be a callable class, got {type(self.SERVICE_CLASS)}"
+                )
             service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
 
             for test_case in test_cases:
@@ -456,6 +470,10 @@ class ONVIFServiceTestBase:
             mock_operator_class.return_value = mock_operator_instance
             mock_operator_instance.call.return_value = {"Result": "Success"}
 
+            if not self.SERVICE_CLASS or not callable(self.SERVICE_CLASS):
+                raise TypeError(
+                    f"SERVICE_CLASS must be a callable class, got {type(self.SERVICE_CLASS)}"
+                )
             service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
 
             for i, test_case in enumerate(test_cases):
