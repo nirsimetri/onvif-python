@@ -1,10 +1,10 @@
 # onvif/services/doorcontrol.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class DoorControl:
+class DoorControl(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 2.3 (May 2013) Release Notes

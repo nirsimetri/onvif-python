@@ -1,10 +1,10 @@
 # onvif/services/security/mediasigning.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class MediaSigning:
+class MediaSigning(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 24.12 (December 2024) Release Notes

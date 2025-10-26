@@ -1,10 +1,10 @@
 # onvif/services/security/jwt.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class JWT:
+class JWT(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 23.12 (December 2023) Release Notes

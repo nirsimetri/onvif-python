@@ -1,10 +1,10 @@
 # onvif/services/events/subscription.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class Subscription:
+class Subscription(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - SubscriptionManagerBinding (ver10/events/wsdl/event-vs.wsdl)

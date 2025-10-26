@@ -1,10 +1,10 @@
 # onvif/services/analytics/ruleengine.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class RuleEngine:
+class RuleEngine(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 2.41 (December 2013) Release Notes

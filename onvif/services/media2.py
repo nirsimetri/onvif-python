@@ -1,10 +1,10 @@
 # onvif/services/media2.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class Media2:
+class Media2(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 2.61 (December 2015) Release Notes

@@ -1,10 +1,10 @@
 # onvif/services/schedule.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class Schedule:
+class Schedule(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 2.6 (June 2015) Release Notes

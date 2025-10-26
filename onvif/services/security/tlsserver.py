@@ -1,10 +1,10 @@
 # onvif/services/security/tlsserver.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class TLSServer:
+class TLSServer(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 2.4 (August 2013) Release Notes

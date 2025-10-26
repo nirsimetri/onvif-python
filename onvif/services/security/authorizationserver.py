@@ -1,10 +1,10 @@
 # onvif/services/security/authorizationserver.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class AuthorizationServer:
+class AuthorizationServer(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 23.12 (December 2023) Release Notes

@@ -1,10 +1,10 @@
 # onvif/services/devicemgmt.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class Device:
+class Device(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Core

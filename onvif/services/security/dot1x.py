@@ -1,10 +1,10 @@
 # onvif/services/security/dot1x.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class Dot1X:
+class Dot1X(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 16.06 (June 2016) Release Notes

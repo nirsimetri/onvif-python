@@ -1,10 +1,10 @@
 # onvif/services/analyticsdevice.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class AnalyticsDevice:
+class AnalyticsDevice(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # NOTE (ONVIF 18.12):
         # The AnalyticsDevice service (AnalyticsDeviceBinding) has been marked as

@@ -1,10 +1,10 @@
 # onvif/services/authenticationbehavior.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class AuthenticationBehavior:
+class AuthenticationBehavior(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 18.06 (June 2018) Release Notes

@@ -1,10 +1,10 @@
 # onvif/services/uplink.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class Uplink:
+class Uplink(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 18.12 (December 2018) Release Notes

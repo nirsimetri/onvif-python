@@ -1,10 +1,10 @@
 # onvif/services/appmgmt.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class AppManagement:
+class AppManagement(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 19.12 (December 2019) Release Notes

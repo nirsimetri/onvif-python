@@ -1,10 +1,10 @@
 # onvif/services/provisioning.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class Provisioning:
+class Provisioning(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 16.12 (December 2016) Release Notes

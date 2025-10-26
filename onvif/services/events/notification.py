@@ -1,10 +1,10 @@
 # onvif/services/events/notification.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class Notification:
+class Notification(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - NotificationProducerBinding (ver10/events/wsdl/event-vs.wsdl)

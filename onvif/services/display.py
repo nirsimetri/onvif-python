@@ -1,10 +1,10 @@
 # onvif/services/display.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class Display:
+class Display(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 2.1 (June 2011) Split from Core 2.0

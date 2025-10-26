@@ -1,10 +1,10 @@
 # onvif/services/actionengine.py
 
 from ..operator import ONVIFOperator
-from ..utils import ONVIFWSDL
+from ..utils import ONVIFWSDL, ONVIFService
 
 
-class ActionEngine:
+class ActionEngine(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 2.2 (September 2012) Release Notes

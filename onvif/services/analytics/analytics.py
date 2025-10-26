@@ -1,10 +1,10 @@
 # onvif/services/analytics/analytics.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class Analytics:
+class Analytics(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - ONVIF Release 2.41 (December 2013) Release Notes

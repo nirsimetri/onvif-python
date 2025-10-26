@@ -1,10 +1,10 @@
 # onvif/services/events/pullpoint.py
 
 from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL
+from ...utils import ONVIFWSDL, ONVIFService
 
 
-class PullPoint:
+class PullPoint(ONVIFService):
     def __init__(self, xaddr=None, **kwargs):
         # References:
         # - PullPointSubscriptionBinding (ver10/events/wsdl/event-vs.wsdl)
