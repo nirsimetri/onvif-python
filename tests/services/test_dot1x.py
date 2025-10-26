@@ -1,289 +1,59 @@
-import os
-import inspect
-from unittest.mock import Mock, patch
-from lxml import etree
-from onvif.services.security.dot1x import Dot1X
+from onvif.services import Dot1X
+from base_service_test import ONVIFServiceTestBase
 
 
-def test_dot1x_import():
-    assert Dot1X is not None
-
-
-class TestDot1XWSDLCompliance:
+class TestDot1XWSDLCompliance(ONVIFServiceTestBase):
     """Test that Dot1X service implementation matches WSDL specification."""
 
-    @staticmethod
-    def get_wsdl_operations():
-        """Parse WSDL to get all defined operations with their parameters."""
-        wsdl_path = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-            "onvif",
-            "wsdl",
-            "ver10",
-            "advancedsecurity",
-            "wsdl",
-            "advancedsecurity.wsdl",
-        )
+    # Service-specific configuration
+    SERVICE_CLASS = Dot1X
+    SERVICE_NAME = "security.dot1x"
+    WSDL_PATH_COMPONENTS = [
+        "ver10",
+        "advancedsecurity",
+        "wsdl",
+        "advancedsecurity.wsdl",
+    ]
+    BINDING_NAME = "Dot1XBinding"
+    NAMESPACE_PREFIX = "tas"
+    SERVICE_NAMESPACE = "http://www.onvif.org/ver10/advancedsecurity/wsdl"
+    XADDR_PATH = "/onvif/Security"
 
-        # Parse WSDL
-        tree = etree.parse(wsdl_path)
-        root = tree.getroot()
-
-        # Namespaces
-        ns = {
-            "wsdl": "http://schemas.xmlsoap.org/wsdl/",
-            "xs": "http://www.w3.org/2001/XMLSchema",
-            "tas": "http://www.onvif.org/ver10/advancedsecurity/wsdl",
-        }
-
-        operations = {}
-
-        # Find all operations in the Dot1X portType
-        port_type = root.find('.//wsdl:portType[@name="Dot1X"]', ns)
-        if port_type is not None:
-            for operation in port_type.findall("wsdl:operation", ns):
-                op_name = operation.get("name")
-                operations[op_name] = {"input": None, "output": None}
-
-        # Find all messages with their parts (parameters)
-        messages = {}
-        for message in root.findall("wsdl:message", ns):
-            msg_name = message.get("name")
-            parts = {}
-            for part in message.findall("wsdl:part", ns):
-                part_name = part.get("name")
-                part_element = part.get("element")
-                parts[part_name] = part_element
-            messages[msg_name] = parts
-
-        # Match operations with their request/response messages
-        for op_name in operations.keys():
-            request_msg = messages.get(f"{op_name}Request", {})
-            response_msg = messages.get(f"{op_name}Response", {})
-            operations[op_name] = {
-                "request_params": list(request_msg.keys()),
-                "response_params": list(response_msg.keys()),
-            }
-
-        return operations
-
-    @staticmethod
-    def get_implemented_methods():
-        """Get all implemented methods in Dot1X class."""
-        methods = {}
-        for name, method in inspect.getmembers(Dot1X, predicate=inspect.isfunction):
-            if not name.startswith("_") and name != "__init__":
-                # Get method signature
-                sig = inspect.signature(method)
-                params = list(sig.parameters.keys())
-                # Remove 'self' from parameters
-                if "self" in params:
-                    params.remove("self")
-
-                methods[name] = {
-                    "params": params,
-                    "signature": sig,
-                }
-
-        return methods
-
-    def test_all_wsdl_operations_implemented(self):
-        """Test that all WSDL operations are implemented as methods."""
-        wsdl_operations = self.get_wsdl_operations()
-        implemented_methods = self.get_implemented_methods()
-
-        missing_operations = []
-        for op_name in wsdl_operations.keys():
-            if op_name not in implemented_methods:
-                missing_operations.append(op_name)
-
-        assert (
-            not missing_operations
-        ), f"Missing implementations for operations: {missing_operations}"
-
-    def test_method_parameters_match_wsdl(self):
-        """Test that method parameters match WSDL request parameters."""
-        wsdl_operations = self.get_wsdl_operations()
-        implemented_methods = self.get_implemented_methods()
-
-        mismatches = []
-
-        for op_name, op_info in wsdl_operations.items():
-            if op_name not in implemented_methods:
-                continue
-
-            method_info = implemented_methods[op_name]
-            method_params = set(method_info["params"])
-            wsdl_params = set(op_info["request_params"])
-
-            # Check if all WSDL parameters are in method signature
-            if not wsdl_params.issubset(method_params.union({"parameters"})):
-                if wsdl_params and not method_params:
-                    mismatches.append(
-                        {
-                            "operation": op_name,
-                            "wsdl_params": list(wsdl_params),
-                            "method_params": list(method_params),
-                        }
-                    )
-
-        # This is informational - some methods might use **kwargs
-        if mismatches:
-            print(f"\nParameter mismatches found (may use **kwargs): {mismatches}")
-
-    @patch("onvif.services.security.dot1x.ONVIFOperator")
-    def test_operator_call_usage(self, mock_operator_class):
-        """Test that all methods correctly call self.operator.call()."""
-        # Create mock operator
-        mock_operator_instance = Mock()
-        mock_operator_class.return_value = mock_operator_instance
-
-        # Create Dot1X instance
-        dot1x = Dot1X(xaddr="http://test:80/onvif/Dot1X")
-
-        implemented_methods = self.get_implemented_methods()
-
-        errors = []
-
-        for method_name, method_info in implemented_methods.items():
-            # Reset mock
-            mock_operator_instance.call.reset_mock()
-
-            try:
-                # Get the method
-                method = getattr(dot1x, method_name)
-
-                # Create dummy arguments based on signature
-                sig = method_info["signature"]
-                kwargs = {}
-                for param_name, param in sig.parameters.items():
-                    if param_name == "self":
-                        continue
-                    # Provide None for optional params, empty string for required
-                    if param.default == inspect.Parameter.empty:
-                        kwargs[param_name] = ""
-                    else:
-                        kwargs[param_name] = None
-
-                # Call the method
-                try:
-                    method(**kwargs)
-                except Exception:
-                    pass  # We expect it might fail, we just want to check the call
-
-                # Verify operator.call was invoked
-                if not mock_operator_instance.call.called:
-                    errors.append(f"{method_name}: operator.call() not invoked")
-                else:
-                    # Check that first argument is the operation name
-                    call_args = mock_operator_instance.call.call_args
-                    if call_args and len(call_args[0]) > 0:
-                        called_op_name = call_args[0][0]
-                        if called_op_name != method_name:
-                            errors.append(
-                                f"{method_name}: calls operator.call('{called_op_name}') instead of '{method_name}'"
-                            )
-                    else:
-                        errors.append(
-                            f"{method_name}: operator.call() called without operation name"
-                        )
-
-            except Exception as e:
-                errors.append(f"{method_name}: Error during test - {str(e)}")
-
-        assert not errors, "Operator call errors:\n" + "\n".join(errors)
-
-    @patch("onvif.services.security.dot1x.ONVIFOperator")
-    def test_specific_methods_implementation(self, mock_operator_class):
+    def test_specific_methods_implementation(self):
         """Test specific important methods are correctly implemented."""
-        mock_operator_instance = Mock()
-        mock_operator_class.return_value = mock_operator_instance
-        mock_operator_instance.call.return_value = {"Result": "Success"}
-
-        dot1x = Dot1X(xaddr="http://test:80/onvif/Security")
-
-        # Test AddDot1XConfiguration (required parameter)
-        dot1x.AddDot1XConfiguration(
-            Dot1XConfiguration={
-                "Dot1XConfigurationToken": "dot1x_config_1",
-                "Identity": "user@example.com",
-            }
-        )
-        mock_operator_instance.call.assert_called_with(
-            "AddDot1XConfiguration",
-            Dot1XConfiguration={
-                "Dot1XConfigurationToken": "dot1x_config_1",
-                "Identity": "user@example.com",
-            },
-        )
-
-        # Test GetAllDot1XConfigurations (no parameters)
-        mock_operator_instance.call.reset_mock()
-        dot1x.GetAllDot1XConfigurations()
-        mock_operator_instance.call.assert_called_with("GetAllDot1XConfigurations")
-
-        # Test GetDot1XConfiguration (required parameter)
-        mock_operator_instance.call.reset_mock()
-        dot1x.GetDot1XConfiguration(Dot1XID="dot1x_id_1")
-        mock_operator_instance.call.assert_called_with(
-            "GetDot1XConfiguration", Dot1XID="dot1x_id_1"
-        )
-
-        # Test DeleteDot1XConfiguration (required parameter)
-        mock_operator_instance.call.reset_mock()
-        dot1x.DeleteDot1XConfiguration(Dot1XID="dot1x_id_2")
-        mock_operator_instance.call.assert_called_with(
-            "DeleteDot1XConfiguration", Dot1XID="dot1x_id_2"
-        )
-
-        # Test SetNetworkInterfaceDot1XConfiguration (required parameters)
-        mock_operator_instance.call.reset_mock()
-        dot1x.SetNetworkInterfaceDot1XConfiguration(token="eth0", Dot1XID="dot1x_id_3")
-        mock_operator_instance.call.assert_called_with(
-            "SetNetworkInterfaceDot1XConfiguration", token="eth0", Dot1XID="dot1x_id_3"
-        )
-
-        # Test GetNetworkInterfaceDot1XConfiguration (required parameter)
-        mock_operator_instance.call.reset_mock()
-        dot1x.GetNetworkInterfaceDot1XConfiguration(token="eth1")
-        mock_operator_instance.call.assert_called_with(
-            "GetNetworkInterfaceDot1XConfiguration", token="eth1"
-        )
-
-        # Test DeleteNetworkInterfaceDot1XConfiguration (required parameter)
-        mock_operator_instance.call.reset_mock()
-        dot1x.DeleteNetworkInterfaceDot1XConfiguration(token="eth2")
-        mock_operator_instance.call.assert_called_with(
-            "DeleteNetworkInterfaceDot1XConfiguration", token="eth2"
-        )
-
-    def test_no_extra_methods(self):
-        """Test that there are no extra public methods not in WSDL."""
-        wsdl_operations = self.get_wsdl_operations()
-        implemented_methods = self.get_implemented_methods()
-
-        extra_methods = []
-        for method_name in implemented_methods.keys():
-            if method_name not in wsdl_operations:
-                extra_methods.append(method_name)
-
-        # This is informational - helper methods are OK
-        if extra_methods:
-            print(f"\nExtra methods not in WSDL (helper methods?): {extra_methods}")
-
-    @patch("onvif.services.security.dot1x.ONVIFOperator")
-    def test_parameter_forwarding(self, mock_operator_class):
-        """Test that parameters are correctly forwarded to operator.call()."""
-        mock_operator_instance = Mock()
-        mock_operator_class.return_value = mock_operator_instance
-        mock_operator_instance.call.return_value = {}
-
-        dot1x = Dot1X(xaddr="http://test:80/onvif/Security")
-
-        # Test that all parameters are forwarded as keyword arguments
         test_cases = [
             {
-                "" "method": "AddDot1XConfiguration",
+                "method": "AddDot1XConfiguration",
+                "params": {
+                    "Dot1XConfiguration": {
+                        "Dot1XConfigurationToken": "dot1x_config_1",
+                        "Identity": "user@example.com",
+                    }
+                },
+            },
+            {"method": "GetAllDot1XConfigurations", "params": {}},
+            {"method": "GetDot1XConfiguration", "params": {"Dot1XID": "dot1x_id_1"}},
+            {"method": "DeleteDot1XConfiguration", "params": {"Dot1XID": "dot1x_id_2"}},
+            {
+                "method": "SetNetworkInterfaceDot1XConfiguration",
+                "params": {"token": "eth0", "Dot1XID": "dot1x_id_3"},
+            },
+            {
+                "method": "GetNetworkInterfaceDot1XConfiguration",
+                "params": {"token": "eth1"},
+            },
+            {
+                "method": "DeleteNetworkInterfaceDot1XConfiguration",
+                "params": {"token": "eth2"},
+            },
+        ]
+        self.run_specific_methods_tests(test_cases)
+
+    def test_parameter_forwarding(self):
+        """Test that parameters are correctly forwarded to operator.call()."""
+        test_cases = [
+            {
+                "method": "AddDot1XConfiguration",
                 "params": {
                     "Dot1XConfiguration": {
                         "Dot1XConfigurationToken": "config_1",
@@ -312,26 +82,4 @@ class TestDot1XWSDLCompliance:
                 "params": {"token": "eth2"},
             },
         ]
-
-        for test_case in test_cases:
-            mock_operator_instance.call.reset_mock()
-            method = getattr(dot1x, test_case["method"])
-            method(**test_case["params"])
-
-            # Verify call was made with correct parameters
-            mock_operator_instance.call.assert_called_once()
-            actual_call = mock_operator_instance.call.call_args
-
-            # Check operation name
-            assert (
-                actual_call[0][0] == test_case["method"]
-            ), f"Operation name mismatch for {test_case['method']}"
-
-            # Check all parameters are forwarded
-            for param_name, param_value in test_case["params"].items():
-                assert (
-                    param_name in actual_call[1]
-                ), f"Parameter {param_name} not forwarded in {test_case['method']}"
-                assert (
-                    actual_call[1][param_name] == param_value
-                ), f"Parameter {param_name} value mismatch in {test_case['method']}"
+        self.run_parameter_forwarding_tests(test_cases)
