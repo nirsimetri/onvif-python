@@ -19,7 +19,7 @@ Note:
 
 import socket
 import uuid
-import xml.etree.ElementTree as ET
+from lxml import etree
 import sys
 import struct
 
@@ -178,7 +178,12 @@ def parse_probe_match(xml_response):
         }
 
         # Parse XML
-        root = ET.fromstring(xml_response)
+        parser = etree.XMLParser(
+            resolve_entities=False,  # Disable entity resolution
+            no_network=True,  # Disable network access
+            remove_blank_text=True,
+        )
+        root = etree.fromstring(xml_response.encode("utf-8"), parser)
 
         # Find ProbeMatch element
         probe_match = root.find(".//d:ProbeMatch", namespaces)
