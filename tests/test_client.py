@@ -230,11 +230,13 @@ class TestONVIFClientErrorHandling:
 
     def test_pullpoint_missing_subscription_ref(self, mock_onvif_client):
         """Test pullpoint with invalid SubscriptionRef"""
+        from onvif.utils import ONVIFOperationException
+
         client = mock_onvif_client
 
         invalid_ref = {"invalid": "structure"}
 
-        with pytest.raises(RuntimeError, match="SubscriptionReference.Address missing"):
+        with pytest.raises(ONVIFOperationException):
             client.pullpoint(invalid_ref)
 
     def test_xaddr_rewriting_error_handling(self, mock_onvif_client):
