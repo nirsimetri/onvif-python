@@ -145,11 +145,11 @@ class DeviceIO(ONVIFService):
             "GetSerialPortConfiguration", SerialPortToken=SerialPortToken
         )
 
-    def SetSerialPortConfiguration(self, SerialPortConfiguration, ForcePersistence):
+    def SetSerialPortConfiguration(self, SerialPortConfiguration, ForcePersistance):
         return self.operator.call(
             "SetSerialPortConfiguration",
             SerialPortConfiguration=SerialPortConfiguration,
-            ForcePersistence=ForcePersistence,
+            ForcePersistance=ForcePersistance,
         )
 
     def GetSerialPortConfigurationOptions(self, SerialPortToken):
