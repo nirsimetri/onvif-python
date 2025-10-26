@@ -171,8 +171,8 @@ class Device(ONVIFService):
     def GetCapabilities(self, Category=None):
         return self.operator.call("GetCapabilities", Category=Category)
 
-    def SetDPAddresses(self, DPAddresses=None):
-        return self.operator.call("SetDPAddresses", DPAddresses=DPAddresses)
+    def SetDPAddresses(self, DPAddress=None):
+        return self.operator.call("SetDPAddresses", DPAddress=DPAddress)
 
     def GetHostname(self):
         return self.operator.call("GetHostname")
