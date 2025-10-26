@@ -4,7 +4,7 @@ import os
 import inspect
 from unittest.mock import Mock, patch
 from lxml import etree
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any
 
 
 class ONVIFServiceTestBase:
@@ -105,7 +105,7 @@ class ONVIFServiceTestBase:
     def test_wsdl_operations_not_empty(self):
         """Test that WSDL operations are successfully parsed and not empty."""
         wsdl_operations = self.get_wsdl_operations()
-        
+
         assert wsdl_operations, (
             f"No WSDL operations found. Check if:\n"
             f"1. WSDL file exists at: {self.WSDL_PATH_COMPONENTS}\n"
@@ -113,15 +113,19 @@ class ONVIFServiceTestBase:
             f"3. NAMESPACE_PREFIX '{self.NAMESPACE_PREFIX}' and SERVICE_NAMESPACE '{self.SERVICE_NAMESPACE}' are correct\n"
             f"4. WSDL parsing is working correctly"
         )
-        
+
         # Also check that operations have meaningful content
         operations_with_params = 0
         for op_name, op_info in wsdl_operations.items():
-            assert isinstance(op_info, dict), f"Operation {op_name} should have dict info"
-            assert "request_params" in op_info, f"Operation {op_name} should have request_params"
+            assert isinstance(
+                op_info, dict
+            ), f"Operation {op_name} should have dict info"
+            assert (
+                "request_params" in op_info
+            ), f"Operation {op_name} should have request_params"
             if op_info["request_params"]:
                 operations_with_params += 1
-        
+
         # Log some useful information
         print(f"\nParsed {len(wsdl_operations)} operations from WSDL")
         print(f"Operations with parameters: {operations_with_params}")
