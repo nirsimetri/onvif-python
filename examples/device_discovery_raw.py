@@ -55,9 +55,20 @@ def get_network_interface():
         local_ip = s.getsockname()[0]
         s.close()
         return local_ip
-    except Exception as e:
-        print(f"Warning: Error getting local network interface: {e}")
-        return "0.0.0.0"
+    except Exception:
+        # Try alternative method to get local IP
+        try:
+            hostname = socket.gethostname()
+            local_ip = socket.gethostbyname(hostname)
+            if local_ip and not local_ip.startswith("127."):
+                return local_ip
+        except Exception:
+            pass
+
+        # Return empty string instead of "0.0.0.0"
+        # Empty string lets OS choose the appropriate interface
+        # This avoids security issue of binding to all interfaces
+        return ""
 
 
 def send_probe_and_get_responses(network_interface=None, timeout=WS_DISCOVERY_TIMEOUT):
@@ -237,7 +248,7 @@ def parse_probe_match(xml_response):
 
         return device_info
 
-    except ET.ParseError as e:
+    except etree.ParseError:
         # XML parsing error - not a valid XML, skip silently
         return None
     except Exception as e:
