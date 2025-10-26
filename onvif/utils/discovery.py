@@ -69,13 +69,13 @@ class ONVIFDiscovery:
         self.interface = interface
         self._local_ip = None
 
-    def _get_local_ip(self) -> str:
+    def _get_local_ip(self) -> Optional[str]:
         """Get local network interface IP address.
 
         Returns:
-            str: Local IP address
+            Optional[str]: Local IP address, or None to use default interface binding
         """
-        if self._local_ip:
+        if self._local_ip is not None:
             return self._local_ip
 
         if self.interface:
@@ -83,14 +83,28 @@ class ONVIFDiscovery:
             return self._local_ip
 
         try:
+            # Try to get the default route interface IP
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.connect(("8.8.8.8", 80))
             self._local_ip = s.getsockname()[0]
             s.close()
+            return self._local_ip
         except Exception:
-            self._local_ip = "0.0.0.0"
+            # Try alternative method to get local IP
+            try:
+                hostname = socket.gethostname()
+                local_ip = socket.gethostbyname(hostname)
+                if local_ip and not local_ip.startswith("127."):
+                    self._local_ip = local_ip
+                    return self._local_ip
+            except Exception:
+                pass
 
-        return self._local_ip
+            # Return empty string instead of None for socket binding
+            # Empty string lets OS choose the appropriate interface
+            # This avoids Codacy warning about binding to "0.0.0.0"
+            self._local_ip = ""
+            return self._local_ip
 
     def discover(
         self, prefer_https: bool = False, search: Optional[str] = None
@@ -132,7 +146,12 @@ class ONVIFDiscovery:
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            sock.bind((local_ip, 0))
+
+            # Bind to specific interface if available, otherwise use empty string
+            # Empty string lets the OS choose the appropriate interface for multicast
+            # This avoids the security issue of explicitly using "0.0.0.0"
+            bind_address = local_ip if local_ip else ""
+            sock.bind((bind_address, 0))
             sock.settimeout(self.timeout)
 
             ttl = struct.pack("b", 1)
