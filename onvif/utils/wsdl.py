@@ -4,6 +4,59 @@ import os
 
 
 class ONVIFWSDL:
+    """WSDL file manager for ONVIF services.
+
+    This class manages WSDL (Web Services Description Language) file paths, bindings,
+    and namespaces for all ONVIF services. It provides a centralized mapping between
+    service names and their corresponding WSDL definitions.
+
+    The class supports both built-in WSDLs (bundled with the package) and custom
+    WSDL directories for users who want to use their own WSDL files.
+
+    Features:
+        - Centralized WSDL definition mapping for all ONVIF services
+        - Support for multiple ONVIF versions (ver10, ver20)
+        - Custom WSDL directory support (global and per-call)
+        - Automatic path resolution for built-in and custom WSDLs
+        - Service discovery with namespace and binding information
+        - File existence validation
+
+    WSDL Structure:
+        Built-in WSDLs are organized in ONVIF standard directory structure:
+        - onvif/wsdl/ver10/device/wsdl/devicemgmt.wsdl
+        - onvif/wsdl/ver20/media/wsdl/media.wsdl
+        - onvif/wsdl/ver20/ptz/wsdl/ptz.wsdl
+        etc.
+
+        Custom WSDLs can use flat structure:
+        - /custom/path/devicemgmt.wsdl
+        - /custom/path/media.wsdl
+        - /custom/path/ptz.wsdl
+
+    Service Definition Format:
+        Each service has a definition containing:
+        - path: Full path to WSDL file
+        - binding: SOAP binding name (e.g., "DeviceBinding")
+        - namespace: XML namespace URI (e.g., "http://www.onvif.org/ver10/device/wsdl")
+
+    Custom WSDL Directory Priority:
+        1. Per-call custom_wsdl_dir parameter (highest priority)
+        2. Global _custom_wsdl_dir setting
+        3. Built-in BASE_DIR (default)
+
+    Notes:
+        - All methods are class methods - no need to instantiate
+        - WSDL files are lazy-loaded and validated on access
+        - Custom WSDL directories use flat file structure
+        - Built-in WSDLs follow ONVIF standard directory structure
+        - File existence is checked when getting definitions
+        - Thread-safe for read operations
+
+    See Also:
+        - ONVIFOperator: Uses WSDL definitions to create SOAP clients
+        - ONVIFClient: High-level client that uses this class internally
+    """
+
     # Default base directory for WSDL files (Built-in)
     # Included in the package
     BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "wsdl")
@@ -13,22 +66,58 @@ class ONVIFWSDL:
 
     @classmethod
     def set_custom_wsdl_dir(cls, custom_dir):
-        """Set global custom WSDL directory for all services."""
+        """Set global custom WSDL directory for all services.
+
+        Args:
+            custom_dir (str): Path to directory containing custom WSDL files
+
+        Example:
+            >>> ONVIFWSDL.set_custom_wsdl_dir("/home/user/my_wsdls")
+            >>> # All subsequent get_definition calls will use this directory
+        """
         cls._custom_wsdl_dir = custom_dir
 
     @classmethod
     def get_custom_wsdl_dir(cls):
-        """Get current global custom WSDL directory."""
+        """Get current global custom WSDL directory.
+
+        Returns:
+            str or None: Current custom WSDL directory, or None if using built-in
+
+        Example:
+            >>> ONVIFWSDL.set_custom_wsdl_dir("/custom/path")
+            >>> print(ONVIFWSDL.get_custom_wsdl_dir())  # /custom/path
+        """
         return cls._custom_wsdl_dir
 
     @classmethod
     def clear_custom_wsdl_dir(cls):
-        """Clear custom WSDL directory, revert to built-in."""
+        """Clear custom WSDL directory, revert to built-in WSDLs.
+
+        Example:
+            >>> ONVIFWSDL.set_custom_wsdl_dir("/custom/path")
+            >>> ONVIFWSDL.clear_custom_wsdl_dir()
+            >>> # Now using built-in WSDLs again
+        """
         cls._custom_wsdl_dir = None
 
     @classmethod
     def _get_base_dir(cls, custom_wsdl_dir=None):
-        """Get the base WSDL directory, using custom directory if provided."""
+        """Get the base WSDL directory, using custom directory if provided.
+
+        This method implements the priority chain for WSDL directory resolution.
+
+        Args:
+            custom_wsdl_dir (str, optional): Per-call custom directory
+
+        Returns:
+            str: Resolved WSDL base directory path
+
+        Priority:
+            1. custom_wsdl_dir parameter (highest)
+            2. cls._custom_wsdl_dir global setting
+            3. cls.BASE_DIR built-in default (lowest)
+        """
         # Priority: parameter > global setting > default
         if custom_wsdl_dir:
             return custom_wsdl_dir
@@ -39,7 +128,34 @@ class ONVIFWSDL:
 
     @classmethod
     def _get_wsdl_map(cls, custom_wsdl_dir=None):
-        """Get WSDL map with proper base directory."""
+        """Get WSDL map with proper base directory.
+
+        Generates a complete mapping of all ONVIF services to their WSDL definitions.
+        The structure differs based on whether custom WSDLs are used.
+
+        Args:
+            custom_wsdl_dir (str, optional): Custom WSDL directory path
+
+        Returns:
+            dict: Complete WSDL mapping for all services
+
+        WSDL Map Structure:
+            {
+                "{service_name}": {
+                    "{version}": {
+                        "path": "/full/path/to/service.wsdl",
+                        "binding": "ServiceBinding",
+                        "namespace": "http://www.onvif.org/ver10/service/wsdl"
+                    }
+                }
+            }
+
+        Path Resolution:
+            - Built-in: Uses ONVIF standard directory structure
+              Example: ver10/device/wsdl/devicemgmt.wsdl
+            - Custom: Uses flat structure with direct filename
+              Example: devicemgmt.wsdl
+        """
         base_dir = cls._get_base_dir(custom_wsdl_dir)
 
         # Default structure for WSDL files
@@ -528,7 +644,11 @@ class ONVIFWSDL:
 
     @classmethod
     def _ensure_wsdl_map_initialized(cls):
-        """Ensure WSDL_MAP is initialized with default values."""
+        """Ensure WSDL_MAP is initialized with default values.
+
+        Lazy initialization of the default WSDL map. This is called automatically
+        before accessing WSDL_MAP to ensure it's not None.
+        """
         if cls.WSDL_MAP is None:
             cls.WSDL_MAP = cls._get_wsdl_map()
 
@@ -536,21 +656,29 @@ class ONVIFWSDL:
     def get_definition(
         cls, service: str, version: str = "ver10", custom_wsdl_dir=None
     ) -> dict:
-        """
-        Return WSDL definition including path, binding and namespace.
+        """Get WSDL definition for a specific ONVIF service.
+
+        Returns complete WSDL definition including file path, SOAP binding name,
+        and XML namespace for the requested service and version.
 
         Args:
-            service (str): The service name.
-            version (str): The service version. Defaults to "ver10".
-            custom_wsdl_dir (str, optional): Custom WSDL directory path. If provided,
-                returns definition using custom directory instead of default.
+            service (str): Service name (e.g., "devicemgmt", "media", "ptz")
+            version (str, optional): ONVIF version (default: "ver10")
+                Common versions: "ver10", "ver20"
+            custom_wsdl_dir (str, optional): Custom WSDL directory path
+                Overrides global custom directory if provided
 
         Returns:
-            dict: The service definition containing path, binding, and namespace.
+            dict: Service definition containing:
+                - path (str): Full path to WSDL file
+                - binding (str): SOAP binding name
+                - namespace (str): XML namespace URI
 
-        Raises:
-            ValueError: If the service or version is not found.
-            FileNotFoundError: If the WSDL file does not exist.
+        Notes:
+            - Most services use ver10, some newer ones use ver20
+            - Media has both ver10 (media) and ver20 (media2)
+            - Custom WSDLs must match the service name exactly
+            - File existence is validated before returning definition
         """
         # Use custom WSDL map if custom directory is provided
         if custom_wsdl_dir:

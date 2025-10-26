@@ -15,6 +15,18 @@ from .utils import ONVIFOperationException, ZeepPatcher
 
 
 class CacheMode(Enum):
+    """WSDL caching strategies for ONVIF client performance optimization.
+
+    Different caching modes provide trade-offs between performance, memory usage,
+    and disk storage. Choose based on your application's requirements.
+
+    Attributes:
+        ALL: Maximum performance with both memory and disk caching
+        DB: Disk-only caching for persistent storage
+        MEM: Memory-only caching for temporary sessions
+        NONE: No caching, always fetch fresh WSDLs
+    """
+
     ALL = "all"  # CachingClient + SqliteCache →
     # (+) Fast startup (WSDL/schema cached in memory + disk), great for multi-device and long-running apps
     # (-) More complex, extra overhead on both disk and memory
@@ -37,6 +49,27 @@ class CacheMode(Enum):
 
 
 class ONVIFOperator:
+    """Low-level ONVIF service operator using Zeep SOAP client.
+
+    This class handles the actual SOAP communication with ONVIF devices. It manages
+    WSDL loading, service binding, authentication, caching, and error handling.
+
+    ONVIFOperator is typically used internally by service classes (Device, Media, PTZ, etc.)
+    and is not meant to be instantiated directly by end users. Use ONVIFClient instead.
+
+    Attributes:
+        wsdl_path (str): Path to the WSDL file
+        host (str): Device hostname or IP address
+        port (int): Device port number
+        username (str): ONVIF username
+        password (str): ONVIF password
+        timeout (int): Request timeout in seconds
+        apply_patch (bool): Whether to apply xsd:any flattening patch
+        address (str): Service endpoint URL (XAddr)
+        client: Zeep SOAP client instance
+        service: Zeep service proxy for making SOAP calls
+    """
+
     def __init__(
         self,
         wsdl_path: str,
@@ -124,6 +157,23 @@ class ONVIFOperator:
         # logging.debug(f"ONVIFOperator initialized {binding} at {self.address}")
 
     def call(self, method: str, *args, **kwargs):
+        """Call an ONVIF service operation.
+
+        This method invokes a SOAP operation on the ONVIF device service and handles
+        errors gracefully. It automatically flattens xsd:any fields in the response
+        when apply_patch is enabled.
+
+        Args:
+            method: Name of the ONVIF operation to call (e.g., "GetDeviceInformation")
+            *args: Positional arguments to pass to the operation
+            **kwargs: Keyword arguments to pass to the operation
+
+        Returns:
+            The operation result, with xsd:any fields flattened if apply_patch=True
+
+        Raises:
+            ONVIFOperationException: If the operation fails (wraps original exception)
+        """
         try:
             func = getattr(self.service, method)
         except AttributeError as e:

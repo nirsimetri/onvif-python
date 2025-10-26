@@ -5,11 +5,38 @@ from .exceptions import ONVIFOperationException
 
 
 class ONVIFErrorHandler:
-    """
-    Error handling utilities for ONVIF operations.
+    """Error handling utilities for ONVIF operations.
 
-    Provides static methods to handle ONVIF errors gracefully,
-    especially ActionNotSupported SOAP faults.
+    This class provides static methods to gracefully handle ONVIF SOAP errors,
+    particularly the common "ActionNotSupported" fault that occurs when devices
+    don't implement certain optional ONVIF operations.
+
+    ONVIF devices may not support all operations defined in the specification.
+    When an unsupported operation is called, the device returns a SOAP fault with
+    the "ActionNotSupported" subcode. This class helps detect and handle such cases.
+
+    Key Features:
+        - Detect ActionNotSupported SOAP faults
+        - Provide safe operation calls with default fallbacks
+        - Decorator pattern for ignoring unsupported operations
+        - Wrapper for graceful degradation in multi-device environments
+
+    Common Use Cases:
+        1. **Feature Detection**: Check if device supports an operation
+        2. **Graceful Degradation**: Continue execution when operation fails
+        3. **Multi-Device Support**: Handle devices with varying capabilities
+        4. **Safe Exploration**: Test operations without crashing
+
+    Notes:
+        - All methods are static - no need to instantiate the class
+        - Works with both ONVIFOperationException and raw zeep.Fault
+        - Preserves stack traces for non-ActionNotSupported errors
+        - Minimal performance overhead for supported operations
+        - Thread-safe (no shared state)
+
+    See Also:
+        - ONVIFOperationException: Custom exception wrapper
+        - zeep.exceptions.Fault: Base SOAP fault exception
     """
 
     @staticmethod

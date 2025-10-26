@@ -5,21 +5,69 @@ from lxml import etree
 
 
 class XMLCapturePlugin(Plugin):
-    """
-    Zeep plugin to capture SOAP XML requests and responses.
+    """Zeep plugin to capture and inspect SOAP XML requests and responses.
 
-    Usage:
-        client = ONVIFClient(host, port, user, pass, capture_xml=True)
-        device = client.devicemgmt()
-        result = device.GetServices()
+    This plugin intercepts SOAP communication between the ONVIF client and device,
+    capturing raw XML for debugging, logging, and analysis purposes. It's invaluable
+    for understanding SOAP message structure and troubleshooting device communication.
 
-        # Access captured XML
-        print(client.xml_plugin.last_sent_xml)
-        print(client.xml_plugin.last_received_xml)
+    The plugin automatically captures:
+        - Outgoing SOAP requests (egress)
+        - Incoming SOAP responses (ingress)
+        - HTTP headers for both directions
+        - Operation names for context
+        - Complete history of all transactions
 
-        # Or get all history
-        for item in client.xml_plugin.history:
-            print(f"{item['operation']}: {item['type']}")
+    Key Features:
+        - Pretty-printed XML with proper indentation
+        - Last request/response quick access
+        - Full transaction history storage
+        - HTTP header capture
+        - Operation name tracking
+        - File export capability
+        - Secure XML parsing (XXE protection)
+
+    Use Cases:
+        1. **Debugging**: See exact SOAP messages being sent/received
+        2. **Learning**: Understand ONVIF protocol structure
+        3. **Testing**: Verify request format and response structure
+        4. **Documentation**: Extract examples for documentation
+        5. **Troubleshooting**: Diagnose device compatibility issues
+        6. **Development**: Test SOAP message modifications
+
+    Attributes:
+        pretty_print (bool): Whether to format XML with indentation
+        last_sent_xml (str): Most recent request XML
+        last_received_xml (str): Most recent response XML
+        last_operation (str): Most recent operation name
+        history (list): All captured requests/responses with metadata
+
+    History Item Structure:
+        {
+            'type': 'request' or 'response',
+            'operation': 'GetDeviceInformation',
+            'xml': '<soap:Envelope>...</soap:Envelope>',
+            'http_headers': {'Content-Type': 'text/xml', ...}
+        }
+
+    Performance Considerations:
+        - Pretty printing adds minimal overhead (~5-10ms per request)
+        - History storage grows with each request (clear periodically)
+        - Large responses may consume significant memory
+        - Consider disabling in production for high-volume applications
+
+    Notes:
+        - Plugin is automatically created when capture_xml=True
+        - Captured XML includes SOAP envelope, headers, and body
+        - HTTP headers are captured as dictionaries
+        - History preserves chronological order
+        - Pretty printing uses lxml for reliable formatting
+        - All captured data is stored in memory
+
+    See Also:
+        - zeep.Plugin: Base class for zeep plugins
+        - ONVIFClient: Client that uses this plugin
+        - lxml.etree: XML processing library
     """
 
     def __init__(self, pretty_print=True):

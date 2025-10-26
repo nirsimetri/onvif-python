@@ -45,6 +45,21 @@ from .utils import ONVIFWSDL, ZeepPatcher, XMLCapturePlugin
 
 
 class ONVIFClient:
+    """ONVIF Client for communicating with ONVIF-compliant devices.
+
+    This is the main class for interacting with ONVIF devices. It provides access to
+    all ONVIF services including Device Management, Media, PTZ, Events, Analytics, and more.
+
+    The client automatically discovers available services on the device using GetServices
+    or GetCapabilities, and provides lazy initialization for service endpoints.
+
+    Attributes:
+        services: List of available services from GetServices response
+        capabilities: Device capabilities from GetCapabilities response (fallback)
+        xml_plugin: XML capture plugin for debugging (if capture_xml=True)
+        wsdl_dir: Custom WSDL directory path (if provided)
+    """
+
     def __init__(
         self,
         host: str,
