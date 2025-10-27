@@ -3,6 +3,14 @@
 from .exceptions import ONVIFOperationException
 
 
+def _is_zeep_object(obj):
+    """Check if an object is a Zeep-generated object.
+
+    Zeep objects have the _xsd_type attribute which is the XSD type definition.
+    """
+    return hasattr(obj, "_xsd_type")
+
+
 class ONVIFService:
     """Base class for all ONVIF service implementations.
 
@@ -28,19 +36,6 @@ class ONVIFService:
         2. Starts with uppercase letter (ONVIF naming convention)
         3. Is not a private method (doesn't start with underscore)
         4. Is not an internal attribute (like 'operator')
-
-    ONVIF operations that will be wrapped:
-        ✓ GetDeviceInformation()
-        ✓ GetProfiles()
-        ✓ ContinuousMove()
-        ✓ CreatePullPointSubscription()
-        ✓ GetImagingSettings()
-
-    Methods that will NOT be wrapped:
-        ✗ _internal_method()  (starts with underscore)
-        ✗ helper_function()   (starts with lowercase)
-        ✗ operator            (internal attribute)
-        ✗ non_callable_attr   (not a method)
 
     Benefits:
         1. **DRY Principle**: No need to repeat error handling in every method
@@ -94,9 +89,20 @@ class ONVIFService:
         if not name[0].isupper():
             return attr
 
-        # Wrap ONVIF methods with error handling
+        # Wrap ONVIF methods with error handling and Zeep object conversion
         def wrapped_method(*args, **kwargs):
             try:
+                # If called with 1 positional arg that is a Zeep object and no kwargs,
+                # convert the object's fields to kwargs instead of passing it as positional arg
+                if len(args) == 1 and not kwargs and _is_zeep_object(args[0]):
+                    params_obj = args[0]
+                    # Extract fields from Zeep object using its XSD type elements
+                    if hasattr(params_obj._xsd_type, "elements"):
+                        kwargs = {}
+                        for elem_name, elem_obj in params_obj._xsd_type.elements:
+                            kwargs[elem_name] = getattr(params_obj, elem_name)
+                        return attr(**kwargs)
+
                 return attr(*args, **kwargs)
             except ONVIFOperationException:
                 # Re-raise ONVIF exceptions as-is
@@ -106,3 +112,45 @@ class ONVIFService:
                 raise ONVIFOperationException(name, e)
 
         return wrapped_method
+
+    def type(self, type_name: str):
+        """
+        Create and return an instance of the specified ONVIF type.
+
+        Args:
+            type_name (str): Name of the type to create (e.g., 'SetHostname', 'SetIPAddressFilter')
+
+        Returns:
+            Type instance that can be populated with data
+
+        Raises:
+            ONVIFOperationException: If type creation fails
+
+        Example:
+            device = client.devicemgmt()
+
+            newuser = device.type('CreateUsers')
+            newuser.User.append({"Username": 'new_user', "Password": 'new_password', "UserLevel": 'User'})
+            device.CreateUsers(newuser)
+
+            hostname = device.type('SetHostname')
+            hostname.Name = 'NewHostname'
+            device.SetHostname(hostname)
+
+            time_params = device.type('SetSystemDateAndTime')
+            time_params.DateTimeType = 'NTP'
+            time_params.DaylightSavings = True
+            time_params.TimeZone.TZ = 'UTC+02:00'
+            now = datetime.now()
+            time_params.UTCDateTime.Date.Year = now.year
+            time_params.UTCDateTime.Date.Month = now.month
+            time_params.UTCDateTime.Date.Day = now.day
+            time_params.UTCDateTime.Time.Hour = now.hour
+            time_params.UTCDateTime.Time.Minute = now.minute
+            time_params.UTCDateTime.Time.Second = now.second
+            device.SetSystemDateAndTime(time_params)
+        """
+        try:
+            return self.operator.create_type(type_name)
+        except Exception as e:
+            raise ONVIFOperationException(f"type({type_name})", e)

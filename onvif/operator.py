@@ -191,3 +191,104 @@ class ONVIFOperator:
         except Exception as e:
             # logging.error(f"ONVIF call error in {method}: {e}")
             raise ONVIFOperationException(operation=method, original_exception=e)
+
+    def create_type(self, type_name: str):
+        """
+        Create a type instance from WSDL schema for the given type name.
+
+        Recursively initializes nested complex types so that fields like TimeZone, DateTime,
+        Date, and Time are properly instantiated as objects rather than None.
+
+        Args:
+            type_name (str): Name of the type to create (e.g., 'SetHostname', 'SetIPAddressFilter')
+
+        Returns:
+            Type instance that can be populated with data
+
+        Raises:
+            AttributeError: If type not found in WSDL schema
+        """
+        # Method 1: Try to get element from WSDL (works for operation parameters)
+        # Common namespace prefixes for ONVIF services
+        namespaces_to_try = [
+            "ns0",  # Default namespace
+            "tt",  # Common types (User, NetworkInterface, etc.)
+        ]
+
+        # Try to get element with namespace prefix
+        for ns in namespaces_to_try:
+            try:
+                element = self.client.get_element(f"{ns}:{type_name}")
+                instance = element()
+                return self._initialize_nested_types(instance)
+            except Exception:
+                continue
+
+        # Method 2: Try without namespace prefix
+        try:
+            element = self.client.get_element(type_name)
+            instance = element()
+            return self._initialize_nested_types(instance)
+        except Exception:
+            pass
+
+        # Method 3: Try to get type from schema (for complex types)
+        try:
+            for ns in namespaces_to_try:
+                try:
+                    type_obj = self.client.get_type(f"{ns}:{type_name}")
+                    instance = type_obj()
+                    return self._initialize_nested_types(instance)
+                except Exception:
+                    continue
+
+            # Try without namespace
+            type_obj = self.client.get_type(type_name)
+            instance = type_obj()
+            return self._initialize_nested_types(instance)
+        except Exception:
+            pass
+
+        raise AttributeError(f"Type '{type_name}' not found in WSDL schema.")
+
+    def _initialize_nested_types(self, instance):
+        """
+        Recursively initialize nested complex types in a Zeep object.
+
+        This ensures that fields like TimeZone, DateTime, Date, and Time are
+        properly instantiated as objects rather than None values.
+
+        Args:
+            instance: A Zeep object instance to initialize
+
+        Returns:
+            The instance with all nested complex types initialized
+        """
+        try:
+            # Get the XSD type from the instance's class
+            if hasattr(instance.__class__, "_xsd_type"):
+                xsd_type = instance.__class__._xsd_type
+
+                # Iterate through elements defined in the XSD type
+                if hasattr(xsd_type, "elements"):
+                    for element_name, element_obj in xsd_type.elements:
+                        current_value = getattr(instance, element_name, None)
+
+                        # Only initialize if the value is None and the element has a type
+                        if current_value is None and hasattr(element_obj, "type"):
+                            element_type = element_obj.type
+
+                            # Check if this is a complex type (has elements)
+                            if hasattr(element_type, "elements"):
+                                # Complex type - instantiate it and recursively initialize
+                                nested_instance = element_type()
+                                nested_instance = self._initialize_nested_types(
+                                    nested_instance
+                                )
+                                setattr(instance, element_name, nested_instance)
+        except Exception:
+            # If anything goes wrong during nested initialization, just return the instance
+            # The important thing is that the top-level object is created
+            pass
+
+        return instance
