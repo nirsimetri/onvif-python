@@ -48,10 +48,10 @@ class AnalyticsDevice(ONVIFService):
             "CreateAnalyticsEngineControl", Configuration=Configuration
         )
 
-    def SetAnalyticsEngineControl(self, SetAnalyticsEngineControl, ForcePersistence):
+    def SetAnalyticsEngineControl(self, Configuration, ForcePersistence):
         return self.operator.call(
             "SetAnalyticsEngineControl",
-            SetAnalyticsEngineControl=SetAnalyticsEngineControl,
+            Configuration=Configuration,
             ForcePersistence=ForcePersistence,
         )
 
@@ -78,11 +78,11 @@ class AnalyticsDevice(ONVIFService):
             ForcePersistence=ForcePersistence,
         )
 
-    def SetAnalyticsEngineInput(self, Configuration, InputToken):
+    def SetAnalyticsEngineInput(self, Configuration, ForcePersistence):
         return self.operator.call(
             "SetAnalyticsEngineInput",
             Configuration=Configuration,
-            InputToken=InputToken,
+            ForcePersistence=ForcePersistence,
         )
 
     def GetAnalyticsEngineInput(self, ConfigurationToken):
