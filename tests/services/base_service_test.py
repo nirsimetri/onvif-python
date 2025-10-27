@@ -2,6 +2,7 @@
 
 import os
 import inspect
+import ast
 from unittest.mock import Mock, patch
 from lxml import etree
 from typing import Dict, List, Any, Optional, Type
@@ -103,6 +104,72 @@ class ONVIFServiceTestBase:
     def test_import(self):
         """Test that service class can be imported."""
         assert self.SERVICE_CLASS is not None
+
+    def test_no_duplicate_methods(self):
+        """Test that there are no duplicate method implementations in service class."""
+        if not self.SERVICE_CLASS:
+            return
+
+        # Get the source file of the service class
+        source_file = inspect.getsourcefile(self.SERVICE_CLASS)
+        if not source_file:
+            return
+
+        # Parse the source file
+        with open(source_file, "r", encoding="utf-8") as f:
+            source_code = f.read()
+
+        tree = ast.parse(source_code)
+
+        # Find the class definition
+        class_node = None
+        for node in ast.walk(tree):
+            if (
+                isinstance(node, ast.ClassDef)
+                and node.name == self.SERVICE_CLASS.__name__
+            ):
+                class_node = node
+                break
+
+        if not class_node:
+            return
+
+        # Collect all method names defined in the class
+        method_names = []
+        method_line_numbers = {}
+
+        for item in class_node.body:
+            if isinstance(item, ast.FunctionDef):
+                method_name = item.name
+                # Skip private methods and __init__
+                if method_name.startswith("_") or method_name == "__init__":
+                    continue
+
+                # Skip helper methods
+                if method_name in ["type", "desc", "operations"]:
+                    continue
+
+                method_names.append(method_name)
+
+                # Track line numbers for better error reporting
+                if method_name not in method_line_numbers:
+                    method_line_numbers[method_name] = []
+                method_line_numbers[method_name].append(item.lineno)
+
+        # Find duplicates
+        from collections import Counter
+
+        method_counts = Counter(method_names)
+        duplicates = [
+            f"{name}: defined {count} times at lines {method_line_numbers[name]}"
+            for name, count in method_counts.items()
+            if count > 1
+        ]
+
+        assert not duplicates, (
+            f"Duplicate method implementations found in {self.SERVICE_CLASS.__name__}:\n"
+            + "\n".join(duplicates)
+        )
 
     def test_wsdl_operations_not_empty(self):
         """Test that WSDL operations are successfully parsed and not empty."""
