@@ -270,9 +270,17 @@ class ONVIFServiceTestBase:
             service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
 
             implemented_methods = self.get_implemented_methods()
+
+            # Skip helper methods that don't call operator.call()
+            helper_methods = ["type", "desc", "operations"]
+
             errors = []
 
             for method_name, method_info in implemented_methods.items():
+                # Skip helper methods
+                if method_name in helper_methods:
+                    continue
+
                 # Reset mock
                 mock_operator_instance.call.reset_mock()
 
@@ -325,9 +333,15 @@ class ONVIFServiceTestBase:
         wsdl_operations = self.get_wsdl_operations()
         implemented_methods = self.get_implemented_methods()
 
+        # Allowed helper methods that are not ONVIF operations
+        allowed_helper_methods = ["type", "desc", "operations"]
+
         extra_methods = []
         for method_name in implemented_methods.keys():
-            if method_name not in wsdl_operations:
+            if (
+                method_name not in wsdl_operations
+                and method_name not in allowed_helper_methods
+            ):
                 extra_methods.append(method_name)
 
         # Assert that there are no extra methods
@@ -353,9 +367,17 @@ class ONVIFServiceTestBase:
                 )
             service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
             implemented_methods = self.get_implemented_methods()
+
+            # Skip helper methods that don't call operator.call()
+            helper_methods = ["type", "desc", "operations"]
+
             errors = []
 
             for method_name, method_info in implemented_methods.items():
+                # Skip helper methods
+                if method_name in helper_methods:
+                    continue
+
                 mock_operator_instance.call.reset_mock()
 
                 try:
