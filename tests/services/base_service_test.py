@@ -263,6 +263,55 @@ class ONVIFServiceTestBase:
             )
             assert False, error_msg
 
+    def test_method_parameters_completeness(self):
+        """Test that all WSDL top-level parameters are included in method signature.
+
+        This ensures that methods don't miss optional parameters from WSDL.
+        For example, if WSDL has [CertificateID, Subject, Attributes],
+        the method must have all three parameters (even if Subject and Attributes are optional).
+        """
+        wsdl_operations = self.get_wsdl_operations()
+        implemented_methods = self.get_implemented_methods()
+
+        missing_params = []
+
+        for op_name, op_info in wsdl_operations.items():
+            if op_name not in implemented_methods:
+                continue
+
+            method_info = implemented_methods[op_name]
+            method_params = set(method_info["params"])
+            wsdl_params = set(op_info["request_params"])
+
+            # Skip operations without parameters
+            if not wsdl_params:
+                continue
+
+            # Find parameters in WSDL that are missing in method signature
+            missing = wsdl_params - method_params
+
+            if missing:
+                missing_params.append(
+                    {
+                        "operation": op_name,
+                        "wsdl_params": sorted(wsdl_params),
+                        "method_params": sorted(method_params),
+                        "missing": sorted(missing),
+                    }
+                )
+
+        # Assert that all WSDL parameters are present in method signatures
+        assert (
+            not missing_params
+        ), "Method signatures missing WSDL parameters:\n" + "\n".join(
+            [
+                f"  {item['operation']}: Missing {item['missing']}\n"
+                f"      Expected: {item['wsdl_params']}\n"
+                f"      Got: {item['method_params']}"
+                for item in missing_params
+            ]
+        )
+
     def _is_likely_typo(self, method_param: str, wsdl_param: str) -> bool:
         """Check if method_param is likely a typo of wsdl_param."""
         # Must be different
