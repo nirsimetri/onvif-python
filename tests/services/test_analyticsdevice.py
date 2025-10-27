@@ -39,7 +39,7 @@ class TestAnalyticsDeviceWSDLCompliance(ONVIFServiceTestBase):
             {
                 "method": "SetAnalyticsEngineControl",
                 "params": {
-                    "SetAnalyticsEngineControl": {"Token": "control1"},
+                    "Configuration": {"Token": "control1"},
                     "ForcePersistence": True,
                 },
             },
@@ -83,7 +83,7 @@ class TestAnalyticsDeviceWSDLCompliance(ONVIFServiceTestBase):
             {
                 "method": "SetAnalyticsEngineControl",
                 "params": {
-                    "SetAnalyticsEngineControl": {"Token": "control1"},
+                    "Configuration": {"Token": "control1"},
                     "ForcePersistence": True,
                 },
             },
@@ -102,7 +102,7 @@ class TestAnalyticsDeviceWSDLCompliance(ONVIFServiceTestBase):
                 "method": "SetAnalyticsEngineInput",
                 "params": {
                     "Configuration": {"Token": "input1"},
-                    "InputToken": "input_token",
+                    "ForcePersistence": False,
                 },
             },
             {
