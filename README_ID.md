@@ -4,7 +4,7 @@
 	
 [![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.8-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.1.9-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -211,7 +211,7 @@ usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password 
              [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.1.8
+ONVIF Terminal Client — v0.1.9
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -276,7 +276,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell — v0.1.8
+ONVIF Interactive Shell — v0.1.9
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -981,7 +981,7 @@ Proyek ini adalah **implementasi open-source independen** dari spesifikasi [ONVI
 - Penggunaan merek ONVIF di repositori ini murni nominatif dan tidak menyiratkan kemitraan, sertifikasi, atau status resmi apa pun.
 - Proyek ini menyertakan berkas WSDL/XSD/HTML dari spesifikasi resmi ONVIF.
 - Berkas-berkas tersebut adalah © ONVIF dan didistribusikan ulang di sini untuk tujuan interoperabilitas.
-- Berkas WSDL di folder [wsdl/](./onvif/wsdl) didistribusikan di bawah ONVIF Contributor License Agreement dan Apache License 2.0. Lihat [LICENSE.md](./onvif/wsdl/LICENSE.md) untuk detail selengkapnya.
+- Berkas WSDL di folder [`wsdl/`](./onvif/wsdl) didistribusikan di bawah ONVIF Contributor License Agreement dan Apache License 2.0. Lihat [`LICENSE.md`](./onvif/wsdl/LICENSE.md) untuk detail selengkapnya.
 - Semua hak atas spesifikasi ONVIF adalah milik ONVIF.
 
 Jika Anda memerlukan perangkat atau klien yang tersertifikasi sesuai ONVIF, silakan merujuk ke [daftar produk konforman ONVIF](https://www.onvif.org/conformant-products/). Untuk referensi otoritatif dan spesifikasi ONVIF resmi terbaru, silakan lihat [Spesifikasi Resmi ONVIF](https://www.onvif.org/profiles/specifications/specification-history/).
