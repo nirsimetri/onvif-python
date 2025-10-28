@@ -173,6 +173,9 @@ class InteractiveShell(cmd.Cmd):
         if hasattr(args, "no_patch") and args.no_patch:
             options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
 
+        if hasattr(args, "wsdl") and args.wsdl:
+            options_info.append(f"  Custom WSDL   : {colorize(args.wsdl, 'yellow')}")
+
         if (
             hasattr(args, "health_check_interval") and args.health_check_interval != 10
         ):  # 10 is default
@@ -1267,6 +1270,11 @@ class InteractiveShell(cmd.Cmd):
 
         if hasattr(self.args, "no_patch") and self.args.no_patch:
             options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
+
+        if hasattr(self.args, "wsdl") and self.args.wsdl:
+            options_info.append(
+                f"  Custom WSDL   : {colorize(self.args.wsdl, 'yellow')}"
+            )
 
         if (
             hasattr(self.args, "health_check_interval")
