@@ -981,6 +981,7 @@ This project is an **independent open-source implementation** of the [ONVIF](htt
 - Use of the ONVIF trademark in this repository is solely nominative and does not imply any partnership, certification, or official status.
 - This project includes WSDL/XSD/HTML files from the official ONVIF specifications.
 - These files are © ONVIF and are redistributed here for interoperability purposes.
+- The WSDL files in the [wsdl/](./onvif/wsdl) folder are distributed under the ONVIF Contributor License Agreement and Apache License 2.0. See [LICENSE.md](./onvif/wsdl/LICENSE.md) for details.
 - All rights to the ONVIF specifications are reserved by ONVIF.
 
 If you require certified ONVIF-compliant devices or clients, please refer to the official [ONVIF conformant product list](https://www.onvif.org/conformant-products/). For authoritative reference and the latest official ONVIF specifications, please consult the [ONVIF Official Specifications](https://www.onvif.org/profiles/specifications/specification-history/).

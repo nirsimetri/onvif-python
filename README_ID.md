@@ -151,7 +151,7 @@ print(stream)
 Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`](./examples/).
 
 > [!IMPORTANT]
-> Jika Anda baru mengenal ONVIF dan ingin mempelajari lebih lanjut, kami sangat menyarankan untuk mengikuti kursus online gratis resmi yang disediakan oleh ONVIF di [Kursus Pengantar ONVIF](https://www.onvif.org/about/introduction-to-onvif-course). Harap dicatat bahwa kami tidak didukung atau disponsori oleh ONVIF, lihat [Pemberitahuan Hukum](#legal-notice) untuk detailnya.
+> Jika Anda baru mengenal ONVIF dan ingin mempelajari lebih lanjut, kami sangat menyarankan untuk mengikuti kursus online gratis resmi yang disediakan oleh ONVIF di [Kursus Pengantar ONVIF](https://www.onvif.org/about/introduction-to-onvif-course). Harap dicatat bahwa kami tidak didukung atau disponsori oleh ONVIF, lihat [Pernyataan Hukum](#pernyataan-hukum) untuk detailnya.
 
 ## ONVIF CLI
 
@@ -981,6 +981,7 @@ Proyek ini adalah **implementasi open-source independen** dari spesifikasi [ONVI
 - Penggunaan merek ONVIF di repositori ini murni nominatif dan tidak menyiratkan kemitraan, sertifikasi, atau status resmi apa pun.
 - Proyek ini menyertakan berkas WSDL/XSD/HTML dari spesifikasi resmi ONVIF.
 - Berkas-berkas tersebut adalah © ONVIF dan didistribusikan ulang di sini untuk tujuan interoperabilitas.
+- Berkas WSDL di folder [wsdl/](./onvif/wsdl) didistribusikan di bawah ONVIF Contributor License Agreement dan Apache License 2.0. Lihat [LICENSE.md](./onvif/wsdl/LICENSE.md) untuk detail selengkapnya.
 - Semua hak atas spesifikasi ONVIF adalah milik ONVIF.
 
 Jika Anda memerlukan perangkat atau klien yang tersertifikasi sesuai ONVIF, silakan merujuk ke [daftar produk konforman ONVIF](https://www.onvif.org/conformant-products/). Untuk referensi otoritatif dan spesifikasi ONVIF resmi terbaru, silakan lihat [Spesifikasi Resmi ONVIF](https://www.onvif.org/profiles/specifications/specification-history/).
