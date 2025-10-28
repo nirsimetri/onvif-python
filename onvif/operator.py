@@ -3,7 +3,6 @@
 import os
 import warnings
 import requests
-import urllib3
 
 from enum import Enum
 from zeep import Settings, Transport, Client, CachingClient
@@ -107,9 +106,8 @@ class ONVIFOperator:
         session = requests.Session()
         session.verify = verify_ssl
 
-        # Format SSL warnings to be more concise when verify_ssl is False
-        if not verify_ssl:
-            warnings.simplefilter("once", urllib3.exceptions.InsecureRequestWarning)
+        # Show urllib3 warnings only once to keep output clean
+        warnings.filterwarnings("once", category=Warning, module="urllib3")
 
         transport_kwargs = {"session": session, "timeout": timeout}
 
