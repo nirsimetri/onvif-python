@@ -346,15 +346,22 @@ def select_device_interactive(devices: list) -> Optional[Tuple[str, int, bool]]:
             else colorize("HTTP", "white")
         )
         print(f"\n{idx_str} {colorize(host_port, 'yellow')} ({protocol_indicator})")
-        print(f"    [id] {device['epr']}")
+
+        # Remove uuid: or urn:uuid: prefix from EPR
+        epr_display = device["epr"]
+        if epr_display.startswith("urn:uuid:"):
+            epr_display = epr_display.replace("urn:uuid:", "")
+        elif epr_display.startswith("uuid:"):
+            epr_display = epr_display.replace("uuid:", "")
+        print(f"    [id] {epr_display}")
 
         if device["xaddrs"]:
-            xaddrs_str = " ".join(device["xaddrs"])
-            print(f"    [xaddrs] {xaddrs_str}")
+            xaddrs_parts = [f"[{xaddr}]" for xaddr in device["xaddrs"]]
+            print(f"    [xaddrs] {' '.join(xaddrs_parts)}")
 
         if device["types"]:
-            types_str = " ".join(device["types"])
-            print(f"    [types] {types_str}")
+            types_parts = [f"[{t}]" for t in device["types"]]
+            print(f"    [types] {' '.join(types_parts)}")
 
         if device["scopes"]:
             scope_parts = []
