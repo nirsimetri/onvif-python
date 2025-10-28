@@ -158,6 +158,10 @@ class ONVIFWSDL:
         """
         base_dir = cls._get_base_dir(custom_wsdl_dir)
 
+        # Determine if we should use flat structure
+        # Use flat structure if custom_wsdl_dir is explicitly provided OR if global custom dir is set
+        use_flat = custom_wsdl_dir is not None or cls._custom_wsdl_dir is not None
+
         # Default structure for WSDL files
         # If custom_wsdl_dir is provided, use flat structure (direct filename)
         # Otherwise, use the standard ONVIF directory structure
@@ -168,7 +172,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "devicemgmt.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/device/wsdl/devicemgmt.wsdl"
                         ),
                     ),
@@ -182,7 +186,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "event-vs.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/events/wsdl/event-vs.wsdl"
                         ),
                     ),
@@ -196,7 +200,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "event-vs.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/events/wsdl/event-vs.wsdl"
                         ),
                     ),
@@ -210,7 +214,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "event-vs.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/events/wsdl/event-vs.wsdl"
                         ),
                     ),
@@ -224,7 +228,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "event-vs.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/events/wsdl/event-vs.wsdl"
                         ),
                     ),
@@ -238,7 +242,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "accesscontrol.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/pacs/accesscontrol.wsdl"
                         ),
                     ),
@@ -252,7 +256,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "accessrules.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/accessrules/wsdl/accessrules.wsdl"
                         ),
                     ),
@@ -266,7 +270,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "actionengine.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/actionengine.wsdl"
                         ),
                     ),
@@ -280,7 +284,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "advancedsecurity.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
                         ),
                     ),
@@ -294,7 +298,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "advancedsecurity.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
                         ),
                     ),
@@ -308,7 +312,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "advancedsecurity.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
                         ),
                     ),
@@ -322,7 +326,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "advancedsecurity.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
                         ),
                     ),
@@ -336,7 +340,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "advancedsecurity.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
                         ),
                     ),
@@ -350,7 +354,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "advancedsecurity.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
                         ),
                     ),
@@ -364,7 +368,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "advancedsecurity.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
                         ),
                     ),
@@ -378,7 +382,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "analytics.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver20/analytics/wsdl/analytics.wsdl"
                         ),
                     ),
@@ -392,7 +396,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "ruleengine.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver20/analytics/wsdl/analytics.wsdl"
                         ),
                     ),
@@ -406,7 +410,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "analyticsdevice.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/analyticsdevice.wsdl"
                         ),
                     ),
@@ -420,7 +424,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "appmgmt.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/appmgmt/wsdl/appmgmt.wsdl"
                         ),
                     ),
@@ -434,7 +438,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "authenticationbehavior.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl"
                         ),
                     ),
@@ -448,7 +452,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "credential.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/credential/wsdl/credential.wsdl"
                         ),
                     ),
@@ -460,7 +464,7 @@ class ONVIFWSDL:
                 "ver10": {
                     "path": os.path.join(
                         base_dir,
-                        "deviceio.wsdl" if custom_wsdl_dir else "ver10/deviceio.wsdl",
+                        "deviceio.wsdl" if use_flat else "ver10/deviceio.wsdl",
                     ),
                     "binding": "DeviceIOBinding",
                     "namespace": "http://www.onvif.org/ver10/deviceIO/wsdl",
@@ -470,7 +474,7 @@ class ONVIFWSDL:
                 "ver10": {
                     "path": os.path.join(
                         base_dir,
-                        "display.wsdl" if custom_wsdl_dir else "ver10/display.wsdl",
+                        "display.wsdl" if use_flat else "ver10/display.wsdl",
                     ),
                     "binding": "DisplayBinding",
                     "namespace": "http://www.onvif.org/ver10/display/wsdl",
@@ -482,7 +486,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "doorcontrol.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/pacs/doorcontrol.wsdl"
                         ),
                     ),
@@ -496,7 +500,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "imaging.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver20/imaging/wsdl/imaging.wsdl"
                         ),
                     ),
@@ -508,11 +512,7 @@ class ONVIFWSDL:
                 "ver10": {
                     "path": os.path.join(
                         base_dir,
-                        (
-                            "media.wsdl"
-                            if custom_wsdl_dir
-                            else "ver10/media/wsdl/media.wsdl"
-                        ),
+                        ("media.wsdl" if use_flat else "ver10/media/wsdl/media.wsdl"),
                     ),
                     "binding": "MediaBinding",
                     "namespace": "http://www.onvif.org/ver10/media/wsdl",
@@ -522,11 +522,7 @@ class ONVIFWSDL:
                 "ver20": {
                     "path": os.path.join(
                         base_dir,
-                        (
-                            "media2.wsdl"
-                            if custom_wsdl_dir
-                            else "ver20/media/wsdl/media.wsdl"
-                        ),
+                        ("media2.wsdl" if use_flat else "ver20/media/wsdl/media.wsdl"),
                     ),
                     "binding": "Media2Binding",
                     "namespace": "http://www.onvif.org/ver20/media/wsdl",
@@ -538,7 +534,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "provisioning.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/provisioning/wsdl/provisioning.wsdl"
                         ),
                     ),
@@ -550,7 +546,7 @@ class ONVIFWSDL:
                 "ver20": {
                     "path": os.path.join(
                         base_dir,
-                        "ptz.wsdl" if custom_wsdl_dir else "ver20/ptz/wsdl/ptz.wsdl",
+                        "ptz.wsdl" if use_flat else "ver20/ptz/wsdl/ptz.wsdl",
                     ),
                     "binding": "PTZBinding",
                     "namespace": "http://www.onvif.org/ver20/ptz/wsdl",
@@ -560,7 +556,7 @@ class ONVIFWSDL:
                 "ver10": {
                     "path": os.path.join(
                         base_dir,
-                        "receiver.wsdl" if custom_wsdl_dir else "ver10/receiver.wsdl",
+                        "receiver.wsdl" if use_flat else "ver10/receiver.wsdl",
                     ),
                     "binding": "ReceiverBinding",
                     "namespace": "http://www.onvif.org/ver10/receiver/wsdl",
@@ -570,7 +566,7 @@ class ONVIFWSDL:
                 "ver10": {
                     "path": os.path.join(
                         base_dir,
-                        "recording.wsdl" if custom_wsdl_dir else "ver10/recording.wsdl",
+                        "recording.wsdl" if use_flat else "ver10/recording.wsdl",
                     ),
                     "binding": "RecordingBinding",
                     "namespace": "http://www.onvif.org/ver10/recording/wsdl",
@@ -580,7 +576,7 @@ class ONVIFWSDL:
                 "ver10": {
                     "path": os.path.join(
                         base_dir,
-                        "replay.wsdl" if custom_wsdl_dir else "ver10/replay.wsdl",
+                        "replay.wsdl" if use_flat else "ver10/replay.wsdl",
                     ),
                     "binding": "ReplayBinding",
                     "namespace": "http://www.onvif.org/ver10/replay/wsdl",
@@ -592,7 +588,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "schedule.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/schedule/wsdl/schedule.wsdl"
                         ),
                     ),
@@ -604,7 +600,7 @@ class ONVIFWSDL:
                 "ver10": {
                     "path": os.path.join(
                         base_dir,
-                        "search.wsdl" if custom_wsdl_dir else "ver10/search.wsdl",
+                        "search.wsdl" if use_flat else "ver10/search.wsdl",
                     ),
                     "binding": "SearchBinding",
                     "namespace": "http://www.onvif.org/ver10/search/wsdl",
@@ -616,7 +612,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "thermal.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/thermal/wsdl/thermal.wsdl"
                         ),
                     ),
@@ -630,7 +626,7 @@ class ONVIFWSDL:
                         base_dir,
                         (
                             "uplink.wsdl"
-                            if custom_wsdl_dir
+                            if use_flat
                             else "ver10/uplink/wsdl/uplink.wsdl"
                         ),
                     ),
