@@ -168,6 +168,102 @@ class ONVIFService:
             logger.error(f"Failed to create type {type_name}: {e}")
             raise ONVIFOperationException(f"type({type_name})", e)
 
+    def desc(self, method_name: str):
+        """
+        Get documentation and parameter information for a specific operation/method.
+
+        Args:
+            method_name (str): Name of the method to describe (e.g., 'GetDeviceInformation', 'SetHostname')
+
+        Returns:
+            dict: Dictionary containing documentation and parameter information with keys:
+                - 'doc': Method documentation from WSDL
+                - 'required': List of required parameter names
+                - 'optional': List of optional parameter names
+                - 'method_name': The method name
+                - 'service_name': The service name
+
+        Raises:
+            ONVIFOperationException: If method doesn't exist or documentation cannot be retrieved
+
+        Example:
+            device = client.devicemgmt()
+
+            # Get description for a method
+            info = device.desc('GetDeviceInformation')
+            print(info['doc'])
+            print("Required params:", info['required'])
+            print("Optional params:", info['optional'])
+
+            # Check what methods are available first
+            methods = device.operations()
+            info = device.desc(methods[0])  # Describe first method
+        """
+        try:
+            # Check if method exists
+            if not hasattr(self, method_name):
+                available_methods = self.operations()
+                raise ValueError(
+                    f"Method '{method_name}' not found in service. "
+                    f"Available methods: {', '.join(available_methods[:5])}{'...' if len(available_methods) > 5 else ''}"
+                )
+
+            # Extract service name from binding for context
+            service_name = (
+                self.operator.service_name
+                if hasattr(self.operator, "service_name")
+                else "Unknown"
+            )
+
+            # Always try to extract method parameters
+            required_args = []
+            optional_args = []
+            doc_text = None
+            
+            try:
+                # Use object.__getattribute__ to bypass ONVIFService wrapper and get original method
+                import inspect
+                method = object.__getattribute__(self, method_name)
+                sig = inspect.signature(method)
+                for param in sig.parameters.values():
+                    if param.name != "self":
+                        if param.default is inspect.Parameter.empty:
+                            required_args.append(param.name)
+                        else:
+                            optional_args.append(param.name)
+                
+                logger.debug(f"Successfully extracted parameters for {service_name}.{method_name}")
+            except Exception as param_error:
+                logger.warning(f"Could not extract parameters for {method_name}: {param_error}")
+
+            # Try to get documentation (optional)
+            try:
+                from ..cli.utils import get_method_documentation
+                doc_info = get_method_documentation(self, method_name)
+                if doc_info and doc_info.get("doc"):
+                    # Only use doc if it's not the default "No description available" message
+                    doc_text = doc_info["doc"]
+                    if doc_text and "No description available" not in doc_text and "No documentation available" not in doc_text:
+                        # Keep the doc text as is
+                        pass
+                    else:
+                        # Set to None if it's the default message
+                        doc_text = None
+            except Exception:
+                pass  # Documentation is optional
+
+            return {
+                "doc": doc_text,
+                "required": required_args,
+                "optional": optional_args,
+                "method_name": method_name,
+                "service_name": service_name,
+            }
+
+        except Exception as e:
+            logger.error(f"Failed to get description for method {method_name}: {e}")
+            raise ONVIFOperationException(f"desc({method_name})", e)
+
     def operations(self):
         """
         List all available operations for this service.
@@ -176,16 +272,20 @@ class ONVIFService:
             List of operation names that can be used with type() method
         """
         try:
+            # Get all methods from the service object itself (not operator.service)
+            # This includes all ONVIF operations that are dynamically added
             operations = [
                 method
-                for method in dir(self.operator.service)
+                for method in dir(self)
                 if not method.startswith("_")
-                and callable(getattr(self.operator.service, method))
+                and method not in ["type", "desc", "operations"]
+                and callable(getattr(self, method))
+                and method[0].isupper()  # ONVIF methods start with uppercase
             ]
             # Extract service name from binding for logging context
             service_name = (
-                self.operator.binding_name
-                if hasattr(self.operator, "binding_name")
+                self.operator.service_name
+                if hasattr(self.operator, "service_name")
                 else "Unknown"
             )
             logger.debug(
