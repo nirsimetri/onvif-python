@@ -354,13 +354,6 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
     return None
 
 
-def truncate_output(text: str, max_length: int = 1000) -> str:
-    """Truncate output if too long"""
-    if len(text) <= max_length:
-        return text
-    return text[:max_length] + f"\n... (truncated, {len(text)} total chars)"
-
-
 def colorize(text: str, color: str) -> str:
     """Add color to text for terminal output"""
     # Enable ANSI colors on Windows
