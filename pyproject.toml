@@ -58,7 +58,7 @@ onvif = "onvif.cli.main:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["onvif*"]
-exclude = ["examples*", "tests*", "raw*"]
+exclude = ["examples*", "tests*", "assets*"]
 
 [tool.setuptools.package-data]
 onvif = ["wsdl/*"]
@@ -68,7 +68,7 @@ line-length = 88
 target-version = ['py39']
 extend-exclude = '''
 /(
-    raw
+    assets
 )/
 '''
 
