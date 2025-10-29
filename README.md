@@ -12,7 +12,7 @@
 </div>
 
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/carbon_onvif.png" alt="onvif" width="700px">
+  <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/carbon_onvif.png" alt="onvif" width="700px">
   <br>
 </h1>
 
@@ -181,12 +181,12 @@ This library includes a powerful command-line interface (CLI) for interacting wi
   <tr>
     <td width="34.2%">
       <a href="https://github.com/nirsimetri/onvif-python">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/onvif_cli.png" />
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png" />
       </a>
     </td>
     <td width="65.8%">
         <a href="https://github.com/nirsimetri/onvif-python">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/onvif_operations.png" />
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_operations.png" />
         </a>
     </td>
   </tr>
