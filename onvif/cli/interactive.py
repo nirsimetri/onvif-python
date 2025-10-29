@@ -605,6 +605,8 @@ class InteractiveShell(cmd.Cmd):
         if self.current_service:
             # In service mode - suggest methods
             methods = get_service_methods(self.current_service)
+            # Add helper commands in service mode
+            methods.extend([colorize("type", "yellow"), colorize("desc", "yellow")])
             for method in methods:
                 if method.lower().startswith(partial_cmd.lower()):
                     suggestions.append(method)
@@ -630,6 +632,8 @@ class InteractiveShell(cmd.Cmd):
         if self.current_service:
             # Complete method names in service mode
             methods = get_service_methods(self.current_service)
+            # Add helper commands in service mode
+            methods.extend([colorize("type", "yellow"), colorize("desc", "yellow")])
             completions = [
                 method for method in methods if method.lower().startswith(text.lower())
             ]
@@ -842,6 +846,8 @@ class InteractiveShell(cmd.Cmd):
         if self.current_service:
             # In service mode - show available methods
             methods = get_service_methods(self.current_service)
+            # Add helper commands in service mode
+            methods.extend([colorize("type", "yellow"), colorize("desc", "yellow")])
             if methods:
                 # Use the same display format as TAB completion
                 self._display_grid(methods)
@@ -878,6 +884,7 @@ class InteractiveShell(cmd.Cmd):
             print(
                 f"{colorize('Error:', 'red')} Method '{method_name}' not found in service '{self.current_service_name}'."
             )
+            print(f"Use {colorize('ls', 'yellow')} to see available methods.")
             return
 
         doc_info = get_method_documentation(self.current_service, method_name)
@@ -916,8 +923,8 @@ class InteractiveShell(cmd.Cmd):
         return [m for m in methods if m.lower().startswith(text.lower())]
 
     def do_type(self, line):
-        """Show input and output types for an operation. Usage: type <operation_name>"""
-        operation_name = line.strip()
+        """Show input and output types for a method. Usage: type <method_name>"""
+        method_name = line.strip()
 
         if not self.current_service:
             print(
@@ -926,18 +933,18 @@ class InteractiveShell(cmd.Cmd):
             print(f"Enter a service first (e.g., {colorize('devicemgmt', 'yellow')})")
             return
 
-        if not operation_name:
-            print("Usage: type <operation_name>")
+        if not method_name:
+            print("Usage: type <method_name>")
             return
 
-        if not hasattr(self.current_service, operation_name):
+        if not hasattr(self.current_service, method_name):
             print(
-                f"{colorize('Error:', 'red')} Operation '{operation_name}' not found in service '{self.current_service_name}'."
+                f"{colorize('Error:', 'red')} Method '{method_name}' not found in service '{self.current_service_name}'."
             )
-            print(f"Use {colorize('ls', 'yellow')} to see available operations.")
+            print(f"Use {colorize('ls', 'yellow')} to see available methods.")
             return
 
-        type_info = get_operation_type_info(self.current_service, operation_name)
+        type_info = get_operation_type_info(self.current_service, method_name)
 
         if type_info:
             # Helper function to display parameters recursively with tree-style indentation
@@ -1068,7 +1075,7 @@ class InteractiveShell(cmd.Cmd):
             print()  # Add newline for spacing
         else:
             print(
-                f"{colorize('Error:', 'red')} Could not retrieve type information for '{operation_name}'."
+                f"{colorize('Error:', 'red')} Could not retrieve type information for '{method_name}'."
             )
 
     def complete_type(self, text, line, begidx, endidx):
