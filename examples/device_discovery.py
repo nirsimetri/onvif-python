@@ -5,6 +5,8 @@ Created: October 24, 2025
 
 This example demonstrates how to discover ONVIF-compatible devices
 on the local network using ONVIFDiscovery class.
+
+Applied for (>= v0.1.6 patch)
 """
 
 import json
