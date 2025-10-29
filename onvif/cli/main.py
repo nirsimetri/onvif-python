@@ -198,10 +198,14 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
         WHERE LOWER(model) LIKE LOWER(?)
            OR LOWER(post_title) LIKE LOWER(?)
            OR LOWER(company_name) LIKE LOWER(?)
+           OR LOWER(product_category) LIKE LOWER(?)
         """
 
         search_pattern = f"%{search_term}%"
-        cursor.execute(count_query, (search_pattern, search_pattern, search_pattern))
+        cursor.execute(
+            count_query,
+            (search_pattern, search_pattern, search_pattern, search_pattern),
+        )
         total_count = cursor.fetchone()[0]
 
         if total_count == 0:
@@ -229,12 +233,21 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
         WHERE LOWER(model) LIKE LOWER(?)
            OR LOWER(post_title) LIKE LOWER(?)
            OR LOWER(company_name) LIKE LOWER(?)
+           OR LOWER(product_category) LIKE LOWER(?)
         ORDER BY test_date DESC
         LIMIT ? OFFSET ?
         """
 
         cursor.execute(
-            query, (search_pattern, search_pattern, search_pattern, per_page, offset)
+            query,
+            (
+                search_pattern,
+                search_pattern,
+                search_pattern,
+                search_pattern,
+                per_page,
+                offset,
+            ),
         )
         results = cursor.fetchall()
 
