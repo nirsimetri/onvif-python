@@ -232,6 +232,8 @@ class ONVIFOperator:
         Raises:
             AttributeError: If type not found in WSDL schema
         """
+        logger.debug(f"Creating type instance for: {type_name}")
+        
         # Method 1: Try to get element from WSDL (works for operation parameters)
         # Common namespace prefixes for ONVIF services
         namespaces_to_try = [
@@ -244,17 +246,20 @@ class ONVIFOperator:
             try:
                 element = self.client.get_element(f"{ns}:{type_name}")
                 instance = element()
+                logger.debug(f"Successfully created type {type_name} using namespace {ns}")
                 return self._initialize_nested_types(instance)
-            except Exception:
+            except Exception as e:
+                logger.debug(f"Failed to create type {type_name} with namespace {ns}: {e}")
                 continue
 
         # Method 2: Try without namespace prefix
         try:
             element = self.client.get_element(type_name)
             instance = element()
+            logger.debug(f"Successfully created type {type_name} without namespace")
             return self._initialize_nested_types(instance)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.debug(f"Failed to create element {type_name} without namespace: {e}")
 
         # Method 3: Try to get type from schema (for complex types)
         try:
@@ -262,17 +267,22 @@ class ONVIFOperator:
                 try:
                     type_obj = self.client.get_type(f"{ns}:{type_name}")
                     instance = type_obj()
+                    logger.debug(f"Successfully created complex type {type_name} using namespace {ns}")
                     return self._initialize_nested_types(instance)
-                except Exception:
+                except Exception as e:
+                    logger.debug(f"Failed to create complex type {type_name} with namespace {ns}: {e}")
                     continue
 
             # Try without namespace
             type_obj = self.client.get_type(type_name)
             instance = type_obj()
+            logger.debug(f"Successfully created complex type {type_name} without namespace")
             return self._initialize_nested_types(instance)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.debug(f"Failed to create complex type {type_name} without namespace: {e}")
 
+        # If all methods fail, log the error and raise
+        logger.error(f"Type '{type_name}' not found in WSDL schema using any method")
         raise AttributeError(f"Type '{type_name}' not found in WSDL schema.")
 
     def _initialize_nested_types(self, instance):
@@ -304,15 +314,22 @@ class ONVIFOperator:
 
                             # Check if this is a complex type (has elements)
                             if hasattr(element_type, "elements"):
-                                # Complex type - instantiate it and recursively initialize
-                                nested_instance = element_type()
-                                nested_instance = self._initialize_nested_types(
-                                    nested_instance
-                                )
-                                setattr(instance, element_name, nested_instance)
-        except Exception:
-            # If anything goes wrong during nested initialization, just return the instance
+                                try:
+                                    # Complex type - instantiate it and recursively initialize
+                                    nested_instance = element_type()
+                                    nested_instance = self._initialize_nested_types(
+                                        nested_instance
+                                    )
+                                    setattr(instance, element_name, nested_instance)
+                                    logger.debug(f"Initialized nested type for element: {element_name}")
+                                except Exception as e:
+                                    # Log specific nested type initialization failures
+                                    logger.debug(f"Failed to initialize nested type for {element_name}: {e}")
+                                    # Continue with other elements instead of failing completely
+                                    continue
+        except Exception as e:
+            # Log the error but don't fail - the top-level object is still usable
+            logger.debug(f"Error during nested type initialization: {e}")
             # The important thing is that the top-level object is created
-            pass
 
         return instance
