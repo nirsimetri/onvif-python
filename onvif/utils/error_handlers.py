@@ -5,6 +5,7 @@ from zeep.exceptions import Fault
 from .exceptions import ONVIFOperationException
 
 logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 
 class ONVIFErrorHandler:

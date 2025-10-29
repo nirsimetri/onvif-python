@@ -6,6 +6,7 @@ from zeep.xsd.elements.any import Any
 from zeep.xsd.utils import max_occurs_iter
 
 logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 
 class ZeepPatcher:

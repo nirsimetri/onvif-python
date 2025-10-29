@@ -5,6 +5,7 @@ from zeep import Plugin
 from lxml import etree
 
 logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 
 class XMLCapturePlugin(Plugin):

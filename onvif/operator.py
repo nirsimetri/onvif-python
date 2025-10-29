@@ -15,6 +15,7 @@ from zeep.wsse.username import UsernameToken
 from .utils import ONVIFOperationException, ZeepPatcher
 
 logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 
 class CacheMode(Enum):
@@ -194,7 +195,6 @@ class ONVIFOperator:
         try:
             func = getattr(self.service, method)
         except AttributeError as e:
-            logger.error(f"Method {method} not found in {self.service_name} service")
             raise ONVIFOperationException(operation=method, original_exception=e)
 
         try:
@@ -207,10 +207,8 @@ class ONVIFOperator:
             return result
 
         except Fault as e:
-            logger.error(f"SOAP Fault in {self.service_name}.{method}: {e}")
             raise ONVIFOperationException(operation=method, original_exception=e)
         except Exception as e:
-            logger.error(f"ONVIF call error in {self.service_name}.{method}: {e}")
             raise ONVIFOperationException(operation=method, original_exception=e)
 
     def create_type(self, type_name: str):

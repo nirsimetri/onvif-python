@@ -4,6 +4,7 @@ import logging
 from .exceptions import ONVIFOperationException
 
 logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 
 def _is_zeep_object(obj):
@@ -39,13 +40,6 @@ class ONVIFService:
         2. Starts with uppercase letter (ONVIF naming convention)
         3. Is not a private method (doesn't start with underscore)
         4. Is not an internal attribute (like 'operator')
-
-    Benefits:
-        1. **DRY Principle**: No need to repeat error handling in every method
-        2. **Consistency**: All ONVIF operations behave the same way
-        3. **Maintainability**: Error handling logic in one place
-        4. **Debuggability**: Always know which operation failed
-        5. **Transparency**: No boilerplate code in service implementations
 
     Notes:
         - This is an abstract base class - don't instantiate directly
@@ -113,11 +107,13 @@ class ONVIFService:
                 return result
             except ONVIFOperationException as oe:
                 # Re-raise ONVIF exceptions as-is
-                logger.error(f"ONVIF operation exception in {name}: {oe}")
+                service_name = getattr(self.operator, "service_name", "Unknown")
+                logger.error(f"{service_name}.{name}: {oe}")
                 raise
             except Exception as e:
                 # Convert any other exception (including TypeError) to ONVIFOperationException
-                logger.error(f"ONVIF operation exception in {name}: {e}")
+                service_name = getattr(self.operator, "service_name", "Unknown")
+                logger.error(f"{service_name}.{name}: {e}")
                 raise ONVIFOperationException(name, e)
 
         return wrapped_method

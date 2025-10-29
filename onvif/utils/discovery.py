@@ -8,6 +8,7 @@ from lxml import etree
 from typing import List, Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 
 class ONVIFDiscovery:
