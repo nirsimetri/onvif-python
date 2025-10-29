@@ -167,7 +167,7 @@ def main():
 
         # Discover devices (pass --https flag to prioritize HTTPS XAddrs and filter term)
         devices = discover_devices(
-            timeout=4, prefer_https=args.https, filter=args.filter
+            timeout=4, prefer_https=args.https, filter_term=args.filter
         )
 
         if not devices:
@@ -296,14 +296,14 @@ def execute_command(
 
 
 def discover_devices(
-    timeout: int = 4, prefer_https: bool = False, filter: Optional[str] = None
+    timeout: int = 4, prefer_https: bool = False, filter_term: Optional[str] = None
 ) -> list:
     """Discover ONVIF devices on the network using WS-Discovery.
 
     Args:
         timeout: Discovery timeout in seconds
         prefer_https: If True, prioritize HTTPS XAddrs when available
-        filter: Optional search term to filter devices by types or scopes
+        filter_term: Optional search term to filter devices by types or scopes
 
     Returns:
         List of discovered devices with connection info
@@ -315,11 +315,11 @@ def discover_devices(
     print(f"\n{colorize('Discovering ONVIF devices on network...', 'yellow')}")
     print(f"Network interface: {colorize(discovery._get_local_ip(), 'white')}")
     print(f"Timeout: {timeout}s")
-    if filter:
-        print(f"Filter: {colorize(filter, 'yellow')}")
+    if filter_term:
+        print(f"Filter: {colorize(filter_term, 'yellow')}")
     print()
 
-    devices = discovery.discover(prefer_https=prefer_https, search=filter)
+    devices = discovery.discover(prefer_https=prefer_https, search=filter_term)
 
     return devices
 
