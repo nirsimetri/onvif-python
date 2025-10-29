@@ -409,8 +409,9 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
 
         # Display pagination information
         print()
+        newline = "\n" if total_pages == 1 else ""
         print(
-            f"{colorize(f'Page {page} of {total_pages}', 'cyan')} {"\n" if total_pages == 1 else ""}"
+            f"{colorize(f'Page {page} of {total_pages}', 'cyan')} {newline}"
         )
 
         # Show navigation hints
