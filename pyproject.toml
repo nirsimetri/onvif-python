@@ -61,7 +61,7 @@ include = ["onvif*"]
 exclude = ["examples*", "tests*", "assets*"]
 
 [tool.setuptools.package-data]
-onvif = ["wsdl/*"]
+onvif = ["wsdl/*", "db/*"]
 
 [tool.black]
 line-length = 88
