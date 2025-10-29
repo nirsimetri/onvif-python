@@ -2,5 +2,5 @@
 max-line-length = 190
 exclude = 
     examples/*
-    raw/*
+    assets/*
     temp/*

@@ -213,8 +213,8 @@ def get_service_methods(service_obj) -> list:
     methods = []
     for attr_name in dir(service_obj):
         if not attr_name.startswith("_") and callable(getattr(service_obj, attr_name)):
-            # Skip operator attribute
-            if attr_name != "operator":
+            # Skip helper methods
+            if attr_name not in ["type", "desc", "operations"]:
                 methods.append(attr_name)
     return sorted(methods)
 
@@ -352,13 +352,6 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
         return None
 
     return None
-
-
-def truncate_output(text: str, max_length: int = 1000) -> str:
-    """Truncate output if too long"""
-    if len(text) <= max_length:
-        return text
-    return text[:max_length] + f"\n... (truncated, {len(text)} total chars)"
 
 
 def colorize(text: str, color: str) -> str:
