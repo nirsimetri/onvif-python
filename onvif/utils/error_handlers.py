@@ -1,7 +1,10 @@
 # onvif/utils/error_handlers.py
 
+import logging
 from zeep.exceptions import Fault
 from .exceptions import ONVIFOperationException
+
+logger = logging.getLogger(__name__)
 
 
 class ONVIFErrorHandler:
@@ -56,10 +59,13 @@ class ONVIFErrorHandler:
                     for subcode in subcodes:
                         if hasattr(subcode, "localname"):
                             if subcode.localname == "ActionNotSupported":
+                                logger.debug("Detected ActionNotSupported fault")
                                 return True
                         elif "ActionNotSupported" in str(subcode):
+                            logger.debug("Detected ActionNotSupported fault in subcode")
                             return True
-        except Exception:
+        except Exception as e:
+            logger.debug(f"Error checking ActionNotSupported: {e}")
             pass
 
         return False
@@ -68,19 +74,23 @@ class ONVIFErrorHandler:
     def safe_call(func, default=None, ignore_unsupported=True, log_error=True):
         """Safely call an ONVIF operation with graceful error handling."""
         try:
-            return func()
+            result = func()
+            logger.debug("Safe call succeeded")
+            return result
         except ONVIFOperationException as e:
             # Check if it's ActionNotSupported error
             if ignore_unsupported and ONVIFErrorHandler.is_action_not_supported(e):
-                # if log_error:
-                # logging.warning(f"Operation not supported: {e.operation}")
+                if log_error:
+                    logger.warning(f"Operation not supported: {e.operation}")
                 return default
             # Re-raise other errors
+            if log_error:
+                logger.error(f"ONVIF operation failed in safe_call: {e.operation}")
             raise
-        except Exception:
+        except Exception as e:
             # Wrap unexpected exceptions
-            # if log_error:
-            # logging.error(f"Unexpected error in safe_call: {e}")
+            if log_error:
+                logger.error(f"Unexpected error in safe_call: {e}")
             raise
 
     @staticmethod
@@ -92,11 +102,18 @@ class ONVIFErrorHandler:
 
         def wrapper(*args, **kwargs):
             try:
-                return func(*args, **kwargs)
+                result = func(*args, **kwargs)
+                logger.debug(f"Decorated function {func.__name__} succeeded")
+                return result
             except ONVIFOperationException as e:
                 if ONVIFErrorHandler.is_action_not_supported(e):
-                    # logging.warning(f"Operation not supported: {e.operation}")
+                    logger.warning(
+                        f"Operation not supported in {func.__name__}: {e.operation}"
+                    )
                     return None
+                logger.error(
+                    f"ONVIF operation failed in {func.__name__}: {e.operation}"
+                )
                 raise
 
         return wrapper

@@ -2,6 +2,7 @@
 
 import os
 import warnings
+import logging
 import requests
 import urllib3
 
@@ -12,6 +13,8 @@ from zeep.exceptions import Fault
 from zeep.wsse.username import UsernameToken
 
 from .utils import ONVIFOperationException, ZeepPatcher
+
+logger = logging.getLogger(__name__)
 
 
 class CacheMode(Enum):
@@ -88,6 +91,8 @@ class ONVIFOperator:
         apply_patch: bool = True,
         plugins: list = None,
     ):
+        logger.debug(f"Creating ONVIFOperator for {host}:{port} with WSDL: {wsdl_path}")
+
         self.wsdl_path = wsdl_path
         self.host = host
         self.port = port
@@ -103,12 +108,15 @@ class ONVIFOperator:
             path = service_path or "device_service"  # default fallback
             self.address = f"{protocol}://{host}:{port}/onvif/{path}"
 
+        logger.debug(f"Service endpoint: {self.address}")
+
         # Session reuse with retry strategy
         session = requests.Session()
         session.verify = verify_ssl
 
         # Format SSL warnings to be more concise when verify_ssl is False
         if not verify_ssl:
+            logger.debug("SSL verification disabled")
             warnings.simplefilter("once", urllib3.exceptions.InsecureRequestWarning)
 
         transport_kwargs = {"session": session, "timeout": timeout}
@@ -119,6 +127,7 @@ class ONVIFOperator:
                 os.makedirs(user_cache_dir, exist_ok=True)
                 cache_path = os.path.join(user_cache_dir, "onvif_zeep_cache.sqlite")
 
+            logger.debug(f"Using SQLite cache: {cache_path}")
             transport_kwargs["cache"] = SqliteCache(path=cache_path)
 
         transport = Transport(**transport_kwargs)
@@ -142,6 +151,8 @@ class ONVIFOperator:
         else:
             raise ValueError(f"Unknown cache option: {cache}")
 
+        logger.debug(f"Using cache mode: {cache.value}")
+
         self.client = ClientType(
             wsdl=self.wsdl_path,
             transport=transport,
@@ -154,7 +165,8 @@ class ONVIFOperator:
             raise ValueError("Bindings must be set according to the WSDL service")
 
         self.service = self.client.create_service(binding, self.address)
-        # logging.debug(f"ONVIFOperator initialized {binding} at {self.address}")
+        self.binding_name = binding  # Store binding name for logging context
+        logger.info(f"ONVIFOperator initialized {binding} at {self.address}")
 
     def call(self, method: str, *args, **kwargs):
         """Call an ONVIF service operation.
@@ -174,22 +186,34 @@ class ONVIFOperator:
         Raises:
             ONVIFOperationException: If the operation fails (wraps original exception)
         """
+        # Extract service name from binding for cleaner logging
+        service_name = (
+            self.binding_name.replace("Binding", "")
+            if hasattr(self, "binding_name")
+            else "Unknown"
+        )
+        logger.debug(f"Calling ONVIF method: {service_name}.{method}")
+
         try:
             func = getattr(self.service, method)
         except AttributeError as e:
+            logger.error(f"Method {method} not found in {service_name} service")
             raise ONVIFOperationException(operation=method, original_exception=e)
 
         try:
             result = func(*args, **kwargs)
+            logger.debug(f"ONVIF call {service_name}.{method} succeeded")
+
             # Post-process to flatten xsd:any fields if enabled (> v0.0.4 patch)
             if self.apply_patch:
-                return ZeepPatcher.flatten_xsd_any_fields(result)
+                result = ZeepPatcher.flatten_xsd_any_fields(result)
             return result
+
         except Fault as e:
-            # logging.error(f"SOAP Fault in {method}: {e}")
+            logger.error(f"SOAP Fault in {service_name}.{method}: {e}")
             raise ONVIFOperationException(operation=method, original_exception=e)
         except Exception as e:
-            # logging.error(f"ONVIF call error in {method}: {e}")
+            logger.error(f"ONVIF call error in {service_name}.{method}: {e}")
             raise ONVIFOperationException(operation=method, original_exception=e)
 
     def create_type(self, type_name: str):

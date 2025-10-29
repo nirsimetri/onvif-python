@@ -1,6 +1,9 @@
 # onvif/utils/service.py
 
+import logging
 from .exceptions import ONVIFOperationException
+
+logger = logging.getLogger(__name__)
 
 
 def _is_zeep_object(obj):
@@ -96,6 +99,7 @@ class ONVIFService:
                 # convert the object's fields to kwargs instead of passing it as positional arg
                 if len(args) == 1 and not kwargs and _is_zeep_object(args[0]):
                     params_obj = args[0]
+                    logger.debug(f"Converting Zeep object to kwargs for {name}")
                     # Extract fields from Zeep object using its XSD type elements
                     if hasattr(params_obj._xsd_type, "elements"):
                         kwargs = {}
@@ -103,12 +107,17 @@ class ONVIFService:
                             kwargs[elem_name] = getattr(params_obj, elem_name)
                         return attr(**kwargs)
 
-                return attr(*args, **kwargs)
+                logger.debug(f"Calling wrapped ONVIF method: {name}")
+                result = attr(*args, **kwargs)
+                logger.debug(f"ONVIF method {name} completed successfully")
+                return result
             except ONVIFOperationException:
                 # Re-raise ONVIF exceptions as-is
+                logger.error(f"ONVIF operation exception in {name}")
                 raise
             except Exception as e:
                 # Convert any other exception (including TypeError) to ONVIFOperationException
+                logger.error(f"Exception in {name}: {e}")
                 raise ONVIFOperationException(name, e)
 
         return wrapped_method
@@ -151,6 +160,10 @@ class ONVIFService:
             device.SetSystemDateAndTime(time_params)
         """
         try:
-            return self.operator.create_type(type_name)
+            logger.debug(f"Creating ONVIF type: {type_name}")
+            result = self.operator.create_type(type_name)
+            logger.debug(f"Successfully created type: {type_name}")
+            return result
         except Exception as e:
+            logger.error(f"Failed to create type {type_name}: {e}")
             raise ONVIFOperationException(f"type({type_name})", e)

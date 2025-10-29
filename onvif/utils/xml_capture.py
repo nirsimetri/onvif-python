@@ -1,7 +1,10 @@
 # onvif/utils/xml_capture.py
 
+import logging
 from zeep import Plugin
 from lxml import etree
+
+logger = logging.getLogger(__name__)
 
 
 class XMLCapturePlugin(Plugin):
@@ -82,6 +85,7 @@ class XMLCapturePlugin(Plugin):
         self.last_received_xml = None
         self.last_operation = None
         self.history = []  # Store all requests/responses
+        logger.debug(f"XMLCapturePlugin initialized (pretty_print={pretty_print})")
 
     def _format_xml(self, element):
         """
@@ -108,13 +112,17 @@ class XMLCapturePlugin(Plugin):
             xml_string = etree.tostring(
                 reparsed, pretty_print=True, encoding="unicode", xml_declaration=False
             )
+            logger.debug("XML formatted successfully")
             return xml_string.strip()
-        except Exception:
+        except Exception as e:
             # Fallback to non-pretty printed version
+            logger.warning(f"XML formatting failed, using fallback: {e}")
             return etree.tostring(element, pretty_print=False, encoding="unicode")
 
     def egress(self, envelope, http_headers, operation, binding_options):
         """Called before sending the SOAP request"""
+        logger.debug(f"Capturing outgoing SOAP request for operation: {operation.name}")
+
         # Serialize XML with proper pretty printing
         if self.pretty_print:
             self.last_sent_xml = self._format_xml(envelope)
@@ -135,10 +143,17 @@ class XMLCapturePlugin(Plugin):
             }
         )
 
+        logger.debug(
+            f"Captured SOAP request for {operation.name} ({len(self.last_sent_xml)} chars)"
+        )
         return envelope, http_headers
 
     def ingress(self, envelope, http_headers, operation):
         """Called after receiving the SOAP response"""
+        logger.debug(
+            f"Capturing incoming SOAP response for operation: {operation.name}"
+        )
+
         # Serialize XML with proper pretty printing
         if self.pretty_print:
             self.last_received_xml = self._format_xml(envelope)
@@ -157,6 +172,9 @@ class XMLCapturePlugin(Plugin):
             }
         )
 
+        logger.debug(
+            f"Captured SOAP response for {operation.name} ({len(self.last_received_xml)} chars)"
+        )
         return envelope, http_headers
 
     def get_last_request(self):
@@ -173,10 +191,12 @@ class XMLCapturePlugin(Plugin):
 
     def clear_history(self):
         """Clear the capture history"""
+        history_count = len(self.history)
         self.history = []
         self.last_sent_xml = None
         self.last_received_xml = None
         self.last_operation = None
+        logger.debug(f"Cleared XML capture history ({history_count} items)")
 
     def save_to_file(self, request_file=None, response_file=None):
         """
@@ -187,9 +207,17 @@ class XMLCapturePlugin(Plugin):
             response_file (str): Path to save response XML
         """
         if request_file and self.last_sent_xml:
-            with open(request_file, "w", encoding="utf-8") as f:
-                f.write(self.last_sent_xml)
+            try:
+                with open(request_file, "w", encoding="utf-8") as f:
+                    f.write(self.last_sent_xml)
+                logger.info(f"Saved SOAP request XML to: {request_file}")
+            except Exception as e:
+                logger.error(f"Failed to save request XML to {request_file}: {e}")
 
         if response_file and self.last_received_xml:
-            with open(response_file, "w", encoding="utf-8") as f:
-                f.write(self.last_received_xml)
+            try:
+                with open(response_file, "w", encoding="utf-8") as f:
+                    f.write(self.last_received_xml)
+                logger.info(f"Saved SOAP response XML to: {response_file}")
+            except Exception as e:
+                logger.error(f"Failed to save response XML to {response_file}: {e}")

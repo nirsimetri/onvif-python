@@ -1,8 +1,11 @@
 # onvif/utils/zeep.py
 
+import logging
 from lxml.etree import QName
 from zeep.xsd.elements.any import Any
 from zeep.xsd.utils import max_occurs_iter
+
+logger = logging.getLogger(__name__)
 
 
 class ZeepPatcher:
@@ -629,9 +632,13 @@ class ZeepPatcher:
             ZeepPatcher.apply_patch()
         """
         if not cls._is_patched:
+            logger.debug("Applying ZeepPatcher for xsd:any field parsing")
             cls._original_parse_xmlelements = Any.parse_xmlelements
             Any.parse_xmlelements = cls._patched_parse_xmlelements
             cls._is_patched = True
+            logger.debug("ZeepPatcher applied successfully")
+        else:
+            logger.debug("ZeepPatcher already applied")
 
     @classmethod
     def remove_patch(cls):
@@ -645,8 +652,12 @@ class ZeepPatcher:
             ZeepPatcher.remove_patch()
         """
         if cls._is_patched and cls._original_parse_xmlelements is not None:
+            logger.debug("Removing ZeepPatcher, restoring original zeep behavior")
             Any.parse_xmlelements = cls._original_parse_xmlelements
             cls._is_patched = False
+            logger.debug("ZeepPatcher removed successfully")
+        else:
+            logger.debug("ZeepPatcher not applied or already removed")
 
     @classmethod
     def is_patched(cls):

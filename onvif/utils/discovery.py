@@ -3,8 +3,11 @@
 import socket
 import uuid
 import struct
+import logging
 from lxml import etree
 from typing import List, Dict, Any, Optional
+
+logger = logging.getLogger(__name__)
 
 
 class ONVIFDiscovery:
@@ -137,6 +140,12 @@ class ONVIFDiscovery:
             >>> devices = discovery.discover(search="Hong Kong")
         """
         local_ip = self._get_local_ip()
+        logger.info(f"Starting ONVIF device discovery (timeout: {self.timeout}s)")
+        logger.debug(f"Local IP: {local_ip or 'auto-detect'}")
+        if prefer_https:
+            logger.debug("Prefer HTTPS endpoints enabled")
+        if search:
+            logger.debug(f"Search filter: {search}")
 
         probe_uuid = str(uuid.uuid4())
         probe = self.WS_DISCOVERY_PROBE_MESSAGE.format(uuid=probe_uuid)
@@ -157,6 +166,9 @@ class ONVIFDiscovery:
             ttl = struct.pack("b", 1)
             sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
+            logger.debug(
+                f"Sending WS-Discovery probe to {self.WS_DISCOVERY_ADDRESS_IPv4}:{self.WS_DISCOVERY_PORT}"
+            )
             sock.sendto(
                 probe.encode("utf-8"),
                 (self.WS_DISCOVERY_ADDRESS_IPv4, self.WS_DISCOVERY_PORT),
@@ -169,27 +181,38 @@ class ONVIFDiscovery:
 
                     if response and len(response) > 10:
                         if response.startswith("<?xml") or response.startswith("<"):
+                            logger.debug(f"Received response from {addr[0]}")
                             responses.append({"xml": response, "address": addr[0]})
 
                 except socket.timeout:
+                    logger.debug("Discovery timeout reached")
                     break
-                except Exception:
+                except Exception as e:
                     # Ignore individual packet errors and continue
+                    logger.debug(f"Error receiving packet: {e}")
                     continue
 
             sock.close()
 
-        except Exception:
+        except Exception as e:
             # Socket creation or binding failed
+            logger.error(f"Discovery failed: {e}")
             return []
+
+        logger.info(f"Received {len(responses)} responses")
 
         # Parse responses
         devices = self._parse_responses(responses, prefer_https)
 
         # Apply search filter if provided
         if search:
+            unfiltered_count = len(devices)
             devices = self._filter_devices(devices, search)
+            logger.info(
+                f"Search filter '{search}' matched {len(devices)}/{unfiltered_count} devices"
+            )
 
+        logger.info(f"Discovery completed: found {len(devices)} ONVIF devices")
         return devices
 
     def _parse_responses(
@@ -204,6 +227,7 @@ class ONVIFDiscovery:
         Returns:
             List of parsed device information
         """
+        logger.debug(f"Parsing {len(responses)} WS-Discovery responses")
         devices = []
 
         for resp in responses:
@@ -211,10 +235,15 @@ class ONVIFDiscovery:
                 device_info = self._parse_single_response(resp["xml"], prefer_https)
                 if device_info and device_info.get("host"):
                     devices.append(device_info)
-            except Exception:
+                    logger.debug(
+                        f"Parsed device: {device_info['host']}:{device_info['port']}"
+                    )
+            except Exception as e:
                 # Skip malformed responses
+                logger.debug(f"Failed to parse response: {e}")
                 continue
 
+        logger.debug(f"Successfully parsed {len(devices)} valid devices")
         return devices
 
     def _filter_devices(

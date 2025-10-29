@@ -1,6 +1,9 @@
 # onvif/utils/wsdl.py
 
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ONVIFWSDL:
@@ -75,6 +78,7 @@ class ONVIFWSDL:
             >>> ONVIFWSDL.set_custom_wsdl_dir("/home/user/my_wsdls")
             >>> # All subsequent get_definition calls will use this directory
         """
+        logger.info(f"Setting custom WSDL directory: {custom_dir}")
         cls._custom_wsdl_dir = custom_dir
 
     @classmethod
@@ -99,6 +103,7 @@ class ONVIFWSDL:
             >>> ONVIFWSDL.clear_custom_wsdl_dir()
             >>> # Now using built-in WSDLs again
         """
+        logger.info("Clearing custom WSDL directory, reverting to built-in WSDLs")
         cls._custom_wsdl_dir = None
 
     @classmethod
@@ -676,8 +681,11 @@ class ONVIFWSDL:
             - Custom WSDLs must match the service name exactly
             - File existence is validated before returning definition
         """
+        logger.debug(f"Getting WSDL definition for service: {service} ({version})")
+
         # Use custom WSDL map if custom directory is provided
         if custom_wsdl_dir:
+            logger.debug(f"Using custom WSDL directory: {custom_wsdl_dir}")
             wsdl_map = cls._get_wsdl_map(custom_wsdl_dir)
         else:
             # Ensure default WSDL_MAP is initialized
@@ -686,15 +694,20 @@ class ONVIFWSDL:
 
         # Safety check for None wsdl_map
         if wsdl_map is None:
+            logger.error("Failed to initialize WSDL map")
             raise RuntimeError("Failed to initialize WSDL map")
 
         if service not in wsdl_map:
+            logger.error(f"Unknown service: {service}")
             raise ValueError(f"Unknown service: {service}")
         if version not in wsdl_map[service]:
+            logger.error(f"Version {version} not available for {service}")
             raise ValueError(f"Version {version} not available for {service}")
 
         definition = wsdl_map[service][version]
         if not os.path.exists(definition["path"]):
+            logger.error(f"WSDL file not found: {definition['path']}")
             raise FileNotFoundError(f"WSDL file not found: {definition['path']}")
 
+        logger.debug(f"WSDL definition resolved: {definition['path']}")
         return definition
