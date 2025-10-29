@@ -21,7 +21,7 @@ def create_parser():
     """Create argument parser for ONVIF CLI"""
     parser = argparse.ArgumentParser(
         prog="onvif",
-        description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v0.1.9\nhttps://github.com/nirsimetri/onvif-python",
+        description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v0.2.0\nhttps://github.com/nirsimetri/onvif-python",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 Examples:
@@ -410,9 +410,7 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
         # Display pagination information
         print()
         newline = "\n" if total_pages == 1 else ""
-        print(
-            f"{colorize(f'Page {page} of {total_pages}', 'cyan')} {newline}"
-        )
+        print(f"{colorize(f'Page {page} of {total_pages}', 'cyan')} {newline}")
 
         # Show navigation hints
         nav_hints = []
@@ -450,7 +448,7 @@ def main():
 
     # Show ONVIF CLI version
     if args.version:
-        print(colorize("0.1.9", "yellow"))
+        print(colorize("0.2.0", "yellow"))
         sys.exit(0)
 
     # Handle product search

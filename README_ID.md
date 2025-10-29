@@ -4,7 +4,7 @@
 	
 [![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.9-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.2.0-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -150,6 +150,109 @@ print(stream)
 
 Jelajahi penggunaan lanjutan dan operasi spesifik layanan di folder [`examples/`](./examples/).
 
+## Metode Helper
+
+Setiap layanan ONVIF menyediakan tiga metode helper penting untuk meningkatkan pengalaman pengembangan dan membuat pekerjaan dengan operasi ONVIF lebih intuitif:
+
+**1. `type(type_name)`**
+
+Membuat dan mengembalikan instance dari tipe ONVIF yang ditentukan untuk membangun parameter permintaan yang kompleks (diterapkan pada [`>=v0.1.9`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.9)).
+
+**Penggunaan:**
+```python
+device = client.devicemgmt()
+
+# Buat objek user baru
+new_user = device.type('CreateUsers')
+new_user.User.append({
+    "Username": 'new_user', 
+    "Password": 'new_password', 
+    "UserLevel": 'User'
+})
+device.CreateUsers(new_user)
+
+# Set hostname
+hostname = device.type('SetHostname')
+hostname.Name = 'NewHostname'
+device.SetHostname(hostname)
+
+# Konfigurasi waktu sistem
+time_params = device.type('SetSystemDateAndTime')
+time_params.DateTimeType = 'NTP'
+time_params.DaylightSavings = True
+time_params.TimeZone.TZ = 'UTC+02:00'
+now = datetime.now()
+time_params.UTCDateTime.Date.Year = now.year
+time_params.UTCDateTime.Date.Month = now.month
+time_params.UTCDateTime.Date.Day = now.day
+time_params.UTCDateTime.Time.Hour = now.hour
+time_params.UTCDateTime.Time.Minute = now.minute
+time_params.UTCDateTime.Time.Second = now.second
+device.SetSystemDateAndTime(time_params)
+```
+
+**2. `operations()`**
+
+Menampilkan daftar semua operasi yang tersedia untuk layanan saat ini (diterapkan pada [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
+
+**Mengembalikan:**
+- Daftar nama operasi yang dapat dipanggil pada layanan
+
+**Penggunaan:**
+```python
+device = client.devicemgmt()
+media = client.media()
+ptz = client.ptz()
+
+# Daftar semua operasi yang tersedia untuk setiap layanan
+print("Operasi Device Management:")
+for op in device.operations():
+    print(f"  - {op}")
+
+print("\nOperasi Media:")
+for op in media.operations():
+    print(f"  - {op}")
+
+print("\nOperasi PTZ:")
+for op in ptz.operations():
+    print(f"  - {op}")
+
+# Periksa apakah operasi spesifik didukung
+if 'ContinuousMove' in ptz.operations():
+    print("Pergerakan PTZ berkelanjutan didukung")
+```
+
+**3. `desc(method_name)`**
+
+Menyediakan dokumentasi komprehensif dan informasi parameter untuk operasi ONVIF mana pun (diterapkan pada [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
+
+**Mengembalikan:**
+- `doc`: Dokumentasi metode dari WSDL
+- `required`: Daftar nama parameter yang wajib
+- `optional`: Daftar nama parameter yang opsional
+- `method_name`: Nama metode
+- `service_name`: Nama layanan
+
+**Penggunaan:**
+```python
+device = client.devicemgmt()
+
+# Dapatkan informasi detail tentang metode
+info = device.desc('GetDeviceInformation')
+print(info['doc'])
+print("Parameter wajib:", info['required'])
+print("Parameter opsional:", info['optional'])
+
+# Eksplorasi metode yang tersedia terlebih dahulu
+methods = device.operations()
+for method in methods[:5]:  # Tampilkan 5 metode pertama
+    info = device.desc(method)
+    print(f"{method}: {len(info['required'])} wajib, {len(info['optional'])} opsional")
+```
+
+> [!TIP]
+> Metode helper ini tersedia di **semua** layanan ONVIF (`devicemgmt()`, `media()`, `ptz()`, `events()`, `imaging()`, `analytics()`, dll.) dan menyediakan API yang konsisten untuk menjelajahi dan menggunakan kemampuan ONVIF di berbagai tipe dan produsen perangkat.
+
 > [!IMPORTANT]
 > Jika Anda baru mengenal ONVIF dan ingin mempelajari lebih lanjut, kami sangat menyarankan untuk mengikuti kursus online gratis resmi yang disediakan oleh ONVIF di [Kursus Pengantar ONVIF](https://www.onvif.org/about/introduction-to-onvif-course). Harap dicatat bahwa kami tidak didukung atau disponsori oleh ONVIF, lihat [Pernyataan Hukum](#pernyataan-hukum) untuk detailnya.
 
@@ -206,12 +309,11 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
 <summary><b>1. CLI Langsung</b></summary> 
 
 ```bash
-usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--search SEARCH] [--timeout TIMEOUT] [--https]
-             [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
-             [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--search SEARCH] [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--https]
+             [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.1.9
+ONVIF Terminal Client — v0.2.0
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -228,8 +330,12 @@ options:
   --password PASSWORD, -p PASSWORD
                         Password for authentication
   --discover, -d        Discover ONVIF devices on the network using WS-Discovery
-  --search SEARCH, -s SEARCH
+  --filter FILTER, -f FILTER
                         Filter discovered devices by types or scopes (case-insensitive substring match)
+  --search SEARCH, -s SEARCH
+                        Search ONVIF products database by model or company (e.g., 'c210', 'hikvision')
+  --page PAGE           Page number for search results (default: 1)
+  --per-page PER_PAGE   Number of results per page (default: 20)
   --timeout TIMEOUT     Connection timeout in seconds (default: 10)
   --https               Use HTTPS instead of HTTP
   --no-verify           Disable SSL certificate verification
@@ -244,15 +350,20 @@ options:
   --version, -v         Show ONVIF CLI version and exit
 
 Examples:
+  # Product search
+  onvif --search c210
+  onvif -s "axis camera"
+  onvif --search hikvision --page 2 --per-page 5
+
   # Discover ONVIF devices on network
   onvif --discover --username admin --password admin123 --interactive
   onvif media GetProfiles --discover --username admin
   onvif -d -i
 
   # Discover with filtering
-  onvif --discover --search ptz --interactive
-  onvif -d -s "C210" -i
-  onvif -d -s "audio_encoder" -u admin -p admin123 -i
+  onvif --discover --filter ptz --interactive
+  onvif -d -f "C210" -i
+  onvif -d -f "audio_encoder" -u admin -p admin123 -i
 
   # Direct command execution
   onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
@@ -276,7 +387,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell — v0.1.9
+ONVIF Interactive Shell — v0.2.0
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -485,6 +596,65 @@ onvif devicemgmt GetCapabilities Category=All -H 192.168.1.17 -P 8000 -u admin -
 
 # Gerakkan kamera PTZ
 onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity='{"PanTilt": {"x": 0.1}}' -H 192.168.1.17 -P 8000 -u admin -p admin123
+```
+
+**4. Pencarian Produk ONVIF**
+
+CLI menyertakan database produk yang kompatibel dengan ONVIF yang dapat dicari untuk membantu mengidentifikasi dan meneliti perangkat sebelum terhubung (diterapkan pada [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
+
+**Pencarian Dasar:**
+```bash
+# Cari berdasarkan nama model
+onvif --search "C210"
+onvif -s "axis camera"
+
+# Cari berdasarkan produsen
+onvif --search "hikvision"
+onvif -s "dahua"
+
+# Cari berdasarkan kata kunci apapun
+onvif --search "ptz"
+onvif -s "thermal"
+```
+
+**Hasil Berpaginasi:**
+```bash
+# Navigasi melalui beberapa halaman hasil
+onvif --search "hikvision" --page 2 --per-page 5
+onvif -s "axis" --page 1 --per-page 10
+
+# Sesuaikan hasil per halaman (1-100)
+onvif --search "camera" --per-page 20
+```
+
+**Informasi Database Pencarian:**
+
+Database produk berisi informasi komprehensif tentang perangkat ONVIF yang telah diuji:
+
+| Field | Deskripsi |
+|-------|-------------|
+| **ID** | Identifikasi produk unik |
+| **Test Date** | Kapan perangkat terakhir diuji/diverifikasi |
+| **Model** | Nama dan nomor model perangkat |
+| **Firmware** | Versi firmware yang diuji |
+| **Profiles** | Profil ONVIF yang didukung (S, G, T, C, A, dll.) |
+| **Category** | Tipe perangkat (Camera, NVR, dll.) |
+| **Type** | Klasifikasi perangkat spesifik |
+| **Company** | Nama produsen |
+
+**Contoh Output:**
+```
+Found 15 product(s) matching: hikvision
+Showing 1-10 of 15 results
+
+ID  | Test Date           | Model             | Firmware | Profiles | Category | Type    | Company
+----|---------------------|-------------------|----------|----------|----------|---------|---------
+342 | 2024-08-15 17:53:12 | DS-2CD2143G2-IU   | V5.7.3   | S,G,T    | Camera   | device  | Hikvision
+341 | 2024-08-14 14:22:05 | DS-2DE2A404IW-DE3 | V5.6.15  | S,G,T    | Camera   | device  | Hikvision
+...
+
+Page 1 of 2
+Navigation: Next: --page 2
 ```
 
 ### Parameter CLI
@@ -701,8 +871,8 @@ from onvif import ONVIFClient, CacheMode
 
 # Pengaturan produksi yang direkomendasikan
 client = ONVIFClient(
-    host="192.168.1.17",
-    port=80,
+    host="your-cctv-node.viewplexus.com",
+    port=443,
     username="admin",
     password="secure_password",
     timeout=15,

@@ -4,7 +4,7 @@
 	
 [![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.1.9-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.2.0-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -150,6 +150,109 @@ print(stream)
 
 Explore more advanced usage and service-specific operations in the [`examples/`](./examples/) folder.
 
+## Helper Methods
+
+Every ONVIF service provides three essential helper methods to improve the development experience and make working with ONVIF operations more intuitive:
+
+**1. `type(type_name)`**
+
+Creates and returns an instance of the specified ONVIF type for building complex request parameters (applied at [`>=v0.1.9`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.9)).
+
+**Usage:**
+```python
+device = client.devicemgmt()
+
+# Create a new user object
+new_user = device.type('CreateUsers')
+new_user.User.append({
+    "Username": 'new_user', 
+    "Password": 'new_password', 
+    "UserLevel": 'User'
+})
+device.CreateUsers(new_user)
+
+# Set hostname
+hostname = device.type('SetHostname')
+hostname.Name = 'NewHostname'
+device.SetHostname(hostname)
+
+# Configure system time
+time_params = device.type('SetSystemDateAndTime')
+time_params.DateTimeType = 'NTP'
+time_params.DaylightSavings = True
+time_params.TimeZone.TZ = 'UTC+02:00'
+now = datetime.now()
+time_params.UTCDateTime.Date.Year = now.year
+time_params.UTCDateTime.Date.Month = now.month
+time_params.UTCDateTime.Date.Day = now.day
+time_params.UTCDateTime.Time.Hour = now.hour
+time_params.UTCDateTime.Time.Minute = now.minute
+time_params.UTCDateTime.Time.Second = now.second
+device.SetSystemDateAndTime(time_params)
+```
+
+**2. `operations()`**
+
+Lists all available operations for the current service (applied at [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
+
+**Returns:**
+- List of operation names that can be called on the service
+
+**Usage:**
+```python
+device = client.devicemgmt()
+media = client.media()
+ptz = client.ptz()
+
+# List all available operations for each service
+print("Device Management Operations:")
+for op in device.operations():
+    print(f"  - {op}")
+
+print("\nMedia Operations:")
+for op in media.operations():
+    print(f"  - {op}")
+
+print("\nPTZ Operations:")
+for op in ptz.operations():
+    print(f"  - {op}")
+
+# Check if specific operation is supported
+if 'ContinuousMove' in ptz.operations():
+    print("PTZ continuous movement is supported")
+```
+
+**3. `desc(method_name)`**
+
+Provides comprehensive documentation and parameter information for any ONVIF operation (applied at [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
+
+**Returns:**
+- `doc`: Method documentation from WSDL
+- `required`: List of required parameter names
+- `optional`: List of optional parameter names
+- `method_name`: The method name
+- `service_name`: The service name
+
+**Usage:**
+```python
+device = client.devicemgmt()
+
+# Get detailed information about a method
+info = device.desc('GetDeviceInformation')
+print(info['doc'])
+print("Required params:", info['required'])
+print("Optional params:", info['optional'])
+
+# Explore available methods first
+methods = device.operations()
+for method in methods[:5]:  # Show first 5 methods
+    info = device.desc(method)
+    print(f"{method}: {len(info['required'])} required, {len(info['optional'])} optional")
+```
+
+> [!TIP]
+> These helper methods are available on **all** ONVIF services (`devicemgmt()`, `media()`, `ptz()`, `events()`, `imaging()`, `analytics()`, etc.) and provide a consistent API for exploring and using ONVIF capabilities across different device types and manufacturers.
+
 > [!IMPORTANT]
 > If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course). Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](#legal-notice) for details.
 
@@ -206,12 +309,11 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 <summary><b>1. Direct CLI</b></summary> 
 
 ```bash
-usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--search SEARCH] [--timeout TIMEOUT] [--https]
-             [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
-             [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--search SEARCH] [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--https]
+             [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.1.9
+ONVIF Terminal Client — v0.2.0
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -228,8 +330,12 @@ options:
   --password PASSWORD, -p PASSWORD
                         Password for authentication
   --discover, -d        Discover ONVIF devices on the network using WS-Discovery
-  --search SEARCH, -s SEARCH
+  --filter FILTER, -f FILTER
                         Filter discovered devices by types or scopes (case-insensitive substring match)
+  --search SEARCH, -s SEARCH
+                        Search ONVIF products database by model or company (e.g., 'c210', 'hikvision')
+  --page PAGE           Page number for search results (default: 1)
+  --per-page PER_PAGE   Number of results per page (default: 20)
   --timeout TIMEOUT     Connection timeout in seconds (default: 10)
   --https               Use HTTPS instead of HTTP
   --no-verify           Disable SSL certificate verification
@@ -244,15 +350,20 @@ options:
   --version, -v         Show ONVIF CLI version and exit
 
 Examples:
+  # Product search
+  onvif --search c210
+  onvif -s "axis camera"
+  onvif --search hikvision --page 2 --per-page 5
+
   # Discover ONVIF devices on network
   onvif --discover --username admin --password admin123 --interactive
   onvif media GetProfiles --discover --username admin
   onvif -d -i
 
   # Discover with filtering
-  onvif --discover --search ptz --interactive
-  onvif -d -s "C210" -i
-  onvif -d -s "audio_encoder" -u admin -p admin123 -i
+  onvif --discover --filter ptz --interactive
+  onvif -d -f "C210" -i
+  onvif -d -f "audio_encoder" -u admin -p admin123 -i
 
   # Direct command execution
   onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
@@ -275,7 +386,7 @@ Examples:
 <summary><b>2. Interactive Shell</b></summary> 
 
 ```bash
-ONVIF Interactive Shell — v0.1.9
+ONVIF Interactive Shell — v0.2.0
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -398,7 +509,7 @@ This feature is particularly useful for:
 
 **2. Device Discovery (WS-Discovery)**
 
-The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol. This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand.
+The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol. This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand (applied at [`>=v0.1.2`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.2)).
 
 **Discover and Connect Interactively:**
 ```bash
@@ -409,8 +520,8 @@ onvif --discover --username admin --password admin123 --interactive
 onvif -d -u admin -p admin123 -i
 
 # Discover with search filter
-onvif --discover --search "C210" --interactive
-onvif -d -s ptz -u admin -p admin123 -i
+onvif --discover --filter "C210" --interactive
+onvif -d -f ptz -u admin -p admin123 -i
 
 # Discover and interactive (will prompt for credentials)
 onvif -d -i
@@ -445,15 +556,15 @@ Timeout: 4s
 Found 2 ONVIF device(s):
 
 [1] 192.168.1.14:2020
-    [id] uuid:3fa1fe68-b915-4053-a3e1-a8294833fe3c
-    [xaddrs] http://192.168.1.14:2020/onvif/device_service
-    [types] tdn:NetworkVideoTransmitter
+    [id] 3fa1fe68-b915-4053-a3e1-a8294833fe3c
+    [xaddrs] [http://192.168.1.14:2020/onvif/device_service]
+    [types] [tdn:NetworkVideoTransmitter]
     [scopes] [name/C210] [hardware/C210] [Profile/Streaming] [location/Hong Kong]
 
 [2] 192.168.1.17:8000
-    [id] urn:uuid:7d04ff31-61e6-11f0-a00c-6056eef47207
-    [xaddrs] http://192.168.1.17:8000/onvif/device_service
-    [types] dn:NetworkVideoTransmitter tds:Device
+    [id] 7d04ff31-61e6-11f0-a00c-6056eef47207
+    [xaddrs] [http://192.168.1.17:8000/onvif/device_service]
+    [types] [dn:NetworkVideoTransmitter] [tds:Device]
     [scopes] [type/NetworkVideoTransmitter] [location/unknown] [name/IPC_123465959]
 
 Select device number 1-2 or q to quit: 1
@@ -484,6 +595,65 @@ onvif devicemgmt GetCapabilities Category=All -H 192.168.1.17 -P 8000 -u admin -
 
 # Move a PTZ camera
 onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity='{"PanTilt": {"x": 0.1}}' -H 192.168.1.17 -P 8000 -u admin -p admin123
+```
+
+**4. ONVIF Product Search**
+
+The CLI includes a built-in database of ONVIF-compatible products that can be searched to help identify and research devices before connecting (applied at [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
+
+**Basic Search:**
+```bash
+# Search by model name
+onvif --search "C210"
+onvif -s "axis camera"
+
+# Search by manufacturer
+onvif --search "hikvision"
+onvif -s "dahua"
+
+# Search by any keyword
+onvif --search "ptz"
+onvif -s "thermal"
+```
+
+**Paginated Results:**
+```bash
+# Navigate through multiple pages of results
+onvif --search "hikvision" --page 2 --per-page 5
+onvif -s "axis" --page 1 --per-page 10
+
+# Adjust results per page (1-100)
+onvif --search "camera" --per-page 20
+```
+
+**Search Database Information:**
+
+The product database contains comprehensive information about tested ONVIF devices:
+
+| Field | Description |
+|-------|-------------|
+| **ID** | Unique product identifier |
+| **Test Date** | When the device was last tested/verified |
+| **Model** | Device model name and number |
+| **Firmware** | Tested firmware version |
+| **Profiles** | Supported ONVIF profiles (S, G, T, C, A, etc.) |
+| **Category** | Device type (Camera, NVR, etc.) |
+| **Type** | Specific device classification |
+| **Company** | Manufacturer name |
+
+**Example Output:**
+```
+Found 15 product(s) matching: hikvision
+Showing 1-10 of 15 results
+
+ID  | Test Date           | Model             | Firmware | Profiles | Category | Type    | Company
+----|---------------------|-------------------|----------|----------|----------|---------|---------
+342 | 2024-08-15 17:53:12 | DS-2CD2143G2-IU   | V5.7.3   | S,G,T    | Camera   | device  | Hikvision
+341 | 2024-08-14 14:22:05 | DS-2DE2A404IW-DE3 | V5.6.15  | S,G,T    | Camera   | device  | Hikvision
+...
+
+Page 1 of 2
+Navigation: Next: --page 2
 ```
 
 ### CLI Parameters
