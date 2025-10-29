@@ -71,6 +71,7 @@ class ONVIFOperator:
         address (str): Service endpoint URL (XAddr)
         client: Zeep SOAP client instance
         service: Zeep service proxy for making SOAP calls
+        service_name (str): Name of the ONVIF service (e.g., "Device", "Media")
     """
 
     def __init__(
@@ -165,7 +166,9 @@ class ONVIFOperator:
             raise ValueError("Bindings must be set according to the WSDL service")
 
         self.service = self.client.create_service(binding, self.address)
-        self.binding_name = binding  # Store binding name for logging context
+        self.service_name = binding.split("}")[-1].replace(
+            "Binding", ""
+        )  # Store cleaned service name for logging context
         logger.info(f"ONVIFOperator initialized {binding} at {self.address}")
 
     def call(self, method: str, *args, **kwargs):
@@ -186,23 +189,17 @@ class ONVIFOperator:
         Raises:
             ONVIFOperationException: If the operation fails (wraps original exception)
         """
-        # Extract service name from binding for cleaner logging
-        service_name = (
-            self.binding_name.replace("Binding", "")
-            if hasattr(self, "binding_name")
-            else "Unknown"
-        )
-        logger.debug(f"Calling ONVIF method: {service_name}.{method}")
+        logger.debug(f"Calling ONVIF method: {self.service_name}.{method}")
 
         try:
             func = getattr(self.service, method)
         except AttributeError as e:
-            logger.error(f"Method {method} not found in {service_name} service")
+            logger.error(f"Method {method} not found in {self.service_name} service")
             raise ONVIFOperationException(operation=method, original_exception=e)
 
         try:
             result = func(*args, **kwargs)
-            logger.debug(f"ONVIF call {service_name}.{method} succeeded")
+            logger.debug(f"ONVIF call {self.service_name}.{method} succeeded")
 
             # Post-process to flatten xsd:any fields if enabled (> v0.0.4 patch)
             if self.apply_patch:
@@ -210,10 +207,10 @@ class ONVIFOperator:
             return result
 
         except Fault as e:
-            logger.error(f"SOAP Fault in {service_name}.{method}: {e}")
+            logger.error(f"SOAP Fault in {self.service_name}.{method}: {e}")
             raise ONVIFOperationException(operation=method, original_exception=e)
         except Exception as e:
-            logger.error(f"ONVIF call error in {service_name}.{method}: {e}")
+            logger.error(f"ONVIF call error in {self.service_name}.{method}: {e}")
             raise ONVIFOperationException(operation=method, original_exception=e)
 
     def create_type(self, type_name: str):
