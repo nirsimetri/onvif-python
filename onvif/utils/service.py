@@ -219,10 +219,11 @@ class ONVIFService:
             required_args = []
             optional_args = []
             doc_text = None
-            
+
             try:
                 # Use object.__getattribute__ to bypass ONVIFService wrapper and get original method
                 import inspect
+
                 method = object.__getattribute__(self, method_name)
                 sig = inspect.signature(method)
                 for param in sig.parameters.values():
@@ -231,19 +232,28 @@ class ONVIFService:
                             required_args.append(param.name)
                         else:
                             optional_args.append(param.name)
-                
-                logger.debug(f"Successfully extracted parameters for {service_name}.{method_name}")
+
+                logger.debug(
+                    f"Successfully extracted parameters for {service_name}.{method_name}"
+                )
             except Exception as param_error:
-                logger.warning(f"Could not extract parameters for {method_name}: {param_error}")
+                logger.warning(
+                    f"Could not extract parameters for {method_name}: {param_error}"
+                )
 
             # Try to get documentation (optional)
             try:
                 from ..cli.utils import get_method_documentation
+
                 doc_info = get_method_documentation(self, method_name)
                 if doc_info and doc_info.get("doc"):
                     # Only use doc if it's not the default "No description available" message
                     doc_text = doc_info["doc"]
-                    if doc_text and "No description available" not in doc_text and "No documentation available" not in doc_text:
+                    if (
+                        doc_text
+                        and "No description available" not in doc_text
+                        and "No documentation available" not in doc_text
+                    ):
                         # Keep the doc text as is
                         pass
                     else:
