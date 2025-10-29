@@ -111,13 +111,13 @@ class ONVIFService:
                 result = attr(*args, **kwargs)
                 logger.debug(f"ONVIF method {name} completed successfully")
                 return result
-            except ONVIFOperationException:
+            except ONVIFOperationException as oe:
                 # Re-raise ONVIF exceptions as-is
-                logger.error(f"ONVIF operation exception in {name}")
+                logger.error(f"ONVIF operation exception in {name}: {oe}")
                 raise
             except Exception as e:
                 # Convert any other exception (including TypeError) to ONVIFOperationException
-                logger.error(f"Exception in {name}: {e}")
+                logger.error(f"ONVIF operation exception in {name}: {e}")
                 raise ONVIFOperationException(name, e)
 
         return wrapped_method
@@ -167,3 +167,31 @@ class ONVIFService:
         except Exception as e:
             logger.error(f"Failed to create type {type_name}: {e}")
             raise ONVIFOperationException(f"type({type_name})", e)
+
+    def operations(self):
+        """
+        List all available operations for this service.
+
+        Returns:
+            List of operation names that can be used with type() method
+        """
+        try:
+            operations = [
+                method
+                for method in dir(self.operator.service)
+                if not method.startswith("_")
+                and callable(getattr(self.operator.service, method))
+            ]
+            # Extract service name from binding for logging context
+            service_name = (
+                self.operator.binding_name
+                if hasattr(self.operator, "binding_name")
+                else "Unknown"
+            )
+            logger.debug(
+                f"Successfully listed operations for {service_name}: {len(operations)} operations found"
+            )
+            return sorted(operations)
+        except Exception as e:
+            logger.error(f"Failed to list operations: {e}")
+            return []
