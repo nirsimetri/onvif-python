@@ -92,20 +92,23 @@ class ONVIFDiscovery:
             self._local_ip = s.getsockname()[0]
             s.close()
             return self._local_ip
-        except Exception:
+        except Exception as e:
+            logger.debug(f"Failed to get local IP via default route: {e}")
             # Try alternative method to get local IP
             try:
                 hostname = socket.gethostname()
                 local_ip = socket.gethostbyname(hostname)
                 if local_ip and not local_ip.startswith("127."):
                     self._local_ip = local_ip
+                    logger.debug(f"Got local IP via hostname: {local_ip}")
                     return self._local_ip
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug(f"Failed to get local IP via hostname: {e}")
 
             # Return empty string instead of None for socket binding
             # Empty string lets OS choose the appropriate interface
             # This avoids Codacy warning about binding to "0.0.0.0"
+            logger.debug("Using auto-detect for network interface")
             self._local_ip = ""
             return self._local_ip
 
