@@ -360,8 +360,7 @@ class ZeepPatcher:
                         )
 
                         if should_flatten:
-                            # This is truly a wrapper - flatten by copying fields to parent
-                            # But still set the tag_name field to the inner_content
+                            # This is truly a wrapper - flatten by extracting children to parent
                             # Convert zeep object to dict to preserve manually added attributes
                             if hasattr(inner_content, "__values__") or hasattr(
                                 inner_content, "__dict__"
@@ -369,8 +368,23 @@ class ZeepPatcher:
                                 inner_content = ZeepPatcher._zeep_object_to_dict(
                                     inner_content
                                 )
+
+                            # Set the wrapper field itself
                             values[tag_name] = inner_content
-                            # Don't copy fields up to parent - keep them in the structured object
+
+                            # If inner_content is a dict with children, copy them to parent too
+                            if isinstance(inner_content, dict):
+                                for child_key, child_val in inner_content.items():
+                                    if child_key.startswith("_"):
+                                        continue
+                                    # Copy children to parent level if field exists and is None
+                                    if (
+                                        child_key in values
+                                        and values[child_key] is None
+                                    ):
+                                        values[child_key] = child_val
+                                    elif child_key not in values:
+                                        values[child_key] = child_val
                         else:
                             # Not a wrapper - just set the field directly
                             # Convert zeep object to dict to preserve manually added attributes
@@ -448,6 +462,20 @@ class ZeepPatcher:
                                     inner_content
                                 )
                             setattr(obj, tag_name, inner_content)
+
+                            # If inner_content is a dict with children, copy them to parent too
+                            if isinstance(inner_content, dict):
+                                for child_key, child_val in inner_content.items():
+                                    if child_key.startswith("_"):
+                                        continue
+                                    # Copy children to parent level if field exists and is None
+                                    if (
+                                        hasattr(obj, child_key)
+                                        and getattr(obj, child_key) is None
+                                    ):
+                                        setattr(obj, child_key, child_val)
+                                    elif not hasattr(obj, child_key):
+                                        setattr(obj, child_key, child_val)
                         else:
                             # Not a wrapper - just set the field directly
                             # Convert zeep object to dict to preserve manually added attributes
@@ -611,7 +639,14 @@ class ZeepPatcher:
                         child_result[child_qname.localname] = parsed
 
                 parsed_result[tag_name] = child_result
+            elif xmlelement.attrib:
+                # Element has attributes but no children - parse attributes
+                parsed_result[tag_name] = {
+                    k: ZeepPatcher.parse_text_value(v)
+                    for k, v in xmlelement.attrib.items()
+                }
             else:
+                # Element has no attributes and no children - just text content
                 parsed_result[tag_name] = ZeepPatcher.parse_text_value(xmlelement.text)
 
         # Store original elements in a special key for later restoration
