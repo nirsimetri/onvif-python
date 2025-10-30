@@ -87,7 +87,10 @@ try:
     print(f"\nProfile Details:")
     print(f"  Name: {profile.Name}")
     print(f"  Token: {profile.token}")
-    if hasattr(profile, "VideoSourceConfiguration") and profile.VideoSourceConfiguration:
+    if (
+        hasattr(profile, "VideoSourceConfiguration")
+        and profile.VideoSourceConfiguration
+    ):
         print(
             f"  Video Source: {profile.VideoSourceConfiguration.SourceToken if hasattr(profile.VideoSourceConfiguration, 'SourceToken') else 'N/A'}"
         )
@@ -104,7 +107,9 @@ try:
     # Optional: Get stream URI for the new profile
     print("\nGetting stream URI for the new profile...")
     stream_setup = {"Stream": "RTP-Unicast", "Transport": {"Protocol": "RTSP"}}
-    stream_uri = media.GetStreamUri(StreamSetup=stream_setup, ProfileToken=profile_token)
+    stream_uri = media.GetStreamUri(
+        StreamSetup=stream_setup, ProfileToken=profile_token
+    )
     print(f"Stream URI: {stream_uri.Uri}")
 
 except Exception as e:

@@ -22,15 +22,6 @@ class XMLCapturePlugin(Plugin):
         - Operation names for context
         - Complete history of all transactions
 
-    Key Features:
-        - Pretty-printed XML with proper indentation
-        - Last request/response quick access
-        - Full transaction history storage
-        - HTTP header capture
-        - Operation name tracking
-        - File export capability
-        - Secure XML parsing (XXE protection)
-
     Use Cases:
         1. **Debugging**: See exact SOAP messages being sent/received
         2. **Learning**: Understand ONVIF protocol structure
