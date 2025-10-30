@@ -722,7 +722,6 @@ class ONVIFClient:
         if self._security is None:
             logger.debug("Initializing Security service")
             self._security = AdvancedSecurity(
-                xaddr=self._get_xaddr("advancedsecurity", "Security"),
                 **self.common_args,
             )
         return self._security

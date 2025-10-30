@@ -15,7 +15,7 @@ class AdvancedSecurity(ONVIFService):
         self.operator = ONVIFOperator(
             definition["path"],
             binding=f"{{{definition['namespace']}}}{definition['binding']}",
-            service_path="Security",  # fallback
+            service_path="device_service",  # fallback
             xaddr=xaddr,
             **kwargs,
         )
