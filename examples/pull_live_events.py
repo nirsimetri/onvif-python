@@ -6,20 +6,27 @@ Tested devices: EZVIZ H8C (https://www.ezviz.com/inter/product/h8c/43162)
 
 This script connects to an ONVIF-compliant device, creates a PullPoint subscription,
 and continuously pulls live events for 15 minutes, printing event details to the console.
+
+Uses ONVIFParser (>= v0.2.2 patch) to extract Topic elements that zeep doesn't parse correctly.
 """
 
 import datetime
-import xml.etree.ElementTree as ET
-from onvif import ONVIFClient, CacheMode
+from onvif import ONVIFClient, ONVIFParser
 
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
 PASSWORD = "admin123"
 
-client = ONVIFClient(
-    HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE, capture_xml=True
+# Create parser to extract Topic elements from SOAP responses
+parser = ONVIFParser(
+    extract_xpaths={
+        "topic": ".//{http://docs.oasis-open.org/wsn/b-2}Topic",
+    }
 )
+
+# Pass parser as plugin to client (no capture_xml needed!)
+client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, plugins=[parser])
 
 # 1. Create PullPoint Subscription from Events service
 subscription = client.events().CreatePullPointSubscription()
@@ -43,27 +50,14 @@ while datetime.datetime.now() < end_time:
             if not isinstance(notifications, list):
                 notifications = [notifications]
 
-            for n in notifications:
-                # Extract Topic from raw XML using XMLCapturePlugin
-                topic_val = None
-                try:
-                    # Get last raw response from XMLCapturePlugin
-                    last_raw_xml = (
-                        client.xml_plugin.last_received_xml
-                        if client.xml_plugin
-                        else None
-                    )
-                    if last_raw_xml is not None:
-                        root = ET.fromstring(last_raw_xml)
-                        topic_elems = root.findall(
-                            ".//{http://docs.oasis-open.org/wsn/b-2}Topic"
-                        )
-                        # Index of current notification
-                        idx = notifications.index(n)
-                        if idx < len(topic_elems):
-                            topic_val = topic_elems[idx].text
-                except Exception as e:
-                    print("⚠️ XMLCapturePlugin topic parse error:", e)
+            # (>= v0.2.2 patch)
+            # Extract topics using ONVIFParser (zeep workaround for simpleContent limitation)
+            topics = parser.get_extracted_texts("topic", len(notifications))
+
+            for idx, n in enumerate(notifications):
+                # Get Topic text from parser
+                # Zeep can't parse Topic correctly because it has both Dialect attribute and text content
+                topic_val = topics[idx]
 
                 # Extract Message (XML element)
                 # After the patch (> v0.0.4), _value_1 is directly a list of Elements (not a dict)
