@@ -111,6 +111,7 @@ class ONVIFClient:
         apply_patch: bool = True,
         capture_xml: bool = False,
         wsdl_dir: str = None,
+        plugins: list = None,
     ):
         logger.info(f"Initializing ONVIF client for {host}:{port}")
         logger.debug(
@@ -131,6 +132,15 @@ class ONVIFClient:
             logger.debug("Enabling XML capture plugin")
             self.xml_plugin = XMLCapturePlugin()
 
+        # Merge user plugins with xml_plugin
+        all_plugins = []
+        if plugins:
+            logger.debug(f"Adding {len(plugins)} user-provided plugins")
+            all_plugins.extend(plugins)
+        if self.xml_plugin:
+            logger.debug("Adding XML capture plugin")
+            all_plugins.append(self.xml_plugin)
+
         # Store custom WSDL directory if provided
         self.wsdl_dir = wsdl_dir
         if wsdl_dir:
@@ -148,7 +158,7 @@ class ONVIFClient:
             "use_https": use_https,
             "verify_ssl": verify_ssl,
             "apply_patch": apply_patch,
-            "plugins": [self.xml_plugin] if self.xml_plugin else None,
+            "plugins": all_plugins if all_plugins else None,
         }
 
         # Device Management (Core) service is always available
