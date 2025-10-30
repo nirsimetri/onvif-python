@@ -8,6 +8,7 @@ from .utils import (
     ONVIFErrorHandler,
     ZeepPatcher,
     ONVIFDiscovery,
+    ONVIFParser,
 )
 from .cli import main as ONVIFCLI
 
@@ -21,4 +22,5 @@ __all__ = [
     "ZeepPatcher",
     "ONVIFCLI",
     "ONVIFDiscovery",
+    "ONVIFParser",
 ]

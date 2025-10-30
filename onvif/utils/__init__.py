@@ -7,6 +7,7 @@ from .xml_capture import XMLCapturePlugin
 from .error_handlers import ONVIFErrorHandler
 from .discovery import ONVIFDiscovery
 from .service import ONVIFService
+from .parser import ONVIFParser
 
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
     "ONVIFErrorHandler",
     "ONVIFDiscovery",
     "ONVIFService",
+    "ONVIFParser",
 ]
