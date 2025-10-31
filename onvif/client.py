@@ -176,6 +176,10 @@ class ONVIFClient:
         self._security_capabilities = None
         self._security_capabilities_checked = False
 
+        # Cache for JWT service availability (lazy loaded)
+        self._jwt_available = None
+        self._jwt_checked = False
+
         try:
             # Try GetServices first (preferred method)
             logger.debug("Attempting GetServices call for service discovery")
@@ -741,11 +745,10 @@ class ONVIFClient:
         return self._security
 
     @service
-    def jwt(self, xaddr):
+    def jwt(self):
         if self._jwt is None:
             logger.debug("Initializing JWT service")
-            xaddr = self._rewrite_xaddr_if_needed(xaddr)
-            self._jwt = JWT(xaddr=xaddr, **self.common_args)
+            self._jwt = JWT(**self.common_args)
         return self._jwt
 
     @service
