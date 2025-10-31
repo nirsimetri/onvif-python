@@ -172,6 +172,10 @@ class ONVIFClient:
         # Temporary variable to hold capabilities
         self.capabilities = None
 
+        # Cache for security service capabilities (lazy loaded)
+        self._security_capabilities = None
+        self._security_capabilities_checked = False
+
         try:
             # Try GetServices first (preferred method)
             logger.debug("Attempting GetServices call for service discovery")
