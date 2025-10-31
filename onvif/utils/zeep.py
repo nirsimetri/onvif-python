@@ -360,7 +360,6 @@ class ZeepPatcher:
                         )
 
                         if should_flatten:
-                            # This is truly a wrapper - flatten by extracting children to parent
                             # Convert zeep object to dict to preserve manually added attributes
                             if hasattr(inner_content, "__values__") or hasattr(
                                 inner_content, "__dict__"
@@ -371,20 +370,8 @@ class ZeepPatcher:
 
                             # Set the wrapper field itself
                             values[tag_name] = inner_content
+                            # Don't copy fields up to parent - keep them in the structured object
 
-                            # If inner_content is a dict with children, copy them to parent too
-                            if isinstance(inner_content, dict):
-                                for child_key, child_val in inner_content.items():
-                                    if child_key.startswith("_"):
-                                        continue
-                                    # Copy children to parent level if field exists and is None
-                                    if (
-                                        child_key in values
-                                        and values[child_key] is None
-                                    ):
-                                        values[child_key] = child_val
-                                    elif child_key not in values:
-                                        values[child_key] = child_val
                         else:
                             # Not a wrapper - just set the field directly
                             # Convert zeep object to dict to preserve manually added attributes
