@@ -4,7 +4,7 @@
 	
 [![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.2.2-orange?logo=archive)](https://pypi.org/project/onvif-python/)
+[![PyPI](https://img.shields.io/badge/PyPI-0.2.3-orange?logo=archive)](https://pypi.org/project/onvif-python/)
 [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
 <br>
 [![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
@@ -48,7 +48,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
 From official [PyPI](https://pypi.org/project/onvif-python/):
 ```bash
-pip install onvif-python
+pip install --upgrade onvif-python
 ```
 Or clone this repository and install locally:
 ```bash
@@ -313,7 +313,7 @@ usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password 
              [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.2.2
+ONVIF Terminal Client — v0.2.3
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -386,7 +386,7 @@ Examples:
 <summary><b>2. Interactive Shell</b></summary> 
 
 ```bash
-ONVIF Interactive Shell — v0.2.2
+ONVIF Interactive Shell — v0.2.3
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
