@@ -618,7 +618,7 @@ def get_device_available_services(client) -> list:
                     # Security namespace has multiple bindings
                     available_services.extend(
                         [
-                            "advancedsecurity",
+                            "security",
                             "jwt",
                             "keystore",
                             "tlsserver",
@@ -627,6 +627,100 @@ def get_device_available_services(client) -> list:
                             "mediasigning",
                         ]
                     )
+
+    # Additional check: Try to call security.GetServiceCapabilities() to verify availability
+    # This is necessary because Security service might not be reported in GetServices/GetCapabilities
+    # Use caching to avoid calling GetServiceCapabilities repeatedly
+    if "security" not in available_services:
+        # Check if we've already tried to get security capabilities
+        if not hasattr(client, "_security_capabilities_checked"):
+            client._security_capabilities_checked = False
+            client._security_capabilities = None
+
+        if not client._security_capabilities_checked:
+            # First time check - call GetServiceCapabilities and cache result
+            try:
+                security_service = client.security()
+                # Try to call GetServiceCapabilities to verify the service is actually available
+                caps = security_service.GetServiceCapabilities()
+
+                # Cache the capabilities for future use
+                client._security_capabilities = caps
+                client._security_capabilities_checked = True
+
+            except Exception:
+                # Security service not available, mark as checked
+                client._security_capabilities_checked = True
+                client._security_capabilities = None
+
+        # Use cached capabilities
+        if client._security_capabilities is not None:
+            caps = client._security_capabilities
+
+            # If successful, add main security service
+            available_services.append("security")
+
+            # Check each sub-service capability to determine availability
+            # Only add sub-services if their corresponding capability is not None
+            if (
+                hasattr(caps, "KeystoreCapabilities")
+                and caps.KeystoreCapabilities is not None
+            ):
+                available_services.append("keystore")
+
+            if (
+                hasattr(caps, "TLSServerCapabilities")
+                and caps.TLSServerCapabilities is not None
+            ):
+                available_services.append("tlsserver")
+
+            if (
+                hasattr(caps, "Dot1XCapabilities")
+                and caps.Dot1XCapabilities is not None
+            ):
+                available_services.append("dot1x")
+
+            if (
+                hasattr(caps, "AuthorizationServer")
+                and caps.AuthorizationServer is not None
+            ):
+                available_services.append("authorizationserver")
+
+            if hasattr(caps, "MediaSigning") and caps.MediaSigning is not None:
+                available_services.append("mediasigning")
+
+    # Additional check for JWT service: Try to call jwt.GetJWTConfiguration()
+    # JWT doesn't have a capability in GetServiceCapabilities, so we need to test it directly
+    if "jwt" not in available_services:
+        # Check if we've already tried to get JWT availability
+        if not hasattr(client, "_jwt_checked"):
+            client._jwt_checked = False
+            client._jwt_available = None
+
+        if not client._jwt_checked:
+            # First time check - try to call GetJWTConfiguration and cache result
+            try:
+                # JWT service requires xaddr from security service
+                # Try to construct xaddr from security service endpoint
+                protocol = "https" if client.common_args["use_https"] else "http"
+                default_xaddr = f"{protocol}://{client.common_args['host']}:{client.common_args['port']}/onvif/AdvancedSecurity"
+
+                # Try to call GetJWTConfiguration to verify JWT is available
+                jwt_service = client.jwt(xaddr=default_xaddr)
+                jwt_service.GetJWTConfiguration()
+
+                # If successful, JWT is available
+                client._jwt_available = True
+                client._jwt_checked = True
+
+            except Exception:
+                # JWT service not available, mark as checked
+                client._jwt_checked = True
+                client._jwt_available = False
+
+        # Use cached JWT availability
+        if client._jwt_available:
+            available_services.append("jwt")
 
     return sorted(list(set(available_services)))  # Remove duplicates and sort
 
