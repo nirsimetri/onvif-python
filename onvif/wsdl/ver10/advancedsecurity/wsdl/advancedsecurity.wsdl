@@ -82,6 +82,12 @@
 					</xs:enumeration>
 				</xs:restriction>
 			</xs:simpleType>
+			<xs:simpleType name="KeyAlgorithm">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="RSA"/>
+					<xs:enumeration value="ECC"/>
+				</xs:restriction>
+			</xs:simpleType>
 			<!--===============================-->
 			<xs:simpleType name="DotDecimalOID">
 				<xs:annotation>
@@ -740,6 +746,11 @@
 				<xs:attribute name="ECCKeyPairGeneration" type="xs:boolean">
 					<xs:annotation>
 						<xs:documentation>Indication that the device supports on-board ECC key pair generation.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="KeyPairGeneration" type="tt:StringList">
+					<xs:annotation>
+						<xs:documentation>List of supported key algorithm like 'RSA' and 'ECC'. For a full list of definitions see tas:KeyAlgorithm.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="RSAKeyLengths" type="tas:RSAKeyLengths">
