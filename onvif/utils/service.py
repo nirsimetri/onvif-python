@@ -255,8 +255,10 @@ class ONVIFService:
                     else:
                         # Set to None if it's the default message
                         doc_text = None
-            except Exception:
-                pass  # Documentation is optional
+            except Exception as e:
+                logger.warning(
+                    f"Could not retrieve documentation for {method_name}: {e}"
+                )  # Documentation is optional
 
             return {
                 "doc": doc_text,
