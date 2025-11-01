@@ -10,6 +10,7 @@ from .services import (
     PullPoint,
     Notification,
     Subscription,
+    PausableSubscription,
     Imaging,
     Media,
     Media2,
@@ -213,6 +214,9 @@ class ONVIFClient:
         self._pullpoints = {}  # Dictionary for multiple PullPoint instances
         self._notification = None
         self._subscriptions = {}  # Dictionary for multiple Subscription instances
+        self._pausable_subscriptions = (
+            {}
+        )  # Dictionary for multiple PausableSubscription instances
 
         self._imaging = None
 
@@ -462,6 +466,30 @@ class ONVIFClient:
             self._subscriptions[xaddr] = Subscription(xaddr=xaddr, **self.common_args)
 
         return self._subscriptions[xaddr]
+
+    @service
+    def pausable_subscription(self, SubscriptionRef):
+        logger.debug("Initializing PausableSubscription service")
+        xaddr = None
+        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
+        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
+            xaddr = addr_obj["_value_1"]
+        elif hasattr(addr_obj, "_value_1"):
+            xaddr = addr_obj._value_1
+
+        xaddr = self._rewrite_xaddr_if_needed(xaddr)
+
+        if not xaddr:
+            raise RuntimeError(
+                "SubscriptionReference.Address missing in subscription response"
+            )
+
+        if xaddr not in self._pausable_subscriptions:
+            self._pausable_subscriptions[xaddr] = PausableSubscription(
+                xaddr=xaddr, **self.common_args
+            )
+
+        return self._pausable_subscriptions[xaddr]
 
     # Imaging
 

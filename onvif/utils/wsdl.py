@@ -242,6 +242,20 @@ class ONVIFWSDL:
                     "namespace": "http://www.onvif.org/ver10/events/wsdl",
                 }
             },
+            "pausable_subscription": {
+                "ver10": {
+                    "path": os.path.join(
+                        base_dir,
+                        (
+                            "event-vs.wsdl"
+                            if use_flat
+                            else "ver10/events/wsdl/event-vs.wsdl"
+                        ),
+                    ),
+                    "binding": "PausableSubscriptionManagerBinding",
+                    "namespace": "http://www.onvif.org/ver10/events/wsdl",
+                }
+            },
             "accesscontrol": {
                 "ver10": {
                     "path": os.path.join(

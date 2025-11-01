@@ -5,6 +5,7 @@ from .events.events import Events
 from .events.pullpoint import PullPoint
 from .events.notification import Notification
 from .events.subscription import Subscription
+from .events.pausable_subscription import PausableSubscription
 from .imaging import Imaging
 from .media import Media
 from .media2 import Media2
@@ -43,6 +44,7 @@ __all__ = [
     "PullPoint",
     "Notification",
     "Subscription",
+    "PausableSubscription",
     "Imaging",
     "Media",
     "Media2",
