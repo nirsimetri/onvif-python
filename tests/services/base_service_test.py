@@ -417,10 +417,7 @@ class ONVIFServiceTestBase:
                             kwargs[param_name] = None
 
                     # Call the method
-                    try:
-                        method(**kwargs)
-                    except Exception:
-                        pass  # We expect it might fail, we just want to check the call
+                    method(**kwargs)
 
                     # Verify operator.call was invoked
                     if not mock_operator_instance.call.called:
