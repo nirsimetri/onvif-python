@@ -384,8 +384,12 @@ def colorize(text: str, color: str) -> str:
                 kernel32.SetConsoleMode(
                     h_stdout, mode.value | ENABLE_VIRTUAL_TERMINAL_PROCESSING
                 )
-            except Exception:
-                pass  # Fallback to no colors if error
+            except (ImportError, AttributeError, OSError):
+                # Specific exceptions that can occur:
+                # - ImportError: ctypes not available
+                # - AttributeError: Windows API functions not available
+                # - OSError: Console mode setting failed
+                colorize._colors_enabled = False
 
     colors = {
         "red": "\033[91m",
@@ -917,8 +921,12 @@ def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
                                 },
                                 namespaces,
                             )
-                    except Exception:
-                        pass  # Skip if can't parse
+                    except (etree.XMLSyntaxError, OSError, PermissionError):
+                        # Skip files that can't be parsed or accessed:
+                        # - XMLSyntaxError: malformed XML
+                        # - OSError: file access issues
+                        # - PermissionError: insufficient permissions
+                        continue
 
         # Process includes
         for include_elem in schema.findall("xs:include", namespaces):
@@ -953,8 +961,12 @@ def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
                                 },
                                 namespaces,
                             )
-                    except Exception:
-                        pass  # Skip if can't parse
+                    except (etree.XMLSyntaxError, OSError, PermissionError):
+                        # Skip files that can't be parsed or accessed:
+                        # - XMLSyntaxError: malformed XML
+                        # - OSError: file access issues
+                        # - PermissionError: insufficient permissions
+                        continue
 
 
 def parse_message_from_wsdl(
