@@ -69,6 +69,15 @@ ONVIF_NAMESPACE_MAP = {
 }
 
 
+def _is_valid_json(s: str) -> bool:
+    """Check if a string is valid JSON without raising exceptions."""
+    try:
+        json.loads(s)
+    except ValueError:
+        return False
+    return True
+
+
 def parse_json_params(params_str: str) -> Dict[str, Any]:
     """Parse parameters from a JSON string or key=value pairs into a dict.
     Supports:
@@ -80,10 +89,8 @@ def parse_json_params(params_str: str) -> Dict[str, Any]:
         return {}
 
     # If the whole string is valid JSON, return it directly
-    try:
-        return json.loads(params_str)
-    except Exception:
-        pass
+    if _is_valid_json(params_str):
+        return json.loads(params_str)  # We know it's valid, so this should not fail
 
     # Otherwise parse key=value pairs but allow JSON values for the right-hand side
     # We split tokens while respecting quoted strings using shlex, but must not
