@@ -29,11 +29,11 @@ parser = ONVIFParser(
 client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, plugins=[parser])
 
 # 1. Create PullPoint Subscription from Events service
-subscription = client.events().CreatePullPointSubscription()
-print("Subscription Response:\n", subscription)
+subscription_ref = client.events().CreatePullPointSubscription()
+print("Subscription Response:\n", subscription_ref)
 
 # 2. Create PullPoint service instance with the Subscription reference
-pullpoint = client.pullpoint(subscription)
+pullpoint = client.pullpoint(subscription_ref)
 
 # 3. Pull events for 15 minutes
 end_time = datetime.datetime.now() + datetime.timedelta(minutes=15)
@@ -123,3 +123,9 @@ while datetime.datetime.now() < end_time:
     # time.sleep(1)  # small delay between requests
 
 print("\n✅ Finished: 15 minutes event pulling ended")
+
+# 4. Create Subscription service instance with the Subscription reference
+subscription = client.subscription(subscription_ref)
+
+# 5. Unsubscribe to clean up
+unsubscribe = subscription.Unsubscribe()
