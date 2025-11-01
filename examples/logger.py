@@ -202,7 +202,7 @@ def demonstrate_client_logging(host, port, username, password):
 
     # Show XML capture results if available
     if hasattr(client, "xml_plugin") and client.xml_plugin:
-        print(f"\n6. XML Capture Summary:")
+        print("\n6. XML Capture Summary:")
         history = client.xml_plugin.get_history()
         print(f"   Total SOAP transactions: {len(history)}")
 
