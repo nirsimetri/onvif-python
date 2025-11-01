@@ -508,10 +508,9 @@ class ONVIFServiceTestBase:
 
                     # Call the method if it has parameters
                     if kwargs:
-                        try:
-                            method(**kwargs)
-                        except Exception:
-                            pass  # We expect it might fail, we just want to check the call
+                        method(
+                            **kwargs
+                        )  # We expect it might fail, we just want to check the call
 
                         # Verify operator.call was invoked and parameters forwarded correctly
                         if mock_operator_instance.call.called:
