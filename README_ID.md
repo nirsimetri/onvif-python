@@ -1,14 +1,13 @@
 <h1 align="center">ONVIF Python</h1>
 
 <div align="center">
-	
-[![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.2.3-orange?logo=archive)](https://pypi.org/project/onvif-python/)
-[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
+<img alt="Codacy grade" src="https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy" href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
+<img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg" href="https://deepwiki.com/nirsimetri/onvif-python">
+<img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.4-orange?logo=archive&color=yellow" href="https://pypi.org/project/onvif-python/">
+<img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red" href="https://pepy.tech/projects/onvif-python">
 <br>
-[![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
-[![Upload Python Package](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml/badge.svg)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml)
+<img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main" href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml">
+<img alt="Upload Python Package" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml/badge.svg" href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml">
 </div>
 
 <h1 align="center">
@@ -313,7 +312,7 @@ usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password 
              [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.2.3
+ONVIF Terminal Client — v0.2.4
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -387,7 +386,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell — v0.2.3
+ONVIF Interactive Shell — v0.2.4
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -985,7 +984,7 @@ Berikut adalah daftar layanan ONVIF yang diimplementasikan dan didukung oleh pus
 | Layanan                | Spesifikasi                | Definisi Layanan         | Skema                               | Status     |
 |------------------------|----------------------------|--------------------------|-------------------------------------|------------|
 | Device Management      | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml) | [devicemgmt.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl) | [onvif.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/onvif.xsd) <br> [common.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/common.xsd) | ✅ Lengkap |
-| Events                 | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml) | [event.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl) | [onvif.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/onvif.xsd) <br> [common.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/common.xsd) | ⚠️ Parsial |
+| Events                 | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml) | [event.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl) | [onvif.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/onvif.xsd) <br> [common.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/common.xsd) | ✅ Lengkap |
 | Access Control         | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/AccessControl.xml) | [accesscontrol.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/accesscontrol.wsdl) | [types.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/types.xsd) | ✅ Lengkap |
 | Access Rules           | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/AccessRules.xml) | [accessrules.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/accessrules/wsdl/accessrules.wsdl) | - | ✅ Lengkap |
 | Action Engine          | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/ActionEngine.xml) | [actionengine.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/actionengine.wsdl) | - | ✅ Lengkap |
@@ -1007,12 +1006,10 @@ Berikut adalah daftar layanan ONVIF yang diimplementasikan dan didukung oleh pus
 | Recording Control      | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingControl.xml) | [recording.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/recording.wsdl) | - | ✅ Lengkap |
 | Recording Search       | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingSearch.xml) | [search.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/search.wsdl) | - | ✅ Lengkap |
 | Replay Control         | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Replay.xml) | [replay.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/replay.wsdl) | - | ✅ Lengkap |
-| Resource Query         | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/ResourceQuery.xml) | - | - | ❌ Ada ide? |
 | Schedule               | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Schedule.xml) | [schedule.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schedule/wsdl/schedule.wsdl) | - | ✅ Lengkap |
 | Security               | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml) | [advancedsecurity.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) | - | ✅ Lengkap |
 | Thermal                | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Thermal.xml) | [thermal.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/thermal/wsdl/thermal.wsdl) | [radiometry.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/radiometry.xsd) | ✅ Lengkap |
 | Uplink                 | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/Uplink.xml) | [uplink.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/uplink/wsdl/uplink.wsdl) | - | ✅ Lengkap |
-| WebRTC                 | [Dokumen](https://developer.onvif.org/pub/specs/branches/development/doc/WebRTC.xml) | - | - | ❌ Ada ide? |
 
 </details>
 
@@ -1072,7 +1069,7 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
      - `TLSServerBinding`
      - `MediaSigningBinding`
 
-   Usage in library:
+   Penggunaan di pustaka:
    ```python
    client.security()                  # root binding
    client.jwt()                       # sub-binding accessor
@@ -1126,19 +1123,10 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
 - (segera) [onvif-mcp](https://github.com/nirsimetri/onvif-mcp):
 	Server Model Context Protocol (MCP) untuk ONVIF, menyediakan API terpadu dan integrasi berbasis konteks untuk perangkat, klien, dan layanan ONVIF. Memungkinkan otomatisasi tingkat lanjut, orkestrasi, dan interoperabilitas di seluruh perangkat dan klien yang sesuai ONVIF.
 
-## Alternatif
-
-Jika Anda mencari pustaka Python ONVIF lainnya, berikut beberapa alternatif:
-
-- [python-onvif-zeep](https://github.com/FalkTannhaeuser/python-onvif-zeep):
-	Pustaka klien ONVIF sinkron untuk Python, menggunakan Zeep untuk komunikasi SOAP. Berfokus pada kompatibilitas dan kemudahan penggunaan untuk operasi perangkat ONVIF standar. Cocok untuk skrip dan aplikasi yang tidak memerlukan async.
-
-- [python-onvif-zeep-async](https://github.com/openvideolibs/python-onvif-zeep-async):
-	Pustaka klien ONVIF asinkron untuk Python, berbasis Zeep dan asyncio. Cocok untuk aplikasi yang memerlukan operasi non-blok dan komunikasi perangkat secara konkuren. Mendukung banyak layanan ONVIF dan aktif dipelihara.
-
 ## Referensi
 - [Spesifikasi Resmi ONVIF](https://www.onvif.org/profiles/specifications/specification-history/)
 - [Repositori Resmi ONVIF Specs](https://github.com/onvif/specs)
+- [Panduan Programmer ONVIF](https://www.onvif.org/wp-content/uploads/2016/12/ONVIF_WG-APG-Application_Programmers_Guide-1.pdf)
 - [Indeks Operasi Layanan ONVIF 2.0](https://www.onvif.org/onvif/ver20/util/operationIndex.html)
 - [Contoh Penggunaan](./examples/)
 

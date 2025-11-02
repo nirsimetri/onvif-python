@@ -1,14 +1,13 @@
 <h1 align="center">ONVIF Python</h1>
 
 <div align="center">
-	
-[![Codacy grade](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nirsimetri/onvif-python)
-[![PyPI](https://img.shields.io/badge/PyPI-0.2.3-orange?logo=archive)](https://pypi.org/project/onvif-python/)
-[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&color=red)](https://clickpy.clickhouse.com/dashboard/onvif-python)
+<img alt="Codacy grade" src="https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy" href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
+<img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg" href="https://deepwiki.com/nirsimetri/onvif-python">
+<img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.4-orange?logo=archive&color=yellow" href="https://pypi.org/project/onvif-python/">
+<img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red" href="https://pepy.tech/projects/onvif-python">
 <br>
-[![Build](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
-[![Upload Python Package](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml/badge.svg)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml)
+<img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main" href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml">
+<img alt="Upload Python Package" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml/badge.svg" href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml">
 </div>
 
 <h1 align="center">
@@ -313,7 +312,7 @@ usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password 
              [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.2.3
+ONVIF Terminal Client — v0.2.4
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -386,7 +385,7 @@ Examples:
 <summary><b>2. Interactive Shell</b></summary> 
 
 ```bash
-ONVIF Interactive Shell — v0.2.3
+ONVIF Interactive Shell — v0.2.4
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -985,7 +984,7 @@ Below is a list of ONVIF services implemented and supported by this library, alo
 | Service                | Specifications                | Service Definitions         | Schema Files                        | Status     |
 |------------------------|-------------------------------|-----------------------------|-------------------------------------|------------|
 | Device Management      | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml)                   | [device.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl)    | [onvif.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/onvif.xsd) <br> [common.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/common.xsd)                | ✅ Complete |
-| Events                 | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml)                   | [event.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl)    | [onvif.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/onvif.xsd) <br> [common.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/common.xsd)                | ⚠️ Partial |
+| Events                 | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml)                   | [event.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl)    | [onvif.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/onvif.xsd) <br> [common.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schema/common.xsd)                | ✅ Complete |
 | Access Control         | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/AccessControl.xml)         | [accesscontrol.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/accesscontrol.wsdl)         | [types.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/types.xsd)                            | ✅ Complete |
 | Access Rules           | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/AccessRules.xml)           | [accessrules.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/accessrules/wsdl/accessrules.wsdl)           | -                                      | ✅ Complete |
 | Action Engine          | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/ActionEngine.xml)          | [actionengine.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/actionengine.wsdl)          | -                                      | ✅ Complete |
@@ -1007,12 +1006,10 @@ Below is a list of ONVIF services implemented and supported by this library, alo
 | Recording Control      | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingControl.xml)       | [recording.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/recording.wsdl)             | -                                     | ✅ Complete |
 | Recording Search       | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingSearch.xml)        | [search.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/search.wsdl)                | -                                     | ✅ Complete |
 | Replay Control         | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Replay.xml)                 | [replay.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/replay.wsdl)                | -                                     | ✅ Complete |
-| Resource Query         | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/ResourceQuery.xml)          | -                           |                                      | ❌ Any idea? |
 | Schedule               | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Schedule.xml)               | [schedule.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schedule/wsdl/schedule.wsdl)              | -                                     | ✅ Complete |
 | Security               | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml)               | [advancedsecurity.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl)      | -                                     | ✅ Complete |
 | Thermal                | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Thermal.xml)                | [thermal.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/thermal/wsdl/thermal.wsdl)               | [radiometry.xsd](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/radiometry.xsd)                       | ✅ Complete |
 | Uplink                 | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/Uplink.xml)                 | [uplink.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/uplink/wsdl/uplink.wsdl)                | -                                     | ✅ Complete |
-| WebRTC                 | [Document](https://developer.onvif.org/pub/specs/branches/development/doc/WebRTC.xml)                 | -                            | -                                     | ❌ Any idea? |
 
 </details>
 
@@ -1126,19 +1123,10 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
 - (soon) [onvif-mcp](https://github.com/nirsimetri/onvif-mcp):
 	A Model Context Protocol (MCP) server for ONVIF, providing a unified API and context-based integration for ONVIF devices, clients, and services. It enables advanced automation, orchestration, and interoperability across ONVIF-compliant devices and clients.
 
-## Alternatives
-
-If you are looking for other ONVIF Python libraries, here are some alternatives:
-
-- [python-onvif-zeep](https://github.com/FalkTannhaeuser/python-onvif-zeep):
-	A synchronous ONVIF client library for Python, using Zeep for SOAP communication. Focuses on compatibility and ease of use for standard ONVIF device operations. Good for scripts and applications where async is not required.
-
-- [python-onvif-zeep-async](https://github.com/openvideolibs/python-onvif-zeep-async):
-	An asynchronous ONVIF client library for Python, based on Zeep and asyncio. Suitable for applications requiring non-blocking operations and concurrent device communication. Supports many ONVIF services and is actively maintained.
-
 ## References
 - [ONVIF Official Specifications](https://www.onvif.org/profiles/specifications/specification-history/)
 - [ONVIF Official Specs Repository](https://github.com/onvif/specs)
+- [ONVIF Application Programmer's Guide](https://www.onvif.org/wp-content/uploads/2016/12/ONVIF_WG-APG-Application_Programmers_Guide-1.pdf)
 - [ONVIF 2.0 Service Operation Index](https://www.onvif.org/onvif/ver20/util/operationIndex.html)
 - [Usage Examples](./examples/)
 

@@ -21,7 +21,7 @@ def create_parser():
     """Create argument parser for ONVIF CLI"""
     parser = argparse.ArgumentParser(
         prog="onvif",
-        description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v0.2.3\nhttps://github.com/nirsimetri/onvif-python",
+        description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v0.2.4\nhttps://github.com/nirsimetri/onvif-python",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 Examples:
@@ -159,6 +159,296 @@ Examples:
     )
 
     return parser
+
+
+def main():
+    """Main CLI entry point"""
+    # Setup custom warning format for cleaner output
+    setup_warning_format()
+
+    parser = create_parser()
+
+    # Check if no arguments provided at all
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
+
+    args = parser.parse_intermixed_args()
+
+    # Show ONVIF CLI version
+    if args.version:
+        print(colorize("0.2.4", "yellow"))
+        sys.exit(0)
+
+    # Handle product search
+    if args.search:
+        search_products(args.search, args.page, args.per_page)
+        sys.exit(0)
+
+    # Validate arguments early (before discovery)
+    # Skip validation if search mode is active
+    if (
+        not args.search
+        and not args.interactive
+        and (not args.service or not args.method)
+    ):
+        parser.error(
+            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} mode or {colorize('service/method', 'white')} must be specified"
+        )
+
+    # Handle discovery mode
+    if args.discover:
+        if args.host:
+            parser.error(
+                f"{colorize('--discover', 'white')} cannot be used with {colorize('--host', 'white')}"
+            )
+
+        # Discover devices (pass --https flag to prioritize HTTPS XAddrs and filter term)
+        devices = discover_devices(
+            timeout=4, prefer_https=args.https, filter_term=args.filter
+        )
+
+        if not devices:
+            if args.filter:
+                print(
+                    f"{colorize('No devices found matching filter:', 'red')} {colorize(args.filter, 'white')}"
+                )
+            else:
+                print(colorize("No ONVIF devices discovered. Exiting.", "red"))
+            sys.exit(1)
+
+        # Let user select a device
+        selected = select_device_interactive(devices)
+
+        if selected is None:
+            print(colorize("Device selection cancelled.", "cyan"))
+            sys.exit(0)
+
+        # Set host, port, and HTTPS from selected device
+        args.host, args.port, device_use_https = selected
+
+        # Use device's detected protocol (already filtered by prefer_https in discover_devices)
+        # No need to override - device info already has correct protocol based on --https flag
+
+    # Validate that host is provided (either via --host or --discover) unless using --search
+    if not args.search and not args.host:
+        parser.error(
+            f"Either {colorize('--host', 'white')} or {colorize('--discover', 'white')} must be specified"
+        )
+
+    # Handle username prompt (skip for search mode)
+    if not args.search and not args.username:
+        try:
+            args.username = input("Enter username: ")
+        except (EOFError, KeyboardInterrupt):
+            print("\nUsername entry cancelled.")
+            sys.exit(1)
+
+    # Handle password securely if not provided (skip for search mode)
+    if not args.search and not args.password:
+        try:
+            args.password = getpass.getpass(
+                f"Enter password for {colorize(f'{args.username}@{args.host}', 'yellow')}: "
+            )
+        except (EOFError, KeyboardInterrupt):
+            print("\nPassword entry cancelled.")
+            sys.exit(1)
+
+    # Skip ONVIF client creation for search mode
+    if args.search:
+        return
+
+    try:
+        # Create ONVIF client
+        client = ONVIFClient(
+            host=args.host,
+            port=args.port,
+            username=args.username,
+            password=args.password,
+            timeout=args.timeout,
+            cache=CacheMode(args.cache),
+            use_https=args.https,
+            verify_ssl=not args.no_verify,
+            apply_patch=not args.no_patch,
+            capture_xml=args.debug,
+            wsdl_dir=args.wsdl,
+        )
+
+        if args.interactive:
+            # Test connection before starting interactive shell
+            try:
+                # Try to get device information to verify connection
+                client.devicemgmt().GetDeviceInformation()
+            except Exception as e:
+                print(
+                    f"{colorize('Error:', 'red')} Unable to connect to ONVIF device at {colorize(f'{args.host}:{args.port}', 'white')}",
+                    file=sys.stderr,
+                )
+                print(f"Connection error: {e}", file=sys.stderr)
+                if args.debug:
+                    import traceback
+
+                    traceback.print_exc()
+                sys.exit(1)
+
+            # Start interactive shell
+            shell = InteractiveShell(client, args)
+            shell.run()
+        else:
+            # Execute direct command
+            params_str = " ".join(args.params) if args.params else None
+            result = execute_command(client, args.service, args.method, params_str)
+            print(str(result))
+
+    except KeyboardInterrupt:
+        print("\nOperation cancelled by user")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        if args.debug:
+            import traceback
+
+            traceback.print_exc()
+        sys.exit(1)
+
+
+def execute_command(
+    client: ONVIFClient, service_name: str, method_name: str, params_str: str = None
+) -> Any:
+    """Execute a single ONVIF command"""
+    # Get service instance
+    try:
+        service = getattr(client, service_name.lower())()
+    except AttributeError:
+        raise ValueError(f"{colorize('Unknown service:', 'red')} {service_name}")
+
+    # Get method
+    try:
+        method = getattr(service, method_name)
+    except AttributeError:
+        raise ValueError(
+            f"{colorize('Unknown method', 'red')} '{method_name}' for service '{service_name}'"
+        )
+
+    # Parse parameters
+    params = parse_json_params(params_str) if params_str else {}
+
+    # Execute method
+    return method(**params)
+
+
+def discover_devices(
+    timeout: int = 4, prefer_https: bool = False, filter_term: Optional[str] = None
+) -> list:
+    """Discover ONVIF devices on the network using WS-Discovery.
+
+    Args:
+        timeout: Discovery timeout in seconds
+        prefer_https: If True, prioritize HTTPS XAddrs when available
+        filter_term: Optional search term to filter devices by types or scopes
+
+    Returns:
+        List of discovered devices with connection info
+    """
+
+    # Use ONVIFDiscovery class
+    discovery = ONVIFDiscovery(timeout=timeout)
+
+    print(f"\n{colorize('Discovering ONVIF devices on network...', 'yellow')}")
+    print(f"Network interface: {colorize(discovery._get_local_ip(), 'white')}")
+    print(f"Timeout: {timeout}s")
+    if filter_term:
+        print(f"Filter: {colorize(filter_term, 'yellow')}")
+    print()
+
+    devices = discovery.discover(prefer_https=prefer_https, search=filter_term)
+
+    return devices
+
+
+def select_device_interactive(devices: list) -> Optional[Tuple[str, int, bool]]:
+    """Display devices and allow user to select one interactively.
+
+    Returns:
+        Tuple of (host, port, use_https) or None if cancelled
+    """
+    if not devices:
+        print(f"\n{colorize('No ONVIF devices found.', 'red')}")
+        return None
+
+    print(f"{colorize(f'Found {len(devices)} ONVIF device(s):', 'green')}")
+
+    for idx, device in enumerate(devices, 1):
+        idx_str = colorize(f"[{idx}]", "yellow")
+        protocol = "https" if device.get("use_https", False) else "http"
+        host_port = f"{device['host']}:{device['port']}"
+        protocol_indicator = (
+            colorize("🔒 HTTPS", "green")
+            if device.get("use_https", False)
+            else colorize("HTTP", "white")
+        )
+        print(f"\n{idx_str} {colorize(host_port, 'yellow')} ({protocol_indicator})")
+
+        # Remove uuid: or urn:uuid: prefix from EPR
+        epr_display = device["epr"]
+        if epr_display.startswith("urn:uuid:"):
+            epr_display = epr_display.replace("urn:uuid:", "")
+        elif epr_display.startswith("uuid:"):
+            epr_display = epr_display.replace("uuid:", "")
+        print(f"    [id] {epr_display}")
+
+        if device["xaddrs"]:
+            xaddrs_parts = [f"[{xaddr}]" for xaddr in device["xaddrs"]]
+            print(f"    [xaddrs] {' '.join(xaddrs_parts)}")
+
+        if device["types"]:
+            types_parts = [f"[{t}]" for t in device["types"]]
+            print(f"    [types] {' '.join(types_parts)}")
+
+        if device["scopes"]:
+            scope_parts = []
+            for scope in device["scopes"]:
+                # Remove the prefix "onvif://www.onvif.org/" if present
+                if scope.startswith("onvif://www.onvif.org/"):
+                    simplified = scope.replace("onvif://www.onvif.org/", "")
+                    scope_parts.append(f"[{simplified}]")
+                else:
+                    # Keep other scopes as-is (e.g., http:123)
+                    scope_parts.append(f"[{scope}]")
+
+            if scope_parts:
+                print(f"    [scopes] {' '.join(scope_parts)}")
+
+    # Simple selection (without arrow keys for cross-platform compatibility)
+    while True:
+        try:
+            selection = input(
+                f"\nSelect device number {colorize(f'1-{len(devices)}', 'white')} or {colorize('q', 'white')} to quit: "
+            )
+
+            if selection.lower() == "q":
+                return None
+
+            idx = int(selection)
+            if 1 <= idx <= len(devices):
+                selected = devices[idx - 1]
+                protocol = "https" if selected.get("use_https", False) else "http"
+                host_port = f"{selected['host']}:{selected['port']}"
+                print(
+                    f"\n{colorize('Selected:', 'green')} {colorize(protocol, 'cyan')}://{colorize(host_port, 'yellow')}"
+                )
+                return (
+                    selected["host"],
+                    selected["port"],
+                    selected.get("use_https", False),
+                )
+            else:
+                print(colorize("Invalid selection. Please try again.", "red"))
+
+        except ValueError:
+            print(colorize("Invalid input. Please enter a number.", "red"))
+        except (EOFError, KeyboardInterrupt):
+            return None
 
 
 def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None:
@@ -443,296 +733,6 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
     except Exception as e:
         print(f"{colorize('Error:', 'red')} {e}")
         sys.exit(1)
-
-
-def main():
-    """Main CLI entry point"""
-    # Setup custom warning format for cleaner output
-    setup_warning_format()
-
-    parser = create_parser()
-
-    # Check if no arguments provided at all
-    if len(sys.argv) == 1:
-        parser.print_help()
-        sys.exit(0)
-
-    args = parser.parse_intermixed_args()
-
-    # Show ONVIF CLI version
-    if args.version:
-        print(colorize("0.2.3", "yellow"))
-        sys.exit(0)
-
-    # Handle product search
-    if args.search:
-        search_products(args.search, args.page, args.per_page)
-        sys.exit(0)
-
-    # Validate arguments early (before discovery)
-    # Skip validation if search mode is active
-    if (
-        not args.search
-        and not args.interactive
-        and (not args.service or not args.method)
-    ):
-        parser.error(
-            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} mode or {colorize('service/method', 'white')} must be specified"
-        )
-
-    # Handle discovery mode
-    if args.discover:
-        if args.host:
-            parser.error(
-                f"{colorize('--discover', 'white')} cannot be used with {colorize('--host', 'white')}"
-            )
-
-        # Discover devices (pass --https flag to prioritize HTTPS XAddrs and filter term)
-        devices = discover_devices(
-            timeout=4, prefer_https=args.https, filter_term=args.filter
-        )
-
-        if not devices:
-            if args.filter:
-                print(
-                    f"{colorize('No devices found matching filter:', 'red')} {colorize(args.filter, 'white')}"
-                )
-            else:
-                print(colorize("No ONVIF devices discovered. Exiting.", "red"))
-            sys.exit(1)
-
-        # Let user select a device
-        selected = select_device_interactive(devices)
-
-        if selected is None:
-            print(colorize("Device selection cancelled.", "cyan"))
-            sys.exit(0)
-
-        # Set host, port, and HTTPS from selected device
-        args.host, args.port, device_use_https = selected
-
-        # Use device's detected protocol (already filtered by prefer_https in discover_devices)
-        # No need to override - device info already has correct protocol based on --https flag
-
-    # Validate that host is provided (either via --host or --discover) unless using --search
-    if not args.search and not args.host:
-        parser.error(
-            f"Either {colorize('--host', 'white')} or {colorize('--discover', 'white')} must be specified"
-        )
-
-    # Handle username prompt (skip for search mode)
-    if not args.search and not args.username:
-        try:
-            args.username = input("Enter username: ")
-        except (EOFError, KeyboardInterrupt):
-            print("\nUsername entry cancelled.")
-            sys.exit(1)
-
-    # Handle password securely if not provided (skip for search mode)
-    if not args.search and not args.password:
-        try:
-            args.password = getpass.getpass(
-                f"Enter password for {colorize(f'{args.username}@{args.host}', 'yellow')}: "
-            )
-        except (EOFError, KeyboardInterrupt):
-            print("\nPassword entry cancelled.")
-            sys.exit(1)
-
-    # Skip ONVIF client creation for search mode
-    if args.search:
-        return
-
-    try:
-        # Create ONVIF client
-        client = ONVIFClient(
-            host=args.host,
-            port=args.port,
-            username=args.username,
-            password=args.password,
-            timeout=args.timeout,
-            cache=CacheMode(args.cache),
-            use_https=args.https,
-            verify_ssl=not args.no_verify,
-            apply_patch=not args.no_patch,
-            capture_xml=args.debug,
-            wsdl_dir=args.wsdl,
-        )
-
-        if args.interactive:
-            # Test connection before starting interactive shell
-            try:
-                # Try to get device information to verify connection
-                client.devicemgmt().GetDeviceInformation()
-            except Exception as e:
-                print(
-                    f"{colorize('Error:', 'red')} Unable to connect to ONVIF device at {colorize(f'{args.host}:{args.port}', 'white')}",
-                    file=sys.stderr,
-                )
-                print(f"Connection error: {e}", file=sys.stderr)
-                if args.debug:
-                    import traceback
-
-                    traceback.print_exc()
-                sys.exit(1)
-
-            # Start interactive shell
-            shell = InteractiveShell(client, args)
-            shell.run()
-        else:
-            # Execute direct command
-            params_str = " ".join(args.params) if args.params else None
-            result = execute_command(client, args.service, args.method, params_str)
-            print(str(result))
-
-    except KeyboardInterrupt:
-        print("\nOperation cancelled by user")
-        sys.exit(1)
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
-        if args.debug:
-            import traceback
-
-            traceback.print_exc()
-        sys.exit(1)
-
-
-def execute_command(
-    client: ONVIFClient, service_name: str, method_name: str, params_str: str = None
-) -> Any:
-    """Execute a single ONVIF command"""
-    # Get service instance
-    try:
-        service = getattr(client, service_name.lower())()
-    except AttributeError:
-        raise ValueError(f"{colorize('Unknown service:', 'red')} {service_name}")
-
-    # Get method
-    try:
-        method = getattr(service, method_name)
-    except AttributeError:
-        raise ValueError(
-            f"{colorize('Unknown method', 'red')} '{method_name}' for service '{service_name}'"
-        )
-
-    # Parse parameters
-    params = parse_json_params(params_str) if params_str else {}
-
-    # Execute method
-    return method(**params)
-
-
-def discover_devices(
-    timeout: int = 4, prefer_https: bool = False, filter_term: Optional[str] = None
-) -> list:
-    """Discover ONVIF devices on the network using WS-Discovery.
-
-    Args:
-        timeout: Discovery timeout in seconds
-        prefer_https: If True, prioritize HTTPS XAddrs when available
-        filter_term: Optional search term to filter devices by types or scopes
-
-    Returns:
-        List of discovered devices with connection info
-    """
-
-    # Use ONVIFDiscovery class
-    discovery = ONVIFDiscovery(timeout=timeout)
-
-    print(f"\n{colorize('Discovering ONVIF devices on network...', 'yellow')}")
-    print(f"Network interface: {colorize(discovery._get_local_ip(), 'white')}")
-    print(f"Timeout: {timeout}s")
-    if filter_term:
-        print(f"Filter: {colorize(filter_term, 'yellow')}")
-    print()
-
-    devices = discovery.discover(prefer_https=prefer_https, search=filter_term)
-
-    return devices
-
-
-def select_device_interactive(devices: list) -> Optional[Tuple[str, int, bool]]:
-    """Display devices and allow user to select one interactively.
-
-    Returns:
-        Tuple of (host, port, use_https) or None if cancelled
-    """
-    if not devices:
-        print(f"\n{colorize('No ONVIF devices found.', 'red')}")
-        return None
-
-    print(f"{colorize(f'Found {len(devices)} ONVIF device(s):', 'green')}")
-
-    for idx, device in enumerate(devices, 1):
-        idx_str = colorize(f"[{idx}]", "yellow")
-        protocol = "https" if device.get("use_https", False) else "http"
-        host_port = f"{device['host']}:{device['port']}"
-        protocol_indicator = (
-            colorize("🔒 HTTPS", "green")
-            if device.get("use_https", False)
-            else colorize("HTTP", "white")
-        )
-        print(f"\n{idx_str} {colorize(host_port, 'yellow')} ({protocol_indicator})")
-
-        # Remove uuid: or urn:uuid: prefix from EPR
-        epr_display = device["epr"]
-        if epr_display.startswith("urn:uuid:"):
-            epr_display = epr_display.replace("urn:uuid:", "")
-        elif epr_display.startswith("uuid:"):
-            epr_display = epr_display.replace("uuid:", "")
-        print(f"    [id] {epr_display}")
-
-        if device["xaddrs"]:
-            xaddrs_parts = [f"[{xaddr}]" for xaddr in device["xaddrs"]]
-            print(f"    [xaddrs] {' '.join(xaddrs_parts)}")
-
-        if device["types"]:
-            types_parts = [f"[{t}]" for t in device["types"]]
-            print(f"    [types] {' '.join(types_parts)}")
-
-        if device["scopes"]:
-            scope_parts = []
-            for scope in device["scopes"]:
-                # Remove the prefix "onvif://www.onvif.org/" if present
-                if scope.startswith("onvif://www.onvif.org/"):
-                    simplified = scope.replace("onvif://www.onvif.org/", "")
-                    scope_parts.append(f"[{simplified}]")
-                else:
-                    # Keep other scopes as-is (e.g., http:123)
-                    scope_parts.append(f"[{scope}]")
-
-            if scope_parts:
-                print(f"    [scopes] {' '.join(scope_parts)}")
-
-    # Simple selection (without arrow keys for cross-platform compatibility)
-    while True:
-        try:
-            selection = input(
-                f"\nSelect device number {colorize(f'1-{len(devices)}', 'white')} or {colorize('q', 'white')} to quit: "
-            )
-
-            if selection.lower() == "q":
-                return None
-
-            idx = int(selection)
-            if 1 <= idx <= len(devices):
-                selected = devices[idx - 1]
-                protocol = "https" if selected.get("use_https", False) else "http"
-                host_port = f"{selected['host']}:{selected['port']}"
-                print(
-                    f"\n{colorize('Selected:', 'green')} {colorize(protocol, 'cyan')}://{colorize(host_port, 'yellow')}"
-                )
-                return (
-                    selected["host"],
-                    selected["port"],
-                    selected.get("use_https", False),
-                )
-            else:
-                print(colorize("Invalid selection. Please try again.", "red"))
-
-        except ValueError:
-            print(colorize("Invalid input. Please enter a number.", "red"))
-        except (EOFError, KeyboardInterrupt):
-            return None
 
 
 def setup_warning_format():
