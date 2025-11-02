@@ -1,13 +1,13 @@
 <h1 align="center">ONVIF Python</h1>
 
 <div align="center">
-<img alt="Codacy grade" src="https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy" href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
-<img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg" href="https://deepwiki.com/nirsimetri/onvif-python">
-<img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.4-orange?logo=archive&color=yellow" href="https://pypi.org/project/onvif-python/">
-<img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red" href="https://pepy.tech/projects/onvif-python">
+<a href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img alt="Codacy grade" src="https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy"></a>
+<a href="https://deepwiki.com/nirsimetri/onvif-python"><img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg"></a>
+<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.4-orange?logo=archive&color=yellow"></a>
+<a href="https://pepy.tech/projects/onvif-python"><img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red"></a>
 <br>
-<img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main" href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml">
-<img alt="Upload Python Package" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml/badge.svg" href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml">
+<a href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml"><img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main"></a>
+<a href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml"><img alt="Upload Python Package" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml/badge.svg"></a>
 </div>
 
 <h1 align="center">
