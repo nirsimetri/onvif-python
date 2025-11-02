@@ -358,8 +358,6 @@ def get_method_documentation(service_obj, method_name: str) -> Optional[Dict[str
     except Exception:
         return None
 
-    return None
-
 
 def colorize(text: str, color: str) -> str:
     """Add color to text for terminal output"""
@@ -1279,8 +1277,10 @@ def resolve_complex_type(
                 # Get documentation
                 attr_doc = None
                 attr_doc_elem = attr.find("xs:annotation/xs:documentation", namespaces)
-                if attr_doc_elem is not None and attr_doc_elem.text:
-                    attr_doc = clean_documentation_html(attr_doc_elem.text.strip())
+                if attr_doc_elem is not None:
+                    full_text = extract_documentation_text(attr_doc_elem)
+                    if full_text:
+                        attr_doc = clean_documentation_html(full_text)
 
                 attr_info = {
                     "name": attr_name,
@@ -1311,8 +1311,10 @@ def resolve_complex_type(
             # Get documentation
             child_doc = None
             doc_elem = elem.find("xs:annotation/xs:documentation", namespaces)
-            if doc_elem is not None and doc_elem.text:
-                child_doc = clean_documentation_html(doc_elem.text.strip())
+            if doc_elem is not None:
+                full_text = extract_documentation_text(doc_elem)
+                if full_text:
+                    child_doc = clean_documentation_html(full_text)
 
             child_info = {
                 "name": child_name,
@@ -1402,8 +1404,10 @@ def parse_inline_complex_type(
         # Get documentation
         attr_doc = None
         attr_doc_elem = attr.find("xs:annotation/xs:documentation", namespaces)
-        if attr_doc_elem is not None and attr_doc_elem.text:
-            attr_doc = clean_documentation_html(attr_doc_elem.text.strip())
+        if attr_doc_elem is not None:
+            full_text = extract_documentation_text(attr_doc_elem)
+            if full_text:
+                attr_doc = clean_documentation_html(full_text)
 
         attr_info = {
             "name": attr_name,
@@ -1451,8 +1455,10 @@ def parse_inline_complex_type(
                 # Get documentation
                 attr_doc = None
                 attr_doc_elem = attr.find("xs:annotation/xs:documentation", namespaces)
-                if attr_doc_elem is not None and attr_doc_elem.text:
-                    attr_doc = clean_documentation_html(attr_doc_elem.text.strip())
+                if attr_doc_elem is not None:
+                    full_text = extract_documentation_text(attr_doc_elem)
+                    if full_text:
+                        attr_doc = clean_documentation_html(full_text)
 
                 attr_info = {
                     "name": attr_name,
@@ -1483,8 +1489,10 @@ def parse_inline_complex_type(
             # Get documentation
             child_doc = None
             doc_elem = elem.find("xs:annotation/xs:documentation", namespaces)
-            if doc_elem is not None and doc_elem.text:
-                child_doc = clean_documentation_html(doc_elem.text.strip())
+            if doc_elem is not None:
+                full_text = extract_documentation_text(doc_elem)
+                if full_text:
+                    child_doc = clean_documentation_html(full_text)
 
             child_info = {
                 "name": child_name,
