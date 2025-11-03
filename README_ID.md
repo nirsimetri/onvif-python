@@ -23,13 +23,19 @@ Di balik layar, komunikasi ONVIF bergantung pada **[SOAP](https://en.wikipedia.o
 
 Pustaka ini menyederhanakan proses tersebut dengan membungkus komunikasi SOAP ke dalam API Python yang bersih. Anda tidak perlu lagi menangani parsing XML tingkat rendah, namespace, atau token keamanan secara manual — pustaka ini menangani semuanya, memungkinkan Anda untuk fokus pada pembangunan fungsionalitas.  
 
-## Fitur Utama
-- Implementasi penuh layanan inti dan profil ONVIF  
-- Dukungan untuk penemuan perangkat, streaming media, kontrol PTZ, manajemen event, dan lainnya  
-- Abstraksi Pythonic atas permintaan dan respons SOAP (tidak perlu membuat XML secara manual)  
-- Arsitektur yang dapat diperluas untuk ekstensi ONVIF khusus  
-- Kompatibel dengan beberapa versi spesifikasi ONVIF  
-- Skrip contoh dan pengujian disertakan  
+## Filosofi Pustaka
+> [!NOTE]
+> Pustaka ini akan terus diperbarui seiring dengan pembaruan versi ONVIF. Pustaka menggunakan WSDL bawaan yang akan selalu mengikuti perubahan pada [Spesifikasi WSDL ONVIF](https://github.com/onvif/specs). Anda juga dapat menggunakan file WSDL Anda sendiri dengan menambahkan argumen `wsdl_dir`; lihat [Parameter ONVIFClient](#parameter-onvifclient).
+
+- **WYSIWYG (What You See is What You Get)**: Setiap operasi ONVIF dalam pustaka ini mencerminkan spesifikasi ONVIF resmi secara tepat. Nama metode, struktur parameter, dan format respons mengikuti standar ONVIF tanpa lapisan abstraksi atau antarmuka yang diubah namanya. Apa yang Anda lihat dalam dokumentasi ONVIF adalah persis apa yang Anda dapatkan dalam Python.
+
+- **Interoperabilitas Ragam Perangkat**: Dibangun untuk menangani keragaman dunia nyata dari implementasi ONVIF lintas produsen. Pustaka ini dengan anggun menangani fitur yang hilang, operasi opsional, dan perilaku spesifik vendor melalui penanganan kesalahan yang komprehensif dan mekanisme fallback. Baik Anda bekerja dengan kamera enterprise kelas atas atau kamera IP murah, pustaka ini akan beradaptasi.
+
+- **Akurasi Spesifikasi Resmi**: Semua implementasi layanan dihasilkan dan divalidasi terhadap `Spesifikasi WSDL ONVIF` resmi. Pustaka ini mencakup test suite komprehensif yang memverifikasi kepatuhan terhadap standar ONVIF, memastikan bahwa tanda tangan metode, tipe parameter, dan perilaku cocok dengan spesifikasi resmi secara tepat.
+
+- **Pendekatan Python Modern**: Dirancang untuk dukungan IDE yang sangat baik dengan type hints lengkap, auto-completion, dan deteksi kesalahan langsung. Anda akan mendapatkan pengecualian `TypeError` di awal saat mengakses operasi ONVIF dengan argumen yang salah, alih-alih `SOAP faults` yang tidak jelas kemudian. API Python yang bersih dan natural bagi pengembang Python sambil mempertahankan kompatibilitas ONVIF.
+
+- **Dependensi Minimal**: Hanya bergantung pada pustaka penting yang terpelihara dengan baik (`zeep` untuk SOAP, `requests` untuk HTTP). Tidak ada dependensi framework yang membengkak atau parser XML kustom. Pustaka tetap ringan sambil menyediakan fungsionalitas ONVIF penuh, membuatnya mudah diintegrasikan ke dalam proyek apa pun tanpa konflik dependensi.
 
 ## Untuk Siapa Pustaka Ini?
 - **Pengembang individu** yang menjelajahi ONVIF atau membangun proyek hobi  
