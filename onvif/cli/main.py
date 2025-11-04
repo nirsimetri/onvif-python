@@ -491,8 +491,9 @@ def _serialize_for_json(obj: Any) -> Any:
                     value = getattr(obj, elem_name, None)
                     if value is not None:
                         result[elem_name] = _serialize_for_json(value)
-                except Exception:
-                    continue
+                except (AttributeError, TypeError):
+                    # Skip elements that can't be accessed or have type issues
+                    pass
 
         # Also try regular attributes
         for attr_name in dir(obj):
@@ -503,8 +504,9 @@ def _serialize_for_json(obj: Any) -> Any:
                     attr_value = getattr(obj, attr_name)
                     if attr_value is not None and attr_name not in result:
                         result[attr_name] = _serialize_for_json(attr_value)
-                except Exception:
-                    continue
+                except (AttributeError, TypeError):
+                    # Skip attributes that can't be accessed or have type issues
+                    pass
 
         return result
 
@@ -525,9 +527,9 @@ def _serialize_for_json(obj: Any) -> Any:
                         attr_value = getattr(obj, attr_name)
                         if attr_value is not None:
                             result[attr_name] = _serialize_for_json(attr_value)
-                    except Exception:
-                        # Skip attributes that can't be accessed
-                        continue
+                    except (AttributeError, TypeError):
+                        # Skip attributes that can't be accessed or have type issues
+                        pass
 
         return result
     elif hasattr(obj, "_value_1"):
