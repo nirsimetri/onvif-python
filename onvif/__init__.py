@@ -1,7 +1,7 @@
 # onvif/__init__.py
 
 from .client import ONVIFClient
-from .operator import ONVIFOperator, CacheMode
+from .operator import CacheMode
 from .utils import (
     ONVIFWSDL,
     ONVIFOperationException,
@@ -14,7 +14,6 @@ from .cli import main as ONVIFCLI
 
 __all__ = [
     "ONVIFClient",
-    "ONVIFOperator",
     "CacheMode",
     "ONVIFWSDL",
     "ONVIFOperationException",

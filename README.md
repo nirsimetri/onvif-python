@@ -3,7 +3,7 @@
 <div align="center">
 <a href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img alt="Codacy grade" src="https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy"></a>
 <a href="https://deepwiki.com/nirsimetri/onvif-python"><img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg"></a>
-<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.4-orange?logo=archive&color=yellow"></a>
+<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.5-orange?logo=archive&color=yellow"></a>
 <a href="https://pepy.tech/projects/onvif-python"><img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red"></a>
 <br>
 <a href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml"><img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main"></a>
@@ -21,15 +21,21 @@
 
 Behind the scenes, ONVIF communication relies on **[SOAP](https://en.wikipedia.org/wiki/SOAP) (Simple Object Access Protocol)** — an [XML](https://en.wikipedia.org/wiki/XML)-based messaging protocol with strict schema definitions ([WSDL](https://en.wikipedia.org/wiki/Web_Services_Description_Language)/[XSD](https://en.wikipedia.org/wiki/XML_Schema_(W3C))). SOAP ensures interoperability, but when used directly it can be verbose, complex, and error-prone.  
 
-This library simplifies that process by wrapping SOAP communication into a clean, Pythonic API. You no longer need to handle low-level XML parsing, namespaces, or security tokens manually — the library takes care of it, letting you focus on building functionality.  
+This library simplifies that process by wrapping SOAP communication into a clean, Pythonic API. You no longer need to handle low-level XML parsing, namespaces, or security tokens manually — the library takes care of it, letting you focus on building functionality.
 
-## Key Features
-- Full implementation of ONVIF core services and profiles  
-- Support for device discovery, media streaming, PTZ control, event management, and more  
-- Pythonic abstraction over SOAP requests and responses (no need to handcraft XML)  
-- Extensible architecture for custom ONVIF extensions  
-- Compatible with multiple ONVIF specification versions  
-- Example scripts and tests included  
+## Library Philosophy
+> [!NOTE]
+> This library will be continuously updated as ONVIF versions are updated. It uses a built-in WSDL that will always follow changes to the [ONVIF WSDL Specifications](https://github.com/onvif/specs). You can also use your own ONVIF WSDL file by adding the `wsdl_dir` argument; see [ONVIFClient Parameters](#onvifclient-parameters).
+
+- **WYSIWYG (What You See is What You Get)**: Every ONVIF operation in the library mirrors the official ONVIF specification exactly. Method names, parameter structures, and response formats follow ONVIF standards without abstraction layers or renamed interfaces. What you see in the ONVIF documentation is exactly what you get in Python.
+
+- **Device Variety Interoperability**: Built to handle the real-world diversity of ONVIF implementations across manufacturers. The library gracefully handles missing features, optional operations, and vendor-specific behaviors through comprehensive error handling and fallback mechanisms. Whether you're working with high-end enterprise cameras or budget IP cameras, the library adapts.
+
+- **Official Specifications Accuracy**: All service implementations are generated and validated against official `ONVIF WSDL Specifications`. The library includes comprehensive test suites that verify compliance with ONVIF standards, ensuring that method signatures, parameter types, and behavior match the official specifications precisely.
+
+- **Modern Python Approach**: Designed for excellent IDE support with full type hints, auto-completion, and immediate error detection. You'll get `TypeError` exceptions upfront when accessing ONVIF operations with wrong arguments, instead of cryptic `SOAP faults` later. Clean, Pythonic API that feels natural to Python developers while maintaining ONVIF compatibility.
+
+- **Minimal Dependencies**: Only depends on essential, well-maintained libraries (`zeep` for SOAP, `requests` for HTTP). No bloated framework dependencies or custom XML parsers. The library stays lightweight while providing full ONVIF functionality, making it easy to integrate into any project without dependency conflicts.
 
 ## Who Is It For?
 - **Individual developers** exploring ONVIF or building hobby projects  
@@ -308,11 +314,12 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 <summary><b>1. Direct CLI</b></summary> 
 
 ```bash
-usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--search SEARCH] [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--https]
-             [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--search SEARCH] [--page PAGE]
+             [--per-page PER_PAGE] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL]
+             [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.2.4
+ONVIF Terminal Client — v0.2.5
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -346,6 +353,9 @@ options:
                         Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
   --health-check-interval HEALTH_CHECK_INTERVAL, -hci HEALTH_CHECK_INTERVAL
                         Health check interval in seconds for interactive mode (default: 10)
+  --output OUTPUT, -o OUTPUT
+                        Save command output to file. Supports .json, .xml extensions for format detection, or plain text. XML format automatically enables
+                        debug mode for SOAP capture.
   --version, -v         Show ONVIF CLI version and exit
 
 Examples:
@@ -366,7 +376,12 @@ Examples:
 
   # Direct command execution
   onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
-  onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={"PanTilt": {"x": -0.1, "y": 0}} --host 192.168.1.17 --port 8000 --username admin --password admin123
+  onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={'PanTilt': {'x': -0.1, 'y': 0}} -H 192.168.1.17 -P 8000 -u admin -p admin123
+
+  # Save output to file
+  onvif devicemgmt GetDeviceInformation --host 192.168.1.17 --port 8000 --username admin --password admin123 --output device_info.json
+  onvif media GetProfiles --host 192.168.1.17 --port 8000 --username admin --password admin123 --output profiles.xml
+  onvif ptz GetConfigurations --host 192.168.1.17 --port 8000 --username admin --password admin123 --output ptz_config.txt --debug
 
   # Interactive mode
   onvif --host 192.168.1.17 --port 8000 --username admin --password admin123 --interactive
@@ -385,7 +400,7 @@ Examples:
 <summary><b>2. Interactive Shell</b></summary> 
 
 ```bash
-ONVIF Interactive Shell — v0.2.4
+ONVIF Interactive Shell — v0.2.5
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -593,7 +608,11 @@ onvif <service> <method> [parameters...] -H <host> -P <port> -u <user> -p <pass>
 onvif devicemgmt GetCapabilities Category=All -H 192.168.1.17 -P 8000 -u admin -p admin123
 
 # Move a PTZ camera
-onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity='{"PanTilt": {"x": 0.1}}' -H 192.168.1.17 -P 8000 -u admin -p admin123
+onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity='{"PanTilt": {"x": 0.1, "y": 0}}' -H 192.168.1.17 -P 8000 -u admin -p admin123
+
+# Save output to file
+onvif devicemgmt GetDeviceInformation --host 192.168.1.17 --port 8000 --username admin --password admin123 --output device_info.json
+onvif media GetProfiles -H 192.168.1.17 -P 8000 -u admin -p admin123 -o profiles.xml
 ```
 
 **4. ONVIF Product Search**
@@ -1109,13 +1128,11 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
 - [ ] Add more usage examples for advanced features.
 - [ ] Add benchmarking and performance metrics.
 - [ ] Add community-contributed device configuration templates.
-- [ ] Implement missing or partial ONVIF services.
-- [ ] Add function to expose ONVIF devices (for debugging purposes by the community).
 
 ## Related Projects
 
 - [onvif-products-directory](https://github.com/nirsimetri/onvif-products-directory):
-	This project is a comprehensive ONVIF data aggregation and management suite, designed to help developers explore, analyze, and process ONVIF-compliant product information from hundreds of manufacturers worldwide. It provides a unified structure for device, client, and company data, making it easier to perform research, build integrations, and generate statistics for ONVIF ecosystem analysis.
+	This project is a comprehensive ONVIF data aggregation and management suite, designed to help developers explore, analyze, and process ONVIF-compliant product information from hundreds of manufacturers worldwide.
 
 - (soon) [onvif-rest-server](https://github.com/nirsimetri/onvif-rest-server):
 	A RESTful API server for ONVIF devices, enabling easy integration of ONVIF device management, media streaming, and other capabilities into web applications and services.

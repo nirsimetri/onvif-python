@@ -26,7 +26,7 @@ Thank you for your interest in contributing to the ONVIF Python project! We welc
 2. **Create a new branch** for your feature, fix, or documentation update.
 3. **Make your changes** with clear, descriptive commit messages.
 4. **Test your changes** to ensure they work as expected and do not break existing functionality.
-5. **Push your branch** to your fork and open a Pull Request (PR) against the `main` branch of this repository.
+5. **Push your branch** to your fork and open a Pull Request (PR) against the `dev` branch of this repository.
 6. **Participate in code review** by responding to feedback and making necessary updates.
 
 ## Code of Conduct
@@ -45,25 +45,41 @@ All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.
 
 ## Development Setup
 
-1. **Clone the repository:**
+1. **Clone the repository and switch to dev branch:**
    ```bash
+   # Option 1: Clone dev branch directly
+   git clone -b dev https://github.com/nirsimetri/onvif-python.git
+   cd onvif-python
+   
+   # Option 2: Clone then switch to dev
    git clone https://github.com/nirsimetri/onvif-python.git
    cd onvif-python
+   git checkout dev
    ```
 2. **Install locally:**
    ```bash
-   pip install .
+   # Install the package in development mode
+   pip install -e .
+   
+   # Install development dependencies (pytest, black, flake8)
+   pip install -e ".[dev]"
    ```
    Or use `pyproject.toml` with your preferred tool (e.g., Poetry, pip).
-3. (Optional) **Run tests:**
+3. **Run tests:**
    ```bash
    pytest
    ```
-4. (Optional) **Lint and format code:**
+   Make sure all tests pass before submitting your changes.
+
+4. **Lint and format code:**
    ```bash
+   # Check code style with flake8
    flake8 .
+   
+   # Format code with black
    black .
    ```
+   Ensure your code follows PEP8 standards and is properly formatted.
 5. **Try example scripts:**
    See the [`examples/`](./examples/) folder for usage scenarios.
 

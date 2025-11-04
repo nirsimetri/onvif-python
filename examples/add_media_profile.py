@@ -84,7 +84,7 @@ try:
     # Verify the profile was created
     print("\nVerifying profile creation...")
     profile = media.GetProfile(ProfileToken=profile_token)
-    print(f"\nProfile Details:")
+    print("\nProfile Details:")
     print(f"  Name: {profile.Name}")
     print(f"  Token: {profile.token}")
     if (
