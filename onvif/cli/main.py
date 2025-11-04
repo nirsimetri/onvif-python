@@ -384,10 +384,10 @@ def save_output_to_file(
         # Determine output format based on file extension
         _, ext = os.path.splitext(output_path.lower())
 
-        # Prepare output data
-        output_data = {}
-
         if ext == ".json":
+            # Prepare output data
+            output_data = {}
+
             # JSON format
             output_data["result"] = _serialize_for_json(result)
             output_data["timestamp"] = datetime.now().isoformat()
