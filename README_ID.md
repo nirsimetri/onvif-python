@@ -3,7 +3,7 @@
 <div align="center">
 <a href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img alt="Codacy grade" src="https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?label=Code%20Quality&logo=codacy"></a>
 <a href="https://deepwiki.com/nirsimetri/onvif-python"><img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg"></a>
-<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.4-orange?logo=archive&color=yellow"></a>
+<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.5-orange?logo=archive&color=yellow"></a>
 <a href="https://pepy.tech/projects/onvif-python"><img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red"></a>
 <br>
 <a href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml"><img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main"></a>
@@ -25,7 +25,7 @@ Pustaka ini menyederhanakan proses tersebut dengan membungkus komunikasi SOAP ke
 
 ## Filosofi Pustaka
 > [!NOTE]
-> Pustaka ini akan terus diperbarui seiring dengan pembaruan versi ONVIF. Pustaka menggunakan WSDL bawaan yang akan selalu mengikuti perubahan pada [Spesifikasi WSDL ONVIF](https://github.com/onvif/specs). Anda juga dapat menggunakan file WSDL Anda sendiri dengan menambahkan argumen `wsdl_dir`; lihat [Parameter ONVIFClient](#parameter-onvifclient).
+> Pustaka ini akan terus diperbarui seiring dengan pembaruan versi ONVIF. Pustaka menggunakan WSDL bawaan yang akan selalu mengikuti perubahan pada [Spesifikasi WSDL ONVIF](https://github.com/onvif/specs). Anda juga dapat menggunakan file WSDL ONVIF Anda sendiri dengan menambahkan argumen `wsdl_dir`; lihat [Parameter ONVIFClient](#parameter-onvifclient).
 
 - **WYSIWYG (What You See is What You Get)**: Setiap operasi ONVIF dalam pustaka ini mencerminkan spesifikasi ONVIF resmi secara tepat. Nama metode, struktur parameter, dan format respons mengikuti standar ONVIF tanpa lapisan abstraksi atau antarmuka yang diubah namanya. Apa yang Anda lihat dalam dokumentasi ONVIF adalah persis apa yang Anda dapatkan dalam Python.
 
@@ -314,11 +314,12 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
 <summary><b>1. CLI Langsung</b></summary> 
 
 ```bash
-usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--search SEARCH] [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--https]
-             [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--version]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--search SEARCH] [--page PAGE]
+             [--per-page PER_PAGE] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL]
+             [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.2.4
+ONVIF Terminal Client — v0.2.5
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -352,6 +353,9 @@ options:
                         Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
   --health-check-interval HEALTH_CHECK_INTERVAL, -hci HEALTH_CHECK_INTERVAL
                         Health check interval in seconds for interactive mode (default: 10)
+  --output OUTPUT, -o OUTPUT
+                        Save command output to file. Supports .json, .xml extensions for format detection, or plain text. XML format automatically enables
+                        debug mode for SOAP capture.
   --version, -v         Show ONVIF CLI version and exit
 
 Examples:
@@ -372,7 +376,12 @@ Examples:
 
   # Direct command execution
   onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
-  onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={"PanTilt": {"x": -0.1, "y": 0}} --host 192.168.1.17 --port 8000 --username admin --password admin123
+  onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={'PanTilt': {'x': -0.1, 'y': 0}} -H 192.168.1.17 -P 8000 -u admin -p admin123
+
+  # Save output to file
+  onvif devicemgmt GetDeviceInformation --host 192.168.1.17 --port 8000 --username admin --password admin123 --output device_info.json
+  onvif media GetProfiles --host 192.168.1.17 --port 8000 --username admin --password admin123 --output profiles.xml
+  onvif ptz GetConfigurations --host 192.168.1.17 --port 8000 --username admin --password admin123 --output ptz_config.txt --debug
 
   # Interactive mode
   onvif --host 192.168.1.17 --port 8000 --username admin --password admin123 --interactive
@@ -392,7 +401,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell — v0.2.4
+ONVIF Interactive Shell — v0.2.5
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -600,7 +609,11 @@ onvif <service> <method> [parameters...] -H <host> -P <port> -u <user> -p <pass>
 onvif devicemgmt GetCapabilities Category=All -H 192.168.1.17 -P 8000 -u admin -p admin123
 
 # Gerakkan kamera PTZ
-onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity='{"PanTilt": {"x": 0.1}}' -H 192.168.1.17 -P 8000 -u admin -p admin123
+onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity='{"PanTilt": {"x": 0.1, "y": 0}}' -H 192.168.1.17 -P 8000 -u admin -p admin123
+
+# Simpan output ke file
+onvif devicemgmt GetDeviceInformation --host 192.168.1.17 --port 8000 --username admin --password admin123 --output device_info.json
+onvif media GetProfiles -H 192.168.1.17 -P 8000 -u admin -p admin123 -o profiles.xml
 ```
 
 **4. Pencarian Produk ONVIF**
@@ -1115,13 +1128,11 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
 - [ ] Menambahkan lebih banyak contoh penggunaan untuk fitur lanjutan.
 - [ ] Menambahkan benchmarking dan metrik performa.
 - [ ] Menambahkan template konfigurasi perangkat yang dikontribusikan oleh komunitas.
-- [ ] Mengimplementasikan layanan ONVIF yang hilang atau masih parsial.
-- [ ] Menambahkan fungsi untuk mengekspos perangkat ONVIF (untuk tujuan debugging oleh komunitas).
 
 ## Proyek Terkait
 
 - [onvif-products-directory](https://github.com/nirsimetri/onvif-products-directory):
-	Proyek ini adalah suite agregasi dan manajemen data ONVIF yang komprehensif, dirancang untuk membantu pengembang menelusuri, menganalisis, dan memproses informasi produk yang sesuai ONVIF dari ratusan produsen di seluruh dunia. Menyediakan struktur terpadu untuk data perangkat, klien, dan perusahaan, sehingga mempermudah riset, membangun integrasi, dan menghasilkan statistik untuk analisis ekosistem ONVIF.
+	Proyek ini adalah suite agregasi dan manajemen data ONVIF yang komprehensif, dirancang untuk membantu pengembang menelusuri, menganalisis, dan memproses informasi produk yang sesuai ONVIF dari ratusan produsen di seluruh dunia.
 
 - (segera) [onvif-rest-server](https://github.com/nirsimetri/onvif-rest-server):
 	Server API RESTful untuk perangkat ONVIF, memungkinkan integrasi mudah manajemen perangkat ONVIF, streaming media, dan kemampuan lainnya ke aplikasi dan layanan web.
