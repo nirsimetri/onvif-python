@@ -103,7 +103,7 @@ def example_3_manual_handling():
     # Try GetSystemUris (not always supported), fallback to alternative
     try:
         system_uris = device.GetSystemUris()
-        print(f"✓ System URIs:")
+        print("✓ System URIs:")
 
         # System Log URIs (can be multiple)
         if hasattr(system_uris, "SystemLogUris") and system_uris.SystemLogUris:
@@ -134,7 +134,7 @@ def example_3_manual_handling():
 
             # Fallback: Get basic device information
             device_info = device.GetDeviceInformation()
-            print(f"✓ Device Information (alternative):")
+            print("✓ Device Information (alternative):")
             print(f"  Manufacturer: {getattr(device_info, 'Manufacturer', 'N/A')}")
             print(f"  Model: {getattr(device_info, 'Model', 'N/A')}")
             print(
@@ -215,7 +215,7 @@ def example_5_critical_operations():
             lambda: device.GetDeviceInformation(),
             ignore_unsupported=False,  # Raise exception if not supported
         )
-        print(f"✓ Device Info (critical):")
+        print("✓ Device Info (critical):")
         print(f"  Manufacturer: {getattr(device_info, 'Manufacturer', 'N/A')}")
         print(f"  Model: {getattr(device_info, 'Model', 'N/A')}")
         print(f"  FirmwareVersion: {getattr(device_info, 'FirmwareVersion', 'N/A')}")

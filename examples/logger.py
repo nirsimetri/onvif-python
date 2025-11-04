@@ -84,7 +84,7 @@ def demonstrate_discovery_logging():
     print("\n1. Starting device discovery...")
     devices = discovery.discover(prefer_https=True, search=None)
 
-    print(f"\n2. Discovery Results:")
+    print("\n2. Discovery Results:")
     if devices:
         for i, device in enumerate(devices, 1):
             print(f"   Device {i}:")
