@@ -82,7 +82,7 @@
 					</xs:enumeration>
 				</xs:restriction>
 			</xs:simpleType>
-			<xs:simpleType name="KeyAlgorithm">
+			<xs:simpleType name="KeyPairAlgorithm">
 				<xs:restriction base="xs:string">
 					<xs:enumeration value="RSA"/>
 					<xs:enumeration value="ECC"/>
@@ -740,12 +740,12 @@
 				</xs:attribute>
 				<xs:attribute name="RSAKeyPairGeneration" type="xs:boolean">
 					<xs:annotation>
-						<xs:documentation>Indication that the device supports on-board RSA key pair generation.</xs:documentation>
+						<xs:documentation>Deprecated - Indication that the device supports on-board ECC key pair generation.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="ECCKeyPairGeneration" type="xs:boolean">
 					<xs:annotation>
-						<xs:documentation>Indication that the device supports on-board ECC key pair generation.</xs:documentation>
+						<xs:documentation>Deprecated - Indication that the device supports on-board ECC key pair generation.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="KeyPairGeneration" type="tt:StringList">
@@ -760,12 +760,12 @@
 				</xs:attribute>
 				<xs:attribute name="EllipticCurves" type="tas:EllipticCurves">
 					<xs:annotation>
-						<xs:documentation>Indicates which elliptic curves are supported by the device.</xs:documentation>
+						<xs:documentation>Indicates which elliptic curves are supported by the device. Supported curve names can be found in the IANA TLS Supported Groups section, under the Description field.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="PKCS10ExternalCertificationWithRSA" type="xs:boolean">
 					<xs:annotation>
-						<xs:documentation>Indicates support for creating PKCS#10 requests for RSA keys and uploading the certificate obtained from a CA..</xs:documentation>
+						<xs:documentation>Deprecated - Indicates support for creating PKCS#10 requests for RSA keys and uploading the certificate obtained from a CA..</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="PKCS10" type="xs:boolean">
@@ -775,7 +775,7 @@
 				</xs:attribute>
 				<xs:attribute name="SelfSignedCertificateCreationWithRSA" type="xs:boolean">
 					<xs:annotation>
-						<xs:documentation>Indicates support for creating self-signed certificates for RSA keys.</xs:documentation>
+						<xs:documentation>Deprecated - Indicates support for creating self-signed certificates for RSA keys.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="SelfSignedCertificateCreation" type="xs:boolean">
@@ -795,7 +795,7 @@
 				</xs:attribute>
 				<xs:attribute name="PKCS8RSAKeyPairUpload" type="xs:boolean">
 					<xs:annotation>
-						<xs:documentation>Indicates support for uploading an RSA key pair in a PKCS#8 data structure.</xs:documentation>
+						<xs:documentation>Deprecated - Indicates support for uploading an RSA key pair in a PKCS#8 data structure.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="PKCS8" type="xs:boolean">
@@ -805,7 +805,7 @@
 				</xs:attribute>
 				<xs:attribute name="PKCS12CertificateWithRSAPrivateKeyUpload" type="xs:boolean">
 					<xs:annotation>
-						<xs:documentation>Indicates support for uploading a certificate along with an RSA private key in a PKCS#12 data structure.</xs:documentation>
+						<xs:documentation>Deprecated - Indicates support for uploading a certificate along with an RSA private key in a PKCS#12 data structure.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="PKCS12" type="xs:boolean">
@@ -2967,7 +2967,7 @@
 		</wsdl:operation>
 		<wsdl:operation name="UploadKeyPairInPKCS8">
 			<wsdl:documentation>
-        This operation uploads a key pair in a PKCS#8 data structure as specified in [RFC 5958, RFC 5959].<br/>
+        Deprecated method for uploading a key pair in a PKCS#8 data structure as specified in [RFC 5958, RFC 5959].<br/>
         If an encryption passphrase ID is supplied in the request, the device shall assume that the KeyPair parameter contains an EncryptedPrivateKeyInfo ASN.1
         structure that is encrypted under the passphrase in the keystore that corresponds to the supplied ID, where the EncryptedPrivateKeyInfo structure contains
         both the private key and the corresponding public key. If no encryption passphrase ID is supplied, the device shall assume that the KeyPair parameter contains a
