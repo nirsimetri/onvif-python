@@ -313,3 +313,20 @@ class Media2(ONVIFService):
 
     def GetPlayingAudioClips(self):
         return self.operator.call("GetPlayingAudioClips")
+
+    def GetMulticastAudioDecoderConfigurationOptions(self, ConfigurationToken=None):
+        return self.operator.call(
+            "GetMulticastAudioDecoderConfigurationOptions",
+            ConfigurationToken=ConfigurationToken,
+        )
+
+    def GetMulticastAudioDecoderConfigurations(self, ConfigurationToken=None):
+        return self.operator.call(
+            "GetMulticastAudioDecoderConfigurations",
+            ConfigurationToken=ConfigurationToken,
+        )
+
+    def SetMulticastAudioDecoderConfiguration(self, Configuration):
+        return self.operator.call(
+            "SetMulticastAudioDecoderConfiguration", Configuration=Configuration
+        )

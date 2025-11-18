@@ -411,3 +411,6 @@ class Device(ONVIFService):
 
     def SetHashingAlgorithm(self, Algorithm):
         return self.operator.call("SetHashingAlgorithm", Algorithm=Algorithm)
+
+    def UpgradeFirmware(self, Version):
+        return self.operator.call("UpgradeFirmware", Version=Version)
