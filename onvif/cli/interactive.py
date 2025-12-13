@@ -13,6 +13,7 @@ from typing import List
 from zeep.exceptions import TransportError, Fault
 from requests.exceptions import RequestException
 
+from .. import __version__
 from ..client import ONVIFClient
 from ..utils.exceptions import ONVIFOperationException
 from .utils import (
@@ -194,7 +195,7 @@ class InteractiveShell(cmd.Cmd):
             "  / __ \\/ | / / |  / /  _/ ____/",
             " / / / /  |/ /| | / // // /_    ",
             "/ /_/ / /|  / | |/ // // __/    ",
-            "\\____/_/ |_/  |___/___/_/  v0.2.6",
+            f"\\____/_/ |_/  |___/___/_/  v{__version__}",
             "                                ",
         ]
 
@@ -1400,7 +1401,7 @@ class InteractiveShell(cmd.Cmd):
             super().do_help(line)
         else:
             help_text = f"""
-{colorize('ONVIF Interactive Shell — v0.2.6', 'cyan')}\n{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
+{colorize(f'ONVIF Interactive Shell — v{__version__}', 'cyan')}\n{colorize('https://github.com/nirsimetri/onvif-python', 'white')}
 
 {colorize('Basic Commands:', 'yellow')}
   capabilities, caps       - Show device capabilities

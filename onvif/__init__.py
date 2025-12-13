@@ -1,5 +1,7 @@
 # onvif/__init__.py
 
+__version__ = "0.2.6"
+
 from .client import ONVIFClient
 from .operator import CacheMode
 from .utils import (
@@ -22,4 +24,5 @@ __all__ = [
     "ONVIFCLI",
     "ONVIFDiscovery",
     "ONVIFParser",
+    "__version__",
 ]
