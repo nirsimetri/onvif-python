@@ -104,6 +104,15 @@ class Device(ONVIFService):
     def SetRemoteUser(self, RemoteUser=None):
         return self.operator.call("SetRemoteUser", RemoteUser=RemoteUser)
 
+    def GetUserRoles(self, UserRole=None):
+        return self.operator.call("GetUserRoles", UserRole=UserRole)
+
+    def SetUserRole(self, UserRole):
+        return self.operator.call("SetUserRole", UserRole=UserRole)
+
+    def DeleteUserRole(self, UserRole):
+        return self.operator.call("DeleteUserRole", UserRole=UserRole)
+
     def GetUsers(self):
         return self.operator.call("GetUsers")
 
