@@ -11,7 +11,7 @@ IN NO EVENT WILL THE CORPORATION OR ITS MEMBERS OR THEIR AFFILIATES BE LIABLE FO
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tfs="http://www.onvif.org/ver10/federatedsearch/wsdl" xmlns:mpqf="urn:mpeg:mpqf:schema:2008" targetNamespace="http://www.onvif.org/ver10/federatedsearch/wsdl">
 	<wsdl:types>
 		<xs:schema targetNamespace="http://www.onvif.org/ver10/federatedsearch/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0">
-			<xs:import namespace="urn:mpeg:mpqf:schema:2008" schemaLocation="http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-7_schema_files/mpqf.xsd"/>
+			<xs:import namespace="urn:mpeg:mpqf:schema:2008" schemaLocation="../schema/common/mpqf.xsd"/>
 			<!--  Message Request/Responses elements  -->
 			<!--===============================
 			In order for the federated search service to make use of ISO/IEC 15938-12 the following 

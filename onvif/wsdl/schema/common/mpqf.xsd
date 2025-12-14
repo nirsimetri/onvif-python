@@ -1,0 +1,1109 @@
+<!--  
+Software Copyright Licencing Disclaimer for MPEG Standards
+This software module was originally developed in the course of development of the ISO/IEC 15938-12 
+for reference purposes and its performance may not have been optimized. This software module is an 
+implementation of one or more tools as specified by the ISO/IEC 15938-12 standard.
+
+Those intending to use this software module in products are advised that its use may infringe existing patents. 
+ISO/IEC have no liability for use of this software module or modifications thereof.
+-->
+<schema xmlns:mpqf="urn:mpeg:mpqf:schema:2008" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:mpeg:mpqf:schema:2008" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<element name="MpegQuery" type="mpqf:MpegQueryType"/>
+	<complexType name="MpegQueryType">
+		<choice>
+			<element name="Query">
+				<complexType>
+					<choice>
+						<element name="Input" type="mpqf:InputQueryType"/>
+						<element name="FetchResult">
+							<complexType>
+								<attribute name="queryID" type="anyURI"/>
+								<attribute name="retrievePageNum" type="positiveInteger"/>
+							</complexType>
+						</element>
+						<element name="Output" type="mpqf:OutputQueryType"/>
+					</choice>
+				</complexType>
+			</element>
+			<element name="Management">
+				<complexType>
+					<choice>
+						<element name="Input" type="mpqf:InputManagementType"/>
+						<element name="Output" type="mpqf:OutputManagementType"/>
+					</choice>
+				</complexType>
+			</element>
+		</choice>
+		<attribute name="mpqfID" type="anyURI" use="required"/>
+	</complexType>
+	<complexType name="MediaLocatorType">
+		<sequence>
+			<choice>
+				<element name="MediaUri" type="anyURI"/>
+				<element name="InlineMedia" type="mpqf:InlineMediaType"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<complexType name="InlineMediaType">
+		<choice>
+			<element name="MediaData16" type="hexBinary"/>
+			<element name="MediaData64" type="base64Binary"/>
+		</choice>
+		<attribute name="type" type="mpqf:mimeType" use="required"/>
+	</complexType>
+	<simpleType name="mimeType">
+		<restriction base="string">
+			<whiteSpace value="collapse"/>
+			<pattern value="([Xx]\-)?[!#$%&#x27;*+.0-9A-Z\^-~&#x7f;]+/([Xx]\-
+                    )?[!#$%&#x27;*+.0-9A-Z\^-~&#x7f;\-]+"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="xPathType">
+		<restriction base="token"/>
+	</simpleType>
+	<simpleType name="zeroToOneType">
+		<restriction base="float">
+			<minInclusive value="0.0"/>
+			<maxInclusive value="1.0"/>
+		</restriction>
+	</simpleType>
+	<complexType name="TermType">
+		<sequence>
+			<element name="Name" type="string" minOccurs="0"/>
+			<element name="Description" type="string" minOccurs="0"/>
+			<element name="Term" type="mpqf:TermType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="href" type="mpqf:SimpleTermType" use="required"/>
+	</complexType>
+	<simpleType name="SimpleTermType">
+		<restriction base="anyURI"/>
+	</simpleType>
+	<element name="ClassificationScheme">
+		<complexType>
+			<sequence>
+				<element name="Term" type="mpqf:TermType" maxOccurs="unbounded"/>
+			</sequence>
+			<attribute name="uri" type="anyURI" use="required"/>
+			<attribute name="domain" use="optional">
+				<simpleType>
+					<list itemType="mpqf:xPathType"/>
+				</simpleType>
+			</attribute>
+		</complexType>
+	</element>
+	<complexType name="RelationType">
+		<sequence/>
+		<attribute name="relationType" type="anyURI" use="required"/>
+		<attribute name="sourceResource" type="IDREF" use="required"/>
+		<attribute name="targetResource" type="IDREF" use="optional"/>
+	</complexType>
+	<complexType name="SemanticFieldType">
+		<sequence>
+			<element name="Var" type="string"/>
+		</sequence>
+	</complexType>
+	<complexType name="InputQueryType">
+		<sequence>
+			<element name="QFDeclaration" type="mpqf:QFDeclarationType" minOccurs="0"/>
+			<element name="OutputDescription" type="mpqf:OutputDescriptionType" minOccurs="0"/>
+			<element name="QueryCondition" type="mpqf:QueryConditionType" minOccurs="0"/>
+			<element name="ServiceSelection" type="mpqf:ServiceSelectionType" minOccurs="0"/>
+		</sequence>
+		<attribute name="previousAnswerID" type="anyURI" use="optional"/>
+		<attribute name="immediateResponse" type="boolean" use="optional" default="true"/>
+		<attribute name="streamingResponse" type="boolean" use="optional" default="false"/>		
+		<attribute name="timeout" type="duration" use="optional"/>
+	</complexType>
+	<complexType name="ServiceSelectionType">
+		<sequence>
+			<element name="ServiceID" type="anyURI" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="QFDeclarationType">
+		<sequence>
+			<element name="DeclaredField" type="mpqf:DeclaredFieldType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="Resource" type="mpqf:ResourceType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="Prefix" minOccurs="0" maxOccurs="unbounded">
+				<complexType>
+					<attribute name="name" type="string" use="required"/>
+					<attribute name="uri" type="anyURI" use="required"/>
+				</complexType>
+			</element>
+		</sequence>
+		<!-- Declaration of entities that can be reused in OutputDescription or QueryCondition -->
+	</complexType>
+	<complexType name="DeclaredFieldType">
+		<simpleContent>
+			<extension base="mpqf:xPathType">
+				<attribute name="id" type="ID" use="required"/>
+				<attribute name="typeName" type="string" use="optional"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="ResourceType" abstract="true">
+		<attribute name="resourceID" type="ID" use="required"/>
+	</complexType>
+	<complexType name="MediaResourceType">
+		<complexContent>
+			<extension base="mpqf:ResourceType">
+				<sequence>
+					<element name="MediaResource" type="mpqf:MediaLocatorType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="DescriptionResourceType">
+		<complexContent>
+			<extension base="mpqf:ResourceType">
+				<sequence>
+					<element name="AnyDescription">
+						<complexType mixed="true">
+							<sequence>
+								<any namespace="##any"/>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="OutputDescriptionType">
+		<sequence>
+			<element name="ReqField" type="mpqf:FieldType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="ReqAggregateID" type="IDREF" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="ReqSemanticField" type="string" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="GroupBy" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="GroupByField" type="mpqf:FieldType" maxOccurs="unbounded"/>
+						<element name="Aggregate" type="mpqf:AggregateExpressionType" minOccurs="0" maxOccurs="unbounded"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="SortBy" type="mpqf:AbstractSortByType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="maxPageEntries" type="positiveInteger" use="optional"/>
+		<attribute name="maxItemCount" type="positiveInteger" use="optional"/>
+		<attribute name="freeTextUse" type="boolean" use="optional"/>
+		<attribute name="thumbnailUse" type="boolean" use="optional"/>
+		<attribute name="mediaResourceUse" type="boolean" use="optional"/>
+		<attribute name="outputNameSpace" type="anyURI" use="optional"/>
+		<attribute name="distinct" type="boolean" use="optional" default="false"/>
+		<!-- This indicates that if I want to receive a link to the actual media resource. -->
+	</complexType>
+	<complexType name="FieldType">
+		<simpleContent>
+			<extension base="mpqf:xPathType">
+				<attribute name="typeName" type="string" use="optional"/>
+				<attribute name="fragmentResultName" type="string" use="optional"/>				
+				<attribute name="fromREF" type="IDREF" use="optional"/>
+				<attribute name="fieldREF" type="IDREF" use="optional"/>
+				<attribute name="resultMode" use="optional" default="structured">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="flat"/>
+							<enumeration value="structured"/>
+						</restriction>
+					</simpleType>
+				</attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="AbstractSortByType" abstract="true">
+		<attribute name="order" use="required">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="ascending"/>
+					<enumeration value="descending"/>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	<complexType name="SortByFieldType">
+		<complexContent>
+			<extension base="mpqf:AbstractSortByType">
+				<choice>
+					<element name="Field" type="mpqf:FieldType"/>
+					<element name="SemanticField" type="mpqf:SemanticFieldType"/>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SortByAggregateType">
+		<complexContent>
+			<extension base="mpqf:AbstractSortByType">
+				<choice>
+					<element name="Aggregate" type="mpqf:AggregateExpressionType"/>
+					<element name="AggregateID" type="IDREF"/>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryConditionType">
+		<sequence>
+			<element name="EvaluationPath" type="mpqf:xPathType" minOccurs="0"/>
+			<element name="TargetMediaType" type="mpqf:mimeType" minOccurs="0" maxOccurs="unbounded"/>
+			<choice minOccurs="0">
+				<element name="Join" type="mpqf:JoinType"/>
+				<element name="Condition" type="mpqf:BooleanExpressionType"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<complexType name="BooleanExpressionType" abstract="true">
+		<attribute name="preferenceValue" type="mpqf:zeroToOneType" use="optional" default="1"/>
+		<attribute name="thresholdValue" type="mpqf:zeroToOneType" use="optional"/>
+	</complexType>
+	<complexType name="ArithmeticExpressionType" abstract="true"/>
+	<complexType name="StringExpressionType" abstract="true"/>
+	<group name="DateTimeOperands">
+		<sequence>
+			<choice>
+				<element name="DateTimeValue" type="dateTime"/>
+				<element name="DateValue" type="date"/>
+				<element name="TimeValue" type="time"/>
+				<element name="DateTimeField" type="mpqf:FieldType"/>
+			</choice>
+		</sequence>
+	</group>
+	<group name="DurationOperands">
+		<sequence>
+			<choice>
+				<element name="DurationValue" type="duration"/>
+				<element name="DurationField" type="mpqf:FieldType"/>
+			</choice>
+		</sequence>
+	</group>
+	<complexType name="AND">
+		<complexContent>
+			<extension base="mpqf:BooleanExpressionType">
+				<sequence>
+					<element name="Condition" type="mpqf:BooleanExpressionType" minOccurs="2" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute name="scoringFunction" type="mpqf:SimpleTermType" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="OR">
+		<complexContent>
+			<extension base="mpqf:BooleanExpressionType">
+				<sequence>
+					<element name="Condition" type="mpqf:BooleanExpressionType" minOccurs="2" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute name="scoringFunction" type="mpqf:SimpleTermType" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="NOT">
+		<complexContent>
+			<extension base="mpqf:BooleanExpressionType">
+				<sequence>
+					<element name="Condition" type="mpqf:BooleanExpressionType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="XOR">
+		<complexContent>
+			<extension base="mpqf:BooleanExpressionType">
+				<sequence>
+					<element name="Condition" type="mpqf:BooleanExpressionType" minOccurs="2" maxOccurs="2"/>
+				</sequence>
+				<attribute name="scoringFunction" type="mpqf:SimpleTermType" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ComparisonExpressionType" abstract="true">
+		<complexContent>
+			<extension base="mpqf:BooleanExpressionType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="GreaterThan">
+		<complexContent>
+			<extension base="mpqf:ComparisonExpressionType">
+				<choice>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+						<element name="SemanticArithmeticField" type="mpqf:SemanticFieldType"/>
+					</choice>
+					<group ref="mpqf:DateTimeOperands" minOccurs="2" maxOccurs="2"/>
+					<group ref="mpqf:DurationOperands" minOccurs="2" maxOccurs="2"/>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GreaterThanEqual">
+		<complexContent>
+			<extension base="mpqf:ComparisonExpressionType">
+				<choice>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+						<element name="SemanticArithmeticField" type="mpqf:SemanticFieldType"/>
+					</choice>
+					<group ref="mpqf:DateTimeOperands" minOccurs="2" maxOccurs="2"/>
+					<group ref="mpqf:DurationOperands" minOccurs="2" maxOccurs="2"/>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="LessThanEqual">
+		<complexContent>
+			<extension base="mpqf:ComparisonExpressionType">
+				<choice>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+						<element name="SemanticArithmeticField" type="mpqf:SemanticFieldType"/>
+					</choice>
+					<group ref="mpqf:DateTimeOperands" minOccurs="2" maxOccurs="2"/>
+					<group ref="mpqf:DurationOperands" minOccurs="2" maxOccurs="2"/>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="LessThan">
+		<complexContent>
+			<extension base="mpqf:ComparisonExpressionType">
+				<choice>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+						<element name="SemanticArithmeticField" type="mpqf:SemanticFieldType"/>
+					</choice>
+					<group ref="mpqf:DateTimeOperands" minOccurs="2" maxOccurs="2"/>
+					<group ref="mpqf:DurationOperands" minOccurs="2" maxOccurs="2"/>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Equal">
+		<complexContent>
+			<extension base="mpqf:ComparisonExpressionType">
+				<choice>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+						<element name="SemanticArithmeticField" type="mpqf:SemanticFieldType"/>
+					</choice>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="BooleanValue" type="boolean"/>
+						<element name="BooleanField" type="mpqf:FieldType"/>
+						<element name="BooleanExpression" type="mpqf:BooleanExpressionType"/>
+						<element name="SemanticBooleanField" type="mpqf:SemanticFieldType"/>
+					</choice>
+					<group ref="mpqf:DateTimeOperands" minOccurs="2" maxOccurs="2"/>
+					<group ref="mpqf:DurationOperands" minOccurs="2" maxOccurs="2"/>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="StringValue" type="string"/>
+						<element name="StringField" type="mpqf:FieldType"/>
+						<element name="StringExpression" type="mpqf:StringExpressionType"/>
+						<element name="SemanticStringField" type="mpqf:SemanticFieldType"/>
+					</choice>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="NotEqual">
+		<complexContent>
+			<extension base="mpqf:ComparisonExpressionType">
+				<choice>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+						<element name="SemanticArithmeticField" type="mpqf:SemanticFieldType"/>
+					</choice>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="BooleanValue" type="boolean"/>
+						<element name="BooleanField" type="mpqf:FieldType"/>
+						<element name="BooleanExpression" type="mpqf:BooleanExpressionType"/>
+						<element name="SemanticBooleanField" type="mpqf:SemanticFieldType"/>
+					</choice>
+					<group ref="mpqf:DateTimeOperands" minOccurs="2" maxOccurs="2"/>
+					<group ref="mpqf:DurationOperands" minOccurs="2" maxOccurs="2"/>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="StringValue" type="string"/>
+						<element name="StringField" type="mpqf:FieldType"/>
+						<element name="StringExpression" type="mpqf:StringExpressionType"/>
+						<element name="SemanticStringField" type="mpqf:SemanticFieldType"/>
+					</choice>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Contains">
+		<complexContent>
+			<extension base="mpqf:ComparisonExpressionType">
+				<sequence>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="StringValue" type="string"/>
+						<element name="StringField" type="mpqf:FieldType"/>
+						<element name="StringExpression" type="mpqf:StringExpressionType"/>
+						<element name="SemanticStringField" type="mpqf:SemanticFieldType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Add">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Subtract">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Multiply">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Divide">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Modulus">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice minOccurs="2" maxOccurs="2">
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Abs">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice>
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Ceiling">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice>
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Floor">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice>
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Round">
+		<complexContent>
+			<extension base="mpqf:ArithmeticExpressionType">
+				<sequence>
+					<choice>
+						<element name="DoubleValue" type="double"/>
+						<element name="LongValue" type="long"/>
+						<element name="ArithmeticField" type="mpqf:FieldType"/>
+						<element name="ArithmeticExpression" type="mpqf:ArithmeticExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="AggregateExpressionType" abstract="true">
+		<attribute name="aggregateID" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="AVG">
+		<complexContent>
+			<extension base="mpqf:AggregateExpressionType">
+				<sequence>
+					<element name="Field" type="mpqf:FieldType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="StdDev">
+		<complexContent>
+			<extension base="mpqf:AggregateExpressionType">
+				<sequence>
+					<element name="Field" type="mpqf:FieldType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Variance">
+		<complexContent>
+			<extension base="mpqf:AggregateExpressionType">
+				<sequence>
+					<element name="Field" type="mpqf:FieldType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SUM">
+		<complexContent>
+			<extension base="mpqf:AggregateExpressionType">
+				<sequence>
+					<element name="Field" type="mpqf:FieldType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Count">
+		<complexContent>
+			<extension base="mpqf:AggregateExpressionType">
+				<sequence>
+					<element name="Field" type="mpqf:FieldType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="MAX">
+		<complexContent>
+			<extension base="mpqf:AggregateExpressionType">
+				<sequence>
+					<element name="Field" type="mpqf:FieldType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="MIN">
+		<complexContent>
+			<extension base="mpqf:AggregateExpressionType">
+				<sequence>
+					<element name="Field" type="mpqf:FieldType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="UpperCase">
+		<complexContent>
+			<extension base="mpqf:StringExpressionType">
+				<sequence>
+					<choice>
+						<element name="StringValue" type="string"/>
+						<element name="StringField" type="mpqf:FieldType"/>
+						<element name="StringExpression" type="mpqf:StringExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="LowerCase">
+		<complexContent>
+			<extension base="mpqf:StringExpressionType">
+				<sequence>
+					<choice>
+						<element name="StringValue" type="string"/>
+						<element name="StringField" type="mpqf:FieldType"/>
+						<element name="StringExpression" type="mpqf:StringExpressionType"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SemanticExpressionType" abstract="true">
+		<complexContent>
+			<extension base="mpqf:BooleanExpressionType">
+				<attribute name="anchorDistance" type="nonNegativeInteger" use="required"/>
+				<attribute name="anchor" type="boolean" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SubClassOf">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<attribute name="var" type="string"/>
+				<attribute name="class" type="string"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TypeOf">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<attribute name="var" type="string"/>
+				<attribute name="class" type="string"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="EquivalentClass">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<attribute name="var" type="string"/>
+				<attribute name="class" type="string"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ComplementOf">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<attribute name="var" type="string"/>
+				<attribute name="class" type="string"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="IntersectionOf">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<attribute name="var" type="string"/>
+				<attribute name="class" type="string"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="UnionOf">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<attribute name="var" type="string"/>
+				<attribute name="class" type="string"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="InverseOf">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<attribute name="var" type="string"/>
+				<attribute name="class" type="string"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="DisjointWith">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<attribute name="var" type="string"/>
+				<attribute name="class" type="string"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SemanticRelation">
+		<complexContent>
+			<extension base="mpqf:SemanticExpressionType">
+				<sequence>
+					<element name="Subject" type="string"/>
+					<element name="Property" type="string"/>
+					<element name="Object" type="string"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryType" abstract="true">
+		<complexContent>
+			<extension base="mpqf:BooleanExpressionType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryByMedia">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<choice>
+					<element name="MediaResource" type="mpqf:MediaResourceType"/>
+					<element name="MediaResourceREF" type="IDREF"/>
+				</choice>
+				<attribute name="matchType" use="optional" default="similar">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="similar"/>
+							<enumeration value="exact"/>
+						</restriction>
+					</simpleType>
+				</attribute>
+				<attribute name=" TargetMediaPath" use="optional" type="mpqf:xPathType"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryByDescription">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<choice>
+					<element name="DescriptionResource" type="mpqf:DescriptionResourceType"/>
+					<element name="DescriptionResourceREF" type="IDREF"/>
+				</choice>
+				<attribute name="matchType" use="optional" default="similar">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="similar"/>
+							<enumeration value="exact"/>
+						</restriction>
+					</simpleType>
+				</attribute>
+				<attribute name=" TargetMediaPath" use="optional" type="mpqf:xPathType"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryByFreeText">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<sequence>
+					<choice>
+						<element name="FreeText" type="string"/>
+						<element name="RegExp" type="string"/>
+					</choice>
+					<choice minOccurs="0">
+						<element name="SearchField" type="mpqf:FieldType" maxOccurs="unbounded"/>
+						<element name="IgnoreField" type="mpqf:FieldType" maxOccurs="unbounded"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryByFeatureRange">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<sequence>
+					<choice>
+						<element name="Range">
+							<complexType>
+								<attribute name="RangeStart" type="IDREF" use="required"/>
+								<attribute name="RangeEnd" type="IDREF" use="required"/>
+							</complexType>
+						</element>
+						<element name="Distance">
+							<complexType>
+								<attribute name="Center" type="IDREF" use="required"/>
+								<attribute name="Radius" type="mpqf:zeroToOneType" use="required"/>
+								<attribute name="DistanceFunction" type="mpqf:SimpleTermType" use="optional"/>
+							</complexType>
+						</element>
+					</choice>
+				</sequence>
+				<attribute name=" TargetMediaPath" use="optional" type="mpqf:xPathType"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SpatialQuery">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<sequence>
+					<element name="SpatialRelation" type="mpqf:RelationType"/>
+				</sequence>
+				<attribute name=" TargetMediaPath" use="optional" type="mpqf:xPathType"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TemporalQuery">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<sequence>
+					<element name="TemporalRelation" type="mpqf:RelationType"/>
+				</sequence>
+				<attribute name=" TargetMediaPath" use="optional" type="mpqf:xPathType"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryByXQuery">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<sequence>
+					<element name="XQuery" type="string"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryByRelevanceFeedback">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<sequence>
+					<element name="ResultItem" type="positiveInteger" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute name="answerID" type="anyURI" use="required"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="QueryByROI">
+		<complexContent>
+			<extension base="mpqf:QueryByMedia">
+				<sequence>
+					<choice>
+						<element name="TemporalRegionOfInterest" type="mpqf:TemporalRegionType" maxOccurs="unbounded"/>
+						<element name="SpatialRegionOfInterest" type="mpqf:IntegerMatrixType" maxOccurs="unbounded"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="IntegerMatrixType">
+		<simpleContent>
+			<extension base="mpqf:listOfPositiveInteger">
+				<attribute name="dim" type="positiveInteger" use="required"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<simpleType name="listOfPositiveInteger">
+		<list itemType="nonNegativeInteger"/>
+	</simpleType>
+	<complexType name="TemporalRegionType">
+		<sequence>
+			<element name="StartTime" type="mpqf:startTimePointType"/>
+			<element name="Duration" type="mpqf:mediaDurationType"/>
+		</sequence>
+	</complexType>
+	<simpleType name="startTimePointType">
+		<restriction base="string">
+			<pattern value="(\-?\d+(\-\d{2}(\-\d{2})?)?)?(T\d{2}(:\d{2}(:\d{2}(:\d+)?)?)?)?(F\d+)?"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="mediaDurationType">
+		<restriction base="string">
+			<pattern value="\-?P(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?(\d+N)?)?(\d+F)?"/>
+		</restriction>
+	</simpleType>
+	<complexType name="JoinType">
+		<sequence>
+			<element name="From" maxOccurs="2">
+				<complexType>
+					<sequence>
+						<element name="EvaluationPath" type="mpqf:xPathType" minOccurs="0"/>
+						<element name="TargetMediaType" type="mpqf:mimeType" minOccurs="0" maxOccurs="unbounded"/>
+						<element name="Condition" type="mpqf:BooleanExpressionType"/>
+					</sequence>
+					<attribute name="id" type="ID" use="required"/>
+				</complexType>
+			</element>
+			<element name="JoinCondition" type="mpqf:BooleanExpressionType"/>
+		</sequence>
+	</complexType>
+	<complexType name="QueryBySPARQL">
+		<complexContent>
+			<extension base="mpqf:QueryType">
+				<sequence>
+					<element name="SPARQL" type="string"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="OutputQueryType">
+		<sequence>
+			<element name="GlobalComment" type="string" minOccurs="0"/>
+			<element name="ResultItem" type="mpqf:ResultItemType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="SystemMessage" type="mpqf:SystemMessageType" minOccurs="0"/>
+		</sequence>
+		<attribute name="currPage" type="positiveInteger" default="1"/>
+		<attribute name="totalPages" type="positiveInteger" default="1"/>
+		<attribute name="expirationDate" type="dateTime" use="optional"/>
+	</complexType>
+	<complexType name="ResultItemBaseType" abstract="true"/>
+	<complexType name="ResultItemType">
+		<complexContent>
+			<extension base="mpqf:ResultItemBaseType">
+				<sequence>
+					<element name="Comment" minOccurs="0" maxOccurs="2">
+						<complexType>
+							<simpleContent>
+								<extension base="string">
+									<attribute name="fromREF" type="string" use="optional"/>
+								</extension>
+							</simpleContent>
+						</complexType>
+					</element>
+					<!-- Need for comment for each individual item should be cleared. -->
+					<!-- One use case can be for each individual responder to identify the origin of        the result. -->
+					<element name="TextResult" minOccurs="0" maxOccurs="2">
+						<complexType>
+							<simpleContent>
+								<extension base="string">
+									<attribute name="fromREF" type="string" use="optional"/>
+								</extension>
+							</simpleContent>
+						</complexType>
+					</element>
+					<element name="Thumbnail" minOccurs="0" maxOccurs="2">
+						<complexType>
+							<simpleContent>
+								<extension base="anyURI">
+									<attribute name="fromREF" type="string" use="optional"/>
+								</extension>
+							</simpleContent>
+						</complexType>
+					</element>
+					<element name="MediaResource" minOccurs="0" maxOccurs="2">
+						<complexType>
+							<simpleContent>
+								<extension base="anyURI">
+									<attribute name="fromREF" type="string" use="optional"/>
+								</extension>
+							</simpleContent>
+						</complexType>
+					</element>
+					<!-- The media resource is expected to lead the customer to the location 
+         of the actual full size media. -->
+					<element name="Description" minOccurs="0" maxOccurs="2">
+						<complexType mixed="true">
+							<sequence>
+								<any namespace="##any" processContents="strict" maxOccurs="unbounded"/>
+							</sequence>
+							<attribute name="fromREF" type="string" use="optional"/>
+						</complexType>
+					</element>
+					<!-- If you want to return embedded in-line media, you should use the Description. For example, you should instantiate a mpeg7:MediaLocator with inline media -->
+					<element name="AggregationResult" minOccurs="0" maxOccurs="unbounded">
+						<complexType>
+							<simpleContent>
+								<extension base="string">
+									<attribute name="aggregateID" type="string" use="required"/>
+								</extension>
+								<!-- This aggregateID is given in the Aggregate element 
+                  of the Input Query. -->
+							</simpleContent>
+						</complexType>
+					</element>
+					<element name="FragmentResult" minOccurs="0" maxOccurs="unbounded">
+						<complexType>
+							<simpleContent>
+								<extension base="string">
+									<attribute name="name" type="string" use="required"/>
+									<attribute name="fromREF" type="string" use="optional"/>
+								</extension>
+							</simpleContent>
+						</complexType>
+					</element>
+					<!--  elements with names of each aggregate expression -->
+				</sequence>
+				<attribute name="recordNumber" type="positiveInteger" use="required"/>
+				<attribute name="rank" type="positiveInteger" use="optional"/>
+				<attribute name="confidence" type="mpqf:zeroToOneType" use="optional"/>
+				<attribute name="originID" type="anyURI" use="optional"/>
+			</extension>
+			<!-- Can contain the serviceID  or URL of the responder responding to the Input 
+Query, when there are multiple services responding to the single request. -->
+		</complexContent>
+	</complexType>
+	<complexType name="SystemMessageType">
+		<choice>
+			<element name="Status" type="mpqf:InformationType" maxOccurs="unbounded"/>
+			<element name="Warning" type="mpqf:InformationType" maxOccurs="unbounded"/>
+			<element name="Exception" type="mpqf:InformationType" maxOccurs="unbounded"/>
+		</choice>
+	</complexType>
+	<complexType name="InformationType">
+		<sequence>
+			<element name="Code" type="positiveInteger"/>
+			<element name="Description" type="string"/>
+		</sequence>
+	</complexType>
+	<complexType name="InputManagementType">
+		<sequence>
+			<element name="DesiredCapability" type="mpqf:CapabilityType" minOccurs="0"/>
+			<element name="ServiceID" type="anyURI" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="CapabilityType">
+		<sequence>
+			<element name="SupportedQFProfile" type="mpqf:CapabilityTermType" minOccurs="0"/>
+			<element name="SupportedMetadata" type="anyURI" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="SupportedExampleMediaTypes" minOccurs="0">
+				<simpleType>
+					<list itemType="mpqf:mimeType"/>
+				</simpleType>
+			</element>
+			<element name="SupportedResultMediaTypes" minOccurs="0">
+				<simpleType>
+					<list itemType="mpqf:mimeType"/>
+				</simpleType>
+			</element>
+			<element name="SupportedQueryTypes" type="mpqf:CapabilityTermType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="SupportedExpressions" type="mpqf:CapabilityTermType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="UsageConditions" minOccurs="0" maxOccurs="unbounded">
+				<complexType>
+					<complexContent>
+						<extension base="mpqf:TermType">
+							<attribute name="usageID" type="ID" use="optional"/>
+						</extension>
+					</complexContent>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="CapabilityTermType">
+		<complexContent>
+			<extension base="mpqf:TermType">
+				<attribute name="usageRefList" type="IDREFS" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="OutputManagementType">
+		<sequence>
+			<choice>
+				<element name="AvailableCapability" type="mpqf:AvailableCapabilityType" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="SystemMessage" type="mpqf:SystemMessageType" minOccurs="0"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<complexType name="AvailableCapabilityType">
+		<complexContent>
+			<extension base="mpqf:CapabilityType">
+				<attribute name="serviceID" type="anyURI" use="required"/>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>
