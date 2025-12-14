@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
-Modified Version by ONVIF to workaround svcutil incompatibility (see line 368).
 
 OASIS takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this document or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any effort to identify any such rights. Information on OASIS's procedures with respect to rights in OASIS specifications can be found at the OASIS website. Copies of claims of rights made available for publication and any assurances of licenses to be made available, or the result of an attempt made to obtain a general license or permission for the use of such proprietary rights by implementors or users of this specification, can be obtained from the OASIS Executive Director.
 
@@ -27,14 +26,14 @@ This document and the information contained herein is provided on an "AS IS" bas
 <!-- ========================== Imports =========================== --> 
  <wsdl:import 
        namespace="http://docs.oasis-open.org/wsrf/rw-2" 
-       location="../../../schema/common/rw-2.wsdl"/>
+       location="./rw-2.wsdl"/>
  
 <!-- ===================== Types Definitions ====================== -->
    <wsdl:types>
      <xsd:schema>
        <xsd:import
          namespace="http://docs.oasis-open.org/wsn/b-2" 
-         schemaLocation="../../../schema/common/b-2.xsd"/>
+         schemaLocation="./b-2.xsd"/>
      </xsd:schema>
    </wsdl:types>
 
@@ -365,7 +364,7 @@ This document and the information contained herein is provided on an "AS IS" bas
    </wsdl:portType>
 
 <!-- ========== CreatePullPoint PortType Definition =============== -->
-   <wsdl:portType name="CreatePullPointPortType">		<!-- ONVIF: Renamed portType from "CreatePullPoint" to avoid name clash -->
+   <wsdl:portType name="CreatePullPoint">
       <wsdl:operation name="CreatePullPoint">
          <wsdl:input  name="CreatePullPointRequest" 
                       message="wsntw:CreatePullPointRequest" />
