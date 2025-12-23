@@ -1,10 +1,41 @@
 # onvif/utils/service.py
 
 import logging
+import zeep.helpers
 from .exceptions import ONVIFOperationException
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
+
+
+class ONVIFResponse:
+    """Transparent wrapper that adds to_dict() to zeep objects."""
+
+    def __init__(self, wrapped_object):
+        object.__setattr__(self, "_wrapped", wrapped_object)
+
+    def __getattr__(self, name):
+        return getattr(self._wrapped, name)
+
+    def __setattr__(self, name, value):
+        if name == "_wrapped":
+            object.__setattr__(self, name, value)
+        else:
+            setattr(self._wrapped, name, value)
+
+    def __repr__(self):
+        return repr(self._wrapped)
+
+    def __str__(self):
+        return str(self._wrapped)
+
+    def to_dict(self):
+        """Convert zeep object to Python dictionary."""
+        return (
+            {}
+            if self._wrapped is None
+            else zeep.helpers.serialize_object(self._wrapped)
+        )
 
 
 def _is_zeep_object(obj):
@@ -104,7 +135,7 @@ class ONVIFService:
                 logger.debug(f"Calling wrapped ONVIF method: {name}")
                 result = attr(*args, **kwargs)
                 logger.debug(f"ONVIF method {name} completed successfully")
-                return result
+                return ONVIFResponse(result) if result is not None else result
             except ONVIFOperationException as oe:
                 # Re-raise ONVIF exceptions as-is
                 service_name = getattr(self.operator, "service_name", "Unknown")
