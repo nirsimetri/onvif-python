@@ -10,7 +10,7 @@
 -->
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tas="http://www.onvif.org/ver10/advancedsecurity/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.onvif.org/ver10/advancedsecurity/wsdl">
 	<wsdl:types>
-		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tt="http://www.onvif.org/ver10/schema" elementFormDefault="qualified" targetNamespace="http://www.onvif.org/ver10/advancedsecurity/wsdl" version="25.06">
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tt="http://www.onvif.org/ver10/schema" elementFormDefault="qualified" targetNamespace="http://www.onvif.org/ver10/advancedsecurity/wsdl" version="25.12">
 			<xs:import namespace="http://www.onvif.org/ver10/schema" schemaLocation="../../schema/onvif.xsd"/>
 			<!--===================================================-->
 			<!-- Data types used by the security configuration features -->
@@ -432,6 +432,11 @@
 					<xs:element name="CertificateContent" type="tas:Base64DERencodedASN1Value">
 						<xs:annotation>
 							<xs:documentation>The base64-encoded DER representation of the X.509 certificate.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HasPrivateKey" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The keystore has a matching private key.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:any minOccurs="0" maxOccurs="unbounded" namespace="##any" processContents="lax"/>   <!-- first ONVIF then Vendor -->
