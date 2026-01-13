@@ -146,7 +146,7 @@ class ONVIFServiceTestBase:
                     continue
 
                 # Skip helper methods
-                if method_name in ["type", "desc", "operations"]:
+                if method_name in ["type", "desc", "operations", "to_dict"]:
                     continue
 
                 method_names.append(method_name)
@@ -388,7 +388,7 @@ class ONVIFServiceTestBase:
             implemented_methods = self.get_implemented_methods()
 
             # Skip helper methods that don't call operator.call()
-            helper_methods = ["type", "desc", "operations"]
+            helper_methods = ["type", "desc", "operations", "to_dict"]
 
             errors = []
 
@@ -447,7 +447,7 @@ class ONVIFServiceTestBase:
         implemented_methods = self.get_implemented_methods()
 
         # Allowed helper methods that are not ONVIF operations
-        allowed_helper_methods = ["type", "desc", "operations"]
+        allowed_helper_methods = ["type", "desc", "operations", "to_dict"]
 
         extra_methods = []
         for method_name in implemented_methods.keys():
@@ -482,7 +482,7 @@ class ONVIFServiceTestBase:
             implemented_methods = self.get_implemented_methods()
 
             # Skip helper methods that don't call operator.call()
-            helper_methods = ["type", "desc", "operations"]
+            helper_methods = ["type", "desc", "operations", "to_dict"]
 
             errors = []
 
