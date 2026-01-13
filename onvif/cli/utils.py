@@ -221,7 +221,7 @@ def get_service_methods(service_obj) -> list:
     for attr_name in dir(service_obj):
         if not attr_name.startswith("_") and callable(getattr(service_obj, attr_name)):
             # Skip helper methods
-            if attr_name not in ["type", "desc", "operations"]:
+            if attr_name not in ["type", "desc", "operations", "to_dict"]:
                 methods.append(attr_name)
     return sorted(methods)
 
