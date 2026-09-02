@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 import pytest
 
 from onvif import CacheMode
+from onvif.operator import ONVIFOperator
 from onvif.utils.wsdl import ONVIFWSDL
 from onvif.utils.xml_capture import XMLCapturePlugin
 from onvif.utils.zeep import ZeepPatcher
@@ -378,3 +379,33 @@ class TestErrorHandlingInCore:
 
             result = plugin.ingress(mock_envelope, {}, mock_operation)
             assert result == (mock_envelope, {})
+
+
+class TestONVIFOperator:  # pylint: disable=too-few-public-methods
+    """Test ONVIFOperator transport configuration"""
+
+    def test_timeout_applied_as_operation_timeout(self):
+        """Test timeout is passed to zeep as operation_timeout, not load_timeout
+
+        zeep's Transport accepts both `timeout` (bounds WSDL/XSD document
+        fetching) and `operation_timeout` (bounds SOAP calls). Passing the
+        wrong one is silent -- both are valid kwargs -- so assert on the
+        attribute that governs actual SOAP requests.
+
+        WSDLs load from local files, so no network I/O occurs here and the
+        unreachable host is never contacted.
+        """
+        definition = ONVIFWSDL.get_definition("devicemgmt")
+
+        operator = ONVIFOperator(
+            host="10.255.255.1",
+            port=80,
+            username="user",
+            password="pass",
+            timeout=7,
+            wsdl_path=definition["path"],
+            binding=f"{{{definition['namespace']}}}{definition['binding']}",
+            cache=CacheMode.MEM,
+        )
+
+        assert operator.client.transport.operation_timeout == 7

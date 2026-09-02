@@ -125,7 +125,7 @@ class ONVIFOperator:
             logger.debug("SSL verification disabled")
             warnings.simplefilter("once", urllib3.exceptions.InsecureRequestWarning)
 
-        transport_kwargs = {"session": session, "timeout": timeout}
+        transport_kwargs = {"session": session, "operation_timeout": timeout}
 
         if cache in (CacheMode.DB, CacheMode.ALL):
             if cache_path is None:
