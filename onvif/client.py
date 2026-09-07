@@ -819,6 +819,7 @@ class ONVIFClient:
         if self._security is None:
             logger.debug("Initializing Security service")
             self._security = AdvancedSecurity(
+                xaddr=self._get_xaddr("advancedsecurity", "Security"),
                 **self.common_args,
             )
         return self._security
@@ -828,52 +829,58 @@ class ONVIFClient:
         """Access the JWT service."""
         if self._jwt is None:
             logger.debug("Initializing JWT service")
-            self._jwt = JWT(**self.common_args)
+            self._jwt = JWT(
+                xaddr=self._get_xaddr("jwt", "Security"), **self.common_args
+            )
         return self._jwt
 
     @service
-    def keystore(self, xaddr):
+    def keystore(self):
         """Access the Keystore service."""
         if self._keystore is None:
             logger.debug("Initializing Keystore service")
-            xaddr = self._rewrite_xaddr_if_needed(xaddr)
-            self._keystore = Keystore(xaddr=xaddr, **self.common_args)
+            self._keystore = Keystore(
+                xaddr=self._get_xaddr("keystore", "Security"), **self.common_args
+            )
         return self._keystore
 
     @service
-    def tlsserver(self, xaddr):
+    def tlsserver(self):
         """Access the TLSServer service."""
         if self._tlsserver is None:
             logger.debug("Initializing TLSServer service")
-            xaddr = self._rewrite_xaddr_if_needed(xaddr)
-            self._tlsserver = TLSServer(xaddr=xaddr, **self.common_args)
+            self._tlsserver = TLSServer(
+                xaddr=self._get_xaddr("tlsserver", "Security"), **self.common_args
+            )
         return self._tlsserver
 
     @service
-    def dot1x(self, xaddr):
+    def dot1x(self):
         """Access the Dot1X service."""
         if self._dot1x is None:
             logger.debug("Initializing Dot1X service")
-            xaddr = self._rewrite_xaddr_if_needed(xaddr)
-            self._dot1x = Dot1X(xaddr=xaddr, **self.common_args)
+            self._dot1x = Dot1X(
+                xaddr=self._get_xaddr("dot1x", "Security"), **self.common_args
+            )
         return self._dot1x
 
     @service
-    def authorizationserver(self, xaddr):
+    def authorizationserver(self):
         """Access the AuthorizationServer service."""
         if self._authorizationserver is None:
             logger.debug("Initializing AuthorizationServer service")
-            xaddr = self._rewrite_xaddr_if_needed(xaddr)
             self._authorizationserver = AuthorizationServer(
-                xaddr=xaddr, **self.common_args
+                xaddr=self._get_xaddr("authorizationserver", "Security"),
+                **self.common_args,
             )
         return self._authorizationserver
 
     @service
-    def mediasigning(self, xaddr):
+    def mediasigning(self):
         """Access the MediaSigning service."""
         if self._mediasigning is None:
             logger.debug("Initializing MediaSigning service")
-            xaddr = self._rewrite_xaddr_if_needed(xaddr)
-            self._mediasigning = MediaSigning(xaddr=xaddr, **self.common_args)
+            self._mediasigning = MediaSigning(
+                xaddr=self._get_xaddr("mediasigning", "Security"), **self.common_args
+            )
         return self._mediasigning
