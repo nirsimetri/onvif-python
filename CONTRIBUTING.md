@@ -76,6 +76,9 @@ All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.
    # Check code linting with pylint
    pylint .
 
+   # Check error with pylint
+   pylint onvif --errors-only --score=n
+
    # Static type checking
    mypy onvif
 
@@ -135,8 +138,8 @@ Use the following commit/PR title types:
 
 ## Style Guide
 
-- **PEP8** is the standard for Python code style. Use tools like `flake8` and `black` to check and format your code.
-- **Docstrings:** Use clear, concise docstrings for modules, classes, and functions.
+- **PEP8** is the standard for Python code style. Use tools like `pylint` and `black` to check and format your code.
+- **Docstrings:** Use clear, concise docstrings for modules, classes, and functions. Use `docformatter` to format your docstring.
 - **Type hints:** Add type annotations where appropriate for better readability and tooling support.
 - **Comments:** Write helpful comments, especially for complex logic.
 - **Naming:** Use descriptive variable, function, and class names.
