@@ -17,10 +17,8 @@ from typing import Any
 from requests.exceptions import RequestException
 from zeep.exceptions import Fault, TransportError
 
-from .. import __repository__, __version__
-from ..client import ONVIFClient
-from ..utils.exceptions import ONVIFOperationException
-from .utils import (
+from onvif import __repository__, __version__
+from onvif.cli.utils import (
     colorize,
     format_capabilities_as_services,
     format_services_list,
@@ -31,6 +29,8 @@ from .utils import (
     get_service_required_args,
     parse_json_params,
 )
+from onvif.client import ONVIFClient
+from onvif.utils.exceptions import ONVIFOperationException
 
 
 class InteractiveShell(cmd.Cmd):

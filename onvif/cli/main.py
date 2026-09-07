@@ -14,12 +14,12 @@ import warnings
 from datetime import datetime, timezone
 from typing import Any
 
-from .. import __repository__, __version__
-from ..client import ONVIFClient
-from ..operator import CacheMode
-from ..utils import ONVIFOperationException, ONVIFDiscovery
-from .interactive import InteractiveShell
-from .utils import colorize, parse_json_params
+from onvif import __repository__, __version__
+from onvif.cli.interactive import InteractiveShell
+from onvif.cli.utils import colorize, parse_json_params
+from onvif.client import ONVIFClient
+from onvif.operator import CacheMode
+from onvif.utils import ONVIFDiscovery, ONVIFOperationException
 
 
 def create_parser():
