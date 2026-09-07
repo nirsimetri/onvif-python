@@ -97,7 +97,12 @@ max-line-length = 150
 [tool.pylint."messages control"]
 disable = [
     "duplicate-code",
+    "R0917",  # too-many-positional-arguments
+    "R0913",  # too-many-arguments
 ]
+
+[tool.mypy]
+explicit_package_bases = true
 
 [project.urls]
 Homepage = "https://github.com/nirsimetri/onvif-python"
