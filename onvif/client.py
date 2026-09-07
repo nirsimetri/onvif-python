@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import logging
 from functools import wraps
-from typing import Any
 from urllib.parse import urlparse, urlunparse
 
 from onvif.operator import CacheMode
@@ -91,6 +90,7 @@ def service(func):
     return wrapper
 
 
+# pylint: disable=too-many-instance-attributes,too-many-locals,too-many-public-methods,too-many-statements
 class ONVIFClient:
     """ONVIF Client for communicating with ONVIF-compliant devices.
 
@@ -132,27 +132,14 @@ class ONVIFClient:
         )
 
         # Apply or remove zeep patch based on user preference
-        if apply_patch:
-            logger.debug("Applying ZeepPatcher")
-            ZeepPatcher.apply_patch()
-        else:
-            logger.debug("Removing ZeepPatcher")
-            ZeepPatcher.remove_patch()
+        self._configure_patches(apply_patch)
 
         # Initialize XML capture plugin if requested
-        self.xml_plugin = None
-        if capture_xml:
-            logger.debug("Enabling XML capture plugin")
-            self.xml_plugin = XMLCapturePlugin()
-
-        # Merge user plugins with xml_plugin
-        all_plugins = []
-        if plugins:
-            logger.debug("Adding %d user-provided plugins", len(plugins))
-            all_plugins.extend(plugins)
-        if self.xml_plugin:
-            logger.debug("Adding XML capture plugin")
-            all_plugins.append(self.xml_plugin)
+        # and merge user plugins with xml_plugin
+        all_plugins = self._configure_plugins(
+            capture_xml,
+            plugins,
+        )
 
         # Store custom WSDL directory if provided
         self.wsdl_dir = wsdl_dir
@@ -175,7 +162,7 @@ class ONVIFClient:
         }
 
         # Device Management (Core) service is always available
-        self._devicemgmt = None
+        self._devicemgmt: Device | None = None
         self._devicemgmt = self.devicemgmt()
 
         # Try to retrieve device services and create namespace -> XAddr mapping
@@ -184,14 +171,6 @@ class ONVIFClient:
 
         # Temporary variable to hold capabilities
         self.capabilities = None
-
-        # Cache for security service capabilities (lazy loaded)
-        self._security_capabilities = None
-        self._security_capabilities_checked = False
-
-        # Cache for JWT service availability (lazy loaded)
-        self._jwt_available = None
-        self._jwt_checked = False
 
         try:
             # Try GetServices first (preferred method)
@@ -220,70 +199,72 @@ class ONVIFClient:
 
         # Lazy init for other services
 
-        self._events = None
-        self._pullpoints: dict[str, Any] = (
+        self._events: Events | None = None
+        self._pullpoints: dict[str, PullPoint] = (
             {}
         )  # Dictionary for multiple PullPoint instances
-        self._notification = None
-        self._subscriptions: dict[str, Any] = (
+        self._notification: Notification | None = None
+        self._subscriptions: dict[str, Subscription] = (
             {}
         )  # Dictionary for multiple Subscription instances
-        self._pausable_subscriptions: dict[str, Any] = (
+        self._pausable_subscriptions: dict[str, PausableSubscription] = (
             {}
         )  # Dictionary for multiple PausableSubscription instances
 
-        self._imaging = None
+        self._imaging: Imaging | None = None
 
-        self._media = None
-        self._media2 = None
+        self._media: Media | None = None
+        self._media2: Media2 | None = None
 
-        self._ptz = None
+        self._ptz: PTZ | None = None
 
-        self._deviceio = None
+        self._deviceio: DeviceIO | None = None
 
-        self._display = None
+        self._display: Display | None = None
 
-        self._analytics = None
-        self._ruleengine = None
-        self._analyticsdevice = None
+        self._analytics: Analytics | None = None
+        self._ruleengine: RuleEngine | None = None
+        self._analyticsdevice: AnalyticsDevice | None = None
 
-        self._accesscontrol = None
-        self._doorcontrol = None
+        self._accesscontrol: AccessControl | None = None
+        self._doorcontrol: DoorControl | None = None
 
-        self._accessrules = None
+        self._accessrules: AccessRules | None = None
 
-        self._actionengine = None
+        self._actionengine: ActionEngine | None = None
 
-        self._appmanagement = None
+        self._appmanagement: AppManagement | None = None
 
-        self._authenticationbehavior = None
+        self._authenticationbehavior: AuthenticationBehavior | None = None
 
-        self._credential = None
+        self._credential: Credential | None = None
 
-        self._recording = None
-        self._replay = None
+        self._recording: Recording | None = None
+        self._replay: Replay | None = None
 
-        self._provisioning = None
+        self._provisioning: Provisioning | None = None
 
-        self._receiver = None
+        self._receiver: Receiver | None = None
 
-        self._schedule = None
+        self._schedule: Schedule | None = None
 
-        self._search = None
+        self._search: Search | None = None
 
-        self._thermal = None
+        self._thermal: Thermal | None = None
 
-        self._uplink = None
+        self._uplink: Uplink | None = None
 
-        self._security = None
-        self._jwt = None
-        self._keystore = None
-        self._tlsserver = None
-        self._dot1x = None
-        self._authorizationserver = None
-        self._mediasigning = None
+        self._security: AdvancedSecurity | None = None
+        self._jwt: JWT | None = None
+        self._keystore: Keystore | None = None
+        self._tlsserver: TLSServer | None = None
+        self._dot1x: Dot1X | None = None
+        self._authorizationserver: AuthorizationServer | None = None
+        self._mediasigning: MediaSigning | None = None
 
-    def _get_xaddr(self, service_name: str, service_path: str):
+    def _get_xaddr(
+        self, service_name: str, service_path: str
+    ):  # pylint: disable=too-many-branches
         """
         Resolve XAddr for ONVIF services using a comprehensive 3-tier discovery approach.
 
@@ -413,6 +394,35 @@ class ONVIFClient:
         except (ValueError, TypeError, KeyError) as e:
             logger.warning("Failed to parse XAddr %s, returning as-is: %s", xaddr, e)
             return xaddr
+
+    def _configure_patches(self, apply_patch: bool) -> None:
+        """Configure Zeep patches."""
+        if apply_patch:
+            logger.debug("Applying ZeepPatcher")
+            ZeepPatcher.apply_patch()
+        else:
+            logger.debug("Removing ZeepPatcher")
+            ZeepPatcher.remove_patch()
+
+    def _configure_plugins(
+        self,
+        capture_xml: bool,
+        plugins: list | None,
+    ) -> list:
+        """Configure client plugins."""
+        all_plugins = list(plugins) if plugins else []
+
+        if plugins:
+            logger.debug("Adding %d user-provided plugins", len(plugins))
+
+        self.xml_plugin = None
+
+        if capture_xml:
+            logger.debug("Enabling XML capture plugin")
+            self.xml_plugin = XMLCapturePlugin()
+            all_plugins.append(self.xml_plugin)
+
+        return all_plugins
 
     # Core (Device Management)
 
