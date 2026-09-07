@@ -709,7 +709,7 @@ The `ONVIFClient` class provides various configuration options to customize the 
 |-----------|------|----------|---------|-------------|
 | `timeout` | `int` | ❌ No | `10` | Connection timeout in seconds for SOAP requests |
 | `use_https` | `bool` | ❌ No | `False` | Use HTTPS instead of HTTP for secure communication |
-| `verify_ssl` | `bool` | ❌ No | `True` | Verify SSL certificates when using HTTPS (set to `False` for self-signed certificates) |
+| `verify_ssl` | `bool` | ❌ No | `False` | Verify SSL certificates when using HTTPS (set to `False` for self-signed certificates) |
 
 </details>
 
