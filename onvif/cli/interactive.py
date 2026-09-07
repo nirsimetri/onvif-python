@@ -17,7 +17,6 @@ from typing import Any
 from requests.exceptions import RequestException
 from zeep.exceptions import Fault, TransportError
 
-from onvif import __repository__, __version__
 from onvif.cli.utils import (
     colorize,
     format_capabilities_as_services,
@@ -30,6 +29,7 @@ from onvif.cli.utils import (
     parse_json_params,
 )
 from onvif.client import ONVIFClient
+from onvif.meta import __repository__, __version__
 from onvif.utils.exceptions import ONVIFOperationException
 
 
@@ -1007,7 +1007,10 @@ class InteractiveShell(cmd.Cmd):
                     # Display parameter name with tree structure, prefix, occurrence, and type
                     # Only add semicolon separator if there's an occurrence label
                     separator = ";" if occurs else ""
-                    param_line = f"{current_prefix}{tree_branch}{prefix_symbol}{colorize(param['name'], 'white')}{occurs}{separator} {colorize(type_str, 'cyan')}"
+                    param_line = (
+                        f"{current_prefix}{tree_branch}{prefix_symbol}{colorize(param['name'], 'white')}"
+                        f"{occurs}{separator} {colorize(type_str, 'cyan')}"
+                    )
                     print(param_line)
 
                     # Display documentation if available
@@ -1170,7 +1173,8 @@ class InteractiveShell(cmd.Cmd):
         # Only allow valid Python variable names
         if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", line):
             print(
-                f"{colorize('Error:', 'red')} Invalid name '{line}'. Only letters, numbers, and underscores allowed, and must not start with a number."
+                f"{colorize('Error:', 'red')} Invalid name '{line}'. "
+                "Only letters, numbers, and underscores allowed, and must not start with a number."
             )
             return
         # Must be unique

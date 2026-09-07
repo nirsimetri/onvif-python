@@ -14,14 +14,15 @@ import warnings
 from datetime import datetime, timezone
 from typing import Any
 
-from onvif import __repository__, __version__
 from onvif.cli.interactive import InteractiveShell
 from onvif.cli.utils import colorize, parse_json_params
 from onvif.client import ONVIFClient
+from onvif.meta import __repository__, __version__
 from onvif.operator import CacheMode
 from onvif.utils import ONVIFDiscovery, ONVIFOperationException
 
 
+# pylint: disable=line-too-long
 def create_parser():
     """Create argument parser for ONVIF CLI."""
     parser = argparse.ArgumentParser(
