@@ -111,8 +111,9 @@ class ONVIFClient:
         self,
         host: str,
         port: int,
-        username: str,
-        password: str,
+        http_digest: bool = False,  # will use WS-Usernametoken by default (recommended! trust me)
+        username: str | None = None,
+        password: str | None = None,
         timeout: int = 10,
         cache: CacheMode = CacheMode.ALL,
         use_https: bool = False,
@@ -142,7 +143,7 @@ class ONVIFClient:
         )
 
         # Store custom WSDL directory if provided
-        self.wsdl_dir = wsdl_dir
+        self.wsdl_dir: str | None = wsdl_dir
         if wsdl_dir:
             logger.debug("Using custom WSDL directory: %s", wsdl_dir)
             ONVIFWSDL.set_custom_wsdl_dir(wsdl_dir)
@@ -151,6 +152,7 @@ class ONVIFClient:
         self.common_args = {
             "host": host,
             "port": port,
+            "http_digest": http_digest,
             "username": username,
             "password": password,
             "timeout": timeout,
