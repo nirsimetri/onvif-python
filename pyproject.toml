@@ -75,6 +75,9 @@ extend-exclude = '''
 )/
 '''
 
+[tool.isort]
+profile = "black"
+
 [tool.docformatter]
 wrap-summaries = 150
 wrap-descriptions = 150
