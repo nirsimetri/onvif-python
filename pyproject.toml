@@ -49,10 +49,10 @@ build-backend = "setuptools.build_meta"
 dev = [
     "pytest>=7.0",
     "black",
-    "flake8",
     "mypy",
     "isort",
     "pylint",
+    "docformatter",
 ]
 
 [project.scripts]
@@ -74,6 +74,35 @@ extend-exclude = '''
     assets
 )/
 '''
+
+[tool.docformatter]
+wrap-summaries = 150
+wrap-descriptions = 150
+pre-summary-newline = true
+close-quotes-on-newline = true
+
+[tool.pylint.main]
+extension-pkg-allow-list = [
+    "lxml",
+]
+ignore-paths = [
+    "^examples/",
+    "^assets/",
+    "^temp/",
+]
+
+[tool.pylint.format]
+max-line-length = 150
+
+[tool.pylint."messages control"]
+disable = [
+    "duplicate-code",
+    "R0917",  # too-many-positional-arguments
+    "R0913",  # too-many-arguments
+]
+
+[tool.mypy]
+explicit_package_bases = true
 
 [project.urls]
 Homepage = "https://github.com/nirsimetri/onvif-python"

@@ -61,7 +61,7 @@ All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.
    # Install the package in development mode
    pip install -e .
    
-   # Install development dependencies (pytest, black, flake8, mypy, isort, pylint)
+   # Install development dependencies (pytest, black, docformatter, mypy, isort, pylint)
    pip install -e ".[dev]"
    ```
    Or use `pyproject.toml` with your preferred tool (e.g., Poetry, pip).
@@ -73,14 +73,17 @@ All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.
 
 4. **Lint and format code:**
    ```bash
-   # Check code style with flake8
-   flake8 .
-
    # Check code linting with pylint
    pylint .
 
+   # Static type checking
+   mypy onvif
+
    # Sort import order
    isort .
+
+   # Format docstring with docformatter
+   docformatter --recursive --black --in-place .
    
    # Format code with black
    black .
