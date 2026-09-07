@@ -111,9 +111,9 @@ class ONVIFClient:
         self,
         host: str,
         port: int,
-        http_digest: bool = False,  # will use WS-Usernametoken by default (recommended! trust me)
         username: str | None = None,
         password: str | None = None,
+        http_digest: bool = False,  # will use WS-Usernametoken by default (recommended! trust me)
         timeout: int = 10,
         cache: CacheMode = CacheMode.ALL,
         use_https: bool = False,
@@ -152,9 +152,9 @@ class ONVIFClient:
         self.common_args = {
             "host": host,
             "port": port,
-            "http_digest": http_digest,
             "username": username,
             "password": password,
+            "http_digest": http_digest,
             "timeout": timeout,
             "cache": cache,
             "use_https": use_https,

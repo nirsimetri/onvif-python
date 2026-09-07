@@ -72,6 +72,7 @@ class ONVIFOperator:
         port (int): Device port number
         username (str): ONVIF username
         password (str): ONVIF password
+        http_digest (bool): Whether to use HTTP Digest or WS-Usernametoken for auth
         timeout (int): Request timeout in seconds
         apply_patch (bool): Whether to apply xsd:any flattening patch
         address (str): Service endpoint URL (XAddr)
@@ -85,9 +86,9 @@ class ONVIFOperator:
         wsdl_path: str,
         host: str,
         port: int,
-        http_digest: bool = False,  # True = use HTTP Digest / False = use WS-Usernametoken
         username: str | None = None,
         password: str | None = None,
+        http_digest: bool = False,  # True = use HTTP Digest / False = use WS-Usernametoken
         timeout: int = 10,
         binding: str | None = None,
         service_path: str | None = None,
