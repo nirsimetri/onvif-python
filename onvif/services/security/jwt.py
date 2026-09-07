@@ -1,7 +1,7 @@
 """Security (JWT) service implementation."""
 
-from ...operator import ONVIFOperator
-from ...utils import ONVIFWSDL, ONVIFService
+from onvif.operator import ONVIFOperator
+from onvif.utils import ONVIFWSDL, ONVIFService
 
 
 # pylint: disable=invalid-name

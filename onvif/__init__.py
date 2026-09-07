@@ -2,14 +2,13 @@
 
 from typing import Final
 
-
 __version__: Final[str] = "0.2.11"
 __repository__: Final[str] = "https://github.com/nirsimetri/onvif-python"
 
-from .cli import main as ONVIFCLI
-from .client import ONVIFClient
-from .operator import CacheMode
-from .utils import (
+from onvif.cli import main as ONVIFCLI
+from onvif.client import ONVIFClient
+from onvif.operator import CacheMode
+from onvif.utils import (
     ONVIFWSDL,
     ONVIFDiscovery,
     ONVIFErrorHandler,

@@ -1,13 +1,13 @@
 """Utility functions and classes for ONVIF operations."""
 
-from .discovery import ONVIFDiscovery
-from .error_handlers import ONVIFErrorHandler
-from .exceptions import ONVIFOperationException
-from .parser import ONVIFParser
-from .service import ONVIFService
-from .wsdl import ONVIFWSDL
-from .xml_capture import XMLCapturePlugin
-from .zeep import ZeepPatcher
+from onvif.utils.discovery import ONVIFDiscovery
+from onvif.utils.error_handlers import ONVIFErrorHandler
+from onvif.utils.exceptions import ONVIFOperationException
+from onvif.utils.parser import ONVIFParser
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
+from onvif.utils.xml_capture import XMLCapturePlugin
+from onvif.utils.zeep import ZeepPatcher
 
 __all__ = [
     "ONVIFWSDL",
