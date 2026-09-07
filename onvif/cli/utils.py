@@ -84,6 +84,7 @@ def _is_valid_json(s: str) -> bool:
 
 def parse_json_params(params_str: str) -> dict[str, Any]:
     """Parse parameters from a JSON string or key=value pairs into a dict.
+
     Supports:
       - JSON: '{"a": 1, "b": 2}'
       - key=value key2=value2 ... (space/comma separated, supports quoted values)
@@ -197,30 +198,19 @@ def parse_json_params(params_str: str) -> dict[str, Any]:
 
 
 def get_service_required_args(service_name: str) -> list[str] | None:
-    """
-    Get required arguments for services that need them.
-    Returns list of required argument names, or None if service doesn't need args.
+    """Get required arguments for services that need them.
 
-    Services that require arguments:
-    - pullpoint, subscription: requires SubscriptionRef
-    - jwt, keystore, tlsserver, dot1x, authorizationserver, mediasigning: require xaddr
+    Returns list of required argument names, or None if service doesn't need args.
+        Services that require arguments:
+        - pullpoint, subscription: requires SubscriptionRef
     """
     if service_name in ["pullpoint", "subscription"]:
         return ["SubscriptionRef"]
-    elif service_name in [
-        "jwt",
-        "keystore",
-        "tlsserver",
-        "dot1x",
-        "authorizationserver",
-        "mediasigning",
-    ]:
-        return ["xaddr"]
     return None
 
 
 def get_service_methods(service_obj) -> list:
-    """Get list of available methods for a service"""
+    """Get list of available methods for a service."""
     methods = []
     for attr_name in dir(service_obj):
         if (
@@ -234,8 +224,8 @@ def get_service_methods(service_obj) -> list:
 
 
 def get_method_documentation(service_obj, method_name: str) -> dict[str, Any] | None:
-    """
-    Extracts documentation from WSDL and parameters from the Python method signature.
+    """Extracts documentation from WSDL and parameters from the Python method signature.
+
     Returns a dictionary with 'doc', 'required', and 'optional' keys.
     """
     doc_text = "No documentation available."
@@ -367,7 +357,7 @@ def get_method_documentation(service_obj, method_name: str) -> dict[str, Any] | 
 
 
 def colorize(text: str, color: str) -> str:
-    """Add color to text for terminal output"""
+    """Add color to text for terminal output."""
     # Enable ANSI colors on Windows
     if not hasattr(colorize, "_colors_enabled"):
         colorize._colors_enabled = True
@@ -382,7 +372,7 @@ def colorize(text: str, color: str) -> str:
                 kernel32.GetConsoleMode(h_stdout, ctypes.byref(mode))
 
                 # Enable virtual terminal processing
-                ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
+                ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004  # pylint: disable=invalid-name
                 kernel32.SetConsoleMode(
                     h_stdout, mode.value | ENABLE_VIRTUAL_TERMINAL_PROCESSING
                 )
@@ -408,7 +398,7 @@ def colorize(text: str, color: str) -> str:
 
 
 def format_capabilities_as_services(capabilities) -> str:
-    """Format capabilities response as service list with XAddr"""
+    """Format capabilities response as service list with XAddr."""
     services = []
 
     # Map of capability names to service function names
@@ -482,13 +472,15 @@ def format_capabilities_as_services(capabilities) -> str:
         service_lines = "\n".join(services)
         result = f"{header}\n{service_lines}"
         return result
-    else:
-        return f"{colorize('No services found in capabilities', 'yellow')}"
+
+    return f"{colorize('No services found in capabilities', 'yellow')}"
 
 
 def format_services_list(services_list) -> str:
     """Format GetServices response as service list with XAddr and binding support.
-    Shows binding information for all services (single and multi-binding)."""
+
+    Shows binding information for all services (single and multi-binding).
+    """
     if not services_list:
         return f"{colorize('No services available', 'yellow')}"
 
@@ -506,7 +498,8 @@ def format_services_list(services_list) -> str:
         if not service_mappings:
             # Unknown namespace
             services.append(f"  {colorize(f'unknown({namespace})', 'yellow')}")
-            services.append(f"    {colorize('XAddr   :', 'white')} {xaddr}")
+            services.append(f"    {colorize('XAddr    :', 'white')} {xaddr}")
+            services.append(f"    {colorize('Namespace:', 'white')} {namespace}")
         else:
             # Add the main service entry (first service in mappings)
             main_service = service_mappings[0][0]
@@ -546,7 +539,9 @@ def format_services_list(services_list) -> str:
 
 def get_device_available_services(client) -> list:
     """Get list of services actually available on the connected device.
-    For multi-binding services, returns all available service names."""
+
+    For multi-binding services, returns all available service names.
+    """
     available_services = ["devicemgmt"]  # devicemgmt is always available
 
     # Check if device has services information
@@ -641,106 +636,11 @@ def get_device_available_services(client) -> list:
                         ]
                     )
 
-    # Additional check: Try to call security.GetServiceCapabilities() to verify availability
-    # This is necessary because Security service might not be reported in GetServices/GetCapabilities
-    # Use caching to avoid calling GetServiceCapabilities repeatedly
-    if "security" not in available_services:
-        # Check if we've already tried to get security capabilities
-        if not hasattr(client, "_security_capabilities_checked"):
-            client._security_capabilities_checked = False
-            client._security_capabilities = None
-
-        if not client._security_capabilities_checked:
-            # First time check - call GetServiceCapabilities and cache result
-            try:
-                security_service = client.security()
-                # Try to call GetServiceCapabilities to verify the service is actually available
-                caps = security_service.GetServiceCapabilities()
-
-                # Cache the capabilities for future use
-                client._security_capabilities = caps
-                client._security_capabilities_checked = True
-
-            except Exception:
-                # Security service not available, mark as checked
-                client._security_capabilities_checked = True
-                client._security_capabilities = None
-
-        # Use cached capabilities
-        if client._security_capabilities is not None:
-            caps = client._security_capabilities
-
-            # If successful, add main security service
-            available_services.append("security")
-
-            # Check each sub-service capability to determine availability
-            # Only add sub-services if their corresponding capability is not None
-            if (
-                hasattr(caps, "KeystoreCapabilities")
-                and caps.KeystoreCapabilities is not None
-            ):
-                available_services.append("keystore")
-
-            if (
-                hasattr(caps, "TLSServerCapabilities")
-                and caps.TLSServerCapabilities is not None
-            ):
-                available_services.append("tlsserver")
-
-            if (
-                hasattr(caps, "Dot1XCapabilities")
-                and caps.Dot1XCapabilities is not None
-            ):
-                available_services.append("dot1x")
-
-            if (
-                hasattr(caps, "AuthorizationServer")
-                and caps.AuthorizationServer is not None
-            ):
-                available_services.append("authorizationserver")
-
-            if hasattr(caps, "MediaSigning") and caps.MediaSigning is not None:
-                available_services.append("mediasigning")
-
-    # Additional check for JWT service: Try to call jwt.GetJWTConfiguration()
-    # JWT doesn't have a capability in GetServiceCapabilities, so we need to test it directly
-    if "jwt" not in available_services:
-        # Check if we've already tried to get JWT availability
-        if not hasattr(client, "_jwt_checked"):
-            client._jwt_checked = False
-            client._jwt_available = None
-
-        if not client._jwt_checked:
-            # First time check - try to call GetJWTConfiguration and cache result
-            try:
-                # JWT service requires xaddr from security service
-                # Try to construct xaddr from security service endpoint
-                protocol = "https" if client.common_args["use_https"] else "http"
-                default_xaddr = f"{protocol}://{client.common_args['host']}:{client.common_args['port']}/onvif/AdvancedSecurity"
-
-                # Try to call GetJWTConfiguration to verify JWT is available
-                jwt_service = client.jwt(xaddr=default_xaddr)
-                jwt_service.GetJWTConfiguration()
-
-                # If successful, JWT is available
-                client._jwt_available = True
-                client._jwt_checked = True
-
-            except Exception:
-                # JWT service not available, mark as checked
-                client._jwt_checked = True
-                client._jwt_available = False
-
-        # Use cached JWT availability
-        if client._jwt_available:
-            available_services.append("jwt")
-
     return sorted(set(available_services))  # Remove duplicates and sort
 
 
 def clean_documentation_html(doc_text: str) -> str:
-    """
-    Clean HTML tags from documentation text and convert links to readable format.
+    """Clean HTML tags from documentation text and convert links to readable format.
 
     Args:
         doc_text: Documentation text that may contain HTML tags
@@ -748,7 +648,6 @@ def clean_documentation_html(doc_text: str) -> str:
     Returns:
         Cleaned text with HTML tags removed and links converted
     """
-
     if not doc_text:
         return doc_text
 
@@ -780,8 +679,8 @@ def clean_documentation_html(doc_text: str) -> str:
 
 
 def extract_documentation_text(doc_elem) -> str:
-    """
-    Extract full text from xs:documentation element including child elements.
+    """Extract full text from xs:documentation element including child elements.
+
     This handles cases where documentation contains HTML tags like <a href="">.
 
     Args:
@@ -810,8 +709,8 @@ def extract_documentation_text(doc_elem) -> str:
 
 
 def get_operation_type_info(service_obj, operation_name: str) -> dict[str, Any] | None:
-    """
-    Extract input and output message types from WSDL for a given operation.
+    """Extract input and output message types from WSDL for a given operation.
+
     Returns a dictionary with 'input' and 'output' keys containing message details.
     """
     try:
@@ -881,10 +780,7 @@ def get_operation_type_info(service_obj, operation_name: str) -> dict[str, Any] 
 
 
 def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
-    """
-    Recursively load all imported and included schemas into the schema context.
-    """
-
+    """Recursively load all imported and included schemas into the schema context."""
     # Find all xs:import and xs:include in xs:schema elements
     for schema in root.findall(".//xs:schema", namespaces):
         # Process imports
@@ -971,8 +867,8 @@ def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
 def parse_message_from_wsdl(
     root, message_name: str, namespaces: dict, schema_context: dict
 ) -> dict[str, Any]:
-    """
-    Parse a WSDL message definition to extract parameter details.
+    """Parse a WSDL message definition to extract parameter details.
+
     Returns a dictionary with message name and parameters.
     """
     # Find the message definition
@@ -1022,8 +918,7 @@ def resolve_element_type(
     depth: int = 0,
     visited: set[str] | None = None,
 ) -> list:
-    """
-    Resolve an element definition from the schema to get its parameters recursively.
+    """Resolve an element definition from the schema to get its parameters recursively.
 
     Args:
         element_name: Name of the element to resolve
@@ -1185,8 +1080,7 @@ def resolve_complex_type(
     depth: int = 0,
     visited: set[str] | None = None,
 ) -> list:
-    """
-    Resolve a complexType definition to get its child elements.
+    """Resolve a complexType definition to get its child elements.
 
     Args:
         type_name: Name of the complexType to resolve
@@ -1375,8 +1269,7 @@ def parse_inline_complex_type(
     depth: int = 0,
     visited: set[str] | None = None,
 ) -> list:
-    """
-    Parse an inline complexType element (not referenced by name).
+    """Parse an inline complexType element (not referenced by name).
 
     Args:
         complex_type: The xs:complexType element itself

@@ -26,10 +26,10 @@ except ImportError:
 
 
 class TestONVIFErrorHandler:
-    """Test ONVIF error handler functionality"""
+    """Test ONVIF error handler functionality."""
 
     def test_is_action_not_supported_with_onvif_exception(self):
-        """Test ActionNotSupported detection with ONVIFOperationException"""
+        """Test ActionNotSupported detection with ONVIFOperationException."""
         # Create mock subcode with ActionNotSupported
         mock_subcode = Mock()
         mock_subcode.localname = "ActionNotSupported"
@@ -44,7 +44,7 @@ class TestONVIFErrorHandler:
         assert result
 
     def test_is_action_not_supported_with_fault_directly(self):
-        """Test ActionNotSupported detection with Fault directly"""
+        """Test ActionNotSupported detection with Fault directly."""
         # Create mock subcode with ActionNotSupported
         mock_subcode = Mock()
         mock_subcode.localname = "ActionNotSupported"
@@ -56,7 +56,7 @@ class TestONVIFErrorHandler:
         assert result
 
     def test_is_action_not_supported_string_fallback(self):
-        """Test ActionNotSupported detection with string fallback"""
+        """Test ActionNotSupported detection with string fallback."""
         # Create mock subcode without localname but string contains ActionNotSupported
         mock_subcode = "ActionNotSupported"
 
@@ -67,7 +67,7 @@ class TestONVIFErrorHandler:
         assert result
 
     def test_is_action_not_supported_false_case(self):
-        """Test ActionNotSupported detection returns False for other errors"""
+        """Test ActionNotSupported detection returns False for other errors."""
         # Create mock subcode with different error
         mock_subcode = Mock()
         mock_subcode.localname = "InvalidArgument"
@@ -82,7 +82,7 @@ class TestONVIFErrorHandler:
         assert not result
 
     def test_is_action_not_supported_no_subcodes(self):
-        """Test ActionNotSupported detection with no subcodes"""
+        """Test ActionNotSupported detection with no subcodes."""
         mock_fault = Mock(spec=Fault)
         mock_fault.subcodes = None
 
@@ -93,7 +93,7 @@ class TestONVIFErrorHandler:
         assert not result
 
     def test_is_action_not_supported_non_fault_exception(self):
-        """Test ActionNotSupported detection with non-Fault exception"""
+        """Test ActionNotSupported detection with non-Fault exception."""
         generic_exception = ValueError("Some error")
         operation = "GetVideoEncoderConfiguration"
         onvif_exception = ONVIFOperationException(operation, generic_exception)
@@ -102,7 +102,7 @@ class TestONVIFErrorHandler:
         assert not result
 
     def test_is_action_not_supported_exception_handling(self):
-        """Test ActionNotSupported detection handles exceptions gracefully"""
+        """Test ActionNotSupported detection handles exceptions gracefully."""
         # Create a faulty mock that raises exception when accessing localname
         mock_subcode = Mock()
         mock_subcode.localname = Mock(side_effect=Exception("Access error"))
@@ -115,7 +115,7 @@ class TestONVIFErrorHandler:
         assert not result
 
     def test_safe_call_success(self):
-        """Test safe_call with successful function execution"""
+        """Test safe_call with successful function execution."""
 
         def successful_function():
             return "success_result"
@@ -124,7 +124,7 @@ class TestONVIFErrorHandler:
         assert result == "success_result"
 
     def test_safe_call_with_action_not_supported(self):
-        """Test safe_call with ActionNotSupported error"""
+        """Test safe_call with ActionNotSupported error."""
         # Create ActionNotSupported error
         mock_subcode = Mock()
         mock_subcode.localname = "ActionNotSupported"
@@ -143,7 +143,7 @@ class TestONVIFErrorHandler:
         assert result == "default_value"
 
     def test_safe_call_with_action_not_supported_no_default(self):
-        """Test safe_call with ActionNotSupported error and no default"""
+        """Test safe_call with ActionNotSupported error and no default."""
         # Create ActionNotSupported error
         mock_subcode = Mock()
         mock_subcode.localname = "ActionNotSupported"
@@ -162,7 +162,7 @@ class TestONVIFErrorHandler:
         assert result is None
 
     def test_safe_call_with_other_onvif_exception(self):
-        """Test safe_call with non-ActionNotSupported ONVIF exception"""
+        """Test safe_call with non-ActionNotSupported ONVIF exception."""
         # Create different error
         mock_subcode = Mock()
         mock_subcode.localname = "InvalidArgument"
@@ -181,7 +181,7 @@ class TestONVIFErrorHandler:
             ONVIFErrorHandler.safe_call(failing_function)
 
     def test_safe_call_with_generic_exception(self):
-        """Test safe_call with generic exception"""
+        """Test safe_call with generic exception."""
 
         def failing_function():
             raise ValueError("Some error")
@@ -191,7 +191,7 @@ class TestONVIFErrorHandler:
             ONVIFErrorHandler.safe_call(failing_function)
 
     def test_safe_call_ignore_unsupported_false(self):
-        """Test safe_call with ignore_unsupported=False"""
+        """Test safe_call with ignore_unsupported=False."""
         # Create ActionNotSupported error
         mock_subcode = Mock()
         mock_subcode.localname = "ActionNotSupported"
@@ -210,7 +210,7 @@ class TestONVIFErrorHandler:
             ONVIFErrorHandler.safe_call(failing_function, ignore_unsupported=False)
 
     def test_ignore_unsupported_decorator_success(self):
-        """Test ignore_unsupported decorator with successful function"""
+        """Test ignore_unsupported decorator with successful function."""
 
         @ONVIFErrorHandler.ignore_unsupported
         def successful_function():
@@ -220,7 +220,7 @@ class TestONVIFErrorHandler:
         assert result == "success_result"
 
     def test_ignore_unsupported_decorator_with_action_not_supported(self):
-        """Test ignore_unsupported decorator with ActionNotSupported error"""
+        """Test ignore_unsupported decorator with ActionNotSupported error."""
         # Create ActionNotSupported error
         mock_subcode = Mock()
         mock_subcode.localname = "ActionNotSupported"
@@ -240,7 +240,7 @@ class TestONVIFErrorHandler:
         assert result is None
 
     def test_ignore_unsupported_decorator_with_other_exception(self):
-        """Test ignore_unsupported decorator with other exceptions"""
+        """Test ignore_unsupported decorator with other exceptions."""
         # Create different error
         mock_subcode = Mock()
         mock_subcode.localname = "InvalidArgument"
@@ -260,7 +260,7 @@ class TestONVIFErrorHandler:
             failing_function()
 
     def test_ignore_unsupported_decorator_with_args_kwargs(self):
-        """Test ignore_unsupported decorator preserves function signature"""
+        """Test ignore_unsupported decorator preserves function signature."""
 
         @ONVIFErrorHandler.ignore_unsupported
         def function_with_params(arg1, arg2, kwarg1=None, kwarg2="default"):
@@ -271,10 +271,10 @@ class TestONVIFErrorHandler:
 
 
 class TestErrorHandlerIntegration:
-    """Test error handler integration scenarios"""
+    """Test error handler integration scenarios."""
 
     def test_multiple_subcodes_detection(self):
-        """Test ActionNotSupported detection with multiple subcodes"""
+        """Test ActionNotSupported detection with multiple subcodes."""
         # Create multiple subcodes, one of which is ActionNotSupported
         mock_subcode1 = Mock()
         mock_subcode1.localname = "InvalidArgument"
@@ -292,7 +292,7 @@ class TestErrorHandlerIntegration:
         assert result
 
     def test_real_world_scenario_safe_call(self):
-        """Test safe_call in real-world scenario"""
+        """Test safe_call in real-world scenario."""
         call_count = 0
 
         def unreliable_onvif_operation():
@@ -328,7 +328,7 @@ class TestErrorHandlerIntegration:
             ONVIFErrorHandler.safe_call(unreliable_onvif_operation)
 
     def test_nested_error_handler_usage(self):
-        """Test nested usage of error handlers"""
+        """Test nested usage of error handlers."""
 
         @ONVIFErrorHandler.ignore_unsupported
         def outer_function():

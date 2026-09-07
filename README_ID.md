@@ -3,7 +3,7 @@
 <div align="center">
 <a href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/bff08a94e4d447b690cea49c6594826d"/></a>
 <a href="https://deepwiki.com/nirsimetri/onvif-python"><img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg"></a>
-<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.11-orange?logo=archive&color=yellow"></a>
+<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.3.0-orange?logo=archive&color=yellow"></a>
 <a href="https://pepy.tech/projects/onvif-python"><img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red"></a>
 <br>
 <a href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml"><img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main"></a>
@@ -317,13 +317,12 @@ Pustaka ini menyertakan antarmuka baris perintah (CLI) yang kuat untuk berintera
 <summary><b>1. CLI Langsung</b></summary> 
 
 ```bash
-usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover]
-             [--filter FILTER] [--interface INTERFACE] [--search SEARCH] [--page PAGE] [--per-page PER_PAGE]
-             [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL]
-             [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--interface INTERFACE] [--discovery-timeout DISCOVERY_TIMEOUT] [--search SEARCH]
+             [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+             [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.2.11
+ONVIF Terminal Client — v0.3.0
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -344,11 +343,13 @@ options:
                         Filter discovered devices by types or scopes (case-insensitive substring match)
   --interface INTERFACE, -if INTERFACE
                         Specify network interface IP for discovery (default: auto-detect)
+  --discovery-timeout DISCOVERY_TIMEOUT, -dt DISCOVERY_TIMEOUT
+                        Discovery timeout in seconds (default: 4)
   --search SEARCH, -s SEARCH
                         Search ONVIF products database by model or company (e.g., 'c210', 'hikvision')
   --page PAGE           Page number for search results (default: 1)
   --per-page PER_PAGE   Number of results per page (default: 20)
-  --timeout TIMEOUT     Connection timeout in seconds (default: 10)
+  --timeout TIMEOUT     ONVIF connection timeout in seconds (default: 10)
   --https               Use HTTPS instead of HTTP
   --no-verify           Disable SSL certificate verification
   --no-patch            Disable ZeepPatcher
@@ -356,13 +357,11 @@ options:
   --debug               Enable debug mode with XML capture
   --wsdl WSDL           Custom WSDL directory path
   --cache {all,db,mem,none}
-                        Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem':
-                        memory-only, 'none': disabled.
+                        Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
   --health-check-interval HEALTH_CHECK_INTERVAL, -hci HEALTH_CHECK_INTERVAL
                         Health check interval in seconds for interactive mode (default: 10)
   --output OUTPUT, -o OUTPUT
-                        Save command output to file. Supports .json, .xml extensions for format detection, or plain
-                        text. XML format automatically enables debug mode for SOAP capture.
+                        Save command output to file. Supports .json, .xml extensions for format detection, or plain text. XML format automatically enables debug mode for SOAP capture.
   --version, -v         Show ONVIF CLI version and exit
 
 Examples:
@@ -408,7 +407,7 @@ Examples:
 
 
 ```bash
-ONVIF Interactive Shell — v0.2.11
+ONVIF Interactive Shell — v0.3.0
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -503,7 +502,7 @@ Jika Anda tidak menyertakan nama pengguna atau kata sandi, Anda akan diminta unt
 | `desc <method>` | Tampilkan dokumentasi untuk sebuah metode |
 | `store <name>` | Simpan hasil terakhir dengan nama variabel |
 | `show <name>` | Tampilkan variabel yang disimpan |
-| `exit` / `quit` | Keluar dari shell |
+| `exit` | Keluar dari shell |
 
 > [!IMPORTANT]
 > Anda dapat melihat semua perintah lainnya yang tersedia di shell interaktif dengan mencobanya langsung. Shell interaktif menjalankan pemeriksaan kesehatan latar belakang secara berkala untuk mendeteksi kehilangan koneksi. Shell ini menggunakan ping TCP diam-diam agar tidak mengganggu pekerjaan Anda dan akan otomatis keluar jika perangkat tidak dapat dijangkau, mirip dengan sesi SSH.
@@ -697,8 +696,9 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 |-----------|------|-------|---------|-----------|
 | `host` | `str` | ✅ Ya | - | Alamat IP atau hostname perangkat ONVIF (mis., `"192.168.1.17"`) |
 | `port` | `int` | ✅ Ya | - | Nomor port untuk layanan ONVIF (port umum: `80`, `8000`, `8080`) |
-| `username` | `str` | ✅ Ya | - | Nama pengguna untuk autentikasi perangkat (menggunakan digest authentication) |
-| `password` | `str` | ✅ Ya | - | Kata sandi untuk autentikasi perangkat |
+| `username` | `str` | ❌ Tidak | - | Nama pengguna untuk autentikasi perangkat |
+| `password` | `str` | ❌ Tidak | - | Kata sandi untuk autentikasi perangkat |
+| `http_digest` | `str` | ❌ Tidak | `False` | `True` = pakai HTTP Digest / `False` = pakai WS-Usernametoken |
 
 </details>
 
@@ -709,7 +709,7 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 |-----------|------|-------|---------|-----------|
 | `timeout` | `int` | ❌ Tidak | `10` | Timeout koneksi dalam detik untuk permintaan SOAP |
 | `use_https` | `bool` | ❌ Tidak | `False` | Gunakan HTTPS sebagai pengganti HTTP untuk komunikasi aman |
-| `verify_ssl` | `bool` | ❌ Tidak | `True` | Verifikasi sertifikat SSL saat menggunakan HTTPS (set ke `False` untuk sertifikat self-signed) |
+| `verify_ssl` | `bool` | ❌ Tidak | `False` | Verifikasi sertifikat SSL saat menggunakan HTTPS (set ke `False` untuk sertifikat self-signed) |
 
 </details>
 
@@ -1099,11 +1099,11 @@ Beberapa layanan ONVIF memiliki banyak binding dalam WSDL yang sama. Biasanya me
    ```python
    client.security()                  # root binding
    client.jwt()                       # sub-binding accessor
-   client.authorizationserver(xaddr)  # sub-binding accessor (requires xAddr)
-   client.keystore(xaddr)             # ..
-   client.dot1x(xaddr)
-   client.tlsserver(xaddr)
-   client.mediasigning(xaddr)
+   client.authorizationserver()       # ..
+   client.keystore()
+   client.dot1x()
+   client.tlsserver()
+   client.mediasigning()
    ```
 
 3. **Analytics (Analitik)**

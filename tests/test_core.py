@@ -5,16 +5,17 @@ from unittest.mock import Mock, patch
 import pytest
 
 from onvif import CacheMode
+from onvif.operator import ONVIFOperator
 from onvif.utils.wsdl import ONVIFWSDL
 from onvif.utils.xml_capture import XMLCapturePlugin
 from onvif.utils.zeep import ZeepPatcher
 
 
 class TestONVIFWSDL:
-    """Test ONVIF WSDL handling and management"""
+    """Test ONVIF WSDL handling and management."""
 
     def test_default_wsdl_directory(self):
-        """Test default WSDL directory setup"""
+        """Test default WSDL directory setup."""
         # Test getting base directory (default behavior)
         base_dir = ONVIFWSDL._get_base_dir()
 
@@ -22,7 +23,7 @@ class TestONVIFWSDL:
         assert "wsdl" in base_dir.lower()
 
     def test_custom_wsdl_directory(self):
-        """Test custom WSDL directory setup"""
+        """Test custom WSDL directory setup."""
         custom_dir = "/custom/wsdl/path"
         ONVIFWSDL.set_custom_wsdl_dir(custom_dir)
 
@@ -33,7 +34,7 @@ class TestONVIFWSDL:
         ONVIFWSDL.clear_custom_wsdl_dir()
 
     def test_get_wsdl_definition_for_service(self):
-        """Test WSDL definition retrieval for different services"""
+        """Test WSDL definition retrieval for different services."""
         # Test standard services using actual API from ONVIFWSDL class
         try:
             definition = ONVIFWSDL.get_definition("device", "ver20")
@@ -49,27 +50,27 @@ class TestONVIFWSDL:
             pass
 
     def test_wsdl_map_initialization(self):
-        """Test WSDL map initialization"""
+        """Test WSDL map initialization."""
         # Ensure WSDL map is properly initialized
         ONVIFWSDL._ensure_wsdl_map_initialized()
         assert ONVIFWSDL.WSDL_MAP is not None
 
     def test_invalid_service_handling(self):
-        """Test handling of invalid service names"""
+        """Test handling of invalid service names."""
         with pytest.raises(ValueError):
             ONVIFWSDL.get_definition("invalid_service", "ver10")
 
     def test_invalid_version_handling(self):
-        """Test handling of invalid version names"""
+        """Test handling of invalid version names."""
         with pytest.raises(ValueError):
             ONVIFWSDL.get_definition("device", "ver99")
 
 
 class TestZeepPatcher:
-    """Test ZeepPatcher functionality"""
+    """Test ZeepPatcher functionality."""
 
     def test_patch_application(self):
-        """Test patch application"""
+        """Test patch application."""
         # Test that patch can be applied
         ZeepPatcher.apply_patch()
         assert ZeepPatcher.is_patched()
@@ -78,7 +79,7 @@ class TestZeepPatcher:
         ZeepPatcher.remove_patch()
 
     def test_patch_removal(self):
-        """Test patch removal"""
+        """Test patch removal."""
         # Apply first
         ZeepPatcher.apply_patch()
         assert ZeepPatcher.is_patched()
@@ -88,7 +89,7 @@ class TestZeepPatcher:
         assert not ZeepPatcher.is_patched()
 
     def test_patch_idempotency(self):
-        """Test that applying patch multiple times is safe"""
+        """Test that applying patch multiple times is safe."""
         # Apply patch multiple times
         ZeepPatcher.apply_patch()
         first_state = ZeepPatcher.is_patched()
@@ -103,7 +104,7 @@ class TestZeepPatcher:
         ZeepPatcher.remove_patch()
 
     def test_patch_state_management(self):
-        """Test patch state tracking"""
+        """Test patch state tracking."""
         # Test initial state
         ZeepPatcher.is_patched()
 
@@ -118,7 +119,7 @@ class TestZeepPatcher:
         assert not removed_state
 
     def test_text_value_parsing(self):
-        """Test text value parsing functionality"""
+        """Test text value parsing functionality."""
         # Test boolean parsing
         assert ZeepPatcher.parse_text_value("true")
         assert not ZeepPatcher.parse_text_value("false")
@@ -138,7 +139,7 @@ class TestZeepPatcher:
         assert ZeepPatcher.parse_text_value(None) is None
 
     def test_flatten_xsd_any_fields(self):
-        """Test flattening of xsd:any fields"""
+        """Test flattening of xsd:any fields."""
         # Create a mock object with _value_1 field
         mock_obj = Mock()
         mock_obj.__values__ = {
@@ -158,10 +159,10 @@ class TestZeepPatcher:
 
 
 class TestXMLCapturePlugin:
-    """Test XML capture functionality"""
+    """Test XML capture functionality."""
 
     def test_plugin_initialization(self):
-        """Test XML capture plugin initialization"""
+        """Test XML capture plugin initialization."""
         plugin = XMLCapturePlugin()
 
         assert plugin is not None
@@ -173,13 +174,13 @@ class TestXMLCapturePlugin:
         assert plugin.history == []
 
     def test_plugin_initialization_with_options(self):
-        """Test XML capture plugin with custom options"""
+        """Test XML capture plugin with custom options."""
         plugin = XMLCapturePlugin(pretty_print=False)
 
         assert not plugin.pretty_print
 
     def test_request_capture(self):
-        """Test XML request capture with egress method"""
+        """Test XML request capture with egress method."""
         plugin = XMLCapturePlugin()
 
         # Mock envelope and operation
@@ -202,7 +203,7 @@ class TestXMLCapturePlugin:
         assert plugin.history[0]["operation"] == "GetDeviceInformation"
 
     def test_response_capture(self):
-        """Test XML response capture with ingress method"""
+        """Test XML response capture with ingress method."""
         plugin = XMLCapturePlugin()
 
         # Mock envelope and operation
@@ -224,7 +225,7 @@ class TestXMLCapturePlugin:
         assert plugin.history[0]["operation"] == "GetDeviceInformation"
 
     def test_history_management(self):
-        """Test capture history management"""
+        """Test capture history management."""
         plugin = XMLCapturePlugin()
 
         # Add some mock history
@@ -245,7 +246,7 @@ class TestXMLCapturePlugin:
         assert plugin.last_operation is None
 
     def test_last_request_response_accessors(self):
-        """Test last request/response accessor methods"""
+        """Test last request/response accessor methods."""
         plugin = XMLCapturePlugin()
 
         # Set some test data
@@ -258,7 +259,7 @@ class TestXMLCapturePlugin:
 
     @patch("builtins.open", create=True)
     def test_save_to_file(self, mock_open):
-        """Test saving captured XML to files"""
+        """Test saving captured XML to files."""
         plugin = XMLCapturePlugin()
         plugin.last_sent_xml = "<request>test</request>"
         plugin.last_received_xml = "<response>test</response>"
@@ -276,24 +277,24 @@ class TestXMLCapturePlugin:
 
 
 class TestCacheMode:
-    """Test cache mode enumeration and behavior"""
+    """Test cache mode enumeration and behavior."""
 
     def test_cache_mode_values(self):
-        """Test cache mode enumeration values"""
+        """Test cache mode enumeration values."""
         assert CacheMode.NONE is not None
         assert CacheMode.MEM is not None
         assert CacheMode.DB is not None
         assert CacheMode.ALL is not None
 
     def test_cache_mode_string_representation(self):
-        """Test cache mode string representations"""
+        """Test cache mode string representations."""
         assert CacheMode.NONE.value == "none"
         assert CacheMode.MEM.value == "mem"
         assert CacheMode.DB.value == "db"
         assert CacheMode.ALL.value == "all"
 
     def test_cache_mode_comparison(self):
-        """Test cache mode comparison"""
+        """Test cache mode comparison."""
         assert CacheMode.NONE == CacheMode.NONE
         assert CacheMode.MEM == CacheMode.MEM
         assert CacheMode.DB == CacheMode.DB
@@ -304,10 +305,10 @@ class TestCacheMode:
 
 
 class TestCoreIntegration:
-    """Test integration between core components"""
+    """Test integration between core components."""
 
     def test_wsdl_with_zeep_patcher(self):
-        """Test WSDL manager with ZeepPatcher"""
+        """Test WSDL manager with ZeepPatcher."""
         ZeepPatcher.apply_patch()
 
         try:
@@ -320,7 +321,7 @@ class TestCoreIntegration:
         ZeepPatcher.remove_patch()
 
     def test_xml_capture_with_cache_modes(self):
-        """Test XML capture plugin with different cache modes"""
+        """Test XML capture plugin with different cache modes."""
         plugin = XMLCapturePlugin()
 
         # Test with different cache modes
@@ -337,20 +338,20 @@ class TestCoreIntegration:
 
 
 class TestErrorHandlingInCore:
-    """Test error handling in core components"""
+    """Test error handling in core components."""
 
     def test_wsdl_manager_invalid_service(self):
-        """Test WSDL manager with invalid service"""
+        """Test WSDL manager with invalid service."""
         with pytest.raises(ValueError):
             ONVIFWSDL.get_definition("invalid_service", "ver10")
 
     def test_wsdl_manager_invalid_version(self):
-        """Test WSDL manager with invalid version"""
+        """Test WSDL manager with invalid version."""
         with pytest.raises(ValueError):
             ONVIFWSDL.get_definition("device", "ver99")
 
     def test_zeep_patcher_multiple_operations(self):
-        """Test ZeepPatcher multiple apply/remove operations"""
+        """Test ZeepPatcher multiple apply/remove operations."""
         # Should handle multiple operations gracefully
         ZeepPatcher.apply_patch()
         ZeepPatcher.apply_patch()  # Second apply
@@ -363,7 +364,7 @@ class TestErrorHandlingInCore:
         assert not ZeepPatcher.is_patched()
 
     def test_xml_capture_plugin_error_handling(self):
-        """Test XML capture plugin error handling"""
+        """Test XML capture plugin error handling."""
         plugin = XMLCapturePlugin()
 
         # Test with minimal valid objects
@@ -378,3 +379,31 @@ class TestErrorHandlingInCore:
 
             result = plugin.ingress(mock_envelope, {}, mock_operation)
             assert result == (mock_envelope, {})
+
+
+class TestONVIFOperator:  # pylint: disable=too-few-public-methods
+    """Test ONVIFOperator transport configuration."""
+
+    def test_timeout_applied_as_operation_timeout(self):
+        """
+        Test timeout is passed to zeep as operation_timeout, not load_timeout.
+
+        zeep's Transport accepts both `timeout` (bounds WSDL/XSD document fetching) and `operation_timeout` (bounds SOAP calls). Passing the wrong one
+        is silent -- both are valid kwargs -- so assert on the attribute that governs actual SOAP requests.
+
+        WSDLs load from local files, so no network I/O occurs here and the unreachable host is never contacted.
+        """
+        definition = ONVIFWSDL.get_definition("devicemgmt")
+
+        operator = ONVIFOperator(
+            host="10.255.255.1",
+            port=80,
+            username="user",
+            password="pass",
+            timeout=7,
+            wsdl_path=definition["path"],
+            binding=f"{{{definition['namespace']}}}{definition['binding']}",
+            cache=CacheMode.MEM,
+        )
+
+        assert operator.client.transport.operation_timeout == 7

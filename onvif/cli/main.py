@@ -14,16 +14,17 @@ import warnings
 from datetime import datetime, timezone
 from typing import Any
 
-from .. import __repository__, __version__
-from ..client import ONVIFClient
-from ..operator import CacheMode
-from ..utils import ONVIFOperationException, ONVIFDiscovery
-from .interactive import InteractiveShell
-from .utils import colorize, parse_json_params
+from onvif.cli.interactive import InteractiveShell
+from onvif.cli.utils import colorize, parse_json_params
+from onvif.client import ONVIFClient
+from onvif.meta import __repository__, __version__
+from onvif.operator import CacheMode
+from onvif.utils import ONVIFDiscovery, ONVIFOperationException
 
 
+# pylint: disable=line-too-long
 def create_parser():
-    """Create argument parser for ONVIF CLI"""
+    """Create argument parser for ONVIF CLI."""
     parser = argparse.ArgumentParser(
         prog="onvif",
         description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v{__version__}\n{__repository__}",
@@ -95,6 +96,13 @@ Examples:
         "-if",
         help="Specify network interface IP for discovery (default: auto-detect)",
     )
+    parser.add_argument(
+        "--discovery-timeout",
+        "-dt",
+        type=int,
+        default=4,
+        help="Discovery timeout in seconds (default: 4)",
+    )
 
     # Product search
     parser.add_argument(
@@ -120,7 +128,7 @@ Examples:
         "--timeout",
         type=int,
         default=10,
-        help="Connection timeout in seconds (default: 10)",
+        help="ONVIF connection timeout in seconds (default: 10)",
     )
     parser.add_argument(
         "--https", action="store_true", help="Use HTTPS instead of HTTP"
@@ -157,7 +165,10 @@ Examples:
     parser.add_argument(
         "--output",
         "-o",
-        help="Save command output to file. Supports .json, .xml extensions for format detection, or plain text. XML format automatically enables debug mode for SOAP capture.",
+        help=(
+            "Save command output to file. Supports .json, .xml extensions for format detection, "
+            "or plain text. XML format automatically enables debug mode for SOAP capture."
+        ),
     )
 
     # Service and method (for direct command execution)
@@ -182,7 +193,7 @@ Examples:
 
 
 def main():
-    """Main CLI entry point"""
+    """Main CLI entry point."""
     # Setup custom warning format for cleaner output
     setup_warning_format()
 
@@ -213,7 +224,8 @@ def main():
         and (not args.service or not args.method)
     ):
         parser.error(
-            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} mode or {colorize('service/method', 'white')} must be specified"
+            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} "
+            f"mode or {colorize('service/method', 'white')} must be specified"
         )
 
     # Validate output argument
@@ -231,7 +243,7 @@ def main():
 
         # Discover devices (pass --https flag to prioritize HTTPS XAddrs and filter term)
         devices = discover_devices(
-            timeout=4,
+            timeout=args.discovery_timeout,
             interface=args.interface if args.interface else None,
             prefer_https=args.https,
             filter_term=args.filter,
@@ -358,7 +370,7 @@ def execute_command(
     method_name: str,
     params_str: str | None = None,
 ) -> Any:
-    """Execute a single ONVIF command"""
+    """Execute a single ONVIF command."""
     # Get service instance
     try:
         service = getattr(client, service_name.lower())()
@@ -576,7 +588,6 @@ def discover_devices(
     Returns:
         List of discovered devices with connection info
     """
-
     # Use ONVIFDiscovery class
     discovery = ONVIFDiscovery(timeout=timeout, interface=interface)
 
@@ -678,7 +689,8 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
 
 
 def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None:
-    """Search ONVIF products database and display results in table format with pagination.
+    """Search ONVIF products database and display results in table format with
+    pagination.
 
     Args:
         search_term: Search term to match against model, post_title, and company_name fields
@@ -962,7 +974,7 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
 
 
 def setup_warning_format():
-    """Setup custom warning format to show clean, concise warnings"""
+    """Setup custom warning format to show clean, concise warnings."""
 
     def custom_warning_format(
         message, category, filename, lineno, line=None

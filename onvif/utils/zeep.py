@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 
+# pylint: disable=too-many-branches,too-many-statements,too-many-nested-blocks,too-many-locals,too-many-return-statements
 class ZeepPatcher:
     """Utility for patching zeep SOAP library to handle ONVIF xsd:any fields.
 
@@ -183,9 +184,9 @@ class ZeepPatcher:
         val = value.strip()
         if val.lower() == "true":
             return True
-        elif val.lower() == "false":
+        if val.lower() == "false":
             return False
-        elif val.isdigit():
+        if val.isdigit():
             return int(val)
         try:
             return float(val)
@@ -532,7 +533,7 @@ class ZeepPatcher:
     @staticmethod
     def _patched_parse_xmlelements(
         self, xmlelements, schema, name=None, context=None
-    ):  # pylint: disable=bad-staticmethod-argument disable=unused-argument
+    ):  # pylint: disable=bad-staticmethod-argument,unused-argument
         """
         Patched version of zeep's Any.parse_xmlelements method.
 

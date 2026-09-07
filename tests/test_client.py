@@ -9,10 +9,10 @@ from onvif.utils import XMLCapturePlugin, ZeepPatcher
 
 
 class TestONVIFClientInitialization:
-    """Test ONVIF client initialization and configuration"""
+    """Test ONVIF client initialization and configuration."""
 
     def test_basic_initialization(self, test_client_params):
-        """Test basic client initialization"""
+        """Test basic client initialization."""
         with patch("onvif.client.Device"):
             client = ONVIFClient(**test_client_params)
 
@@ -24,7 +24,7 @@ class TestONVIFClientInitialization:
             assert client.common_args["cache"] == CacheMode.NONE
 
     def test_https_initialization(self, test_client_params):
-        """Test HTTPS client initialization"""
+        """Test HTTPS client initialization."""
         params = test_client_params.copy()
         params.update({"use_https": True, "verify_ssl": False})
 
@@ -35,7 +35,7 @@ class TestONVIFClientInitialization:
             assert client.common_args["verify_ssl"] is False
 
     def test_xml_capture_initialization(self, test_client_params):
-        """Test XML capture plugin initialization"""
+        """Test XML capture plugin initialization."""
         params = test_client_params.copy()
         params["capture_xml"] = True
 
@@ -46,7 +46,7 @@ class TestONVIFClientInitialization:
             assert isinstance(client.xml_plugin, XMLCapturePlugin)
 
     def test_custom_wsdl_directory(self, test_client_params):
-        """Test custom WSDL directory setup"""
+        """Test custom WSDL directory setup."""
         params = test_client_params.copy()
         params["wsdl_dir"] = "/custom/wsdl/path"
 
@@ -58,7 +58,7 @@ class TestONVIFClientInitialization:
                 mock_set_wsdl.assert_called_once_with("/custom/wsdl/path")
 
     def test_zeep_patch_application(self, test_client_params):
-        """Test ZeepPatcher application and removal"""
+        """Test ZeepPatcher application and removal."""
         with patch("onvif.client.Device"):
             with patch.object(ZeepPatcher, "apply_patch") as mock_apply:
                 with patch.object(ZeepPatcher, "remove_patch") as mock_remove:
@@ -75,10 +75,10 @@ class TestONVIFClientInitialization:
 
 
 class TestONVIFClientServiceDiscovery:
-    """Test service discovery mechanisms"""
+    """Test service discovery mechanisms."""
 
     def test_get_services_discovery(self, mock_onvif_client, mock_services):
-        """Test GetServices-based service discovery"""
+        """Test GetServices-based service discovery."""
         client = mock_onvif_client
 
         # Simulate service discovery that happens in constructor
@@ -96,7 +96,7 @@ class TestONVIFClientServiceDiscovery:
         assert "http://www.onvif.org/ver10/media/wsdl" in client._service_map
 
     def test_get_capabilities_fallback(self, mock_onvif_client, mock_capabilities):
-        """Test GetCapabilities fallback discovery"""
+        """Test GetCapabilities fallback discovery."""
         client = mock_onvif_client
         client._devicemgmt.GetServices.side_effect = Exception(
             "GetServices not supported"
@@ -114,7 +114,7 @@ class TestONVIFClientServiceDiscovery:
         assert client.capabilities.Media.XAddr == "http://192.168.1.17:8000/onvif/Media"
 
     def test_xaddr_rewriting(self, mock_onvif_client):
-        """Test XAddr rewriting for different host/port"""
+        """Test XAddr rewriting for different host/port."""
         client = mock_onvif_client
 
         # Test XAddr that needs rewriting
@@ -125,7 +125,7 @@ class TestONVIFClientServiceDiscovery:
         assert rewritten == expected
 
     def test_xaddr_no_rewriting_needed(self, mock_onvif_client):
-        """Test XAddr that doesn't need rewriting"""
+        """Test XAddr that doesn't need rewriting."""
         client = mock_onvif_client
 
         # Test XAddr that matches client config
@@ -136,10 +136,10 @@ class TestONVIFClientServiceDiscovery:
 
 
 class TestONVIFClientServiceAccess:
-    """Test service property access"""
+    """Test service property access."""
 
     def test_devicemgmt_property(self, mock_onvif_client):
-        """Test devicemgmt method access"""
+        """Test devicemgmt method access."""
         client = mock_onvif_client
         device_service = client.devicemgmt()
 
@@ -148,7 +148,7 @@ class TestONVIFClientServiceAccess:
 
     @patch("onvif.client.Media")
     def test_media_property_lazy_loading(self, mock_media_class, mock_onvif_client):
-        """Test media property lazy loading"""
+        """Test media property lazy loading."""
         client = mock_onvif_client
         mock_media_instance = Mock()
         mock_media_class.return_value = mock_media_instance
@@ -166,7 +166,7 @@ class TestONVIFClientServiceAccess:
 
     @patch("onvif.client.PTZ")
     def test_ptz_property_lazy_loading(self, mock_ptz_class, mock_onvif_client):
-        """Test PTZ property lazy loading"""
+        """Test PTZ property lazy loading."""
         client = mock_onvif_client
         mock_ptz_instance = Mock()
         mock_ptz_class.return_value = mock_ptz_instance
@@ -179,7 +179,7 @@ class TestONVIFClientServiceAccess:
     def test_pullpoint_method_with_subscription_ref(
         self, mock_onvif_client, sample_subscription_ref
     ):
-        """Test pullpoint method with SubscriptionRef parameter"""
+        """Test pullpoint method with SubscriptionRef parameter."""
         client = mock_onvif_client
 
         with patch("onvif.client.PullPoint") as mock_pullpoint_class:
@@ -194,7 +194,7 @@ class TestONVIFClientServiceAccess:
     def test_pullpoint_caching_by_xaddr(
         self, mock_onvif_client, sample_subscription_ref
     ):
-        """Test pullpoint caching by XAddr"""
+        """Test pullpoint caching by XAddr."""
         client = mock_onvif_client
 
         with patch("onvif.client.PullPoint") as mock_pullpoint_class:
@@ -212,10 +212,10 @@ class TestONVIFClientServiceAccess:
 
 
 class TestONVIFClientErrorHandling:
-    """Test error handling scenarios"""
+    """Test error handling scenarios."""
 
     def test_service_discovery_failure_handling(self, test_client_params):
-        """Test handling of service discovery failures"""
+        """Test handling of service discovery failures."""
         with patch("onvif.client.Device") as mock_device_class:
             mock_device = Mock()
             mock_device.GetServices.side_effect = Exception("GetServices failed")
@@ -231,7 +231,7 @@ class TestONVIFClientErrorHandling:
             assert client.capabilities is None
 
     def test_pullpoint_missing_subscription_ref(self, mock_onvif_client):
-        """Test pullpoint with invalid SubscriptionRef"""
+        """Test pullpoint with invalid SubscriptionRef."""
         from onvif.utils import ONVIFOperationException
 
         client = mock_onvif_client
@@ -242,7 +242,7 @@ class TestONVIFClientErrorHandling:
             client.pullpoint(invalid_ref)
 
     def test_xaddr_rewriting_error_handling(self, mock_onvif_client):
-        """Test XAddr rewriting error handling"""
+        """Test XAddr rewriting error handling."""
         client = mock_onvif_client
 
         # Test with valid URL that should be rewritten
@@ -255,10 +255,10 @@ class TestONVIFClientErrorHandling:
 
 
 class TestONVIFClientConfiguration:
-    """Test client configuration options"""
+    """Test client configuration options."""
 
     def test_all_cache_modes(self, test_client_params):
-        """Test all cache mode configurations"""
+        """Test all cache mode configurations."""
         cache_modes = [CacheMode.ALL, CacheMode.DB, CacheMode.MEM, CacheMode.NONE]
 
         for cache_mode in cache_modes:
@@ -270,7 +270,7 @@ class TestONVIFClientConfiguration:
                 assert client.common_args["cache"] == cache_mode
 
     def test_timeout_configuration(self, test_client_params):
-        """Test timeout configuration"""
+        """Test timeout configuration."""
         timeouts = [1, 5, 10, 30, 60]
 
         for timeout in timeouts:

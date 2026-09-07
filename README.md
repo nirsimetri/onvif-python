@@ -3,7 +3,7 @@
 <div align="center">
 <a href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/bff08a94e4d447b690cea49c6594826d"/></a>
 <a href="https://deepwiki.com/nirsimetri/onvif-python"><img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg"></a>
-<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.2.11-orange?logo=archive&color=yellow"></a>
+<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/PyPI-0.3.0-orange?logo=archive&color=yellow"></a>
 <a href="https://pepy.tech/projects/onvif-python"><img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red"></a>
 <br>
 <a href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml"><img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main"></a>
@@ -317,13 +317,12 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 <summary><b>1. Direct CLI</b></summary> 
 
 ```bash
-usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover]
-             [--filter FILTER] [--interface INTERFACE] [--search SEARCH] [--page PAGE] [--per-page PER_PAGE]
-             [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL]
-             [--cache {all,db,mem,none}] [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
+usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--interface INTERFACE] [--discovery-timeout DISCOVERY_TIMEOUT] [--search SEARCH]
+             [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+             [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.2.11
+ONVIF Terminal Client — v0.3.0
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -344,11 +343,13 @@ options:
                         Filter discovered devices by types or scopes (case-insensitive substring match)
   --interface INTERFACE, -if INTERFACE
                         Specify network interface IP for discovery (default: auto-detect)
+  --discovery-timeout DISCOVERY_TIMEOUT, -dt DISCOVERY_TIMEOUT
+                        Discovery timeout in seconds (default: 4)
   --search SEARCH, -s SEARCH
                         Search ONVIF products database by model or company (e.g., 'c210', 'hikvision')
   --page PAGE           Page number for search results (default: 1)
   --per-page PER_PAGE   Number of results per page (default: 20)
-  --timeout TIMEOUT     Connection timeout in seconds (default: 10)
+  --timeout TIMEOUT     ONVIF connection timeout in seconds (default: 10)
   --https               Use HTTPS instead of HTTP
   --no-verify           Disable SSL certificate verification
   --no-patch            Disable ZeepPatcher
@@ -356,13 +357,11 @@ options:
   --debug               Enable debug mode with XML capture
   --wsdl WSDL           Custom WSDL directory path
   --cache {all,db,mem,none}
-                        Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem':
-                        memory-only, 'none': disabled.
+                        Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
   --health-check-interval HEALTH_CHECK_INTERVAL, -hci HEALTH_CHECK_INTERVAL
                         Health check interval in seconds for interactive mode (default: 10)
   --output OUTPUT, -o OUTPUT
-                        Save command output to file. Supports .json, .xml extensions for format detection, or plain
-                        text. XML format automatically enables debug mode for SOAP capture.
+                        Save command output to file. Supports .json, .xml extensions for format detection, or plain text. XML format automatically enables debug mode for SOAP capture.
   --version, -v         Show ONVIF CLI version and exit
 
 Examples:
@@ -407,7 +406,7 @@ Examples:
 <summary><b>2. Interactive Shell</b></summary> 
 
 ```bash
-ONVIF Interactive Shell — v0.2.11
+ONVIF Interactive Shell — v0.3.0
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:
@@ -502,7 +501,7 @@ If you omit the username or password, you will be prompted to enter them securel
 | `desc <method>` | Show documentation for a method |
 | `store <name>` | Store the last result with a variable name |
 | `show <name>` | Display a stored variable |
-| `exit` / `quit` | Exit the shell |
+| `exit` | Exit the shell |
 
 > [!IMPORTANT]
 > You can see all the other commands available in the interactive shell by trying it out directly. The interactive shell runs periodic background health checks to detect connection loss. It uses silent TCP pings to avoid interrupting your work and will automatically exit if the device is unreachable, similar to an SSH session.
@@ -697,8 +696,9 @@ The `ONVIFClient` class provides various configuration options to customize the 
 |-----------|------|----------|---------|-------------|
 | `host` | `str` | ✅ Yes | - | IP address or hostname of the ONVIF device (e.g., `"192.168.1.17"`) |
 | `port` | `int` | ✅ Yes | - | Port number for ONVIF service (common ports: `80`, `8000`, `8080`) |
-| `username` | `str` | ✅ Yes | - | Username for device authentication (use digest authentication) |
-| `password` | `str` | ✅ Yes | - | Password for device authentication |
+| `username` | `str` | ❌ No | - | Username for device authentication |
+| `password` | `str` | ❌ No | - | Password for device authentication |
+| `http_digest` | `str` | ❌ No | `False` | `True` = use HTTP Digest / `False` = use WS-Usernametoken |
 
 </details>
 
@@ -709,7 +709,7 @@ The `ONVIFClient` class provides various configuration options to customize the 
 |-----------|------|----------|---------|-------------|
 | `timeout` | `int` | ❌ No | `10` | Connection timeout in seconds for SOAP requests |
 | `use_https` | `bool` | ❌ No | `False` | Use HTTPS instead of HTTP for secure communication |
-| `verify_ssl` | `bool` | ❌ No | `True` | Verify SSL certificates when using HTTPS (set to `False` for self-signed certificates) |
+| `verify_ssl` | `bool` | ❌ No | `False` | Verify SSL certificates when using HTTPS (set to `False` for self-signed certificates) |
 
 </details>
 
@@ -1099,11 +1099,11 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
    ```python
    client.security()                  # root binding
    client.jwt()                       # sub-binding accessor
-   client.authorizationserver(xaddr)  # sub-binding accessor (requires xAddr)
-   client.keystore(xaddr)             # ..
-   client.dot1x(xaddr)
-   client.tlsserver(xaddr)
-   client.mediasigning(xaddr)
+   client.authorizationserver()       # ..
+   client.keystore()
+   client.dot1x()
+   client.tlsserver()
+   client.mediasigning()
    ```
 
 3. **Analytics**

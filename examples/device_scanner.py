@@ -36,7 +36,7 @@ def is_onvif(ip, port, timeout=3):
             if "xml" in ctype or "soap" in ctype or "onvif" in text:
                 return True
         return False
-    except Exception:
+    except Exception:  # pylint: disable=broad-exception-caught
         return False
 
 
@@ -69,5 +69,5 @@ if __name__ == "__main__":
         # print(is_onvif("192.168.1.3", 80))
         results = scan_onvif_devices(args.subnet)
         print(json.dumps(results, indent=4))
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
         print(e)

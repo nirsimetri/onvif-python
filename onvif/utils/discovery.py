@@ -116,6 +116,7 @@ class ONVIFDiscovery:
             self._local_ip = ""
             return self._local_ip
 
+    # pylint: disable=too-many-locals
     def discover(
         self, prefer_https: bool = False, search: str | None = None
     ) -> list[dict[str, Any]]:

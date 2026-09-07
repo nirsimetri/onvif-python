@@ -52,8 +52,8 @@ if not cap.isOpened():
     print("❌ Failed to open RTSP stream:", rtsp_url_with_auth)
     sys.exit(1)
 
-print("✅ Streaming started.")
-print("ℹ️ Use keys W/S/A/D to tilt/pan, Q/E to zoom in/out, ESC to quit.")
+print("Streaming started.")
+print("Use keys W/S/A/D to tilt/pan, Q/E to zoom in/out, ESC to quit.")
 
 # PTZ control parameters
 pan_speed = 0.5
@@ -62,6 +62,7 @@ zoom_speed = 0.5
 
 
 def move(ptz, token, pan=0, tilt=0, zoom=0):
+    """PTZ Movements."""
     velocity = {}
     if pan or tilt:
         velocity["PanTilt"] = {"x": pan, "y": tilt}
@@ -71,6 +72,7 @@ def move(ptz, token, pan=0, tilt=0, zoom=0):
 
 
 def stop(ptz, token):
+    """Stop any PTZ Movements."""
     ptz.Stop(ProfileToken=token, PanTilt=True, Zoom=True)
 
 

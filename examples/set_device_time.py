@@ -49,5 +49,5 @@ try:
 
     system_date_time_after = device_service.GetSystemDateAndTime()
     print(f"Updated System Date and Time: {system_date_time_after}\n")
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)
