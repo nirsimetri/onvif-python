@@ -25,5 +25,5 @@ try:
             service["Namespace"] == "http://www.onvif.org/ver10/device/wsdl"
         ):  # ONVIF Version is from Device service
             print(service["Version"])
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)

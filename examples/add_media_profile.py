@@ -112,7 +112,7 @@ try:
     )
     print(f"Stream URI: {stream_uri.Uri}")
 
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(f"Error: {e}")
     import traceback
 

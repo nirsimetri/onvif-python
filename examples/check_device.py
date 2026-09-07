@@ -23,9 +23,9 @@ try:
     device = client.devicemgmt()
 
     # print device information
-    print(json.dumps(device.GetDeviceInformation().to_dict(), indent=4))
+    print(json.dumps(device.to_dict(device.GetDeviceInformation()), indent=4))
 
     # print device scopes
-    print(json.dumps(device.GetScopes().to_dict(), indent=4))
-except Exception as e:
+    print(json.dumps(device.to_dict(device.GetScopes()), indent=4))
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)

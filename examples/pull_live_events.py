@@ -118,7 +118,7 @@ while datetime.datetime.now() < end_time:
                     print("\n-> Event without Message")
         else:
             print("\n-> 🔁 No new events.")
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
         print("\n-> ❌ Error while pulling events:", e)
 
     # time.sleep(1)  # small delay between requests

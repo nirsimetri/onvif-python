@@ -16,18 +16,19 @@ USERNAME = "admin"
 PASSWORD = "admin123"
 
 try:
-    # Normal vendor implement IR (Infra Red) lamp control via Imaging service
-    # Here we set it to ON, OFF or AUTO (if supported by the camera)
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
     media = client.media()
-    profile = media.GetProfiles()[0]
+    profile = media.GetProfiles()[0]  # use first profile
     video_source_token = profile.VideoSourceConfiguration.SourceToken
 
     imaging = client.imaging()
+
+    # Normal vendor implement IR (Infra Red) lamp control via Imaging service
+    # Here we set it to ON, OFF or AUTO (if supported by the camera)
     imaging.SetImagingSettings(
         VideoSourceToken=video_source_token, ImagingSettings={"IrCutFilter": "ON"}
     )
 
     print(imaging.GetImagingSettings(VideoSourceToken=video_source_token))
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)

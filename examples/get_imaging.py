@@ -25,5 +25,5 @@ try:
             VideoSourceToken=profile.VideoSourceConfiguration.SourceToken
         )
     )
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)

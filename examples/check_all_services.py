@@ -19,5 +19,5 @@ try:
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
     services = client.devicemgmt().GetServices(IncludeCapability=True)
     print(services)
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)

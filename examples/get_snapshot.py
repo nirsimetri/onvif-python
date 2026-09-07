@@ -24,5 +24,5 @@ try:
 
     snapshot_uri = media.GetSnapshotUri(ProfileToken=profile.token)
     print("Snapshot URI:", snapshot_uri.Uri)
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)
