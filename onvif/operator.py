@@ -14,7 +14,7 @@ from zeep.cache import SqliteCache
 from zeep.exceptions import Fault
 from zeep.wsse.username import UsernameToken
 
-from .utils import ONVIFOperationException, ZeepPatcher
+from onvif.utils import ONVIFOperationException, ZeepPatcher
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())

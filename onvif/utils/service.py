@@ -5,8 +5,8 @@ import logging
 
 import zeep.helpers
 
-from ..cli.utils import get_method_documentation
-from .exceptions import ONVIFOperationException
+from onvif.cli.utils import get_method_documentation
+from onvif.utils.exceptions import ONVIFOperationException
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())

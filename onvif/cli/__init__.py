@@ -1,5 +1,5 @@
 """ONVIF CLI"""
 
-from .main import main
+from onvif.cli.main import main
 
 __all__ = ["main"]
