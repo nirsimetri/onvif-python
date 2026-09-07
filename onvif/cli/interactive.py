@@ -34,7 +34,7 @@ from onvif.utils.exceptions import ONVIFOperationException
 
 
 class InteractiveShell(cmd.Cmd):
-    """Interactive ONVIF CLI shell"""
+    """Interactive ONVIF CLI shell."""
 
     def __init__(self, client: ONVIFClient, args):
         super().__init__()
@@ -432,7 +432,7 @@ class InteractiveShell(cmd.Cmd):
                 print(line)
 
     def _resolve_stored_reference(self, reference: str):
-        """Resolve stored data reference like 'profiles[0].token' or 'profiles.Token'
+        """Resolve stored data reference like 'profiles[0].token' or 'profiles.Token'.
 
         Args:
             reference: String reference like 'profiles[0]' or 'profiles.Token'
@@ -440,7 +440,6 @@ class InteractiveShell(cmd.Cmd):
         Returns:
             Resolved value or None if not found
         """
-
         # Parse the reference - e.g., "profiles[0].token" or "services.Namespace"
         # Split by dots and brackets
         parts = re.split(r"\.|\[|\]", reference)
@@ -484,7 +483,7 @@ class InteractiveShell(cmd.Cmd):
         return current
 
     def _substitute_stored_references(self, params_str: str) -> str:
-        """Substitute $variable references in parameter string with stored data
+        """Substitute $variable references in parameter string with stored data.
 
         Args:
             params_str: Parameter string that may contain $variable references
@@ -492,7 +491,6 @@ class InteractiveShell(cmd.Cmd):
         Returns:
             Parameter string with substituted values
         """
-
         # Find all $variable references (e.g., $profiles[0].token)
         pattern = (
             r"\$([a-zA-Z_][a-zA-Z0-9_]*(?:\[[0-9]+\])?(?:\.[a-zA-Z_][a-zA-Z0-9_]*)*)"
@@ -518,14 +516,15 @@ class InteractiveShell(cmd.Cmd):
         return re.sub(pattern, replace_reference, params_str)
 
     def update_prompt(self):
-        """Update command prompt based on current context"""
+        """Update command prompt based on current context."""
         if self.current_service_name:
             self.prompt = f"{self.args.username}@{self.args.host}:{self.args.port}/{self.current_service_name} > "
         else:
             self.prompt = f"{self.args.username}@{self.args.host}:{self.args.port} > "
 
     def onecmd(self, line):
-        """Override onecmd to handle service method calls without showing cmd.Cmd traceback"""
+        """Override onecmd to handle service method calls without showing cmd.Cmd
+        traceback."""
         line = line.strip()
         if not line:
             return self.emptyline()
@@ -560,7 +559,7 @@ class InteractiveShell(cmd.Cmd):
         return super().onecmd(line)
 
     def default(self, line):
-        """Handle unknown commands"""
+        """Handle unknown commands."""
         available_services = get_device_available_services(self.client)
 
         # Check if it's a service call (with or without arguments)
@@ -594,7 +593,7 @@ class InteractiveShell(cmd.Cmd):
             print(f"Type {colorize('help', 'white')} for available commands")
 
     def get_suggestions(self, partial_cmd: str) -> list[str]:
-        """Get command suggestions based on partial input"""
+        """Get command suggestions based on partial input."""
         suggestions = []
 
         if self.current_service:
@@ -623,7 +622,7 @@ class InteractiveShell(cmd.Cmd):
         return suggestions[:5]  # Limit to 5 suggestions
 
     def completenames(self, text: str, *ignored) -> list[str]:
-        """Tab completion for command names"""
+        """Tab completion for command names."""
         if self.current_service:
             # Complete method names in service mode
             methods = get_service_methods(self.current_service)
@@ -646,7 +645,7 @@ class InteractiveShell(cmd.Cmd):
         return completions
 
     def cmdloop(self, intro=None):
-        """Override cmdloop to handle TAB completion manually"""
+        """Override cmdloop to handle TAB completion manually."""
         if intro is not None:
             self.intro = intro
         if self.intro:
@@ -670,7 +669,7 @@ class InteractiveShell(cmd.Cmd):
             stop = self.postcmd(stop, line)
 
     def columnize(self, list, displaywidth=80):
-        """Override columnize to use grid format for TAB completion"""
+        """Override columnize to use grid format for TAB completion."""
         if not list:
             return
 
@@ -678,7 +677,7 @@ class InteractiveShell(cmd.Cmd):
         self._display_grid(list)
 
     def print_topics(self, header, cmds, cmdlen, maxcol):
-        """Override print_topics to use grid format for TAB completion"""
+        """Override print_topics to use grid format for TAB completion."""
         if not cmds:
             return
 
@@ -690,7 +689,7 @@ class InteractiveShell(cmd.Cmd):
         self._display_grid(cmds)
 
     def do_capabilities(self, line):  # pylint: disable=unused-argument
-        """Show device capabilities in service format"""
+        """Show device capabilities in service format."""
         try:
             if hasattr(self.client, "capabilities") and self.client.capabilities:
                 result = self.client.capabilities
@@ -713,7 +712,7 @@ class InteractiveShell(cmd.Cmd):
                 print(f"{colorize('Error:', 'red')} {e}")
 
     def do_services(self, line):  # pylint: disable=unused-argument
-        """Show available services in service format"""
+        """Show available services in service format."""
         try:
             if hasattr(self.client, "services") and self.client.services:
                 result = self.client.services
@@ -736,7 +735,7 @@ class InteractiveShell(cmd.Cmd):
                 print(f"{colorize('Error:', 'red')} {e}")
 
     def do_enter_service(self, line):
-        """Enter service mode with optional arguments for services that require them"""
+        """Enter service mode with optional arguments for services that require them."""
         # Parse service name and arguments
         parts = line.split(None, 1)
         service_name = parts[0] if parts else ""
@@ -835,7 +834,7 @@ class InteractiveShell(cmd.Cmd):
                 traceback.print_exc()
 
     def do_ls(self, line):  # pylint: disable=unused-argument
-        """List available commands/services like TAB completion"""
+        """List available commands/services like TAB completion."""
         if self.current_service:
             # In service mode - show available methods
             methods = get_service_methods(self.current_service)
@@ -859,7 +858,10 @@ class InteractiveShell(cmd.Cmd):
                 print("No commands available")
 
     def do_desc(self, line):
-        """Describes a method from its WSDL documentation. Usage: desc <method_name>"""
+        """Describes a method from its WSDL documentation.
+
+        Usage: desc <method_name>
+        """
         method_name = line.strip()
 
         if not self.current_service:
@@ -911,14 +913,17 @@ class InteractiveShell(cmd.Cmd):
     def complete_desc(
         self, text, line, begidx, endidx
     ):  # pylint: disable=unused-argument
-        """Autocomplete method names for desc command"""
+        """Autocomplete method names for desc command."""
         if not self.current_service:
             return []
         methods = get_service_methods(self.current_service)
         return [m for m in methods if m.lower().startswith(text.lower())]
 
     def do_type(self, line):
-        """Show input and output types for a method. Usage: type <method_name>"""
+        """Show input and output types for a method.
+
+        Usage: type <method_name>
+        """
         method_name = line.strip()
 
         if not self.current_service:
@@ -944,8 +949,7 @@ class InteractiveShell(cmd.Cmd):
         if type_info:
             # Helper function to display parameters recursively with tree-style indentation
             def display_params(params, prefix_lines=None, is_root_level=False):
-                """
-                Display parameters with tree-style formatting.
+                """Display parameters with tree-style formatting.
 
                 Args:
                     params: List of parameter dictionaries
@@ -1076,7 +1080,7 @@ class InteractiveShell(cmd.Cmd):
     def complete_type(
         self, text, line, begidx, endidx
     ):  # pylint: disable=unused-argument
-        """Autocomplete method names for type command"""
+        """Autocomplete method names for type command."""
         if not self.current_service:
             return []
         methods = get_service_methods(self.current_service)
@@ -1095,12 +1099,12 @@ class InteractiveShell(cmd.Cmd):
     def complete_cd(
         self, text, line, begidx, endidx
     ):  # pylint: disable=unused-argument
-        """Autocomplete service names for cd command"""
+        """Autocomplete service names for cd command."""
         services = get_device_available_services(self.client)
         return [s for s in services if s.lower().startswith(text.lower())]
 
     def do_pwd(self, line):  # pylint: disable=unused-argument
-        """Show current service context"""
+        """Show current service context."""
         if self.current_service_name:
             print(
                 f"{colorize('Current service:', 'yellow')} {colorize(self.current_service_name, 'cyan')}"
@@ -1111,7 +1115,7 @@ class InteractiveShell(cmd.Cmd):
             )
 
     def do_shortcuts(self, line):  # pylint: disable=unused-argument
-        """Show available shortcuts"""
+        """Show available shortcuts."""
         shortcuts = f"""
 {colorize('Available Shortcuts:', 'cyan')}
 
@@ -1160,7 +1164,6 @@ class InteractiveShell(cmd.Cmd):
 
     def do_store(self, line):
         """Store last result with a name: store <name>"""
-
         if not line:
             print("Usage: store <name>")
             return
@@ -1209,11 +1212,12 @@ class InteractiveShell(cmd.Cmd):
     def complete_rm(
         self, text, line, begidx, endidx
     ):  # pylint: disable=unused-argument
-        """Autocomplete stored variable names for rm command"""
+        """Autocomplete stored variable names for rm command."""
         return [name for name in self.stored_data if name.startswith(text)]
 
     def do_show(self, line):
-        """Show stored data: show <name> or show <name>.<attribute> or show <name>[index]"""
+        """Show stored data: show <name> or show <name>.<attribute> or show
+        <name>[index]"""
         if not line:
             print(colorize("Stored data:", "green"))
             for name in self.stored_data:
@@ -1235,7 +1239,7 @@ class InteractiveShell(cmd.Cmd):
             print(f"{colorize('Error:', 'red')} Cannot resolve '{line}'")
 
     def complete_show(self, text, line, begidx, endidx):
-        """Autocomplete stored variable names for show command"""
+        """Autocomplete stored variable names for show command."""
         # Get the part being completed
         parts = line.split()
         if len(parts) <= 1 or (len(parts) == 2 and not line.endswith(" ")):
@@ -1244,18 +1248,18 @@ class InteractiveShell(cmd.Cmd):
         return []
 
     def do_clear(self, line):  # pylint: disable=unused-argument
-        """Clear terminal screen"""
+        """Clear terminal screen."""
         # Clear screen for both Windows and Unix-like systems
         os.system("cls" if os.name == "nt" else "clear")
 
     def do_cls(self, line):  # pylint: disable=unused-argument
-        """Clear stored data"""
+        """Clear stored data."""
         self.stored_data.clear()
         self.stored_metadata.clear()
         print(f"{colorize('Cleared all stored data', 'yellow')}")
 
     def do_info(self, line):  # pylint: disable=unused-argument
-        """Show connection and device information"""
+        """Show connection and device information."""
         # Build connection and CLI options info
         options_info = []
 
@@ -1305,7 +1309,7 @@ class InteractiveShell(cmd.Cmd):
         print()  # Extra newline for spacing
 
     def execute_service_method(self, method_name, params_str):
-        """Execute a method on the current service"""
+        """Execute a method on the current service."""
         if not self.current_service:
             print(f"{colorize('Error:', 'red')} Not in service mode")
             return
@@ -1359,7 +1363,7 @@ class InteractiveShell(cmd.Cmd):
                         traceback.print_exc()
 
     def do_debug(self, line):  # pylint: disable=unused-argument
-        """Show debug information"""
+        """Show debug information."""
         if self.client.xml_plugin:
             if self._last_method and self._last_operation_timestamp:
                 print(f"{colorize('Last Operation:', 'cyan')}")
@@ -1379,16 +1383,16 @@ class InteractiveShell(cmd.Cmd):
             )
 
     def do_exit(self, line):  # pylint: disable=unused-argument
-        """Exit the shell"""
+        """Exit the shell."""
         self._stop_health_check.set()
         print(colorize("Goodbye!", "cyan"))
         return True
 
     def emptyline(self):
-        """Handle empty line"""
+        """Handle empty line."""
 
     def do_help(self, line):
-        """Show help information"""
+        """Show help information."""
         if line:
             super().do_help(line)
         else:
@@ -1462,7 +1466,7 @@ class InteractiveShell(cmd.Cmd):
             print(help_text)
 
     def run(self):
-        """Run the interactive shell"""
+        """Run the interactive shell."""
         try:
             self.cmdloop()
         except KeyboardInterrupt:

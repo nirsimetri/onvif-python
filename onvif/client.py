@@ -265,8 +265,8 @@ class ONVIFClient:
     def _get_xaddr(
         self, service_name: str, service_path: str
     ):  # pylint: disable=too-many-branches
-        """
-        Resolve XAddr for ONVIF services using a comprehensive 3-tier discovery approach.
+        """Resolve XAddr for ONVIF services using a comprehensive 3-tier discovery
+        approach.
 
         1. GetServices: Try to resolve from GetServices response using namespace mapping
         2. GetCapabilities: Fall back to GetCapabilities response with multiple lookup strategies:
@@ -372,9 +372,7 @@ class ONVIFClient:
         return default_url
 
     def _rewrite_xaddr_if_needed(self, xaddr: str):
-        """
-        Rewrite XAddr to use client's host/port if different from device's.
-        """
+        """Rewrite XAddr to use client's host/port if different from device's."""
         try:
             parsed = urlparse(xaddr)
             device_host = parsed.hostname
