@@ -130,10 +130,11 @@ class ONVIFWSDL:
         # Priority: parameter > global setting > default
         if custom_wsdl_dir:
             return custom_wsdl_dir
-        elif cls._custom_wsdl_dir:
+
+        if cls._custom_wsdl_dir:
             return cls._custom_wsdl_dir
-        else:
-            return cls.BASE_DIR
+
+        return cls.BASE_DIR
 
     @classmethod
     def _get_wsdl_map(cls, custom_wsdl_dir=None):

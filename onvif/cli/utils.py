@@ -203,19 +203,9 @@ def get_service_required_args(service_name: str) -> list[str] | None:
     Returns list of required argument names, or None if service doesn't need args.
         Services that require arguments:
         - pullpoint, subscription: requires SubscriptionRef
-        - jwt, keystore, tlsserver, dot1x, authorizationserver, mediasigning: require xaddr
     """
     if service_name in ["pullpoint", "subscription"]:
         return ["SubscriptionRef"]
-    elif service_name in [
-        "jwt",
-        "keystore",
-        "tlsserver",
-        "dot1x",
-        "authorizationserver",
-        "mediasigning",
-    ]:
-        return ["xaddr"]
     return None
 
 
@@ -382,7 +372,7 @@ def colorize(text: str, color: str) -> str:
                 kernel32.GetConsoleMode(h_stdout, ctypes.byref(mode))
 
                 # Enable virtual terminal processing
-                ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
+                ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004  # pylint: disable=invalid-name
                 kernel32.SetConsoleMode(
                     h_stdout, mode.value | ENABLE_VIRTUAL_TERMINAL_PROCESSING
                 )
@@ -482,8 +472,8 @@ def format_capabilities_as_services(capabilities) -> str:
         service_lines = "\n".join(services)
         result = f"{header}\n{service_lines}"
         return result
-    else:
-        return f"{colorize('No services found in capabilities', 'yellow')}"
+
+    return f"{colorize('No services found in capabilities', 'yellow')}"
 
 
 def format_services_list(services_list) -> str:
@@ -508,7 +498,8 @@ def format_services_list(services_list) -> str:
         if not service_mappings:
             # Unknown namespace
             services.append(f"  {colorize(f'unknown({namespace})', 'yellow')}")
-            services.append(f"    {colorize('XAddr   :', 'white')} {xaddr}")
+            services.append(f"    {colorize('XAddr    :', 'white')} {xaddr}")
+            services.append(f"    {colorize('Namespace:', 'white')} {namespace}")
         else:
             # Add the main service entry (first service in mappings)
             main_service = service_mappings[0][0]

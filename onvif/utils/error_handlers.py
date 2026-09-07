@@ -47,7 +47,7 @@ class ONVIFErrorHandler:
 
     @staticmethod
     def is_action_not_supported(exception):
-        """Check if an ONVIFOperationException is caused by ActionNotSupported SOAP fault."""
+        """Check whether an exception is caused by an ActionNotSupported SOAP fault."""
         try:
             # Handle ONVIFOperationException
             if isinstance(exception, ONVIFOperationException):
@@ -55,20 +55,26 @@ class ONVIFErrorHandler:
             else:
                 original = exception
 
-            # Check if it's a Fault with subcodes
-            if isinstance(original, Fault):
-                subcodes = getattr(original, "subcodes", None)
-                if subcodes:
-                    for subcode in subcodes:
-                        if hasattr(subcode, "localname"):
-                            if subcode.localname == "ActionNotSupported":
-                                logger.debug("Detected ActionNotSupported fault")
-                                return True
-                        elif "ActionNotSupported" in str(subcode):
-                            logger.debug("Detected ActionNotSupported fault in subcode")
-                            return True
-        except OSError as e:
-            logger.debug("Error checking ActionNotSupported: %s", e)
+            if not isinstance(original, Fault):
+                return False
+
+            subcodes = getattr(original, "subcodes", None)
+            if not subcodes:
+                return False
+
+            for subcode in subcodes:
+                localname = getattr(subcode, "localname", None)
+
+                if localname == "ActionNotSupported":
+                    logger.debug("Detected ActionNotSupported fault")
+                    return True
+
+                if "ActionNotSupported" in str(subcode):
+                    logger.debug("Detected ActionNotSupported fault in subcode")
+                    return True
+
+        except OSError as error:
+            logger.debug("Error checking ActionNotSupported: %s", error)
 
         return False
 
