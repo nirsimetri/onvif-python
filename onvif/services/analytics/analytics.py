@@ -71,6 +71,8 @@ class Analytics(ONVIFService):
         )
 
     def DeleteAnalyticsModules(self, ConfigurationToken, AnalyticsModuleName):
+        """Remove one or more analytics modules from a VideoAnalyticsConfiguration
+        referenced by their names."""
         return self.operator.call(
             "DeleteAnalyticsModules",
             ConfigurationToken=ConfigurationToken,
@@ -78,11 +80,15 @@ class Analytics(ONVIFService):
         )
 
     def GetAnalyticsModules(self, ConfigurationToken):
+        """List the currently assigned set of analytics modules of a
+        VideoAnalyticsConfiguration."""
         return self.operator.call(
             "GetAnalyticsModules", ConfigurationToken=ConfigurationToken
         )
 
     def GetAnalyticsModuleOptions(self, ConfigurationToken, Type=None):
+        """Return the options for the supported analytics modules that specify an Option
+        attribute."""
         return self.operator.call(
             "GetAnalyticsModuleOptions",
             Type=Type,
@@ -90,6 +96,12 @@ class Analytics(ONVIFService):
         )
 
     def ModifyAnalyticsModules(self, ConfigurationToken, AnalyticsModule):
+        """Modify the settings of one or more analytics modules of a
+        VideoAnalyticsConfiguration.
+
+        The modules are referenced by their names. It is allowed to pass only a subset
+        to be modified.
+        """
         return self.operator.call(
             "ModifyAnalyticsModules",
             ConfigurationToken=ConfigurationToken,
@@ -97,4 +109,14 @@ class Analytics(ONVIFService):
         )
 
     def GetSupportedMetadata(self, Type=None):
+        """This method provides a computer readable description of the metadata that the
+        selected analytics modules can generate.
+
+        The type parameter allows to select a single analytics module. By default the
+        output shall relate to all analytics modules that exist in the device.
+
+        The response shall provide a sample XML frame. The sample frame shall include
+        all potentially generated elements by the selected analytics modules. Note that
+        this e.g. does not need to include all possible class type enumerations.
+        """
         return self.operator.call("GetSupportedMetadata", Type=Type)
