@@ -91,7 +91,7 @@ class ONVIFOperator:
         cache: CacheMode = CacheMode.ALL,  # all | db | mem | none
         cache_path: str | None = None,
         use_https: bool = False,
-        verify_ssl: bool = True,
+        verify_ssl: bool = False,
         apply_patch: bool = True,
         plugins: list | None = None,
     ):
@@ -148,9 +148,9 @@ class ONVIFOperator:
 
         ClientType: type[Client | CachingClient]  # pylint: disable=invalid-name
 
-        if cache == CacheMode.ALL or cache == CacheMode.MEM:
+        if cache in (CacheMode.ALL, CacheMode.MEM):
             ClientType = CachingClient
-        elif cache == CacheMode.DB or cache == CacheMode.NONE:
+        elif cache in (CacheMode.DB, CacheMode.NONE):
             ClientType = Client
         else:
             raise ValueError(f"Unknown cache option: {cache}")

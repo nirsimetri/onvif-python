@@ -709,7 +709,7 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 |-----------|------|-------|---------|-----------|
 | `timeout` | `int` | ❌ Tidak | `10` | Timeout koneksi dalam detik untuk permintaan SOAP |
 | `use_https` | `bool` | ❌ Tidak | `False` | Gunakan HTTPS sebagai pengganti HTTP untuk komunikasi aman |
-| `verify_ssl` | `bool` | ❌ Tidak | `True` | Verifikasi sertifikat SSL saat menggunakan HTTPS (set ke `False` untuk sertifikat self-signed) |
+| `verify_ssl` | `bool` | ❌ Tidak | `False` | Verifikasi sertifikat SSL saat menggunakan HTTPS (set ke `False` untuk sertifikat self-signed) |
 
 </details>
 
