@@ -111,7 +111,7 @@ class ONVIFClient:
         timeout: int = 10,
         cache: CacheMode = CacheMode.ALL,
         use_https: bool = False,
-        verify_ssl: bool = True,
+        verify_ssl: bool = False,
         apply_patch: bool = True,
         capture_xml: bool = False,
         wsdl_dir: str | None = None,
