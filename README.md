@@ -1099,11 +1099,11 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
    ```python
    client.security()                  # root binding
    client.jwt()                       # sub-binding accessor
-   client.authorizationserver(xaddr)  # sub-binding accessor (requires xAddr)
-   client.keystore(xaddr)             # ..
-   client.dot1x(xaddr)
-   client.tlsserver(xaddr)
-   client.mediasigning(xaddr)
+   client.authorizationserver()       # ..
+   client.keystore()
+   client.dot1x()
+   client.tlsserver()
+   client.mediasigning()
    ```
 
 3. **Analytics**
