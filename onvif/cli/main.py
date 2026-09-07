@@ -96,6 +96,13 @@ Examples:
         "-if",
         help="Specify network interface IP for discovery (default: auto-detect)",
     )
+    parser.add_argument(
+        "--discovery-timeout",
+        "-dt",
+        type=int,
+        default=4,
+        help="Discovery timeout in seconds (default: 4)",
+    )
 
     # Product search
     parser.add_argument(
@@ -121,7 +128,7 @@ Examples:
         "--timeout",
         type=int,
         default=10,
-        help="Connection timeout in seconds (default: 10)",
+        help="ONVIF connection timeout in seconds (default: 10)",
     )
     parser.add_argument(
         "--https", action="store_true", help="Use HTTPS instead of HTTP"
@@ -158,7 +165,10 @@ Examples:
     parser.add_argument(
         "--output",
         "-o",
-        help="Save command output to file. Supports .json, .xml extensions for format detection, or plain text. XML format automatically enables debug mode for SOAP capture.",
+        help=(
+            "Save command output to file. Supports .json, .xml extensions for format detection, "
+            "or plain text. XML format automatically enables debug mode for SOAP capture."
+        ),
     )
 
     # Service and method (for direct command execution)
@@ -214,7 +224,8 @@ def main():
         and (not args.service or not args.method)
     ):
         parser.error(
-            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} mode or {colorize('service/method', 'white')} must be specified"
+            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} "
+            f"mode or {colorize('service/method', 'white')} must be specified"
         )
 
     # Validate output argument
@@ -232,7 +243,7 @@ def main():
 
         # Discover devices (pass --https flag to prioritize HTTPS XAddrs and filter term)
         devices = discover_devices(
-            timeout=4,
+            timeout=args.discovery_timeout,
             interface=args.interface if args.interface else None,
             prefer_https=args.https,
             filter_term=args.filter,
