@@ -697,8 +697,9 @@ The `ONVIFClient` class provides various configuration options to customize the 
 |-----------|------|----------|---------|-------------|
 | `host` | `str` | ✅ Yes | - | IP address or hostname of the ONVIF device (e.g., `"192.168.1.17"`) |
 | `port` | `int` | ✅ Yes | - | Port number for ONVIF service (common ports: `80`, `8000`, `8080`) |
-| `username` | `str` | ✅ Yes | - | Username for device authentication (use digest authentication) |
-| `password` | `str` | ✅ Yes | - | Password for device authentication |
+| `username` | `str` | ❌ No | - | Username for device authentication |
+| `password` | `str` | ❌ No | - | Password for device authentication |
+| `http_digest` | `str` | ❌ No | `False` | `True` = use HTTP Digest / `False` = use WS-Usernametoken |
 
 </details>
 

@@ -697,8 +697,9 @@ Kelas `ONVIFClient` menyediakan berbagai opsi konfigurasi untuk menyesuaikan per
 |-----------|------|-------|---------|-----------|
 | `host` | `str` | ✅ Ya | - | Alamat IP atau hostname perangkat ONVIF (mis., `"192.168.1.17"`) |
 | `port` | `int` | ✅ Ya | - | Nomor port untuk layanan ONVIF (port umum: `80`, `8000`, `8080`) |
-| `username` | `str` | ✅ Ya | - | Nama pengguna untuk autentikasi perangkat (menggunakan digest authentication) |
-| `password` | `str` | ✅ Ya | - | Kata sandi untuk autentikasi perangkat |
+| `username` | `str` | ❌ Tidak | - | Nama pengguna untuk autentikasi perangkat |
+| `password` | `str` | ❌ Tidak | - | Kata sandi untuk autentikasi perangkat |
+| `http_digest` | `str` | ❌ Tidak | `False` | `True` = pakai HTTP Digest / `False` = pakai WS-Usernametoken |
 
 </details>
 

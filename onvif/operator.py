@@ -9,6 +9,8 @@ from enum import Enum
 
 import requests
 import urllib3
+from requests.auth import HTTPDigestAuth
+from requests import Session
 from zeep import CachingClient, Client, Settings, Transport
 from zeep.cache import SqliteCache
 from zeep.exceptions import Fault
@@ -70,6 +72,7 @@ class ONVIFOperator:
         port (int): Device port number
         username (str): ONVIF username
         password (str): ONVIF password
+        http_digest (bool): Whether to use HTTP Digest or WS-Usernametoken for auth
         timeout (int): Request timeout in seconds
         apply_patch (bool): Whether to apply xsd:any flattening patch
         address (str): Service endpoint URL (XAddr)
@@ -83,8 +86,9 @@ class ONVIFOperator:
         wsdl_path: str,
         host: str,
         port: int,
-        username: str,
-        password: str,
+        username: str | None = None,
+        password: str | None = None,
+        http_digest: bool = False,  # True = use HTTP Digest / False = use WS-Usernametoken
         timeout: int = 10,
         binding: str | None = None,
         service_path: str | None = None,
@@ -100,13 +104,14 @@ class ONVIFOperator:
             "Creating ONVIFOperator for %s:%d with WSDL: %s", host, port, wsdl_path
         )
 
-        self.wsdl_path = wsdl_path
-        self.host = host
-        self.port = port
-        self.username = username
-        self.password = password
-        self.timeout = timeout
-        self.apply_patch = apply_patch
+        self.wsdl_path: str = wsdl_path
+        self.http_digest: bool = http_digest
+        self.host: str = host
+        self.port: int = port
+        self.username: str | None = username
+        self.password: str | None = password
+        self.timeout: int = timeout
+        self.apply_patch: bool = apply_patch
 
         if xaddr:
             self.address = xaddr
@@ -118,13 +123,7 @@ class ONVIFOperator:
         logger.debug("Service endpoint: %s", self.address)
 
         # Session reuse with retry strategy
-        session = requests.Session()
-        session.verify = verify_ssl
-
-        # Format SSL warnings to be more concise when verify_ssl is False
-        if not verify_ssl:
-            logger.debug("SSL verification disabled")
-            warnings.simplefilter("once", urllib3.exceptions.InsecureRequestWarning)
+        session: Session = self._create_session(verify_ssl=verify_ssl)
 
         transport_kwargs = {"session": session, "operation_timeout": timeout}
 
@@ -141,11 +140,7 @@ class ONVIFOperator:
 
         # zeep settings
         settings = Settings(strict=False, xml_huge_tree=True)
-        wsse = (
-            UsernameToken(username, password, use_digest=True)
-            if username and password
-            else None
-        )
+        wsse: UsernameToken | None = self._create_wsse()
 
         ClientType: type[Client | CachingClient]  # pylint: disable=invalid-name
 
@@ -174,6 +169,61 @@ class ONVIFOperator:
             "Binding", ""
         )  # Store cleaned service name for logging context
         logger.info("ONVIFOperator initialized %s at %s", binding, self.address)
+
+    def _create_session(
+        self,
+        verify_ssl: bool,
+    ) -> Session:
+        """Create and configure the HTTP session.
+
+        Args:
+            verify_ssl: Whether SSL certificates should be verified.
+
+        Returns:
+            Configured requests session.
+        """
+        session = requests.Session()
+        session.verify = verify_ssl
+
+        if not verify_ssl:
+            # Format SSL warnings to be more concise when verify_ssl is False
+            logger.debug("SSL verification disabled")
+            warnings.simplefilter(
+                "once",
+                urllib3.exceptions.InsecureRequestWarning,
+            )
+
+        if self.http_digest and self.username and self.password:
+            logger.debug("Configuring HTTP Digest authentication")
+
+            session.auth = HTTPDigestAuth(
+                self.username,
+                self.password,
+            )
+
+        return session
+
+    def _create_wsse(
+        self,
+    ) -> UsernameToken | None:
+        """Create WS-Security authentication configuration.
+
+        Returns:
+            Zeep WS-Security UsernameToken or None.
+        """
+        if self.http_digest:
+            return None
+
+        if not self.username or not self.password:
+            return None
+
+        logger.debug("Configuring WS-Security UsernameToken authentication")
+
+        return UsernameToken(
+            self.username,
+            self.password,
+            use_digest=True,
+        )
 
     def call(self, method: str, *args, **kwargs):
         """Call an ONVIF service operation.
