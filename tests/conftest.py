@@ -9,7 +9,7 @@ from onvif import CacheMode, ONVIFClient
 
 @pytest.fixture
 def mock_device_response():
-    """Mock device information response"""
+    """Mock device information response."""
     mock_device = Mock()
     mock_device.Manufacturer = "Test Manufacturer"
     mock_device.Model = "Test Model"
@@ -21,7 +21,7 @@ def mock_device_response():
 
 @pytest.fixture
 def mock_capabilities():
-    """Mock capabilities response"""
+    """Mock capabilities response."""
     mock_caps = Mock()
 
     # Media capabilities
@@ -42,7 +42,7 @@ def mock_capabilities():
 
 @pytest.fixture
 def mock_services():
-    """Mock GetServices response"""
+    """Mock GetServices response."""
     service1 = Mock()
     service1.Namespace = "http://www.onvif.org/ver10/media/wsdl"
     service1.XAddr = "http://192.168.1.17:8000/onvif/Media"
@@ -56,7 +56,7 @@ def mock_services():
 
 @pytest.fixture
 def mock_onvif_client():
-    """Create a mocked ONVIF client for testing"""
+    """Create a mocked ONVIF client for testing."""
     with patch("onvif.client.Device") as mock_device_class:
         mock_device = Mock()
         mock_device_class.return_value = mock_device
@@ -108,7 +108,7 @@ def mock_onvif_client():
 
 @pytest.fixture
 def sample_subscription_ref():
-    """Sample subscription reference for pullpoint tests"""
+    """Sample subscription reference for pullpoint tests."""
     return {
         "SubscriptionReference": {
             "Address": {"_value_1": "http://192.168.1.17:8000/onvif/Subscription/12345"}
@@ -118,7 +118,7 @@ def sample_subscription_ref():
 
 @pytest.fixture
 def test_client_params():
-    """Standard test client parameters"""
+    """Standard test client parameters."""
     return {
         "host": "192.168.1.17",
         "port": 8000,

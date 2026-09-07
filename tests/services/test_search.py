@@ -4,7 +4,7 @@ from onvif.services import Search
 
 
 class TestSearchWSDLCompliance(ONVIFServiceTestBase):
-    """Test that Search service implementation matches WSDL specification"""
+    """Test that Search service implementation matches WSDL specification."""
 
     # Service configuration
     SERVICE_CLASS = Search
@@ -16,7 +16,7 @@ class TestSearchWSDLCompliance(ONVIFServiceTestBase):
     XADDR_PATH = "/onvif/SearchRecording"
 
     def test_specific_methods_implementation(self):
-        """Test specific Search methods"""
+        """Test specific Search methods."""
         test_cases = [
             {"method": "GetServiceCapabilities", "params": {}},
             {
@@ -58,7 +58,7 @@ class TestSearchWSDLCompliance(ONVIFServiceTestBase):
         self.run_specific_methods_tests(test_cases)
 
     def test_parameter_forwarding(self):
-        """Verify all method parameters are properly forwarded to operator.call"""
+        """Verify all method parameters are properly forwarded to operator.call."""
         test_cases = [
             ("GetRecordingInformation", {"RecordingToken": "token123"}),
             (
