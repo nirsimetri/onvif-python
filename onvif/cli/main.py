@@ -14,16 +14,17 @@ import warnings
 from datetime import datetime, timezone
 from typing import Any
 
-from onvif import __repository__, __version__
 from onvif.cli.interactive import InteractiveShell
 from onvif.cli.utils import colorize, parse_json_params
 from onvif.client import ONVIFClient
+from onvif.meta import __repository__, __version__
 from onvif.operator import CacheMode
 from onvif.utils import ONVIFDiscovery, ONVIFOperationException
 
 
+# pylint: disable=line-too-long
 def create_parser():
-    """Create argument parser for ONVIF CLI"""
+    """Create argument parser for ONVIF CLI."""
     parser = argparse.ArgumentParser(
         prog="onvif",
         description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v{__version__}\n{__repository__}",
@@ -182,7 +183,7 @@ Examples:
 
 
 def main():
-    """Main CLI entry point"""
+    """Main CLI entry point."""
     # Setup custom warning format for cleaner output
     setup_warning_format()
 
@@ -358,7 +359,7 @@ def execute_command(
     method_name: str,
     params_str: str | None = None,
 ) -> Any:
-    """Execute a single ONVIF command"""
+    """Execute a single ONVIF command."""
     # Get service instance
     try:
         service = getattr(client, service_name.lower())()
@@ -576,7 +577,6 @@ def discover_devices(
     Returns:
         List of discovered devices with connection info
     """
-
     # Use ONVIFDiscovery class
     discovery = ONVIFDiscovery(timeout=timeout, interface=interface)
 
@@ -678,7 +678,8 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
 
 
 def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None:
-    """Search ONVIF products database and display results in table format with pagination.
+    """Search ONVIF products database and display results in table format with
+    pagination.
 
     Args:
         search_term: Search term to match against model, post_title, and company_name fields
@@ -962,7 +963,7 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
 
 
 def setup_warning_format():
-    """Setup custom warning format to show clean, concise warnings"""
+    """Setup custom warning format to show clean, concise warnings."""
 
     def custom_warning_format(
         message, category, filename, lineno, line=None

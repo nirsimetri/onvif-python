@@ -49,10 +49,10 @@ except ImportError:
 
 
 class TestONVIFOperationException:
-    """Test ONVIFOperationException class"""
+    """Test ONVIFOperationException class."""
 
     def test_soap_fault_exception(self):
-        """Test ONVIFOperationException with SOAP fault"""
+        """Test ONVIFOperationException with SOAP fault."""
         # Create a mock SOAP fault
         mock_fault = Mock(spec=Fault)
         mock_fault.code = "SOAP-ENV:Client"
@@ -70,7 +70,7 @@ class TestONVIFOperationException:
         assert operation in str(exception)
 
     def test_soap_fault_with_subcodes(self):
-        """Test ONVIFOperationException with SOAP fault containing subcodes"""
+        """Test ONVIFOperationException with SOAP fault containing subcodes."""
         # Create mock objects for subcodes (simulating QName behavior)
         mock_qname1 = Mock()
         mock_qname1.localname = "ActionNotSupported"
@@ -93,7 +93,7 @@ class TestONVIFOperationException:
         assert "Additional error details" in error_str
 
     def test_soap_fault_with_invalid_subcodes(self):
-        """Test ONVIFOperationException with invalid subcodes that cause exceptions"""
+        """Test ONVIFOperationException with invalid subcodes that cause exceptions."""
         mock_fault = Mock(spec=Fault)
         mock_fault.code = "SOAP-ENV:Client"
         mock_fault.message = "Test error"
@@ -109,7 +109,7 @@ class TestONVIFOperationException:
         assert "Test error" in error_str
 
     def test_requests_exception(self):
-        """Test ONVIFOperationException with requests exception"""
+        """Test ONVIFOperationException with requests exception."""
         mock_requests_error = requests.exceptions.ConnectionError("Connection refused")
 
         operation = "GetCapabilities"
@@ -122,7 +122,7 @@ class TestONVIFOperationException:
         assert operation in str(exception)
 
     def test_requests_timeout_exception(self):
-        """Test ONVIFOperationException with requests timeout"""
+        """Test ONVIFOperationException with requests timeout."""
         mock_timeout_error = requests.exceptions.Timeout("Request timed out")
 
         operation = "GetProfiles"
@@ -134,7 +134,7 @@ class TestONVIFOperationException:
         assert operation in error_str
 
     def test_generic_exception(self):
-        """Test ONVIFOperationException with generic exception"""
+        """Test ONVIFOperationException with generic exception."""
         mock_generic_error = ValueError("Invalid parameter value")
 
         operation = "SetVideoEncoderConfiguration"
@@ -147,7 +147,7 @@ class TestONVIFOperationException:
         assert operation in str(exception)
 
     def test_exception_inheritance(self):
-        """Test that ONVIFOperationException is properly inherited from Exception"""
+        """Test that ONVIFOperationException is properly inherited from Exception."""
         mock_error = Exception("Test error")
         operation = "TestOperation"
         exception = ONVIFOperationException(operation, mock_error)
@@ -157,7 +157,7 @@ class TestONVIFOperationException:
         assert hasattr(exception, "original_exception")
 
     def test_soap_fault_missing_attributes(self):
-        """Test SOAP fault handling when some attributes are missing"""
+        """Test SOAP fault handling when some attributes are missing."""
         mock_fault = Mock(spec=Fault)
         # Only set some attributes, leave others as None
         mock_fault.message = "Partial error info"
@@ -175,7 +175,7 @@ class TestONVIFOperationException:
         assert "Partial error info" in error_str
 
     def test_soap_fault_no_message(self):
-        """Test SOAP fault handling when message is None"""
+        """Test SOAP fault handling when message is None."""
         mock_fault = Mock(spec=Fault)
         mock_fault.code = "SOAP-ENV:Client"
         mock_fault.message = None
@@ -192,10 +192,10 @@ class TestONVIFOperationException:
 
 
 class TestExceptionErrorMessages:
-    """Test error message formatting and content"""
+    """Test error message formatting and content."""
 
     def test_error_message_format(self):
-        """Test that error messages follow expected format"""
+        """Test that error messages follow expected format."""
         mock_fault = Mock(spec=Fault)
         mock_fault.code = "SOAP-ENV:Client"
         mock_fault.message = "Test message"
@@ -217,7 +217,7 @@ class TestExceptionErrorMessages:
             assert part in error_str
 
     def test_different_operation_names(self):
-        """Test with different ONVIF operation names"""
+        """Test with different ONVIF operation names."""
         operations = [
             "GetDeviceInformation",
             "GetProfiles",
@@ -235,10 +235,10 @@ class TestExceptionErrorMessages:
 
 
 class TestExceptionIntegration:
-    """Test exception integration with real scenarios"""
+    """Test exception integration with real scenarios."""
 
     def test_authentication_scenario(self):
-        """Test exception for authentication failure scenario"""
+        """Test exception for authentication failure scenario."""
         mock_fault = Mock(spec=Fault)
         mock_fault.code = "SOAP-ENV:Client"
         mock_fault.message = "Authentication failed"
@@ -257,7 +257,7 @@ class TestExceptionIntegration:
         assert isinstance(exception.original_exception, Fault)
 
     def test_network_error_scenario(self):
-        """Test exception for network error scenario"""
+        """Test exception for network error scenario."""
         network_error = requests.exceptions.ConnectionError(
             "HTTPConnectionPool(host='192.168.1.17', port=8000): "
             "Max retries exceeded with url: /onvif/device_service"
@@ -272,7 +272,7 @@ class TestExceptionIntegration:
         assert "Max retries exceeded" in error_str
 
     def test_timeout_scenario(self):
-        """Test exception for timeout scenario"""
+        """Test exception for timeout scenario."""
         timeout_error = requests.exceptions.ReadTimeout(
             "HTTPSConnectionPool(host='192.168.1.17', port=443): "
             "Read timed out. (read timeout=5)"
@@ -287,7 +287,7 @@ class TestExceptionIntegration:
         assert "timeout=5" in error_str
 
     def test_service_unavailable_scenario(self):
-        """Test exception for service unavailable scenario"""
+        """Test exception for service unavailable scenario."""
         mock_fault = Mock(spec=Fault)
         mock_fault.code = "SOAP-ENV:Server"
         mock_fault.message = "Service temporarily unavailable"
@@ -303,10 +303,10 @@ class TestExceptionIntegration:
 
 
 class TestExceptionUsage:
-    """Test how exceptions should be used in practice"""
+    """Test how exceptions should be used in practice."""
 
     def test_exception_catching(self):
-        """Test that exceptions can be caught and handled properly"""
+        """Test that exceptions can be caught and handled properly."""
         mock_error = Exception("Test error")
         operation = "TestOperation"
 
@@ -319,7 +319,7 @@ class TestExceptionUsage:
             pytest.fail("Should catch ONVIFOperationException specifically")
 
     def test_exception_reraising(self):
-        """Test that exceptions can be re-raised with additional context"""
+        """Test that exceptions can be re-raised with additional context."""
         original_error = ValueError("Original error")
         operation = "FirstOperation"
 

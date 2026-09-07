@@ -4,6 +4,7 @@ import requests
 from zeep.exceptions import Fault
 
 
+# pylint: disable=line-too-long,too-many-locals,too-many-nested-blocks,too-many-branches,too-many-statements
 class ONVIFOperationException(Exception):
     """Enhanced exception wrapper for ONVIF operation failures.
 

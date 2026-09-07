@@ -100,16 +100,13 @@ class ONVIFService:
                     params_obj = args[0]
                     logger.debug("Converting Zeep object to kwargs for %s", name)
                     # Extract fields from Zeep object using its XSD type elements
-                    if hasattr(
-                        params_obj._xsd_type, "elements"
-                    ):  # pylint: disable=protected-access
+                    # pylint: disable=protected-access
+                    if hasattr(params_obj._xsd_type, "elements"):
                         kwargs = {}
                         for (
                             elem_name,
                             _,
-                        ) in (
-                            params_obj._xsd_type.elements
-                        ):  # pylint: disable=protected-access
+                        ) in params_obj._xsd_type.elements:
                             kwargs[elem_name] = getattr(params_obj, elem_name)
                         return attr(**kwargs)
 

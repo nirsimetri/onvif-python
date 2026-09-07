@@ -20,7 +20,7 @@ class Device(ONVIFService):
         self.operator = ONVIFOperator(
             definition["path"],
             binding=f"{{{definition['namespace']}}}{definition['binding']}",
-            service_path="device_service",  # fallback
+            service_path="device_service",  # fixed
             xaddr=xaddr,
             **kwargs,
         )

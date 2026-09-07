@@ -1,4 +1,4 @@
-"""ONVIF CLI"""
+"""ONVIF CLI."""
 
 from onvif.cli.main import main
 
