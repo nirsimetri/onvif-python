@@ -34,15 +34,16 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest
+        pip install pylint pytest
     - name: Install project
       run: pip install .
-    - name: Lint with flake8
+    - name: Lint with pylint
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # run full lint using .flake8 config, but don’t fail the build
-        flake8 . --count --exit-zero --statistics
+        # Fail CI on fatal errors and errors
+        pylint onvif --errors-only --score=n
+
+        # Report all other lint issues without failing CI
+        pylint onvif --exit-zero
     - name: Test with pytest
       run: |
         pytest
