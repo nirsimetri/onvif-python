@@ -21,5 +21,5 @@ try:
 
     # print available media profiles
     print(device.GetProfiles())
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)

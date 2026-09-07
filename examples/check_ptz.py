@@ -19,7 +19,7 @@ PASSWORD = "admin123"
 try:
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
     media = client.media()
-    profile = media.GetProfiles()[0]
+    profile = media.GetProfiles()[0]  # use first profile
     ptz = client.ptz()
 
     ptz.ContinuousMove(
@@ -33,5 +33,5 @@ try:
     )
     sleep(2.5)
     ptz.Stop(ProfileToken=profile.token)
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)

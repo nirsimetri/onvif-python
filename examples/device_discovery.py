@@ -17,5 +17,5 @@ try:
     discovery = ONVIFDiscovery(timeout=5)
     devices = discovery.discover()
     print(json.dumps(devices, indent=2))
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)

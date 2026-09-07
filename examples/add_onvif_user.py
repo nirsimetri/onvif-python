@@ -24,5 +24,5 @@ try:
 
     # print current users to verify addition
     print(device.GetUsers())
-except Exception as e:
+except Exception as e:  # pylint: disable=broad-exception-caught
     print(e)
