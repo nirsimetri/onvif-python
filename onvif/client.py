@@ -101,10 +101,10 @@ class ONVIFClient:
     or GetCapabilities, and provides lazy initialization for service endpoints.
 
     Attributes:
-        services: List of available services from GetServices response
-        capabilities: Device capabilities from GetCapabilities response (fallback)
-        xml_plugin: XML capture plugin for debugging (if capture_xml=True)
-        wsdl_dir: Custom WSDL directory path (if provided)
+        services (list): List of available services from GetServices response
+        capabilities (CompoundValue): Device capabilities from GetCapabilities response (fallback)
+        xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if capture_xml=True)
+        wsdl_dir (str | None): Custom WSDL directory path (if provided)
     """
 
     def __init__(
@@ -123,6 +123,24 @@ class ONVIFClient:
         wsdl_dir: str | None = None,
         plugins: list | None = None,
     ):
+        """Initialize the ONVIF client.
+
+        Args:
+            host (str): Device hostname or IP address
+            port (int): Device port number
+            username (str | None): ONVIF username
+            password (str | None): ONVIF password
+            http_digest (bool): Whether to use HTTP Digest or WS-Usernametoken for auth
+            timeout (int): Request timeout in seconds
+            cache (CacheMode): WSDL caching strategy
+            use_https (bool): Use HTTPS instead of HTTP for secure communication
+            verify_ssl (bool): Whether SSL certificates should be verified
+            apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
+            capture_xml (bool): Whether to use XML capture plugin for debugging SOAP requests/responses
+            wsdl_dir (str | None): Custom WSDL directory path for using external WSDL files instead of built-in ones
+            plugins (list | None): List of enabled Zeep plugins
+        """
+
         logger.info("Initializing ONVIF client for %s:%d", host, port)
         logger.debug(
             "Connection settings: HTTPS=%s, SSL_verify=%s, cache=%s, timeout=%ds",

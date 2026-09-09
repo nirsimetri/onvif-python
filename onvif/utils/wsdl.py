@@ -668,8 +668,8 @@ class ONVIFWSDL:
     def _ensure_wsdl_map_initialized(cls):
         """Ensure WSDL_MAP is initialized with default values.
 
-        Lazy initialization of the default WSDL map. This is called automatically
-        before accessing WSDL_MAP to ensure it's not None.
+        Lazy initialization of the default WSDL map. This is called automatically before
+        accessing WSDL_MAP to ensure it's not None.
         """
         if cls.WSDL_MAP is None:
             cls.WSDL_MAP = cls._get_wsdl_map()

@@ -1,4 +1,4 @@
-"""ONVIF Python"""
+"""ONVIF Python."""
 
 from onvif.cli import main as ONVIFCLI
 from onvif.client import ONVIFClient
