@@ -9,10 +9,10 @@ class PTZ(ONVIFService):
     """PTZ service client.
 
     References:
-        - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
-        - Binding name: `PTZBinding` (ver20/ptz/wsdl/ptz.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/ptz/wsdl/ptz.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/PTZ.xml
+    - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
+    - Binding name: `PTZBinding` (ver20/ptz/wsdl/ptz.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/ptz/wsdl/ptz.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/PTZ.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):

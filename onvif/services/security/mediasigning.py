@@ -9,10 +9,10 @@ class MediaSigning(ONVIFService):
     """Security (MediaSigning) service client.
 
     References:
-        - First introduced: ONVIF Release 24.12 (December 2024)
-        - Binding name: `MediaSigningBinding` (ver10/advancedsecurity/wsdl/advancedsecurity.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml
+    - First introduced: ONVIF Release 24.12 (December 2024)
+    - Binding name: `MediaSigningBinding` (ver10/advancedsecurity/wsdl/advancedsecurity.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):

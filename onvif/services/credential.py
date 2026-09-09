@@ -9,10 +9,10 @@ class Credential(ONVIFService):
     """Credential service client.
 
     References:
-        - First introduced: ONVIF Release 2.6 (June 2015)
-        - Binding name: `CredentialBinding` (ver10/credential/wsdl/credential.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/credential/wsdl/credential.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Credential.xml
+    - First introduced: ONVIF Release 2.6 (June 2015)
+    - Binding name: `CredentialBinding` (ver10/credential/wsdl/credential.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/credential/wsdl/credential.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Credential.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):

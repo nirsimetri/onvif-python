@@ -9,10 +9,10 @@ class Device(ONVIFService):
     """Device service client.
 
     References:
-        - ONVIF Core
-        - Binding name: `DeviceBinding` (ver10/device/wsdl/devicemgmt.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml
+    - ONVIF Core
+    - Binding name: `DeviceBinding` (ver10/device/wsdl/devicemgmt.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):

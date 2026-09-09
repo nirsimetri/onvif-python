@@ -9,10 +9,10 @@ class ActionEngine(ONVIFService):
     """ActionEngine service client.
 
     References:
-        - First introduced: ONVIF Release 2.2 (September 2012)
-        - Binding name: `ActionEngineBinding` (ver10/actionengine.wsdl).
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/actionengine.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/ActionEngine.xml
+    - First introduced: ONVIF Release 2.2 (September 2012)
+    - Binding name: `ActionEngineBinding` (ver10/actionengine.wsdl).
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/actionengine.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/ActionEngine.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):
