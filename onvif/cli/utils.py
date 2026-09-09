@@ -8,6 +8,7 @@ import json
 import os
 import re
 from ctypes import wintypes
+from functools import lru_cache
 from typing import Any
 
 from lxml import etree
@@ -356,33 +357,34 @@ def get_method_documentation(service_obj, method_name: str) -> dict[str, Any] | 
         return None
 
 
+@lru_cache(maxsize=1)
+def _colors_enabled() -> bool:
+    """Check whether ANSI colors are supported by the terminal."""
+    if os.name != "nt":
+        return True
+
+    try:
+        # Enable ANSI escape sequences
+        kernel32 = ctypes.windll.kernel32
+        h_stdout = kernel32.GetStdHandle(-11)
+
+        # Get current console mode
+        mode = wintypes.DWORD()
+        kernel32.GetConsoleMode(h_stdout, ctypes.byref(mode))
+
+        enable_virtual_terminal_processing = 0x0004
+        return bool(
+            kernel32.SetConsoleMode(
+                h_stdout,
+                mode.value | enable_virtual_terminal_processing,
+            )
+        )
+    except (ImportError, AttributeError, OSError):
+        return False
+
+
 def colorize(text: str, color: str) -> str:
     """Add color to text for terminal output."""
-    # Enable ANSI colors on Windows
-    if not hasattr(colorize, "_colors_enabled"):
-        colorize._colors_enabled = True
-        if os.name == "nt":  # Windows
-            try:
-                # Enable ANSI escape sequences
-                kernel32 = ctypes.windll.kernel32
-                h_stdout = kernel32.GetStdHandle(-11)  # STD_OUTPUT_HANDLE
-
-                # Get current console mode
-                mode = wintypes.DWORD()
-                kernel32.GetConsoleMode(h_stdout, ctypes.byref(mode))
-
-                # Enable virtual terminal processing
-                ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004  # pylint: disable=invalid-name
-                kernel32.SetConsoleMode(
-                    h_stdout, mode.value | ENABLE_VIRTUAL_TERMINAL_PROCESSING
-                )
-            except (ImportError, AttributeError, OSError):
-                # Specific exceptions that can occur:
-                # - ImportError: ctypes not available
-                # - AttributeError: Windows API functions not available
-                # - OSError: Console mode setting failed
-                colorize._colors_enabled = False
-
     colors = {
         "red": "\033[91m",
         "green": "\033[92m",
@@ -393,6 +395,9 @@ def colorize(text: str, color: str) -> str:
         "white": "\033[97m",
         "reset": "\033[0m",
     }
+
+    if not _colors_enabled():
+        return text
 
     return f"{colors.get(color, '')}{text}{colors['reset']}"
 
