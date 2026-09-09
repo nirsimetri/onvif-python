@@ -5,7 +5,7 @@ import logging
 
 import zeep.helpers
 
-from onvif.cli.utils import get_method_documentation
+from onvif.cli.helpers.wsdl_parser import get_method_documentation
 from onvif.utils.exceptions import ONVIFOperationException
 
 logger = logging.getLogger(__name__)

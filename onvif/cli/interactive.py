@@ -17,6 +17,7 @@ from typing import Any
 from requests.exceptions import RequestException
 from zeep.exceptions import Fault, TransportError
 
+from onvif.cli.helpers import get_method_documentation, get_operation_type_info
 from onvif.cli.helpers.messages import (
     INTERACTIVE_HELP,
     INTERACTIVE_SHORTCUTS,
@@ -27,8 +28,6 @@ from onvif.cli.utils import (
     format_capabilities_as_services,
     format_services_list,
     get_device_available_services,
-    get_method_documentation,
-    get_operation_type_info,
     get_service_methods,
     get_service_required_args,
     parse_json_params,
@@ -228,7 +227,7 @@ class InteractiveShell(cmd.Cmd):
             # Wait before next check or stop signal
             self._stop_health_check.wait(health_check_interval)
 
-    def _handle_connection_error(self, e):
+    def _handle_connection_error(self, e):  # pylint: disable=unused-argument
         """Handle connection errors by notifying the user and exiting."""
         print(f"\n{colorize('Connection to device lost.', 'red')}", file=sys.stderr)
         # print(f"{colorize('Error:', 'red')} {e}", file=sys.stderr)
@@ -479,9 +478,9 @@ class InteractiveShell(cmd.Cmd):
             if command and hasattr(self, f"do_{command}"):
                 # It's a known command, let parent handle it normally
                 return super().onecmd(line)
-            else:
-                # It might be a service method call, handle it directly
-                return self.default(line)
+
+            # It might be a service method call, handle it directly
+            return self.default(line)
 
         # For all other cases, use normal cmd.Cmd processing
         return super().onecmd(line)
@@ -502,12 +501,13 @@ class InteractiveShell(cmd.Cmd):
             return self.do_enter_service(line)
 
         # Check if it's a method call in service context
-        if self.current_service and " " in line:
-            parts = line.split(" ", 1)
-            method_name = parts[0]
-            params_str = parts[1] if len(parts) > 1 else ""
-            return self.execute_service_method(method_name, params_str)
-        elif self.current_service:
+        if self.current_service:
+            if self.current_service and " " in line:
+                parts = line.split(" ", 1)
+                method_name = parts[0]
+                params_str = parts[1] if len(parts) > 1 else ""
+                return self.execute_service_method(method_name, params_str)
+
             # Method without parameters
             return self.execute_service_method(line, "")
 
@@ -970,9 +970,9 @@ class InteractiveShell(cmd.Cmd):
                             param["children"], new_prefix_lines, is_root_level=False
                         )
 
+            input_msg = type_info["input"]
             # Display Input
-            if type_info["input"]:
-                input_msg = type_info["input"]
+            if input_msg is not None:
                 print(f"\n{colorize('Input:', 'cyan')}")
                 msg_name = f"[{input_msg['name']}]"
                 print(f"{colorize(msg_name, 'yellow')}")
@@ -986,9 +986,9 @@ class InteractiveShell(cmd.Cmd):
                     f"\n{colorize('Input:', 'cyan')} {colorize('(not defined)', 'reset')}"
                 )
 
+            output_msg = type_info["output"]
             # Display Output
-            if type_info["output"]:
-                output_msg = type_info["output"]
+            if output_msg is not None:
                 print(f"\n{colorize('Output:', 'cyan')}")
                 msg_name = f"[{output_msg['name']}]"
                 print(f"{colorize(msg_name, 'yellow')}")
