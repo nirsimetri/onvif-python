@@ -83,12 +83,14 @@ class InteractiveShell(cmd.Cmd):
         )
 
         # Enable tab completion
+        # for Windows will use pyreadline3 to install readline module
+        # pylint: disable=import-outside-toplevel
         try:
             import readline
 
             # Set completer to this instance
-            readline.set_completer(self.complete)
-            readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")
+            readline.set_completer(self.complete)  # type: ignore[attr-defined]
+            readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")  # type: ignore[attr-defined]
 
             # Enable tab completion, making it compatible with both GNU readline and libedit
             if (
@@ -96,9 +98,9 @@ class InteractiveShell(cmd.Cmd):
                 and readline.__doc__
                 and "libedit" in readline.__doc__
             ):
-                readline.parse_and_bind("bind ^I rl_complete")
+                readline.parse_and_bind("bind ^I rl_complete")  # type: ignore[attr-defined]
             else:
-                readline.parse_and_bind("tab: complete")
+                readline.parse_and_bind("tab: complete")  # type: ignore[attr-defined]
         except ImportError:
             pass  # readline not available on some systems
 
