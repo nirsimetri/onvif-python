@@ -5,6 +5,90 @@ from onvif.cli.utils import (
 )
 from onvif.meta import __repository__, __version__
 
+
+def print_interactive_intro(args, device_info_text) -> str:
+    """Print interactive shell introduction."""
+    # Welcome message with enhanced info
+    banner_lines = [
+        "   ____  _   ___    ____________",
+        "  / __ \\/ | / / |  / /  _/ ____/",
+        " / / / /  |/ /| | / // // /_    ",
+        "/ /_/ / /|  / | |/ // // __/    ",
+        f"\\____/_/ |_/  |___/___/_/  v{__version__}",
+        "                                ",
+    ]
+
+    banner = "\n".join(colorize(line, "cyan") for line in banner_lines)
+    repo_info = "\n".join(
+        [
+            colorize("Star ⭐ this repo", "white"),
+            colorize(__repository__, "white"),
+        ]
+    )
+
+    # Build connection and CLI options info
+    options_info = []
+
+    # Connection options
+    if hasattr(args, "https") and args.https:
+        options_info.append(f"  Use HTTPS     : {colorize('True', 'green')}")
+
+    if hasattr(args, "no_verify_ssl") and args.no_verify_ssl:
+        options_info.append(f"  Verify SSL    : {colorize('False', 'red')}")
+
+    if hasattr(args, "timeout") and args.timeout != 10:  # 10 is default
+        options_info.append(
+            f"  Timeout       : {colorize(f'{args.timeout}s', 'yellow')}"
+        )
+
+    # CLI options
+    if hasattr(args, "debug") and args.debug:
+        options_info.append(f"  Debug Mode    : {colorize('True', 'green')}")
+
+    if hasattr(args, "no_patch") and args.no_patch:
+        options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
+
+    if hasattr(args, "wsdl") and args.wsdl:
+        options_info.append(f"  Custom WSDL   : {colorize(args.wsdl, 'yellow')}")
+
+    if (
+        hasattr(args, "health_check_interval") and args.health_check_interval != 10
+    ):  # 10 is default
+        options_info.append(
+            f"  Health Check  : every {colorize(f'{args.health_check_interval}s', 'yellow')}"
+        )
+
+    # Format options info
+    options_display = ""
+    if options_info:
+        options_display = "\n" + "\n".join(options_info)
+
+    terminal_header = colorize("\n[ONVIF Terminal Client]", "yellow")
+
+    intro = (
+        f"{banner}\n"
+        f"{repo_info}\n"
+        f"{terminal_header}\n"
+        f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}"
+        f"{options_display}{device_info_text}\n\n"
+        f"{colorize('[Quick Start]', 'green')}\n"
+        f"  - Type {colorize('dev', 'yellow')} + {colorize('TAB', 'yellow')} to see `devicemgmt` suggestion\n"
+        f"  - Type {colorize('devicemgmt', 'yellow')} to enter device management service\n"
+        f"  - Use {colorize('TAB', 'yellow')} completion for commands and methods\n\n"
+        f"{colorize('[Typical Commands]', 'magenta')}\n"
+        f"  - help        : Show help information\n"
+        f"  - ls          : List commands/services/methods in grid format\n"
+        f"  - <service>   : Enter service mode (e.g., devicemgmt)\n"
+        f"  - up          : Exit service mode (go up one level)\n"
+        f"  - info        : Show current device and connection info\n"
+        f"  - exit        : Exit shell\n\n"
+        f"Use {colorize('TAB', 'yellow')} for auto-completion. "
+        f"Type partial commands to see suggestions.\n"
+    )
+
+    return intro
+
+
 INTERACTIVE_HELP = f"""
 {colorize(f'ONVIF Interactive Shell — v{__version__}', 'cyan')}\n{colorize(__repository__, 'white')}
 

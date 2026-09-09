@@ -17,7 +17,11 @@ from typing import Any
 from requests.exceptions import RequestException
 from zeep.exceptions import Fault, TransportError
 
-from onvif.cli.helpers.messages import INTERACTIVE_HELP, INTERACTIVE_SHORTCUTS
+from onvif.cli.helpers.messages import (
+    INTERACTIVE_HELP,
+    INTERACTIVE_SHORTCUTS,
+    print_interactive_intro,
+)
 from onvif.cli.utils import (
     colorize,
     format_capabilities_as_services,
@@ -30,7 +34,6 @@ from onvif.cli.utils import (
     parse_json_params,
 )
 from onvif.client import ONVIFClient
-from onvif.meta import __repository__, __version__
 from onvif.utils.exceptions import ONVIFOperationException
 
 
@@ -156,83 +159,7 @@ class InteractiveShell(cmd.Cmd):
             f"  ONVIF Version : {colorize(onvif_version, 'white')}"
         )
 
-        # Build connection and CLI options info
-        options_info = []
-
-        # Connection options
-        if hasattr(args, "https") and args.https:
-            options_info.append(f"  Use HTTPS     : {colorize('True', 'green')}")
-
-        if hasattr(args, "no_verify_ssl") and args.no_verify_ssl:
-            options_info.append(f"  Verify SSL    : {colorize('False', 'red')}")
-
-        if hasattr(args, "timeout") and args.timeout != 10:  # 10 is default
-            options_info.append(
-                f"  Timeout       : {colorize(f'{args.timeout}s', 'yellow')}"
-            )
-
-        # CLI options
-        if hasattr(args, "debug") and args.debug:
-            options_info.append(f"  Debug Mode    : {colorize('True', 'green')}")
-
-        if hasattr(args, "no_patch") and args.no_patch:
-            options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
-
-        if hasattr(args, "wsdl") and args.wsdl:
-            options_info.append(f"  Custom WSDL   : {colorize(args.wsdl, 'yellow')}")
-
-        if (
-            hasattr(args, "health_check_interval") and args.health_check_interval != 10
-        ):  # 10 is default
-            options_info.append(
-                f"  Health Check  : every {colorize(f'{args.health_check_interval}s', 'yellow')}"
-            )
-
-        # Format options info
-        options_display = ""
-        if options_info:
-            options_display = "\n" + "\n".join(options_info)
-
-        # Welcome message with enhanced info
-        banner_lines = [
-            "   ____  _   ___    ____________",
-            "  / __ \\/ | / / |  / /  _/ ____/",
-            " / / / /  |/ /| | / // // /_    ",
-            "/ /_/ / /|  / | |/ // // __/    ",
-            f"\\____/_/ |_/  |___/___/_/  v{__version__}",
-            "                                ",
-        ]
-
-        banner = "\n".join(colorize(line, "cyan") for line in banner_lines)
-        repo_info = "\n".join(
-            [
-                colorize("Star ⭐ this repo", "white"),
-                colorize(__repository__, "white"),
-            ]
-        )
-
-        terminal_header = colorize("\n[ONVIF Terminal Client]", "yellow")
-
-        self.intro = (
-            f"{banner}\n"
-            f"{repo_info}\n"
-            f"{terminal_header}\n"
-            f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}"
-            f"{options_display}{self.device_info_text}\n\n"
-            f"{colorize('[Quick Start]', 'green')}\n"
-            f"  - Type {colorize('dev', 'yellow')} + {colorize('TAB', 'yellow')} to see `devicemgmt` suggestion\n"
-            f"  - Type {colorize('devicemgmt', 'yellow')} to enter device management service\n"
-            f"  - Use {colorize('TAB', 'yellow')} completion for commands and methods\n\n"
-            f"{colorize('[Typical Commands]', 'magenta')}\n"
-            f"  - help        : Show help information\n"
-            f"  - ls          : List commands/services/methods in grid format\n"
-            f"  - <service>   : Enter service mode (e.g., devicemgmt)\n"
-            f"  - up          : Exit service mode (go up one level)\n"
-            f"  - info        : Show current device and connection info\n"
-            f"  - exit        : Exit shell\n\n"
-            f"Use {colorize('TAB', 'yellow')} for auto-completion. "
-            f"Type partial commands to see suggestions.\n"
-        )
+        self.intro = print_interactive_intro(args, self.device_info_text)
 
         # Start background health check after successful initialization
         self._health_check_thread.start()
@@ -1157,7 +1084,8 @@ class InteractiveShell(cmd.Cmd):
         # Must be unique
         if line in self.stored_data:
             print(
-                f"{colorize('Error:', 'red')} Name '{line}' already exists. Use a different name or remove it first."
+                f"{colorize('Error:', 'red')} Name '{line}' already exists. "
+                "Use a different name or remove it first."
             )
             return
         if hasattr(self, "_last_result"):
@@ -1172,7 +1100,8 @@ class InteractiveShell(cmd.Cmd):
             service = metadata.get("service", "unknown")
             method = metadata.get("method", "unknown")
             print(
-                f"{colorize('Stored result as:', 'green')} {colorize('$'+line, 'yellow')} - {colorize(service, 'cyan')}.{colorize(method, 'white')}()"
+                f"{colorize('Stored result as:', 'green')} {colorize('$'+line, 'yellow')} - "
+                f"{colorize(service, 'cyan')}.{colorize(method, 'white')}()"
             )
         else:
             print(f"{colorize('Error:', 'red')} No result to store")
@@ -1208,7 +1137,10 @@ class InteractiveShell(cmd.Cmd):
                 method = metadata.get("method", "unknown")
 
                 # Format: name - service.method()
-                info = f"{colorize('$'+name, 'yellow')} - {colorize(service, 'cyan')}.{colorize(method, 'white')}()"
+                info = (
+                    f"{colorize('$'+name, 'yellow')} - "
+                    f"{colorize(service, 'cyan')}.{colorize(method, 'white')}()"
+                )
                 print(f"  {info}")
             return
 
@@ -1219,7 +1151,9 @@ class InteractiveShell(cmd.Cmd):
         else:
             print(f"{colorize('Error:', 'red')} Cannot resolve '{line}'")
 
-    def complete_show(self, text, line, begidx, endidx):  # pylint: disable=unused-argument
+    def complete_show(
+        self, text, line, begidx, endidx
+    ):  # pylint: disable=unused-argument
         """Autocomplete stored variable names for show command."""
         # Get the part being completed
         parts = line.split()
