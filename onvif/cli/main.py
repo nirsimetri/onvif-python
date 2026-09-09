@@ -126,8 +126,8 @@ def create_parser():
         "--health-check-interval",
         "-hci",
         type=int,
-        default=10,
-        help="Health check interval in seconds for interactive mode (default: 10)",
+        default=3,
+        help="Health check interval in seconds for interactive mode (default: 3)",
     )
     parser.add_argument(
         "--output",
