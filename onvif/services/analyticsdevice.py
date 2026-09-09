@@ -20,12 +20,12 @@ class AnalyticsDevice(ONVIFService):
     available on the device and calling this class will result in SOAP faults.
 
     References:
-        - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
-        - Deprecated: ONVIF Release 18.12 (December 2018) Release Notes
-        - Binding name: `AnalyticsDeviceBinding` (ver10/analyticsdevice.wsdl)
-        - Successor: `Analytics` Service (ver20/analytics/wsdl/analytics.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/analyticsdevice.wsdl
-        - Specs: https://www.onvif.org/specs/srv/analytics/ONVIF-VideoAnalyticsDevice-Service-Spec-v211.pdf
+    - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
+    - Deprecated: ONVIF Release 18.12 (December 2018) Release Notes
+    - Binding name: `AnalyticsDeviceBinding` (ver10/analyticsdevice.wsdl)
+    - Successor: `Analytics` Service (ver20/analytics/wsdl/analytics.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/analyticsdevice.wsdl
+    - Specs: https://www.onvif.org/specs/srv/analytics/ONVIF-VideoAnalyticsDevice-Service-Spec-v211.pdf
     """
 
     def __init__(self, xaddr=None, **kwargs):

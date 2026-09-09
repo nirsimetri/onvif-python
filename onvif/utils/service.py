@@ -310,8 +310,7 @@ class ONVIFService:
             raise ONVIFOperationException(f"desc({method_name})", e) from e
 
     def operations(self):
-        """
-        List all available operations for this service.
+        """List all available operations for this service.
 
         Returns:
             List of operation names that can be used with type() method

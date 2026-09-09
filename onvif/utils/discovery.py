@@ -69,8 +69,8 @@ class ONVIFDiscovery:
         """Initialize ONVIF Discovery.
 
         Args:
-            timeout: Discovery timeout in seconds (default: 4)
-            interface: Network interface IP to bind to (default: auto-detect)
+            timeout (int): Discovery timeout in seconds
+            interface (str | None): Network interface IP to bind to (default: auto-detect)
         """
         self.timeout = timeout
         self.interface = interface
@@ -123,8 +123,8 @@ class ONVIFDiscovery:
         """Discover ONVIF devices on the network.
 
         Args:
-            prefer_https: If True, prioritize HTTPS XAddrs when available
-            search: Optional search term to filter devices by types or scopes (case-insensitive)
+            prefer_https (bool): If True, prioritize HTTPS XAddrs when available
+            search (str | None): Optional search term to filter devices by types or scopes (case-insensitive)
 
         Returns:
             List of discovered devices with connection information.
@@ -240,8 +240,8 @@ class ONVIFDiscovery:
         """Parse WS-Discovery responses into device information.
 
         Args:
-            responses: List of raw XML responses
-            prefer_https: If True, prioritize HTTPS XAddrs
+            responses (list[dict[str, str]]): List of raw XML responses
+            prefer_https (bool): If True, prioritize HTTPS XAddrs
 
         Returns:
             List of parsed device information
@@ -271,8 +271,8 @@ class ONVIFDiscovery:
         """Filter devices based on search term in types or scopes.
 
         Args:
-            devices: List of discovered devices
-            search_term: Search string to match against types/scopes (case-insensitive)
+            devices (list[dict[str, Any]]): List of discovered devices
+            search_term (str): Search string to match against types/scopes (case-insensitive)
 
         Returns:
             Filtered list of devices matching the search term
@@ -306,8 +306,8 @@ class ONVIFDiscovery:
         """Parse a single WS-Discovery response.
 
         Args:
-            xml_data: Raw XML response data
-            prefer_https: If True, prioritize HTTPS XAddrs
+            xml_data (str): Raw XML response data
+            prefer_https (bool): If True, prioritize HTTPS XAddrs
 
         Returns:
             Device information dictionary or None if parsing fails
@@ -384,8 +384,8 @@ class ONVIFDiscovery:
         """Parse XAddr to extract host, port, and protocol.
 
         Args:
-            device_info: Device information dictionary to update
-            prefer_https: If True, prioritize HTTPS XAddrs
+            device_info (dict[str, Any]): Device information dictionary to update
+            prefer_https (bool): If True, prioritize HTTPS XAddrs
         """
         xaddrs = device_info.get("xaddrs", [])
         if not xaddrs:

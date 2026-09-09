@@ -60,16 +60,16 @@ class ONVIFParser(Plugin):
     """
 
     def __init__(self, extract_xpaths: dict[str, str]):
-        """
-        Initialize XML element parser.
+        """Initialize XML element parser.
 
         Args:
             extract_xpaths: Dictionary mapping names to XPath expressions.
                             XPath expressions will be used to find elements in SOAP response.
-            Example: {
-                'topic': './/{http://docs.oasis-open.org/wsn/b-2}Topic',
-                'custom': './/ns:CustomElement'
-            }
+        Example:
+        {
+            'topic': './/{http://docs.oasis-open.org/wsn/b-2}Topic',
+            'custom': './/ns:CustomElement'
+        }
         """
         self.extract_xpaths = extract_xpaths
         self._extracted_elements: dict[str, list[str | None]] = {}
@@ -78,7 +78,7 @@ class ONVIFParser(Plugin):
             "ONVIFParser initialized with XPaths: %s", list(extract_xpaths.keys())
         )
 
-    def ingress(self, envelope, http_headers, operation):
+    def ingress(self, envelope, http_headers, _):
         """
         Zeep plugin hook - called when SOAP response is received.
 
@@ -119,12 +119,11 @@ class ONVIFParser(Plugin):
         return envelope, http_headers
 
     def get_extracted_texts(self, name: str, count: int) -> list[str | None]:
-        """
-        Get extracted element texts by name.
+        """Get extracted element texts by name.
 
         Args:
-            name: Name of the extracted elements (key from extract_xpaths dict)
-            count: Number of elements to return
+            name (str): Name of the extracted elements (key from extract_xpaths dict)
+            count (int): Number of elements to return
 
         Returns:
             List of element text values, padded with None if fewer elements were found.

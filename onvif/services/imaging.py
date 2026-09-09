@@ -9,10 +9,10 @@ class Imaging(ONVIFService):
     """Imaging service client.
 
     References:
-        - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
-        - Binding name: `ImagingBinding` (ver20/imaging/wsdl/imaging.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/imaging/wsdl/imaging.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Imaging.xml
+    - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
+    - Binding name: `ImagingBinding` (ver20/imaging/wsdl/imaging.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/imaging/wsdl/imaging.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Imaging.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):

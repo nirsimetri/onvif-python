@@ -15,9 +15,9 @@ class PausableSubscription(ONVIFService):
     ONVIF devices.
 
     References:
-        - ONVIF Core Specification
-        - OASIS WS-BaseNotification Specification
-        - Binding name: `PausableSubscriptionManagerBinding` (ver10/events/wsdl/event-vs.wsdl)
+    - ONVIF Core Specification
+    - OASIS WS-BaseNotification Specification
+    - Binding name: `PausableSubscriptionManagerBinding` (ver10/events/wsdl/event-vs.wsdl)
     """
 
     def __init__(self, xaddr=None, **kwargs):

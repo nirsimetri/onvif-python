@@ -103,8 +103,8 @@ class ONVIFErrorHandler:
 
     @staticmethod
     def ignore_unsupported(func):
-        """
-        Decorator to ignore ActionNotSupported SOAP faults.
+        """Decorator to ignore ActionNotSupported SOAP faults.
+
         Returns None for unsupported operations, raises other exceptions.
         """
 

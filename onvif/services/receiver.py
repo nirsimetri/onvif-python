@@ -9,10 +9,10 @@ class Receiver(ONVIFService):
     """Receiver service client.
 
     References:
-        - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
-        - Binding name: `ReceiverBinding` (ver10/receiver.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/receiver.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Receiver.xml
+    - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
+    - Binding name: `ReceiverBinding` (ver10/receiver.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/receiver.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Receiver.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):

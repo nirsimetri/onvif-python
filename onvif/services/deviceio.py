@@ -9,10 +9,10 @@ class DeviceIO(ONVIFService):
     """DeviceIO service client.
 
     References:
-        - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
-        - Binding name: `DeviceIOBinding` (ver10/deviceio.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/deviceio.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/DeviceIo.xml
+    - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
+    - Binding name: `DeviceIOBinding` (ver10/deviceio.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/deviceio.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/DeviceIo.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -197,8 +197,9 @@ class DeviceIO(ONVIFService):
     def GetVideoSourceConfigurationOptions(self, VideoSourceToken):
         """Request the VideoSourceConfigurationOptions of a VideoSource.
 
-        A device with one or more video sources shall support this command. This method
-        is deprecated.
+        A device with one or more video sources shall support this command.
+
+        This method is deprecated.
         """
         return self.operator.call(
             "GetVideoSourceConfigurationOptions", VideoSourceToken=VideoSourceToken
@@ -217,8 +218,9 @@ class DeviceIO(ONVIFService):
     def GetAudioSourceConfigurationOptions(self, AudioSourceToken):
         """Request the AudioSourceConfigurationOptions of an AudioSource.
 
-        A device with one ore more AudioSources shall support this command. This method
-        is deprecated.
+        A device with one ore more AudioSources shall support this command.
+
+        This method is deprecated.
         """
         return self.operator.call(
             "GetAudioSourceConfigurationOptions", AudioSourceToken=AudioSourceToken
@@ -227,8 +229,9 @@ class DeviceIO(ONVIFService):
     def GetAudioOutputConfigurationOptions(self, AudioOutputToken):
         """Request the available settings and ranges for a physical Audio output.
 
-        A device that has one or more AudioOutputs shall support this command. This
-        method is deprecated.
+        A device that has one or more AudioOutputs shall support this command.
+
+        This method is deprecated.
         """
         return self.operator.call(
             "GetAudioOutputConfigurationOptions", AudioOutputToken=AudioOutputToken

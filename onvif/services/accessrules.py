@@ -9,10 +9,10 @@ class AccessRules(ONVIFService):
     """AccessRules service client.
 
     References:
-        - First introduced: ONVIF Release 2.6 (June 2015)
-        - Binding name: `AccessRulesBinding` (ver10/accessrules/wsdl/accessrules.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/accessrules/wsdl/accessrules.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/AccessRules.xml
+    - First introduced: ONVIF Release 2.6 (June 2015)
+    - Binding name: `AccessRulesBinding` (ver10/accessrules/wsdl/accessrules.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/accessrules/wsdl/accessrules.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/AccessRules.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):

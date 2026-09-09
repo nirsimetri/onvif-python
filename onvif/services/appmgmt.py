@@ -9,10 +9,10 @@ class AppManagement(ONVIFService):
     """AppManagement service client.
 
     References:
-        - First introduced: ONVIF Release 19.12 (December 2019)
-        - Binding name: `AppManagementBinding` (ver10/appmgmt/wsdl/appmgmt.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/appmgmt/wsdl/appmgmt.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/AppMgmt.xml
+    - First introduced: ONVIF Release 19.12 (December 2019)
+    - Binding name: `AppManagementBinding` (ver10/appmgmt/wsdl/appmgmt.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/appmgmt/wsdl/appmgmt.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/AppMgmt.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -26,7 +26,7 @@ class AppManagement(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the uplink service."""
+        """Returns the capabilities of the app management service."""
         return self.operator.call("GetServiceCapabilities")
 
     def Uninstall(self, AppID):

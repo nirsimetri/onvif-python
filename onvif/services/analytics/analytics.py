@@ -9,10 +9,10 @@ class Analytics(ONVIFService):
     """Analytics service client.
 
     References:
-        - First introduced: ONVIF Release 2.41 (December 2013)
-        - Binding name: `AnalyticsEngineBinding` (ver20/analytics/wsdl/analytics.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/wsdl/analytics.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Analytics.xml
+    - First introduced: ONVIF Release 2.41 (December 2013)
+    - Binding name: `AnalyticsEngineBinding` (ver20/analytics/wsdl/analytics.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/wsdl/analytics.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Analytics.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):

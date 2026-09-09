@@ -9,10 +9,10 @@ class TLSServer(ONVIFService):
     """Security (TLSServer) service client.
 
     References:
-        - First introduced: ONVIF Release 2.4 (August 2013)
-        - Binding name: `TLSServerBinding` (ver10/advancedsecurity/wsdl/advancedsecurity.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml
+    - First introduced: ONVIF Release 2.4 (August 2013)
+    - Binding name: `TLSServerBinding` (ver10/advancedsecurity/wsdl/advancedsecurity.wsdl)
+    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl
+    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml
     """
 
     def __init__(self, xaddr=None, **kwargs):
