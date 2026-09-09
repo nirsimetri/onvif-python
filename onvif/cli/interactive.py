@@ -17,6 +17,7 @@ from typing import Any
 from requests.exceptions import RequestException
 from zeep.exceptions import Fault, TransportError
 
+from onvif.cli.helpers.messages import INTERACTIVE_HELP, INTERACTIVE_SHORTCUTS
 from onvif.cli.utils import (
     colorize,
     format_capabilities_as_services,
@@ -668,7 +669,7 @@ class InteractiveShell(cmd.Cmd):
             stop = self.onecmd(line)
             stop = self.postcmd(stop, line)
 
-    def columnize(self, list, displaywidth=80):
+    def columnize(self, list, displaywidth=80):  # pylint: disable=redefined-builtin
         """Override columnize to use grid format for TAB completion."""
         if not list:
             return
@@ -1119,31 +1120,7 @@ class InteractiveShell(cmd.Cmd):
 
     def do_shortcuts(self, line):  # pylint: disable=unused-argument
         """Show available shortcuts."""
-        shortcuts = f"""
-{colorize('Available Shortcuts:', 'cyan')}
-
-{colorize('Navigation:', 'yellow')}
-  <service>                - Enter service mode (e.g., devicemgmt, media)
-  cd <service>             - Enter service (same as '<service>')
-  ls                       - List commands/services in grid format (like TAB)
-  up                       - Go up one level
-  pwd                      - Show current context
-  clear                    - Clear terminal screen
-  help <command>           - Show help for a command
-
-{colorize('Service Mode Commands:', 'yellow')}
-  desc <method>            - Show method documentation
-  type <method>            - Show input/output types from WSDL
-
-{colorize('Quick Access:', 'yellow')}
-  caps                     - Show capabilities (same as 'capabilities')
-
-{colorize('Tab Completion Examples:', 'yellow')}
-  dev<TAB>                 - Completes to 'devicemgmt'
-  med<TAB>                 - Completes to 'media'
-  Get<TAB>                 - Shows all methods starting with 'Get'
-        """
-        print(shortcuts)
+        print(INTERACTIVE_SHORTCUTS)
 
     def do_caps(self, line):
         """Show device capabilities (alias for 'capabilities')"""
@@ -1242,7 +1219,7 @@ class InteractiveShell(cmd.Cmd):
         else:
             print(f"{colorize('Error:', 'red')} Cannot resolve '{line}'")
 
-    def complete_show(self, text, line, begidx, endidx):
+    def complete_show(self, text, line, begidx, endidx):  # pylint: disable=unused-argument
         """Autocomplete stored variable names for show command."""
         # Get the part being completed
         parts = line.split()
@@ -1395,79 +1372,12 @@ class InteractiveShell(cmd.Cmd):
     def emptyline(self):
         """Handle empty line."""
 
-    def do_help(self, line):
+    def do_help(self, arg):
         """Show help information."""
-        if line:
-            super().do_help(line)
+        if arg:
+            super().do_help(arg)
         else:
-            help_text = f"""
-{colorize(f'ONVIF Interactive Shell — v{__version__}', 'cyan')}\n{colorize(__repository__, 'white')}
-
-{colorize('Basic Commands:', 'yellow')}
-  capabilities, caps       - Show device capabilities
-  services                 - Show available services with details
-  info                     - Show connection and device information
-  exit                     - Exit the shell
-  shortcuts                - Show available shortcuts
-
-{colorize('Navigation Commands:', 'yellow')}
-  <service>                - Enter service mode (e.g., devicemgmt, media)
-  <service> <argument>     - Enter service mode with argument (e.g. pullpoint SubscriptionRef=<value>)
-  cd <service>             - Enter service mode (alias)
-  ls                       - List commands/services/methods in grid format
-  up                       - Exit current service mode (go up one level)
-  pwd                      - Show current service context
-  clear                    - Clear terminal screen
-  help <command>           - Show help for a specific command
-
-{colorize('Service Mode Commands:', 'yellow')}
-  desc <method>            - Show method documentation
-  type <method>            - Show input/output types from WSDL
-
-{colorize('Method Execution:', 'yellow')}
-  <method>                 - Execute method without parameters
-  <method> {{"param": "value"}}  - Execute method with JSON parameters
-  <method> param=value     - Execute method with simple parameters
-
-{colorize('Data Management:', 'yellow')}
-  store <name>             - Store last result with a name
-  show <name>              - Show stored data
-  show <name>[0]           - Show element at index (for lists)
-  show <name>.attribute    - Show specific attribute
-  show                     - List all stored data
-  rm <name>                - Remove stored data by name
-  cls                      - Clear all stored data
-
-{colorize('Using Stored Data in Methods:', 'yellow')}
-  Use $variable syntax to reference stored data in method parameters:
-  - $profiles[0].token                    - Access list element and attribute
-  - $profiles[0].VideoSourceConfiguration.SourceToken
-
-  Example:
-    GetProfiles                           - Get profiles
-    store profiles                        - Store result
-    show profiles[0].token                - Show first profile token
-    GetImagingSettings VideoSourceToken=$profiles[0].VideoSourceConfiguration.SourceToken
-
-{colorize('Debug Commands:', 'yellow')}
-  debug                    - Show last SOAP request & response (if --debug enabled)
-
-{colorize('Tab Completion:', 'yellow')}
-  Use {colorize('TAB', 'yellow')} key for auto-completion of commands, services, and methods
-  Type partial commands to see suggestions
-
-{colorize('Examples:', 'yellow')}
-  192.168.1.17:8000 > caps                # Show capabilities
-  192.168.1.17:8000 > dev<TAB>            # Completes to 'devicemgmt'
-  192.168.1.17:8000 > cd devicemgmt       # Enter device management
-  192.168.1.17:8000/devicemgmt > Get<TAB> # Show methods starting with 'Get'
-  192.168.1.17:8000/devicemgmt > GetServices {{"IncludeCapability": true}}
-  192.168.1.17:8000/devicemgmt > GetServices IncludeCapability=True
-  192.168.1.17:8000/devicemgmt > store services_info
-  192.168.1.17:8000/devicemgmt > up       # Exit service mode
-  192.168.1.17:8000 >                     # Back to root context
-            """
-            print(help_text)
+            print(INTERACTIVE_HELP)
 
     def run(self):
         """Run the interactive shell."""
