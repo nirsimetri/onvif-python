@@ -39,6 +39,7 @@ license = "MIT"
 dependencies = [
     "zeep>=4.3.0",
     "requests>=2.32.0",
+    'pyreadline3>=3.5.4; sys_platform == "win32"',
 ]
 
 [build-system]
