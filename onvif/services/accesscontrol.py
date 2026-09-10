@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class AccessControl(ONVIFService):
     """AccessControl service client.
 
-    References:
-    - First introduced: ONVIF Release 2.3 (May 2013)
-    - Binding name: `PACSBinding` (ver10/pacs/accesscontrol.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/accesscontrol.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/AccessControl.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 2.3 (May 2013) |
+    | **Binding name** | `PACSBinding` (`ver10/pacs/accesscontrol.wsdl`) |
+    | **Operations** | [accesscontrol.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/accesscontrol.wsdl) |
+    | **Specification** | [AccessControl.xml](https://developer.onvif.org/pub/specs/branches/development/doc/AccessControl.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from functools import wraps
+from typing import ParamSpec, TypeVar
 from urllib.parse import urlparse, urlunparse
 
 from lxml import etree
@@ -59,35 +61,44 @@ from onvif.utils.plugins import ReferenceParametersPlugin
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
+P = ParamSpec("P")
+R = TypeVar("R")
 
-def service(func):
-    """Decorator to wrap service accessor methods with ONVIFOperationException handling.
+
+def service(func: Callable[P, R]) -> Callable[P, R]:
+    """Decorator to wrap service accessor methods with `ONVIFOperationException` handling.
 
     This decorator catches any exception raised during service initialization and
-    wraps it in ONVIFOperationException for consistent error handling across all
+    wraps it in `ONVIFOperationException` for consistent error handling across all
     ONVIF client service accessors.
 
     Args:
-        func: Service accessor method to wrap
+        func: Service accessor method to wrap.
 
     Returns:
-        Wrapped function that handles exceptions
+        Wrapped service accessor method.
 
     Raises:
-        ONVIFOperationException: If service initialization fails
+        ONVIFOperationException: If service initialization fails.
     """
 
     @wraps(func)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
-            return func(self, *args, **kwargs)
+            return func(*args, **kwargs)
         except ONVIFOperationException as oe:
-            # Re-raise ONVIFOperationException as-is to avoid double-wrapping
-            logger.error("Service initialization failed in %s: %s", func.__name__, oe)
+            logger.error(
+                "Service initialization failed in %s: %s",
+                func.__name__,
+                oe,
+            )
             raise
         except Exception as e:
-            # Wrap any other exception in ONVIFOperationException
-            logger.error("Service initialization failed in %s: %s", func.__name__, e)
+            logger.error(
+                "Service initialization failed in %s: %s",
+                func.__name__,
+                e,
+            )
             raise ONVIFOperationException(func.__name__, e) from e
 
     return wrapper
@@ -133,7 +144,7 @@ class ONVIFClient:
             port (int): Device port number
             username (str | None): ONVIF username
             password (str | None): ONVIF password
-            http_digest (bool): Whether to use HTTP Digest or WS-Usernametoken for auth
+            http_digest (bool): Whether to use **HTTP Digest** or **WS-Usernametoken** for auth
             timeout (int): Request timeout in seconds
             cache (CacheMode): WSDL caching strategy
             use_https (bool): Use HTTPS instead of HTTP for secure communication

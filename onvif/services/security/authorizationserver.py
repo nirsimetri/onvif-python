@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class AuthorizationServer(ONVIFService):
     """Security (AuthorizationServer) service client.
 
-    References:
-    - First introduced: ONVIF Release 23.12 (December 2023)
-    - Binding name: `AuthorizationServerBinding` (ver10/advancedsecurity/wsdl/advancedsecurity.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 23.12 (December 2023) |
+    | **Binding name** | `AuthorizationServerBinding` (`ver10/advancedsecurity/wsdl/advancedsecurity.wsdl`) |
+    | **Operations** | [advancedsecurity.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) |
+    | **Specification** | [Security.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

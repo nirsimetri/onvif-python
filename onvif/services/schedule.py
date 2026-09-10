@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class Schedule(ONVIFService):
     """Schedule service client.
 
-    References:
-    - First introduced: ONVIF Release 2.6 (June 2015)
-    - Binding name: `ScheduleBinding` (ver10/schedule/wsdl/schedule.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schedule/wsdl/schedule.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Schedule.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 2.6 (June 2015) |
+    | **Binding name** | `ScheduleBinding` (`ver10/schedule/wsdl/schedule.wsdl`) |
+    | **Operations** | [schedule.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schedule/wsdl/schedule.wsdl) |
+    | **Specification** | [Schedule.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Schedule.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

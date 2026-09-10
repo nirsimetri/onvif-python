@@ -11,10 +11,10 @@ class Notification(ONVIFService):
     This service provides access to the NotificationProducer interface used by
     ONVIF devices for push-based event notification subscriptions.
 
-    References:
-    - ONVIF Core
-    - OASIS WS-BaseNotification Specification
-    - Binding name: `NotificationProducerBinding` (ver10/events/wsdl/event-vs.wsdl)
+    | Property | Details |
+    | --- | --- |
+    | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
+    | **Binding name** | `NotificationProducerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

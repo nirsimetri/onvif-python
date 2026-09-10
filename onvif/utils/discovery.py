@@ -15,21 +15,16 @@ logger.addHandler(logging.NullHandler())
 
 
 class ONVIFDiscovery:
-    """ONVIF Device Discovery using WS-Discovery protocol.
+    """Discover ONVIF devices using the WS-Discovery protocol.
 
-    This class provides methods to discover ONVIF-compliant devices on the local network
-    using the WS-Discovery multicast protocol.
+    This class provides methods for discovering ONVIF-compliant devices
+    on the local network using WS-Discovery multicast.
 
     Attributes:
-        WS_DISCOVERY_PORT (int): Default WS-Discovery port (3702)
-        WS_DISCOVERY_ADDRESS_IPv4 (str): Multicast address for IPv4 discovery
-
-    Example:
-        >>> from onvif import ONVIFDiscovery
-        >>> discovery = ONVIFDiscovery(timeout=5)
-        >>> devices = discovery.discover()
-        >>> for device in devices:
-        ...     print(f"Found device at {device['host']}:{device['port']}")
+        WS_DISCOVERY_PORT (int): UDP port used by WS-Discovery.
+        WS_DISCOVERY_ADDRESS_IPv4 (str): IPv4 multicast address used for discovery.
+        WS_DISCOVERY_PROBE_MESSAGE (str): SOAP probe message sent to discover devices.
+        NAMESPACES (dict[str, str]): XML namespaces used to parse WS-Discovery responses.
     """
 
     WS_DISCOVERY_PORT = 3702
@@ -127,25 +122,16 @@ class ONVIFDiscovery:
             search (str | None): Optional search term to filter devices by types or scopes (case-insensitive)
 
         Returns:
-            List of discovered devices with connection information.
-            Each device is a dictionary containing:
-            - host (str): Device IP address or hostname
-            - port (int): Device port number
-            - use_https (bool): Whether device supports HTTPS
-            - epr (str): Endpoint reference
-            - types (list): Device types
-            - scopes (list): Device scopes
-            - xaddrs (list): All available XAddrs
+            List of discovered devices
 
-        Example:
-            >>> discovery = ONVIFDiscovery(timeout=5)
-            >>> devices = discovery.discover()
-            >>> for device in devices:
-            ...     print(f"{device['host']}:{device['port']}")
-
-            >>> # Filter devices by search term
-            >>> devices = discovery.discover(search="ptz")
-            >>> devices = discovery.discover(search="Hong Kong")
+        !!! abstract "Each device is a dictionary containing:"
+            - ``host`` (str): Device IP address or hostname.
+            - ``port`` (int): Device port number.
+            - ``use_https`` (bool): Whether the device supports HTTPS.
+            - ``epr`` (str): Endpoint reference.
+            - ``types`` (list): Device types.
+            - ``scopes`` (list): Device scopes.
+            - ``xaddrs`` (list): All available XAddrs.
         """
         local_ip = self.get_local_ip()
         logger.info("Starting ONVIF device discovery (timeout: %ss)", self.timeout)
@@ -313,7 +299,6 @@ class ONVIFDiscovery:
             Device information dictionary or None if parsing fails
         """
         try:
-            # Use lxml's secure parser that prevents XXE attacks
             parser = etree.XMLParser(
                 resolve_entities=False,  # Disable entity resolution
                 no_network=True,  # Disable network access

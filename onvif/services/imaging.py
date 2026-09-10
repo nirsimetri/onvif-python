@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class Imaging(ONVIFService):
     """Imaging service client.
 
-    References:
-    - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
-    - Binding name: `ImagingBinding` (ver20/imaging/wsdl/imaging.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/imaging/wsdl/imaging.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Imaging.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | **Binding name** | `ImagingBinding` (`ver20/imaging/wsdl/imaging.wsdl`) |
+    | **Operations** | [imaging.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/imaging/wsdl/imaging.wsdl) |
+    | **Specification** | [Imaging.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Imaging.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -32,6 +33,19 @@ class Imaging(ONVIFService):
         """
         return self.operator.call("GetServiceCapabilities")
 
+    def GetOptions(self, VideoSourceToken):
+        """This operation gets the valid ranges for the imaging parameters that have
+        device specific ranges.
+
+        This command is mandatory for all device implementing the imaging service. The
+        command returns all supported parameters and their ranges such that these can be
+        applied to the SetImagingSettings command.
+
+        For read-only parameters which cannot be modified via the SetImagingSettings
+        command only a single option or identical Min and Max values is provided.
+        """
+        return self.operator.call("GetOptions", VideoSourceToken=VideoSourceToken)
+
     def GetImagingSettings(self, VideoSourceToken):
         """Get the ImagingConfiguration for the requested VideoSource."""
         return self.operator.call(
@@ -49,18 +63,9 @@ class Imaging(ONVIFService):
             ForcePersistence=ForcePersistence,
         )
 
-    def GetOptions(self, VideoSourceToken):
-        """This operation gets the valid ranges for the imaging parameters that have
-        device specific ranges.
-
-        This command is mandatory for all device implementing the imaging service. The
-        command returns all supported parameters and their ranges such that these can be
-        applied to the SetImagingSettings command.
-
-        For read-only parameters which cannot be modified via the SetImagingSettings
-        command only a single option or identical Min and Max values is provided.
-        """
-        return self.operator.call("GetOptions", VideoSourceToken=VideoSourceToken)
+    def GetMoveOptions(self, VideoSourceToken):
+        """Imaging move operation options supported for the Video source."""
+        return self.operator.call("GetMoveOptions", VideoSourceToken=VideoSourceToken)
 
     def Move(self, VideoSourceToken, Focus):
         """The Move command moves the focus lens in an absolute, a relative or in a
@@ -88,6 +93,14 @@ class Imaging(ONVIFService):
             "Move", VideoSourceToken=VideoSourceToken, Focus=Focus
         )
 
+    def GetStatus(self, VideoSourceToken):
+        """Via this command the current status of the Move operation can be requested.
+
+        Supported for this command is available if the support for the Move operation is
+        signalled via GetMoveOptions.
+        """
+        return self.operator.call("GetStatus", VideoSourceToken=VideoSourceToken)
+
     def Stop(self, VideoSourceToken):
         """The Stop command stops all ongoing focus movements of the lense.
 
@@ -97,18 +110,6 @@ class Imaging(ONVIFService):
         The operation will not affect ongoing autofocus operation.
         """
         return self.operator.call("Stop", VideoSourceToken=VideoSourceToken)
-
-    def GetStatus(self, VideoSourceToken):
-        """Via this command the current status of the Move operation can be requested.
-
-        Supported for this command is available if the support for the Move operation is
-        signalled via GetMoveOptions.
-        """
-        return self.operator.call("GetStatus", VideoSourceToken=VideoSourceToken)
-
-    def GetMoveOptions(self, VideoSourceToken):
-        """Imaging move operation options supported for the Video source."""
-        return self.operator.call("GetMoveOptions", VideoSourceToken=VideoSourceToken)
 
     def GetPresets(self, VideoSourceToken):
         """Via this command the list of available Imaging Presets can be requested."""
