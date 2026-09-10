@@ -5,6 +5,7 @@ import shutil
 import sqlite3
 import sys
 from datetime import datetime
+from pathlib import Path
 
 from onvif.cli.utils import colorize
 
@@ -18,9 +19,7 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
         page (int): Page number (1-based)
     """
     # Get the database path relative to the script location
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    db_path = os.path.join(current_dir, "..", "db", "products.db")
-    db_path = os.path.normpath(db_path)
+    db_path = Path(__file__).resolve().parent.parent.parent / "db" / "products.db"
 
     if not os.path.exists(db_path):
         print(f"{colorize('Error:', 'red')} Products database not found at {db_path}")
