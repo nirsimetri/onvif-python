@@ -403,14 +403,27 @@ class ONVIFClient:
             if (device_host != connect_host) or (device_port != connect_port):
                 protocol = "https" if self.common_args["use_https"] else "http"
                 new_netloc = f"{connect_host}:{connect_port}"
-                rewritten = urlunparse((protocol, new_netloc, parsed.path, "", "", ""))
+                rewritten = urlunparse(
+                    (
+                        protocol,
+                        new_netloc,
+                        parsed.path,
+                        parsed.params,
+                        parsed.query,
+                        parsed.fragment,
+                    )
+                )
                 logger.debug("Rewritten XAddr: %s -> %s", xaddr, rewritten)
                 return rewritten
 
             logger.debug("XAddr unchanged: %s", xaddr)
             return xaddr
         except (ValueError, TypeError, KeyError) as e:
-            logger.warning("Failed to parse XAddr %s, returning as-is: %s", xaddr, e)
+            logger.warning(
+                "Failed to parse XAddr %s, returning as-is: %s",
+                xaddr,
+                e,
+            )
             return xaddr
 
     def _configure_patches(self, apply_patch: bool) -> None:
@@ -544,8 +557,8 @@ class ONVIFClient:
 
     @service
     def subscription(
-        self, SubscriptionRef
-    ) -> Subscription:  # pylint: disable=invalid-name
+        self, SubscriptionRef  # pylint: disable=invalid-name
+    ) -> Subscription:
         """Access the Subscription service."""
         logger.debug("Initializing Subscription service")
         return self._get_subscription_service(
@@ -556,8 +569,8 @@ class ONVIFClient:
 
     @service
     def pausable_subscription(
-        self, SubscriptionRef
-    ) -> PausableSubscription:  # pylint: disable=invalid-name
+        self, SubscriptionRef  # pylint: disable=invalid-name
+    ) -> PausableSubscription:
         """Access the PausableSubscription service."""
         logger.debug("Initializing PausableSubscription service")
         return self._get_subscription_service(
