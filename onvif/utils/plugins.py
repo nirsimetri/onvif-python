@@ -1,4 +1,4 @@
-"""ONVIFParser: Zeep plugin to extract XML elements from SOAP responses using XPath."""
+"""Auxiliary custom Zeep plugins outside the core scope."""
 
 from __future__ import annotations
 
@@ -60,7 +60,8 @@ class ONVIFParser(Plugin):
     """
 
     def __init__(self, extract_xpaths: dict[str, str]):
-        """Initialize XML element parser.
+        """
+        Initialize XML element parser.
 
         Args:
             extract_xpaths: Dictionary mapping names to XPath expressions.
@@ -119,7 +120,8 @@ class ONVIFParser(Plugin):
         return envelope, http_headers
 
     def get_extracted_texts(self, name: str, count: int) -> list[str | None]:
-        """Get extracted element texts by name.
+        """
+        Get extracted element texts by name.
 
         Args:
             name (str): Name of the extracted elements (key from extract_xpaths dict)
