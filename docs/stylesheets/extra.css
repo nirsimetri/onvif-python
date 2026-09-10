@@ -1,0 +1,51 @@
+[data-md-color-scheme="default"] .md-header {
+  background-color: #0000FF;
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  background-color: #0f172a;
+}
+
+[data-md-color-scheme="default"] .md-footer,
+[data-md-color-scheme="default"] .md-footer-meta {
+  background-color: #1e293b;
+}
+
+[data-md-color-scheme="slate"] .md-footer,
+[data-md-color-scheme="slate"] .md-footer-meta {
+  background-color: #020617;
+}
+
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #EBEBEB;
+}
+
+.md-content__inner {
+  padding-bottom: 3rem;
+}
+
+.github-release {
+  margin-bottom: 3rem;
+}
+
+.github-release__date {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.8rem;
+}
+
+.github-release__body {
+  margin-top: 2rem;
+}
+
+.github-release__body h2 {
+  margin-top: 2rem;
+}
+
+.github-release__body h3 {
+  margin-top: 1.5rem;
+}
+
+.github-releases-nav > .md-nav__link {
+  color: var(--md-default-fg-color--light);
+  font-weight: 600;
+}
