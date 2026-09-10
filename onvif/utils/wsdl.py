@@ -20,7 +20,7 @@ class ONVIFWSDL:
     The class supports both built-in WSDLs (bundled with the package) and custom
     WSDL directories for users who want to use their own WSDL files.
 
-    Features:
+    !!! asbtract "Features"
         - Centralized WSDL definition mapping for all ONVIF services
         - Support for multiple ONVIF versions (ver10, ver20)
         - Custom WSDL directory support (global and per-call)
@@ -28,28 +28,31 @@ class ONVIFWSDL:
         - Service discovery with namespace and binding information
         - File existence validation
 
-    WSDL Structure:
+    !!! warning "WSDL Structure"
         Built-in WSDLs are organized in ONVIF standard directory structure:
+
         - onvif/wsdl/ver10/device/wsdl/devicemgmt.wsdl
         - onvif/wsdl/ver20/media/wsdl/media.wsdl
         - onvif/wsdl/ver20/ptz/wsdl/ptz.wsdl
-        etc.
+        - etc.
 
-        Custom WSDLs can use flat structure:
+        Custom WSDLs must use flat structure:
+
         - /custom/path/devicemgmt.wsdl
         - /custom/path/media.wsdl
         - /custom/path/ptz.wsdl
 
     Service Definition Format:
         Each service has a definition containing:
-        - path: Full path to WSDL file
-        - binding: SOAP binding name (e.g., "DeviceBinding")
-        - namespace: XML namespace URI (e.g., "http://www.onvif.org/ver10/device/wsdl")
 
-    Custom WSDL Directory Priority:
-        1. Per-call custom_wsdl_dir parameter (highest priority)
-        2. Global _custom_wsdl_dir setting
-        3. Built-in BASE_DIR (default)
+        - `path`: Full path to WSDL file
+        - `binding`: SOAP binding name (e.g., "DeviceBinding")
+        - `namespace`: XML namespace URI (e.g., "http://www.onvif.org/ver10/device/wsdl")
+
+    !!! tip "Custom WSDL Directory Priority"
+        1. Per-call `custom_wsdl_dir` parameter (highest priority)
+        2. Global `_custom_wsdl_dir` setting
+        3. Built-in `BASE_DIR` (default)
 
     Notes:
         - All methods are class methods - no need to instantiate
@@ -60,8 +63,8 @@ class ONVIFWSDL:
         - Thread-safe for read operations
 
     See Also:
-        - ONVIFOperator: Uses WSDL definitions to create SOAP clients
-        - ONVIFClient: High-level client that uses this class internally
+        - [`ONVIFOperator`](/api/cores/onvif_client/): Uses WSDL definitions to create SOAP clients
+        - [`ONVIFClient`](/api/cores/onvif_operator/): High-level client that uses this class internally
     """
 
     # Default base directory for WSDL files (Built-in)
@@ -79,8 +82,12 @@ class ONVIFWSDL:
             custom_dir (str): Path to directory containing custom WSDL files
 
         Example:
-            >>> ONVIFWSDL.set_custom_wsdl_dir("/home/user/my_wsdls")
-            >>> # All subsequent get_definition calls will use this directory
+            ```python
+            from onvif import ONVIFWSDL
+
+            ONVIFWSDL.set_custom_wsdl_dir("/home/user/my_wsdls")
+            # All subsequent get_definition calls will use this directory
+            ```
         """
         logger.info("Setting custom WSDL directory: %s", custom_dir)
         cls._custom_wsdl_dir = custom_dir
@@ -93,8 +100,12 @@ class ONVIFWSDL:
             str or None: Current custom WSDL directory, or None if using built-in
 
         Example:
-            >>> ONVIFWSDL.set_custom_wsdl_dir("/custom/path")
-            >>> print(ONVIFWSDL.get_custom_wsdl_dir())  # /custom/path
+            ```python
+            from onvif import ONVIFWSDL
+
+            ONVIFWSDL.set_custom_wsdl_dir("/custom/path")
+            print(ONVIFWSDL.get_custom_wsdl_dir())  # /custom/path
+            ```
         """
         return cls._custom_wsdl_dir
 
@@ -103,9 +114,13 @@ class ONVIFWSDL:
         """Clear custom WSDL directory, revert to built-in WSDLs.
 
         Example:
-            >>> ONVIFWSDL.set_custom_wsdl_dir("/custom/path")
-            >>> ONVIFWSDL.clear_custom_wsdl_dir()
-            >>> # Now using built-in WSDLs again
+            ```python
+            from onvif import ONVIFWSDL
+
+            ONVIFWSDL.set_custom_wsdl_dir("/custom/path")
+            ONVIFWSDL.clear_custom_wsdl_dir()
+            # Now using built-in WSDLs again
+            ```
         """
         logger.info("Clearing custom WSDL directory, reverting to built-in WSDLs")
         cls._custom_wsdl_dir = None
@@ -123,9 +138,9 @@ class ONVIFWSDL:
             str: Resolved WSDL base directory path
 
         Priority:
-            1. custom_wsdl_dir parameter (highest)
-            2. cls._custom_wsdl_dir global setting
-            3. cls.BASE_DIR built-in default (lowest)
+            1. `custom_wsdl_dir` parameter (highest)
+            2. `cls._custom_wsdl_dir` global setting
+            3. `cls.BASE_DIR` built-in default (lowest)
         """
         # Priority: parameter > global setting > default
         if custom_wsdl_dir:

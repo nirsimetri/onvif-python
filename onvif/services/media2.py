@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class Media2(ONVIFService):
     """Media2 service client.
 
-    References:
-    - First introduced: ONVIF Release 2.61 (December 2015)
-    - Binding name: `Media2Binding` (ver20/media/wsdl/media.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/media/wsdl/media.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Media2.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 2.61 (December 2015) |
+    | **Binding name** | `Media2Binding` (`ver20/media/wsdl/media.wsdl`) |
+    | **Operations** | [media.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/media/wsdl/media.wsdl) |
+    | **Specification** | [Media2.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Media2.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

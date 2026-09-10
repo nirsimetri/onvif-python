@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class AppManagement(ONVIFService):
     """AppManagement service client.
 
-    References:
-    - First introduced: ONVIF Release 19.12 (December 2019)
-    - Binding name: `AppManagementBinding` (ver10/appmgmt/wsdl/appmgmt.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/appmgmt/wsdl/appmgmt.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/AppMgmt.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 19.12 (December 2019) |
+    | **Binding name** | `AppManagementBinding` (`ver10/appmgmt/wsdl/appmgmt.wsdl`) |
+    | **Operations** | [appmgmt.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/appmgmt/wsdl/appmgmt.wsdl) |
+    | **Specification** | [AppMgmt.xml](https://developer.onvif.org/pub/specs/branches/development/doc/AppMgmt.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

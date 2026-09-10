@@ -14,10 +14,10 @@ class Subscription(ONVIFService):
     SubscriptionManager endpoints are typically returned as SubscriptionReference
     values when creating an event or pull point subscription.
 
-    References:
-    - ONVIF Core Specification
-    - OASIS WS-BaseNotification Specification
-    - Binding name: `SubscriptionManagerBinding` (ver10/events/wsdl/event-vs.wsdl)
+    | Property | Details |
+    | --- | --- |
+    | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
+    | **Binding name** | `SubscriptionManagerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

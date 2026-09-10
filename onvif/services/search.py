@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class Search(ONVIFService):
     """Search service client.
 
-    References:
-    - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
-    - Binding name: `SearchBinding` (ver10/search.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/search.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/RecordingSearch.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | **Binding name** | `SearchBinding` (`ver10/search.wsdl`) |
+    | **Operations** | [search.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/search.wsdl) |
+    | **Specification** | [RecordingSearch.xml](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingSearch.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

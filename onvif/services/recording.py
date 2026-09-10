@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class Recording(ONVIFService):
     """Recording service client.
 
-    References:
-    - First introduced: ONVIF Release 2.1 (June 2011) Split from Core 2.0
-    - Binding name: `RecordingBinding` (ver10/recording.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/recording.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/RecordingControl.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | **Binding name** | `RecordingBinding` (`ver10/recording.wsdl`) |
+    | **Operations** | [recording.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/recording.wsdl) |
+    | **Specification** | [RecordingControl.xml](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingControl.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

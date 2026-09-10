@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class AccessRules(ONVIFService):
     """AccessRules service client.
 
-    References:
-    - First introduced: ONVIF Release 2.6 (June 2015)
-    - Binding name: `AccessRulesBinding` (ver10/accessrules/wsdl/accessrules.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/accessrules/wsdl/accessrules.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/AccessRules.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 2.6 (June 2015) |
+    | **Binding name** | `AccessRulesBinding` (`ver10/accessrules/wsdl/accessrules.wsdl`) |
+    | **Operations** | [accessrules.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/accessrules/wsdl/accessrules.wsdl) |
+    | **Specification** | [AccessRules.xml](https://developer.onvif.org/pub/specs/branches/development/doc/AccessRules.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
