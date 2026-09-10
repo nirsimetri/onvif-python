@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import logging
+from copy import deepcopy
 
+from lxml import etree
 from zeep import Plugin
 
 logger = logging.getLogger(__name__)
@@ -138,3 +140,33 @@ class ONVIFParser(Plugin):
             texts.append(None)
 
         return texts
+
+
+SOAP_NAMESPACES = (
+    "http://schemas.xmlsoap.org/soap/envelope/",
+    "http://www.w3.org/2003/05/soap-envelope",
+)
+
+
+class ReferenceParametersPlugin(Plugin):
+    """Inject WS-Addressing ReferenceParameters into SOAP headers."""
+
+    def __init__(self, reference_parameters):
+        self.reference_parameters = reference_parameters or []
+
+    def egress(self, envelope, http_headers, operation, binding_options):
+        soap_namespace = etree.QName(envelope).namespace
+
+        if soap_namespace not in SOAP_NAMESPACES:
+            raise RuntimeError(f"Unsupported SOAP envelope namespace: {soap_namespace}")
+
+        header = envelope.find(f"{{{soap_namespace}}}Header")
+
+        if header is None:
+            header = etree.Element(f"{{{soap_namespace}}}Header")
+            envelope.insert(0, header)
+
+        for parameter in self.reference_parameters:
+            header.append(deepcopy(parameter))
+
+        return envelope, http_headers
