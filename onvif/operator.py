@@ -6,6 +6,7 @@ import logging
 import os
 import warnings
 from enum import Enum
+from typing import Any
 
 import requests
 import urllib3
@@ -228,7 +229,7 @@ class ONVIFOperator:
             use_digest=True,
         )
 
-    def call(self, method: str, *args, **kwargs):
+    def call(self, method: str, *args, **kwargs) -> Any:
         """Call an ONVIF service operation.
 
         This method invokes a SOAP operation on the ONVIF device service and handles
@@ -267,7 +268,7 @@ class ONVIFOperator:
         except Exception as e:
             raise ONVIFOperationException(operation=method, original_exception=e) from e
 
-    def create_type(self, type_name: str):
+    def create_type(self, type_name: str) -> Any:
         """Create a type instance from WSDL schema for the given type name.
 
         Recursively initializes nested complex types so that fields like TimeZone, DateTime,

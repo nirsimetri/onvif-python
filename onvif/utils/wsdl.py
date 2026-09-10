@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import os
-from typing import Any, ClassVar
+from typing import Any
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
@@ -72,7 +72,7 @@ class ONVIFWSDL:
     _custom_wsdl_dir = None
 
     @classmethod
-    def set_custom_wsdl_dir(cls, custom_dir):
+    def set_custom_wsdl_dir(cls, custom_dir) -> None:
         """Set global custom WSDL directory for all services.
 
         Args:
@@ -86,7 +86,7 @@ class ONVIFWSDL:
         cls._custom_wsdl_dir = custom_dir
 
     @classmethod
-    def get_custom_wsdl_dir(cls):
+    def get_custom_wsdl_dir(cls) -> str | None:
         """Get current global custom WSDL directory.
 
         Returns:
@@ -99,7 +99,7 @@ class ONVIFWSDL:
         return cls._custom_wsdl_dir
 
     @classmethod
-    def clear_custom_wsdl_dir(cls):
+    def clear_custom_wsdl_dir(cls) -> None:
         """Clear custom WSDL directory, revert to built-in WSDLs.
 
         Example:
@@ -111,7 +111,7 @@ class ONVIFWSDL:
         cls._custom_wsdl_dir = None
 
     @classmethod
-    def _get_base_dir(cls, custom_wsdl_dir=None):
+    def _get_base_dir(cls, custom_wsdl_dir=None) -> str | Any:
         """Get the base WSDL directory, using custom directory if provided.
 
         This method implements the priority chain for WSDL directory resolution.
@@ -137,7 +137,7 @@ class ONVIFWSDL:
         return cls.BASE_DIR
 
     @classmethod
-    def _get_wsdl_map(cls, custom_wsdl_dir=None):
+    def _get_wsdl_map(cls, custom_wsdl_dir=None) -> dict[str, dict[str, Any]] | None:
         """Get WSDL map with proper base directory.
 
         Generates a complete mapping of all ONVIF services to their WSDL definitions.
@@ -660,12 +660,12 @@ class ONVIFWSDL:
             },
         }
 
-    WSDL_MAP: ClassVar[dict[str, dict[str, Any]] | None] = (
+    WSDL_MAP: dict[str, dict[str, Any]] | None = (
         None  # Will be initialized when first accessed
     )
 
     @classmethod
-    def _ensure_wsdl_map_initialized(cls):
+    def _ensure_wsdl_map_initialized(cls) -> None:
         """Ensure WSDL_MAP is initialized with default values.
 
         Lazy initialization of the default WSDL map. This is called automatically before

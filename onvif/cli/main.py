@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-import argparse
 import getpass
 import sys
 import traceback as traceback_lib
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 from onvif.cli.helpers import (
     discover_devices,
@@ -25,12 +25,12 @@ from onvif.utils import ONVIFOperationException
 
 
 # pylint: disable=line-too-long
-def create_parser():
+def create_parser() -> ArgumentParser:
     """Create argument parser for ONVIF CLI."""
-    parser = argparse.ArgumentParser(
+    parser = ArgumentParser(
         prog="onvif",
         description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v{__version__}\n{__repository__}",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=RawDescriptionHelpFormatter,
         epilog=CLI_EPILOG,
     )
 
@@ -159,7 +159,7 @@ def create_parser():
     return parser
 
 
-def main():
+def main() -> None:
     """Main CLI entry point."""
     # Setup custom warning format for cleaner output
     setup_warning_format()

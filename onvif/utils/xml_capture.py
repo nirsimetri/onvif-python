@@ -79,7 +79,7 @@ class XMLCapturePlugin(Plugin):
         self.history = []  # Store all requests/responses
         logger.debug("XMLCapturePlugin initialized (pretty_print=%s)", pretty_print)
 
-    def _format_xml(self, element):
+    def _format_xml(self, element) -> str:
         """Format XML element with proper indentation using lxml.
 
         Args:
@@ -174,19 +174,19 @@ class XMLCapturePlugin(Plugin):
         )
         return envelope, http_headers
 
-    def get_last_request(self):
+    def get_last_request(self) -> str | None:
         """Get the last captured request XML."""
         return self.last_sent_xml
 
-    def get_last_response(self):
+    def get_last_response(self) -> str | None:
         """Get the last captured response XML."""
         return self.last_received_xml
 
-    def get_history(self):
+    def get_history(self) -> list:
         """Get all captured requests and responses."""
         return self.history
 
-    def clear_history(self):
+    def clear_history(self) -> None:
         """Clear the capture history."""
         history_count = len(self.history)
         self.history = []
@@ -195,7 +195,7 @@ class XMLCapturePlugin(Plugin):
         self.last_operation = None
         logger.debug("Cleared XML capture history (%d items)", history_count)
 
-    def save_to_file(self, request_file=None, response_file=None):
+    def save_to_file(self, request_file=None, response_file=None) -> None:
         """Save captured XML to files.
 
         Args:
