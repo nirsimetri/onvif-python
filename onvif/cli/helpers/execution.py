@@ -45,7 +45,7 @@ def execute_command(
     return method(**params)
 
 
-def setup_warning_format():
+def setup_warning_format() -> None:
     """Setup custom warning format to show clean, concise warnings."""
 
     def custom_warning_format(

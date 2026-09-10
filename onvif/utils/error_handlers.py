@@ -1,6 +1,7 @@
 """ONVIFErrorHandler: Error handling utilities for ONVIF operations."""
 
 import logging
+from typing import Any
 
 from zeep.exceptions import Fault
 
@@ -46,7 +47,7 @@ class ONVIFErrorHandler:
     """
 
     @staticmethod
-    def is_action_not_supported(exception):
+    def is_action_not_supported(exception) -> bool:
         """Check whether an exception is caused by an ActionNotSupported SOAP fault."""
         try:
             # Handle ONVIFOperationException
@@ -79,7 +80,9 @@ class ONVIFErrorHandler:
         return False
 
     @staticmethod
-    def safe_call(func, default=None, ignore_unsupported=True, log_error=True):
+    def safe_call(
+        func, default=None, ignore_unsupported=True, log_error=True
+    ) -> Any | None:
         """Safely call an ONVIF operation with graceful error handling."""
         try:
             result = func()
@@ -102,7 +105,7 @@ class ONVIFErrorHandler:
             raise
 
     @staticmethod
-    def ignore_unsupported(func):
+    def ignore_unsupported(func) -> Any | None:
         """Decorator to ignore ActionNotSupported SOAP faults.
 
         Returns None for unsupported operations, raises other exceptions.

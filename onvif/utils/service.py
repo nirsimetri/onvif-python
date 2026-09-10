@@ -2,6 +2,7 @@
 
 import inspect
 import logging
+from typing import Any
 
 import zeep.helpers
 
@@ -127,7 +128,7 @@ class ONVIFService:
 
         return wrapped_method
 
-    def to_dict(self, zeep_object):
+    def to_dict(self, zeep_object) -> dict:
         """
         Convert a zeep object (result from ONVIF operation) to Python dictionary.
 
@@ -157,7 +158,7 @@ class ONVIFService:
             logger.error("Failed to convert zeep object to dict: %s", e)
             return {}
 
-    def type(self, type_name: str):
+    def type(self, type_name: str) -> Any:
         """
         Create and return an instance of the specified ONVIF type.
 
@@ -203,7 +204,7 @@ class ONVIFService:
             logger.error("Failed to create type %s: %s", type_name, e)
             raise ONVIFOperationException(f"type({type_name})", e) from e
 
-    def desc(self, method_name: str):
+    def desc(self, method_name: str) -> dict:
         """
         Get documentation and parameter information for a specific operation/method.
 
@@ -309,7 +310,7 @@ class ONVIFService:
             logger.error("Failed to get description for method %s: %s", method_name, e)
             raise ONVIFOperationException(f"desc({method_name})", e) from e
 
-    def operations(self):
+    def operations(self) -> list[str] | list:
         """List all available operations for this service.
 
         Returns:

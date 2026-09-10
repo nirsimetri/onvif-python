@@ -284,7 +284,7 @@ class ONVIFClient:
 
     def _get_xaddr(
         self, service_name: str, service_path: str
-    ):  # pylint: disable=too-many-branches
+    ) -> str:  # pylint: disable=too-many-branches
         """Resolve XAddr for ONVIF services using a comprehensive 3-tier discovery
         approach.
 
@@ -391,7 +391,7 @@ class ONVIFClient:
         logger.warning("Using default URL for %s: %s", service_name, default_url)
         return default_url
 
-    def _rewrite_xaddr_if_needed(self, xaddr: str):
+    def _rewrite_xaddr_if_needed(self, xaddr: str) -> str:
         """Rewrite XAddr to use client's host/port if different from device's."""
         try:
             parsed = urlparse(xaddr)
@@ -445,7 +445,7 @@ class ONVIFClient:
     # Core (Device Management)
 
     @service
-    def devicemgmt(self):
+    def devicemgmt(self) -> Device:
         """Access the Device Management service."""
         if self._devicemgmt is None:
             logger.debug("Initializing Device Management service")
@@ -513,7 +513,7 @@ class ONVIFClient:
         return cache[cache_key]
 
     @service
-    def events(self):
+    def events(self) -> Events:
         """Access the Events service."""
         if self._events is None:
             logger.debug("Initializing Events service")
@@ -523,7 +523,7 @@ class ONVIFClient:
         return self._events
 
     @service
-    def pullpoint(self, SubscriptionRef):  # pylint: disable=invalid-name
+    def pullpoint(self, SubscriptionRef) -> PullPoint:  # pylint: disable=invalid-name
         """Access the PullPoint service."""
         logger.debug("Initializing PullPoint service")
         return self._get_subscription_service(
@@ -533,7 +533,7 @@ class ONVIFClient:
         )
 
     @service
-    def notification(self):
+    def notification(self) -> Notification:
         """Access the Notification service."""
         if self._notification is None:
             logger.debug("Initializing Notification service")
@@ -543,7 +543,9 @@ class ONVIFClient:
         return self._notification
 
     @service
-    def subscription(self, SubscriptionRef):  # pylint: disable=invalid-name
+    def subscription(
+        self, SubscriptionRef
+    ) -> Subscription:  # pylint: disable=invalid-name
         """Access the Subscription service."""
         logger.debug("Initializing Subscription service")
         return self._get_subscription_service(
@@ -553,7 +555,9 @@ class ONVIFClient:
         )
 
     @service
-    def pausable_subscription(self, SubscriptionRef):  # pylint: disable=invalid-name
+    def pausable_subscription(
+        self, SubscriptionRef
+    ) -> PausableSubscription:  # pylint: disable=invalid-name
         """Access the PausableSubscription service."""
         logger.debug("Initializing PausableSubscription service")
         return self._get_subscription_service(
@@ -565,7 +569,7 @@ class ONVIFClient:
     # Imaging
 
     @service
-    def imaging(self):
+    def imaging(self) -> Imaging:
         """Access the Imaging service."""
         if self._imaging is None:
             logger.debug("Initializing Imaging service")
@@ -577,7 +581,7 @@ class ONVIFClient:
     # Media
 
     @service
-    def media(self):
+    def media(self) -> Media:
         """Access the Media service."""
         if self._media is None:
             logger.debug("Initializing Media service")
@@ -587,7 +591,7 @@ class ONVIFClient:
         return self._media
 
     @service
-    def media2(self):
+    def media2(self) -> Media2:
         """Access the Media2 service."""
         if self._media2 is None:
             logger.debug("Initializing Media2 service")
@@ -599,7 +603,7 @@ class ONVIFClient:
     # PTZ
 
     @service
-    def ptz(self):
+    def ptz(self) -> PTZ:
         """Access the PTZ service."""
         if self._ptz is None:
             logger.debug("Initializing PTZ service")
@@ -609,7 +613,7 @@ class ONVIFClient:
     # DeviceIO
 
     @service
-    def deviceio(self):
+    def deviceio(self) -> DeviceIO:
         """Access the DeviceIO service."""
         if self._deviceio is None:
             logger.debug("Initializing DeviceIO service")
@@ -621,7 +625,7 @@ class ONVIFClient:
     # Display
 
     @service
-    def display(self):
+    def display(self) -> Display:
         """Access the Display service."""
         if self._display is None:
             logger.debug("Initializing Display service")
@@ -633,7 +637,7 @@ class ONVIFClient:
     # Analytics
 
     @service
-    def analytics(self):
+    def analytics(self) -> Analytics:
         """Access the Analytics service."""
         if self._analytics is None:
             logger.debug("Initializing Analytics service")
@@ -643,7 +647,7 @@ class ONVIFClient:
         return self._analytics
 
     @service
-    def ruleengine(self):
+    def ruleengine(self) -> RuleEngine:
         """Access the RuleEngine service."""
         if self._ruleengine is None:
             logger.debug("Initializing RuleEngine service")
@@ -653,7 +657,7 @@ class ONVIFClient:
         return self._ruleengine
 
     @service
-    def analyticsdevice(self):
+    def analyticsdevice(self) -> AnalyticsDevice:
         """Access the AnalyticsDevice service."""
         if self._analyticsdevice is None:
             logger.debug("Initializing AnalyticsDevice service")
@@ -666,7 +670,7 @@ class ONVIFClient:
     # PACS
 
     @service
-    def accesscontrol(self):
+    def accesscontrol(self) -> AccessControl:
         """Access the AccessControl service."""
         if self._accesscontrol is None:
             logger.debug("Initializing AccessControl service")
@@ -677,7 +681,7 @@ class ONVIFClient:
         return self._accesscontrol
 
     @service
-    def doorcontrol(self):
+    def doorcontrol(self) -> DoorControl:
         """Access the DoorControl service."""
         if self._doorcontrol is None:
             logger.debug("Initializing DoorControl service")
@@ -689,7 +693,7 @@ class ONVIFClient:
     # AccessRules
 
     @service
-    def accessrules(self):
+    def accessrules(self) -> AccessRules:
         """Access the AccessRules service."""
         if self._accessrules is None:
             logger.debug("Initializing AccessRules service")
@@ -701,7 +705,7 @@ class ONVIFClient:
     # ActionEngine
 
     @service
-    def actionengine(self):
+    def actionengine(self) -> ActionEngine:
         """Access the ActionEngine service."""
         if self._actionengine is None:
             logger.debug("Initializing ActionEngine service")
@@ -714,7 +718,7 @@ class ONVIFClient:
     # AppManagement
 
     @service
-    def appmanagement(self):
+    def appmanagement(self) -> AppManagement:
         """Access the AppManagement service."""
         if self._appmanagement is None:
             logger.debug("Initializing AppManagement service")
@@ -727,7 +731,7 @@ class ONVIFClient:
     # AuthenticationBehavior
 
     @service
-    def authenticationbehavior(self):
+    def authenticationbehavior(self) -> AuthenticationBehavior:
         """Access the AuthenticationBehavior service."""
         if self._authenticationbehavior is None:
             logger.debug("Initializing AuthenticationBehavior service")
@@ -742,7 +746,7 @@ class ONVIFClient:
     # Credential
 
     @service
-    def credential(self):
+    def credential(self) -> Credential:
         """Access the Credential service."""
         if self._credential is None:
             logger.debug("Initializing Credential service")
@@ -755,7 +759,7 @@ class ONVIFClient:
     # Recording
 
     @service
-    def recording(self):
+    def recording(self) -> Recording:
         """Access the Recording service."""
         if self._recording is None:
             logger.debug("Initializing Recording service")
@@ -768,7 +772,7 @@ class ONVIFClient:
     # Replay
 
     @service
-    def replay(self):
+    def replay(self) -> Replay:
         """Access the Replay service."""
         if self._replay is None:
             logger.debug("Initializing Replay service")
@@ -781,7 +785,7 @@ class ONVIFClient:
     # Provisioning
 
     @service
-    def provisioning(self):
+    def provisioning(self) -> Provisioning:
         """Access the Provisioning service."""
         if self._provisioning is None:
             logger.debug("Initializing Provisioning service")
@@ -794,7 +798,7 @@ class ONVIFClient:
     # Receiver
 
     @service
-    def receiver(self):
+    def receiver(self) -> Receiver:
         """Access the Receiver service."""
         if self._receiver is None:
             logger.debug("Initializing Receiver service")
@@ -807,7 +811,7 @@ class ONVIFClient:
     # Schedule
 
     @service
-    def schedule(self):
+    def schedule(self) -> Schedule:
         """Access the Schedule service."""
         if self._schedule is None:
             logger.debug("Initializing Schedule service")
@@ -820,7 +824,7 @@ class ONVIFClient:
     # Search Recording
 
     @service
-    def search(self):
+    def search(self) -> Search:
         """Access the Search service."""
         if self._search is None:
             logger.debug("Initializing Search service")
@@ -833,7 +837,7 @@ class ONVIFClient:
     # Thermal
 
     @service
-    def thermal(self):
+    def thermal(self) -> Thermal:
         """Access the Thermal service."""
         if self._thermal is None:
             logger.debug("Initializing Thermal service")
@@ -846,7 +850,7 @@ class ONVIFClient:
     # Uplink
 
     @service
-    def uplink(self):
+    def uplink(self) -> Uplink:
         """Access the Uplink service."""
         if self._uplink is None:
             logger.debug("Initializing Uplink service")
@@ -859,7 +863,7 @@ class ONVIFClient:
     # Security / AdvancedSecurity
 
     @service
-    def security(self):
+    def security(self) -> AdvancedSecurity:
         """Access the AdvancedSecurity service."""
         if self._security is None:
             logger.debug("Initializing Security service")
@@ -870,7 +874,7 @@ class ONVIFClient:
         return self._security
 
     @service
-    def jwt(self):
+    def jwt(self) -> JWT:
         """Access the JWT service."""
         if self._jwt is None:
             logger.debug("Initializing JWT service")
@@ -880,7 +884,7 @@ class ONVIFClient:
         return self._jwt
 
     @service
-    def keystore(self):
+    def keystore(self) -> Keystore:
         """Access the Keystore service."""
         if self._keystore is None:
             logger.debug("Initializing Keystore service")
@@ -890,7 +894,7 @@ class ONVIFClient:
         return self._keystore
 
     @service
-    def tlsserver(self):
+    def tlsserver(self) -> TLSServer:
         """Access the TLSServer service."""
         if self._tlsserver is None:
             logger.debug("Initializing TLSServer service")
@@ -900,7 +904,7 @@ class ONVIFClient:
         return self._tlsserver
 
     @service
-    def dot1x(self):
+    def dot1x(self) -> Dot1X:
         """Access the Dot1X service."""
         if self._dot1x is None:
             logger.debug("Initializing Dot1X service")
@@ -910,7 +914,7 @@ class ONVIFClient:
         return self._dot1x
 
     @service
-    def authorizationserver(self):
+    def authorizationserver(self) -> AuthorizationServer:
         """Access the AuthorizationServer service."""
         if self._authorizationserver is None:
             logger.debug("Initializing AuthorizationServer service")
@@ -921,7 +925,7 @@ class ONVIFClient:
         return self._authorizationserver
 
     @service
-    def mediasigning(self):
+    def mediasigning(self) -> MediaSigning:
         """Access the MediaSigning service."""
         if self._mediasigning is None:
             logger.debug("Initializing MediaSigning service")
