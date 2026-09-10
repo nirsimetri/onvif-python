@@ -6,6 +6,8 @@ import logging
 from functools import wraps
 from urllib.parse import urlparse, urlunparse
 
+from lxml import etree
+
 from onvif.operator import CacheMode
 from onvif.services import (
     JWT,
@@ -52,6 +54,7 @@ from onvif.utils import (
     XMLCapturePlugin,
     ZeepPatcher,
 )
+from onvif.utils.plugins import ReferenceParametersPlugin
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
@@ -220,16 +223,13 @@ class ONVIFClient:
         # Lazy init for other services
 
         self._events: Events | None = None
-        self._pullpoints: dict[str, PullPoint] = (
-            {}
-        )  # Dictionary for multiple PullPoint instances
+        # Dictionary for multiple PullPoint instances
+        self._pullpoints: dict[str, PullPoint] = {}
         self._notification: Notification | None = None
-        self._subscriptions: dict[str, Subscription] = (
-            {}
-        )  # Dictionary for multiple Subscription instances
-        self._pausable_subscriptions: dict[str, PausableSubscription] = (
-            {}
-        )  # Dictionary for multiple PausableSubscription instances
+        # Dictionary for multiple Subscription instances
+        self._subscriptions: dict[str, Subscription] = {}
+        # Dictionary for multiple PausableSubscription instances
+        self._pausable_subscriptions: dict[str, PausableSubscription] = {}
 
         self._imaging: Imaging | None = None
 
@@ -454,6 +454,64 @@ class ONVIFClient:
 
     # Core (Events)
 
+    def _get_subscription_service(
+        self,
+        subscription_ref,
+        service_class,
+        cache,
+    ):
+        """Get a service from a subscription reference."""
+        subscription_reference = subscription_ref["SubscriptionReference"]
+
+        addr_obj = subscription_reference["Address"]
+        xaddr = (
+            addr_obj["_value_1"]
+            if isinstance(addr_obj, dict)
+            else addr_obj._value_1  # pylint: disable=protected-access
+        )
+
+        if not xaddr:
+            raise RuntimeError(
+                "SubscriptionReference.Address missing in subscription response"
+            )
+
+        xaddr = self._rewrite_xaddr_if_needed(xaddr)
+
+        reference_parameters = subscription_reference.ReferenceParameters
+
+        if reference_parameters is None:
+            reference_parameters = []
+        else:
+            reference_parameters = (
+                reference_parameters._value_1  # pylint: disable=protected-access
+            )
+
+        plugins = list(self.common_args.get("plugins") or [])
+
+        if reference_parameters:
+            plugins.append(ReferenceParametersPlugin(reference_parameters))
+
+        service_args = {
+            **self.common_args,
+            "plugins": plugins,
+        }
+
+        cache_key = (
+            xaddr,
+            tuple(
+                etree.tostring(parameter, encoding="unicode")
+                for parameter in reference_parameters
+            ),
+        )
+
+        if cache_key not in cache:
+            cache[cache_key] = service_class(
+                xaddr=xaddr,
+                **service_args,
+            )
+
+        return cache[cache_key]
+
     @service
     def events(self):
         """Access the Events service."""
@@ -468,24 +526,11 @@ class ONVIFClient:
     def pullpoint(self, SubscriptionRef):  # pylint: disable=invalid-name
         """Access the PullPoint service."""
         logger.debug("Initializing PullPoint service")
-        xaddr = None
-        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-            xaddr = addr_obj["_value_1"]
-        elif hasattr(addr_obj, "_value_1"):
-            xaddr = addr_obj._value_1  # pylint: disable=protected-access
-
-        xaddr = self._rewrite_xaddr_if_needed(xaddr)
-
-        if not xaddr:
-            raise RuntimeError(
-                "SubscriptionReference.Address missing in subscription response"
-            )
-
-        if xaddr not in self._pullpoints:
-            self._pullpoints[xaddr] = PullPoint(xaddr=xaddr, **self.common_args)
-
-        return self._pullpoints[xaddr]
+        return self._get_subscription_service(
+            SubscriptionRef,
+            PullPoint,
+            self._pullpoints,
+        )
 
     @service
     def notification(self):
@@ -501,49 +546,21 @@ class ONVIFClient:
     def subscription(self, SubscriptionRef):  # pylint: disable=invalid-name
         """Access the Subscription service."""
         logger.debug("Initializing Subscription service")
-        xaddr = None
-        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-            xaddr = addr_obj["_value_1"]
-        elif hasattr(addr_obj, "_value_1"):
-            xaddr = addr_obj._value_1  # pylint: disable=protected-access
-
-        xaddr = self._rewrite_xaddr_if_needed(xaddr)
-
-        if not xaddr:
-            raise RuntimeError(
-                "SubscriptionReference.Address missing in subscription response"
-            )
-
-        if xaddr not in self._subscriptions:
-            self._subscriptions[xaddr] = Subscription(xaddr=xaddr, **self.common_args)
-
-        return self._subscriptions[xaddr]
+        return self._get_subscription_service(
+            SubscriptionRef,
+            Subscription,
+            self._subscriptions,
+        )
 
     @service
     def pausable_subscription(self, SubscriptionRef):  # pylint: disable=invalid-name
         """Access the PausableSubscription service."""
         logger.debug("Initializing PausableSubscription service")
-        xaddr = None
-        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-            xaddr = addr_obj["_value_1"]
-        elif hasattr(addr_obj, "_value_1"):
-            xaddr = addr_obj._value_1  # pylint: disable=protected-access
-
-        xaddr = self._rewrite_xaddr_if_needed(xaddr)
-
-        if not xaddr:
-            raise RuntimeError(
-                "SubscriptionReference.Address missing in subscription response"
-            )
-
-        if xaddr not in self._pausable_subscriptions:
-            self._pausable_subscriptions[xaddr] = PausableSubscription(
-                xaddr=xaddr, **self.common_args
-            )
-
-        return self._pausable_subscriptions[xaddr]
+        return self._get_subscription_service(
+            SubscriptionRef,
+            PausableSubscription,
+            self._pausable_subscriptions,
+        )
 
     # Imaging
 
