@@ -1,0 +1,5572 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A modern Python library for ONVIF-compliant devices">
+      
+      
+      
+        <link rel="canonical" href="https://nirsimetri.github.io/onvif-python/api/services/media2/">
+      
+      
+        <link rel="prev" href="../media/">
+      
+      
+        <link rel="next" href="../ptz/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/nirsimetri-dark.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Media2 - onvif-python</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Manrope";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_media2" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="onvif-python" class="md-header__button md-logo" aria-label="onvif-python" data-md-component="logo">
+      
+  <img src="../../../assets/nirsimetri-light.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            onvif-python
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Media2
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nirsimetri/onvif-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nirsimetri/onvif-python
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="onvif-python" class="md-nav__button md-logo" aria-label="onvif-python" data-md-component="logo">
+      
+  <img src="../../../assets/nirsimetri-light.svg" alt="logo">
+
+    </a>
+    onvif-python
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nirsimetri/onvif-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nirsimetri/onvif-python
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../philosophy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Philosophy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick_start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cores
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cores
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../core/onvif_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF Client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../core/onvif_discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF Discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../core/onvif_cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../utilities/helper_methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Helper Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    References
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/supported_profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF Services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ONVIF Services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/implemented_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coverage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/service_discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service Discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/service_bindings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service Bindings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cores
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cores
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFClient
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_operator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFOperator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFDiscovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_wsdl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFWSDL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exceptions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Exceptions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_exception/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFOperationException
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_error_handler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFErrorHandler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../device/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3_2" id="__nav_8_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Events
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Events
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Events
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pullpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PullPoint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subscription/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subscription
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pausable_subscription/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PausableSubscription
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../imaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Imaging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../media/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Media2
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Media2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Media2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Media2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetServiceCapabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetServiceCapabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.CreateProfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateProfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetProfiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetProfiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.AddConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.RemoveConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RemoveConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.DeleteProfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteProfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoSourceConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoSourceConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoEncoderConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoEncoderConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioSourceConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioSourceConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioEncoderConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioEncoderConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAnalyticsConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAnalyticsConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMetadataConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMetadataConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioOutputConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioOutputConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioDecoderConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioDecoderConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetVideoSourceConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetVideoSourceConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetVideoEncoderConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetVideoEncoderConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioSourceConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioSourceConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioEncoderConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioEncoderConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetMetadataConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetMetadataConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioOutputConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioOutputConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioDecoderConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioDecoderConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetEQPreset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetEQPreset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoSourceConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoSourceConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoEncoderConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoEncoderConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioSourceConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioSourceConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioEncoderConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioEncoderConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMetadataConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMetadataConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioOutputConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioOutputConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioDecoderConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioDecoderConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoEncoderInstances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoEncoderInstances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetStreamUri" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetStreamUri
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.StartMulticastStreaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StartMulticastStreaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.StopMulticastStreaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StopMulticastStreaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetSynchronizationPoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetSynchronizationPoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetSnapshotUri" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetSnapshotUri
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoSourceModes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoSourceModes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetVideoSourceMode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetVideoSourceMode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetOSDs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetOSDs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetOSDOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetOSDOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetOSD" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetOSD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.CreateOSD" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateOSD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.DeleteOSD" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteOSD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMaskOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMaskOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetMask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetMask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.CreateMask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateMask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.DeleteMask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteMask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetWebRTCConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetWebRTCConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetWebRTCConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetWebRTCConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioClips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioClips
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.AddAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.DeleteAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.PlayAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PlayAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.AddTTSAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddTTSAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetPlayingAudioClips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPlayingAudioClips
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMulticastAudioDecoderConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMulticastAudioDecoderConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMulticastAudioDecoderConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMulticastAudioDecoderConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetMulticastAudioDecoderConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetMulticastAudioDecoderConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ptz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PTZ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deviceio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DeviceIO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../display/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Display
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3_9" id="__nav_8_3_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analytics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Analytics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analytics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ruleengine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RuleEngine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analyticsdevice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AnalyticsDevice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accesscontrol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AccessControl
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../doorcontrol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DoorControl
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessrules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AccessRules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../actionengine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ActionEngine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appmgmt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AppManagement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authenticationbehavior/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AuthenticationBehavior
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../credential/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Credential
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recording/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recording
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../replay/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Replay
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provisioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provisioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../receiver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Receiver
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thermal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thermal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uplink/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Uplink
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_26" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3_26" id="__nav_8_3_26_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_26_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3_26">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advancedsecurity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AdvancedSecurity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authorizationserver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AuthorizationServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dot1x/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dot1x
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jwt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JWT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keystore/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KeyStore
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mediasigning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MediaSigning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tlsserver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLSServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Legals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../legal/legal_notice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal Notice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../legal/license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../used_by/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Used By
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../externals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Externals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Media2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Media2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetServiceCapabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetServiceCapabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.CreateProfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateProfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetProfiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetProfiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.AddConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.RemoveConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RemoveConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.DeleteProfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteProfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoSourceConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoSourceConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoEncoderConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoEncoderConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioSourceConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioSourceConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioEncoderConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioEncoderConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAnalyticsConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAnalyticsConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMetadataConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMetadataConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioOutputConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioOutputConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioDecoderConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioDecoderConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetVideoSourceConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetVideoSourceConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetVideoEncoderConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetVideoEncoderConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioSourceConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioSourceConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioEncoderConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioEncoderConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetMetadataConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetMetadataConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioOutputConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioOutputConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioDecoderConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioDecoderConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetEQPreset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetEQPreset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoSourceConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoSourceConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoEncoderConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoEncoderConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioSourceConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioSourceConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioEncoderConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioEncoderConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMetadataConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMetadataConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioOutputConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioOutputConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioDecoderConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioDecoderConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoEncoderInstances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoEncoderInstances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetStreamUri" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetStreamUri
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.StartMulticastStreaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StartMulticastStreaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.StopMulticastStreaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StopMulticastStreaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetSynchronizationPoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetSynchronizationPoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetSnapshotUri" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetSnapshotUri
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetVideoSourceModes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetVideoSourceModes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetVideoSourceMode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetVideoSourceMode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetOSDs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetOSDs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetOSDOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetOSDOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetOSD" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetOSD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.CreateOSD" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateOSD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.DeleteOSD" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteOSD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMaskOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMaskOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetMask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetMask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.CreateMask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateMask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.DeleteMask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteMask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetWebRTCConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetWebRTCConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetWebRTCConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetWebRTCConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetAudioClips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAudioClips
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.AddAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.DeleteAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.PlayAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PlayAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.AddTTSAudioClip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddTTSAudioClip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetPlayingAudioClips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPlayingAudioClips
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMulticastAudioDecoderConfigurationOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMulticastAudioDecoderConfigurationOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.GetMulticastAudioDecoderConfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMulticastAudioDecoderConfigurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.media2.Media2.SetMulticastAudioDecoderConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetMulticastAudioDecoderConfiguration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_media2">_media2</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+
+    <div class="doc doc-contents first">
+
+        <p>Media2 service implementation.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="onvif.services.media2.Media2" class="doc doc-heading">
+            <code>Media2</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="onvif.utils.ONVIFService">ONVIFService</span></code></p>
+
+
+
+        <p>Media2 service client.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>First introduced</strong></td>
+<td>ONVIF Release 2.61 (December 2015)</td>
+</tr>
+<tr>
+<td><strong>Binding name</strong></td>
+<td><code>Media2Binding</code> (<code>ver20/media/wsdl/media.wsdl</code>)</td>
+</tr>
+<tr>
+<td><strong>Operations</strong></td>
+<td><a href="https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/media/wsdl/media.wsdl">media.wsdl</a></td>
+</tr>
+<tr>
+<td><strong>Specification</strong></td>
+<td><a href="https://developer.onvif.org/pub/specs/branches/development/doc/Media2.xml">Media2.xml</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetServiceCapabilities" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetServiceCapabilities</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the capabilities of the media service.</p>
+<p>The result is returned in a typed answer.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.CreateProfile" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreateProfile</span><span class="p">(</span><span class="n">Name</span><span class="p">,</span> <span class="n">Configuration</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation creates a new media profile.</p>
+<p>A created profile created via this method may be deleted via the DeleteProfile
+method. Optionally Configurations can be assinged to the profile on creation.
+For details regarding profile assignement check also the method
+AddConfiguration.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetProfiles" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetProfiles</span><span class="p">(</span><span class="n">Token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Retrieve the profile with the specified token or all defined media profiles.</p>
+<ul>
+<li>
+<p>If no Type is provided the returned profiles shall contain no configuration
+information.</p>
+</li>
+<li>
+<p>If a single Type with value 'All' is provided the returned profiles shall
+include all associated configurations.</p>
+</li>
+<li>
+<p>Otherwise the requested list of configurations shall for each profile include
+the configurations present as Type.</p>
+</li>
+</ul>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.AddConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">AddConfiguration</span><span class="p">(</span><span class="n">ProfileToken</span><span class="p">,</span> <span class="n">Name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Configuration</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation adds one or more Configurations to an existing media profile.</p>
+<p>If a configuration exists in the media profile, it will be replaced. A device
+shall support adding a compatible Configuration to a Profile containing a
+VideoSourceConfiguration and shall support streaming video data of such a
+profile.</p>
+<p>Note that OSD elements must be added via the CreateOSD command.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.RemoveConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">RemoveConfiguration</span><span class="p">(</span><span class="n">ProfileToken</span><span class="p">,</span> <span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation removes the listed configurations from an existing media
+profile.</p>
+<p>If the media profile does not contain one of the listed configurations that item
+shall be ignored.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.DeleteProfile" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteProfile</span><span class="p">(</span><span class="n">Token</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation deletes a profile.</p>
+<p>Deletion of a profile is only possible for non-fixed profiles</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetVideoSourceConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetVideoSourceConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>By default this operation lists all existing video source configurations for
+a device.</p>
+<p>Provide a profile token to list only configurations that are compatible with the
+profile. If a configuration token is provided only a single configuration will
+be returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetVideoEncoderConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetVideoEncoderConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>By default this operation lists all existing video encoder configurations for
+a device.</p>
+<p>Provide a profile token to list only configurations that are compatible with the
+profile. If a configuration token is provided only a single configuration will
+be returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioSourceConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioSourceConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>By default this operation lists all existing audio source configurations for
+a device.</p>
+<p>Provide a profile token to list only configurations that are compatible with the
+profile. If a configuration token is provided only a single configuration will
+be returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioEncoderConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioEncoderConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>By default this operation lists all existing audio encoder configurations for
+a device.</p>
+<p>Provide a profile token to list only configurations that are compatible with the
+profile. If a configuration token is provided only a single configuration will
+be returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAnalyticsConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAnalyticsConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>By default this operation lists all existing video analytics configurations
+for a device.</p>
+<p>Provide a profile token to list only configurations that are compatible with the
+profile. If a configuration token is provided only a single configuration will
+be returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetMetadataConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetMetadataConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>By default this operation lists all existing metadata configurations for a
+device.</p>
+<p>Provide a profile token to list only configurations that are compatible with the
+profile. If a configuration token is provided only a single configuration will
+be returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioOutputConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioOutputConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>By default this operation lists all existing audio output configurations for
+a device.</p>
+<p>Provide a profile token to list only configurations that are compatible with the
+profile. If a configuration token is provided only a single configuration will
+be returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioDecoderConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioDecoderConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>By default this operation lists all existing audio decoder configurations for
+a device.</p>
+<p>Provide a profile token to list only configurations that are compatible with the
+profile. If a configuration token is provided only a single configuration will
+be returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetVideoSourceConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetVideoSourceConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation modifies a video source configuration.</p>
+<p>Running streams using this configuration may be immediately updated according to
+the new settings. The changes are not guaranteed to take effect unless the
+client requests a new stream URI and restarts any affected stream. NVC methods
+for changing a running stream are out of scope for this specification.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetVideoEncoderConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetVideoEncoderConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation modifies a video encoder configuration.</p>
+<p>Running streams using this configuration may be immediately updated according to
+the new settings. The changes are not guaranteed to take effect unless the
+client requests a new stream URI and restarts any affected stream. NVC methods
+for changing a running stream are out of scope for this specification.</p>
+<p>SessionTimeout is provided as a hint for keeping rtsp session by a device. If
+necessary the device may adapt parameter values for SessionTimeout elements
+without returning an error. For the time between keep alive calls the client
+shall adhere to the timeout value signaled via RTSP.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetAudioSourceConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetAudioSourceConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation modifies an audio source configuration.</p>
+<p>Running streams using this configuration may be immediately updated according to
+the new settings. The changes are not guaranteed to take effect unless the
+client requests a new stream URI and restarts any affected stream NVC methods
+for changing a running stream are out of scope for this specification.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetAudioEncoderConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetAudioEncoderConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation modifies an audio encoder configuration.</p>
+<p>Running streams using this configuration may be immediately updated according to
+the new settings. The changes are not guaranteed to take effect unless the
+client requests a new stream URI and restarts any affected streams. NVC methods
+for changing a running stream are out of scope for this specification.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetMetadataConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetMetadataConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation modifies a metadata configuration.</p>
+<p>Running streams using this configuration may be updated immediately according to
+the new settings. The changes are not guaranteed to take effect unless the
+client requests a new stream URI and restarts any affected streams. NVC methods
+for changing a running stream are out of scope for this specification.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetAudioOutputConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetAudioOutputConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation modifies an audio output configuration.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetAudioDecoderConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetAudioDecoderConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation modifies an audio decoder configuration.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetEQPreset" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetEQPreset</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This command is to configure Audio EQPreset.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetVideoSourceConfigurationOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetVideoSourceConfigurationOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the available options (supported values and ranges for
+video source configuration parameters) when the video source parameters are
+reconfigured If a video source configuration is specified, the options shall
+concern that particular configuration.</p>
+<p>If a media profile is specified, the options shall be compatible with that media
+profile.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetVideoEncoderConfigurationOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetVideoEncoderConfigurationOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the available options (supported values and ranges for
+video encoder configuration parameters) when the video encoder parameters are
+reconfigured.</p>
+<p>This response contains the available video encoder configuration options. If a
+video encoder configuration is specified, the options shall concern that
+particular configuration. If a media profile is specified, the options shall be
+compatible with that media profile. If no tokens are specified, the options
+shall be considered generic for the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioSourceConfigurationOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioSourceConfigurationOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the available options (supported values and ranges for
+audio source configuration parameters) when the audio source parameters are
+reconfigured.</p>
+<p>If an audio source configuration is specified, the options shall concern that
+particular configuration. If a media profile is specified, the options shall be
+compatible with that media profile.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioEncoderConfigurationOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioEncoderConfigurationOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the available options (supported values and ranges for
+audio encoder configuration parameters) when the audio encoder parameters are
+reconfigured.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetMetadataConfigurationOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetMetadataConfigurationOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the available options (supported values and ranges for
+metadata configuration parameters) for changing the metadata configuration.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioOutputConfigurationOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioOutputConfigurationOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the available options (supported values and ranges for
+audio output configuration parameters) for configuring an audio output.</p>
+<p>To retrieve the EQPresetList, a valid ConfigurationToken must be provided. If
+EQPreset is supported and isFrequencyDecibelEditable is signaled as true, the
+response shall include the FrequencyDecibelPair.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioDecoderConfigurationOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioDecoderConfigurationOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This command list the audio decoding capabilities for a given profile and
+configuration of a device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetVideoEncoderInstances" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetVideoEncoderInstances</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>The GetVideoEncoderInstances command can be used to request the minimum
+number of guaranteed video encoder instances (applications) per Video Source
+Configuration.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetStreamUri" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetStreamUri</span><span class="p">(</span><span class="n">Protocol</span><span class="p">,</span> <span class="n">ProfileToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation requests a URI that can be used to initiate a live media
+stream using RTSP as the control protocol.</p>
+<p>The returned URI shall remain valid indefinitely even if the profile is changed.</p>
+<p>Defined stream types are
+- RtspUnicast RTSP streaming RTP as UDP Unicast.
+- RtspMulticast RTSP streaming RTP as UDP Multicast.
+- RtspsUnicast Secure RTSP streaming with SRTP as UDP Unicast.
+- RtspsMulticast Secure RTSP streaming with SRTP as UDP Multicast.
+- RTSP RTSP streaming RTP over TCP.
+- RtspOverHttp Tunneling both the RTSP control channel and the RTP stream over
+HTTP or HTTPS.</p>
+<p>If a multicast stream is requested at least one of VideoEncoder2Configuration,
+AudioEncoder2Configuration and MetadataConfiguration shall have a valid
+multicast setting.</p>
+<p>For full compatibility with other ONVIF services a device should not generate
+Uris longer than 128 octets.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.StartMulticastStreaming" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">StartMulticastStreaming</span><span class="p">(</span><span class="n">ProfileToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This command starts multicast streaming using a specified media profile of a
+device.</p>
+<p>Streaming continues until StopMulticastStreaming is called for the same Profile.
+The streaming shall continue after a reboot of the device until a
+StopMulticastStreaming request is received. The multicast address, port and TTL
+are configured in the VideoEncoderConfiguration, AudioEncoderConfiguration and
+MetadataConfiguration respectively.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.StopMulticastStreaming" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">StopMulticastStreaming</span><span class="p">(</span><span class="n">ProfileToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This command stops multicast streaming using a specified media profile of a
+device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetSynchronizationPoint" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetSynchronizationPoint</span><span class="p">(</span><span class="n">ProfileToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Synchronization points allow clients to decode and correctly use all data
+after the synchronization point.</p>
+<p>For example, if a video stream is configured with a large I-frame distance and a
+client loses a single packet, the client does not display video until the next
+I-frame is transmitted. In such cases, the client can request a Synchronization
+Point which enforces the device to add an I-Frame as soon as possible. Clients
+can request Synchronization Points for profiles. The device shall add
+synchronization points for all streams associated with this profile. Similarly,
+a synchronization point is used to get an update on full PTZ or event status
+through the metadata stream. If a video stream is associated with the profile,
+an I-frame shall be added to this video stream. If a PTZ metadata stream is
+associated to the profile, the PTZ position shall be repeated within the
+metadata stream.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetSnapshotUri" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetSnapshotUri</span><span class="p">(</span><span class="n">ProfileToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>A client uses the GetSnapshotUri command to obtain a JPEG snapshot from the
+device.</p>
+<p>The returned URI shall remain valid indefinitely even if the profile is changed.
+The URI can be used for acquiring a JPEG image through an HTTP GET operation.
+The image encoding will always be JPEG regardless of the encoding setting in the
+media profile. The Jpeg settings (like resolution or quality) may be taken from
+the profile if suitable. The provided image will be updated automatically and
+independent from calls to GetSnapshotUri.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetVideoSourceModes" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetVideoSourceModes</span><span class="p">(</span><span class="n">VideoSourceToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>A device returns the information for current video source mode and settable
+video source modes of specified video source.</p>
+<p>A device that indicates a capability of VideoSourceModes shall support this
+command.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetVideoSourceMode" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetVideoSourceMode</span><span class="p">(</span><span class="n">VideoSourceToken</span><span class="p">,</span> <span class="n">VideoSourceModeToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>SetVideoSourceMode changes the media profile structure relating to video
+source for the specified video source mode.</p>
+<p>A device that indicates a capability of VideoSourceModes shall support this
+command. The behavior after changing the mode is not defined in this
+specification.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetOSDs" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetOSDs</span><span class="p">(</span><span class="n">OSDToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation lists existing OSD configurations for the device.</p>
+<ul>
+<li>
+<p>If an OSD token is provided the device shall respond with the requested
+configuration or provide an error if it does not exist.</p>
+</li>
+<li>
+<p>In case only a video source configuration token is provided the device shall
+respond with all configurations that exist for the video source configuration.</p>
+</li>
+<li>
+<p>If no tokens are provided the device shall respond with all available OSD
+configurations.</p>
+</li>
+</ul>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetOSDOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetOSDOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the OSD Options.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetOSD" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetOSD</span><span class="p">(</span><span class="n">OSD</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Set the OSD.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.CreateOSD" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreateOSD</span><span class="p">(</span><span class="n">OSD</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create the OSD.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.DeleteOSD" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteOSD</span><span class="p">(</span><span class="n">OSDToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Delete the OSD.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetMasks" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetMasks</span><span class="p">(</span><span class="n">Token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation lists existing Mask configurations for the device.</p>
+<ul>
+<li>
+<p>If an Mask token is provided the device shall respond with the requested
+configuration or provide an error if it does not exist.</p>
+</li>
+<li>
+<p>In case only a video source configuration token is provided the device shall
+respond with all configurations that exist for the video source configuration.</p>
+</li>
+<li>
+<p>If no tokens are provided the device shall respond with all available Mask
+configurations.</p>
+</li>
+</ul>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetMaskOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetMaskOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the Mask Options.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetMask" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetMask</span><span class="p">(</span><span class="n">Mask</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Set the Mask.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.CreateMask" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreateMask</span><span class="p">(</span><span class="n">Mask</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create the Mask.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.DeleteMask" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteMask</span><span class="p">(</span><span class="n">Token</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Delete the Mask.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetWebRTCConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetWebRTCConfigurations</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation gets the current WebRTC configuration for the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetWebRTCConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetWebRTCConfigurations</span><span class="p">(</span><span class="n">WebRTCConfiguration</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation sets the WebRTC configuration for the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetAudioClips" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAudioClips</span><span class="p">(</span><span class="n">Token</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation retrieves audio clip configurations from the device.</p>
+<p>If an audio clip token is provided, the device shall return the audio clip
+configuration associated with that token. If no token is provided, the device
+shall return all audio clip configurations that exist on the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.AddAudioClip" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">AddAudioClip</span><span class="p">(</span><span class="n">Configuration</span><span class="p">,</span> <span class="n">Token</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation adds audio clip configuration to the device and provides audio
+clip upload URI to the client.</p>
+<p>The response to the command includes an HTTP URL to which the audio clip may be
+uploaded within the expiry time. If the client is unable to upload the audio
+clip within the URL's expiry time, the associated audio clip configuration will
+be permanently removed from the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetAudioClip" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetAudioClip</span><span class="p">(</span><span class="n">Token</span><span class="p">,</span> <span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation modifies the existing audio clip configuration on the
+device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.DeleteAudioClip" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteAudioClip</span><span class="p">(</span><span class="n">Token</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation deletes the audio clip configuration and the associated audio
+clip on the device.</p>
+<p>The audio clip should be de-associated from the event or schedule trigger if it
+was previously associated before this operation. This operation will fail if the
+device is playing the audio clip at the same time due to user operation,
+schedule, or event trigger.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.PlayAudioClip" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">PlayAudioClip</span><span class="p">(</span><span class="n">Token</span><span class="p">,</span> <span class="n">Play</span><span class="p">,</span> <span class="n">AudioOutputToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">RepeatCycles</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation plays or stops the ongoing audio clip on the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.AddTTSAudioClip" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">AddTTSAudioClip</span><span class="p">(</span><span class="n">Configuration</span><span class="p">,</span> <span class="n">TTSConfiguration</span><span class="p">,</span> <span class="n">Token</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation sends a text and its configuartion to device that supports TTS
+function, so that device could convert the text into an audio clip and play it
+according to audio clip Configuration and TTS Configuration.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetPlayingAudioClips" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetPlayingAudioClips</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation retrieves audio clips information which are playing currently
+in the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetMulticastAudioDecoderConfigurationOptions" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetMulticastAudioDecoderConfigurationOptions</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation gets the available options for the MulticastAudioDecoder
+configuration.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.GetMulticastAudioDecoderConfigurations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetMulticastAudioDecoderConfigurations</span><span class="p">(</span><span class="n">ConfigurationToken</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation gets the list of multicast audio decoder configurations.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.media2.Media2.SetMulticastAudioDecoderConfiguration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetMulticastAudioDecoderConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation sets the MulticastAudioDecoderConfiguration.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 &nbsp;—&nbsp; <a href="https://github.com/nirsimetri"><b>Nirsimetri Technologies®</b></a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+      
+        <script src="../../../javascripts/github-releases.js"></script>
+      
+        <script src="../../../javascripts/external-links.js"></script>
+      
+    
+  </body>
+</html>

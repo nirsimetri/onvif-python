@@ -1,0 +1,4537 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A modern Python library for ONVIF-compliant devices">
+      
+      
+      
+        <link rel="canonical" href="https://nirsimetri.github.io/onvif-python/api/services/keystore/">
+      
+      
+        <link rel="prev" href="../jwt/">
+      
+      
+        <link rel="next" href="../mediasigning/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/nirsimetri-dark.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KeyStore - onvif-python</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Manrope";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#keystore" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="onvif-python" class="md-header__button md-logo" aria-label="onvif-python" data-md-component="logo">
+      
+  <img src="../../../assets/nirsimetri-light.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            onvif-python
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KeyStore
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nirsimetri/onvif-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nirsimetri/onvif-python
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="onvif-python" class="md-nav__button md-logo" aria-label="onvif-python" data-md-component="logo">
+      
+  <img src="../../../assets/nirsimetri-light.svg" alt="logo">
+
+    </a>
+    onvif-python
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nirsimetri/onvif-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nirsimetri/onvif-python
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../philosophy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Philosophy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick_start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cores
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cores
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../core/onvif_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF Client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../core/onvif_discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF Discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../core/onvif_cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../utilities/helper_methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Helper Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    References
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/supported_profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIF Services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ONVIF Services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/implemented_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coverage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/service_discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service Discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/service_bindings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service Bindings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cores
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cores
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFClient
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_operator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFOperator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFDiscovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_wsdl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFWSDL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exceptions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Exceptions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_exception/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFOperationException
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cores/onvif_error_handler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONVIFErrorHandler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../device/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3_2" id="__nav_8_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Events
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Events
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Events
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pullpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PullPoint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subscription/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subscription
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pausable_subscription/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PausableSubscription
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../imaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Imaging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../media/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../media2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Media2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ptz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PTZ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deviceio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DeviceIO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../display/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Display
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3_9" id="__nav_8_3_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analytics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Analytics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analytics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ruleengine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RuleEngine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analyticsdevice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AnalyticsDevice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accesscontrol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AccessControl
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../doorcontrol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DoorControl
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessrules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AccessRules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../actionengine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ActionEngine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appmgmt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AppManagement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authenticationbehavior/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AuthenticationBehavior
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../credential/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Credential
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recording/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recording
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../replay/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Replay
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provisioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provisioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../receiver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Receiver
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thermal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thermal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uplink/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Uplink
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_26" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8_3_26" id="__nav_8_3_26_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_26_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_3_26">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advancedsecurity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AdvancedSecurity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authorizationserver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AuthorizationServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dot1x/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dot1x
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jwt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JWT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KeyStore
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KeyStore
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keystore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keystore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateRSAKeyPair" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateRSAKeyPair
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateECCKeyPair" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateECCKeyPair
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadKeyPairInPKCS8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadKeyPairInPKCS8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadCertificateWithPrivateKeyInPKCS12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadCertificateWithPrivateKeyInPKCS12
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetKeyStatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetKeyStatus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetPrivateKeyStatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPrivateKeyStatus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllKeys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllKeys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteKey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteKey
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreatePKCS10CSR" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreatePKCS10CSR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateSelfSignedCertificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateSelfSignedCertificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadCertificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadCertificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetCertificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetCertificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllCertificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllCertificates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteCertificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteCertificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateCertificationPath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateCertificationPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetCertificationPath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetCertificationPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllCertificationPaths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllCertificationPaths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.SetCertificationPath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetCertificationPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteCertificationPath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteCertificationPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadPassphrase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadPassphrase
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllPassphrases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllPassphrases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeletePassphrase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeletePassphrase
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadCRL" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadCRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetCRL" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetCRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllCRLs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllCRLs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteCRL" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteCRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateCertPathValidationPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateCertPathValidationPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetCertPathValidationPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetCertPathValidationPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllCertPathValidationPolicies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllCertPathValidationPolicies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.SetCertPathValidationPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetCertPathValidationPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteCertPathValidationPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteCertPathValidationPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mediasigning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MediaSigning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tlsserver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLSServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Legals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../legal/legal_notice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal Notice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../legal/license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../used_by/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Used By
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../externals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Externals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keystore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keystore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateRSAKeyPair" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateRSAKeyPair
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateECCKeyPair" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateECCKeyPair
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadKeyPairInPKCS8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadKeyPairInPKCS8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadCertificateWithPrivateKeyInPKCS12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadCertificateWithPrivateKeyInPKCS12
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetKeyStatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetKeyStatus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetPrivateKeyStatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPrivateKeyStatus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllKeys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllKeys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteKey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteKey
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreatePKCS10CSR" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreatePKCS10CSR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateSelfSignedCertificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateSelfSignedCertificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadCertificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadCertificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetCertificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetCertificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllCertificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllCertificates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteCertificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteCertificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateCertificationPath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateCertificationPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetCertificationPath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetCertificationPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllCertificationPaths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllCertificationPaths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.SetCertificationPath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetCertificationPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteCertificationPath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteCertificationPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadPassphrase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadPassphrase
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllPassphrases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllPassphrases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeletePassphrase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeletePassphrase
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.UploadCRL" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UploadCRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetCRL" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetCRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllCRLs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllCRLs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteCRL" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteCRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.CreateCertPathValidationPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateCertPathValidationPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetCertPathValidationPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetCertPathValidationPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.GetAllCertPathValidationPolicies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllCertPathValidationPolicies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.SetCertPathValidationPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetCertPathValidationPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onvif.services.security.keystore.Keystore.DeleteCertPathValidationPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteCertPathValidationPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="keystore">KeyStore</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+
+    <div class="doc doc-contents first">
+
+        <p>Security (Keystore) service implementation.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="onvif.services.security.keystore.Keystore" class="doc doc-heading">
+            <code>Keystore</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="onvif.utils.ONVIFService">ONVIFService</span></code></p>
+
+
+
+        <p>Security (Keystore) service client.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>First introduced</strong></td>
+<td>ONVIF Release 2.4 (August 2013)</td>
+</tr>
+<tr>
+<td><strong>Binding name</strong></td>
+<td><code>KeystoreBinding</code> (<code>ver10/advancedsecurity/wsdl/advancedsecurity.wsdl</code>)</td>
+</tr>
+<tr>
+<td><strong>Operations</strong></td>
+<td><a href="https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl">advancedsecurity.wsdl</a></td>
+</tr>
+<tr>
+<td><strong>Specification</strong></td>
+<td><a href="https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml">Security.xml</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.CreateRSAKeyPair" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreateRSAKeyPair</span><span class="p">(</span><span class="n">KeyLength</span><span class="p">,</span> <span class="n">Alias</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation triggers the asynchronous generation of an RSA key pair of a
+particular key length (specified as the number of bits) as specified in [RFC
+3447], with a suitable key generation mechanism on the device.</p>
+<p>Keys, especially RSA key pairs, are uniquely identified using key IDs.</p>
+<p>If the device does not have not enough storage capacity for storing the key pair
+to be created, the maximum number of keys reached fault shall be produced and no
+key pair shall be generated. Otherwise, the operation generates a keyID for the
+new key and associates the generating status to it.</p>
+<p>Immediately after key generation has started, the device shall return the keyID
+to the client and continue to generate the key pair. The client may query the
+device with the GetKeyStatus operation whether the generation has finished. The
+client may also subscribe to Key Status events to be notified about key status
+changes.</p>
+<p>The device also returns a best-effort estimate of how much time it requires to
+create the key pair. A client may use this information as an indication how long
+to wait before querying the device whether key generation is completed.</p>
+<p>After the key has been successfully created, the device shall assign it the ok
+status. If the key generation fails, the device shall assign the key the corrupt
+status.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.CreateECCKeyPair" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreateECCKeyPair</span><span class="p">(</span><span class="n">EllipticCurve</span><span class="p">,</span> <span class="n">Alias</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation triggers the asynchronous generation of an ECC key pair using
+a particular elliptic curve as specified in [RFC 8422], with a suitable key
+generation mechanism on the device.</p>
+<p>Keys, especially ECC key pairs, are uniquely identified using key IDs.</p>
+<p>If the device does not have not enough storage capacity for storing the key pair
+to be created, the maximum number of keys reached fault shall be produced and no
+key pair shall be generated. Otherwise, the operation generates a keyID for the
+new key and associates the generating status to it.</p>
+<p>Immediately after key generation has started, the device shall return the keyID
+to the client and continue to generate the key pair. The client may query the
+device with the GetKeyStatus operation whether the generation has finished. The
+client may also subscribe to Key Status events to be notified about key status
+changes.</p>
+<p>The device also returns a best-effort estimate of how much time it requires to
+create the key pair. A client may use this information as an indication how long
+to wait before querying the device whether key generation is completed.</p>
+<p>After the key has been successfully created, the device shall assign it the ok
+status. If the key generation fails, the device shall assign the key the corrupt
+status.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.UploadKeyPairInPKCS8" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">UploadKeyPairInPKCS8</span><span class="p">(</span><span class="n">KeyPair</span><span class="p">,</span> <span class="n">Alias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">EncryptionPassphraseID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">EncryptionPassphrase</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Deprecated method for uploading a key pair in a PKCS#8 data structure as
+specified in [RFC 5958, RFC 5959].</p>
+<p>If an encryption passphrase ID is supplied in the request, the device shall
+assume that the KeyPair parameter contains an EncryptedPrivateKeyInfo ASN.1
+structure that is encrypted under the passphrase in the keystore that
+corresponds to the supplied ID, where the EncryptedPrivateKeyInfo structure
+contains both the private key and the corresponding public key. If no encryption
+passphrase ID is supplied, the device shall assume that the KeyPair parameter
+contains a OneAsymmetricKey ASN.1 structure which contains both the private key
+and the corresponding public key.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.UploadCertificateWithPrivateKeyInPKCS12" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">UploadCertificateWithPrivateKeyInPKCS12</span><span class="p">(</span><span class="n">CertWithPrivateKey</span><span class="p">,</span> <span class="n">CertificationPathAlias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">KeyAlias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">IgnoreAdditionalCertificates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">IntegrityPassphraseID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">EncryptionPassphraseID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Passphrase</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation uploads a certification path consisting of X.509 certificates
+as specified by [RFC 5280] in DER encoding along with a private key to a
+device’s keystore.</p>
+<p>Certificates and private key are supplied in the form of a PKCS#12 file as
+specified in [PKCS#12].</p>
+<p>The device shall support PKCS#12 files that contain the following safe bags:</p>
+<ul>
+<li>one or more instances of CertBag [PKCS#12, Sect. 4.2.3]</li>
+<li>either exactly one instance of KeyBag [PKCS#12, Sect. 4.3.1] or exactly one
+instance of PKCS8ShroudedKeyBag [PKCS#12, Sect. 4.2.2].</li>
+</ul>
+<p>If the IgnoreAdditionalCertificates parameter has the value true, the device shall
+behave as if the client had supplied only the first CertBag in the sequence of
+CertBag instances. The device shall support PKCS#12 passphrase integrity mode for
+integrity protection of the PKCS#12 PFX as specified in [PKCS#12, Sect. 4]. The device
+shall support PKCS8ShroudedKeyBags that are encrypted with the same passphrase as the
+CertBag instances. If an integrity passphrase ID is supplied, the device shall use the
+corresponding passphrase in the keystore to check the integrity of the supplied
+PKCS#12 PFX. If an integrity passphrase ID is supplied, but the supplied PKCS#12 PFX
+has no integrity protection, the device shall produce a BadPKCS12File fault and shall
+not store the uploaded certificates nor the uploaded key pair in the keystore. If an
+encryption passphrase ID is supplied, the device shall use the corresponding passphrase
+in the keystore to decrypt the PKCS8ShroudedKeyBag and the CertBag instances. If an
+EncryptionPassphraseID is supplied, but a CertBag is not encrypted, the device shall
+ignore the supplied EncryptionPassphraseID when processing this CertBag. If an
+EncryptionPassphraseID is supplied, but a KeyBag is provided instead of a
+PKCS8ShroudedKeyBag, the device shall ignore the supplied EncryptionPassphraseID
+when processing the KeyBag.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetKeyStatus" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetKeyStatus</span><span class="p">(</span><span class="n">KeyID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the status of a key.</p>
+<p>Keys are uniquely identified using key IDs. If no key is stored under the
+requested key ID in the keystore, an InvalidKeyID fault is produced. Otherwise,
+the status of the key is returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetPrivateKeyStatus" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetPrivateKeyStatus</span><span class="p">(</span><span class="n">KeyID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns whether a key pair contains a private key.</p>
+<p>Keys are uniquely identified using key IDs. If no key is stored under the
+requested key ID in the keystore or the key identified by the requested key ID
+does not identify a key pair, the device shall produce an InvalidKeyID fault.
+Otherwise, this operation returns true if the key pair identified by the key ID
+contains a private key, and false otherwise.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetAllKeys" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAllKeys</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns information about all keys that are stored in the
+device’s keystore.</p>
+<p>This operation may be used, e.g., if a client lost track of which keys are
+present on the device. If no key is stored on the device, an empty list is
+returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.DeleteKey" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteKey</span><span class="p">(</span><span class="n">KeyID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation deletes a key from the device’s keystore.</p>
+<p>Keys are uniquely identified using key IDs. If no key is stored under the
+requested key ID in the keystore, a device shall produce an InvalidArgVal fault.
+If a reference exists for the specified key, a device shall produce the
+corresponding fault and shall not delete the key. If there is a key under the
+requested key ID stored in the keystore and the key could not be deleted, a
+device shall produce a KeyDeletion fault. If the key has the status generating,
+a device shall abort the generation of the key and delete from the keystore all
+data generated for this key. After a key is successfully deleted, the device may
+assign its former ID to other keys.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.CreatePKCS10CSR" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreatePKCS10CSR</span><span class="p">(</span><span class="n">Subject</span><span class="p">,</span> <span class="n">KeyID</span><span class="p">,</span> <span class="n">SignatureAlgorithm</span><span class="p">,</span> <span class="n">CSRAttribute</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation generates a DER-encoded PKCS#10 v1.7 certification request
+(sometimes also called certificate signing request or CSR) as specified in RFC
+2986 for a public key on the device.</p>
+<p>The key pair that contains the public key for which a certification request
+shall be produced is specified by its key ID. If no key is stored under the
+requested KeyID or the key specified by the requested KeyID is not an asymmetric
+key pair, an invalid key ID fault shall be produced and no CSR shall be
+generated.</p>
+<p>A device that supports this command shall as minimum support the
+sha-1WithRSAEncryption signature algorithm as specified in RFC 3279. If the
+specified signature algorithm is not supported by the device, an
+UnsupportedSignatureAlgorithm fault shall be produced and no CSR shall be
+generated.</p>
+<p>If the public key identified by the requested Key ID is an invalid input to the
+specified signature algorithm, a KeySignatureAlgorithmMismatch fault shall be
+produced and no CSR shall be generated. If the key pair does not have status ok,
+a device shall produce an InvalidKeyStatus fault and no CSR shall be generated.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.CreateSelfSignedCertificate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreateSelfSignedCertificate</span><span class="p">(</span><span class="n">Subject</span><span class="p">,</span> <span class="n">KeyID</span><span class="p">,</span> <span class="n">SignatureAlgorithm</span><span class="p">,</span> <span class="n">X509Version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Alias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">notValidBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">notValidAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Extension</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation generates for a public key on the device a self-signed X.509
+certificate that complies to RFC 5280.</p>
+<p>The X509Version parameter specifies the version of X.509 that the generated
+certificate shall comply to. A device that supports this command shall support
+the generation of X.509v3 certificates as specified in RFC 5280 and may
+additionally be able to handle other X.509 certificate formats as indicated by
+the X.509Versions capability.</p>
+<p>The key pair that contains the public key for which a self-signed certificate
+shall be produced is specified by its key pair ID. The subject parameter
+describes the entity that the public key belongs to. If the key pair does not
+have status ok, a device shall produce an InvalidKeyStatus fault and no
+certificate shall be generated. The signature algorithm parameter determines
+which signature algorithm shall be used for signing the certification request
+with the public key specified by the key ID parameter. A device that supports
+this command shall as minimum support the sha-1WithRSAEncryption signature
+algorithm as specified in RFC 3279. The Extensions parameter specifies potential
+X509v3 extensions that shall be contained in the certificate. A device that
+supports this command shall support the extensions that are defined in [RFC
+5280], Sect. 4.2] as mandatory for CAs that issue self-signed certificates.</p>
+<p>Certificates are uniquely identified using certificate IDs. If the command was
+successful, the device generates a new ID for the generated certificate and
+returns this ID.</p>
+<p>If the device does not have not enough storage capacity for storing the
+certificate to be created, the maximum number of certificates reached fault
+shall be produced and no certificate shall be generated.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.UploadCertificate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">UploadCertificate</span><span class="p">(</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">Alias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">KeyAlias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">PrivateKeyRequired</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation uploads an X.509 certificate as specified by [RFC 5280] in DER
+encoding and the public key in the certificate to a device’s keystore.</p>
+<p>A device that supports this command shall be able to handle X.509v3 certificates
+as specified in RFC 5280 and may additionally be able to handle other X.509
+certificate formats as indicated by the X.509Versions capability. A device that
+supports this command shall support sha1-WithRSAEncryption as certificate
+signature algorithm.</p>
+<p>Certificates are uniquely identified using certificate IDs, and key pairs are
+uniquely identified using key IDs. The device shall generate a new certificate
+ID for the uploaded certificate.</p>
+<p>Certain certificate usages, e.g. TLS server authentication, require the private
+key that corresponds to the public key in the certificate to be present in the
+keystore. In such cases, the client may indicate that it expects the device to
+produce a fault if the matching private key for the uploaded certificate is not
+present in the keystore by setting the PrivateKeyRequired argument in the upload
+request to true.</p>
+<p>The uploaded certificate has to be linked to a key pair in the keystore. If no
+private key is required for the public key in the certificate and a key pair
+exists in the keystore with a public key equal to the public key in the
+certificate, the uploaded certificate is linked to the key pair identified by
+the supplied key ID by adding a reference from the certificate to the key pair.
+If no private key is required for the public key in the certificate and no key
+pair exists with the public key equal to the public key in the certificate, a
+new key pair with status ok is created with the public key from the certificate,
+and this key pair is linked to the uploaded certificate by adding a reference
+from the certificate to the key pair. If a private key is required for the
+public key in the certificate, and a key pair exists in the keystore with a
+private key that matches the public key in the certificate, the uploaded
+certificate is linked to this keypair by adding a reference from the certificate
+to the key pair. If a private key is required for the public key and no such
+keypair exists in the keystore, the NoMatchingPrivateKey fault shall be produced
+and the certificate shall not be stored in the keystore. If the key pair that
+the certificate shall be linked to does not have status ok, an InvalidKeyID
+fault is produced, and the uploaded certificate is not stored in the keystore.
+If the device cannot process the uploaded certificate, a BadCertificate fault is
+produced and neither the uploaded certificate nor the public key are stored in
+the device’s keystore. The BadCertificate fault shall not be produced based on
+the mere fact that the device’s current time lies outside the interval defined
+by the notBefore and notAfter fields as specified by [RFC 5280], Sect. 4.1 .
+This operation shall not mark the uploaded certificate as trusted.</p>
+<p>If the device does not have not enough storage capacity for storing the
+certificate to be uploaded, the maximum number of certificates reached fault
+shall be produced and no certificate shall be uploaded. If the device does not
+have not enough storage capacity for storing the key pair that eventually has to
+be created, the device shall generate a maximum number of keys reached fault.
+Furthermore the device shall not generate a key pair and no certificate shall be
+stored.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetCertificate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetCertificate</span><span class="p">(</span><span class="n">CertificateID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns a specific certificate from the device’s keystore.</p>
+<p>Certificates are uniquely identified using certificate IDs. If no certificate is
+stored under the requested certificate ID in the keystore, an InvalidArgVal
+fault is produced. It shall be noted that this command does not return the
+private key that is associated to the public key in the certificate.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetAllCertificates" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAllCertificates</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the IDs of all certificates that are stored in the
+device’s keystore.</p>
+<p>This operation may be used, e.g., if a client lost track of which certificates
+are present on the device. If no certificate is stored in the device’s keystore,
+an empty list is returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.DeleteCertificate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteCertificate</span><span class="p">(</span><span class="n">CertificateID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation deletes a certificate from the device’s keystore.</p>
+<p>The operation shall not delete the public key that is contained in the
+certificate from the keystore. Certificates are uniquely identified using
+certificate IDs. If no certificate is stored under the requested certificate ID
+in the keystore, an InvalidArgVal fault is produced. If there is a certificate
+under the requested certificate ID stored in the keystore and the certificate
+could not be deleted, a CertificateDeletion fault is produced. If a reference
+exists for the specified certificate, the certificate shall not be deleted and
+the corresponding fault shall be produced. After a certificate has been
+successfully deleted, the device may assign its former ID to other certificates.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.CreateCertificationPath" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreateCertificationPath</span><span class="p">(</span><span class="n">CertificateIDs</span><span class="p">,</span> <span class="n">Alias</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation creates a sequence of certificates that may be used, e.g., for
+certification path validation or for TLS server authentication.</p>
+<p>Certification paths are uniquely identified using certification path IDs.
+Certificates are uniquely identified using certificate IDs. A certification path
+contains a sequence of certificate IDs. If there is a certificate ID in the
+sequence of supplied certificate IDs for which no certificate exists in the
+device’s keystore, the corresponding fault shall be produced and no
+certification path shall be created.</p>
+<p>The signature of each certificate in the certification path except for the last
+one must be verifiable with the public key contained in the next certificate in
+the path. If there is a certificate ID in the request other than the last ID for
+which the corresponding certificate cannot be verified with the public key in
+the certificate identified by the next certificate ID, an
+InvalidCertificateChain fault shall be produced and no certification path shall
+be created.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetCertificationPath" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetCertificationPath</span><span class="p">(</span><span class="n">CertificationPathID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns a specific certification path from the device’s
+keystore.</p>
+<p>Certification paths are uniquely identified using certification path IDs. If no
+certification path is stored under the requested ID in the keystore, an
+InvalidArgVal fault is produced.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetAllCertificationPaths" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAllCertificationPaths</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns the IDs of all certification paths that are stored in
+the device’s keystore.</p>
+<p>This operation may be used, e.g., if a client lost track of which certificates
+are present on the device. If no certification path is stored on the device, an
+empty list is returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.SetCertificationPath" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetCertificationPath</span><span class="p">(</span><span class="n">CertificationPathID</span><span class="p">,</span> <span class="n">CertificationPath</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation allows to modify a certification path.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.DeleteCertificationPath" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteCertificationPath</span><span class="p">(</span><span class="n">CertificationPathID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation deletes a certification path from the device’s keystore.</p>
+<p>This operation shall not delete the certificates that are referenced by the
+certification path. Certification paths are uniquely identified using
+certification path IDs. If no certification path is stored under the requested
+certification path ID in the keystore, an InvalidArgVal fault is produced. If
+there is a certification path under the requested certification path ID stored
+in the keystore and the certification path could not be deleted, a
+CertificationPathDeletion fault is produced. If a reference exists for the
+specified certification path, the certification path shall not be deleted and
+the corresponding fault shall be produced. After a certification path is
+successfully deleted, the device may assign its former ID to other certification
+paths.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.UploadPassphrase" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">UploadPassphrase</span><span class="p">(</span><span class="n">Passphrase</span><span class="p">,</span> <span class="n">PassphraseAlias</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation uploads a passphrase to the keystore of the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetAllPassphrases" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAllPassphrases</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns information about all passphrases that are stored in
+the keystore of the device.</p>
+<p>This operation may be used, e.g., if a client lost track of which passphrases
+are present on the device. If no passphrase is stored on the device, the device
+shall return an empty list.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.DeletePassphrase" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeletePassphrase</span><span class="p">(</span><span class="n">PassphraseID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation deletes a passphrase from the keystore of the device.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.UploadCRL" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">UploadCRL</span><span class="p">(</span><span class="n">Crl</span><span class="p">,</span> <span class="n">Alias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">anyParameters</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation uploads a certificate revocation list (CRL) as specified in
+[RFC 5280] to the keystore on the device.</p>
+<p>If the device does not have enough storage space to store the CRL to be
+uploaded, the device shall produce a MaximumNumberOfCRLsReached fault and shall
+not store the supplied CRL. If the device is not able to process the supplied
+CRL, the device shall produce a BadCRL fault and shall not store the supplied
+CRL. If the device does not support the signature algorithm that was used to
+sign the supplied CRL, the device shall produce an UnsupportedSignatureAlgorithm
+fault and shall not store the supplied CRL.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetCRL" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetCRL</span><span class="p">(</span><span class="n">CrlID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns a specific certificate revocation list (CRL) from the
+keystore on the device.</p>
+<p>Certification revocation lists are uniquely identified using CRLIDs. If no CRL
+is stored under the requested CRLID, the device shall produce a CRLID fault.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetAllCRLs" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAllCRLs</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns all certificate revocation lists (CRLs) that are
+stored in the keystore on the device.</p>
+<p>If no certificate revocation list is stored in the device’s keystore, an empty
+list is returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.DeleteCRL" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteCRL</span><span class="p">(</span><span class="n">CrlID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation deletes a certificate revocation list (CRL) from the keystore
+on the device.</p>
+<p>Certification revocation lists are uniquely identified using CRLIDs. If no CRL
+is stored under the requested CRLID, the device shall produce a CRLID fault. If
+a reference exists for the specified CRL, the device shall produce a
+ReferenceExists fault and shall not delete the CRL. After a CRL has been
+successfully deleted, a device may assign its former ID to other CRLs.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.CreateCertPathValidationPolicy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CreateCertPathValidationPolicy</span><span class="p">(</span><span class="n">Parameters</span><span class="p">,</span> <span class="n">TrustAnchor</span><span class="p">,</span> <span class="n">Alias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">anyParameters</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation creates a certification path validation policy.</p>
+<p>Certification path validation policies are uniquely identified using
+certification path validation policy IDs. The device shall generate a new
+certification path validation policy ID for the created certification path
+validation policy. For the certification path validation parameters that are not
+represented in the certPathValidationParameters data type, the device shall use
+the default values specified in Sect. 3. If the device does not have enough
+storage capacity for storing the certification path validation policy to be
+created, the device shall produce a maximum number of certification path
+validation policies reached fault and shall not create a certification path
+validation policy. If there is at least one trust anchor certificate ID in the
+request for which there exists no certificate in the device’s keystore, the
+device shall produce a CertificateID fault and shall not create a certification
+path validation policy. If the device cannot process the supplied certification
+path validation parameters, the device shall produce a
+CertPathValidationParameters fault and shall not create a certification path
+validation policy.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetCertPathValidationPolicy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetCertPathValidationPolicy</span><span class="p">(</span><span class="n">CertPathValidationPolicyID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns a certification path validation policy from the
+keystore on the device.</p>
+<p>Certification path validation policies are uniquely identified using
+certification path validation policy IDs. If no certification path validation
+policy is stored under the requested certification path validation policy ID,
+the device shall produce a CertPathValidationPolicyID fault.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.GetAllCertPathValidationPolicies" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GetAllCertPathValidationPolicies</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation returns all certification path validation policies that are
+stored in the keystore on the device.</p>
+<p>If no certification path validation policy is stored in the device’s keystore,
+an empty list is returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.SetCertPathValidationPolicy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SetCertPathValidationPolicy</span><span class="p">(</span><span class="n">CertPathValidationPolicy</span><span class="p">,</span> <span class="n">CertPathValidationPolicyID</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation allows to modify an existing certification path validation
+policy.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="onvif.services.security.keystore.Keystore.DeleteCertPathValidationPolicy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DeleteCertPathValidationPolicy</span><span class="p">(</span><span class="n">CertPathValidationPolicyID</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>This operation deletes a certification path validation policy from the
+keystore on the device.</p>
+<p>Certification path validation policies are uniquely identified using
+certification path validation policy IDs. If no certification path validation
+policy is stored under the requested certification path validation policy ID,
+the device shall produce an InvalidCertPathValidationPolicyID fault. If a
+reference exists for the requested certification path validation policy, the
+device shall produce a ReferenceExists fault and shall not delete the
+certification path validation policy. After the certification path validation
+policy has been deleted, the device may assign its former ID to other
+certification path validation policies.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 &nbsp;—&nbsp; <a href="https://github.com/nirsimetri"><b>Nirsimetri Technologies®</b></a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+      
+        <script src="../../../javascripts/github-releases.js"></script>
+      
+        <script src="../../../javascripts/external-links.js"></script>
+      
+    
+  </body>
+</html>
