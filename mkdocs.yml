@@ -7,6 +7,7 @@ use_directory_urls: true
 
 theme:
   name: material
+  custom_dir: docs/overrides
   logo: assets/nirsimetri-light.svg
   favicon: assets/nirsimetri-dark.svg
   font:
