@@ -1,4 +1,4 @@
-site_name: onvif-python
+site_name: ONVIF Python
 site_description: A modern Python library for ONVIF-compliant devices
 site_url: https://nirsimetri.github.io/onvif-python/
 repo_url: https://github.com/nirsimetri/onvif-python
@@ -108,6 +108,7 @@ nav:
   - Legals:
     - Legal Notice: legal/legal_notice.md
     - License: legal/license.md
+  - Releases: releases.md  # It will be hidden because it serves as a placeholder.
 
 plugins:
   - search

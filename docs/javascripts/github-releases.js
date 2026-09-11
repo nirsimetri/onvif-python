@@ -78,7 +78,7 @@ function createReleaseNav(releases) {
 
   const allReleasesTitle = document.createElement("span");
   allReleasesTitle.className = "md-ellipsis";
-  allReleasesTitle.textContent = "See all releases";
+  allReleasesTitle.textContent = "All releases";
 
   allReleasesLink.appendChild(allReleasesTitle);
   allReleasesItem.appendChild(allReleasesLink);

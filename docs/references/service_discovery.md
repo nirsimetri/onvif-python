@@ -1,17 +1,24 @@
 !!! warning
     Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device. This library automatically performs comprehensive service discovery during initialization using a robust fallback mechanism.
 
-!!! tip
-    The library handles service discovery automatically with intelligent fallback. You typically don't need to call discovery methods manually unless you need detailed capability information or want to refresh the service list after device configuration changes.
-
 ## Why discover device services?
 
-- **Device Diversity:** Not all ONVIF devices support every service. Available services may vary by manufacturer, model, firmware, or configuration.
-- **Error Prevention:** Attempting to use unsupported services can result in failed requests, exceptions, or undefined behavior.
-- **Dynamic Feature Detection:** Devices may enable or disable services over time (e.g., after firmware updates or configuration changes).
-- **Optimized Integration:** By checking available services, your application can adapt its workflow and UI to match the device's actual features.
+### Device Diversity
+Not all ONVIF devices support every service. Available services may vary by manufacturer, model, firmware, or configuration.
+
+### Error Prevention
+Attempting to use unsupported services can result in failed requests, exceptions, or undefined behavior.
+
+### Dynamic Feature Detection
+Devices may enable or disable services over time (e.g., after firmware updates or configuration changes).
+
+### Optimized Integration
+By checking available services, your application can adapt its workflow and UI to match the device's actual features.
 
 ## How service discovery works in this library
+
+!!! tip
+    The library handles service discovery automatically with intelligent fallback. You typically don't need to call discovery methods manually unless you need detailed capability information or want to refresh the service list after device configuration changes.
 
 The `ONVIFClient` uses a **3-tier discovery approach** to maximize device compatibility:
 
