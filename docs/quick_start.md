@@ -5,7 +5,7 @@ Below are simple examples to help you get started with the ONVIF Python library.
 
 ### Discover ONVIF Devices (Optional)
 
-Use [`ONVIFDiscovery`](api/cores/onvif_discovery.md) (applied at [`>=v0.1.6`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.6)) to automatically find ONVIF devices on your local network:
+Use [`ONVIFDiscovery`](api/cores/onvif_discovery.md) (applied at [`>=v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
 
 ```python
 from onvif import ONVIFDiscovery
@@ -39,11 +39,19 @@ Create an instance of [`ONVIFClient`](api/cores/onvif_client.md) by providing yo
 from onvif import ONVIFClient
 
 # Basic connection
-client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
+client = ONVIFClient(
+    host="192.168.1.17", 
+    port=80, 
+    username="admin", 
+    password="password"
+)
 
 # With custom WSDL directory (optional)
 client = ONVIFClient(
-    "192.168.1.17", 8000, "admin", "admin123",
+    host="192.168.1.17", 
+    port=80, 
+    username="admin", 
+    password="password",
     wsdl_dir="/path/to/custom/wsdl"  # Use custom WSDL files in this path
 )
 ```

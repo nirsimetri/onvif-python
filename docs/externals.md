@@ -16,3 +16,4 @@
 - [ONVIF Application Programmer's Guide](https://www.onvif.org/wp-content/uploads/2016/12/ONVIF_WG-APG-Application_Programmers_Guide-1.pdf)
 - [ONVIF 2.0 Service Operation Index](https://www.onvif.org/onvif/ver20/util/operationIndex.html)
 - [ONVIF conformant products list](https://www.onvif.org/conformant-products/)
+- [ONVIF Profile Feature Overview v2.6](https://www.onvif.org/wp-content/uploads/2022/04/onvif-profile-feature-overview.pdf)
