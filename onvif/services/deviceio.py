@@ -247,6 +247,7 @@ class DeviceIO(ONVIFService):
         """This operation sets the settings of a relay output.
 
         The relay can work in two relay modes:
+
         - Bistable - After setting the state, the relay remains in this state.
         - Monostable - After setting the state, the relay returns to its idle state after the specified time.
         The physical idle state of a relay output can be configured by setting the IdleState to 'open' or 'closed'
