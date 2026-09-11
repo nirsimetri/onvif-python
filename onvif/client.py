@@ -127,7 +127,7 @@ class ONVIFClient:
         port: int,
         username: str | None = None,
         password: str | None = None,
-        http_digest: bool = False,  # will use WS-Usernametoken by default (recommended! trust me)
+        http_digest: bool = False,  # will use WS-Usernametoken by default
         timeout: int = 10,
         cache: CacheMode = CacheMode.ALL,
         use_https: bool = False,

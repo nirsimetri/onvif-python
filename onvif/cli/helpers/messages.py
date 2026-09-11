@@ -69,7 +69,8 @@ def print_interactive_intro(args, device_info_text) -> str:
         f"{banner}\n"
         f"{repo_info}\n"
         f"{terminal_header}\n"
-        f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}"
+        f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}\n"
+        f"  Auth Method   : {colorize(f'{'HTTP Digest' if args.digest else 'WS-Username Token'}', 'yellow')}"
         f"{options_display}{device_info_text}\n\n"
         f"{colorize('[Quick Start]', 'green')}\n"
         f"  - Type {colorize('dev', 'yellow')} + {colorize('TAB', 'yellow')} to see `devicemgmt` suggestion\n"
@@ -193,7 +194,7 @@ Examples:
   # Discover ONVIF devices on network
   {colorize('onvif', 'yellow')} --discover --username admin --password admin123 --interactive
   {colorize('onvif', 'yellow')} media GetProfiles --discover --username admin
-  {colorize('onvif', 'yellow')} -d -i
+  {colorize('onvif', 'yellow')} -d --interface 192.168.1.77 -i
 
   # Discover with filtering
   {colorize('onvif', 'yellow')} --discover --filter ptz --interactive

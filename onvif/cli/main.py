@@ -24,7 +24,6 @@ from onvif.operator import CacheMode
 from onvif.utils import ONVIFOperationException
 
 
-# pylint: disable=line-too-long
 def create_parser() -> ArgumentParser:
     """Create argument parser for ONVIF CLI."""
     parser = ArgumentParser(
@@ -96,6 +95,11 @@ def create_parser() -> ArgumentParser:
         type=int,
         default=10,
         help="ONVIF connection timeout in seconds (default: 10)",
+    )
+    parser.add_argument(
+        "--digest",
+        action="store_true",
+        help="Use HTTP Digest instead of WS-Usernametoken",
     )
     parser.add_argument(
         "--https", action="store_true", help="Use HTTPS instead of HTTP"
@@ -278,6 +282,7 @@ def main() -> None:
             port=args.port,
             username=args.username,
             password=args.password,
+            http_digest=args.digest,
             timeout=args.timeout,
             cache=CacheMode(args.cache),
             use_https=args.https,
