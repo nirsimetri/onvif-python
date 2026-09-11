@@ -53,7 +53,7 @@ function createReleaseNav(releases) {
     const link = document.createElement("a");
     link.className = "md-nav__link";
 
-    link.href = `/releases/#${encodeURIComponent(release.tag_name)}`;
+    link.href = `/onvif-python/releases/#${encodeURIComponent(release.tag_name)}`;
 
     const title = document.createElement("span");
     title.className = "md-ellipsis";
