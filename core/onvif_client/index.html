@@ -3338,7 +3338,6 @@
 <th>Parameter</th>
 <th>Type</th>
 <th>Required</th>
-<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -3347,39 +3346,33 @@
 <td><code>host</code></td>
 <td><code>str</code></td>
 <td>✅ Yes</td>
-<td>-</td>
-<td>IP address or hostname of the ONVIF device (e.g., <code>"192.168.1.17"</code>)</td>
+<td>IP address or hostname of the ONVIF device (e.g., <code>"192.168.1.17"</code>, <code>"2001:0db8:85a3:0000:0000:8a2e:0370:7334"</code>, <code>"cctv.example.com"</code>)</td>
 </tr>
 <tr>
 <td><code>port</code></td>
 <td><code>int</code></td>
 <td>✅ Yes</td>
-<td>-</td>
-<td>Port number for ONVIF service (common ports: <code>80</code>, <code>8000</code>, <code>8080</code>)</td>
+<td>Port number for ONVIF service (common ports: <code>80</code>, <code>8000</code>, <code>8080</code>, <code>8899</code>, <code>2020</code>, <code>443</code>)</td>
 </tr>
 <tr>
 <td><code>username</code></td>
 <td><code>str</code></td>
 <td>❌ No</td>
-<td>-</td>
 <td>Username for device authentication</td>
 </tr>
 <tr>
 <td><code>password</code></td>
 <td><code>str</code></td>
 <td>❌ No</td>
-<td>-</td>
 <td>Password for device authentication</td>
-</tr>
-<tr>
-<td><code>http_digest</code></td>
-<td><code>str</code></td>
-<td>❌ No</td>
-<td><code>False</code></td>
-<td><code>True</code> = use HTTP Digest / <code>False</code> = use WS-Usernametoken, (HTTP Digest support from <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.3.0"><code>&gt;=v0.3.0</code></a>)</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>As of version <a href="../../releases/#v0.3.0"><code>&gt;=v0.3.0</code></a>, the <code>username</code> and <code>password</code> parameters are no longer mandatory, in order to maximize compatibility with devices that lack a default user or have no user at all. However, if your device does have a user, you must of course enter the appropriate <code>username</code> and <code>password</code>.</p>
+<p>Furthermore, this implementation enables the class constructor to perform operations marked as <strong>PRE_AUTH</strong> (according to ONVIF specifications); such as <code>GetSystemDateAndTime</code> or <code>GetCapabilities</code> within the <a href="../../api/services/device/"><code>Device</code></a> service that require no authentication.</p>
+</div>
 <h3 id="connection-parameters">Connection Parameters</h3>
 <table>
 <thead>
@@ -3392,6 +3385,13 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>http_digest</code></td>
+<td><code>str</code></td>
+<td>❌ No</td>
+<td><code>False</code></td>
+<td><code>True</code> = use HTTP Digest / <code>False</code> = use WS-Usernametoken, (HTTP Digest support from <a href="../../releases/#v0.3.0"><code>&gt;=v0.3.0</code></a>)</td>
+</tr>
 <tr>
 <td><code>timeout</code></td>
 <td><code>int</code></td>
@@ -3453,21 +3453,21 @@
 <td><code>bool</code></td>
 <td>❌ No</td>
 <td><code>True</code></td>
-<td>Enable zeep patching for better <code>xsd:any</code> field parsing and automatic flattening, (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.4"><code>&gt;=v0.0.4</code></a>)</td>
+<td>Enable zeep patching for better <code>xsd:any</code> field parsing and automatic flattening, (applied at <a href="../../releases/#v0.0.4"><code>&gt;=v0.0.4</code></a>)</td>
 </tr>
 <tr>
 <td><code>capture_xml</code></td>
 <td><code>bool</code></td>
 <td>❌ No</td>
 <td><code>False</code></td>
-<td>Enable XML capture plugin for debugging SOAP requests/responses, (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.0.6"><code>&gt;=v0.0.6</code></a>)</td>
+<td>Enable XML capture plugin for debugging SOAP requests/responses, (applied at <a href="../../releases/#v0.0.6"><code>&gt;=v0.0.6</code></a>)</td>
 </tr>
 <tr>
 <td><code>wsdl_dir</code></td>
 <td><code>str</code></td>
 <td>❌ No</td>
 <td><code>None</code></td>
-<td>Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., <code>/path/to/custom/wsdl</code>), (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.0"><code>&gt;=v0.1.0</code></a>)</td>
+<td>Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., <code>/path/to/custom/wsdl</code>), (applied at <a href="../../releases/#v0.1.0"><code>&gt;=v0.1.0</code></a>)</td>
 </tr>
 </tbody>
 </table>
@@ -3525,17 +3525,22 @@
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFClient</span>
 
 <span class="c1"># Minimal configuration</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
+    <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 <h4 id="secure-connection-https">Secure Connection (HTTPS)</h4>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFClient</span>
 
 <span class="c1"># Connect via HTTPS with custom timeout</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span>
-    <span class="s2">&quot;your-cctv-node.viewplexus.com&quot;</span><span class="p">,</span> 
-    <span class="mi">443</span><span class="p">,</span>  <span class="c1"># HTTPS port</span>
-    <span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
-    <span class="s2">&quot;password&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;your-cctv-node.viewplexus.com&quot;</span><span class="p">,</span> 
+    <span class="n">port</span><span class="o">=</span><span class="mi">443</span><span class="p">,</span>  <span class="c1"># HTTPS port</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
     <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
     <span class="n">use_https</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
@@ -3545,10 +3550,10 @@
 
 <span class="c1"># Use memory-only cache for quick scripts</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span>
-    <span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
-    <span class="mi">80</span><span class="p">,</span> 
-    <span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
-    <span class="s2">&quot;password&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
+    <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
     <span class="n">cache</span><span class="o">=</span><span class="n">CacheMode</span><span class="o">.</span><span class="n">MEM</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -3557,10 +3562,10 @@
 
 <span class="c1"># Disable all caching for testing</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span>
-    <span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
-    <span class="mi">80</span><span class="p">,</span> 
-    <span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
-    <span class="s2">&quot;password&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
+    <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
     <span class="n">cache</span><span class="o">=</span><span class="n">CacheMode</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
     <span class="n">apply_patch</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># Use original zeep behavior</span>
 <span class="p">)</span>
@@ -3570,10 +3575,10 @@
 
 <span class="c1"># Enable XML capture for debugging</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span>
-    <span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
-    <span class="mi">80</span><span class="p">,</span> 
-    <span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
-    <span class="s2">&quot;password&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
+    <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
     <span class="n">capture_xml</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Captures all SOAP requests/responses</span>
 <span class="p">)</span>
 
@@ -3626,10 +3631,10 @@
 
 <span class="c1"># Use custom WSDL files instead of built-in ones</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span>
-    <span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
-    <span class="mi">80</span><span class="p">,</span> 
-    <span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
-    <span class="s2">&quot;password&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
+    <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
     <span class="n">wsdl_dir</span><span class="o">=</span><span class="s2">&quot;/path/to/custom/wsdl&quot;</span>  <span class="c1"># Custom WSDL directory</span>
 <span class="p">)</span>
 
@@ -3655,6 +3660,7 @@
     <span class="n">port</span><span class="o">=</span><span class="mi">443</span><span class="p">,</span>
     <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
     <span class="n">password</span><span class="o">=</span><span class="s2">&quot;secure_password&quot;</span><span class="p">,</span>
+    <span class="n">http_digest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># Use HTTP Digest authentiation</span>
     <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
     <span class="n">cache</span><span class="o">=</span><span class="n">CacheMode</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span>        <span class="c1"># Maximum performance (default)</span>
     <span class="n">use_https</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>             <span class="c1"># Secure communication</span>

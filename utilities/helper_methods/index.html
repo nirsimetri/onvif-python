@@ -713,6 +713,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#to_dictzeep_object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_dict(zeep_object)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2932,6 +2943,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#to_dictzeep_object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_dict(zeep_object)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2954,13 +2976,13 @@
 
   <h1>Helper Methods</h1>
 
-<p>Every ONVIF service provides three essential helper methods to improve the development experience and make working with ONVIF operations more intuitive:</p>
+<p>Every ONVIF service provides <strong>four</strong> essential helper methods to improve the development experience and make working with ONVIF operations more intuitive:</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>These helper methods are available on <strong>all</strong> ONVIF services (<code>devicemgmt()</code>, <code>media()</code>, <code>ptz()</code>, <code>events()</code>, <code>imaging()</code>, <code>analytics()</code>, etc.) and provide a consistent API for exploring and using ONVIF capabilities across different device types and manufacturers.</p>
 </div>
 <h3 id="typetype_name"><code>type(type_name)</code></h3>
-<p>Creates and returns an instance of the specified ONVIF type for building complex request parameters (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.9"><code>&gt;=v0.1.9</code></a>).</p>
+<p>Creates and returns an instance of the specified ONVIF type for building complex request parameters (applied at <a href="../../releases/#v0.1.9"><code>&gt;=v0.1.9</code></a>).</p>
 <p><strong>Usage:</strong>
 <div class="highlight"><pre><span></span><code><span class="n">device</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">devicemgmt</span><span class="p">()</span>
 
@@ -2993,7 +3015,7 @@
 <span class="n">device</span><span class="o">.</span><span class="n">SetSystemDateAndTime</span><span class="p">(</span><span class="n">time_params</span><span class="p">)</span>
 </code></pre></div></p>
 <h3 id="operations"><code>operations()</code></h3>
-<p>Lists all available operations for the current service (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0"><code>&gt;=v0.2.0</code></a>).</p>
+<p>Lists all available operations for the current service (applied at <a href="../../releases/#v0.2.0"><code>&gt;=v0.2.0</code></a>).</p>
 <p><strong>Returns:</strong></p>
 <ul>
 <li>List of operation names that can be called on the service</li>
@@ -3021,7 +3043,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PTZ continuous movement is supported&quot;</span><span class="p">)</span>
 </code></pre></div></p>
 <h3 id="descmethod_name"><code>desc(method_name)</code></h3>
-<p>Provides comprehensive documentation and parameter information for any ONVIF operation (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0"><code>&gt;=v0.2.0</code></a>).</p>
+<p>Provides comprehensive documentation and parameter information for any ONVIF operation (applied at <a href="../../releases/#v0.2.0"><code>&gt;=v0.2.0</code></a>).</p>
 <p><strong>Returns:</strong></p>
 <ul>
 <li><code>doc</code>: Method documentation from WSDL</li>
@@ -3044,6 +3066,40 @@
 <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>  <span class="c1"># Show first 5 methods</span>
     <span class="n">info</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">desc</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;required&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2"> required, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;optional&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2"> optional&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="to_dictzeep_object"><code>to_dict(zeep_object)</code></h3>
+<p>Converts a Zeep object (the raw result returned from ONVIF operations) into a native Python dictionary that is easy to serialize, inspect, and manipulate (applied at <a href="../../releases/#v0.2.9"><code>&gt;=v0.2.9</code></a>).</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li>Python <code>dict</code> representation of the Zeep object. Returns an empty dict <code>{}</code> if <code>zeep_object</code> is <code>None</code> or if conversion fails for any reason.</li>
+</ul>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">device</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">devicemgmt</span><span class="p">()</span>
+<span class="n">media</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">media</span><span class="p">()</span>
+<span class="n">ptz</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ptz</span><span class="p">()</span>
+
+<span class="c1"># Convert device information result to dictionary</span>
+<span class="n">info</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">GetDeviceInformation</span><span class="p">()</span>
+<span class="n">info_dict</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Manufacturer:&quot;</span><span class="p">,</span> <span class="n">info_dict</span><span class="p">[</span><span class="s2">&quot;Manufacturer&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model:&quot;</span><span class="p">,</span> <span class="n">info_dict</span><span class="p">[</span><span class="s2">&quot;Model&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FirmwareVersion:&quot;</span><span class="p">,</span> <span class="n">info_dict</span><span class="p">[</span><span class="s2">&quot;FirmwareVersion&quot;</span><span class="p">])</span>
+
+<span class="c1"># Convert media profiles (usually a list of complex objects)</span>
+<span class="n">profiles</span> <span class="o">=</span> <span class="n">media</span><span class="o">.</span><span class="n">GetProfiles</span><span class="p">()</span>
+<span class="n">profiles_dict</span> <span class="o">=</span> <span class="n">media</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">profiles</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">profile</span> <span class="ow">in</span> <span class="n">profiles_dict</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Profile: </span><span class="si">{</span><span class="n">profile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> (token=</span><span class="si">{</span><span class="n">profile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Convert PTZ configuration</span>
+<span class="n">configs</span> <span class="o">=</span> <span class="n">ptz</span><span class="o">.</span><span class="n">GetConfigurations</span><span class="p">()</span>
+<span class="n">configs_dict</span> <span class="o">=</span> <span class="n">ptz</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">configs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">configs_dict</span><span class="p">)</span><span class="si">}</span><span class="s2"> PTZ configurations&quot;</span><span class="p">)</span>
+
+<span class="c1"># Safe handling of None results</span>
+<span class="n">empty_result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">safe_dict</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">empty_result</span><span class="p">)</span>  <span class="c1"># Returns {}</span>
+<span class="k">assert</span> <span class="n">safe_dict</span> <span class="o">==</span> <span class="p">{}</span>
 </code></pre></div></p>
 
 

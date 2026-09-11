@@ -3002,7 +3002,7 @@
 <p>If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at <a href="https://www.onvif.org/about/introduction-to-onvif-course">Introduction to ONVIF Course</a>. Please note that we are not endorsed or sponsored by ONVIF, see <a href="../legal/legal_notice/">Legal Notice</a> for details.</p>
 </div>
 <h3 id="discover-onvif-devices-optional">Discover ONVIF Devices (Optional)</h3>
-<p>Use <a href="../api/cores/onvif_discovery/"><code>ONVIFDiscovery</code></a> (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.6"><code>&gt;=v0.1.6</code></a>) to automatically find ONVIF devices on your local network:</p>
+<p>Use <a href="../api/cores/onvif_discovery/"><code>ONVIFDiscovery</code></a> (applied at <a href="../releases/#v0.1.6"><code>&gt;=v0.1.6</code></a>) to automatically find ONVIF devices on your local network:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFDiscovery</span>
 
 <span class="c1"># Create discovery instance</span>
@@ -3030,11 +3030,19 @@
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFClient</span>
 
 <span class="c1"># Basic connection</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="s2">&quot;admin123&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
+    <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+<span class="p">)</span>
 
 <span class="c1"># With custom WSDL directory (optional)</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">ONVIFClient</span><span class="p">(</span>
-    <span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="s2">&quot;admin123&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.1.17&quot;</span><span class="p">,</span> 
+    <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> 
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
     <span class="n">wsdl_dir</span><span class="o">=</span><span class="s2">&quot;/path/to/custom/wsdl&quot;</span>  <span class="c1"># Use custom WSDL files in this path</span>
 <span class="p">)</span>
 </code></pre></div>
