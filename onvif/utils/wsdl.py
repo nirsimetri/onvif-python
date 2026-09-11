@@ -63,8 +63,8 @@ class ONVIFWSDL:
         - Thread-safe for read operations
 
     See Also:
-        - [`ONVIFOperator`](/api/cores/onvif_client/): Uses WSDL definitions to create SOAP clients
-        - [`ONVIFClient`](/api/cores/onvif_operator/): High-level client that uses this class internally
+        - [`ONVIFOperator`](onvif_client.md): Uses WSDL definitions to create SOAP clients
+        - [`ONVIFClient`](onvif_operator.md): High-level client that uses this class internally
     """
 
     # Default base directory for WSDL files (Built-in)

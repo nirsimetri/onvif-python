@@ -12,8 +12,8 @@ class Replay(ONVIFService):
     | --- | --- |
     | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
     | **Binding name** | `ReplayBinding` (`ver10/replay.wsdl`) |
-    | **Operations** | [replay.wsdl)]([replay.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/replay.wsdl)) |
-    | **Specification** | [Replay.xml)]([Replay.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Replay.xml)) |
+    | **Operations** | [replay.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/replay.wsdl) |
+    | **Specification** | [Replay.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Replay.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

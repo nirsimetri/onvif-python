@@ -6,7 +6,7 @@
 This library includes a powerful command-line interface (CLI) for interacting with ONVIF devices directly from your terminal. It supports both direct command execution and an interactive shell mode, providing a flexible and efficient way to manage and debug ONVIF devices.
 
 !!! info
-    The CLI is automatically installed when you install the `onvif-python` see [Installation](/installation). This feature has been available since `onvif-python` version [`>=0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
+    The CLI is automatically installed when you install the `onvif-python` see [Installation](../installation.md). This feature has been available since `onvif-python` version [`>=0.1.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.1).
 
 ## Features
 
@@ -415,6 +415,6 @@ Navigation: Next: --page 2
 
 ### CLI Parameters
 
-All [`ONVIFClient`](/api/cores/onvif_client/) parameters (like `--timeout`, `--https`, `--cache`, etc.) are available as command-line arguments.
+All [`ONVIFClient`](../api/cores/onvif_client.md) parameters (like `--timeout`, `--https`, `--cache`, etc.) are available as command-line arguments.
 
 Use `onvif --help` to see all available options.

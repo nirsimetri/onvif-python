@@ -9,7 +9,7 @@ cd onvif-python
 pip install .
 ```
 
-Once the installation is successful, you can also immediately access the [ONVIF CLI](/core/onvif_cli) via the terminal using:
+Once the installation is successful, you can also immediately access the [ONVIF CLI](core/onvif_cli.md) via the terminal using:
 
 ```bash
 onvif --version

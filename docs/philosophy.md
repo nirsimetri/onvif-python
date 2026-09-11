@@ -1,5 +1,5 @@
 !!! info
-    This library will be continuously updated as ONVIF versions are updated. It uses a built-in WSDL that will always follow changes to the [ONVIF WSDL Specifications](https://github.com/onvif/specs). You can also use your own ONVIF WSDL file by adding the `wsdl_dir` argument; see [ONVIFClient](/core/onvif_client/).
+    This library will be continuously updated as ONVIF versions are updated. It uses a built-in WSDL that will always follow changes to the [ONVIF WSDL Specifications](https://github.com/onvif/specs). You can also use your own ONVIF WSDL file by adding the `wsdl_dir` argument; see [ONVIFClient](core/onvif_client.md).
 
 ### WYSIWYG (What You See is What You Get)
 Every ONVIF operation in the library mirrors the official ONVIF specification exactly. Method names, parameter structures, and response formats follow ONVIF standards without abstraction layers or renamed interfaces. What you see in the ONVIF documentation is exactly what you get in Python.

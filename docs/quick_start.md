@@ -1,11 +1,11 @@
 Below are simple examples to help you get started with the ONVIF Python library. These demonstrate how to discover and connect to ONVIF-compliant devices and retrieve basic device information.
 
 !!! tip "For beginners"
-    If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course). Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](/legal/legal_notice/) for details.
+    If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course). Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](legal/legal_notice.md) for details.
 
 ### Discover ONVIF Devices (Optional)
 
-Use [`ONVIFDiscovery`](/api/cores/onvif_discovery/) (applied at [`>=v0.1.6`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.6)) to automatically find ONVIF devices on your local network:
+Use [`ONVIFDiscovery`](api/cores/onvif_discovery.md) (applied at [`>=v0.1.6`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.6)) to automatically find ONVIF devices on your local network:
 
 ```python
 from onvif import ONVIFDiscovery
@@ -33,7 +33,7 @@ for device in devices:
 
 ### Initialize the ONVIFClient
 
-Create an instance of [`ONVIFClient`](/api/cores/onvif_client/) by providing your device's IP address, port, username, and password:
+Create an instance of [`ONVIFClient`](api/cores/onvif_client.md) by providing your device's IP address, port, username, and password:
 
 ```python
 from onvif import ONVIFClient
@@ -50,7 +50,7 @@ client = ONVIFClient(
 
 ### Create Service Instance
 
-[`ONVIFClient`](/api/cores/onvif_client/) provides several main services that can be accessed via the following methods:
+[`ONVIFClient`](api/cores/onvif_client.md) provides several main services that can be accessed via the following methods:
 
 - `client.devicemgmt()` — Device Management
 - `client.events()` — Events
@@ -59,7 +59,7 @@ client = ONVIFClient(
 - `client.ptz()` — PTZ (Pan-Tilt-Zoom)
 - `client.analytics()` — Analytics
 
-and so on, check [ONVIF Services](/api/services/device/) for more details
+and so on, check [ONVIF Services](api/services/device.md) for more details
 
 Example usage:
 ```python
