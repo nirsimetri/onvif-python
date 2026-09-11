@@ -1221,6 +1221,7 @@ class InteractiveShell(cmd.Cmd):
         print(
             f"\n{colorize('[ONVIF Terminal Client]', 'yellow')}"
             f"\n  Connected to  : {colorize(f'{self.args.host}:{self.args.port}', 'yellow')}"
+            f"\n  Auth Method   : {colorize(f'{'HTTP Digest' if self.args.digest else 'WS-Usernametoken'}', 'yellow')}"
             f"{options_display}{self.device_info_text}"
         )
         print()  # Extra newline for spacing
