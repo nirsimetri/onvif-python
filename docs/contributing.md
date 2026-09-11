@@ -4,19 +4,6 @@
   <img src="https://contrib.rocks/image?repo=nirsimetri/onvif-python" />
 </a>
 
-## How to Contribute
-
-1. **Fork the repository** on GitHub and clone your fork locally.
-2. **Create a new branch** for your feature, fix, or documentation update.
-3. **Make your changes** with clear, descriptive commit messages.
-4. **Test your changes** to ensure they work as expected and do not break existing functionality.
-5. **Push your branch** to your fork and open a Pull Request (PR) against the `dev` branch of this repository.
-6. **Participate in code review** by responding to feedback and making necessary updates.
-
-## Code of Conduct
-
-All contributors are expected to follow our [Code of Conduct](https://github.com/nirsimetri/onvif-python/blob/main/CODE_OF_CONDUCT.md), which is based on the [CNCF Foundation Code of Conduct](https://github.com/cncf/foundation/blob/main/code-of-conduct.md). Please treat everyone with respect and foster a welcoming, inclusive environment.
-
 ## Ways to Contribute
 
 ### Bug Reports
@@ -163,6 +150,10 @@ Use the following commit title types:
 - Add or update docstrings and inline comments.
 - If you add new modules or services, document their usage and API.
 - For device-specific notes, contribute to the [`device-test/`](https://github.com/nirsimetri/onvif-products/blob/main/device-test) list.
+
+## Code of Conduct
+
+All contributors are expected to follow our [Code of Conduct](https://github.com/nirsimetri/onvif-python/blob/main/CODE_OF_CONDUCT.md), which is based on the [CNCF Foundation Code of Conduct](https://github.com/cncf/foundation/blob/main/code-of-conduct.md). Please treat everyone with respect and foster a welcoming, inclusive environment.
 
 ## License
 
