@@ -263,7 +263,7 @@ This feature is particularly useful for:
 
 ### Device Discovery (WS-Discovery)
 
-The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol. This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand (applied at [`>=v0.1.2`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.2)).
+The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol from [`ONVIFDiscovery`](../api/cores/onvif_discovery.md) class. This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand (applied at [`>=v0.1.2`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.2)).
 
 !!! danger
     - Discovery only works on the local network (same subnet)

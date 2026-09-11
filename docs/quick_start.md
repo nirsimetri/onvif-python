@@ -59,7 +59,7 @@ client = ONVIFClient(
 - `client.ptz()` — PTZ (Pan-Tilt-Zoom)
 - `client.analytics()` — Analytics
 
-and so on, check [ONVIF Services](api/services/device.md) for more details
+and so on, check [`ONVIFClient`](api/cores/onvif_client.md) for more details
 
 Example usage:
 ```python
@@ -69,7 +69,7 @@ media = client.media()            # Media
 
 ### Get Device Information
 
-Retrieve basic information about the device, such as manufacturer, model, firmware version, and serial number using `devicemgmt()` service:
+Retrieve basic information about the device, such as manufacturer, model, firmware version, and serial number using [`devicemgmt()`](api/services/device.md) service:
 
 ```python
 info = device.GetDeviceInformation()
@@ -80,7 +80,7 @@ print(info)
 
 ### Get RTSP URL
 
-Retrieve the RTSP stream URL for live video streaming from the device using `media()` service:
+Retrieve the RTSP stream URL for live video streaming from the device using [`media()`](api/services/media.md) service:
 
 ```python
 profile = media.GetProfiles()[0]  # use the first profile

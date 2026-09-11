@@ -1,4 +1,4 @@
-Below is a list of ONVIF services implemented and supported by this library, along with links to the official specifications, service definitions, and schema files as referenced from the [ONVIF Developer Specs](https://developer.onvif.org/pub/specs/branches/development/doc/index.html). This table provides a quick overview of the available ONVIF features and their technical documentation for integration and development purposes.
+Below is a list of ONVIF services implemented and supported by this library, along with links to the official specifications, service definitions, and schema files as referenced from the [ONVIF Developer Specs](https://developer.onvif.org/pub/specs/branches/development/doc/index.html).
 
 | Service                | Specs                | Service Definitions         | Schema Files                        | Status     |
 |------------------------|-------------------------------|-----------------------------|-------------------------------------|------------|
