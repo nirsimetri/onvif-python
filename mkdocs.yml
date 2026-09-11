@@ -1,4 +1,4 @@
-site_name: onvif-python
+site_name: ONVIF Python
 site_description: A modern Python library for ONVIF-compliant devices
 site_url: https://nirsimetri.github.io/onvif-python/
 repo_url: https://github.com/nirsimetri/onvif-python
@@ -100,13 +100,15 @@ nav:
         - KeyStore: api/services/keystore.md
         - MediaSigning: api/services/mediasigning.md
         - TLSServer: api/services/tlsserver.md
-  - Legals:
-    - Legal Notice: legal/legal_notice.md
-    - License: legal/license.md
   - Project:
+    - Contributing: contributing.md
     - Roadmap: roadmap.md
     - Used By: used_by.md
     - Externals: externals.md
+  - Legals:
+    - Legal Notice: legal/legal_notice.md
+    - License: legal/license.md
+  - Releases: releases.md  # It will be hidden because it serves as a placeholder.
 
 plugins:
   - search
@@ -134,6 +136,7 @@ extra_css:
 
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/marked/marked.min.js
+  - https://cdn.jsdelivr.net/npm/dompurify@3.4.15/dist/purify.min.js
   - javascripts/github-releases.js
   - javascripts/external-links.js
 

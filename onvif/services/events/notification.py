@@ -38,15 +38,6 @@ class Notification(ONVIFService):
         Registers a notification consumer with the NotificationProducer. Event notifications
         matching the optional filter are delivered to the consumer endpoint specified
         by ConsumerReference.
-
-        Args:
-            ConsumerReference: Reference to the notification consumer endpoint.
-            Filter: Optional filter used to select notifications of interest.
-            InitialTerminationTime: Requested initial subscription termination time.
-            SubscriptionPolicy: Optional policy controlling subscription behavior.
-
-        Returns:
-            The subscription response containing the SubscriptionReference and termination time.
         """
         return self.operator.call(
             "Subscribe",
@@ -61,11 +52,5 @@ class Notification(ONVIFService):
 
         Requests the current state message associated with the specified topic from the
         NotificationProducer.
-
-        Args:
-            Topic: Topic identifying the notification message to retrieve.
-
-        Returns:
-            The current notification message for the specified topic.
         """
         return self.operator.call("GetCurrentMessage", Topic=Topic)

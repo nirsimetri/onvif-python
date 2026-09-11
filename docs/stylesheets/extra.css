@@ -20,6 +20,14 @@
   --md-default-bg-color: #EBEBEB;
 }
 
+.md-typeset table td code {
+  white-space: nowrap;
+}
+
+.md-nav__link[href$="/releases/"] {
+  display: none;
+}
+
 .md-content__inner {
   padding-bottom: 3rem;
 }

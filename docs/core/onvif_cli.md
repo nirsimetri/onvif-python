@@ -1,7 +1,7 @@
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=plastic&logo=gitforwindows&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=plastic&logo=linux&logoColor=black)
-![macOS](https://img.shields.io/badge/macOS-1A9FEE?style=plastic&logo=apple&logoColor=black)
-![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=plastic&logo=raspberrypi&logoColor=black)
+![macOS](https://img.shields.io/badge/macOS-1A9FEE?style=plastic&logo=apple&logoColor=white)
+![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=plastic&logo=raspberrypi&logoColor=white)
 
 This library includes a powerful command-line interface (CLI) for interacting with ONVIF devices directly from your terminal. It supports both direct command execution and an interactive shell mode, providing a flexible and efficient way to manage and debug ONVIF devices.
 

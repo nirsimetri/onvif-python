@@ -8,7 +8,7 @@
 - [ ] Add asynchronous (`async`/`await`) support for non-blocking ONVIF operations and concurrent device communication.
 - [ ] Implement structured data models for ONVIF Schemas using [xsdata](https://github.com/tefra/xsdata).
 - [ ] Integrate [xmltodict](https://github.com/martinblech/xmltodict) for simplified XML parsing and conversion.
-- [x] Enhance documentation with API references and diagrams (not from [AI Wiki](https://deepwiki.com/nirsimetri/onvif-python)).
+- [x] Enhance documentation with API references and diagrams (not from [AI Wiki](https://deepwiki.com/nirsimetri/onvif-python)) ([`v0.3.1`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.3.1)).
 - [ ] Add more usage examples for advanced features.
 - [ ] Add benchmarking and performance metrics.
 - [ ] Add community-contributed device configuration templates.

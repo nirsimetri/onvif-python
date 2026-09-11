@@ -11,7 +11,8 @@
 
 ## Links
 - [ONVIF Official Specifications](https://www.onvif.org/profiles/specifications/specification-history/)
+- [ONVIF Developer Specs](https://developer.onvif.org/pub/specs/branches/development/doc/index.html)
 - [ONVIF Official Specs Repository](https://github.com/onvif/specs)
 - [ONVIF Application Programmer's Guide](https://www.onvif.org/wp-content/uploads/2016/12/ONVIF_WG-APG-Application_Programmers_Guide-1.pdf)
 - [ONVIF 2.0 Service Operation Index](https://www.onvif.org/onvif/ver20/util/operationIndex.html)
-- [ONVIF conformant product list](https://www.onvif.org/conformant-products/)
+- [ONVIF conformant products list](https://www.onvif.org/conformant-products/)

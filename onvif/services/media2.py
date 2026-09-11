@@ -407,6 +407,7 @@ class Media2(ONVIFService):
         The returned URI shall remain valid indefinitely even if the profile is changed.
 
         Defined stream types are
+
         - RtspUnicast RTSP streaming RTP as UDP Unicast.
         - RtspMulticast RTSP streaming RTP as UDP Multicast.
         - RtspsUnicast Secure RTSP streaming with SRTP as UDP Unicast.

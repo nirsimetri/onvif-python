@@ -18,6 +18,7 @@ These are considered fixed and always accessed directly.
 ### Multi-Binding Services
 
 Some ONVIF services have multiple bindings in the same WSDL. These typically include:
+
 - A **root binding** (main entry point)
 - One or more **sub-bindings**, discovered or created dynamically (e.g. after subscription/configuration creation)
 
