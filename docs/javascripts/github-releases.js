@@ -235,6 +235,12 @@ async function initializeReleases() {
 
     pendingReleaseTag = null;
     updateActiveReleaseLink();
+
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 100);
   } catch (error) {
     console.error("Failed to load GitHub releases:", error);
 
@@ -258,8 +264,14 @@ if (typeof document$ !== "undefined") {
 }
 
 window.addEventListener("hashchange", () => {
-  if (releasesLoaded) {
+  const releasesPageContainer = document.getElementById("github-releases");
+  if (releasesLoaded && releasesPageContainer) {
     renderRelease(releases);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
   }
   setTimeout(updateActiveReleaseLink, 10);
 });
@@ -350,6 +362,9 @@ document.addEventListener("click", (event) => {
       pendingReleaseTag = null;
       restoreReleaseNavState();
       updateActiveReleaseLink();
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     }, 50);
   }
 });
