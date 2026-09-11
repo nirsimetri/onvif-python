@@ -1,5 +1,7 @@
+/* global marked, document$ */
+
 const GITHUB_API =
-  "https://api.github.com/repos/nirsimetri/onvif-python/releases?per_page=3";
+  "https://api.github.com/repos/nirsimetri/onvif-python/releases?per_page=5";
 
 let releases = [];
 
@@ -76,7 +78,7 @@ function createReleaseNav(releases) {
 
   const allReleasesTitle = document.createElement("span");
   allReleasesTitle.className = "md-ellipsis";
-  allReleasesTitle.textContent = "See all releases";
+  allReleasesTitle.textContent = "All releases";
 
   allReleasesLink.appendChild(allReleasesTitle);
   allReleasesItem.appendChild(allReleasesLink);
@@ -106,6 +108,12 @@ function renderRelease(releases, tag = null) {
     return;
   }
 
+  const markdownHtml = marked.parse(
+    processGitHubReferences(release.body || "")
+  );
+
+  const safeHtml = DOMPurify.sanitize(markdownHtml);
+
   container.innerHTML = `
     <article class="github-release">
       <h2>
@@ -117,9 +125,7 @@ function renderRelease(releases, tag = null) {
       </p>
 
       <div class="github-release__body">
-        ${marked.parse(
-          processGitHubReferences(release.body || "")
-        )}
+        ${safeHtml}
       </div>
     </article>
   `;
