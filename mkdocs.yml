@@ -1,5 +1,5 @@
 site_name: ONVIF Python
-site_description: A modern Python library for ONVIF-compliant devices
+site_description: A modern Python library for ONVIF-compliant IP cameras and devices, providing a clean, typed API for discovery, device management, media, PTZ, and events.
 site_url: https://nirsimetri.github.io/onvif-python/
 repo_url: https://github.com/nirsimetri/onvif-python
 repo_name: nirsimetri/onvif-python
@@ -21,17 +21,21 @@ theme:
     - content.code.copy
     - search.suggest
   palette:
-      - media: "(prefers-color-scheme: light)"
-        scheme: default
-        toggle:
-          icon: material/weather-night
-          name: Switch to dark mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
 
-      - media: "(prefers-color-scheme: dark)"
-        scheme: slate
-        toggle:
-          icon: material/weather-sunny
-          name: Switch to light mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
 
 nav:
   - About: index.md

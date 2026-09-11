@@ -45,6 +45,7 @@ device.SetSystemDateAndTime(time_params)
 Lists all available operations for the current service (applied at [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
 
 **Returns:**
+
 - List of operation names that can be called on the service
 
 **Usage:**
@@ -76,6 +77,7 @@ if 'ContinuousMove' in ptz.operations():
 Provides comprehensive documentation and parameter information for any ONVIF operation (applied at [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
 
 **Returns:**
+
 - `doc`: Method documentation from WSDL
 - `required`: List of required parameter names
 - `optional`: List of optional parameter names
