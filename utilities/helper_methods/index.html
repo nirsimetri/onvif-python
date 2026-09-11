@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A modern Python library for ONVIF-compliant devices">
+        <meta name="description" content="A modern Python library for ONVIF-compliant IP cameras and devices, providing a clean, typed API for discovery, device management, media, PTZ, and events.">
       
       
       
@@ -63,17 +63,11 @@
 
     
     
-   <!-- SEO -->
-  <meta
-    name="description"
-    content="A modern Python library for ONVIF-compliant IP cameras and devices, providing device management, media, PTZ, events, discovery, and more."
-  />
-
   <!-- Open Graph -->
-  <meta property="og:title" content="ONVIF Python — Python Library for ONVIF Devices" />
+  <meta property="og:title" content="ONVIF Python / Python Library for ONVIF Devices" />
   <meta
     property="og:description"
-    content="A modern Python library for ONVIF-compliant IP cameras and devices, providing device management, media, PTZ, events, discovery, and more."
+    content="A modern Python library for ONVIF-compliant IP cameras and devices."
   />
   <meta property="og:site_name" content="ONVIF Python" />
   <meta property="og:type" content="website" />
@@ -92,11 +86,11 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta
     name="twitter:title"
-    content="ONVIF Python — Python Library for ONVIF Devices"
+    content="ONVIF Python / Python Library for ONVIF Devices"
   />
   <meta
     name="twitter:description"
-    content="A modern Python library for ONVIF-compliant IP cameras and devices, providing device management, media, PTZ, events, discovery, and more."
+    content="A modern Python library for ONVIF-compliant IP cameras and devices."
   />
   <meta
     name="twitter:image"
@@ -135,7 +129,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -192,7 +186,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -202,7 +196,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -3000,8 +2994,10 @@
 </code></pre></div></p>
 <h3 id="operations"><code>operations()</code></h3>
 <p>Lists all available operations for the current service (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0"><code>&gt;=v0.2.0</code></a>).</p>
-<p><strong>Returns:</strong>
-- List of operation names that can be called on the service</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li>List of operation names that can be called on the service</li>
+</ul>
 <p><strong>Usage:</strong>
 <div class="highlight"><pre><span></span><code><span class="n">device</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">devicemgmt</span><span class="p">()</span>
 <span class="n">media</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">media</span><span class="p">()</span>
@@ -3026,12 +3022,14 @@
 </code></pre></div></p>
 <h3 id="descmethod_name"><code>desc(method_name)</code></h3>
 <p>Provides comprehensive documentation and parameter information for any ONVIF operation (applied at <a href="https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0"><code>&gt;=v0.2.0</code></a>).</p>
-<p><strong>Returns:</strong>
-- <code>doc</code>: Method documentation from WSDL
-- <code>required</code>: List of required parameter names
-- <code>optional</code>: List of optional parameter names
-- <code>method_name</code>: The method name
-- <code>service_name</code>: The service name</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code>doc</code>: Method documentation from WSDL</li>
+<li><code>required</code>: List of required parameter names</li>
+<li><code>optional</code>: List of optional parameter names</li>
+<li><code>method_name</code>: The method name</li>
+<li><code>service_name</code>: The service name</li>
+</ul>
 <p><strong>Usage:</strong>
 <div class="highlight"><pre><span></span><code><span class="n">device</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">devicemgmt</span><span class="p">()</span>
 
