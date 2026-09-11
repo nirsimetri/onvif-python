@@ -12,8 +12,8 @@ class Uplink(ONVIFService):
     | --- | --- |
     | **First introduced** | ONVIF Release 18.12 (December 2018) |
     | **Binding name** | `UplinkBinding` (`ver10/uplink/wsdl/uplink.wsdl`) |
-    | **Operations** | [uplink.wsdl)]([uplink.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/uplink/wsdl/uplink.wsdl)) |
-    | **Specification** | [Uplink.xml)]([Uplink.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Uplink.xml)) |
+    | **Operations** | [uplink.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/uplink/wsdl/uplink.wsdl) |
+    | **Specification** | [Uplink.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Uplink.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

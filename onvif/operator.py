@@ -70,7 +70,7 @@ class ONVIFOperator:
         such as Device, Media, and PTZ, and is not intended to be
         instantiated directly by end users.
 
-        Use [`ONVIFClient`](/api/cores/onvif_client) instead.
+        Use [`ONVIFClient`](onvif_client.md) instead.
 
     Attributes:
         wsdl_path (str): Path to the WSDL file

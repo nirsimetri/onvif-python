@@ -136,9 +136,4 @@ extra_javascript:
   - javascripts/github-releases.js
   - javascripts/external-links.js
 
-extra:
-  version:
-    provider: mike
-    default: latest
-
 copyright: Copyright &copy; 2026 &nbsp;—&nbsp; <a href="https://github.com/nirsimetri"><b>Nirsimetri Technologies®</b></a>

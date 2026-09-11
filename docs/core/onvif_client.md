@@ -1,4 +1,4 @@
-The [`ONVIFClient`](/api/cores/onvif_client/) class provides various configuration options to customize the connection behavior, caching strategy, security settings, and debugging capabilities. Below is a detailed description of all available parameters:
+The [`ONVIFClient`](../api/cores/onvif_client.md) class provides various configuration options to customize the connection behavior, caching strategy, security settings, and debugging capabilities. Below is a detailed description of all available parameters:
 
 
 ### Basic Parameters
