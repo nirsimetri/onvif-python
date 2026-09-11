@@ -54,7 +54,7 @@ usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password 
              [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
              [service] [method] [params ...]
 
-ONVIF Terminal Client — v0.3.0
+ONVIF Terminal Client — v0.3.1
 https://github.com/nirsimetri/onvif-python
 
 positional arguments:
@@ -138,7 +138,7 @@ Examples:
 <summary><b>Interactive Shell</b></summary> 
 
 ```bash
-ONVIF Interactive Shell — v0.3.0
+ONVIF Interactive Shell — v0.3.1
 https://github.com/nirsimetri/onvif-python
 
 Basic Commands:

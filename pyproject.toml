@@ -1,6 +1,6 @@
 [project]
 name = "onvif-python"
-version = "0.3.0"
+version = "0.3.1"
 description = "A modern Python library for ONVIF-compliant devices"
 readme = "README.md"
 requires-python = ">=3.9"
