@@ -100,13 +100,14 @@ nav:
         - KeyStore: api/services/keystore.md
         - MediaSigning: api/services/mediasigning.md
         - TLSServer: api/services/tlsserver.md
-  - Legals:
-    - Legal Notice: legal/legal_notice.md
-    - License: legal/license.md
   - Project:
+    - Contributing: contributing.md
     - Roadmap: roadmap.md
     - Used By: used_by.md
     - Externals: externals.md
+  - Legals:
+    - Legal Notice: legal/legal_notice.md
+    - License: legal/license.md
 
 plugins:
   - search
