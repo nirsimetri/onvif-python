@@ -17,19 +17,22 @@ from typing import Any
 from requests.exceptions import RequestException
 from zeep.exceptions import Fault, TransportError
 
+from onvif.cli.helpers import get_method_documentation, get_operation_type_info
+from onvif.cli.helpers.messages import (
+    INTERACTIVE_HELP,
+    INTERACTIVE_SHORTCUTS,
+    print_interactive_intro,
+)
 from onvif.cli.utils import (
     colorize,
     format_capabilities_as_services,
     format_services_list,
     get_device_available_services,
-    get_method_documentation,
-    get_operation_type_info,
     get_service_methods,
     get_service_required_args,
     parse_json_params,
 )
 from onvif.client import ONVIFClient
-from onvif.meta import __repository__, __version__
 from onvif.utils.exceptions import ONVIFOperationException
 
 
@@ -80,12 +83,14 @@ class InteractiveShell(cmd.Cmd):
         )
 
         # Enable tab completion
+        # for Windows will use pyreadline3 to install readline module
+        # pylint: disable=import-outside-toplevel
         try:
             import readline
 
             # Set completer to this instance
-            readline.set_completer(self.complete)
-            readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")
+            readline.set_completer(self.complete)  # type: ignore[attr-defined]
+            readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")  # type: ignore[attr-defined]
 
             # Enable tab completion, making it compatible with both GNU readline and libedit
             if (
@@ -93,9 +98,9 @@ class InteractiveShell(cmd.Cmd):
                 and readline.__doc__
                 and "libedit" in readline.__doc__
             ):
-                readline.parse_and_bind("bind ^I rl_complete")
+                readline.parse_and_bind("bind ^I rl_complete")  # type: ignore[attr-defined]
             else:
-                readline.parse_and_bind("tab: complete")
+                readline.parse_and_bind("tab: complete")  # type: ignore[attr-defined]
         except ImportError:
             pass  # readline not available on some systems
 
@@ -155,83 +160,7 @@ class InteractiveShell(cmd.Cmd):
             f"  ONVIF Version : {colorize(onvif_version, 'white')}"
         )
 
-        # Build connection and CLI options info
-        options_info = []
-
-        # Connection options
-        if hasattr(args, "https") and args.https:
-            options_info.append(f"  Use HTTPS     : {colorize('True', 'green')}")
-
-        if hasattr(args, "no_verify_ssl") and args.no_verify_ssl:
-            options_info.append(f"  Verify SSL    : {colorize('False', 'red')}")
-
-        if hasattr(args, "timeout") and args.timeout != 10:  # 10 is default
-            options_info.append(
-                f"  Timeout       : {colorize(f'{args.timeout}s', 'yellow')}"
-            )
-
-        # CLI options
-        if hasattr(args, "debug") and args.debug:
-            options_info.append(f"  Debug Mode    : {colorize('True', 'green')}")
-
-        if hasattr(args, "no_patch") and args.no_patch:
-            options_info.append(f"  ZeepPatcher   : {colorize('Disabled', 'red')}")
-
-        if hasattr(args, "wsdl") and args.wsdl:
-            options_info.append(f"  Custom WSDL   : {colorize(args.wsdl, 'yellow')}")
-
-        if (
-            hasattr(args, "health_check_interval") and args.health_check_interval != 10
-        ):  # 10 is default
-            options_info.append(
-                f"  Health Check  : every {colorize(f'{args.health_check_interval}s', 'yellow')}"
-            )
-
-        # Format options info
-        options_display = ""
-        if options_info:
-            options_display = "\n" + "\n".join(options_info)
-
-        # Welcome message with enhanced info
-        banner_lines = [
-            "   ____  _   ___    ____________",
-            "  / __ \\/ | / / |  / /  _/ ____/",
-            " / / / /  |/ /| | / // // /_    ",
-            "/ /_/ / /|  / | |/ // // __/    ",
-            f"\\____/_/ |_/  |___/___/_/  v{__version__}",
-            "                                ",
-        ]
-
-        banner = "\n".join(colorize(line, "cyan") for line in banner_lines)
-        repo_info = "\n".join(
-            [
-                colorize("Star ⭐ this repo", "white"),
-                colorize(__repository__, "white"),
-            ]
-        )
-
-        terminal_header = colorize("\n[ONVIF Terminal Client]", "yellow")
-
-        self.intro = (
-            f"{banner}\n"
-            f"{repo_info}\n"
-            f"{terminal_header}\n"
-            f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}"
-            f"{options_display}{self.device_info_text}\n\n"
-            f"{colorize('[Quick Start]', 'green')}\n"
-            f"  - Type {colorize('dev', 'yellow')} + {colorize('TAB', 'yellow')} to see `devicemgmt` suggestion\n"
-            f"  - Type {colorize('devicemgmt', 'yellow')} to enter device management service\n"
-            f"  - Use {colorize('TAB', 'yellow')} completion for commands and methods\n\n"
-            f"{colorize('[Typical Commands]', 'magenta')}\n"
-            f"  - help        : Show help information\n"
-            f"  - ls          : List commands/services/methods in grid format\n"
-            f"  - <service>   : Enter service mode (e.g., devicemgmt)\n"
-            f"  - up          : Exit service mode (go up one level)\n"
-            f"  - info        : Show current device and connection info\n"
-            f"  - exit        : Exit shell\n\n"
-            f"Use {colorize('TAB', 'yellow')} for auto-completion. "
-            f"Type partial commands to see suggestions.\n"
-        )
+        self.intro = print_interactive_intro(args, self.device_info_text)
 
         # Start background health check after successful initialization
         self._health_check_thread.start()
@@ -300,7 +229,7 @@ class InteractiveShell(cmd.Cmd):
             # Wait before next check or stop signal
             self._stop_health_check.wait(health_check_interval)
 
-    def _handle_connection_error(self, e):
+    def _handle_connection_error(self, e):  # pylint: disable=unused-argument
         """Handle connection errors by notifying the user and exiting."""
         print(f"\n{colorize('Connection to device lost.', 'red')}", file=sys.stderr)
         # print(f"{colorize('Error:', 'red')} {e}", file=sys.stderr)
@@ -551,9 +480,9 @@ class InteractiveShell(cmd.Cmd):
             if command and hasattr(self, f"do_{command}"):
                 # It's a known command, let parent handle it normally
                 return super().onecmd(line)
-            else:
-                # It might be a service method call, handle it directly
-                return self.default(line)
+
+            # It might be a service method call, handle it directly
+            return self.default(line)
 
         # For all other cases, use normal cmd.Cmd processing
         return super().onecmd(line)
@@ -574,12 +503,13 @@ class InteractiveShell(cmd.Cmd):
             return self.do_enter_service(line)
 
         # Check if it's a method call in service context
-        if self.current_service and " " in line:
-            parts = line.split(" ", 1)
-            method_name = parts[0]
-            params_str = parts[1] if len(parts) > 1 else ""
-            return self.execute_service_method(method_name, params_str)
-        elif self.current_service:
+        if self.current_service:
+            if self.current_service and " " in line:
+                parts = line.split(" ", 1)
+                method_name = parts[0]
+                params_str = parts[1] if len(parts) > 1 else ""
+                return self.execute_service_method(method_name, params_str)
+
             # Method without parameters
             return self.execute_service_method(line, "")
 
@@ -668,7 +598,7 @@ class InteractiveShell(cmd.Cmd):
             stop = self.onecmd(line)
             stop = self.postcmd(stop, line)
 
-    def columnize(self, list, displaywidth=80):
+    def columnize(self, list, displaywidth=80):  # pylint: disable=redefined-builtin
         """Override columnize to use grid format for TAB completion."""
         if not list:
             return
@@ -1042,9 +972,9 @@ class InteractiveShell(cmd.Cmd):
                             param["children"], new_prefix_lines, is_root_level=False
                         )
 
+            input_msg = type_info["input"]
             # Display Input
-            if type_info["input"]:
-                input_msg = type_info["input"]
+            if input_msg is not None:
                 print(f"\n{colorize('Input:', 'cyan')}")
                 msg_name = f"[{input_msg['name']}]"
                 print(f"{colorize(msg_name, 'yellow')}")
@@ -1058,9 +988,9 @@ class InteractiveShell(cmd.Cmd):
                     f"\n{colorize('Input:', 'cyan')} {colorize('(not defined)', 'reset')}"
                 )
 
+            output_msg = type_info["output"]
             # Display Output
-            if type_info["output"]:
-                output_msg = type_info["output"]
+            if output_msg is not None:
                 print(f"\n{colorize('Output:', 'cyan')}")
                 msg_name = f"[{output_msg['name']}]"
                 print(f"{colorize(msg_name, 'yellow')}")
@@ -1119,31 +1049,7 @@ class InteractiveShell(cmd.Cmd):
 
     def do_shortcuts(self, line):  # pylint: disable=unused-argument
         """Show available shortcuts."""
-        shortcuts = f"""
-{colorize('Available Shortcuts:', 'cyan')}
-
-{colorize('Navigation:', 'yellow')}
-  <service>                - Enter service mode (e.g., devicemgmt, media)
-  cd <service>             - Enter service (same as '<service>')
-  ls                       - List commands/services in grid format (like TAB)
-  up                       - Go up one level
-  pwd                      - Show current context
-  clear                    - Clear terminal screen
-  help <command>           - Show help for a command
-
-{colorize('Service Mode Commands:', 'yellow')}
-  desc <method>            - Show method documentation
-  type <method>            - Show input/output types from WSDL
-
-{colorize('Quick Access:', 'yellow')}
-  caps                     - Show capabilities (same as 'capabilities')
-
-{colorize('Tab Completion Examples:', 'yellow')}
-  dev<TAB>                 - Completes to 'devicemgmt'
-  med<TAB>                 - Completes to 'media'
-  Get<TAB>                 - Shows all methods starting with 'Get'
-        """
-        print(shortcuts)
+        print(INTERACTIVE_SHORTCUTS)
 
     def do_caps(self, line):
         """Show device capabilities (alias for 'capabilities')"""
@@ -1180,7 +1086,8 @@ class InteractiveShell(cmd.Cmd):
         # Must be unique
         if line in self.stored_data:
             print(
-                f"{colorize('Error:', 'red')} Name '{line}' already exists. Use a different name or remove it first."
+                f"{colorize('Error:', 'red')} Name '{line}' already exists. "
+                "Use a different name or remove it first."
             )
             return
         if hasattr(self, "_last_result"):
@@ -1195,7 +1102,8 @@ class InteractiveShell(cmd.Cmd):
             service = metadata.get("service", "unknown")
             method = metadata.get("method", "unknown")
             print(
-                f"{colorize('Stored result as:', 'green')} {colorize('$'+line, 'yellow')} - {colorize(service, 'cyan')}.{colorize(method, 'white')}()"
+                f"{colorize('Stored result as:', 'green')} {colorize('$'+line, 'yellow')} - "
+                f"{colorize(service, 'cyan')}.{colorize(method, 'white')}()"
             )
         else:
             print(f"{colorize('Error:', 'red')} No result to store")
@@ -1231,7 +1139,10 @@ class InteractiveShell(cmd.Cmd):
                 method = metadata.get("method", "unknown")
 
                 # Format: name - service.method()
-                info = f"{colorize('$'+name, 'yellow')} - {colorize(service, 'cyan')}.{colorize(method, 'white')}()"
+                info = (
+                    f"{colorize('$'+name, 'yellow')} - "
+                    f"{colorize(service, 'cyan')}.{colorize(method, 'white')}()"
+                )
                 print(f"  {info}")
             return
 
@@ -1242,7 +1153,9 @@ class InteractiveShell(cmd.Cmd):
         else:
             print(f"{colorize('Error:', 'red')} Cannot resolve '{line}'")
 
-    def complete_show(self, text, line, begidx, endidx):
+    def complete_show(
+        self, text, line, begidx, endidx
+    ):  # pylint: disable=unused-argument
         """Autocomplete stored variable names for show command."""
         # Get the part being completed
         parts = line.split()
@@ -1395,79 +1308,12 @@ class InteractiveShell(cmd.Cmd):
     def emptyline(self):
         """Handle empty line."""
 
-    def do_help(self, line):
+    def do_help(self, arg):
         """Show help information."""
-        if line:
-            super().do_help(line)
+        if arg:
+            super().do_help(arg)
         else:
-            help_text = f"""
-{colorize(f'ONVIF Interactive Shell — v{__version__}', 'cyan')}\n{colorize(__repository__, 'white')}
-
-{colorize('Basic Commands:', 'yellow')}
-  capabilities, caps       - Show device capabilities
-  services                 - Show available services with details
-  info                     - Show connection and device information
-  exit                     - Exit the shell
-  shortcuts                - Show available shortcuts
-
-{colorize('Navigation Commands:', 'yellow')}
-  <service>                - Enter service mode (e.g., devicemgmt, media)
-  <service> <argument>     - Enter service mode with argument (e.g. pullpoint SubscriptionRef=<value>)
-  cd <service>             - Enter service mode (alias)
-  ls                       - List commands/services/methods in grid format
-  up                       - Exit current service mode (go up one level)
-  pwd                      - Show current service context
-  clear                    - Clear terminal screen
-  help <command>           - Show help for a specific command
-
-{colorize('Service Mode Commands:', 'yellow')}
-  desc <method>            - Show method documentation
-  type <method>            - Show input/output types from WSDL
-
-{colorize('Method Execution:', 'yellow')}
-  <method>                 - Execute method without parameters
-  <method> {{"param": "value"}}  - Execute method with JSON parameters
-  <method> param=value     - Execute method with simple parameters
-
-{colorize('Data Management:', 'yellow')}
-  store <name>             - Store last result with a name
-  show <name>              - Show stored data
-  show <name>[0]           - Show element at index (for lists)
-  show <name>.attribute    - Show specific attribute
-  show                     - List all stored data
-  rm <name>                - Remove stored data by name
-  cls                      - Clear all stored data
-
-{colorize('Using Stored Data in Methods:', 'yellow')}
-  Use $variable syntax to reference stored data in method parameters:
-  - $profiles[0].token                    - Access list element and attribute
-  - $profiles[0].VideoSourceConfiguration.SourceToken
-
-  Example:
-    GetProfiles                           - Get profiles
-    store profiles                        - Store result
-    show profiles[0].token                - Show first profile token
-    GetImagingSettings VideoSourceToken=$profiles[0].VideoSourceConfiguration.SourceToken
-
-{colorize('Debug Commands:', 'yellow')}
-  debug                    - Show last SOAP request & response (if --debug enabled)
-
-{colorize('Tab Completion:', 'yellow')}
-  Use {colorize('TAB', 'yellow')} key for auto-completion of commands, services, and methods
-  Type partial commands to see suggestions
-
-{colorize('Examples:', 'yellow')}
-  192.168.1.17:8000 > caps                # Show capabilities
-  192.168.1.17:8000 > dev<TAB>            # Completes to 'devicemgmt'
-  192.168.1.17:8000 > cd devicemgmt       # Enter device management
-  192.168.1.17:8000/devicemgmt > Get<TAB> # Show methods starting with 'Get'
-  192.168.1.17:8000/devicemgmt > GetServices {{"IncludeCapability": true}}
-  192.168.1.17:8000/devicemgmt > GetServices IncludeCapability=True
-  192.168.1.17:8000/devicemgmt > store services_info
-  192.168.1.17:8000/devicemgmt > up       # Exit service mode
-  192.168.1.17:8000 >                     # Back to root context
-            """
-            print(help_text)
+            print(INTERACTIVE_HELP)
 
     def run(self):
         """Run the interactive shell."""

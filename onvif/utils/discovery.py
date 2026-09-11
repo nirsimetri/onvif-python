@@ -15,21 +15,16 @@ logger.addHandler(logging.NullHandler())
 
 
 class ONVIFDiscovery:
-    """ONVIF Device Discovery using WS-Discovery protocol.
+    """Discover ONVIF devices using the WS-Discovery protocol.
 
-    This class provides methods to discover ONVIF-compliant devices on the local network
-    using the WS-Discovery multicast protocol.
+    This class provides methods for discovering ONVIF-compliant devices
+    on the local network using WS-Discovery multicast.
 
     Attributes:
-        WS_DISCOVERY_PORT (int): Default WS-Discovery port (3702)
-        WS_DISCOVERY_ADDRESS_IPv4 (str): Multicast address for IPv4 discovery
-
-    Example:
-        >>> from onvif import ONVIFDiscovery
-        >>> discovery = ONVIFDiscovery(timeout=5)
-        >>> devices = discovery.discover()
-        >>> for device in devices:
-        ...     print(f"Found device at {device['host']}:{device['port']}")
+        WS_DISCOVERY_PORT (int): UDP port used by WS-Discovery.
+        WS_DISCOVERY_ADDRESS_IPv4 (str): IPv4 multicast address used for discovery.
+        WS_DISCOVERY_PROBE_MESSAGE (str): SOAP probe message sent to discover devices.
+        NAMESPACES (dict[str, str]): XML namespaces used to parse WS-Discovery responses.
     """
 
     WS_DISCOVERY_PORT = 3702
@@ -69,8 +64,8 @@ class ONVIFDiscovery:
         """Initialize ONVIF Discovery.
 
         Args:
-            timeout: Discovery timeout in seconds (default: 4)
-            interface: Network interface IP to bind to (default: auto-detect)
+            timeout (int): Discovery timeout in seconds
+            interface (str | None): Network interface IP to bind to (default: auto-detect)
         """
         self.timeout = timeout
         self.interface = interface
@@ -123,29 +118,20 @@ class ONVIFDiscovery:
         """Discover ONVIF devices on the network.
 
         Args:
-            prefer_https: If True, prioritize HTTPS XAddrs when available
-            search: Optional search term to filter devices by types or scopes (case-insensitive)
+            prefer_https (bool): If True, prioritize HTTPS XAddrs when available
+            search (str | None): Optional search term to filter devices by types or scopes (case-insensitive)
 
         Returns:
-            List of discovered devices with connection information.
-            Each device is a dictionary containing:
-            - host (str): Device IP address or hostname
-            - port (int): Device port number
-            - use_https (bool): Whether device supports HTTPS
-            - epr (str): Endpoint reference
-            - types (list): Device types
-            - scopes (list): Device scopes
-            - xaddrs (list): All available XAddrs
+            List of discovered devices
 
-        Example:
-            >>> discovery = ONVIFDiscovery(timeout=5)
-            >>> devices = discovery.discover()
-            >>> for device in devices:
-            ...     print(f"{device['host']}:{device['port']}")
-
-            >>> # Filter devices by search term
-            >>> devices = discovery.discover(search="ptz")
-            >>> devices = discovery.discover(search="Hong Kong")
+        !!! abstract "Each device is a dictionary containing:"
+            - ``host`` (str): Device IP address or hostname.
+            - ``port`` (int): Device port number.
+            - ``use_https`` (bool): Whether the device supports HTTPS.
+            - ``epr`` (str): Endpoint reference.
+            - ``types`` (list): Device types.
+            - ``scopes`` (list): Device scopes.
+            - ``xaddrs`` (list): All available XAddrs.
         """
         local_ip = self.get_local_ip()
         logger.info("Starting ONVIF device discovery (timeout: %ss)", self.timeout)
@@ -240,8 +226,8 @@ class ONVIFDiscovery:
         """Parse WS-Discovery responses into device information.
 
         Args:
-            responses: List of raw XML responses
-            prefer_https: If True, prioritize HTTPS XAddrs
+            responses (list[dict[str, str]]): List of raw XML responses
+            prefer_https (bool): If True, prioritize HTTPS XAddrs
 
         Returns:
             List of parsed device information
@@ -271,8 +257,8 @@ class ONVIFDiscovery:
         """Filter devices based on search term in types or scopes.
 
         Args:
-            devices: List of discovered devices
-            search_term: Search string to match against types/scopes (case-insensitive)
+            devices (list[dict[str, Any]]): List of discovered devices
+            search_term (str): Search string to match against types/scopes (case-insensitive)
 
         Returns:
             Filtered list of devices matching the search term
@@ -306,14 +292,13 @@ class ONVIFDiscovery:
         """Parse a single WS-Discovery response.
 
         Args:
-            xml_data: Raw XML response data
-            prefer_https: If True, prioritize HTTPS XAddrs
+            xml_data (str): Raw XML response data
+            prefer_https (bool): If True, prioritize HTTPS XAddrs
 
         Returns:
             Device information dictionary or None if parsing fails
         """
         try:
-            # Use lxml's secure parser that prevents XXE attacks
             parser = etree.XMLParser(
                 resolve_entities=False,  # Disable entity resolution
                 no_network=True,  # Disable network access
@@ -384,8 +369,8 @@ class ONVIFDiscovery:
         """Parse XAddr to extract host, port, and protocol.
 
         Args:
-            device_info: Device information dictionary to update
-            prefer_https: If True, prioritize HTTPS XAddrs
+            device_info (dict[str, Any]): Device information dictionary to update
+            prefer_https (bool): If True, prioritize HTTPS XAddrs
         """
         xaddrs = device_info.get("xaddrs", [])
         if not xaddrs:

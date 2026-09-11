@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class AuthenticationBehavior(ONVIFService):
     """AuthenticationBehavior service client.
 
-    References:
-        - First introduced: ONVIF Release 18.06 (June 2018)
-        - Binding name: `AuthenticationBehaviorBinding` (ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/AuthenticationBehavior.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 18.06 (June 2018) |
+    | **Binding name** | `AuthenticationBehaviorBinding` (`ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl`) |
+    | **Operations** | [authenticationbehavior.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl) |
+    | **Specification** | [AuthenticationBehavior.xml](https://developer.onvif.org/pub/specs/branches/development/doc/AuthenticationBehavior.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class Thermal(ONVIFService):
     """Thermal service client.
 
-    References:
-    - First introduced: ONVIF Release 16.06 (June 2016)
-    - Binding name: `ThermalBinding` (ver10/thermal/wsdl/thermal.wsdl)
-    - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/thermal/wsdl/thermal.wsdl
-    - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Thermal.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 16.06 (June 2016) |
+    | **Binding name** | `ThermalBinding` (`ver10/thermal/wsdl/thermal.wsdl`) |
+    | **Operations** | [thermal.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/thermal/wsdl/thermal.wsdl) |
+    | **Specification** | [Thermal.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Thermal.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

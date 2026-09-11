@@ -6,14 +6,16 @@ import logging
 import os
 import warnings
 from enum import Enum
+from typing import Any
 
 import requests
 import urllib3
-from requests.auth import HTTPDigestAuth
 from requests import Session
+from requests.auth import HTTPDigestAuth
 from zeep import CachingClient, Client, Settings, Transport
 from zeep.cache import SqliteCache
 from zeep.exceptions import Fault
+from zeep.proxy import ServiceProxy
 from zeep.wsse.username import UsernameToken
 
 from onvif.utils import ONVIFOperationException, ZeepPatcher
@@ -29,7 +31,7 @@ class CacheMode(Enum):
     and disk storage. Choose based on your application's requirements.
 
     Attributes:
-        ALL: Maximum performance with both memory and disk caching
+        ALL : Maximum performance with both memory and disk caching
         DB: Disk-only caching for persistent storage
         MEM: Memory-only caching for temporary sessions
         NONE: No caching, always fetch fresh WSDLs
@@ -63,21 +65,25 @@ class ONVIFOperator:
     This class handles the actual SOAP communication with ONVIF devices. It manages
     WSDL loading, service binding, authentication, caching, and error handling.
 
-    ONVIFOperator is typically used internally by service classes (Device, Media, PTZ, etc.)
-    and is not meant to be instantiated directly by end users. Use ONVIFClient instead.
+    !!! danger
+        ``ONVIFOperator`` is typically used internally by service classes
+        such as Device, Media, and PTZ, and is not intended to be
+        instantiated directly by end users.
+
+        Use [`ONVIFClient`](onvif_client.md) instead.
 
     Attributes:
         wsdl_path (str): Path to the WSDL file
         host (str): Device hostname or IP address
         port (int): Device port number
-        username (str): ONVIF username
-        password (str): ONVIF password
+        username (str | None): ONVIF username
+        password (str | None): ONVIF password
         http_digest (bool): Whether to use HTTP Digest or WS-Usernametoken for auth
         timeout (int): Request timeout in seconds
-        apply_patch (bool): Whether to apply xsd:any flattening patch
+        apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
         address (str): Service endpoint URL (XAddr)
-        client: Zeep SOAP client instance
-        service: Zeep service proxy for making SOAP calls
+        client (ClientType): Zeep SOAP client instance
+        service (ServiceProxy): Zeep service proxy for making SOAP calls
         service_name (str): Name of the ONVIF service (e.g., "Device", "Media")
     """
 
@@ -105,27 +111,27 @@ class ONVIFOperator:
         )
 
         self.wsdl_path: str = wsdl_path
-        self.http_digest: bool = http_digest
         self.host: str = host
         self.port: int = port
         self.username: str | None = username
         self.password: str | None = password
+        self.http_digest: bool = http_digest
         self.timeout: int = timeout
         self.apply_patch: bool = apply_patch
 
         if xaddr:
-            self.address = xaddr
+            self.address: str = xaddr
         else:
             protocol = "https" if use_https else "http"
             path = service_path or "device_service"  # default fallback
-            self.address = f"{protocol}://{host}:{port}/onvif/{path}"
+            self.address = f"{protocol}://{self.host}:{self.port}/onvif/{path}"
 
         logger.debug("Service endpoint: %s", self.address)
 
         # Session reuse with retry strategy
         session: Session = self._create_session(verify_ssl=verify_ssl)
 
-        transport_kwargs = {"session": session, "operation_timeout": timeout}
+        transport_kwargs = {"session": session, "operation_timeout": self.timeout}
 
         if cache in (CacheMode.DB, CacheMode.ALL):
             if cache_path is None:
@@ -164,8 +170,10 @@ class ONVIFOperator:
         if not binding:
             raise ValueError("Bindings must be set according to the WSDL service")
 
-        self.service = self.client.create_service(binding, self.address)
-        self.service_name = binding.split("}")[-1].replace(
+        self.service: ServiceProxy = self.client.create_service(
+            binding_name=binding, address=self.address
+        )
+        self.service_name: str = binding.split("}")[-1].replace(
             "Binding", ""
         )  # Store cleaned service name for logging context
         logger.info("ONVIFOperator initialized %s at %s", binding, self.address)
@@ -197,8 +205,8 @@ class ONVIFOperator:
             logger.debug("Configuring HTTP Digest authentication")
 
             session.auth = HTTPDigestAuth(
-                self.username,
-                self.password,
+                username=self.username,
+                password=self.password,
             )
 
         return session
@@ -220,25 +228,25 @@ class ONVIFOperator:
         logger.debug("Configuring WS-Security UsernameToken authentication")
 
         return UsernameToken(
-            self.username,
-            self.password,
+            username=self.username,
+            password=self.password,
             use_digest=True,
         )
 
-    def call(self, method: str, *args, **kwargs):
+    def call(self, method: str, *args, **kwargs) -> Any:
         """Call an ONVIF service operation.
 
         This method invokes a SOAP operation on the ONVIF device service and handles
-        errors gracefully. It automatically flattens xsd:any fields in the response
-        when apply_patch is enabled.
+        errors gracefully. It automatically flattens `xsd:any` fields in the response
+        when `apply_patch` is enabled.
 
         Args:
             method: Name of the ONVIF operation to call (e.g., "GetDeviceInformation")
-            *args: Positional arguments to pass to the operation
-            **kwargs: Keyword arguments to pass to the operation
+            *args (any): Positional arguments to pass to the operation
+            **kwargs (any): Keyword arguments to pass to the operation
 
         Returns:
-            The operation result, with xsd:any fields flattened if apply_patch=True
+            out: The operation result with `xsd:any` fields flattened if `apply_patch=True`
 
         Raises:
             ONVIFOperationException: If the operation fails (wraps original exception)
@@ -264,7 +272,7 @@ class ONVIFOperator:
         except Exception as e:
             raise ONVIFOperationException(operation=method, original_exception=e) from e
 
-    def create_type(self, type_name: str):
+    def create_type(self, type_name: str) -> Any:
         """Create a type instance from WSDL schema for the given type name.
 
         Recursively initializes nested complex types so that fields like TimeZone, DateTime,

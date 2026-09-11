@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class PullPoint(ONVIFService):
     """Events (PullPoint) service client.
 
-    References:
-        - ONVIF Core
-        - Binding name: `PullPointSubscriptionBinding` (ver10/events/wsdl/event-vs.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Core |
+    | **Binding name** | `PullPointSubscriptionBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
+    | **Operations** | [event-vs.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event-vs.wsdl) |
+    | **Specification** | [Core.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

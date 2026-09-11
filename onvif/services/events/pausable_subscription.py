@@ -14,10 +14,10 @@ class PausableSubscription(ONVIFService):
     Support for the Pausable Subscription Manager Interface is optional for
     ONVIF devices.
 
-    References:
-        - ONVIF Core Specification
-        - OASIS WS-BaseNotification Specification
-        - Binding name: `PausableSubscriptionManagerBinding` (ver10/events/wsdl/event-vs.wsdl)
+    | Property | Details |
+    | --- | --- |
+    | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
+    | **Binding name** | `PausableSubscriptionManagerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

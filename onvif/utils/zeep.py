@@ -164,8 +164,7 @@ class ZeepPatcher:
 
     @staticmethod
     def parse_text_value(value):
-        """
-        Parse text value with type conversion.
+        """Parse text value with type conversion.
 
         Converts:
         - "true"/"false" → bool
@@ -195,8 +194,7 @@ class ZeepPatcher:
 
     @staticmethod
     def _parse_element_recursive(element):
-        """
-        Recursively parse an XML element and its children into a dictionary.
+        """Recursively parse an XML element and its children into a dictionary.
 
         Handles:
         - Elements with attributes only (converted to dict)
@@ -244,8 +242,7 @@ class ZeepPatcher:
 
     @staticmethod
     def _zeep_object_to_dict(obj):
-        """
-        Convert zeep object to dictionary, including manually added attributes.
+        """Convert zeep object to dictionary, including manually added attributes.
 
         Args:
             obj: Zeep object or primitive value
@@ -282,8 +279,8 @@ class ZeepPatcher:
 
     @staticmethod
     def flatten_xsd_any_fields(obj, _visited=None):
-        """
-        Post-process zeep objects to flatten xsd:any fields (_value_1, _value_2, etc.) into the main object.
+        """Post-process zeep objects to flatten xsd:any fields (_value_1, _value_2,
+        etc.) into the main object.
 
         Zeep uses _value_N fields to store parsed content from xsd:any elements. This function:
         1. Extracts the parsed data from _value_N (which is initially a dict)
@@ -534,8 +531,7 @@ class ZeepPatcher:
     def _patched_parse_xmlelements(
         self, xmlelements, schema, name=None, context=None
     ):  # pylint: disable=bad-staticmethod-argument,unused-argument
-        """
-        Patched version of zeep's Any.parse_xmlelements method.
+        """Patched version of zeep's Any.parse_xmlelements method.
 
         This method parses xsd:any fields into structured dictionaries instead of
         leaving them as raw XML elements, making them easier to work with.
@@ -648,8 +644,7 @@ class ZeepPatcher:
 
     @classmethod
     def apply_patch(cls):
-        """
-        Inject the custom parse_xmlelements method into zeep.xsd.elements.any.Any.
+        """Inject the custom parse_xmlelements method into zeep.xsd.elements.any.Any.
 
         This enables better parsing of xsd:any fields in ONVIF SOAP responses.
         Should be called once at application startup.
@@ -669,8 +664,7 @@ class ZeepPatcher:
 
     @classmethod
     def remove_patch(cls):
-        """
-        Restore the original parse_xmlelements method.
+        """Restore the original parse_xmlelements method.
 
         Reverts zeep to its original behavior. Useful for testing or debugging.
 
@@ -688,8 +682,7 @@ class ZeepPatcher:
 
     @classmethod
     def is_patched(cls):
-        """
-        Check if the patch is currently applied.
+        """Check if the patch is currently applied.
 
         Returns:
             bool: True if patch is active, False otherwise

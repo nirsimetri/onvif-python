@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class Device(ONVIFService):
     """Device service client.
 
-    References:
-        - ONVIF Core
-        - Binding name: `DeviceBinding` (ver10/device/wsdl/devicemgmt.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Core |
+    | **Binding name** | `DeviceBinding` (`ver10/device/wsdl/devicemgmt.wsdl`) |
+    | **Operations** | [devicemgmt.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl) |
+    | **Specification** | [Core.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -25,10 +26,6 @@ class Device(ONVIFService):
             **kwargs,
         )
 
-    def GetServices(self, IncludeCapability):
-        """Returns information about services on the device."""
-        return self.operator.call("GetServices", IncludeCapability=IncludeCapability)
-
     def GetServiceCapabilities(self):
         """Returns the capabilities of the device service.
 
@@ -36,9 +33,48 @@ class Device(ONVIFService):
         """
         return self.operator.call("GetServiceCapabilities")
 
+    def GetCapabilities(self, Category=None):
+        """This method has been replaced by the more generic GetServices method.
+
+        For capabilities of individual services refer to the GetServiceCapabilities
+        methods.
+        """
+        return self.operator.call("GetCapabilities", Category=Category)
+
+    def GetServices(self, IncludeCapability):
+        """Returns information about services on the device."""
+        return self.operator.call("GetServices", IncludeCapability=IncludeCapability)
+
     def GetDeviceInformation(self):
         """This operation gets basic device information from the device."""
         return self.operator.call("GetDeviceInformation")
+
+    def SendAuxiliaryCommand(self, AuxiliaryCommand):
+        """Manage auxiliary commands supported by a device, such as controlling an
+        Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to
+        the device.
+
+        The supported commands can be retrieved via the AuxiliaryCommands capability.
+
+        Although the name of the auxiliary commands can be freely defined, commands
+        starting with the prefix tt: are reserved to define frequently used commands and
+        these reserved commands shall all share the "tt:command|parameter" syntax.
+
+        - tt:Wiper|On - Request to start the wiper.
+        - tt:Wiper|Off - Request to stop the wiper.
+        - tt:Washer|On - Request to start the washer.
+        - tt:Washer|Off - Request to stop the washer.
+        - tt:WashingProcedure|On - Request to start the washing procedure.
+        - tt: WashingProcedure |Off - Request to stop the washing procedure.
+        - tt:IRLamp|On - Request to turn ON an IR illuminator attached to the unit.
+        - tt:IRLamp|Off - Request to turn OFF an IR illuminator attached to the unit.
+        - tt:IRLamp|Auto - Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.
+
+        A device that indicates auxiliary service capability shall support this command.
+        """
+        return self.operator.call(
+            "SendAuxiliaryCommand", AuxiliaryCommand=AuxiliaryCommand
+        )
 
     def SetSystemDateAndTime(
         self, DateTimeType, DaylightSavings, TimeZone=None, UTCDateTime=None
@@ -403,13 +439,10 @@ class Device(ONVIFService):
             MaxAuthFailures=MaxAuthFailures,
         )
 
-    def GetCapabilities(self, Category=None):
-        """This method has been replaced by the more generic GetServices method.
-
-        For capabilities of individual services refer to the GetServiceCapabilities
-        methods.
-        """
-        return self.operator.call("GetCapabilities", Category=Category)
+    def SetHashingAlgorithm(self, Algorithm):
+        """This operation sets the hashing algorithm(s) used in HTTP and RTSP Digest
+        Authentication."""
+        return self.operator.call("SetHashingAlgorithm", Algorithm=Algorithm)
 
     def SetDPAddresses(self, DPAddress=None):
         """This operation sets the remote DP address or addresses on a device.
@@ -745,33 +778,6 @@ class Device(ONVIFService):
             LogicalState=LogicalState,
         )
 
-    def SendAuxiliaryCommand(self, AuxiliaryCommand):
-        """Manage auxiliary commands supported by a device, such as controlling an
-        Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to
-        the device.
-
-        The supported commands can be retrieved via the AuxiliaryCommands capability.
-
-        Although the name of the auxiliary commands can be freely defined, commands
-        starting with the prefix tt: are reserved to define frequently used commands and
-        these reserved commands shall all share the "tt:command|parameter" syntax.
-
-        - tt:Wiper|On - Request to start the wiper.
-        - tt:Wiper|Off - Request to stop the wiper.
-        - tt:Washer|On - Request to start the washer.
-        - tt:Washer|Off - Request to stop the washer.
-        - tt:WashingProcedure|On - Request to start the washing procedure.
-        - tt: WashingProcedure |Off - Request to stop the washing procedure.
-        - tt:IRLamp|On - Request to turn ON an IR illuminator attached to the unit.
-        - tt:IRLamp|Off - Request to turn OFF an IR illuminator attached to the unit.
-        - tt:IRLamp|Auto - Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.
-
-        A device that indicates auxiliary service capability shall support this command.
-        """
-        return self.operator.call(
-            "SendAuxiliaryCommand", AuxiliaryCommand=AuxiliaryCommand
-        )
-
     def CreateDot1XConfiguration(self, Dot1XConfiguration):
         """This operation creates a new 802.1X configuration on the device."""
         return self.operator.call(
@@ -958,8 +964,3 @@ class Device(ONVIFService):
     def DeleteGeoLocation(self, Location):
         """This operation deletes the given geo location entries."""
         return self.operator.call("DeleteGeoLocation", Location=Location)
-
-    def SetHashingAlgorithm(self, Algorithm):
-        """This operation sets the hashing algorithm(s) used in HTTP and RTSP Digest
-        Authentication."""
-        return self.operator.call("SetHashingAlgorithm", Algorithm=Algorithm)

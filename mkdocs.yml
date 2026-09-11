@@ -1,0 +1,140 @@
+site_name: onvif-python
+site_description: A modern Python library for ONVIF-compliant devices
+site_url: https://nirsimetri.github.io/onvif-python/
+repo_url: https://github.com/nirsimetri/onvif-python
+repo_name: nirsimetri/onvif-python
+use_directory_urls: true
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  logo: assets/nirsimetri-light.svg
+  favicon: assets/nirsimetri-dark.svg
+  font:
+    text: Manrope
+    code: JetBrains Mono
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+  palette:
+      - media: "(prefers-color-scheme: light)"
+        scheme: default
+        toggle:
+          icon: material/weather-night
+          name: Switch to dark mode
+
+      - media: "(prefers-color-scheme: dark)"
+        scheme: slate
+        toggle:
+          icon: material/weather-sunny
+          name: Switch to light mode
+
+nav:
+  - About: index.md
+  - Philosophy: philosophy.md
+  - Installation: installation.md
+  - Quick Start: quick_start.md
+  - Cores:
+    - ONVIF Client: core/onvif_client.md
+    - ONVIF Discovery: core/onvif_discovery.md
+    - ONVIF CLI: core/onvif_cli.md
+  - Utilities:
+    - Helper Methods: utilities/helper_methods.md
+  - References:
+    - ONVIF Profiles: references/supported_profiles.md
+    - ONVIF Services:
+      - Coverage: references/implemented_services.md
+      - Service Discovery: references/service_discovery.md
+      - Service Bindings: references/service_bindings.md
+  - API:
+    - Cores:
+      - ONVIFClient: api/cores/onvif_client.md
+      - ONVIFOperator: api/cores/onvif_operator.md
+      - ONVIFDiscovery: api/cores/onvif_discovery.md
+      - ONVIFWSDL: api/cores/onvif_wsdl.md
+    - Exceptions:
+      - ONVIFOperationException: api/cores/onvif_exception.md
+      - ONVIFErrorHandler: api/cores/onvif_error_handler.md
+    - Services:
+      - Device: api/services/device.md
+      - Events:
+        - Events: api/services/events.md
+        - PullPoint: api/services/pullpoint.md
+        - Notification: api/services/notification.md
+        - Subscription: api/services/subscription.md
+        - PausableSubscription: api/services/pausable_subscription.md
+      - Imaging: api/services/imaging.md
+      - Media: api/services/media.md
+      - Media2: api/services/media2.md
+      - PTZ: api/services/ptz.md
+      - DeviceIO: api/services/deviceio.md
+      - Display: api/services/display.md
+      - Analytics:
+        - Analytics: api/services/analytics.md
+        - RuleEngine: api/services/ruleengine.md
+      - AnalyticsDevice: api/services/analyticsdevice.md
+      - AccessControl: api/services/accesscontrol.md
+      - DoorControl: api/services/doorcontrol.md
+      - AccessRules: api/services/accessrules.md
+      - ActionEngine: api/services/actionengine.md
+      - AppManagement: api/services/appmgmt.md
+      - AuthenticationBehavior: api/services/authenticationbehavior.md
+      - Credential: api/services/credential.md
+      - Recording: api/services/recording.md
+      - Search: api/services/search.md
+      - Replay: api/services/replay.md
+      - Provisioning: api/services/provisioning.md
+      - Receiver: api/services/receiver.md
+      - Schedule: api/services/schedule.md
+      - Thermal: api/services/thermal.md
+      - Uplink: api/services/uplink.md
+      - Security:
+        - AdvancedSecurity: api/services/advancedsecurity.md
+        - AuthorizationServer: api/services/authorizationserver.md
+        - Dot1x: api/services/dot1x.md
+        - JWT: api/services/jwt.md
+        - KeyStore: api/services/keystore.md
+        - MediaSigning: api/services/mediasigning.md
+        - TLSServer: api/services/tlsserver.md
+  - Legals:
+    - Legal Notice: legal/legal_notice.md
+    - License: legal/license.md
+  - Project:
+    - Roadmap: roadmap.md
+    - Used By: used_by.md
+    - Externals: externals.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: false
+            docstring_style: google
+            show_root_full_path: false
+            show_root_toc_entry: false
+            show_signature_annotations: true
+
+markdown_extensions:
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/marked/marked.min.js
+  - javascripts/github-releases.js
+  - javascripts/external-links.js
+
+copyright: Copyright &copy; 2026 &nbsp;—&nbsp; <a href="https://github.com/nirsimetri"><b>Nirsimetri Technologies®</b></a>

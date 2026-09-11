@@ -8,11 +8,12 @@ from onvif.utils import ONVIFWSDL, ONVIFService
 class DoorControl(ONVIFService):
     """DoorControl service client.
 
-    References:
-        - First introduced: ONVIF Release 2.3 (May 2013)
-        - Binding name: `DoorControlBinding` (ver10/pacs/doorcontrol.wsdl)
-        - Operations: https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/doorcontrol.wsdl
-        - Specs: https://developer.onvif.org/pub/specs/branches/development/doc/DoorControl.xml
+    | Property | Details |
+    | --- | --- |
+    | **First introduced** | ONVIF Release 2.3 (May 2013) |
+    | **Binding name** | `DoorControlBinding` (`ver10/pacs/doorcontrol.wsdl`) |
+    | **Operations** | [doorcontrol.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/doorcontrol.wsdl) |
+    | **Specification** | [DoorControl.xml](https://developer.onvif.org/pub/specs/branches/development/doc/DoorControl.xml) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from functools import wraps
+from typing import ParamSpec, TypeVar
 from urllib.parse import urlparse, urlunparse
+
+from lxml import etree
 
 from onvif.operator import CacheMode
 from onvif.services import (
@@ -52,39 +56,49 @@ from onvif.utils import (
     XMLCapturePlugin,
     ZeepPatcher,
 )
+from onvif.utils.plugins import ReferenceParametersPlugin
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
+P = ParamSpec("P")
+R = TypeVar("R")
 
-def service(func):
-    """Decorator to wrap service accessor methods with ONVIFOperationException handling.
+
+def service(func: Callable[P, R]) -> Callable[P, R]:
+    """Decorator to wrap service accessor methods with `ONVIFOperationException` handling.
 
     This decorator catches any exception raised during service initialization and
-    wraps it in ONVIFOperationException for consistent error handling across all
+    wraps it in `ONVIFOperationException` for consistent error handling across all
     ONVIF client service accessors.
 
     Args:
-        func: Service accessor method to wrap
+        func: Service accessor method to wrap.
 
     Returns:
-        Wrapped function that handles exceptions
+        Wrapped service accessor method.
 
     Raises:
-        ONVIFOperationException: If service initialization fails
+        ONVIFOperationException: If service initialization fails.
     """
 
     @wraps(func)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
-            return func(self, *args, **kwargs)
+            return func(*args, **kwargs)
         except ONVIFOperationException as oe:
-            # Re-raise ONVIFOperationException as-is to avoid double-wrapping
-            logger.error("Service initialization failed in %s: %s", func.__name__, oe)
+            logger.error(
+                "Service initialization failed in %s: %s",
+                func.__name__,
+                oe,
+            )
             raise
         except Exception as e:
-            # Wrap any other exception in ONVIFOperationException
-            logger.error("Service initialization failed in %s: %s", func.__name__, e)
+            logger.error(
+                "Service initialization failed in %s: %s",
+                func.__name__,
+                e,
+            )
             raise ONVIFOperationException(func.__name__, e) from e
 
     return wrapper
@@ -101,10 +115,10 @@ class ONVIFClient:
     or GetCapabilities, and provides lazy initialization for service endpoints.
 
     Attributes:
-        services: List of available services from GetServices response
-        capabilities: Device capabilities from GetCapabilities response (fallback)
-        xml_plugin: XML capture plugin for debugging (if capture_xml=True)
-        wsdl_dir: Custom WSDL directory path (if provided)
+        services (list): List of available services from GetServices response
+        capabilities (CompoundValue): Device capabilities from GetCapabilities response (fallback)
+        xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if capture_xml=True)
+        wsdl_dir (str | None): Custom WSDL directory path (if provided)
     """
 
     def __init__(
@@ -123,6 +137,24 @@ class ONVIFClient:
         wsdl_dir: str | None = None,
         plugins: list | None = None,
     ):
+        """Initialize the ONVIF client.
+
+        Args:
+            host (str): Device hostname or IP address
+            port (int): Device port number
+            username (str | None): ONVIF username
+            password (str | None): ONVIF password
+            http_digest (bool): Whether to use **HTTP Digest** or **WS-Usernametoken** for auth
+            timeout (int): Request timeout in seconds
+            cache (CacheMode): WSDL caching strategy
+            use_https (bool): Use HTTPS instead of HTTP for secure communication
+            verify_ssl (bool): Whether SSL certificates should be verified
+            apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
+            capture_xml (bool): Whether to use XML capture plugin for debugging SOAP requests/responses
+            wsdl_dir (str | None): Custom WSDL directory path for using external WSDL files instead of built-in ones
+            plugins (list | None): List of enabled Zeep plugins
+        """
+
         logger.info("Initializing ONVIF client for %s:%d", host, port)
         logger.debug(
             "Connection settings: HTTPS=%s, SSL_verify=%s, cache=%s, timeout=%ds",
@@ -202,16 +234,13 @@ class ONVIFClient:
         # Lazy init for other services
 
         self._events: Events | None = None
-        self._pullpoints: dict[str, PullPoint] = (
-            {}
-        )  # Dictionary for multiple PullPoint instances
+        # Dictionary for multiple PullPoint instances
+        self._pullpoints: dict[str, PullPoint] = {}
         self._notification: Notification | None = None
-        self._subscriptions: dict[str, Subscription] = (
-            {}
-        )  # Dictionary for multiple Subscription instances
-        self._pausable_subscriptions: dict[str, PausableSubscription] = (
-            {}
-        )  # Dictionary for multiple PausableSubscription instances
+        # Dictionary for multiple Subscription instances
+        self._subscriptions: dict[str, Subscription] = {}
+        # Dictionary for multiple PausableSubscription instances
+        self._pausable_subscriptions: dict[str, PausableSubscription] = {}
 
         self._imaging: Imaging | None = None
 
@@ -266,7 +295,7 @@ class ONVIFClient:
 
     def _get_xaddr(
         self, service_name: str, service_path: str
-    ):  # pylint: disable=too-many-branches
+    ) -> str:  # pylint: disable=too-many-branches
         """Resolve XAddr for ONVIF services using a comprehensive 3-tier discovery
         approach.
 
@@ -373,7 +402,7 @@ class ONVIFClient:
         logger.warning("Using default URL for %s: %s", service_name, default_url)
         return default_url
 
-    def _rewrite_xaddr_if_needed(self, xaddr: str):
+    def _rewrite_xaddr_if_needed(self, xaddr: str) -> str:
         """Rewrite XAddr to use client's host/port if different from device's."""
         try:
             parsed = urlparse(xaddr)
@@ -385,14 +414,27 @@ class ONVIFClient:
             if (device_host != connect_host) or (device_port != connect_port):
                 protocol = "https" if self.common_args["use_https"] else "http"
                 new_netloc = f"{connect_host}:{connect_port}"
-                rewritten = urlunparse((protocol, new_netloc, parsed.path, "", "", ""))
+                rewritten = urlunparse(
+                    (
+                        protocol,
+                        new_netloc,
+                        parsed.path,
+                        parsed.params,
+                        parsed.query,
+                        parsed.fragment,
+                    )
+                )
                 logger.debug("Rewritten XAddr: %s -> %s", xaddr, rewritten)
                 return rewritten
 
             logger.debug("XAddr unchanged: %s", xaddr)
             return xaddr
         except (ValueError, TypeError, KeyError) as e:
-            logger.warning("Failed to parse XAddr %s, returning as-is: %s", xaddr, e)
+            logger.warning(
+                "Failed to parse XAddr %s, returning as-is: %s",
+                xaddr,
+                e,
+            )
             return xaddr
 
     def _configure_patches(self, apply_patch: bool) -> None:
@@ -427,7 +469,7 @@ class ONVIFClient:
     # Core (Device Management)
 
     @service
-    def devicemgmt(self):
+    def devicemgmt(self) -> Device:
         """Access the Device Management service."""
         if self._devicemgmt is None:
             logger.debug("Initializing Device Management service")
@@ -436,8 +478,66 @@ class ONVIFClient:
 
     # Core (Events)
 
+    def _get_subscription_service(
+        self,
+        subscription_ref,
+        service_class,
+        cache,
+    ):
+        """Get a service from a subscription reference."""
+        subscription_reference = subscription_ref["SubscriptionReference"]
+
+        addr_obj = subscription_reference["Address"]
+        xaddr = (
+            addr_obj["_value_1"]
+            if isinstance(addr_obj, dict)
+            else addr_obj._value_1  # pylint: disable=protected-access
+        )
+
+        if not xaddr:
+            raise RuntimeError(
+                "SubscriptionReference.Address missing in subscription response"
+            )
+
+        xaddr = self._rewrite_xaddr_if_needed(xaddr)
+
+        reference_parameters = subscription_reference.ReferenceParameters
+
+        if reference_parameters is None:
+            reference_parameters = []
+        else:
+            reference_parameters = (
+                reference_parameters._value_1  # pylint: disable=protected-access
+            )
+
+        plugins = list(self.common_args.get("plugins") or [])
+
+        if reference_parameters:
+            plugins.append(ReferenceParametersPlugin(reference_parameters))
+
+        service_args = {
+            **self.common_args,
+            "plugins": plugins,
+        }
+
+        cache_key = (
+            xaddr,
+            tuple(
+                etree.tostring(parameter, encoding="unicode")
+                for parameter in reference_parameters
+            ),
+        )
+
+        if cache_key not in cache:
+            cache[cache_key] = service_class(
+                xaddr=xaddr,
+                **service_args,
+            )
+
+        return cache[cache_key]
+
     @service
-    def events(self):
+    def events(self) -> Events:
         """Access the Events service."""
         if self._events is None:
             logger.debug("Initializing Events service")
@@ -447,30 +547,17 @@ class ONVIFClient:
         return self._events
 
     @service
-    def pullpoint(self, SubscriptionRef):  # pylint: disable=invalid-name
+    def pullpoint(self, SubscriptionRef) -> PullPoint:  # pylint: disable=invalid-name
         """Access the PullPoint service."""
         logger.debug("Initializing PullPoint service")
-        xaddr = None
-        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-            xaddr = addr_obj["_value_1"]
-        elif hasattr(addr_obj, "_value_1"):
-            xaddr = addr_obj._value_1  # pylint: disable=protected-access
-
-        xaddr = self._rewrite_xaddr_if_needed(xaddr)
-
-        if not xaddr:
-            raise RuntimeError(
-                "SubscriptionReference.Address missing in subscription response"
-            )
-
-        if xaddr not in self._pullpoints:
-            self._pullpoints[xaddr] = PullPoint(xaddr=xaddr, **self.common_args)
-
-        return self._pullpoints[xaddr]
+        return self._get_subscription_service(
+            SubscriptionRef,
+            PullPoint,
+            self._pullpoints,
+        )
 
     @service
-    def notification(self):
+    def notification(self) -> Notification:
         """Access the Notification service."""
         if self._notification is None:
             logger.debug("Initializing Notification service")
@@ -480,57 +567,33 @@ class ONVIFClient:
         return self._notification
 
     @service
-    def subscription(self, SubscriptionRef):  # pylint: disable=invalid-name
+    def subscription(
+        self, SubscriptionRef  # pylint: disable=invalid-name
+    ) -> Subscription:
         """Access the Subscription service."""
         logger.debug("Initializing Subscription service")
-        xaddr = None
-        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-            xaddr = addr_obj["_value_1"]
-        elif hasattr(addr_obj, "_value_1"):
-            xaddr = addr_obj._value_1  # pylint: disable=protected-access
-
-        xaddr = self._rewrite_xaddr_if_needed(xaddr)
-
-        if not xaddr:
-            raise RuntimeError(
-                "SubscriptionReference.Address missing in subscription response"
-            )
-
-        if xaddr not in self._subscriptions:
-            self._subscriptions[xaddr] = Subscription(xaddr=xaddr, **self.common_args)
-
-        return self._subscriptions[xaddr]
+        return self._get_subscription_service(
+            SubscriptionRef,
+            Subscription,
+            self._subscriptions,
+        )
 
     @service
-    def pausable_subscription(self, SubscriptionRef):  # pylint: disable=invalid-name
+    def pausable_subscription(
+        self, SubscriptionRef  # pylint: disable=invalid-name
+    ) -> PausableSubscription:
         """Access the PausableSubscription service."""
         logger.debug("Initializing PausableSubscription service")
-        xaddr = None
-        addr_obj = SubscriptionRef["SubscriptionReference"]["Address"]
-        if isinstance(addr_obj, dict) and "_value_1" in addr_obj:
-            xaddr = addr_obj["_value_1"]
-        elif hasattr(addr_obj, "_value_1"):
-            xaddr = addr_obj._value_1  # pylint: disable=protected-access
-
-        xaddr = self._rewrite_xaddr_if_needed(xaddr)
-
-        if not xaddr:
-            raise RuntimeError(
-                "SubscriptionReference.Address missing in subscription response"
-            )
-
-        if xaddr not in self._pausable_subscriptions:
-            self._pausable_subscriptions[xaddr] = PausableSubscription(
-                xaddr=xaddr, **self.common_args
-            )
-
-        return self._pausable_subscriptions[xaddr]
+        return self._get_subscription_service(
+            SubscriptionRef,
+            PausableSubscription,
+            self._pausable_subscriptions,
+        )
 
     # Imaging
 
     @service
-    def imaging(self):
+    def imaging(self) -> Imaging:
         """Access the Imaging service."""
         if self._imaging is None:
             logger.debug("Initializing Imaging service")
@@ -542,7 +605,7 @@ class ONVIFClient:
     # Media
 
     @service
-    def media(self):
+    def media(self) -> Media:
         """Access the Media service."""
         if self._media is None:
             logger.debug("Initializing Media service")
@@ -552,7 +615,7 @@ class ONVIFClient:
         return self._media
 
     @service
-    def media2(self):
+    def media2(self) -> Media2:
         """Access the Media2 service."""
         if self._media2 is None:
             logger.debug("Initializing Media2 service")
@@ -564,7 +627,7 @@ class ONVIFClient:
     # PTZ
 
     @service
-    def ptz(self):
+    def ptz(self) -> PTZ:
         """Access the PTZ service."""
         if self._ptz is None:
             logger.debug("Initializing PTZ service")
@@ -574,7 +637,7 @@ class ONVIFClient:
     # DeviceIO
 
     @service
-    def deviceio(self):
+    def deviceio(self) -> DeviceIO:
         """Access the DeviceIO service."""
         if self._deviceio is None:
             logger.debug("Initializing DeviceIO service")
@@ -586,7 +649,7 @@ class ONVIFClient:
     # Display
 
     @service
-    def display(self):
+    def display(self) -> Display:
         """Access the Display service."""
         if self._display is None:
             logger.debug("Initializing Display service")
@@ -598,7 +661,7 @@ class ONVIFClient:
     # Analytics
 
     @service
-    def analytics(self):
+    def analytics(self) -> Analytics:
         """Access the Analytics service."""
         if self._analytics is None:
             logger.debug("Initializing Analytics service")
@@ -608,7 +671,7 @@ class ONVIFClient:
         return self._analytics
 
     @service
-    def ruleengine(self):
+    def ruleengine(self) -> RuleEngine:
         """Access the RuleEngine service."""
         if self._ruleengine is None:
             logger.debug("Initializing RuleEngine service")
@@ -618,7 +681,7 @@ class ONVIFClient:
         return self._ruleengine
 
     @service
-    def analyticsdevice(self):
+    def analyticsdevice(self) -> AnalyticsDevice:
         """Access the AnalyticsDevice service."""
         if self._analyticsdevice is None:
             logger.debug("Initializing AnalyticsDevice service")
@@ -631,7 +694,7 @@ class ONVIFClient:
     # PACS
 
     @service
-    def accesscontrol(self):
+    def accesscontrol(self) -> AccessControl:
         """Access the AccessControl service."""
         if self._accesscontrol is None:
             logger.debug("Initializing AccessControl service")
@@ -642,7 +705,7 @@ class ONVIFClient:
         return self._accesscontrol
 
     @service
-    def doorcontrol(self):
+    def doorcontrol(self) -> DoorControl:
         """Access the DoorControl service."""
         if self._doorcontrol is None:
             logger.debug("Initializing DoorControl service")
@@ -654,7 +717,7 @@ class ONVIFClient:
     # AccessRules
 
     @service
-    def accessrules(self):
+    def accessrules(self) -> AccessRules:
         """Access the AccessRules service."""
         if self._accessrules is None:
             logger.debug("Initializing AccessRules service")
@@ -666,7 +729,7 @@ class ONVIFClient:
     # ActionEngine
 
     @service
-    def actionengine(self):
+    def actionengine(self) -> ActionEngine:
         """Access the ActionEngine service."""
         if self._actionengine is None:
             logger.debug("Initializing ActionEngine service")
@@ -679,7 +742,7 @@ class ONVIFClient:
     # AppManagement
 
     @service
-    def appmanagement(self):
+    def appmanagement(self) -> AppManagement:
         """Access the AppManagement service."""
         if self._appmanagement is None:
             logger.debug("Initializing AppManagement service")
@@ -692,7 +755,7 @@ class ONVIFClient:
     # AuthenticationBehavior
 
     @service
-    def authenticationbehavior(self):
+    def authenticationbehavior(self) -> AuthenticationBehavior:
         """Access the AuthenticationBehavior service."""
         if self._authenticationbehavior is None:
             logger.debug("Initializing AuthenticationBehavior service")
@@ -707,7 +770,7 @@ class ONVIFClient:
     # Credential
 
     @service
-    def credential(self):
+    def credential(self) -> Credential:
         """Access the Credential service."""
         if self._credential is None:
             logger.debug("Initializing Credential service")
@@ -720,7 +783,7 @@ class ONVIFClient:
     # Recording
 
     @service
-    def recording(self):
+    def recording(self) -> Recording:
         """Access the Recording service."""
         if self._recording is None:
             logger.debug("Initializing Recording service")
@@ -733,7 +796,7 @@ class ONVIFClient:
     # Replay
 
     @service
-    def replay(self):
+    def replay(self) -> Replay:
         """Access the Replay service."""
         if self._replay is None:
             logger.debug("Initializing Replay service")
@@ -746,7 +809,7 @@ class ONVIFClient:
     # Provisioning
 
     @service
-    def provisioning(self):
+    def provisioning(self) -> Provisioning:
         """Access the Provisioning service."""
         if self._provisioning is None:
             logger.debug("Initializing Provisioning service")
@@ -759,7 +822,7 @@ class ONVIFClient:
     # Receiver
 
     @service
-    def receiver(self):
+    def receiver(self) -> Receiver:
         """Access the Receiver service."""
         if self._receiver is None:
             logger.debug("Initializing Receiver service")
@@ -772,7 +835,7 @@ class ONVIFClient:
     # Schedule
 
     @service
-    def schedule(self):
+    def schedule(self) -> Schedule:
         """Access the Schedule service."""
         if self._schedule is None:
             logger.debug("Initializing Schedule service")
@@ -785,7 +848,7 @@ class ONVIFClient:
     # Search Recording
 
     @service
-    def search(self):
+    def search(self) -> Search:
         """Access the Search service."""
         if self._search is None:
             logger.debug("Initializing Search service")
@@ -798,7 +861,7 @@ class ONVIFClient:
     # Thermal
 
     @service
-    def thermal(self):
+    def thermal(self) -> Thermal:
         """Access the Thermal service."""
         if self._thermal is None:
             logger.debug("Initializing Thermal service")
@@ -811,7 +874,7 @@ class ONVIFClient:
     # Uplink
 
     @service
-    def uplink(self):
+    def uplink(self) -> Uplink:
         """Access the Uplink service."""
         if self._uplink is None:
             logger.debug("Initializing Uplink service")
@@ -824,7 +887,7 @@ class ONVIFClient:
     # Security / AdvancedSecurity
 
     @service
-    def security(self):
+    def security(self) -> AdvancedSecurity:
         """Access the AdvancedSecurity service."""
         if self._security is None:
             logger.debug("Initializing Security service")
@@ -835,7 +898,7 @@ class ONVIFClient:
         return self._security
 
     @service
-    def jwt(self):
+    def jwt(self) -> JWT:
         """Access the JWT service."""
         if self._jwt is None:
             logger.debug("Initializing JWT service")
@@ -845,7 +908,7 @@ class ONVIFClient:
         return self._jwt
 
     @service
-    def keystore(self):
+    def keystore(self) -> Keystore:
         """Access the Keystore service."""
         if self._keystore is None:
             logger.debug("Initializing Keystore service")
@@ -855,7 +918,7 @@ class ONVIFClient:
         return self._keystore
 
     @service
-    def tlsserver(self):
+    def tlsserver(self) -> TLSServer:
         """Access the TLSServer service."""
         if self._tlsserver is None:
             logger.debug("Initializing TLSServer service")
@@ -865,7 +928,7 @@ class ONVIFClient:
         return self._tlsserver
 
     @service
-    def dot1x(self):
+    def dot1x(self) -> Dot1X:
         """Access the Dot1X service."""
         if self._dot1x is None:
             logger.debug("Initializing Dot1X service")
@@ -875,7 +938,7 @@ class ONVIFClient:
         return self._dot1x
 
     @service
-    def authorizationserver(self):
+    def authorizationserver(self) -> AuthorizationServer:
         """Access the AuthorizationServer service."""
         if self._authorizationserver is None:
             logger.debug("Initializing AuthorizationServer service")
@@ -886,7 +949,7 @@ class ONVIFClient:
         return self._authorizationserver
 
     @service
-    def mediasigning(self):
+    def mediasigning(self) -> MediaSigning:
         """Access the MediaSigning service."""
         if self._mediasigning is None:
             logger.debug("Initializing MediaSigning service")

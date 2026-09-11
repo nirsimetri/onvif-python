@@ -1,0 +1,6 @@
+# Display
+
+::: onvif.services.display
+    options:
+      docstring_style: google
+      members_order: source
