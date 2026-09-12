@@ -7,7 +7,7 @@ Below are simple examples to help you get started with the ONVIF Python library.
 
 Use [`ONVIFDiscovery`](api/cores/onvif_discovery.md) (applied at [`>=v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
 
-```python
+```python linenums="1"
 from onvif import ONVIFDiscovery
 
 # Create discovery instance
@@ -35,7 +35,7 @@ for device in devices:
 
 Create an instance of [`ONVIFClient`](api/cores/onvif_client.md) by providing your device's IP address, port, username, and password:
 
-```python
+```python linenums="1"
 from onvif import ONVIFClient
 
 # Basic connection
@@ -70,7 +70,7 @@ client = ONVIFClient(
 and so on, check [`ONVIFClient`](api/cores/onvif_client.md) for more details
 
 Example usage:
-```python
+```python linenums="1"
 device = client.devicemgmt()      # Device Management (Core)
 media = client.media()            # Media
 ```
@@ -79,7 +79,7 @@ media = client.media()            # Media
 
 Retrieve basic information about the device, such as manufacturer, model, firmware version, and serial number using [`devicemgmt()`](api/services/device.md) service:
 
-```python
+```python linenums="1"
 info = device.GetDeviceInformation()
 print(info)
 # Example output:
@@ -90,7 +90,7 @@ print(info)
 
 Retrieve the RTSP stream URL for live video streaming from the device using [`media()`](api/services/media.md) service:
 
-```python
+```python linenums="1"
 profile = media.GetProfiles()[0]  # use the first profile
 stream = media.GetStreamUri(
     ProfileToken=profile.token, 

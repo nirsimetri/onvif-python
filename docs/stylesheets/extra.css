@@ -5,6 +5,7 @@
 
 [data-md-color-scheme="slate"] {
   --md-primary-fg-color: #0f172a;
+  --md-typeset-a-color: #60a5fa;
 }
 
 [data-md-color-scheme="default"] .md-footer,
@@ -52,4 +53,8 @@
 
 .github-release__body h3 {
   margin-top: 1.5rem;
+}
+
+.highlight .gp {
+  color: #6a9955;
 }

@@ -8,7 +8,7 @@ Every ONVIF service provides **four** essential helper methods to improve the de
 Creates and returns an instance of the specified ONVIF type for building complex request parameters (applied at [`>=v0.1.9`](../releases.md/#v0.1.9)).
 
 **Usage:**
-```python
+```python linenums="1"
 device = client.devicemgmt()
 
 # Create a new user object
@@ -49,7 +49,7 @@ Lists all available operations for the current service (applied at [`>=v0.2.0`](
 - List of operation names that can be called on the service
 
 **Usage:**
-```python
+```python linenums="1"
 device = client.devicemgmt()
 media = client.media()
 ptz = client.ptz()
@@ -85,7 +85,7 @@ Provides comprehensive documentation and parameter information for any ONVIF ope
 - `service_name`: The service name
 
 **Usage:**
-```python
+```python linenums="1"
 device = client.devicemgmt()
 
 # Get detailed information about a method
@@ -98,7 +98,10 @@ print("Optional params:", info['optional'])
 methods = device.operations()
 for method in methods[:5]:  # Show first 5 methods
     info = device.desc(method)
-    print(f"{method}: {len(info['required'])} required, {len(info['optional'])} optional")
+    print(
+        f"{method}: {len(info['required'])} required, "
+        f"{len(info['optional'])} optional"
+    )
 ```
 
 ### `to_dict(zeep_object)`
@@ -110,7 +113,7 @@ Converts a Zeep object (the raw result returned from ONVIF operations) into a na
 - Python `dict` representation of the Zeep object. Returns an empty dict `{}` if `zeep_object` is `None` or if conversion fails for any reason.
 
 **Usage:**
-```python
+```python linenums="1"
 device = client.devicemgmt()
 media = client.media()
 ptz = client.ptz()
@@ -126,7 +129,9 @@ print("FirmwareVersion:", info_dict["FirmwareVersion"])
 profiles = media.GetProfiles()
 profiles_dict = media.to_dict(profiles)
 for profile in profiles_dict:
-    print(f"Profile: {profile.get('Name')} (token={profile.get('token')})")
+    print(
+        f"Profile: {profile.get('Name')} (token={profile.get('token')})"
+    )
 
 # Convert PTZ configuration
 configs = ptz.GetConfigurations()

@@ -7,8 +7,8 @@ The [`ONVIFClient`](../api/cores/onvif_client.md) class provides various configu
 |-----------|------|----------|-------------|
 | `host` | `str` | ✅ Yes | IP address or hostname of the ONVIF device (e.g., `"192.168.1.17"`, `"2001:0db8:85a3:0000:0000:8a2e:0370:7334"`, `"cctv.example.com"`) |
 | `port` | `int` | ✅ Yes | Port number for ONVIF service (common ports: `80`, `8000`, `8080`, `8899`, `2020`, `443`) |
-| `username` | `str` | ❌ No | Username for device authentication |
-| `password` | `str` | ❌ No | Password for device authentication |
+| `username` | `str ⏐ None` | ❌ No | Username for device authentication |
+| `password` | `str ⏐ None` | ❌ No | Password for device authentication |
 
 !!! warning
     As of version [`>=v0.3.0`](../releases.md/#v0.3.0), the `username` and `password` parameters are no longer mandatory, in order to maximize compatibility with devices that lack a default user or have no user at all. However, if your device does have a user, you must of course enter the appropriate `username` and `password`.
@@ -35,7 +35,8 @@ The [`ONVIFClient`](../api/cores/onvif_client.md) class provides various configu
 |-----------|------|----------|---------|-------------|
 | `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better `xsd:any` field parsing and automatic flattening, (applied at [`>=v0.0.4`](../releases.md/#v0.0.4)) |
 | `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses, (applied at [`>=v0.0.6`](../releases.md/#v0.0.6)) |
-| `wsdl_dir`    | `str`  | ❌ No | `None` | Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., `/path/to/custom/wsdl`), (applied at [`>=v0.1.0`](../releases.md/#v0.1.0)) |
+| `wsdl_dir`    | `str ⏐ None`  | ❌ No | `None` | Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., `/path/to/custom/wsdl`), (applied at [`>=v0.1.0`](../releases.md/#v0.1.0)) |
+| `plugins`    | `list[Plugin]`  | ❌ No | `None` | List of enabled Zeep plugins (zeep.plugins), (applied at [`>=v0.2.2`](../releases.md/#v0.2.2)) |
 
 ### Cache Modes
 
@@ -53,7 +54,7 @@ The library provides four caching strategies via the [`CacheMode`](../api/cores/
 ### Usage Examples
 
 #### Basic Connection
-```python
+```python linenums="1"
 from onvif import ONVIFClient
 
 # Minimal configuration
@@ -65,8 +66,25 @@ client = ONVIFClient(
 )
 ```
 
+#### Use HTTP Digest Authentication
+
+Set `http_digest` to `True`. This `http_digest` parameter available since [`>=v0.3.0`](../releases.md/#v0.3.0).
+
+```python linenums="1"
+from onvif import ONVIFClient
+
+# Minimal configuration
+client = ONVIFClient(
+    host="192.168.1.17", 
+    port=80, 
+    username="admin", 
+    password="password",
+    http_digest=True  # will use HTTP Digest auth
+)
+```
+
 #### Secure Connection (HTTPS)
-```python
+```python linenums="1"
 from onvif import ONVIFClient
 
 # Connect via HTTPS with custom timeout
@@ -81,7 +99,7 @@ client = ONVIFClient(
 ```
 
 #### Performance Optimized (Memory Cache)
-```python
+```python linenums="1"
 from onvif import ONVIFClient, CacheMode
 
 # Use memory-only cache for quick scripts
@@ -95,7 +113,7 @@ client = ONVIFClient(
 ```
 
 #### No Caching and No Zeep Patching (Testing)
-```python
+```python linenums="1"
 from onvif import ONVIFClient, CacheMode
 
 # Disable all caching for testing
@@ -110,7 +128,7 @@ client = ONVIFClient(
 ```
 
 #### Debugging Mode (XML Capture)
-```python
+```python linenums="1"
 from onvif import ONVIFClient
 
 # Enable XML capture for debugging
@@ -165,7 +183,7 @@ if client.xml_plugin:
     - `clear_history()` - Clear captured history
 
 #### Custom WSDL Directory
-```python
+```python linenums="1"
 from onvif import ONVIFClient
 
 # Use custom WSDL files instead of built-in ones
@@ -193,7 +211,7 @@ ptz = client.ptz()
 
 #### Production Configuration
 
-```python
+```python linenums="1"
 from onvif import ONVIFClient, CacheMode
 
 # Recommended production settings
@@ -216,7 +234,9 @@ client = ONVIFClient(
 ### Notes
 
 #### Authentication
-This library uses **WS-UsernameToken with Digest** authentication by default, which is the standard for ONVIF devices.
+This library uses **WS-Security UsernameToken** authentication by default, which is the standard for ONVIF devices.
+
+You can also use **HTTP Digest** for authentication with `http_digest=True` in [`ONVIFClient`](../api/cores/onvif_client.md) constructor, this parameter available since [`>=v0.3.0`](../releases.md/#v0.3.0).
 
 #### Patching
 The `apply_patch=True` (default) enables custom zeep patching that improves `xsd:any` field parsing. This is recommended for better compatibility with ONVIF responses.

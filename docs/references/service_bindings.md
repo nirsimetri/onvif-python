@@ -25,53 +25,57 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
 #### Examples
 
 1. **Events**
-   - **Root:** `EventBinding`
-   - **Sub-bindings:**
-     - `PullPointSubscriptionBinding` (created via `CreatePullPointSubscription`)
-     - `SubscriptionManagerBinding` (manages existing subscriptions)
-     - `NotificationProducerBinding`
+   
+    - **Root:** `EventBinding`
+    - **Sub-bindings:**
+        - `PullPointSubscriptionBinding` (created via `CreatePullPointSubscription`)
+        - `SubscriptionManagerBinding` (manages existing subscriptions)
+        - `NotificationProducerBinding`
 
-   Usage in library:
-   ```python
-   client.events()                    # root binding
-   client.pullpoint(subscription)     # sub-binding (dynamic, via SubscriptionReference.Address)
-   client.subscription(subscription)  # sub-binding (dynamic, via SubscriptionReference.Address)
-   client.notification()              # sub-binding accessor
-   ```
+    **Usage in library:**
+
+    ```python linenums="1"
+    client.events()                   # root binding
+    client.pullpoint(subscription)    # sub-binding (dynamic, via SubscriptionReference)
+    client.subscription(subscription) # sub-binding (dynamic, via SubscriptionReference)
+    client.notification()             # sub-binding accessor
+    ```
 
 2. **Security (Advanced Security)**
-   - **Root:** `AdvancedSecurityServiceBinding`
-   - **Sub-bindings:**
-     - `JWTBinding`
-     - `AuthorizationServerBinding`
-     - `KeystoreBinding`
-     - `Dot1XBinding`
-     - `TLSServerBinding`
-     - `MediaSigningBinding`
 
-   Usage in library:
-   ```python
-   client.security()                  # root binding
-   client.jwt()                       # sub-binding accessor
-   client.authorizationserver()       # ..
-   client.keystore()
-   client.dot1x()
-   client.tlsserver()
-   client.mediasigning()
-   ```
+    - **Root:** `AdvancedSecurityServiceBinding`
+    - **Sub-bindings:**
+        - `JWTBinding`
+        - `AuthorizationServerBinding`
+        - `KeystoreBinding`
+        - `Dot1XBinding`
+        - `TLSServerBinding`
+        - `MediaSigningBinding`
+
+    **Usage in library:**
+    ```python linenums="1"
+    client.security()                  # root binding
+    client.jwt()                       # sub-binding accessor
+    client.authorizationserver()       # ..
+    client.keystore()
+    client.dot1x()
+    client.tlsserver()
+    client.mediasigning()
+    ```
 
 3. **Analytics**
-   - **Root:** `AnalyticsEngineBinding`
-   - **Sub-bindings:**
-     - `RuleEngineBinding`
 
-   Usage in library:
-   ```python
-   client.analytics()   # root binding
-   client.ruleengine()  # sub-binding accessor
-   ```
+    - **Root:** `AnalyticsEngineBinding`
+    - **Sub-bindings:**
+        - `RuleEngineBinding`
+
+    **Usage in library:**
+    ```python linenums="1"
+    client.analytics()   # root binding
+    client.ruleengine()  # sub-binding accessor
+    ```
 
 ### Summary
 
 - **Single binding services:** Always accessed directly (e.g. `client.media()`).
-- **Multi-binding services:** Have a root + sub-binding(s). Root is fixed; sub-bindings may require dynamic creation or explicit xAddr (e.g. `client.pullpoint(subscription)`, `client.authorizationserver(xaddr)`).
+- **Multi-binding services:** Have a root + sub-binding(s). Root is fixed; sub-bindings may require dynamic creation or explicit xAddr (e.g. `client.pullpoint(subscription)`).

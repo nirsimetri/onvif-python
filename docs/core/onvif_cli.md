@@ -48,7 +48,7 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 <details>
 <summary><b>Direct CLI</b></summary> 
 
-```bash
+```shell
 usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--interface INTERFACE] [--discovery-timeout DISCOVERY_TIMEOUT] [--search SEARCH]
              [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
              [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
@@ -137,7 +137,7 @@ Examples:
 <details>
 <summary><b>Interactive Shell</b></summary> 
 
-```bash
+```shell
 ONVIF Interactive Shell — v0.3.1
 https://github.com/nirsimetri/onvif-python
 
@@ -216,7 +216,7 @@ The interactive shell is recommended for exploration and debugging. It provides 
 
 To start the interactive shell, provide the connection details:
 
-```bash
+```shell
 onvif --host 192.168.1.17 --port 8000 --username admin --password admin123 -i
 ```
 
@@ -243,7 +243,7 @@ If you omit the username or password, you will be prompted to enter them securel
 
 The CLI supports chaining multiple commands in a single line using the `&&` operator, allowing you to execute sequential operations efficiently:
 
-```bash
+```shell
 # Enter service and execute method in one line
 192.168.1.17:8000 > media && GetProfiles && store profiles
 
@@ -272,7 +272,7 @@ The CLI includes automatic ONVIF device discovery using the WS-Discovery protoco
     - You can still provide `--username` and `--password` upfront to avoid prompts
 
 #### Discover and Connect Interactively
-```bash
+```shell
 # Discover devices and enter interactive mode
 onvif --discover --username admin --password admin123 --interactive
 
@@ -288,7 +288,7 @@ onvif -d -i
 ```
 
 #### Discover and Execute Command
-```bash
+```shell
 # Discover devices and execute a command on the selected device
 onvif media GetProfiles --discover --username admin --password admin123
 
@@ -308,28 +308,35 @@ onvif media GetProfiles -d -u admin -p admin123
 4. **Connection**: Once you select a device, the CLI automatically connects using the discovered host and port
 
 #### Example Discovery Output
-```bash
+```shell
+onvif -d -i
+
 Discovering ONVIF devices on network...
-Network interface: 192.168.1.100
+Network interface: 192.168.69.254
 Timeout: 4s
 
 Found 2 ONVIF device(s):
 
-[1] 192.168.1.14:2020
-    [id] 3fa1fe68-b915-4053-a3e1-a8294833fe3c
-    [xaddrs] [http://192.168.1.14:2020/onvif/device_service]
-    [types] [tdn:NetworkVideoTransmitter]
-    [scopes] [name/C210] [hardware/C210] [Profile/S] [location/Hong Kong]
-
-[2] 192.168.1.17:8000
-    [id] 7d04ff31-61e6-11f0-a00c-6056eef47207
-    [xaddrs] [http://192.168.1.17:8000/onvif/device_service]
+[1] 192.168.69.249:80 (HTTP)
+    [uuid] 00010010-0001-1020-8000-d01255e568e7
+    [hostname] IPC
+    [xaddrs] [http://192.168.69.249:80/onvif/device_service]
+    [date_time] [UTC: 10:56:03 12-09-2026] [Local: 17:56:03 12-09-2026]
     [types] [dn:NetworkVideoTransmitter] [tds:Device]
-    [scopes] [type/NetworkVideoTransmitter] [name/IPC_123465959]
+    [services] [devicemgmt] [analytics] [events] [imaging] [ptz] [media] [deviceio] [unknown(http://www.onvif.org/ver10/plus/wsdl)] [recording] [search] [replay] [media2] [unknown(GenetecPtzPatterns)]
+    [scopes] [Profile/G] [Profile/Streaming] [Profile/T] [type/video_encoder] [type/audio_encoder] [type/ptz] [max_resolution/1920*1080] [register_status/offline]
 
-Select device number 1-2 or q to quit: 1
+[2] 192.168.69.251:80 (HTTP)
+    [uuid] 7d49925b-4fc7-406b-a0ec-0ca64cea0c6f
+    [xaddrs] [http://192.168.69.251/onvif/device_service] [https://192.168.69.251/onvif/device_service]
+    [date_time] [UTC: 10:56:04 12-09-2026] [Local: 17:56:04 12-09-2026]
+    [types] [dn:NetworkVideoTransmitter] [tds:Device]
+    [services] [devicemgmt] [media] [media2] [events] [ptz] [imaging] [deviceio] [analytics] [recording] [search] [replay]
+    [scopes] [type/video_encoder] [Profile/Streaming] [Profile/G] [type/audio_encoder] [type/ptz] [MAC/0c:a6:4c:ea:0c:6f] [hardware/CS-H8c-R100-1K2WKFL]
 
-Selected: 192.168.1.14:2020
+Select device number 1-2 or q to quit: 2
+
+Selected: http://192.168.69.251:80
 ```
 
 ### Direct Command Execution
@@ -337,12 +344,12 @@ Selected: 192.168.1.14:2020
 You can also execute a single ONVIF command directly. This is useful for scripting or quick checks.
 
 #### Syntax
-```bash
+```shell
 onvif <service> <method> [parameters...] -H <host> -P <port> -u <user> -p <pass>
 ```
 
 #### Example
-```bash
+```shell
 # Get device capabilities
 onvif devicemgmt GetCapabilities Category=All -H 192.168.1.17 -P 8000 -u admin -p admin123
 
@@ -359,7 +366,7 @@ onvif media GetProfiles -H 192.168.1.17 -P 8000 -u admin -p admin123 -o profiles
 The CLI includes a built-in database of ONVIF-compatible products that can be searched to help identify and research devices before connecting (applied at [`>=v0.2.0`](../releases.md/#v0.2.0)).
 
 #### Basic Search
-```bash
+```shell
 # Search by model name
 onvif --search "C210"
 onvif -s "axis camera"
@@ -374,7 +381,7 @@ onvif -s "thermal"
 ```
 
 #### Paginated Results
-```bash
+```shell
 # Navigate through multiple pages of results
 onvif --search "hikvision" --page 2 --per-page 5
 onvif -s "axis" --page 1 --per-page 10
@@ -399,7 +406,7 @@ The product database contains comprehensive information about tested ONVIF devic
 | **Company** | Manufacturer name |
 
 #### Example Output
-```bash
+```shell
 Found 15 product(s) matching: hikvision
 Showing 1-10 of 15 results
 

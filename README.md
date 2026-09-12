@@ -37,14 +37,20 @@ This library simplifies that process by wrapping SOAP communication into a clean
 ## Installation
 
 From official [PyPI](https://pypi.org/project/onvif-python/):
-```bash
+```shell
 pip install --upgrade onvif-python
 ```
+
 Or clone this repository and install locally:
-```bash
+```shell
 git clone https://github.com/nirsimetri/onvif-python
 cd onvif-python
 pip install .
+```
+
+Once the installation is successful, you can also immediately access the [ONVIF CLI](https://nirsimetri.github.io/onvif-python/core/onvif_cli/) via the terminal using:
+```shell
+onvif --version
 ```
 
 ## Documentation

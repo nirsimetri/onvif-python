@@ -33,7 +33,7 @@ If you can help translate documentation or error messages, let us know!
 
 ### Clone the repository and switch to dev branch
 
-   ```bash
+   ```shell
    # Option 1: Clone dev branch directly
    git clone -b dev https://github.com/nirsimetri/onvif-python.git
    cd onvif-python
@@ -45,7 +45,7 @@ If you can help translate documentation or error messages, let us know!
    ```
 ### Install locally
 
-   ```bash
+   ```shell
    # Install the package in development mode
    pip install -e .
    
@@ -56,14 +56,14 @@ If you can help translate documentation or error messages, let us know!
 
 ### Run tests
 
-   ```bash
+   ```shell
    python -m pytest
    ```
    Make sure all tests pass before submitting your changes.
 
 ### Lint and format code
 
-   ```bash
+   ```shell
    # Check code linting with pylint
    pylint .
 
@@ -92,7 +92,7 @@ If you can help translate documentation or error messages, let us know!
 
 ### PR Convention
 
-For the PR title, you do not need to include a title type prefix; omitting it improves readability when the release notes are generated (e.g., "Refactor CLI for better modularity"). Also, ensure the first letter of the PR title is capitalized.
+For the PR title, you **do not need** to include a title type prefix; omitting it improves readability when the release notes are generated (e.g., "Refactor CLI for better modularity"). Also, ensure the first letter of the PR title is capitalized.
 
 Make sure to write a comprehensive description for the PR you create to make it easier for maintainers to review the PR you have submitted to the project.
 
