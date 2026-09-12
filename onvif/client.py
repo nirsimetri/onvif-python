@@ -9,6 +9,7 @@ from typing import ParamSpec, TypeVar
 from urllib.parse import urlparse, urlunparse
 
 from lxml import etree
+from zeep import Plugin
 
 from onvif.operator import CacheMode
 from onvif.services import (
@@ -50,13 +51,10 @@ from onvif.services import (
     TLSServer,
     Uplink,
 )
-from onvif.utils import (
-    ONVIFWSDL,
-    ONVIFOperationException,
-    XMLCapturePlugin,
-    ZeepPatcher,
-)
-from onvif.utils.plugins import ReferenceParametersPlugin
+from onvif.utils.exceptions import ONVIFOperationException
+from onvif.utils.plugins import ReferenceParametersPlugin, XMLCapturePlugin
+from onvif.utils.wsdl import ONVIFWSDL
+from onvif.utils.zeep import ZeepPatcher
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
@@ -66,7 +64,8 @@ R = TypeVar("R")
 
 
 def service(func: Callable[P, R]) -> Callable[P, R]:
-    """Decorator to wrap service accessor methods with `ONVIFOperationException` handling.
+    """Decorator to wrap service accessor methods with `ONVIFOperationException`
+    handling.
 
     This decorator catches any exception raised during service initialization and
     wraps it in `ONVIFOperationException` for consistent error handling across all
@@ -135,7 +134,7 @@ class ONVIFClient:
         apply_patch: bool = True,
         capture_xml: bool = False,
         wsdl_dir: str | None = None,
-        plugins: list | None = None,
+        plugins: list[Plugin] | None = None,
     ):
         """Initialize the ONVIF client.
 
@@ -152,9 +151,14 @@ class ONVIFClient:
             apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
             capture_xml (bool): Whether to use XML capture plugin for debugging SOAP requests/responses
             wsdl_dir (str | None): Custom WSDL directory path for using external WSDL files instead of built-in ones
-            plugins (list | None): List of enabled Zeep plugins
-        """
+            plugins (list[Plugin] | None): List of enabled Zeep plugins (zeep.plugins)
 
+        - Added in [`>=v0.0.4`](/onvif-python/releases/#v0.0.4): `apply_patch`
+        - Added in [`>=v0.0.6`](/onvif-python/releases/#v0.0.6): `capture_xml`
+        - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
+        - Added in [`>=v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
+        - Added in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
+        """
         logger.info("Initializing ONVIF client for %s:%d", host, port)
         logger.debug(
             "Connection settings: HTTPS=%s, SSL_verify=%s, cache=%s, timeout=%ds",
