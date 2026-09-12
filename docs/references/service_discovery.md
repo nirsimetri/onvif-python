@@ -22,11 +22,19 @@ By checking available services, your application can adapt its workflow and UI t
 
 The `ONVIFClient` uses a **3-tier discovery approach** to maximize device compatibility:
 
-1. **`GetServices` (Preferred)** - Tries `GetServices` first for detailed service information
-2. **`GetCapabilities` (Fallback)** - Falls back to `GetCapabilities` if `GetServices` is not supported
-3. **Default URLs (Final Fallback)** - Uses standard ONVIF URLs as last resort
+### `GetServices` (Preferred)
+Tries `GetServices` first for detailed service information.
 
-```python
+### `GetCapabilities` (Fallback)
+Falls back to `GetCapabilities` if `GetServices` is not supported by the device.
+
+### Default URLs (Final Fallback)
+Uses standard ONVIF URLs as last resort.
+
+### Check discovery method
+You can check which service discovery method your ONVIF connection is using with the following code:
+
+```python linenums="1"
 from onvif import ONVIFClient
 
 client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
@@ -45,7 +53,9 @@ else:
 
 ## Why this approach?
 
-- `GetServices` provides the most accurate and detailed service information, but it's **optional** in the ONVIF specification
-- `GetCapabilities` is **mandatory** for all ONVIF-compliant devices, ensuring broader compatibility
-- **Default URLs** guarantee basic connectivity even with non-compliant devices
+`GetServices` provides the most accurate and detailed service information, but it's **optional** in the ONVIF specification.
+
+`GetCapabilities` is **mandatory** for all ONVIF-compliant devices, ensuring broader compatibility.
+
+**Default URLs** guarantee basic connectivity even with non-compliant devices.
 

@@ -130,7 +130,9 @@ markdown_extensions:
   - md_in_html
   - admonition
   - pymdownx.details
-  - pymdownx.highlight
+  - pymdownx.highlight:
+      anchor_linenums: true
+      linenums_style: pymdownx-inline
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
