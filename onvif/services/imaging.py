@@ -1,7 +1,8 @@
 """Imaging service implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
 # pylint: disable=invalid-name
@@ -86,8 +87,10 @@ class Imaging(ONVIFService):
         supported, the position may be requested in m-1 units.
 
         Relative – Requires distance parameter and optionally takes a speed argument.
-        Negative distance means negative direction. Continuous – Requires a speed
-        argument. Negative speed argument means negative direction.
+        Negative distance means negative direction.
+
+        Continuous – Requires a speed argument. Negative speed argument means negative
+        direction.
         """
         return self.operator.call(
             "Move", VideoSourceToken=VideoSourceToken, Focus=Focus

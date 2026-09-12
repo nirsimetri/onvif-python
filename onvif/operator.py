@@ -18,7 +18,8 @@ from zeep.exceptions import Fault
 from zeep.proxy import ServiceProxy
 from zeep.wsse.username import UsernameToken
 
-from onvif.utils import ONVIFOperationException, ZeepPatcher
+from onvif.utils.exceptions import ONVIFOperationException
+from onvif.utils.zeep import ZeepPatcher
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())

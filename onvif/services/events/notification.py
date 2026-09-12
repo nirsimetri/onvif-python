@@ -1,7 +1,8 @@
 """WS-BaseNotification service implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
 # pylint: disable=invalid-name
@@ -35,9 +36,9 @@ class Notification(ONVIFService):
     ):
         """Create a subscription for receiving event notifications.
 
-        Registers a notification consumer with the NotificationProducer. Event notifications
-        matching the optional filter are delivered to the consumer endpoint specified
-        by ConsumerReference.
+        Registers a notification consumer with the NotificationProducer. Event
+        notifications matching the optional filter are delivered to the consumer
+        endpoint specified by ConsumerReference.
         """
         return self.operator.call(
             "Subscribe",

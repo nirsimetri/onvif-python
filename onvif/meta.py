@@ -1,4 +1,4 @@
-"""onvif-python: A Python library for interacting with ONVIF-compliant devices."""
+"""ONVIF Python: A Python library for interacting with ONVIF-compliant devices."""
 
 from typing import Final
 
