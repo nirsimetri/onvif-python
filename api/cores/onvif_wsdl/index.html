@@ -3228,10 +3228,10 @@ WSDL directories for users who want to use their own WSDL files.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFWSDL</span>
-
-<span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">set_custom_wsdl_dir</span><span class="p">(</span><span class="s2">&quot;/home/user/my_wsdls&quot;</span><span class="p">)</span>
-<span class="c1"># All subsequent get_definition calls will use this directory</span>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFWSDL</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">set_custom_wsdl_dir</span><span class="p">(</span><span class="s2">&quot;/home/user/my_wsdls&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># All subsequent get_definition calls will use this directory</span>
 </code></pre></div>
 </details>
 
@@ -3282,10 +3282,10 @@ WSDL directories for users who want to use their own WSDL files.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFWSDL</span>
-
-<span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">set_custom_wsdl_dir</span><span class="p">(</span><span class="s2">&quot;/custom/path&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">get_custom_wsdl_dir</span><span class="p">())</span>  <span class="c1"># /custom/path</span>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFWSDL</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">set_custom_wsdl_dir</span><span class="p">(</span><span class="s2">&quot;/custom/path&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">get_custom_wsdl_dir</span><span class="p">())</span>  <span class="c1"># /custom/path</span>
 </code></pre></div>
 </details>
 
@@ -3313,11 +3313,11 @@ WSDL directories for users who want to use their own WSDL files.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFWSDL</span>
-
-<span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">set_custom_wsdl_dir</span><span class="p">(</span><span class="s2">&quot;/custom/path&quot;</span><span class="p">)</span>
-<span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">clear_custom_wsdl_dir</span><span class="p">()</span>
-<span class="c1"># Now using built-in WSDLs again</span>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">onvif</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONVIFWSDL</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">set_custom_wsdl_dir</span><span class="p">(</span><span class="s2">&quot;/custom/path&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">ONVIFWSDL</span><span class="o">.</span><span class="n">clear_custom_wsdl_dir</span><span class="p">()</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Now using built-in WSDLs again</span>
 </code></pre></div>
 </details>
 

@@ -3874,7 +3874,7 @@ or GetCapabilities, and provides lazy initialization for service endpoints.</p>
           <tr class="doc-section-item">
             <td><code><span title="onvif.client.ONVIFClient.xml_plugin">xml_plugin</span></code></td>
             <td>
-                  <code><span title="onvif.utils.XMLCapturePlugin">XMLCapturePlugin</span></code>
+                  <code><span title="onvif.utils.plugins.XMLCapturePlugin">XMLCapturePlugin</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3921,7 +3921,7 @@ or GetCapabilities, and provides lazy initialization for service endpoints.</p>
 
 
 <h3 id="onvif.client.ONVIFClient.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">http_digest</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="n">CacheMode</span> <span class="o">=</span> <span class="n">CacheMode</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">use_https</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">verify_ssl</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">apply_patch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">capture_xml</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">wsdl_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">plugins</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">http_digest</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="n">CacheMode</span> <span class="o">=</span> <span class="n">CacheMode</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">use_https</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">verify_ssl</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">apply_patch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">capture_xml</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">wsdl_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">plugins</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Plugin</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -4139,11 +4139,11 @@ or GetCapabilities, and provides lazy initialization for service endpoints.</p>
                 <code>plugins</code>
             </td>
             <td>
-                  <code><span title="list">list</span> | None</code>
+                  <code><span title="list">list</span>[<span title="zeep.Plugin">Plugin</span>] | None</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>List of enabled Zeep plugins</p>
+                <p>List of enabled Zeep plugins (zeep.plugins)</p>
               </div>
             </td>
             <td>
@@ -4152,6 +4152,13 @@ or GetCapabilities, and provides lazy initialization for service endpoints.</p>
           </tr>
       </tbody>
     </table>
+        <ul>
+<li>Added in <a href="/onvif-python/releases/#v0.0.4"><code>&gt;=v0.0.4</code></a>: <code>apply_patch</code></li>
+<li>Added in <a href="/onvif-python/releases/#v0.0.6"><code>&gt;=v0.0.6</code></a>: <code>capture_xml</code></li>
+<li>Added in <a href="/onvif-python/releases/#v0.1.0"><code>&gt;=v0.1.0</code></a>: <code>wsdl_dir</code></li>
+<li>Added in <a href="/onvif-python/releases/#v0.2.2"><code>&gt;=v0.2.2</code></a>: <code>plugins</code></li>
+<li>Added in <a href="/onvif-python/releases/#v0.3.0"><code>&gt;=v0.3.0</code></a>: <code>http_digest</code></li>
+</ul>
 
 
     </div>
@@ -4844,7 +4851,8 @@ or GetCapabilities, and provides lazy initialization for service endpoints.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Decorator to wrap service accessor methods with <code>ONVIFOperationException</code> handling.</p>
+        <p>Decorator to wrap service accessor methods with <code>ONVIFOperationException</code>
+handling.</p>
 <p>This decorator catches any exception raised during service initialization and
 wraps it in <code>ONVIFOperationException</code> for consistent error handling across all
 ONVIF client service accessors.</p>
@@ -4915,7 +4923,7 @@ ONVIF client service accessors.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="ONVIFOperationException (onvif.utils.ONVIFOperationException)" href="../onvif_exception/#onvif.utils.exceptions.ONVIFOperationException">ONVIFOperationException</a></code>
+                  <code><a class="autorefs autorefs-internal" title="ONVIFOperationException (onvif.utils.exceptions.ONVIFOperationException)" href="../onvif_exception/#onvif.utils.exceptions.ONVIFOperationException">ONVIFOperationException</a></code>
             </td>
             <td>
               <div class="doc-md-description">

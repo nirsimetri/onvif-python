@@ -2,250 +2,250 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/contributing/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/externals/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/installation/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/philosophy/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/quick_start/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/releases/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/roadmap/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/used_by/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/cores/onvif_client/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/cores/onvif_discovery/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/cores/onvif_error_handler/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/cores/onvif_exception/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/cores/onvif_operator/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/cores/onvif_wsdl/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/accesscontrol/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/accessrules/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/actionengine/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/advancedsecurity/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/analytics/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/analyticsdevice/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/appmgmt/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/authenticationbehavior/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/authorizationserver/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/credential/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/device/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/deviceio/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/display/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/doorcontrol/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/dot1x/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/events/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/imaging/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/jwt/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/keystore/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/media/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/media2/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/mediasigning/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/notification/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/pausable_subscription/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/provisioning/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/ptz/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/pullpoint/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/receiver/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/recording/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/replay/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/ruleengine/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/schedule/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/search/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/subscription/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/thermal/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/tlsserver/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/api/services/uplink/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/core/onvif_cli/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/core/onvif_client/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/core/onvif_discovery/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/legal/legal_notice/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/legal/license/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/references/implemented_services/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/references/service_bindings/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/references/service_discovery/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/references/supported_profiles/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
     <url>
          <loc>https://nirsimetri.github.io/onvif-python/utilities/helper_methods/</loc>
-         <lastmod>2026-09-11</lastmod>
+         <lastmod>2026-09-12</lastmod>
     </url>
 </urlset>
