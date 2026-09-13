@@ -1,5 +1,7 @@
 """ONVIF discovery helpers."""
 
+from datetime import datetime
+
 from onvif.cli.utils import colorize
 from onvif.utils import ONVIFDiscovery
 
@@ -16,7 +18,7 @@ def discover_devices(
         timeout (int): Discovery timeout in seconds
         interface (str | None): Network interface to use for discovery
         prefer_https (bool): If True, prioritize HTTPS XAddrs when available
-        filter_term (str | None): Optional search term to filter devices by types or scopes
+        filter_term (str | None): Optional search term to filter devices by types or scopes (case-insensitive)
 
     Returns:
         List of discovered devices with connection info
@@ -70,15 +72,43 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
             epr_display = epr_display.replace("uuid:", "")
         print(f"    [uuid] {epr_display}")
 
-        if device["xaddrs"]:
+        if device.get("hostname"):
+            print(f"    [hostname] {device["hostname"]}")
+
+        if device.get("xaddrs"):
             xaddrs_parts = [f"[{xaddr}]" for xaddr in device["xaddrs"]]
             print(f"    [xaddrs] {' '.join(xaddrs_parts)}")
 
-        if device["types"]:
+        if device.get("date_time"):
+            utc = (
+                datetime.fromisoformat(device["date_time"].get("utc")).strftime(
+                    "%H:%M:%S %d-%m-%Y"
+                )
+                if device["date_time"].get("utc")
+                else ""
+            )
+            local = (
+                datetime.fromisoformat(device["date_time"].get("local")).strftime(
+                    "%H:%M:%S %d-%m-%Y"
+                )
+                if device["date_time"].get("local")
+                else ""
+            )
+            print(
+                f"    [date_time]"
+                f'{" [UTC: " + utc + "]" if utc else ""}'
+                f'{" [Local: " + local + "]" if local else ""}'
+            )
+
+        if device.get("types"):
             types_parts = [f"[{t}]" for t in device["types"]]
             print(f"    [types] {' '.join(types_parts)}")
 
-        if device["scopes"]:
+        if device.get("services"):
+            service = [colorize(f"[{t}]", "cyan") for t in device["services"]]
+            print(f"    [services] {' '.join(service)}")
+
+        if device.get("scopes"):
             scope_parts = []
             for scope in device["scopes"]:
                 # Remove the prefix "onvif://www.onvif.org/" if present
