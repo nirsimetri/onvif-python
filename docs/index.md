@@ -29,7 +29,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
 ## Requirements
 
-- **Python**: 3.9 or higher
+- **Python**: 3.10 or higher
 - **Dependencies**:
     - [`zeep>=4.3.0`](https://github.com/mvantellingen/python-zeep) - SOAP client for ONVIF communication
     - [`requests>=2.32.0`](https://github.com/psf/requests) - HTTP library for network requests
