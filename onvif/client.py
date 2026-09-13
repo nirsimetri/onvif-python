@@ -105,18 +105,18 @@ def service(func: Callable[P, R]) -> Callable[P, R]:
 
 # pylint: disable=too-many-instance-attributes,too-many-locals,too-many-public-methods,too-many-statements
 class ONVIFClient:
-    """ONVIF Client for communicating with ONVIF-compliant devices.
+    """High-level ONVIF client for interacting with ONVIF-compliant devices.
 
     This is the main class for interacting with ONVIF devices. It provides access to
     all ONVIF services including Device Management, Media, PTZ, Events, Analytics, and more.
 
-    The client automatically discovers available services on the device using GetServices
-    or GetCapabilities, and provides lazy initialization for service endpoints.
+    The client automatically discovers available services on the device using `GetServices`
+    or `GetCapabilities`, and provides lazy initialization for service endpoints.
 
     Attributes:
-        services (list): List of available services from GetServices response
-        capabilities (CompoundValue): Device capabilities from GetCapabilities response (fallback)
-        xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if capture_xml=True)
+        services (list): List of available services from `GetServices` response
+        capabilities (CompoundValue): Device capabilities from `GetCapabilities` response (fallback)
+        xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if `capture_xml=True`)
         wsdl_dir (str | None): Custom WSDL directory path (if provided)
     """
 
@@ -151,13 +151,15 @@ class ONVIFClient:
             apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
             capture_xml (bool): Whether to use XML capture plugin for debugging SOAP requests/responses
             wsdl_dir (str | None): Custom WSDL directory path for using external WSDL files instead of built-in ones
-            plugins (list[Plugin] | None): List of enabled Zeep plugins (zeep.plugins)
+            plugins (list[Plugin] | None): List of user-provided Zeep plugins (zeep.plugins)
 
-        - Added in [`>=v0.0.4`](/onvif-python/releases/#v0.0.4): `apply_patch`
-        - Added in [`>=v0.0.6`](/onvif-python/releases/#v0.0.6): `capture_xml`
-        - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
-        - Added in [`>=v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
-        - Added in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
+        !!! tip "Version History"
+            - Added in [`>=v0.0.4`](/onvif-python/releases/#v0.0.4): `apply_patch`
+            - Added in [`>=v0.0.6`](/onvif-python/releases/#v0.0.6): `capture_xml`
+            - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
+            - Added in [`>=v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
+            - Added in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
+            - Changed in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `username` → `str | None`, `password` → `str | None`
         """
         logger.info("Initializing ONVIF client for %s:%d", host, port)
         logger.debug(
@@ -223,14 +225,14 @@ class ONVIFClient:
                 if namespace and xaddr:
                     self._service_map[namespace] = xaddr
                     logger.debug("Mapped service: %s -> %s", namespace, xaddr)
-        except Exception as e:  # pylint: disable=broad-except
+        except (ValueError, AttributeError, ONVIFOperationException) as e:
             logger.warning("GetServices failed: %s", e)
             # Fallback to GetCapabilities if GetServices is not supported on device
             try:
                 logger.debug("Falling back to GetCapabilities")
                 self.capabilities = self._devicemgmt.GetCapabilities(Category="All")
                 logger.info("Successfully retrieved device capabilities")
-            except Exception as e2:  # pylint: disable=broad-except
+            except ONVIFOperationException as e2:
                 # If both fail, we'll use default URLs
                 logger.error("Both GetServices and GetCapabilities failed: %s", e2)
                 logger.warning("Using default URLs for services")

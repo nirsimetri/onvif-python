@@ -25,42 +25,36 @@ class ONVIFService:
     """Base class for all ONVIF service implementations.
 
     This abstract base class provides automatic error handling and consistent API
-    behavior for all ONVIF services (Device, Media, PTZ, Events, Analytics, etc.).
+    behavior for all ONVIF services ([`Device`](../services/device.md),
+    [`Media`](../services/media.md), [`PTZ`](../services/ptz.md), etc.).
 
-    All service classes inherit from ONVIFService to ensure:
+    !!! info "All service classes inherit from `ONVIFService` to ensure"
         - Consistent exception handling across all ONVIF operations
-        - Automatic wrapping of errors into ONVIFOperationException
+        - Automatic wrapping of errors into [`ONVIFOperationException`](../exceptions/onvif_exception.md)
         - Uniform error reporting with operation names
         - Transparent method interception without explicit wrappers
 
-    Implementation Details:
-        - Uses __getattribute__ magic method to intercept all method calls
+    !!! abstract "Implementation Details"
+        - Uses `__getattribute__` magic method to intercept all method calls
         - Automatically wraps ONVIF operations (methods starting with uppercase)
         - Preserves non-ONVIF methods, private methods, and attributes
-        - Converts all exceptions to ONVIFOperationException for consistency
-        - Re-raises existing ONVIFOperationException without double-wrapping
+        - Converts all exceptions to [`ONVIFOperationException`](../exceptions/onvif_exception.md) for consistency
+        - Re-raises existing [`ONVIFOperationException`](../exceptions/onvif_exception.md) without double-wrapping
 
-    Method Detection Logic:
-        The class identifies ONVIF operations by checking if the method name:
-        1. Is callable (not a property or attribute)
-        2. Starts with uppercase letter (ONVIF naming convention)
-        3. Is not a private method (doesn't start with underscore)
-        4. Is not an internal attribute (like 'operator')
-
-    Notes:
+    ??? note "Notes"
         - This is an abstract base class - don't instantiate directly
-        - Subclasses must implement their own __init__ and ONVIF methods
-        - The __getattribute__ interception has minimal performance overhead
+        - Subclasses must implement their own `__init__` and ONVIF methods
+        - The `__getattribute__` interception has minimal performance overhead
         - Error wrapping preserves full stack trace for debugging
         - Compatible with all Python magic methods and properties
 
-    See Also:
-        - ONVIFOperationException: Exception class for wrapped errors
-        - ONVIFOperator: Low-level SOAP operation handler
+    ??? note "See Also"
+        - [`ONVIFOperationException`](../exceptions/onvif_exception.md): Exception class for wrapped errors
+        - [`ONVIFOperator`](../cores/onvif_operator.md): Low-level SOAP operation handler
         - Device, Media, PTZ, etc.: Concrete service implementations
     """
 
-    def __getattribute__(self, name):
+    def __getattribute__(self, name: str) -> Any:
         """Intercept all method calls and wrap ONVIF operations with error handling.
 
         This magic method is called for every attribute access on the service object.
@@ -75,7 +69,7 @@ class ONVIFService:
         Raises:
             ONVIFOperationException: If the ONVIF operation fails
 
-        Method Interception Logic:
+        !!! question "Method Interception Logic"
             1. Get the attribute using object.__getattribute__
             2. Skip if not callable, private, or internal attribute
             3. Check if method name starts with uppercase (ONVIF convention)
@@ -128,36 +122,6 @@ class ONVIFService:
 
         return wrapped_method
 
-    def to_dict(self, zeep_object) -> dict:
-        """
-        Convert a zeep object (result from ONVIF operation) to Python dictionary.
-
-        Args:
-            zeep_object: The zeep object returned from ONVIF operations
-
-        Returns:
-            dict: Python dictionary representation of the zeep object
-
-        Example:
-            device = client.devicemgmt()
-
-            info = device.GetDeviceInformation()
-            info_dict = device.to_dict(info)
-            print(info_dict)
-
-            profiles = media.GetProfiles()
-            profiles_dict = device.to_dict(profiles)
-        """
-        try:
-            return (
-                {}
-                if zeep_object is None
-                else zeep.helpers.serialize_object(zeep_object)
-            )
-        except Exception as e:  # pylint: disable=broad-except
-            logger.error("Failed to convert zeep object to dict: %s", e)
-            return {}
-
     def type(self, type_name: str) -> Any:
         """
         Create and return an instance of the specified ONVIF type.
@@ -172,6 +136,7 @@ class ONVIFService:
             ONVIFOperationException: If type creation fails
 
         Example:
+            ```python
             device = client.devicemgmt()
 
             newuser = device.type('CreateUsers')
@@ -194,6 +159,7 @@ class ONVIFService:
             time_params.UTCDateTime.Time.Minute = now.minute
             time_params.UTCDateTime.Time.Second = now.second
             device.SetSystemDateAndTime(time_params)
+            ```
         """
         try:
             logger.debug("Creating ONVIF type: %s", type_name)
@@ -204,6 +170,53 @@ class ONVIFService:
             logger.error("Failed to create type %s: %s", type_name, e)
             raise ONVIFOperationException(f"type({type_name})", e) from e
 
+    def operations(self) -> list[str] | list:
+        """List all available operations for this service.
+
+        Returns:
+            List of operation names that can be used with `type()` method
+
+        Example:
+            ```python
+            ptz = client.ptz()
+
+            # List all available operations for each service
+            print("PTZ Operations:")
+            for op in ptz.operations():
+                print(f"  - {op}")
+
+            # Check if specific operation is supported
+            if 'ContinuousMove' in ptz.operations():
+                print("PTZ continuous movement is supported")
+            ```
+        """
+        try:
+            # Get all methods from the service object itself (not operator.service)
+            # This includes all ONVIF operations that are dynamically added
+            operations = [
+                method
+                for method in dir(self)
+                if not method.startswith("_")
+                and method not in ["type", "desc", "operations"]
+                and callable(getattr(self, method))
+                and method[0].isupper()  # ONVIF methods start with uppercase
+            ]
+            # Extract service name from binding for logging context
+            service_name = (
+                self.operator.service_name
+                if hasattr(self.operator, "service_name")
+                else "Unknown"
+            )
+            logger.debug(
+                "Successfully listed operations for %s: %d operations found",
+                service_name,
+                len(operations),
+            )
+            return sorted(operations)
+        except Exception as e:  # pylint: disable=broad-except
+            logger.error("Failed to list operations: %s", e)
+            return []
+
     def desc(self, method_name: str) -> dict:
         """
         Get documentation and parameter information for a specific operation/method.
@@ -212,17 +225,23 @@ class ONVIFService:
             method_name (str): Name of the method to describe (e.g., 'GetDeviceInformation', 'SetHostname')
 
         Returns:
-            dict: Dictionary containing documentation and parameter information with keys:
-                - 'doc': Method documentation from WSDL
-                - 'required': List of required parameter names
-                - 'optional': List of optional parameter names
-                - 'method_name': The method name
-                - 'service_name': The service name
+            Operation documentation dictionary.
+
+        !!! abstract "Documentation dict"
+
+            | Key | Type | Description |
+            | --- | ---- | ----------- |
+            | `doc` | `str | None` | Method documentation from WSDL. |
+            | `required` | `list[str]` | List of required parameter names; empty if none are available. |
+            | `optional` | `list[str]` | List of optional parameter names; empty if none are available. |
+            | `method_name` | `str` | The method name. |
+            | `service_name` | `str` | The service name. |
 
         Raises:
             ONVIFOperationException: If method doesn't exist or documentation cannot be retrieved
 
         Example:
+            ```python
             device = client.devicemgmt()
 
             # Get description for a method
@@ -234,6 +253,7 @@ class ONVIFService:
             # Check what methods are available first
             methods = device.operations()
             info = device.desc(methods[0])  # Describe first method
+            ```
         """
         try:
             # Check if method exists
@@ -310,35 +330,31 @@ class ONVIFService:
             logger.error("Failed to get description for method %s: %s", method_name, e)
             raise ONVIFOperationException(f"desc({method_name})", e) from e
 
-    def operations(self) -> list[str] | list:
-        """List all available operations for this service.
+    def to_dict(self, zeep_object: Any) -> dict:
+        """
+        Convert a zeep object (result from ONVIF operation) to Python dictionary.
+
+        Args:
+            zeep_object (Any): The zeep object returned from ONVIF operations
 
         Returns:
-            List of operation names that can be used with type() method
+            Python dictionary representation of the zeep object
+
+        Example:
+            ```python
+            device = client.devicemgmt()
+
+            info = device.GetDeviceInformation()
+            info_dict = device.to_dict(info)
+            print(info_dict)
+            ```
         """
         try:
-            # Get all methods from the service object itself (not operator.service)
-            # This includes all ONVIF operations that are dynamically added
-            operations = [
-                method
-                for method in dir(self)
-                if not method.startswith("_")
-                and method not in ["type", "desc", "operations"]
-                and callable(getattr(self, method))
-                and method[0].isupper()  # ONVIF methods start with uppercase
-            ]
-            # Extract service name from binding for logging context
-            service_name = (
-                self.operator.service_name
-                if hasattr(self.operator, "service_name")
-                else "Unknown"
+            return (
+                {}
+                if zeep_object is None
+                else zeep.helpers.serialize_object(zeep_object)
             )
-            logger.debug(
-                "Successfully listed operations for %s: %d operations found",
-                service_name,
-                len(operations),
-            )
-            return sorted(operations)
         except Exception as e:  # pylint: disable=broad-except
-            logger.error("Failed to list operations: %s", e)
-            return []
+            logger.error("Failed to convert zeep object to dict: %s", e)
+            return {}
