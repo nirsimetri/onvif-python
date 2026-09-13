@@ -146,10 +146,102 @@ Use the following commit title types:
 
 ## Documentation
 
-- Update the [`docs/`](https://github.com/nirsimetri/onvif-python/tree/dev/docs) if your changes affect usage or installation.
-- Add or update docstrings and inline comments.
-- If you add new modules or services, document their usage and API.
-- For device-specific notes, contribute to the [`device-test/`](https://github.com/nirsimetri/onvif-products/blob/main/device-test) list.
+The documentation is built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) and [mkdocstrings](https://mkdocstrings.github.io/) to generate API documentation directly from the Python source code.
+
+### Setup
+
+Install the project together with the documentation dependencies:
+
+```shell
+pip install -e ".[docs]"
+```
+
+This installs the documentation tooling defined in `pyproject.toml`, including:
+
+* `mkdocs-material` — MkDocs theme and Material extensions
+* `mkdocstrings[python]` — API documentation generated from Python source code
+* `mkdocs-git-authors-plugin` — contributor information for documentation pages
+
+### Run Locally
+
+Start the MkDocs development server from the project root:
+
+```shell
+mkdocs serve
+```
+
+By default, the documentation will be available at:
+
+```text
+http://127.0.0.1:8000/
+```
+
+MkDocs automatically rebuilds the documentation when source files are changed.
+
+### Build
+
+Before submitting documentation changes, verify that the site can be built successfully:
+
+```shell
+mkdocs build --strict
+```
+
+Using `--strict` is recommended because it treats warnings as errors and helps catch broken links, invalid configuration, missing pages, and other documentation issues before they reach the deployed site.
+
+### Structure
+
+The documentation source is located in the `docs/` directory. The navigation and page structure are defined in `mkdocs.yml`.
+
+```text
+docs/
+├── assets/
+├── javascripts/
+├── stylesheets/
+├── overrides/
+├── api/
+├── core/
+├── references/
+├── utilities/
+├── legal/
+├── index.md
+├── installation.md
+├── quick_start.md
+├── philosophy.md
+├── contributing.md
+├── roadmap.md
+├── used_by.md
+├── external.md
+└── releases.md
+```
+
+API reference pages under `docs/api/` use `mkdocstrings` to generate documentation from the corresponding Python modules and classes.
+
+For example:
+
+```markdown
+::: onvif.services.ptz
+```
+
+When modifying a public API, update the corresponding Python docstrings and documentation page where appropriate.
+
+### Guidelines
+
+* Update the [`docs/`](https://github.com/nirsimetri/onvif-python/tree/dev/docs) source when changes affect usage, installation, configuration, or public APIs.
+* Add or update Python docstrings when introducing or changing public classes, methods, or functions.
+* Keep examples accurate and executable where possible.
+* Use clear headings and concise explanations.
+* For device-specific behavior or compatibility information, contribute test results to the [`device-test/`](https://github.com/nirsimetri/onvif-products/tree/main/device-test) repository.
+* Run `mkdocs build --strict` before submitting documentation-related changes.
+
+### Pull Requests
+
+Documentation-only changes should use the `docs` commit type:
+
+```text
+docs: Improve PTZ API documentation
+```
+
+If a code change also requires documentation updates, include the documentation changes in the same pull request when practical.
 
 ## Code of Conduct
 
@@ -161,4 +253,6 @@ By contributing, you agree that your contributions will be licensed under the [M
 
 ---
 
-Thank you for making ONVIF Python better! We appreciate your time, expertise, and enthusiasm. Happy coding!
+Thank you for making ONVIF Python better!
+
+We appreciate your time, expertise, and enthusiasm.

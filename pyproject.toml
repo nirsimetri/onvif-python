@@ -54,6 +54,11 @@ dev = [
     "pylint",
     "docformatter",
 ]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "mkdocs-git-authors-plugin",
+]
 
 [project.scripts]
 onvif = "onvif.cli.main:main"
