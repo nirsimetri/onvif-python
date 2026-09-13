@@ -70,7 +70,6 @@ class InteractiveShell(cmd.Cmd):
             "debug",
             "ls",
             "cd",
-            "pwd",
             "shortcuts",
             "desc",
             "type",
@@ -1035,17 +1034,6 @@ class InteractiveShell(cmd.Cmd):
         """Autocomplete service names for cd command."""
         services = get_device_available_services(self.client)
         return [s for s in services if s.lower().startswith(text.lower())]
-
-    def do_pwd(self, line):  # pylint: disable=unused-argument
-        """Show current service context."""
-        if self.current_service_name:
-            print(
-                f"{colorize('Current service:', 'yellow')} {colorize(self.current_service_name, 'cyan')}"
-            )
-        else:
-            print(
-                f"{colorize('Current context:', 'yellow')} {colorize('root', 'blue')}"
-            )
 
     def do_shortcuts(self, line):  # pylint: disable=unused-argument
         """Show available shortcuts."""

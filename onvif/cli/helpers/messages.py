@@ -106,7 +106,6 @@ INTERACTIVE_HELP = f"""
   cd <service>             - Enter service mode (alias)
   ls                       - List commands/services/methods in grid format
   up                       - Exit current service mode (go up one level)
-  pwd                      - Show current service context
   clear                    - Clear terminal screen
   help <command>           - Show help for a specific command
 
@@ -166,7 +165,6 @@ INTERACTIVE_SHORTCUTS = f"""
   cd <service>             - Enter service (same as '<service>')
   ls                       - List commands/services in grid format (like TAB)
   up                       - Go up one level
-  pwd                      - Show current context
   clear                    - Clear terminal screen
   help <command>           - Show help for a command
 
