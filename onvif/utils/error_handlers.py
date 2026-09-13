@@ -23,7 +23,7 @@ cases.
     4. **Safe Exploration**: Test operations without crashing
 
 ??? note "Notes"
-    - Works with both `ONVIFOperationException` and raw `zeep.Fault`
+    - Works with both [`ONVIFOperationException`](onvif_exception.md) and raw `zeep.Fault`
     - Preserves stack traces for non-`ActionNotSupported` errors
     - Minimal performance overhead for supported operations
     - Thread-safe because no shared state is maintained
@@ -44,13 +44,13 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 
-def is_action_not_supported(exception) -> bool:
+def is_action_not_supported(exception: ONVIFOperationException | Fault) -> bool:
     """
     Check whether an exception is caused by an `ActionNotSupported` SOAP fault.
 
     Args:
         exception: The exception to inspect. Can be an
-            `ONVIFOperationException` or a raw `zeep.exceptions.Fault`.
+            [`ONVIFOperationException`](onvif_exception.md) or a raw `zeep.exceptions.Fault`.
 
     Returns:
         `True` if the exception contains an `ActionNotSupported` SOAP fault, `False` otherwise.
@@ -101,19 +101,22 @@ def is_action_not_supported(exception) -> bool:
 
 
 def safe_call(
-    func, default=None, handle_unsupported=True, log_error=True
+    func,
+    default: Any | None = None,
+    handle_unsupported: bool = True,
+    log_error: bool = True,
 ) -> Any | None:
     """
     Safely call an ONVIF operation with graceful error handling.
 
     Args:
         func: The callable that performs the ONVIF operation.
-        default: The value to return when the operation is unsupported and
+        default (Any | None): The value to return when the operation is unsupported and
             `handle_unsupported` is enabled. Defaults to `None`.
-        handle_unsupported: Whether to catch `ActionNotSupported` faults and
+        handle_unsupported (bool): Whether to catch `ActionNotSupported` faults and
             return `default` instead of raising the exception. Defaults to
             `True`.
-        log_error: Whether to log errors encountered during the operation.
+        log_error (bool): Whether to log errors encountered during the operation.
             Defaults to `True`.
 
     Returns:

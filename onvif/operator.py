@@ -38,25 +38,54 @@ class CacheMode(Enum):
         NONE: No caching, always fetch fresh WSDLs
     """
 
-    ALL = "all"  # CachingClient + SqliteCache →
-    # (+) Fast startup (WSDL/schema cached in memory + disk), great for multi-device and long-running apps
-    # (-) More complex, extra overhead on both disk and memory
-    # Use case: Production servers with many cameras, need stability & bandwidth savings
+    ALL = "all"
+    """
+    `CachingClient` + `SqliteCache`
 
-    DB = "db"  # Client + SqliteCache →
-    # (+) Persistent disk cache, saves bandwidth (WSDL/schema not fetched every time)
-    # (-) Still parses full WSDL into memory at each startup
-    # Use case: Batch jobs / CLI tools, or low-resource environments needing long-term cache
+    :material-check-circle: Fast startup (WSDL/schema cached in memory + disk), 
+        great for multi-device and long-running apps
 
-    MEM = "mem"  # CachingClient only →
-    # (+) Lightweight compared to ALL, in-memory cache only, fast during runtime
-    # (-) Cache lost on restart, WSDL will be fetched again after each restart
-    # Use case: Short-lived scripts, demos, quick debugging, no need for disk persistence
+    :material-alert-circle: More complex, extra overhead on both disk and memory
 
-    NONE = "none"  # Client only →
-    # (+) Simplest, no caching at all
-    # (-) Slow (always fetches & parses WSDL), high bandwidth usage
-    # Use case: Pure debugging, small integration testing without performance concerns
+    !!! tip "Use case"
+        Production servers with many cameras, need stability & bandwidth savings
+    """
+
+    DB = "db"
+    """
+    `Client` + `SqliteCache`
+    
+    :material-check-circle: Persistent disk cache, saves bandwidth (WSDL/schema not fetched every time)
+
+    :material-alert-circle: Still parses full WSDL into memory at each startup
+    
+    !!! tip "Use case"
+        Batch jobs / CLI tools, or low-resource environments needing long-term cache
+    """
+
+    MEM = "mem"
+    """
+    `CachingClient` only
+
+    :material-check-circle: Lightweight compared to ALL, in-memory cache only, fast during runtime
+
+    :material-alert-circle: Cache lost on restart, WSDL will be fetched again after each restart
+
+    !!! tip "Use case"
+        Short-lived scripts, demos, quick debugging, no need for disk persistence
+    """
+
+    NONE = "none"
+    """
+    `Client` only
+
+    :material-check-circle: Simplest, no caching at all
+
+    :material-alert-circle: Slow (always fetches & parses WSDL), high bandwidth usage
+
+    !!! tip "Use case"
+        Pure debugging, small integration testing without performance concerns
+    """
 
 
 # pylint: disable=too-many-instance-attributes,too-many-locals
@@ -79,7 +108,7 @@ class ONVIFOperator:
         port (int): Device port number
         username (str | None): ONVIF username
         password (str | None): ONVIF password
-        http_digest (bool): Whether to use HTTP Digest or WS-Usernametoken for auth
+        http_digest (bool): Whether to use **HTTP Digest** or **WS-Usernametoken** for auth
         timeout (int): Request timeout in seconds
         apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
         address (str): Service endpoint URL (XAddr)
@@ -242,12 +271,12 @@ class ONVIFOperator:
         when `apply_patch` is enabled.
 
         Args:
-            method: Name of the ONVIF operation to call (e.g., "GetDeviceInformation")
+            method (str): Name of the ONVIF operation to call (e.g., "GetDeviceInformation")
             *args (any): Positional arguments to pass to the operation
             **kwargs (any): Keyword arguments to pass to the operation
 
         Returns:
-            out: The operation result with `xsd:any` fields flattened if `apply_patch=True`
+            The operation result with `xsd:any` fields flattened if `apply_patch=True`
 
         Raises:
             ONVIFOperationException: If the operation fails (wraps original exception)
