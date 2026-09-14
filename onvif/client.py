@@ -119,6 +119,9 @@ class ONVIFClient:
         capabilities (CompoundValue): Device capabilities from `GetCapabilities` response (fallback)
         xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if `capture_xml=True`)
         wsdl_dir (str | None): Custom WSDL directory path (if provided)
+
+    !!! tip "Version History"
+        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
     """
 
     def __init__(

@@ -10,13 +10,17 @@ When an unsupported operation is called, the device returns a SOAP fault with
 the `ActionNotSupported` subcode. These utilities help detect and handle such
 cases.
 
+!!! tip "Version History"
+    - Available since [`>=v0.0.7`](/onvif-python/releases/#v0.0.7) as `ONVIFErrorHandler`.
+    - Refactor to module since [`>=v0.4.0`](/onvif-python/releases/#v0.4.0).
+
 !!! abstract "Features"
     - Detect `ActionNotSupported` SOAP faults
     - Provide safe operation calls with default fallbacks
     - Ignore unsupported operations using a decorator
     - Support graceful degradation in multi-device environments
 
-!!! tip "Common Use Cases"
+!!! bug "Common Use Cases"
     1. **Feature Detection**: Check if a device supports an operation
     2. **Graceful Degradation**: Continue execution when an operation fails
     3. **Multi-Device Support**: Handle devices with varying capabilities

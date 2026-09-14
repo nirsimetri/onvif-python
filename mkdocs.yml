@@ -10,6 +10,8 @@ theme:
   custom_dir: docs/overrides
   logo: assets/nirsimetri-light.svg
   favicon: assets/nirsimetri-dark.svg
+  icon:
+    repo: fontawesome/brands/github
   font:
     text: Manrope
     code: JetBrains Mono
@@ -20,6 +22,8 @@ theme:
     - navigation.top
     - content.code.copy
     - search.suggest
+    - content.tooltips
+    - content.footnote.tooltips
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -42,10 +46,10 @@ nav:
   - Philosophy: philosophy.md
   - Installation: installation.md
   - Quick Start: quick_start.md
-  - Cores:
-    - ONVIF Client: core/onvif_client.md
-    - ONVIF Discovery: core/onvif_discovery.md
-    - ONVIF CLI: core/onvif_cli.md
+  - Core:
+    - Client: core/onvif_client.md
+    - CLI: core/onvif_cli.md
+    - Discovery: core/onvif_discovery.md
   - Utilities:
     - Helper Methods: utilities/helper_methods.md
   - References:
@@ -55,14 +59,19 @@ nav:
       - Service Discovery: references/service_discovery.md
       - Service Bindings: references/service_bindings.md
   - API:
-    - Cores:
-      - ONVIFClient: api/cores/onvif_client.md
-      - ONVIFOperator: api/cores/onvif_operator.md
-      - ONVIFDiscovery: api/cores/onvif_discovery.md
-      - ONVIFWSDL: api/cores/onvif_wsdl.md
+    - Core:
+      - ONVIFClient: api/core/onvif_client.md
+      - ONVIFOperator: api/core/onvif_operator.md
+      - ONVIFDiscovery: api/core/onvif_discovery.md
     - Exceptions:
-      - ONVIFOperationException: api/cores/onvif_exception.md
-      - ONVIFErrorHandler: api/cores/onvif_error_handler.md
+      - ONVIFOperationException: api/exceptions/onvif_exception.md
+      - Error Handlers: api/exceptions/onvif_error_handlers.md
+    - Utilities:
+      - CacheMode: api/utilities/cache_mode.md
+      - ONVIFWSDL: api/utilities/onvif_wsdl.md
+      - ONVIFService: api/utilities/onvif_service.md
+      - ZeepPatcher: api/utilities/zeep_patcher.md
+      - Plugins: api/utilities/plugins.md
     - Services:
       - Device: api/services/device.md
       - Events:
@@ -105,17 +114,21 @@ nav:
         - MediaSigning: api/services/mediasigning.md
         - TLSServer: api/services/tlsserver.md
   - Project:
-    - Contributing: contributing.md
-    - Roadmap: roadmap.md
-    - Used By: used_by.md
-    - Externals: externals.md
-  - Legals:
+    - Contributing: project/contributing.md
+    - Roadmap: project/roadmap.md
+    - Used By: project/used_by.md
+    - External: project/external.md
+  - Legal:
     - Legal Notice: legal/legal_notice.md
     - License: legal/license.md
   - Releases: releases.md  # It will be hidden because it serves as a placeholder.
 
 plugins:
   - search
+  - git-authors:
+      show_contribution: true
+      show_email_address: false
+      sort_authors_by: contribution
   - mkdocstrings:
       handlers:
         python:
@@ -127,15 +140,27 @@ plugins:
             show_signature_annotations: true
 
 markdown_extensions:
+  - abbr
+  - attr_list
   - md_in_html
   - admonition
+  - footnotes
+  - pymdownx.snippets
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
       linenums_style: pymdownx-inline
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
+
+extra:
+  generator: false
 
 extra_css:
   - stylesheets/extra.css

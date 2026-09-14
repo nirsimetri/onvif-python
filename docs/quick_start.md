@@ -1,11 +1,13 @@
 Below are simple examples to help you get started with the ONVIF Python library. These demonstrate how to discover and connect to ONVIF-compliant devices and retrieve basic device information.
 
 !!! tip "For beginners"
-    If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course). Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](legal/legal_notice.md) for details.
+    If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course).
+    
+    Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](legal/legal_notice.md) for details.
 
-### Discover ONVIF Devices (Optional)
+### Discover ONVIF Devices
 
-Use [`ONVIFDiscovery`](api/cores/onvif_discovery.md) (applied at [`>=v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
+Use [`ONVIFDiscovery`](api/core/onvif_discovery.md) (applied at [`>=v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
 
 ```python linenums="1"
 from onvif import ONVIFDiscovery
@@ -19,8 +21,7 @@ discovery = ONVIFDiscovery(timeout=5, interface="192.168.1.69")
 # Discover devices
 devices = discovery.discover()
 
-# Or with
-# Discover with search filter by types or scopes
+# or discover with search filter by types or scopes
 # (case-insensitive substring match)
 devices = discovery.discover(search="Profile/Streaming")
 
@@ -31,9 +32,11 @@ for device in devices:
     print(f"  XAddrs: {device['xaddrs']}")
 ```
 
+This operation is **optional**; it is only performed if you do not know the host and port information for the device you wish to connect to.
+
 ### Initialize the ONVIFClient
 
-Create an instance of [`ONVIFClient`](api/cores/onvif_client.md) by providing your device's IP address, port, username, and password:
+Create an instance of [`ONVIFClient`](api/core/onvif_client.md) by providing your device's IP address, port, username, and password:
 
 ```python linenums="1"
 from onvif import ONVIFClient
@@ -58,7 +61,7 @@ client = ONVIFClient(
 
 ### Create Service Instance
 
-[`ONVIFClient`](api/cores/onvif_client.md) provides several main services that can be accessed via the following methods:
+[`ONVIFClient`](api/core/onvif_client.md) provides several main services that can be accessed via the following methods:
 
 - `client.devicemgmt()` — Device Management
 - `client.events()` — Events
@@ -67,7 +70,7 @@ client = ONVIFClient(
 - `client.ptz()` — PTZ (Pan-Tilt-Zoom)
 - `client.analytics()` — Analytics
 
-and so on, check [`ONVIFClient`](api/cores/onvif_client.md) for more details
+and so on, check [`ONVIFClient`](api/core/onvif_client.md) for more details
 
 Example usage:
 ```python linenums="1"

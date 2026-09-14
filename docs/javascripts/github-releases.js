@@ -1,7 +1,7 @@
  /* global DOMPurify, marked, document$ */
 
 const GITHUB_API =
-  "https://api.github.com/repos/nirsimetri/onvif-python/releases";
+  "https://api.github.com/repos/nirsimetri/onvif-python/releases?per_page=100";
 
 const RELEASES_NAV_STATE_KEY = "github-releases-nav-open";
 
