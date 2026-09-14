@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for RuleEngine service."""
 
 from onvif.services import RuleEngine
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestRuleEngineWSDLCompliance(ONVIFServiceTestBase):

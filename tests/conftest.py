@@ -1,4 +1,4 @@
-# tests/conftest.py
+"""Tests Configurations."""
 
 from unittest.mock import Mock, patch
 
@@ -54,6 +54,7 @@ def mock_services():
     return [service1, service2]
 
 
+# pylint: disable=protected-access
 @pytest.fixture
 def mock_onvif_client():
     """Create a mocked ONVIF client for testing."""

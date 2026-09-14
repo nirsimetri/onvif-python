@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for AppManagement service."""
 
 from onvif.services import AppManagement
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestAppManagementWSDLCompliance(ONVIFServiceTestBase):

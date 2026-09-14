@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for AdvancedSecurity service."""
 
 from onvif.services import AdvancedSecurity
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestAdvancedSecurityWSDLCompliance(ONVIFServiceTestBase):

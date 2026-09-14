@@ -1,21 +1,23 @@
-# tests/services/base_service_test.py
+"""Base Services test."""
 
 import ast
 import inspect
 import os
-from typing import Any, Dict, List, Optional, Type
+from collections import Counter
+from typing import Any, Type
 from unittest.mock import Mock, patch
 
 from lxml import etree
 
 
+# pylint: disable=not-callable
 class ONVIFServiceTestBase:
     """Base class for ONVIF service testing to reduce code duplication."""
 
     # These should be overridden in subclasses
-    SERVICE_CLASS: Optional[Type] = None
+    SERVICE_CLASS: Type | None = None
     SERVICE_NAME: str = ""
-    WSDL_PATH_COMPONENTS: List[str] = (
+    WSDL_PATH_COMPONENTS: list[str] = (
         []
     )  # e.g., ["ver10", "device", "wsdl", "devicemgmt.wsdl"]
     BINDING_NAME: str = ""  # e.g., "DeviceBinding"
@@ -24,7 +26,7 @@ class ONVIFServiceTestBase:
     XADDR_PATH: str = ""  # e.g., "/onvif/device_service"
 
     @classmethod
-    def get_wsdl_operations(cls) -> Dict[str, Dict[str, List[str]]]:
+    def get_wsdl_operations(cls) -> dict[str, dict[str, list[str]]]:
         """Parse WSDL to get all defined operations with their parameters."""
         if not cls.WSDL_PATH_COMPONENTS:
             return {}
@@ -50,35 +52,37 @@ class ONVIFServiceTestBase:
             cls.NAMESPACE_PREFIX: cls.SERVICE_NAMESPACE,
         }
 
-        operations = {}
+        operations: dict[Any, Any] = {}
 
         # Find all operations in binding instead of portType
         binding = root.find(f'.//wsdl:binding[@name="{cls.BINDING_NAME}"]', ns)
-        if binding is not None:
-            for operation in binding.findall("wsdl:operation", ns):
-                op_name = operation.get("name")
+        if binding is None:
+            return operations
 
-                # Look for the element definition for this operation
-                element = root.find(f'.//xs:element[@name="{op_name}"]', ns)
-                params = []
-                if element is not None:
-                    # Look for sequence elements within the complexType
-                    sequence = element.find(".//xs:sequence", ns)
-                    if sequence is not None:
-                        for elem in sequence.findall("xs:element", ns):
-                            param_name = elem.get("name")
-                            if param_name:
-                                params.append(param_name)
+        for operation in binding.findall("wsdl:operation", ns):
+            op_name = operation.get("name")
 
-                operations[op_name] = {
-                    "request_params": params,
-                    "response_params": [],  # We don't need response params for this test
-                }
+            # Look for the element definition for this operation
+            element = root.find(f'.//xs:element[@name="{op_name}"]', ns)
+            params = []
+            if element is not None:
+                # Look for sequence elements within the complexType
+                sequence = element.find(".//xs:sequence", ns)
+                if sequence is not None:
+                    for elem in sequence.findall("xs:element", ns):
+                        param_name = elem.get("name")
+                        if param_name:
+                            params.append(param_name)
+
+            operations[op_name] = {
+                "request_params": params,
+                "response_params": [],  # We don't need response params for this test
+            }
 
         return operations
 
     @classmethod
-    def get_implemented_methods(cls) -> Dict[str, Dict[str, Any]]:
+    def get_implemented_methods(cls) -> dict[str, dict[str, Any]]:
         """Get all implemented methods in service class."""
         if not cls.SERVICE_CLASS:
             return {}
@@ -101,6 +105,15 @@ class ONVIFServiceTestBase:
                 }
 
         return methods
+
+    @classmethod
+    def _get_service_class(cls) -> Type:
+        """Return the configured service class or raise a clear error."""
+        if cls.SERVICE_CLASS is None or not callable(cls.SERVICE_CLASS):
+            raise TypeError(
+                f"SERVICE_CLASS must be a callable class, got {type(cls.SERVICE_CLASS)}"
+            )
+        return cls.SERVICE_CLASS
 
     def test_import(self):
         """Test that service class can be imported."""
@@ -158,7 +171,6 @@ class ONVIFServiceTestBase:
                 method_line_numbers[method_name].append(item.lineno)
 
         # Find duplicates
-        from collections import Counter
 
         method_counts = Counter(method_names)
         duplicates = [
@@ -207,7 +219,7 @@ class ONVIFServiceTestBase:
         implemented_methods = self.get_implemented_methods()
 
         missing_operations = []
-        for op_name in wsdl_operations.keys():
+        for op_name in wsdl_operations:
             if op_name not in implemented_methods:
                 missing_operations.append(op_name)
 
@@ -265,11 +277,11 @@ class ONVIFServiceTestBase:
             assert False, error_msg
 
     def test_method_parameters_completeness(self):
-        """
-        Test that all WSDL top-level parameters are included in method signature.
+        """Test that all WSDL top-level parameters are included in method signature.
 
-        This ensures that methods don't miss optional parameters from WSDL. For example, if WSDL has [CertificateID, Subject, Attributes], the method
-        must have all three parameters (even if Subject and Attributes are optional).
+        This ensures that methods don't miss optional parameters from WSDL. For example,
+        if WSDL has [CertificateID, Subject, Attributes], the method must have all three
+        parameters (even if Subject and Attributes are optional).
         """
         wsdl_operations = self.get_wsdl_operations()
         implemented_methods = self.get_implemented_methods()
@@ -350,7 +362,7 @@ class ONVIFServiceTestBase:
     def _edit_distance(self, s1: str, s2: str) -> int:
         """Calculate simple edit distance (Levenshtein distance)."""
         if len(s1) < len(s2):
-            return self._edit_distance(s2, s1)
+            s1, s2 = s2, s1
 
         if len(s2) == 0:
             return len(s1)
@@ -367,7 +379,9 @@ class ONVIFServiceTestBase:
 
         return previous_row[-1]
 
-    def test_operator_call_usage(self):
+    def test_operator_call_usage(  # pylint: disable=too-many-locals,too-many-branches,too-many-nested-blocks
+        self,
+    ):
         """Test that all methods correctly call self.operator.call()."""
         if not self.SERVICE_CLASS:
             return
@@ -380,11 +394,8 @@ class ONVIFServiceTestBase:
             mock_operator_class.return_value = mock_operator_instance
 
             # Create service instance
-            if not self.SERVICE_CLASS or not callable(self.SERVICE_CLASS):
-                raise TypeError(
-                    f"SERVICE_CLASS must be a callable class, got {type(self.SERVICE_CLASS)}"
-                )
-            service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
+            service_class = self._get_service_class()
+            service = service_class(xaddr=f"http://test:80{self.XADDR_PATH}")
 
             implemented_methods = self.get_implemented_methods()
 
@@ -437,7 +448,7 @@ class ONVIFServiceTestBase:
                                 f"{method_name}: operator.call() called without operation name"
                             )
 
-                except Exception as e:
+                except Exception as e:  # pylint: disable=broad-exception-caught
                     errors.append(f"{method_name}: Error during test - {str(e)}")
 
             assert not errors, "Operator call errors:\n" + "\n".join(errors)
@@ -451,7 +462,7 @@ class ONVIFServiceTestBase:
         allowed_helper_methods = ["type", "desc", "operations", "to_dict"]
 
         extra_methods = []
-        for method_name in implemented_methods.keys():
+        for method_name in implemented_methods:
             if (
                 method_name not in wsdl_operations
                 and method_name not in allowed_helper_methods
@@ -463,8 +474,11 @@ class ONVIFServiceTestBase:
             not extra_methods
         ), f"Extra methods found that are not in WSDL: {extra_methods}"
 
-    def test_parameter_forwarding_for_all_methods(self):
-        """Test that all method parameters are correctly forwarded to operator.call()."""
+    def test_parameter_forwarding_for_all_methods(  # pylint: disable=too-many-locals,too-many-branches,too-many-nested-blocks
+        self,
+    ):
+        """Test that all method parameters are correctly forwarded to
+        operator.call()."""
         if not self.SERVICE_CLASS:
             return
 
@@ -475,11 +489,8 @@ class ONVIFServiceTestBase:
             mock_operator_class.return_value = mock_operator_instance
             mock_operator_instance.call.return_value = {}
 
-            if not self.SERVICE_CLASS or not callable(self.SERVICE_CLASS):
-                raise TypeError(
-                    f"SERVICE_CLASS must be a callable class, got {type(self.SERVICE_CLASS)}"
-                )
-            service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
+            service_class = self._get_service_class()
+            service = service_class(xaddr=f"http://test:80{self.XADDR_PATH}")
             implemented_methods = self.get_implemented_methods()
 
             # Skip helper methods that don't call operator.call()
@@ -501,7 +512,7 @@ class ONVIFServiceTestBase:
                     # Create test arguments for all parameters
                     sig = method_info["signature"]
                     kwargs = {}
-                    for param_name, param in sig.parameters.items():
+                    for param_name, _ in sig.parameters.items():
                         if param_name == "self":
                             continue
                         # Use unique test values to verify parameter names
@@ -545,14 +556,14 @@ class ONVIFServiceTestBase:
                                                 )
                                                 break
 
-                except Exception as e:
+                except Exception as e:  # pylint: disable=broad-exception-caught
                     errors.append(
                         f"{method_name}: Error during parameter forwarding test - {str(e)}"
                     )
 
             assert not errors, "Parameter forwarding errors:\n" + "\n".join(errors)
 
-    def run_parameter_forwarding_tests(self, test_cases: List[Dict[str, Any]]):
+    def run_parameter_forwarding_tests(self, test_cases: list[dict[str, Any]]):
         """Test that parameters are correctly forwarded to operator.call()."""
         if not self.SERVICE_CLASS or not test_cases:
             return
@@ -564,11 +575,8 @@ class ONVIFServiceTestBase:
             mock_operator_class.return_value = mock_operator_instance
             mock_operator_instance.call.return_value = {}
 
-            if not self.SERVICE_CLASS or not callable(self.SERVICE_CLASS):
-                raise TypeError(
-                    f"SERVICE_CLASS must be a callable class, got {type(self.SERVICE_CLASS)}"
-                )
-            service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
+            service_class = self._get_service_class()
+            service = service_class(xaddr=f"http://test:80{self.XADDR_PATH}")
 
             for test_case in test_cases:
                 mock_operator_instance.call.reset_mock()
@@ -593,7 +601,7 @@ class ONVIFServiceTestBase:
                         actual_call[1][param_name] == param_value
                     ), f"Parameter {param_name} value mismatch in {test_case['method']}"
 
-    def run_specific_methods_tests(self, test_cases: List[Dict[str, Any]]):
+    def run_specific_methods_tests(self, test_cases: list[dict[str, Any]]):
         """Test specific important methods are correctly implemented."""
         if not self.SERVICE_CLASS or not test_cases:
             return
@@ -605,11 +613,8 @@ class ONVIFServiceTestBase:
             mock_operator_class.return_value = mock_operator_instance
             mock_operator_instance.call.return_value = {"Result": "Success"}
 
-            if not self.SERVICE_CLASS or not callable(self.SERVICE_CLASS):
-                raise TypeError(
-                    f"SERVICE_CLASS must be a callable class, got {type(self.SERVICE_CLASS)}"
-                )
-            service = self.SERVICE_CLASS(xaddr=f"http://test:80{self.XADDR_PATH}")
+            service_class = self._get_service_class()
+            service = service_class(xaddr=f"http://test:80{self.XADDR_PATH}")
 
             for i, test_case in enumerate(test_cases):
                 if i > 0:  # Reset mock for subsequent tests

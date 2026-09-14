@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for MediaSigning service."""
 
 from onvif.services import MediaSigning
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestMediaSigningWSDLCompliance(ONVIFServiceTestBase):

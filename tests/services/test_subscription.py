@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Subscription service."""
 
 from onvif.services import Subscription
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestSubscriptionWSDLCompliance(ONVIFServiceTestBase):
