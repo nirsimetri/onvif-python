@@ -1,1 +1,1 @@
-To be written.. see [`ONVIFDiscovery`](../api/cores/onvif_discovery.md)
+To be written.. see [`ONVIFDiscovery`](../api/core/onvif_discovery.md)

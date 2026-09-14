@@ -30,6 +30,9 @@ class ONVIFDiscovery:
         WS_DISCOVERY_ADDRESS_IPV4 (str): IPv4 multicast address used for discovery.
         WS_DISCOVERY_PROBE_MESSAGE (str): SOAP probe message sent to discover devices.
         NAMESPACES (dict[str, str]): XML namespaces used to parse WS-Discovery responses.
+
+    !!! tip "Version History"
+        - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6).
     """
 
     WS_DISCOVERY_PORT: int = 3702
@@ -140,7 +143,7 @@ class ONVIFDiscovery:
             | `scopes` | `list[str]` | Device scopes. |
             | `xaddrs` | `list[str]` | All available XAddrs. |
             | `hostname` | `str | None` | Hostname of the device. |
-            | `date_time` | `dict[str, str]` | Device system date and time (`utc` and `local`); empty if none are available. |
+            | `date_time` | `dict[str, str]` | Device system date and time (`utc` and/or `local`); empty if none are available. |
             | `services` | `list[str]` | List of supported ONVIF services; empty if none are available. |
 
             !!! tip "Version History"

@@ -7,6 +7,18 @@ Every ONVIF service provides **four** essential helper methods to improve the de
 
 Creates and returns an instance of the specified ONVIF type for building complex request parameters (applied at [`>=v0.1.9`](../releases.md/#v0.1.9)).
 
+**Parameters:**
+
+| Name | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `type_name` | `str` | ✅ Yes | Name of the type to create (e.g., 'SetHostname', 'SetIPAddressFilter') |
+
+**Returns:**
+
+| Type | Description |
+|------|-------------|
+| `Any` | Type instance that can be populated with data |
+
 **Usage:**
 ```python linenums="1"
 device = client.devicemgmt()
@@ -46,7 +58,9 @@ Lists all available operations for the current service (applied at [`>=v0.2.0`](
 
 **Returns:**
 
-- List of operation names that can be called on the service
+| Type | Description |
+|------|-------------|
+| `list[str] | list` | List of operation names that can be called on the service |
 
 **Usage:**
 ```python linenums="1"
@@ -76,13 +90,27 @@ if 'ContinuousMove' in ptz.operations():
 
 Provides comprehensive documentation and parameter information for any ONVIF operation (applied at [`>=v0.2.0`](../releases.md/#v0.2.0)).
 
+**Parameters:**
+
+| Name | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `method_name` | `str` | ✅ Yes | Name of the method to describe (e.g., 'GetDeviceInformation', 'SetHostname') |
+
 **Returns:**
 
-- `doc`: Method documentation from WSDL
-- `required`: List of required parameter names
-- `optional`: List of optional parameter names
-- `method_name`: The method name
-- `service_name`: The service name
+| Type | Description |
+|------|-------------|
+| `dict` | Operation documentation dictionary |
+
+!!! abstract "Documentation dict"
+
+    | Key | Type | Description |
+    | --- | ---- | ----------- |
+    | `doc` | `str | None` | Method documentation from WSDL. |
+    | `required` | `list[str]` | List of required parameter names; empty if none are available. |
+    | `optional` | `list[str]` | List of optional parameter names; empty if none are available. |
+    | `method_name` | `str` | The method name. |
+    | `service_name` | `str` | The service name. |
 
 **Usage:**
 ```python linenums="1"
@@ -106,11 +134,19 @@ for method in methods[:5]:  # Show first 5 methods
 
 ### `to_dict(zeep_object)`
 
-Converts a Zeep object (the raw result returned from ONVIF operations) into a native Python dictionary that is easy to serialize, inspect, and manipulate (applied at [`>=v0.2.9`](../releases.md/#v0.2.9)).
+Converts a Zeep object (`zeep.objects`) (the raw result returned from ONVIF operations) into a native Python dictionary that is easy to serialize, inspect, and manipulate (applied at [`>=v0.2.9`](../releases.md/#v0.2.9)).
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `zeep_object` | `Any` | ✅ Yes | The zeep object returned from ONVIF operations |
 
 **Returns:**
 
-- Python `dict` representation of the Zeep object. Returns an empty dict `{}` if `zeep_object` is `None` or if conversion fails for any reason.
+| Type | Description |
+|------|-------------|
+| `dict` | Python `dict` representation of the Zeep object.<br>Returns an empty dict `{}` if `zeep_object` is `None` or if conversion fails for any reason. |
 
 **Usage:**
 ```python linenums="1"

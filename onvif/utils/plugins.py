@@ -33,6 +33,9 @@ class ONVIFParser(Plugin):
         _extracted_elements: Extracted element texts from the most recent SOAP
             response, grouped by extraction name.
 
+    !!! tip "Version History"
+        - Available since [`>=v0.2.2`](/onvif-python/releases/#v0.2.2).
+
     ??? example "Usage"
         ```python
         from onvif import ONVIFClient, ONVIFParser
@@ -166,6 +169,10 @@ class XMLCapturePlugin(Plugin):
         last_operation (str | None): Most recent operation name
         history (list[dict[str, Any]]): All captured requests/responses with metadata
 
+    !!! tip "Version History"
+        - Available since [`>=v0.0.6`](/onvif-python/releases/#v0.0.6).
+        - Moved to `plugins` since [`>=v0.4.0`](/onvif-python/releases/#v0.4.0).
+
     !!! abstract "The plugin automatically captures"
         - Outgoing SOAP requests (`egress`)
         - Incoming SOAP responses (`ingress`)
@@ -173,7 +180,7 @@ class XMLCapturePlugin(Plugin):
         - Operation names for context
         - Complete history of all transactions
 
-    !!! tip "Use Cases"
+    !!! danger "Use Cases"
         1. **Debugging**: See exact SOAP messages being sent/received
         2. **Learning**: Understand ONVIF protocol structure
         3. **Testing**: Verify request format and response structure
@@ -207,7 +214,7 @@ class XMLCapturePlugin(Plugin):
 
     ??? note "See Also"
         - `zeep.Plugin`: Base class for zeep plugins
-        - [`ONVIFClient`](../cores/onvif_client.md): Client that uses this plugin
+        - [`ONVIFClient`](../core/onvif_client.md): Client that uses this plugin
         - `lxml.etree`: XML processing library
     """
 
@@ -431,6 +438,9 @@ class ReferenceParametersPlugin(Plugin):
     Attributes:
         reference_parameters: XML elements to inject into outgoing SOAP
             headers.
+
+    !!! tip "Version History"
+        - Available since [`>=v0.3.1`](/onvif-python/releases/#v0.3.1).
 
     !!! note
 

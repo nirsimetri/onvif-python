@@ -17,6 +17,9 @@ class ONVIFOperationException(Exception):
         operation (str): Name of the ONVIF operation that failed
         original_exception (Exception): The underlying exception that was raised
 
+    !!! tip "Version History"
+        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
+
     ## Error Categories
 
     ### SOAP Error
@@ -26,13 +29,13 @@ class ONVIFOperationException(Exception):
     - Supports both SOAP 1.1 and 1.2 formats
     - Extracts readable information from XML fault details
 
-    !!! failure "Common SOAP Fault Subcodes"
-        - `ActionNotSupported`: Operation not implemented by device
-        - `NotAuthorized`: Authentication failed or insufficient permissions
-        - `InvalidArgVal`: Invalid parameter value
-        - `OperationProhibited`: Operation not allowed in current state
-        - `Sender`: Client-side error in request
-        - `Receiver`: Server-side error in device
+        !!! bug "Common SOAP Fault Subcodes"
+            - `ActionNotSupported`: Operation not implemented by device
+            - `NotAuthorized`: Authentication failed or insufficient permissions
+            - `InvalidArgVal`: Invalid parameter value
+            - `OperationProhibited`: Operation not allowed in current state
+            - `Sender`: Client-side error in request
+            - `Receiver`: Server-side error in device
 
     ### Protocol Error
     Network/HTTP transport failed:
@@ -48,18 +51,25 @@ class ONVIFOperationException(Exception):
     - Fallback category for uncategorized errors
 
     ??? example "Example Error Messages"
+
+        SOAP Error - ActionNotSupported
         ```python
-        # SOAP Error - ActionNotSupported
-        # ONVIF operation 'GetImagingSettings' failed: SOAP Error: code=Receiver, subcode=ActionNotSupported, msg=Optional Action Not Implemented
+        ONVIF operation 'GetImagingSettings' failed: SOAP Error: code=Receiver, subcode=ActionNotSupported, msg=Optional Action Not Implemented
+        ```
 
-        # Protocol Error - Connection Timeout
-        # ONVIF operation 'GetCapabilities' failed: Protocol Error: HTTPConnectionPool(host='192.168.1.100', port=80): Read timed out.
+        SOAP Error - Invalid Argument
+        ```python
+        ONVIF operation 'SetVideoEncoderConfiguration' failed: SOAP Error: code=Sender, subcode=InvalidArgVal, msg=Invalid resolution, detail=Width=1920, Height=1080
+        ```
 
-        # SOAP Error - Invalid Argument
-        # ONVIF operation 'SetVideoEncoderConfiguration' failed: SOAP Error: code=Sender, subcode=InvalidArgVal, msg=Invalid resolution, detail=Width=1920, Height=1080
+        Protocol Error - Connection Timeout
+        ```python
+        ONVIF operation 'GetCapabilities' failed: Protocol Error: HTTPConnectionPool(host='192.168.1.100', port=80): Read timed out.
+        ```
 
-        # Application Error - Missing Argument
-        # ONVIF operation 'UpgradeSystemFirmware' failed: Application Error: TypeError - Device.UpgradeSystemFirmware() missing 1 required positional argument: 'Firmware'
+        Application Error - Missing Argument
+        ```python
+        ONVIF operation 'UpgradeSystemFirmware' failed: Application Error: TypeError - Device.UpgradeSystemFirmware() missing 1 required positional argument: 'Firmware'
         ```
 
     ??? note "Notes"

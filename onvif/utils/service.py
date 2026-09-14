@@ -28,7 +28,10 @@ class ONVIFService:
     behavior for all ONVIF services ([`Device`](../services/device.md),
     [`Media`](../services/media.md), [`PTZ`](../services/ptz.md), etc.).
 
-    !!! info "All service classes inherit from `ONVIFService` to ensure"
+    !!! tip "Version History"
+        - Available since [`>=v0.1.8`](/onvif-python/releases/#v0.1.8).
+
+    !!! danger "All service classes inherit from `ONVIFService` to ensure"
         - Consistent exception handling across all ONVIF operations
         - Automatic wrapping of errors into [`ONVIFOperationException`](../exceptions/onvif_exception.md)
         - Uniform error reporting with operation names
@@ -50,7 +53,7 @@ class ONVIFService:
 
     ??? note "See Also"
         - [`ONVIFOperationException`](../exceptions/onvif_exception.md): Exception class for wrapped errors
-        - [`ONVIFOperator`](../cores/onvif_operator.md): Low-level SOAP operation handler
+        - [`ONVIFOperator`](../core/onvif_operator.md): Low-level SOAP operation handler
         - Device, Media, PTZ, etc.: Concrete service implementations
     """
 

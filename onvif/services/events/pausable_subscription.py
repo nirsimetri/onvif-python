@@ -19,6 +19,9 @@ class PausableSubscription(ONVIFService):
     | --- | --- |
     | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
     | **Binding name** | `PausableSubscriptionManagerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
+
+    !!! tip "Version History"
+        - Available since [`>=v0.2.4`](/onvif-python/releases/#v0.2.4).
     """
 
     def __init__(self, xaddr=None, **kwargs):

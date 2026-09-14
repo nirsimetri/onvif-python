@@ -1,5 +1,7 @@
 !!! warning
-    Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device. This library automatically performs comprehensive service discovery during initialization using a robust fallback mechanism.
+    Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device.
+    
+    This library automatically performs comprehensive service discovery during initialization using a robust fallback mechanism (see [`ONVIFClient`](../api/core/onvif_client.md) for implementation details).
 
 ## Why discover device services?
 
@@ -20,7 +22,7 @@ By checking available services, your application can adapt its workflow and UI t
 !!! tip
     The library handles service discovery automatically with intelligent fallback. You typically don't need to call discovery methods manually unless you need detailed capability information or want to refresh the service list after device configuration changes.
 
-The `ONVIFClient` uses a **3-tier discovery approach** to maximize device compatibility:
+The [`ONVIFClient`](../api/core/onvif_client.md) uses a **3-tier discovery approach** to maximize device compatibility:
 
 ### `GetServices` (Preferred)
 Tries `GetServices` first for detailed service information.

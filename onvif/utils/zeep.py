@@ -25,6 +25,9 @@ class ZeepPatcher:
         _original_parse_xmlelements (Callable[..., Any]): Backup of original zeep method
         _is_patched (bool): Current patch status
 
+    !!! tip "Version History"
+        - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4).
+
     !!! failure "The Problem"
         ONVIF uses `xsd:any` extensively for extensibility. By default, zeep doesn't
         parse these fields - it just stores raw XML elements. This makes accessing
@@ -128,9 +131,9 @@ class ZeepPatcher:
 
     ??? note "See Also"
         - `zeep.xsd.elements.any.Any`: Original zeep `xsd:any` handler
-        - [`ONVIFClient`](../cores/onvif_client.md): Automatically applies this patch by default
-        - [`ONVIFOperator`](../cores/onvif_operator.md): Uses flattening in
-            [`call()`](../cores/onvif_operator.md#onvif.operator.ONVIFOperator.call) method
+        - [`ONVIFClient`](../core/onvif_client.md): Automatically applies this patch by default
+        - [`ONVIFOperator`](../core/onvif_operator.md): Uses flattening in
+            [`call()`](../core/onvif_operator.md#onvif.operator.ONVIFOperator.call) method
     """
 
     # Store original parse_xmlelements before patching

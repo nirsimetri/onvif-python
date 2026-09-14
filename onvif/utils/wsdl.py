@@ -20,6 +20,14 @@ class ONVIFWSDL:
     The class supports both built-in WSDLs (bundled with the package) and custom
     WSDL directories for users who want to use their own WSDL files.
 
+    Attributes:
+        BASE_DIR (str): Default base directory for WSDL files (Built-in)
+        WSDL_MAP (dict[str, dict[str, Any]] | None): Will be initialized when first accessed
+        _custom_wsdl_dir (str | None): Global custom WSDL directory
+
+    !!! tip "Version History"
+        - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0).
+
     !!! abstract "Features"
         - Centralized WSDL definition mapping for all ONVIF services
         - Support for multiple ONVIF versions (ver10, ver20)
@@ -79,16 +87,16 @@ class ONVIFWSDL:
         - Thread-safe for read operations
 
     ??? note "See Also"
-        - [`ONVIFOperator`](../cores/onvif_operator.md): Uses WSDL definitions to create SOAP clients
-        - [`ONVIFClient`](../cores/onvif_client.md): High-level client that uses this class internally
+        - [`ONVIFOperator`](../core/onvif_operator.md): Uses WSDL definitions to create SOAP clients
+        - [`ONVIFClient`](../core/onvif_client.md): High-level client that uses this class internally
     """
 
     # Default base directory for WSDL files (Built-in)
     # Included in the package
-    BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "wsdl")
+    BASE_DIR: str = os.path.join(os.path.dirname(os.path.dirname(__file__)), "wsdl")
 
     # Global custom WSDL directory - can be set once for all services
-    _custom_wsdl_dir = None
+    _custom_wsdl_dir: str | None = None
 
     @classmethod
     def set_custom_wsdl_dir(cls, custom_dir) -> None:

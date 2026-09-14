@@ -50,7 +50,7 @@ pip install .
 
 Once the installation is successful, you can also immediately access the [ONVIF CLI](https://nirsimetri.github.io/onvif-python/core/onvif_cli/) via the terminal using:
 ```shell
-onvif --version
+onvif --help
 ```
 
 ## Documentation
