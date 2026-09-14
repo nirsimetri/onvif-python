@@ -122,9 +122,9 @@ def create_parser() -> ArgumentParser:
     parser.add_argument(
         "--cache",
         choices=[mode.value for mode in CacheMode],
-        default=CacheMode.ALL.value,
-        help="Caching mode for ONVIFClient (default: all). "
-        "'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.",
+        default=CacheMode.DB.value,
+        help="Caching mode for ONVIFClient (default: db). "
+        "'db': disk-only, 'mem': memory-only, 'none': disabled.",
     )
     parser.add_argument(
         "--health-check-interval",
