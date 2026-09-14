@@ -12,10 +12,17 @@ venv/
 build/
 dist/
 *.egg-info/
+site/
 
 # SQLite database files
 *.sqlite
 *.sqlite3
+
+# Coverage
+.codacy-coverage/
+.coverage
+coverage.xml
+codacy-coverage.sh
 
 # Python cache
 __pycache__/
@@ -42,4 +49,3 @@ KNOWN_ISSUES.md
 examples/test.py
 examples/README.md
 temp
-site

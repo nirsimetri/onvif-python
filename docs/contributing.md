@@ -49,7 +49,8 @@ If you can help translate documentation or error messages, let us know!
    # Install the package in development mode
    pip install -e .
    
-   # Install development dependencies (pytest, black, docformatter, mypy, isort, pylint)
+   # Install development dependencies
+   # (pytest, pytest-cov, pylint, mypy, isort, docformatter, black)
    pip install -e ".[dev]"
    ```
    Or use `pyproject.toml` with your preferred tool (e.g., Poetry, pip).
@@ -61,6 +62,14 @@ If you can help translate documentation or error messages, let us know!
    ```
    Make sure all tests pass before submitting your changes.
 
+### Generate coverage report
+
+   Coverage is optional for local development. To generate an XML coverage report:
+   ```shell
+   pytest --cov=. --cov-report=xml
+   ```
+   This generates `coverage.xml`, which can be used by coverage analysis tools such as Codacy.
+
 ### Lint and format code
 
    ```shell
@@ -68,10 +77,10 @@ If you can help translate documentation or error messages, let us know!
    pylint .
 
    # Check error with pylint
-   pylint onvif --errors-only --score=n
+   pylint . --errors-only --score=n
 
    # Static type checking
-   mypy onvif
+   mypy .
 
    # Sort import order
    isort .
@@ -190,7 +199,7 @@ Using `--strict` is recommended because it treats warnings as errors and helps c
 
 ### Structure
 
-The documentation source is located in the `docs/` directory. The navigation and page structure are defined in `mkdocs.yml`.
+The documentation source is located in the [`docs/`](https://github.com/nirsimetri/onvif-python/tree/dev/docs) directory. The navigation and page structure are defined in `mkdocs.yml`.
 
 ```text
 docs/
@@ -214,7 +223,7 @@ docs/
 └── releases.md
 ```
 
-API reference pages under `docs/api/` use `mkdocstrings` to generate documentation from the corresponding Python modules and classes.
+API reference pages under [`docs/api/`](https://github.com/nirsimetri/onvif-python/tree/dev/docs/api) use `mkdocstrings` to generate documentation from the corresponding Python modules and classes.
 
 For example:
 
