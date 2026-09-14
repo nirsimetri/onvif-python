@@ -5,7 +5,7 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name,line-too-long
 class MediaSigning(ONVIFService):
     """Security (MediaSigning) service client.
 

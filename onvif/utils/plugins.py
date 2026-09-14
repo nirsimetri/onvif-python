@@ -107,8 +107,8 @@ class ONVIFParser(Plugin):
 
         Returns:
             A tuple containing the unchanged ``envelope`` and ``http_headers``.
-            Returning both values allows Zeep to continue processing the response
-            and allows other plugins in the chain to process it as well.
+                Returning both values allows Zeep to continue processing the response
+                and allows other plugins in the chain to process it as well.
         """
         # Auto-clear cache from previous response
         self._extracted_elements = {}

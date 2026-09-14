@@ -144,7 +144,7 @@ class ONVIFDiscovery:
             | `services` | `list[str]` | List of supported ONVIF services; empty if none are available. |
 
             !!! tip "Version History"
-                - Added in [`>=v0.3.2`](/onvif-python/releases/#v0.3.2): `hostname`, `date_time`, and `services`.
+                - Added in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `hostname`, `date_time`, and `services`.
         """
         local_ip = self.get_local_ip()
         logger.info("Starting ONVIF device discovery (timeout: %ss)", self.timeout)
@@ -270,52 +270,7 @@ class ONVIFDiscovery:
             try:
                 # connect to device as PRE_AUTH (no auth at all)
                 client = ONVIFClient(host=device["host"], port=device["port"])
-
-                device_service = client.devicemgmt()
-
-                try:
-                    device_hostname = safe_call(device_service.GetHostname)
-                    if device_hostname:
-                        device["hostname"] = device_hostname.Name
-                except (KeyError, ONVIFOperationException):
-                    pass
-
-                try:
-                    device_date_time = safe_call(device_service.GetSystemDateAndTime)
-
-                    if device_date_time:
-                        utc = device_date_time.UTCDateTime
-                        local = device_date_time.LocalDateTime
-
-                        if utc:
-                            device["date_time"]["utc"] = (
-                                f"{utc.Date.Year:04d}-{utc.Date.Month:02d}-{utc.Date.Day:02d}"
-                                f"T{utc.Time.Hour:02d}:{utc.Time.Minute:02d}:{utc.Time.Second:02d}"
-                            )
-
-                        if local:
-                            device["date_time"]["local"] = (
-                                f"{local.Date.Year:04d}-{local.Date.Month:02d}-{local.Date.Day:02d}"
-                                f"T{local.Time.Hour:02d}:{local.Time.Minute:02d}:{local.Time.Second:02d}"
-                            )
-                except (KeyError, ONVIFOperationException):
-                    pass
-
-                try:
-                    if client.services:
-                        for service in client.services:
-                            namespace = getattr(service, "Namespace", "")
-                            service_mappings = ONVIF_NAMESPACE_MAP.get(namespace, [])
-
-                            if not service_mappings:
-                                # Unknown namespace
-                                device["services"].append(f"unknown({namespace})")
-                            else:
-                                # Add the main service entry (first service in mappings)
-                                device["services"].append(service_mappings[0][0])
-                except (KeyError, ONVIFOperationException):
-                    pass
-
+                device_service = client.devicemgmt()  # should not fail !
             except ONVIFOperationException as e:
                 logger.warning(
                     "Failed to process discovered device %s:%s: %s",
@@ -324,6 +279,55 @@ class ONVIFDiscovery:
                     e,
                 )
                 continue
+
+            try:
+                device_hostname = safe_call(device_service.GetHostname)
+                if device_hostname:
+                    device["hostname"] = device_hostname.Name
+            except (KeyError, ONVIFOperationException):
+                pass
+
+            try:
+                device_date_time = safe_call(device_service.GetSystemDateAndTime)
+
+                if device_date_time:
+                    utc = device_date_time.UTCDateTime
+                    local = device_date_time.LocalDateTime
+
+                    device["date_time"]["utc"] = (
+                        (
+                            f"{utc.Date.Year:04d}-{utc.Date.Month:02d}-{utc.Date.Day:02d}"
+                            f"T{utc.Time.Hour:02d}:{utc.Time.Minute:02d}:{utc.Time.Second:02d}"
+                        )
+                        if utc
+                        else None
+                    )
+
+                    device["date_time"]["local"] = (
+                        (
+                            f"{local.Date.Year:04d}-{local.Date.Month:02d}-{local.Date.Day:02d}"
+                            f"T{local.Time.Hour:02d}:{local.Time.Minute:02d}:{local.Time.Second:02d}"
+                        )
+                        if local
+                        else None
+                    )
+            except (KeyError, ONVIFOperationException):
+                pass
+
+            try:
+                if client.services:
+                    for service in client.services:
+                        namespace = getattr(service, "Namespace", "")
+                        service_mappings = ONVIF_NAMESPACE_MAP.get(namespace, [])
+
+                    if not service_mappings:
+                        # Unknown namespace
+                        device["services"].append(f"unknown({namespace})")
+                    else:
+                        # Add the main service entry (first service in mappings)
+                        device["services"].append(service_mappings[0][0])
+            except (KeyError, ONVIFOperationException):
+                pass
 
         return discovered_devices
 
@@ -420,7 +424,7 @@ class ONVIFDiscovery:
             if probe_match is None:
                 return None
 
-            device_info = {
+            device_info: dict[str, Any] = {
                 "epr": "",
                 "types": [],
                 "scopes": [],
