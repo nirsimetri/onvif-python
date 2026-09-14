@@ -38,6 +38,7 @@ def discover_devices(
     return devices
 
 
+# pylint: disable=too-many-locals,too-many-statements,too-many-branches
 def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
     """Display devices and allow user to select one interactively.
 
@@ -140,13 +141,14 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
                 print(
                     f"\n{colorize('Selected:', 'green')} {colorize(protocol, 'cyan')}://{colorize(host_port, 'yellow')}"
                 )
+
                 return (
                     selected["host"],
                     selected["port"],
                     selected.get("use_https", False),
                 )
-            else:
-                print(colorize("Invalid selection. Please try again.", "red"))
+
+            print(colorize("Invalid selection. Please try again.", "red"))
 
         except ValueError:
             print(colorize("Invalid input. Please enter a number.", "red"))

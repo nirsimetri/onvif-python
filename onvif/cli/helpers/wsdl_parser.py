@@ -36,6 +36,7 @@ class OperationTypeInfo(TypedDict):
     output: MessageInfo | None
 
 
+# pylint: disable=too-many-locals,too-many-statements,too-many-branches
 def get_method_documentation(service_obj, method_name: str) -> dict[str, Any] | None:
     """Extracts documentation from WSDL and parameters from the Python method signature.
 
@@ -45,7 +46,7 @@ def get_method_documentation(service_obj, method_name: str) -> dict[str, Any] | 
     required_args: list[str] = []
     optional_args: list[str] = []
 
-    try:
+    try:  # pylint: disable=too-many-nested-blocks
         # 1. Get documentation from WSDL (existing logic)
         wsdl_path = service_obj.operator.wsdl_path
 
@@ -308,8 +309,7 @@ def clean_documentation_html(doc_text: str) -> str:
         text = match.group(2).strip()  # Strip whitespace from link text
         if text:
             return f"{text} ({url})"
-        else:
-            return url  # If no text, just return URL
+        return url  # If no text, just return URL
 
     # Replace anchor tags - handle newlines and whitespace
     doc_text = re.sub(
@@ -361,7 +361,9 @@ def extract_documentation_text(doc_elem) -> str:
 def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
     """Recursively load all imported and included schemas into the schema context."""
     # Find all xs:import and xs:include in xs:schema elements
-    for schema in root.findall(".//xs:schema", namespaces):
+    for schema in root.findall(  # pylint: disable=too-many-nested-blocks
+        ".//xs:schema", namespaces
+    ):
         # Process imports
         for import_elem in schema.findall("xs:import", namespaces):
             schema_location = import_elem.get("schemaLocation")
@@ -443,6 +445,7 @@ def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
                         continue
 
 
+# pylint: disable=too-many-locals,too-many-statements,too-many-branches
 def resolve_element_type(
     element_name: str,
     namespaces: dict,
@@ -605,6 +608,7 @@ def resolve_element_type(
     return parameters
 
 
+# pylint: disable=too-many-locals,too-many-statements,too-many-branches
 def resolve_complex_type(
     type_name: str,
     namespaces: dict,
@@ -794,6 +798,7 @@ def resolve_complex_type(
     return children
 
 
+# pylint: disable=too-many-locals,too-many-statements,too-many-branches
 def parse_inline_complex_type(
     complex_type,
     namespaces: dict,
