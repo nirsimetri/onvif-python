@@ -51,11 +51,11 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 
     ```shell
     usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--interface INTERFACE] [--discovery-timeout DISCOVERY_TIMEOUT] [--search SEARCH]
-                [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {all,db,mem,none}]
+                [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--digest] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {none,mem,db}]
                 [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
                 [service] [method] [params ...]
 
-    ONVIF Terminal Client — v0.3.1
+    ONVIF Terminal Client — v0.4.0
     https://github.com/nirsimetri/onvif-python
 
     positional arguments:
@@ -83,16 +83,17 @@ This library includes a powerful command-line interface (CLI) for interacting wi
       --page PAGE           Page number for search results (default: 1)
       --per-page PER_PAGE   Number of results per page (default: 20)
       --timeout TIMEOUT     ONVIF connection timeout in seconds (default: 10)
+      --digest              Use HTTP Digest instead of WS-UsernameToken
       --https               Use HTTPS instead of HTTP
       --no-verify           Disable SSL certificate verification
       --no-patch            Disable ZeepPatcher
       --interactive, -i     Start interactive mode
       --debug               Enable debug mode with XML capture
       --wsdl WSDL           Custom WSDL directory path
-      --cache {all,db,mem,none}
-                            Caching mode for ONVIFClient (default: all). 'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.
+      --cache {none,mem,db}
+                            Caching mode for ONVIFClient (default: db). 'db': disk-only, 'mem': memory-only, 'none': disabled.
       --health-check-interval HEALTH_CHECK_INTERVAL, -hci HEALTH_CHECK_INTERVAL
-                            Health check interval in seconds for interactive mode (default: 10)
+                            Health check interval in seconds for interactive mode (default: 3)
       --output OUTPUT, -o OUTPUT
                             Save command output to file. Supports .json, .xml extensions for format detection, or plain text. XML format automatically enables debug mode for SOAP capture.
       --version, -v         Show ONVIF CLI version and exit
@@ -104,39 +105,39 @@ This library includes a powerful command-line interface (CLI) for interacting wi
       onvif --search hikvision --page 2 --per-page 5
 
       # Discover ONVIF devices on network
-      onvif --discover --username admin --password password --interactive
+      onvif --discover --username admin --password admin123 --interactive
       onvif media GetProfiles --discover --username admin
-      onvif -d -i
+      onvif -d --interface 192.168.1.77 -i
 
       # Discover with filtering
       onvif --discover --filter ptz --interactive
       onvif -d -f "C210" -i
-      onvif -d -f "audio_encoder" -u admin -p password -i
+      onvif -d -f "audio_encoder" -u admin -p admin123 -i
 
       # Direct command execution
-      onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password password
-      onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={'PanTilt': {'x': -0.1, 'y': 0}} -H 192.168.1.17 -P 8000 -u admin -p password
+      onvif devicemgmt GetCapabilities Category=All --host 192.168.1.17 --port 8000 --username admin --password admin123
+      onvif ptz ContinuousMove ProfileToken=Profile_1 Velocity={'PanTilt': {'x': -0.1, 'y': 0}} -H 192.168.1.17 -P 8000 -u admin -p admin123
 
       # Save output to file
-      onvif devicemgmt GetDeviceInformation --host 192.168.1.17 --port 8000 --username admin --password password --output device_info.json
-      onvif media GetProfiles --host 192.168.1.17 --port 8000 --username admin --password password --output profiles.xml
-      onvif ptz GetConfigurations --host 192.168.1.17 --port 8000 --username admin --password password --output ptz_config.txt --debug
+      onvif devicemgmt GetDeviceInformation --host 192.168.1.17 --port 8000 --username admin --password admin123 --output device_info.json
+      onvif media GetProfiles --host 192.168.1.17 --port 8000 --username admin --password admin123 --output profiles.xml
+      onvif ptz GetConfigurations --host 192.168.1.17 --port 8000 --username admin --password admin123 --output ptz_config.txt --debug
 
       # Interactive mode
-      onvif --host 192.168.1.17 --port 8000 --username admin --password password --interactive
+      onvif --host 192.168.1.17 --port 8000 --username admin --password admin123 --interactive
 
       # Prompting for username and password
       # (if not provided)
       onvif -H 192.168.1.17 -P 8000 -i
 
       # Using HTTPS
-      onvif media GetProfiles --host camera.example.com --port 443 --username admin --password password --https
+      onvif media GetProfiles --host camera.example.com --port 443 --username admin --password admin123 --https
     ```
 
 ??? abstract "Interactive Shell"
 
     ```shell
-    ONVIF Interactive Shell — v0.3.1
+    ONVIF Interactive Shell — v0.4.0
     https://github.com/nirsimetri/onvif-python
 
     Basic Commands:
@@ -152,7 +153,6 @@ This library includes a powerful command-line interface (CLI) for interacting wi
       cd <service>             - Enter service mode (alias)
       ls                       - List commands/services/methods in grid format
       up                       - Exit current service mode (go up one level)
-      pwd                      - Show current service context
       clear                    - Clear terminal screen
       help <command>           - Show help for a specific command
 
@@ -235,6 +235,8 @@ If you omit the username or password, you will be prompted to enter them securel
 | `show <name>` | Display a stored variable |
 | `cls` | Clear stored data |
 | `debug` | Show debug information (if `--debug` enabled) |
+| `shortcuts` | Show available shortcuts |
+| `clear` | Clear terminal screen |
 | `exit` | Exit the shell |
 
 !!! warning
