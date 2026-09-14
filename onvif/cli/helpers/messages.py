@@ -70,7 +70,7 @@ def print_interactive_intro(args, device_info_text) -> str:
         f"{repo_info}\n"
         f"{terminal_header}\n"
         f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}\n"
-        f"  Auth Method   : {colorize(f'{'HTTP Digest' if args.digest else 'WS-Username Token'}', 'yellow')}"
+        f"  Auth Method   : {colorize(f'{'HTTP Digest' if args.digest else 'WS-UsernameToken'}', 'yellow')}"
         f"{options_display}{device_info_text}\n\n"
         f"{colorize('[Quick Start]', 'green')}\n"
         f"  - Type {colorize('dev', 'yellow')} + {colorize('TAB', 'yellow')} to see `devicemgmt` suggestion\n"

@@ -102,6 +102,7 @@ def save_output_to_file(
         print(str(result))
 
 
+# pylint: disable=too-many-return-statements,too-many-branches,too-many-nested-blocks
 def _serialize_for_json(obj: Any) -> Any:
     """Recursively serialize ONVIF objects for JSON output.
 
@@ -113,17 +114,17 @@ def _serialize_for_json(obj: Any) -> Any:
     """
     if obj is None:
         return None
-    elif isinstance(obj, (str, int, float, bool)):
+    if isinstance(obj, (str, int, float, bool)):
         return obj
-    elif isinstance(obj, datetime):
+    if isinstance(obj, datetime):
         return obj.isoformat()
-    elif isinstance(obj, (list, tuple)):
+    if isinstance(obj, (list, tuple)):
         return [_serialize_for_json(item) for item in obj]
-    elif isinstance(obj, dict):
+    if isinstance(obj, dict):
         return {key: _serialize_for_json(value) for key, value in obj.items()}
 
     # Check if this is a Zeep object (has _xsd_type attribute)
-    elif hasattr(obj, "_xsd_type"):
+    if hasattr(obj, "_xsd_type"):
         result = {}
         # Try to get all elements from XSD type
         if hasattr(obj._xsd_type, "elements"):  # pylint: disable=protected-access
@@ -154,7 +155,7 @@ def _serialize_for_json(obj: Any) -> Any:
 
         return result
 
-    elif hasattr(obj, "__dict__"):
+    if hasattr(obj, "__dict__"):
         # Handle regular objects with attributes
         result = {}
         for key, value in obj.__dict__.items():
@@ -176,14 +177,15 @@ def _serialize_for_json(obj: Any) -> Any:
                         pass
 
         return result
-    elif hasattr(obj, "_value_1"):
+
+    if hasattr(obj, "_value_1"):
         # Handle zeep objects with special structure
         return _serialize_for_json(obj._value_1)  # pylint: disable=protected-access
-    else:
-        # Try to convert to dict using vars() if available
-        try:
-            obj_dict = vars(obj)
-            return _serialize_for_json(obj_dict)
-        except TypeError:
-            # Fallback to string representation
-            return str(obj)
+
+    # Try to convert to dict using vars() if available
+    try:
+        obj_dict = vars(obj)
+        return _serialize_for_json(obj_dict)
+    except TypeError:
+        # Fallback to string representation
+        return str(obj)

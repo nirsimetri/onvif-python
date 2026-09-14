@@ -10,6 +10,8 @@ from pathlib import Path
 from onvif.cli.utils import colorize
 
 
+# pylint: disable=too-many-locals,too-many-nested-blocks
+# pylint: disable=too-many-statements,too-many-branches
 def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None:
     """Search ONVIF products database and display results in table format with
     pagination.

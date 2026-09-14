@@ -1,3 +1,5 @@
+# pylint: disable=too-many-lines,too-many-instance-attributes,too-many-locals
+# pylint: disable=too-many-statements,too-many-public-methods,too-many-branches
 """ONVIF CLI interactive shell implementation."""
 
 import cmd
@@ -273,6 +275,7 @@ class InteractiveShell(cmd.Cmd):
                     depth = max(0, depth - 1)
 
             # Detect top-level &&
+            # pylint: disable=too-many-boolean-expressions
             if (
                 not in_single
                 and not in_double
@@ -520,6 +523,8 @@ class InteractiveShell(cmd.Cmd):
         else:
             print(f"{colorize('Unknown command:', 'red')} {line}")
             print(f"Type {colorize('help', 'white')} for available commands")
+
+        return None
 
     def get_suggestions(self, partial_cmd: str) -> list[str]:
         """Get command suggestions based on partial input."""
@@ -1025,7 +1030,7 @@ class InteractiveShell(cmd.Cmd):
             available_services = get_device_available_services(self.client)
             colored_services = [colorize(svc, "cyan") for svc in available_services]
             print(f"Available services: {', '.join(colored_services)}")
-            return
+            return None
         return self.do_enter_service(line)
 
     def complete_cd(
@@ -1209,7 +1214,7 @@ class InteractiveShell(cmd.Cmd):
         print(
             f"\n{colorize('[ONVIF Terminal Client]', 'yellow')}"
             f"\n  Connected to  : {colorize(f'{self.args.host}:{self.args.port}', 'yellow')}"
-            f"\n  Auth Method   : {colorize(f'{'HTTP Digest' if self.args.digest else 'WS-Usernametoken'}', 'yellow')}"
+            f"\n  Auth Method   : {colorize(f'{'HTTP Digest' if self.args.digest else 'WS-UsernameToken'}', 'yellow')}"
             f"{options_display}{self.device_info_text}"
         )
         print()  # Extra newline for spacing

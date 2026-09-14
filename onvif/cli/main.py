@@ -99,7 +99,7 @@ def create_parser() -> ArgumentParser:
     parser.add_argument(
         "--digest",
         action="store_true",
-        help="Use HTTP Digest instead of WS-Usernametoken",
+        help="Use HTTP Digest instead of WS-UsernameToken",
     )
     parser.add_argument(
         "--https", action="store_true", help="Use HTTPS instead of HTTP"
@@ -163,6 +163,7 @@ def create_parser() -> ArgumentParser:
     return parser
 
 
+# pylint: disable=too-many-statements,too-many-branches
 def main() -> None:
     """Main CLI entry point."""
     # Setup custom warning format for cleaner output

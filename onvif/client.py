@@ -103,7 +103,8 @@ def service(func: Callable[P, R]) -> Callable[P, R]:
     return wrapper
 
 
-# pylint: disable=too-many-instance-attributes,too-many-locals,too-many-public-methods,too-many-statements
+# pylint: disable=too-many-instance-attributes,too-many-locals
+# pylint: disable=too-many-public-methods,too-many-statements
 class ONVIFClient:
     """High-level ONVIF client for interacting with ONVIF-compliant devices.
 
@@ -299,9 +300,9 @@ class ONVIFClient:
         self._authorizationserver: AuthorizationServer | None = None
         self._mediasigning: MediaSigning | None = None
 
-    def _get_xaddr(
+    def _get_xaddr(  # pylint: disable=too-many-branches
         self, service_name: str, service_path: str
-    ) -> str:  # pylint: disable=too-many-branches
+    ) -> str:
         """Resolve XAddr for ONVIF services using a comprehensive 3-tier discovery
         approach.
 
