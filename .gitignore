@@ -4,6 +4,8 @@
 *.env
 .env
 venv/
+.venv/
+.pytest_cache/
 .mypy_cache/
 
 # Distribution / packaging
@@ -24,6 +26,9 @@ __pycache__/
 
 # VSCode settings
 .vscode/
+
+# Jetbrains settings
+.idea/
 
 # MacOS files
 .DS_Store
