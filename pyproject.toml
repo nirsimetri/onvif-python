@@ -48,6 +48,7 @@ build-backend = "setuptools.build_meta"
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0",
+    "pytest-cov",
     "black",
     "mypy",
     "isort",
@@ -66,7 +67,14 @@ onvif = "onvif.cli.main:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["onvif*"]
-exclude = ["examples*", "tests*", "assets*", "build*", "site*"]
+exclude = [
+    "examples*",
+    "tests*",
+    "assets*",
+    "build*",
+    "site*",
+    "device-test*",
+]
 
 [tool.setuptools.package-data]
 onvif = ["wsdl/*", "db/*"]
@@ -126,6 +134,14 @@ exclude  = [
     "^temp/",
     "^build/",
     "^site/",
+]
+
+[tool.coverage.run]
+omit = [
+    "tests/*",
+    "device-test/*",
+    "examples/*",
+    "docs/*",
 ]
 
 [project.urls]
