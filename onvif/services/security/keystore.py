@@ -1,10 +1,11 @@
 """Security (Keystore) service implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
+# pylint: disable=invalid-name,too-many-public-methods,line-too-long
 class Keystore(ONVIFService):
     """Security (Keystore) service client.
 

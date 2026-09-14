@@ -1,7 +1,8 @@
 """Device (Core) service implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
 # pylint: disable=invalid-name,too-many-public-methods
@@ -176,6 +177,7 @@ class Device(ONVIFService):
         see Section 7.
 
         The Scope parameters are of two different types:
+
         - Fixed
         - Configurable
 
@@ -882,6 +884,7 @@ class Device(ONVIFService):
         MCS, without further actions from the client.
 
         Cloud firmware upgrade may be achieved using the following steps:
+
         1. Client retrieves the list of available firmware versions from the MCS.
         2. Client calls UpgradeFirmware, selecting the desired FW version.
         3. Device service responds with a downtime value.
@@ -907,6 +910,7 @@ class Device(ONVIFService):
         of this specification.
 
         System restore over HTTP may be achieved using the following steps:
+
         1. Client calls StartSystemRestore.
         2. Server responds with upload URI.
         3. Client transmits the configuration data to the upload URI using HTTP POST.

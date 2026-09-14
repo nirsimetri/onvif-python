@@ -1,3 +1,5 @@
+# pylint: disable=too-many-lines,too-many-instance-attributes,too-many-locals
+# pylint: disable=too-many-statements,too-many-public-methods,too-many-branches
 """ONVIF CLI interactive shell implementation."""
 
 import cmd
@@ -70,7 +72,6 @@ class InteractiveShell(cmd.Cmd):
             "debug",
             "ls",
             "cd",
-            "pwd",
             "shortcuts",
             "desc",
             "type",
@@ -274,6 +275,7 @@ class InteractiveShell(cmd.Cmd):
                     depth = max(0, depth - 1)
 
             # Detect top-level &&
+            # pylint: disable=too-many-boolean-expressions
             if (
                 not in_single
                 and not in_double
@@ -521,6 +523,8 @@ class InteractiveShell(cmd.Cmd):
         else:
             print(f"{colorize('Unknown command:', 'red')} {line}")
             print(f"Type {colorize('help', 'white')} for available commands")
+
+        return None
 
     def get_suggestions(self, partial_cmd: str) -> list[str]:
         """Get command suggestions based on partial input."""
@@ -1026,7 +1030,7 @@ class InteractiveShell(cmd.Cmd):
             available_services = get_device_available_services(self.client)
             colored_services = [colorize(svc, "cyan") for svc in available_services]
             print(f"Available services: {', '.join(colored_services)}")
-            return
+            return None
         return self.do_enter_service(line)
 
     def complete_cd(
@@ -1035,17 +1039,6 @@ class InteractiveShell(cmd.Cmd):
         """Autocomplete service names for cd command."""
         services = get_device_available_services(self.client)
         return [s for s in services if s.lower().startswith(text.lower())]
-
-    def do_pwd(self, line):  # pylint: disable=unused-argument
-        """Show current service context."""
-        if self.current_service_name:
-            print(
-                f"{colorize('Current service:', 'yellow')} {colorize(self.current_service_name, 'cyan')}"
-            )
-        else:
-            print(
-                f"{colorize('Current context:', 'yellow')} {colorize('root', 'blue')}"
-            )
 
     def do_shortcuts(self, line):  # pylint: disable=unused-argument
         """Show available shortcuts."""
@@ -1221,6 +1214,7 @@ class InteractiveShell(cmd.Cmd):
         print(
             f"\n{colorize('[ONVIF Terminal Client]', 'yellow')}"
             f"\n  Connected to  : {colorize(f'{self.args.host}:{self.args.port}', 'yellow')}"
+            f"\n  Auth Method   : {colorize(f'{'HTTP Digest' if self.args.digest else 'WS-UsernameToken'}', 'yellow')}"
             f"{options_display}{self.device_info_text}"
         )
         print()  # Extra newline for spacing

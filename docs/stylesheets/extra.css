@@ -1,14 +1,16 @@
-[data-md-color-scheme="default"] .md-header {
-  background-color: #0000FF;
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #ebebeb;
+  --md-primary-fg-color: #0000ff;
 }
 
-[data-md-color-scheme="slate"] .md-header {
-  background-color: #0f172a;
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #003399;
+  --md-typeset-a-color: #60a5fa;
 }
 
 [data-md-color-scheme="default"] .md-footer,
 [data-md-color-scheme="default"] .md-footer-meta {
-  background-color: #1e293b;
+  background-color: #003399;
 }
 
 [data-md-color-scheme="slate"] .md-footer,
@@ -16,12 +18,24 @@
   background-color: #020617;
 }
 
-[data-md-color-scheme="default"] {
-  --md-default-bg-color: #EBEBEB;
+.md-nav__source {
+  background-color: var(--md-primary-fg-color);
+}
+
+.md-typeset table td code {
+  white-space: nowrap;
+}
+
+.md-nav__link[href$="/releases/"] {
+  display: none;
 }
 
 .md-content__inner {
   padding-bottom: 3rem;
+}
+
+.md-source-file__fact {
+  padding-top: 1rem;
 }
 
 .github-release {
@@ -45,7 +59,79 @@
   margin-top: 1.5rem;
 }
 
-.github-releases-nav > .md-nav__link {
-  color: var(--md-default-fg-color--light);
-  font-weight: 600;
+.highlight .go::before {
+  content: "$ ";
+  color: #6a9955;
+  user-select: none;
+}
+
+.highlight .go {
+  color: inherit;
+}
+
+.md-content__inner .md-typeset__table, .md-content__inner .md-typeset__table table {
+    display: table !important;
+    width: 100%;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background: #0000ff;
+  border-radius: 4px;
+}
+
+/* Thumb hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #003399;
+}
+
+:root {
+  --color-primary: #0d6efd;
+  --color-secondary: #6c757d;
+  --color-success: #198754;
+  --color-danger: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #0dcaf0;
+  --color-light: #f8f9fa;
+  --color-dark: #212529;
+  --color-muted: #6c757d;
+}
+
+.success {
+  color: var(--color-success);
+}
+
+.danger {
+  color: var(--color-danger);
+}
+
+.warning {
+  color: var(--color-warning);
+}
+
+.info {
+  color: var(--color-info);
+}
+
+.light {
+  color: var(--color-light);
+}
+
+.dark {
+  color: var(--color-dark);
+}
+
+.muted {
+  color: var(--color-muted);
 }

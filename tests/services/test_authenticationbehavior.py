@@ -1,10 +1,13 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for AuthenticationBehavior service."""
 
 from onvif.services import AuthenticationBehavior
 
+from .base_service_test import ONVIFServiceTestBase
+
 
 class TestAuthenticationBehaviorWSDLCompliance(ONVIFServiceTestBase):
-    """Test that AuthenticationBehavior service implementation matches WSDL specification."""
+    """Test that AuthenticationBehavior service implementation matches WSDL
+    specification."""
 
     # Service-specific configuration
     SERVICE_CLASS = AuthenticationBehavior

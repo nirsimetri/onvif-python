@@ -9,64 +9,79 @@ class ONVIFOperationException(Exception):
     """Enhanced exception wrapper for ONVIF operation failures.
 
     This exception provides detailed error information including operation name,
-    error category, SOAP fault details, and the original exception. It categorizes
-    errors into three types: **SOAP**, **Protocol**, and **Application** errors.
+    error category, SOAP fault details, and the original exception.
+
+    It categorizes errors into three types: **SOAP**, **Protocol**, and **Application** errors.
 
     Attributes:
         operation (str): Name of the ONVIF operation that failed
         original_exception (Exception): The underlying exception that was raised
 
-    !!! bug "Error Categories"
-        ## SOAP Error
-            Device returned a SOAP fault (e.g., ActionNotSupported)
-           - Includes fault code, subcode, message, and detail
-           - Supports both SOAP 1.1 and 1.2 formats
-           - Extracts readable information from XML fault details
+    !!! tip "Version History"
+        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
 
-        ## Protocol Error
-            Network/HTTP transport failed
-           - Connection errors, timeouts, SSL errors
-           - HTTP status errors (404, 401, 500, etc.)
-           - DNS resolution failures
+    ## Error Categories
 
-        ## Application Error
-            Generic/unexpected errors
-           - Python exceptions, type errors, etc.
-           - Fallback category for uncategorized errors
+    ### SOAP Error
+    Device returned a SOAP fault (e.g., `ActionNotSupported`):
 
-    !!! failure "Common SOAP Fault Subcodes"
-        - `ActionNotSupported`: Operation not implemented by device
-        - `NotAuthorized`: Authentication failed or insufficient permissions
-        - `InvalidArgVal`: Invalid parameter value
-        - `OperationProhibited`: Operation not allowed in current state
-        - `Sender`: Client-side error in request
-        - `Receiver`: Server-side error in device
+    - Includes fault code, subcode, message, and detail
+    - Supports both SOAP 1.1 and 1.2 formats
+    - Extracts readable information from XML fault details
 
-    !!! example "Example Error Messages"
+        !!! bug "Common SOAP Fault Subcodes"
+            - `ActionNotSupported`: Operation not implemented by device
+            - `NotAuthorized`: Authentication failed or insufficient permissions
+            - `InvalidArgVal`: Invalid parameter value
+            - `OperationProhibited`: Operation not allowed in current state
+            - `Sender`: Client-side error in request
+            - `Receiver`: Server-side error in device
+
+    ### Protocol Error
+    Network/HTTP transport failed:
+
+    - Connection errors, timeouts, SSL errors
+    - HTTP status errors (404, 401, 500, etc.)
+    - DNS resolution failures
+
+    ### Application Error
+    Generic/unexpected errors:
+
+    - Python exceptions, type errors, etc.
+    - Fallback category for uncategorized errors
+
+    ??? example "Example Error Messages"
+
+        SOAP Error - ActionNotSupported
         ```python
-        # SOAP Error - ActionNotSupported
-        # ONVIF operation 'GetImagingSettings' failed: SOAP Error: code=Receiver, subcode=ActionNotSupported, msg=Optional Action Not Implemented
-
-        # Protocol Error - Connection Timeout
-        # ONVIF operation 'GetCapabilities' failed: Protocol Error: HTTPConnectionPool(host='192.168.1.100', port=80): Read timed out.
-
-        # SOAP Error - Invalid Argument
-        # ONVIF operation 'SetVideoEncoderConfiguration' failed: SOAP Error: code=Sender, subcode=InvalidArgVal, msg=Invalid resolution, detail=Width=1920, Height=1080
-
-        # Application Error - Missing Argument
-        # ONVIF operation 'UpgradeSystemFirmware' failed: Application Error: TypeError - Device.UpgradeSystemFirmware() missing 1 required positional argument: 'Firmware'
+        ONVIF operation 'GetImagingSettings' failed: SOAP Error: code=Receiver, subcode=ActionNotSupported, msg=Optional Action Not Implemented
         ```
 
-    Notes:
+        SOAP Error - Invalid Argument
+        ```python
+        ONVIF operation 'SetVideoEncoderConfiguration' failed: SOAP Error: code=Sender, subcode=InvalidArgVal, msg=Invalid resolution, detail=Width=1920, Height=1080
+        ```
+
+        Protocol Error - Connection Timeout
+        ```python
+        ONVIF operation 'GetCapabilities' failed: Protocol Error: HTTPConnectionPool(host='192.168.1.100', port=80): Read timed out.
+        ```
+
+        Application Error - Missing Argument
+        ```python
+        ONVIF operation 'UpgradeSystemFirmware' failed: Application Error: TypeError - Device.UpgradeSystemFirmware() missing 1 required positional argument: 'Firmware'
+        ```
+
+    ??? note "Notes"
         - Always wraps the original exception for full error context
         - Preserves stack trace through exception chaining
         - Extracts maximum information from SOAP fault details
-        - Handles both lxml.etree.QName objects and strings in subcodes
+        - Handles both `lxml.etree.QName` objects and strings in subcodes
         - Safe handling of missing or malformed fault information
         - Compatible with Python exception handling best practices
 
-    See Also:
-        - `ONVIFErrorHandler`: Utilities for handling specific error types
+    ??? note "See Also"
+        - [`Error Handlers`](onvif_error_handlers.md): Utilities for handling specific error types
         - `zeep.exceptions.Fault`: Base SOAP fault exception
         - `requests.exceptions.RequestException`: Base HTTP error
     """

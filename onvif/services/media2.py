@@ -1,7 +1,8 @@
 """Media2 service implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
 # pylint: disable=invalid-name,too-many-public-methods
@@ -407,6 +408,7 @@ class Media2(ONVIFService):
         The returned URI shall remain valid indefinitely even if the profile is changed.
 
         Defined stream types are
+
         - RtspUnicast RTSP streaming RTP as UDP Unicast.
         - RtspMulticast RTSP streaming RTP as UDP Multicast.
         - RtspsUnicast Secure RTSP streaming with SRTP as UDP Unicast.

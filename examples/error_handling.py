@@ -8,10 +8,20 @@ This example demonstrates various ways to handle ONVIF operation errors,
 especially dealing with ActionNotSupported errors from devices that don't
 support certain features.
 
-Applied for (>= v0.0.7 patch)
+Applied for (>=v0.0.7 patch)
+Modified to module from (>=v0.3.2 patch)
 """
 
-from onvif import CacheMode, ONVIFClient, ONVIFErrorHandler, ONVIFOperationException
+import traceback
+
+from onvif import (
+    CacheMode,
+    ONVIFClient,
+    ONVIFOperationException,
+    ignore_unsupported,
+    is_action_not_supported,
+    safe_call,
+)
 
 HOST = "192.168.1.14"
 PORT = 2020
@@ -34,16 +44,14 @@ def example_1_safe_call():
     device = client.devicemgmt()
 
     # Returns None if operation is not supported
-    ip_filter = ONVIFErrorHandler.safe_call(lambda: device.GetIPAddressFilter())
+    ip_filter = safe_call(device.GetIPAddressFilter)
     if ip_filter:
         print(f"✓ IP Address Filter: {ip_filter}")
     else:
         print("⚠ GetIPAddressFilter not supported or returned None")
 
     # Returns empty list if operation is not supported
-    dns_info = ONVIFErrorHandler.safe_call(
-        lambda: device.GetDNS(), default={"FromDHCP": False, "DNSManual": []}
-    )
+    dns_info = safe_call(device.GetDNS, default={"FromDHCP": False, "DNSManual": []})
     print(f"✓ DNS Info: {dns_info}")
 
     print()
@@ -63,11 +71,11 @@ def example_2_decorator():
     client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
     device = client.devicemgmt()
 
-    @ONVIFErrorHandler.ignore_unsupported
+    @ignore_unsupported
     def get_zero_configuration():
         return device.GetZeroConfiguration()
 
-    @ONVIFErrorHandler.ignore_unsupported
+    @ignore_unsupported
     def get_ntp():
         return device.GetNTP()
 
@@ -128,7 +136,7 @@ def example_3_manual_handling():
             print(f"  System Backup: {system_uris.SystemBackupUri}")
 
     except ONVIFOperationException as e:
-        if ONVIFErrorHandler.is_action_not_supported(e):
+        if is_action_not_supported(e):
             print("⚠ GetSystemUris not supported by this device")
             print("  Using alternative method to get device info...")
 
@@ -164,15 +172,15 @@ def example_4_batch_operations():
 
     # Define operations to try
     operations = {
-        "Device Info": lambda: device.GetDeviceInformation(),
-        "System Date/Time": lambda: device.GetSystemDateAndTime(),
-        "Network Interfaces": lambda: device.GetNetworkInterfaces(),
-        "Hostname": lambda: device.GetHostname(),
-        "DNS": lambda: device.GetDNS(),
-        "NTP": lambda: device.GetNTP(),
-        "Network Protocols": lambda: device.GetNetworkProtocols(),
-        "IP Address Filter": lambda: device.GetIPAddressFilter(),
-        "Zero Configuration": lambda: device.GetZeroConfiguration(),
+        "Device Info": device.GetDeviceInformation,
+        "System Date/Time": device.GetSystemDateAndTime,
+        "Network Interfaces": device.GetNetworkInterfaces,
+        "Hostname": device.GetHostname,
+        "DNS": device.GetDNS,
+        "NTP": device.GetNTP,
+        "Network Protocols": device.GetNetworkProtocols,
+        "IP Address Filter": device.GetIPAddressFilter,
+        "Zero Configuration": device.GetZeroConfiguration,
         "Services": lambda: device.GetServices(IncludeCapability=False),
     }
 
@@ -181,7 +189,7 @@ def example_4_batch_operations():
     unsupported_count = 0
 
     for name, operation in operations.items():
-        result = ONVIFErrorHandler.safe_call(operation, default=None, log_error=False)
+        result = safe_call(operation, default=None, log_error=False)
         results[name] = result
 
         if result is not None:
@@ -200,7 +208,7 @@ def example_5_critical_operations():
     Example 5: Critical operations that should not be ignored
 
     Some operations are critical and should fail loudly if not supported.
-    Use ignore_unsupported=False for these.
+    Use handle_unsupported=False for these.
     """
     print("=" * 60)
     print("Example 5: Critical operations (don't ignore errors)")
@@ -211,9 +219,9 @@ def example_5_critical_operations():
 
     # Critical operation - must succeed
     try:
-        device_info = ONVIFErrorHandler.safe_call(
-            lambda: device.GetDeviceInformation(),
-            ignore_unsupported=False,  # Raise exception if not supported
+        device_info = safe_call(
+            device.GetDeviceInformation,
+            handle_unsupported=False,  # Raise exception if not supported
         )
         print("✓ Device Info (critical):")
         print(f"  Manufacturer: {getattr(device_info, 'Manufacturer', 'N/A')}")
@@ -242,7 +250,6 @@ def main():
 
     except Exception as e:
         print(f"\n✗ Fatal error: {e}")
-        import traceback
 
         traceback.print_exc()
 

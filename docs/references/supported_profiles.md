@@ -10,4 +10,4 @@ This library fully supports all major ONVIF Profiles listed below. Each profile 
 | Profile D | [Document](https://www.onvif.org/wp-content/uploads/2021/06/onvif-profile-d-specification-v1-0.pdf) | Access control peripherals (locks, sensors, relays) | Peripheral devices for access control | ✅ Yes |
 | Profile M | [Document](https://www.onvif.org/wp-content/uploads/2024/04/onvif-profile-m-specification-v1-1.pdf) | Metadata, analytics events, object detection | Analytics devices, metadata clients | ✅ Yes |
 
-For a full description of each profile and its features, visit [ONVIF Profiles](https://www.onvif.org/profiles/).
+For a full description of each profile and its features, visit [Official ONVIF Profiles](https://www.onvif.org/profiles/).

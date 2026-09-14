@@ -2,7 +2,7 @@
 
 <div align="center">
 <a href="https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Code%20Quality"/></a>
-<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/Version-0.3.1-orange?logo=python&logoColor=white&color=yellow&style=plastic"></a>
+<a href="https://pypi.org/project/onvif-python/"><img alt="PyPI Version" src="https://img.shields.io/badge/Version-0.4.0-orange?logo=python&logoColor=white&color=yellow&style=plastic"></a>
 <a href="https://pepy.tech/projects/onvif-python"><img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/onvif-python?logo=pypi&logoColor=white&label=Downloads&color=red&style=plastic"></a>
 <br>
 <a href="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml"><img alt="Build" src="https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml/badge.svg?branch=main"></a>
@@ -29,7 +29,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
 ## Requirements
 
-- **Python**: 3.9 or higher
+- **Python**: 3.10 or higher
 - **Dependencies**:
   - [`zeep>=4.3.0`](https://github.com/mvantellingen/python-zeep) - SOAP client for ONVIF communication
   - [`requests>=2.32.0`](https://github.com/psf/requests) - HTTP library for network requests
@@ -37,14 +37,20 @@ This library simplifies that process by wrapping SOAP communication into a clean
 ## Installation
 
 From official [PyPI](https://pypi.org/project/onvif-python/):
-```bash
+```shell
 pip install --upgrade onvif-python
 ```
+
 Or clone this repository and install locally:
-```bash
+```shell
 git clone https://github.com/nirsimetri/onvif-python
 cd onvif-python
 pip install .
+```
+
+Once the installation is successful, you can also immediately access the [ONVIF CLI](https://nirsimetri.github.io/onvif-python/core/onvif_cli/) via the terminal using:
+```shell
+onvif --help
 ```
 
 ## Documentation

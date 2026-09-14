@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Keystore service."""
 
 from onvif.services import Keystore
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestKeystoreWSDLCompliance(ONVIFServiceTestBase):

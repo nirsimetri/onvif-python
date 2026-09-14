@@ -1,10 +1,11 @@
 """Provisioning service implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name,line-too-long
 class Provisioning(ONVIFService):
     """Provisioning service client.
 

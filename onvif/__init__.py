@@ -6,10 +6,12 @@ from onvif.operator import CacheMode
 from onvif.utils import (
     ONVIFWSDL,
     ONVIFDiscovery,
-    ONVIFErrorHandler,
     ONVIFOperationException,
     ONVIFParser,
     ZeepPatcher,
+    ignore_unsupported,
+    is_action_not_supported,
+    safe_call,
 )
 
 __all__ = [
@@ -17,9 +19,11 @@ __all__ = [
     "CacheMode",
     "ONVIFWSDL",
     "ONVIFOperationException",
-    "ONVIFErrorHandler",
     "ZeepPatcher",
     "ONVIFCLI",
     "ONVIFDiscovery",
     "ONVIFParser",
+    "ignore_unsupported",
+    "is_action_not_supported",
+    "safe_call",
 ]

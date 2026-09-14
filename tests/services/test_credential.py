@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Credential service."""
 
 from onvif.services import Credential
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestCredentialWSDLCompliance(ONVIFServiceTestBase):

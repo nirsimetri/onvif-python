@@ -69,7 +69,8 @@ def print_interactive_intro(args, device_info_text) -> str:
         f"{banner}\n"
         f"{repo_info}\n"
         f"{terminal_header}\n"
-        f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}"
+        f"  Connected to  : {colorize(f'{args.host}:{args.port}', 'yellow')}\n"
+        f"  Auth Method   : {colorize(f'{'HTTP Digest' if args.digest else 'WS-UsernameToken'}', 'yellow')}"
         f"{options_display}{device_info_text}\n\n"
         f"{colorize('[Quick Start]', 'green')}\n"
         f"  - Type {colorize('dev', 'yellow')} + {colorize('TAB', 'yellow')} to see `devicemgmt` suggestion\n"
@@ -105,7 +106,6 @@ INTERACTIVE_HELP = f"""
   cd <service>             - Enter service mode (alias)
   ls                       - List commands/services/methods in grid format
   up                       - Exit current service mode (go up one level)
-  pwd                      - Show current service context
   clear                    - Clear terminal screen
   help <command>           - Show help for a specific command
 
@@ -165,7 +165,6 @@ INTERACTIVE_SHORTCUTS = f"""
   cd <service>             - Enter service (same as '<service>')
   ls                       - List commands/services in grid format (like TAB)
   up                       - Go up one level
-  pwd                      - Show current context
   clear                    - Clear terminal screen
   help <command>           - Show help for a command
 
@@ -193,7 +192,7 @@ Examples:
   # Discover ONVIF devices on network
   {colorize('onvif', 'yellow')} --discover --username admin --password admin123 --interactive
   {colorize('onvif', 'yellow')} media GetProfiles --discover --username admin
-  {colorize('onvif', 'yellow')} -d -i
+  {colorize('onvif', 'yellow')} -d --interface 192.168.1.77 -i
 
   # Discover with filtering
   {colorize('onvif', 'yellow')} --discover --filter ptz --interactive

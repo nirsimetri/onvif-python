@@ -20,7 +20,15 @@ class ONVIFWSDL:
     The class supports both built-in WSDLs (bundled with the package) and custom
     WSDL directories for users who want to use their own WSDL files.
 
-    !!! asbtract "Features"
+    Attributes:
+        BASE_DIR (str): Default base directory for WSDL files (Built-in)
+        WSDL_MAP (dict[str, dict[str, Any]] | None): Will be initialized when first accessed
+        _custom_wsdl_dir (str | None): Global custom WSDL directory
+
+    !!! tip "Version History"
+        - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0).
+
+    !!! abstract "Features"
         - Centralized WSDL definition mapping for all ONVIF services
         - Support for multiple ONVIF versions (ver10, ver20)
         - Custom WSDL directory support (global and per-call)
@@ -29,32 +37,48 @@ class ONVIFWSDL:
         - File existence validation
 
     !!! warning "WSDL Structure"
-        Built-in WSDLs are organized in ONVIF standard directory structure:
+        Built-in WSDLs are organized in the ONVIF standard directory structure:
 
-        - onvif/wsdl/ver10/device/wsdl/devicemgmt.wsdl
-        - onvif/wsdl/ver20/media/wsdl/media.wsdl
-        - onvif/wsdl/ver20/ptz/wsdl/ptz.wsdl
-        - etc.
+        ```text
+        onvif/
+        └── wsdl/
+            ├── ver10/
+            │   └── device/
+            │       └── wsdl/
+            │           └── devicemgmt.wsdl
+            │
+            └── ver20/
+                ├── media/
+                │   └── wsdl/
+                │       └── media.wsdl
+                └── ptz/
+                    └── wsdl/
+                        └── ptz.wsdl
+        ```
 
-        Custom WSDLs must use flat structure:
+        Custom WSDLs must use a flat structure:
 
-        - /custom/path/devicemgmt.wsdl
-        - /custom/path/media.wsdl
-        - /custom/path/ptz.wsdl
+        ```text
+        custom/
+        └── path/
+            ├── devicemgmt.wsdl
+            ├── media.wsdl
+            └── ptz.wsdl
+        ```
 
-    Service Definition Format:
+    !!! question "Service Definition Format"
         Each service has a definition containing:
 
         - `path`: Full path to WSDL file
         - `binding`: SOAP binding name (e.g., "DeviceBinding")
         - `namespace`: XML namespace URI (e.g., "http://www.onvif.org/ver10/device/wsdl")
 
-    !!! tip "Custom WSDL Directory Priority"
+    ??? tip "Custom WSDL Directory Priority"
         1. Per-call `custom_wsdl_dir` parameter (highest priority)
         2. Global `_custom_wsdl_dir` setting
         3. Built-in `BASE_DIR` (default)
 
-    Notes:
+    ??? note "Notes"
         - All methods are class methods - no need to instantiate
         - WSDL files are lazy-loaded and validated on access
         - Custom WSDL directories use flat file structure
@@ -62,17 +86,17 @@ class ONVIFWSDL:
         - File existence is checked when getting definitions
         - Thread-safe for read operations
 
-    See Also:
-        - [`ONVIFOperator`](onvif_client.md): Uses WSDL definitions to create SOAP clients
-        - [`ONVIFClient`](onvif_operator.md): High-level client that uses this class internally
+    ??? note "See Also"
+        - [`ONVIFOperator`](../core/onvif_operator.md): Uses WSDL definitions to create SOAP clients
+        - [`ONVIFClient`](../core/onvif_client.md): High-level client that uses this class internally
     """
 
     # Default base directory for WSDL files (Built-in)
     # Included in the package
-    BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "wsdl")
+    BASE_DIR: str = os.path.join(os.path.dirname(os.path.dirname(__file__)), "wsdl")
 
     # Global custom WSDL directory - can be set once for all services
-    _custom_wsdl_dir = None
+    _custom_wsdl_dir: str | None = None
 
     @classmethod
     def set_custom_wsdl_dir(cls, custom_dir) -> None:
@@ -706,19 +730,24 @@ class ONVIFWSDL:
         and XML namespace for the requested service and version.
 
         Args:
-            service (str): Service name (e.g., "devicemgmt", "media", "ptz")
-            version (str, optional): ONVIF version (default: "ver10")
-                Common versions: "ver10", "ver20"
-            custom_wsdl_dir (str, optional): Custom WSDL directory path
-                Overrides global custom directory if provided
+            service (str): Service name (e.g., "devicemgmt", "media", "ptz").
+            version (str): ONVIF version (default: "ver10").
+                Common versions: "ver10", "ver20".
+            custom_wsdl_dir (str | None): Custom WSDL directory path.
+                Overrides global custom directory if provided.
 
         Returns:
-            dict: Service definition containing:
-                - path (str): Full path to WSDL file
-                - binding (str): SOAP binding name
-                - namespace (str): XML namespace URI
+            WSDL definition dictionary.
 
-        Notes:
+        !!! abstract "Definition dict"
+
+            | Key | Type | Description |
+            | --- | ---- | ----------- |
+            | `path` | `str | None` | Full path to WSDL file |
+            | `binding` | `str` | SOAP binding name |
+            | `namespace` | `str` | XML namespace URI |
+
+        ??? note
             - Most services use ver10, some newer ones use ver20
             - Media has both ver10 (media) and ver20 (media2)
             - Custom WSDLs must match the service name exactly

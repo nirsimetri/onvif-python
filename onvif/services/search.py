@@ -1,7 +1,8 @@
 """Search service implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
 # pylint: disable=invalid-name
@@ -104,6 +105,7 @@ class Search(ONVIFService):
         FindEvents method.
 
         GetRecordingSearchResults shall block until:
+
         - MaxResults results are available for the response if MaxResults is specified.
         - MinResults results are available for the response if MinResults is specified.
         - WaitTime has expired.
@@ -137,6 +139,7 @@ class Search(ONVIFService):
         specifying the search token returned from this request.
 
         The device shall continue searching until one of the following occurs:
+
         - The entire time range from StartPoint to EndPoint has been searched through.
         - The total number of matches has been found, defined by the MaxMatches parameter.
         - The session has been ended by a client EndSession request.
@@ -169,6 +172,7 @@ class Search(ONVIFService):
         more than MaxResults results.
 
         GetEventSearchResults shall block until:
+
         - MaxResults results are available for the response if MaxResults is specified.
         - MinResults results are available for the response if MinResults is specified.
         - WaitTime has expired.
@@ -201,6 +205,7 @@ class Search(ONVIFService):
         request, specifying the search token returned from this request.
 
         The device shall continue searching until one of the following occurs:
+
         - The entire time range from StartPoint to EndPoint has been searched through.
         - The total number of matches has been found, defined by the MaxMatches parameter.
         - The session has been ended by a client EndSession request.
@@ -231,6 +236,7 @@ class Search(ONVIFService):
         more than MaxResults results.
 
         GetPTZPositionSearchResults shall block until:
+
         - MaxResults results are available for the response if MaxResults is specified.
         - MinResults results are available for the response if MinResults is specified.
         - WaitTime has expired.
@@ -284,6 +290,7 @@ class Search(ONVIFService):
         specifying the search token returned from this request.
 
         The device shall continue searching until one of the following occurs:
+
         - The entire time range from StartPoint to EndPoint has been searched through.
         - The total number of matches has been found, defined by the MaxMatches parameter.
         - The session has been ended by a client EndSession request.
@@ -315,6 +322,7 @@ class Search(ONVIFService):
         more than MaxResults results.
 
         GetMetadataSearchResults shall block until:
+
         - MaxResults results are available for the response if MaxResults is specified.
         - MinResults results are available for the response if MinResults is specified.
         - WaitTime has expired.

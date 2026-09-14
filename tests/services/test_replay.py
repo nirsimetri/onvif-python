@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Replay service."""
 
 from onvif.services import Replay
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestReplayWSDLCompliance(ONVIFServiceTestBase):

@@ -1,12 +1,15 @@
 """Utility functions and classes for ONVIF operations."""
 
 from onvif.utils.discovery import ONVIFDiscovery
-from onvif.utils.error_handlers import ONVIFErrorHandler
+from onvif.utils.error_handlers import (
+    ignore_unsupported,
+    is_action_not_supported,
+    safe_call,
+)
 from onvif.utils.exceptions import ONVIFOperationException
-from onvif.utils.plugins import ONVIFParser
+from onvif.utils.plugins import ONVIFParser, XMLCapturePlugin
 from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
-from onvif.utils.xml_capture import XMLCapturePlugin
 from onvif.utils.zeep import ZeepPatcher
 
 __all__ = [
@@ -14,8 +17,10 @@ __all__ = [
     "ONVIFOperationException",
     "ZeepPatcher",
     "XMLCapturePlugin",
-    "ONVIFErrorHandler",
     "ONVIFDiscovery",
     "ONVIFService",
     "ONVIFParser",
+    "ignore_unsupported",
+    "is_action_not_supported",
+    "safe_call",
 ]

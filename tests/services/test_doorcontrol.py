@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for DoorControl service."""
 
 from onvif.services import DoorControl
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestDoorControlWSDLCompliance(ONVIFServiceTestBase):

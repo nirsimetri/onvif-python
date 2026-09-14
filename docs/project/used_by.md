@@ -6,7 +6,7 @@ With <a href="https://pepy.tech/projects/onvif-python"><img src="https://img.shi
 
 <img src="https://viseron.netlify.app/img/ui/cameras/main.png" alt="Viseron" style="width: 100%; max-width: 900px;">
 
-Viseron uses `onvif-python` as the underlying ONVIF client library for its ONVIF component. The integration currently covers the **Device, Media, Imaging, and PTZ** services, including device configuration, media profiles and stream URIs, imaging settings, and PTZ control.
+Viseron uses `onvif-python` as the underlying ONVIF client library for its ONVIF component. The integration currently covers the **Device**, **Media**, **Imaging**, and **PTZ** services, including device configuration, media profiles and stream URIs, imaging settings, and PTZ control.
 
 ONVIF cameras can be configured through Viseron's dashboard, while PTZ cameras can also be controlled from the Live View interface.
 

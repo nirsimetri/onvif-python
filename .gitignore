@@ -4,16 +4,25 @@
 *.env
 .env
 venv/
+.venv/
+.pytest_cache/
 .mypy_cache/
 
 # Distribution / packaging
 build/
 dist/
 *.egg-info/
+site/
 
 # SQLite database files
 *.sqlite
 *.sqlite3
+
+# Coverage
+.codacy-coverage/
+.coverage
+coverage.xml
+codacy-coverage.sh
 
 # Python cache
 __pycache__/
@@ -24,6 +33,9 @@ __pycache__/
 
 # VSCode settings
 .vscode/
+
+# Jetbrains settings
+.idea/
 
 # MacOS files
 .DS_Store
@@ -37,4 +49,3 @@ KNOWN_ISSUES.md
 examples/test.py
 examples/README.md
 temp
-site

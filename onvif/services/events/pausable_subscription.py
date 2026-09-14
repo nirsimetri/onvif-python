@@ -1,23 +1,27 @@
 """WS-BaseNotification pausable subscription implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
 # pylint: disable=invalid-name
 class PausableSubscription(ONVIFService):
     """WS-BaseNotification PausableSubscriptionManager service client.
 
-    This interface extends the Base Subscription Manager with operations for
-    temporarily pausing and resuming notification delivery.
+    This interface extends the Base Subscription Manager with operations for temporarily
+    pausing and resuming notification delivery.
 
-    Support for the Pausable Subscription Manager Interface is optional for
-    ONVIF devices.
+    Support for the Pausable Subscription Manager Interface is optional for ONVIF
+    devices.
 
     | Property | Details |
     | --- | --- |
     | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
     | **Binding name** | `PausableSubscriptionManagerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
+
+    !!! tip "Version History"
+        - Available since [`>=v0.2.4`](/onvif-python/releases/#v0.2.4).
     """
 
     def __init__(self, xaddr=None, **kwargs):

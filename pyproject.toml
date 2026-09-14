@@ -1,9 +1,9 @@
 [project]
 name = "onvif-python"
-version = "0.3.1"
+version = "0.4.0"
 description = "A modern Python library for ONVIF-compliant devices"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
     {name = "Nirsimetri Technologies®", email = "open@nirsimetri.com"},
 ]
@@ -14,7 +14,6 @@ keywords = ["onvif", "Camera", "onvif-python", "ip-camera", "cctv", "soap", "sur
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     'Environment :: Console',
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -49,11 +48,17 @@ build-backend = "setuptools.build_meta"
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0",
+    "pytest-cov",
     "black",
     "mypy",
     "isort",
     "pylint",
     "docformatter",
+]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "mkdocs-git-authors-plugin",
 ]
 
 [project.scripts]
@@ -62,14 +67,21 @@ onvif = "onvif.cli.main:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["onvif*"]
-exclude = ["examples*", "tests*", "assets*"]
+exclude = [
+    "examples*",
+    "tests*",
+    "assets*",
+    "build*",
+    "site*",
+    "device-test*",
+]
 
 [tool.setuptools.package-data]
 onvif = ["wsdl/*", "db/*"]
 
 [tool.black]
 line-length = 88
-target-version = ['py39']
+target-version = ['py310']
 extend-exclude = '''
 /(
     assets
@@ -78,6 +90,13 @@ extend-exclude = '''
 
 [tool.isort]
 profile = "black"
+skip  = [
+    "^examples/",
+    "^assets/",
+    "^temp/",
+    "^build/",
+    "^site/",
+]
 
 [tool.docformatter]
 wrap-summaries = 150
@@ -93,6 +112,8 @@ ignore-paths = [
     "^examples/",
     "^assets/",
     "^temp/",
+    "^build/",
+    "^site/",
 ]
 
 [tool.pylint.format]
@@ -107,8 +128,23 @@ disable = [
 
 [tool.mypy]
 explicit_package_bases = true
+exclude  = [
+    "^examples/",
+    "^assets/",
+    "^temp/",
+    "^build/",
+    "^site/",
+]
+
+[tool.coverage.run]
+omit = [
+    "tests/*",
+    "device-test/*",
+    "examples/*",
+    "docs/*",
+]
 
 [project.urls]
 Homepage = "https://github.com/nirsimetri/onvif-python"
-Documentation = "https://deepwiki.com/nirsimetri/onvif-python"
+Documentation = "https://nirsimetri.github.io/onvif-python"
 Changelog = "https://github.com/nirsimetri/onvif-python/releases"

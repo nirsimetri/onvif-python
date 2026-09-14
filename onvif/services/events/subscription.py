@@ -1,18 +1,19 @@
 """WS-BaseNotification subscription management implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils import ONVIFWSDL, ONVIFService
+from onvif.utils.service import ONVIFService
+from onvif.utils.wsdl import ONVIFWSDL
 
 
 # pylint: disable=invalid-name
 class Subscription(ONVIFService):
     """WS-BaseNotification SubscriptionManager service client.
 
-    This interface manages the lifecycle of a notification subscription created
-    through the WS-BaseNotification NotificationProducer interface.
+    This interface manages the lifecycle of a notification subscription created through
+    the WS-BaseNotification NotificationProducer interface.
 
-    SubscriptionManager endpoints are typically returned as SubscriptionReference
-    values when creating an event or pull point subscription.
+    SubscriptionManager endpoints are typically returned as SubscriptionReference values
+    when creating an event or pull point subscription.
 
     | Property | Details |
     | --- | --- |

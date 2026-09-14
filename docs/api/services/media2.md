@@ -1,4 +1,4 @@
-# _media2
+# Media2
 
 ::: onvif.services.media2
     options:

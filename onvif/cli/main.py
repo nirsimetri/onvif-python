@@ -24,7 +24,6 @@ from onvif.operator import CacheMode
 from onvif.utils import ONVIFOperationException
 
 
-# pylint: disable=line-too-long
 def create_parser() -> ArgumentParser:
     """Create argument parser for ONVIF CLI."""
     parser = ArgumentParser(
@@ -98,6 +97,11 @@ def create_parser() -> ArgumentParser:
         help="ONVIF connection timeout in seconds (default: 10)",
     )
     parser.add_argument(
+        "--digest",
+        action="store_true",
+        help="Use HTTP Digest instead of WS-UsernameToken",
+    )
+    parser.add_argument(
         "--https", action="store_true", help="Use HTTPS instead of HTTP"
     )
     parser.add_argument(
@@ -118,9 +122,9 @@ def create_parser() -> ArgumentParser:
     parser.add_argument(
         "--cache",
         choices=[mode.value for mode in CacheMode],
-        default=CacheMode.ALL.value,
-        help="Caching mode for ONVIFClient (default: all). "
-        "'all': memory+disk, 'db': disk-only, 'mem': memory-only, 'none': disabled.",
+        default=CacheMode.DB.value,
+        help="Caching mode for ONVIFClient (default: db). "
+        "'db': disk-only, 'mem': memory-only, 'none': disabled.",
     )
     parser.add_argument(
         "--health-check-interval",
@@ -159,6 +163,7 @@ def create_parser() -> ArgumentParser:
     return parser
 
 
+# pylint: disable=too-many-statements,too-many-branches
 def main() -> None:
     """Main CLI entry point."""
     # Setup custom warning format for cleaner output
@@ -278,6 +283,7 @@ def main() -> None:
             port=args.port,
             username=args.username,
             password=args.password,
+            http_digest=args.digest,
             timeout=args.timeout,
             cache=CacheMode(args.cache),
             use_https=args.https,

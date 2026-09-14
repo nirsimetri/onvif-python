@@ -1,25 +1,42 @@
 !!! warning
-    Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device. This library automatically performs comprehensive service discovery during initialization using a robust fallback mechanism.
+    Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device.
+    
+    This library automatically performs comprehensive service discovery during initialization using a robust fallback mechanism (see [`ONVIFClient`](../api/core/onvif_client.md) for implementation details).
+
+## Why discover device services?
+
+### Device Diversity
+Not all ONVIF devices support every service. Available services may vary by manufacturer, model, firmware, or configuration.
+
+### Error Prevention
+Attempting to use unsupported services can result in failed requests, exceptions, or undefined behavior.
+
+### Dynamic Feature Detection
+Devices may enable or disable services over time (e.g., after firmware updates or configuration changes).
+
+### Optimized Integration
+By checking available services, your application can adapt its workflow and UI to match the device's actual features.
+
+## How service discovery works in this library
 
 !!! tip
     The library handles service discovery automatically with intelligent fallback. You typically don't need to call discovery methods manually unless you need detailed capability information or want to refresh the service list after device configuration changes.
 
-## Why discover device services?
+The [`ONVIFClient`](../api/core/onvif_client.md) uses a **3-tier discovery approach** to maximize device compatibility:
 
-- **Device Diversity:** Not all ONVIF devices support every service. Available services may vary by manufacturer, model, firmware, or configuration.
-- **Error Prevention:** Attempting to use unsupported services can result in failed requests, exceptions, or undefined behavior.
-- **Dynamic Feature Detection:** Devices may enable or disable services over time (e.g., after firmware updates or configuration changes).
-- **Optimized Integration:** By checking available services, your application can adapt its workflow and UI to match the device's actual features.
+### `GetServices` (Preferred)
+Tries `GetServices` first for detailed service information.
 
-## How service discovery works in this library
+### `GetCapabilities` (Fallback)
+Falls back to `GetCapabilities` if `GetServices` is not supported by the device.
 
-The `ONVIFClient` uses a **3-tier discovery approach** to maximize device compatibility:
+### Default URLs (Final Fallback)
+Uses standard ONVIF URLs as last resort.
 
-1. **`GetServices` (Preferred)** - Tries `GetServices` first for detailed service information
-2. **`GetCapabilities` (Fallback)** - Falls back to `GetCapabilities` if `GetServices` is not supported
-3. **Default URLs (Final Fallback)** - Uses standard ONVIF URLs as last resort
+### Check discovery method
+You can check which service discovery method your ONVIF connection is using with the following code:
 
-```python
+```python linenums="1"
 from onvif import ONVIFClient
 
 client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
@@ -38,7 +55,9 @@ else:
 
 ## Why this approach?
 
-- `GetServices` provides the most accurate and detailed service information, but it's **optional** in the ONVIF specification
-- `GetCapabilities` is **mandatory** for all ONVIF-compliant devices, ensuring broader compatibility
-- **Default URLs** guarantee basic connectivity even with non-compliant devices
+`GetServices` provides the most accurate and detailed service information, but it's **optional** in the ONVIF specification.
+
+`GetCapabilities` is **mandatory** for all ONVIF-compliant devices, ensuring broader compatibility.
+
+**Default URLs** guarantee basic connectivity even with non-compliant devices.
 

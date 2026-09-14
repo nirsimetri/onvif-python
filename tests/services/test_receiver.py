@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Receiver service."""
 
 from onvif.services import Receiver
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestReceiverWSDLCompliance(ONVIFServiceTestBase):

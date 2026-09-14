@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for TLSServer service."""
 
 from onvif.services import TLSServer
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestTLSServerWSDLCompliance(ONVIFServiceTestBase):

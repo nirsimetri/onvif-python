@@ -1,14 +1,26 @@
-Every ONVIF service provides three essential helper methods to improve the development experience and make working with ONVIF operations more intuitive:
+Every ONVIF service provides **four** essential helper methods to improve the development experience and make working with ONVIF operations more intuitive:
 
 !!! info
     These helper methods are available on **all** ONVIF services (`devicemgmt()`, `media()`, `ptz()`, `events()`, `imaging()`, `analytics()`, etc.) and provide a consistent API for exploring and using ONVIF capabilities across different device types and manufacturers.
 
 ### `type(type_name)`
 
-Creates and returns an instance of the specified ONVIF type for building complex request parameters (applied at [`>=v0.1.9`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.1.9)).
+Creates and returns an instance of the specified ONVIF type for building complex request parameters (applied at [`>=v0.1.9`](../releases.md/#v0.1.9)).
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `type_name` | `str` | ✅ Yes | Name of the type to create (e.g., 'SetHostname', 'SetIPAddressFilter') |
+
+**Returns:**
+
+| Type | Description |
+|------|-------------|
+| `Any` | Type instance that can be populated with data |
 
 **Usage:**
-```python
+```python linenums="1"
 device = client.devicemgmt()
 
 # Create a new user object
@@ -42,13 +54,16 @@ device.SetSystemDateAndTime(time_params)
 
 ### `operations()`
 
-Lists all available operations for the current service (applied at [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
+Lists all available operations for the current service (applied at [`>=v0.2.0`](../releases.md/#v0.2.0)).
 
 **Returns:**
-- List of operation names that can be called on the service
+
+| Type | Description |
+|------|-------------|
+| `list[str] | list` | List of operation names that can be called on the service |
 
 **Usage:**
-```python
+```python linenums="1"
 device = client.devicemgmt()
 media = client.media()
 ptz = client.ptz()
@@ -73,17 +88,32 @@ if 'ContinuousMove' in ptz.operations():
 
 ### `desc(method_name)`
 
-Provides comprehensive documentation and parameter information for any ONVIF operation (applied at [`>=v0.2.0`](https://github.com/nirsimetri/onvif-python/releases/tag/v0.2.0)).
+Provides comprehensive documentation and parameter information for any ONVIF operation (applied at [`>=v0.2.0`](../releases.md/#v0.2.0)).
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `method_name` | `str` | ✅ Yes | Name of the method to describe (e.g., 'GetDeviceInformation', 'SetHostname') |
 
 **Returns:**
-- `doc`: Method documentation from WSDL
-- `required`: List of required parameter names
-- `optional`: List of optional parameter names
-- `method_name`: The method name
-- `service_name`: The service name
+
+| Type | Description |
+|------|-------------|
+| `dict` | Operation documentation dictionary |
+
+!!! abstract "Documentation dict"
+
+    | Key | Type | Description |
+    | --- | ---- | ----------- |
+    | `doc` | `str | None` | Method documentation from WSDL. |
+    | `required` | `list[str]` | List of required parameter names; empty if none are available. |
+    | `optional` | `list[str]` | List of optional parameter names; empty if none are available. |
+    | `method_name` | `str` | The method name. |
+    | `service_name` | `str` | The service name. |
 
 **Usage:**
-```python
+```python linenums="1"
 device = client.devicemgmt()
 
 # Get detailed information about a method
@@ -96,5 +126,56 @@ print("Optional params:", info['optional'])
 methods = device.operations()
 for method in methods[:5]:  # Show first 5 methods
     info = device.desc(method)
-    print(f"{method}: {len(info['required'])} required, {len(info['optional'])} optional")
+    print(
+        f"{method}: {len(info['required'])} required, "
+        f"{len(info['optional'])} optional"
+    )
+```
+
+### `to_dict(zeep_object)`
+
+Converts a Zeep object (`zeep.objects`) (the raw result returned from ONVIF operations) into a native Python dictionary that is easy to serialize, inspect, and manipulate (applied at [`>=v0.2.9`](../releases.md/#v0.2.9)).
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `zeep_object` | `Any` | ✅ Yes | The zeep object returned from ONVIF operations |
+
+**Returns:**
+
+| Type | Description |
+|------|-------------|
+| `dict` | Python `dict` representation of the Zeep object.<br>Returns an empty dict `{}` if `zeep_object` is `None` or if conversion fails for any reason. |
+
+**Usage:**
+```python linenums="1"
+device = client.devicemgmt()
+media = client.media()
+ptz = client.ptz()
+
+# Convert device information result to dictionary
+info = device.GetDeviceInformation()
+info_dict = device.to_dict(info)
+print("Manufacturer:", info_dict["Manufacturer"])
+print("Model:", info_dict["Model"])
+print("FirmwareVersion:", info_dict["FirmwareVersion"])
+
+# Convert media profiles (usually a list of complex objects)
+profiles = media.GetProfiles()
+profiles_dict = media.to_dict(profiles)
+for profile in profiles_dict:
+    print(
+        f"Profile: {profile.get('Name')} (token={profile.get('token')})"
+    )
+
+# Convert PTZ configuration
+configs = ptz.GetConfigurations()
+configs_dict = ptz.to_dict(configs)
+print(f"Found {len(configs_dict)} PTZ configurations")
+
+# Safe handling of None results
+empty_result = None
+safe_dict = device.to_dict(empty_result)  # Returns {}
+assert safe_dict == {}
 ```

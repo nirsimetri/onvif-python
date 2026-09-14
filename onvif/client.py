@@ -9,6 +9,7 @@ from typing import ParamSpec, TypeVar
 from urllib.parse import urlparse, urlunparse
 
 from lxml import etree
+from zeep import Plugin
 
 from onvif.operator import CacheMode
 from onvif.services import (
@@ -50,13 +51,10 @@ from onvif.services import (
     TLSServer,
     Uplink,
 )
-from onvif.utils import (
-    ONVIFWSDL,
-    ONVIFOperationException,
-    XMLCapturePlugin,
-    ZeepPatcher,
-)
-from onvif.utils.plugins import ReferenceParametersPlugin
+from onvif.utils.exceptions import ONVIFOperationException
+from onvif.utils.plugins import ReferenceParametersPlugin, XMLCapturePlugin
+from onvif.utils.wsdl import ONVIFWSDL
+from onvif.utils.zeep import ZeepPatcher
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
@@ -66,7 +64,8 @@ R = TypeVar("R")
 
 
 def service(func: Callable[P, R]) -> Callable[P, R]:
-    """Decorator to wrap service accessor methods with `ONVIFOperationException` handling.
+    """Decorator to wrap service accessor methods with `ONVIFOperationException`
+    handling.
 
     This decorator catches any exception raised during service initialization and
     wraps it in `ONVIFOperationException` for consistent error handling across all
@@ -104,21 +103,25 @@ def service(func: Callable[P, R]) -> Callable[P, R]:
     return wrapper
 
 
-# pylint: disable=too-many-instance-attributes,too-many-locals,too-many-public-methods,too-many-statements
+# pylint: disable=too-many-instance-attributes,too-many-locals
+# pylint: disable=too-many-public-methods,too-many-statements
 class ONVIFClient:
-    """ONVIF Client for communicating with ONVIF-compliant devices.
+    """High-level ONVIF client for interacting with ONVIF-compliant devices.
 
     This is the main class for interacting with ONVIF devices. It provides access to
     all ONVIF services including Device Management, Media, PTZ, Events, Analytics, and more.
 
-    The client automatically discovers available services on the device using GetServices
-    or GetCapabilities, and provides lazy initialization for service endpoints.
+    The client automatically discovers available services on the device using `GetServices`
+    or `GetCapabilities`, and provides lazy initialization for service endpoints.
 
     Attributes:
-        services (list): List of available services from GetServices response
-        capabilities (CompoundValue): Device capabilities from GetCapabilities response (fallback)
-        xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if capture_xml=True)
+        services (list): List of available services from `GetServices` response
+        capabilities (CompoundValue): Device capabilities from `GetCapabilities` response (fallback)
+        xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if `capture_xml=True`)
         wsdl_dir (str | None): Custom WSDL directory path (if provided)
+
+    !!! tip "Version History"
+        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
     """
 
     def __init__(
@@ -127,15 +130,15 @@ class ONVIFClient:
         port: int,
         username: str | None = None,
         password: str | None = None,
-        http_digest: bool = False,  # will use WS-Usernametoken by default (recommended! trust me)
+        http_digest: bool = False,  # will use WS-UsernameToken by default
         timeout: int = 10,
-        cache: CacheMode = CacheMode.ALL,
+        cache: CacheMode = CacheMode.DB,
         use_https: bool = False,
         verify_ssl: bool = False,
         apply_patch: bool = True,
         capture_xml: bool = False,
         wsdl_dir: str | None = None,
-        plugins: list | None = None,
+        plugins: list[Plugin] | None = None,
     ):
         """Initialize the ONVIF client.
 
@@ -144,7 +147,7 @@ class ONVIFClient:
             port (int): Device port number
             username (str | None): ONVIF username
             password (str | None): ONVIF password
-            http_digest (bool): Whether to use **HTTP Digest** or **WS-Usernametoken** for auth
+            http_digest (bool): Whether to use **HTTP Digest** or **WS-UsernameToken** for auth
             timeout (int): Request timeout in seconds
             cache (CacheMode): WSDL caching strategy
             use_https (bool): Use HTTPS instead of HTTP for secure communication
@@ -152,9 +155,16 @@ class ONVIFClient:
             apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
             capture_xml (bool): Whether to use XML capture plugin for debugging SOAP requests/responses
             wsdl_dir (str | None): Custom WSDL directory path for using external WSDL files instead of built-in ones
-            plugins (list | None): List of enabled Zeep plugins
-        """
+            plugins (list[Plugin] | None): List of user-provided Zeep plugins (zeep.plugins)
 
+        !!! tip "Version History"
+            - Added in [`>=v0.0.4`](/onvif-python/releases/#v0.0.4): `apply_patch`
+            - Added in [`>=v0.0.6`](/onvif-python/releases/#v0.0.6): `capture_xml`
+            - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
+            - Added in [`>=v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
+            - Added in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
+            - Changed in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `username` → `str | None`, `password` → `str | None`
+        """
         logger.info("Initializing ONVIF client for %s:%d", host, port)
         logger.debug(
             "Connection settings: HTTPS=%s, SSL_verify=%s, cache=%s, timeout=%ds",
@@ -219,14 +229,14 @@ class ONVIFClient:
                 if namespace and xaddr:
                     self._service_map[namespace] = xaddr
                     logger.debug("Mapped service: %s -> %s", namespace, xaddr)
-        except Exception as e:  # pylint: disable=broad-except
+        except (ValueError, AttributeError, ONVIFOperationException) as e:
             logger.warning("GetServices failed: %s", e)
             # Fallback to GetCapabilities if GetServices is not supported on device
             try:
                 logger.debug("Falling back to GetCapabilities")
                 self.capabilities = self._devicemgmt.GetCapabilities(Category="All")
                 logger.info("Successfully retrieved device capabilities")
-            except Exception as e2:  # pylint: disable=broad-except
+            except ONVIFOperationException as e2:
                 # If both fail, we'll use default URLs
                 logger.error("Both GetServices and GetCapabilities failed: %s", e2)
                 logger.warning("Using default URLs for services")
@@ -293,9 +303,9 @@ class ONVIFClient:
         self._authorizationserver: AuthorizationServer | None = None
         self._mediasigning: MediaSigning | None = None
 
-    def _get_xaddr(
+    def _get_xaddr(  # pylint: disable=too-many-branches
         self, service_name: str, service_path: str
-    ) -> str:  # pylint: disable=too-many-branches
+    ) -> str:
         """Resolve XAddr for ONVIF services using a comprehensive 3-tier discovery
         approach.
 
