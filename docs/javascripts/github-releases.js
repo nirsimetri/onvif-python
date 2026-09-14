@@ -190,27 +190,43 @@ function renderRelease(releases, tag = null) {
     releases.find((item) => item.tag_name === releaseTag) || releases[0];
 
   if (!release) {
-    container.innerHTML = "<p>No releases found.</p>";
+    const message = document.createElement("p");
+    message.textContent = "No releases found.";
+
+    container.replaceChildren(message);
     return;
   }
+
+  const article = document.createElement("article");
+  article.className = "github-release";
+
+  const heading = document.createElement("h2");
+  heading.textContent = release.name || release.tag_name;
+
+  const dateElement = document.createElement("p");
+  dateElement.className = "github-release__date";
+
+  const date = new Date(release.published_at);
+  dateElement.textContent = date.toLocaleDateString();
+
+  const body = document.createElement("div");
+  body.className = "github-release__body";
 
   const markdownHtml = marked.parse(
     processGitHubReferences(release.body || "")
   );
 
-  const safeHtml = DOMPurify.sanitize(markdownHtml);
+  const safeFragment = DOMPurify.sanitize(markdownHtml, {
+    RETURN_DOM_FRAGMENT: true,
+  });
 
-  container.innerHTML = `
-    <article class="github-release">
-      <h2>${release.name || release.tag_name}</h2>
-      <p class="github-release__date">
-        ${new Date(release.published_at).toLocaleDateString()}
-      </p>
-      <div class="github-release__body">
-        ${safeHtml}
-      </div>
-    </article>
-  `;
+  body.appendChild(safeFragment);
+
+  article.appendChild(heading);
+  article.appendChild(dateElement);
+  article.appendChild(body);
+
+  container.replaceChildren(article);
 }
 
 async function initializeReleases() {
