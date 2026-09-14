@@ -126,9 +126,9 @@ class ONVIFClient:
         port: int,
         username: str | None = None,
         password: str | None = None,
-        http_digest: bool = False,  # will use WS-Usernametoken by default
+        http_digest: bool = False,  # will use WS-UsernameToken by default
         timeout: int = 10,
-        cache: CacheMode = CacheMode.ALL,
+        cache: CacheMode = CacheMode.DB,
         use_https: bool = False,
         verify_ssl: bool = False,
         apply_patch: bool = True,
@@ -143,7 +143,7 @@ class ONVIFClient:
             port (int): Device port number
             username (str | None): ONVIF username
             password (str | None): ONVIF password
-            http_digest (bool): Whether to use **HTTP Digest** or **WS-Usernametoken** for auth
+            http_digest (bool): Whether to use **HTTP Digest** or **WS-UsernameToken** for auth
             timeout (int): Request timeout in seconds
             cache (CacheMode): WSDL caching strategy
             use_https (bool): Use HTTPS instead of HTTP for secure communication
