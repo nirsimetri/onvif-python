@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Schedule service."""
 
 from onvif.services import Schedule
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestScheduleWSDLCompliance(ONVIFServiceTestBase):

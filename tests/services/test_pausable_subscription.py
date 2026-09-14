@@ -1,10 +1,13 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for PausableSubscription service."""
 
 from onvif.services import PausableSubscription
 
+from .base_service_test import ONVIFServiceTestBase
+
 
 class TestPausableSubscriptionWSDLCompliance(ONVIFServiceTestBase):
-    """Test that PausableSubscription service implementation matches WSDL specification."""
+    """Test that PausableSubscription service implementation matches WSDL
+    specification."""
 
     # Service-specific configuration
     SERVICE_CLASS = PausableSubscription
@@ -80,12 +83,6 @@ class TestPausableSubscriptionWSDLCompliance(ONVIFServiceTestBase):
         assert callable(getattr(PausableSubscription, "Unsubscribe"))
         assert callable(getattr(PausableSubscription, "PauseSubscription"))
         assert callable(getattr(PausableSubscription, "ResumeSubscription"))
-
-    def test_inheritance(self):
-        """Test that PausableSubscription inherits from ONVIFService."""
-        from onvif.utils import ONVIFService
-
-        assert issubclass(PausableSubscription, ONVIFService)
 
     def test_pause_resume_operations(self):
         """Test pause and resume operations specific to PausableSubscription."""

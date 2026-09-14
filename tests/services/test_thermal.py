@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Thermal service."""
 
 from onvif.services import Thermal
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestThermalWSDLCompliance(ONVIFServiceTestBase):

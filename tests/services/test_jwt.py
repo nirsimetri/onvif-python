@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for JWT service."""
 
 from onvif.services import JWT
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestJWTWSDLCompliance(ONVIFServiceTestBase):

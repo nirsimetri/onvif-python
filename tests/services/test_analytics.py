@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Analytics service."""
 
 from onvif.services import Analytics
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestAnalyticsWSDLCompliance(ONVIFServiceTestBase):

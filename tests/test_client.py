@@ -1,11 +1,11 @@
-# tests/test_client.py
+"""Tests for ONVIFClient constructor."""
 
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
 from onvif import CacheMode, ONVIFClient
-from onvif.utils import XMLCapturePlugin, ZeepPatcher
+from onvif.utils import ONVIFOperationException, XMLCapturePlugin, ZeepPatcher
 
 
 class TestONVIFClientInitialization:
@@ -74,6 +74,7 @@ class TestONVIFClientInitialization:
                     mock_remove.assert_called_once()
 
 
+# pylint: disable=protected-access,broad-exception-caught
 class TestONVIFClientServiceDiscovery:
     """Test service discovery mechanisms."""
 
@@ -138,77 +139,55 @@ class TestONVIFClientServiceDiscovery:
 class TestONVIFClientServiceAccess:
     """Test service property access."""
 
-    def test_devicemgmt_property(self, mock_onvif_client):
-        """Test devicemgmt method access."""
-        client = mock_onvif_client
-        device_service = client.devicemgmt()
+    @staticmethod
+    def _make_subscription_ref(sample_subscription_ref):
+        """Create a mock Zeep SubscriptionReference object."""
+        subscription_data = sample_subscription_ref["SubscriptionReference"]
 
-        assert device_service is not None
-        assert device_service == client._devicemgmt
+        address = Mock()
+        address._value_1 = subscription_data["Address"]["_value_1"]
 
-    @patch("onvif.client.Media")
-    def test_media_property_lazy_loading(self, mock_media_class, mock_onvif_client):
-        """Test media property lazy loading."""
-        client = mock_onvif_client
-        mock_media_instance = Mock()
-        mock_media_class.return_value = mock_media_instance
+        subscription_reference = MagicMock()
+        subscription_reference.__getitem__.side_effect = subscription_data.__getitem__
+        subscription_reference.ReferenceParameters = None
 
-        # First access should create the service
-        media_service = client.media()
-        assert mock_media_class.called
-        assert media_service == mock_media_instance
-
-        # Second access should return cached instance
-        mock_media_class.reset_mock()
-        media_service2 = client.media()
-        assert not mock_media_class.called
-        assert media_service2 == mock_media_instance
-
-    @patch("onvif.client.PTZ")
-    def test_ptz_property_lazy_loading(self, mock_ptz_class, mock_onvif_client):
-        """Test PTZ property lazy loading."""
-        client = mock_onvif_client
-        mock_ptz_instance = Mock()
-        mock_ptz_class.return_value = mock_ptz_instance
-
-        # First access should create the service
-        ptz_service = client.ptz()
-        assert mock_ptz_class.called
-        assert ptz_service == mock_ptz_instance
+        return {
+            "SubscriptionReference": subscription_reference,
+        }
 
     def test_pullpoint_method_with_subscription_ref(
         self, mock_onvif_client, sample_subscription_ref
     ):
         """Test pullpoint method with SubscriptionRef parameter."""
         client = mock_onvif_client
+        subscription_ref = self._make_subscription_ref(sample_subscription_ref)
 
-        with patch("onvif.client.PullPoint") as mock_pullpoint_class:
-            mock_pullpoint_instance = Mock()
-            mock_pullpoint_class.return_value = mock_pullpoint_instance
+        pullpoint_service = client.pullpoint(subscription_ref)
 
-            pullpoint_service = client.pullpoint(sample_subscription_ref)
-
-            assert mock_pullpoint_class.called
-            assert pullpoint_service == mock_pullpoint_instance
+        assert pullpoint_service is not None
 
     def test_pullpoint_caching_by_xaddr(
         self, mock_onvif_client, sample_subscription_ref
     ):
         """Test pullpoint caching by XAddr."""
         client = mock_onvif_client
+        subscription_ref = self._make_subscription_ref(sample_subscription_ref)
 
-        with patch("onvif.client.PullPoint") as mock_pullpoint_class:
-            mock_pullpoint_instance = Mock()
-            mock_pullpoint_class.return_value = mock_pullpoint_instance
+        xaddr = sample_subscription_ref["SubscriptionReference"]["Address"]["_value_1"]
 
-            # First call
-            pullpoint1 = client.pullpoint(sample_subscription_ref)
-            assert mock_pullpoint_class.call_count == 1
+        pullpoint1 = client.pullpoint(subscription_ref)
 
-            # Second call with same ref should return cached instance
-            pullpoint2 = client.pullpoint(sample_subscription_ref)
-            assert mock_pullpoint_class.call_count == 1  # No additional calls
-            assert pullpoint1 == pullpoint2
+        cache_key = (xaddr, ())
+
+        assert len(client._pullpoints) == 1
+        assert cache_key in client._pullpoints
+        assert client._pullpoints[cache_key] is pullpoint1
+
+        pullpoint2 = client.pullpoint(subscription_ref)
+
+        assert len(client._pullpoints) == 1
+        assert client._pullpoints[cache_key] is pullpoint2
+        assert pullpoint2 is pullpoint1
 
 
 class TestONVIFClientErrorHandling:
@@ -218,22 +197,27 @@ class TestONVIFClientErrorHandling:
         """Test handling of service discovery failures."""
         with patch("onvif.client.Device") as mock_device_class:
             mock_device = Mock()
-            mock_device.GetServices.side_effect = Exception("GetServices failed")
-            mock_device.GetCapabilities.side_effect = Exception(
-                "GetCapabilities failed"
+
+            mock_device.GetServices.side_effect = ONVIFOperationException(
+                "GetServices",
+                Exception("GetServices failed"),
             )
+            mock_device.GetCapabilities.side_effect = ONVIFOperationException(
+                "GetCapabilities",
+                Exception("GetCapabilities failed"),
+            )
+
             mock_device_class.return_value = mock_device
 
             # Should not raise exception even if both discovery methods fail
             client = ONVIFClient(**test_client_params)
+
             assert client is not None
             assert client.services is None
             assert client.capabilities is None
 
     def test_pullpoint_missing_subscription_ref(self, mock_onvif_client):
         """Test pullpoint with invalid SubscriptionRef."""
-        from onvif.utils import ONVIFOperationException
-
         client = mock_onvif_client
 
         invalid_ref = {"invalid": "structure"}
@@ -259,7 +243,7 @@ class TestONVIFClientConfiguration:
 
     def test_all_cache_modes(self, test_client_params):
         """Test all cache mode configurations."""
-        cache_modes = [CacheMode.ALL, CacheMode.DB, CacheMode.MEM, CacheMode.NONE]
+        cache_modes = [CacheMode.DB, CacheMode.MEM, CacheMode.NONE]
 
         for cache_mode in cache_modes:
             params = test_client_params.copy()

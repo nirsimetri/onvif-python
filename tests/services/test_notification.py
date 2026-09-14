@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Notification service."""
 
 from onvif.services import Notification
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestNotificationWSDLCompliance(ONVIFServiceTestBase):

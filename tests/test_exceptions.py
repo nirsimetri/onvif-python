@@ -1,4 +1,4 @@
-# tests/test_exceptions.py
+"""Tests for Exceptions."""
 
 from unittest.mock import Mock
 
@@ -10,11 +10,11 @@ from onvif.utils.exceptions import ONVIFOperationException
 # Try to import these dependencies, use mocks if not available
 try:
     from zeep.exceptions import Fault
-
-    ZEEP_AVAILABLE = True
 except ImportError:
     # Create mock Fault class for testing
-    class Fault(Exception):
+    class Fault(Exception):  # type: ignore[no-redef]
+        """Mock SOAP Fault."""
+
         def __init__(self, code=None, message=None, detail=None, subcodes=None):
             self.code = code
             self.message = message
@@ -22,30 +22,30 @@ except ImportError:
             self.subcodes = subcodes
             super().__init__(message or "Mock SOAP Fault")
 
-    ZEEP_AVAILABLE = False
 
 try:
     import requests
-
-    REQUESTS_AVAILABLE = True
 except ImportError:
     # Create mock requests module for testing
-    class MockRequestsModule:
-        class exceptions:
+    class MockRequestsModule:  # pylint: disable=too-few-public-methods
+        """MockRequestsModule."""
+
+        class exceptions:  # pylint: disable=invalid-name,too-few-public-methods
+            """exceptions."""
+
             class RequestException(Exception):
-                pass
+                """RequestException."""
 
             class ConnectionError(RequestException):
-                pass
+                """ConnectionError."""
 
             class Timeout(RequestException):
-                pass
+                """Timeout."""
 
             class ReadTimeout(Timeout):
-                pass
+                """ReadTimeout."""
 
-    requests = MockRequestsModule()
-    REQUESTS_AVAILABLE = False
+    requests = MockRequestsModule()  # type: ignore[assignment]
 
 
 class TestONVIFOperationException:
@@ -315,7 +315,7 @@ class TestExceptionUsage:
         except ONVIFOperationException as e:
             assert e.operation == operation
             assert e.original_exception == mock_error
-        except Exception:
+        except Exception:  # pylint: disable=broad-exception-caught
             pytest.fail("Should catch ONVIFOperationException specifically")
 
     def test_exception_reraising(self):

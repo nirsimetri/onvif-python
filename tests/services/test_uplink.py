@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Uplink service."""
 
 from onvif.services import Uplink
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestUplinkWSDLCompliance(ONVIFServiceTestBase):

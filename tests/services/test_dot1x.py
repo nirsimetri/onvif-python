@@ -1,6 +1,8 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for Dot1X service."""
 
 from onvif.services import Dot1X
+
+from .base_service_test import ONVIFServiceTestBase
 
 
 class TestDot1XWSDLCompliance(ONVIFServiceTestBase):

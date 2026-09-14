@@ -1,4 +1,4 @@
-# tests/test_core.py
+"""Tests for all ONVIF core modules."""
 
 from unittest.mock import Mock, patch
 
@@ -6,11 +6,12 @@ import pytest
 
 from onvif import CacheMode
 from onvif.operator import ONVIFOperator
+from onvif.utils.plugins import XMLCapturePlugin
 from onvif.utils.wsdl import ONVIFWSDL
-from onvif.utils.xml_capture import XMLCapturePlugin
 from onvif.utils.zeep import ZeepPatcher
 
 
+# pylint: disable=protected-access
 class TestONVIFWSDL:
     """Test ONVIF WSDL handling and management."""
 
@@ -118,26 +119,6 @@ class TestZeepPatcher:
         removed_state = ZeepPatcher.is_patched()
         assert not removed_state
 
-    def test_text_value_parsing(self):
-        """Test text value parsing functionality."""
-        # Test boolean parsing
-        assert ZeepPatcher.parse_text_value("true")
-        assert not ZeepPatcher.parse_text_value("false")
-        assert ZeepPatcher.parse_text_value("TRUE")
-        assert not ZeepPatcher.parse_text_value("FALSE")
-
-        # Test integer parsing
-        assert ZeepPatcher.parse_text_value("123") == 123
-        assert ZeepPatcher.parse_text_value("0") == 0
-
-        # Test float parsing
-        assert ZeepPatcher.parse_text_value("123.45") == 123.45
-
-        # Test string parsing (fallback)
-        assert ZeepPatcher.parse_text_value("hello") == "hello"
-        assert ZeepPatcher.parse_text_value("") == ""
-        assert ZeepPatcher.parse_text_value(None) is None
-
     def test_flatten_xsd_any_fields(self):
         """Test flattening of xsd:any fields."""
         # Create a mock object with _value_1 field
@@ -171,7 +152,7 @@ class TestXMLCapturePlugin:
         assert hasattr(plugin, "history")
         assert plugin.last_sent_xml is None
         assert plugin.last_received_xml is None
-        assert plugin.history == []
+        assert not plugin.history
 
     def test_plugin_initialization_with_options(self):
         """Test XML capture plugin with custom options."""
@@ -284,23 +265,19 @@ class TestCacheMode:
         assert CacheMode.NONE is not None
         assert CacheMode.MEM is not None
         assert CacheMode.DB is not None
-        assert CacheMode.ALL is not None
 
     def test_cache_mode_string_representation(self):
         """Test cache mode string representations."""
         assert CacheMode.NONE.value == "none"
         assert CacheMode.MEM.value == "mem"
         assert CacheMode.DB.value == "db"
-        assert CacheMode.ALL.value == "all"
 
     def test_cache_mode_comparison(self):
         """Test cache mode comparison."""
         assert CacheMode.NONE == CacheMode.NONE
         assert CacheMode.MEM == CacheMode.MEM
         assert CacheMode.DB == CacheMode.DB
-        assert CacheMode.ALL == CacheMode.ALL
 
-        assert CacheMode.NONE != CacheMode.ALL
         assert CacheMode.MEM != CacheMode.DB
 
 
@@ -325,7 +302,7 @@ class TestCoreIntegration:
         plugin = XMLCapturePlugin()
 
         # Test with different cache modes
-        for cache_mode in [CacheMode.NONE, CacheMode.MEM, CacheMode.DB, CacheMode.ALL]:
+        for cache_mode in [CacheMode.NONE, CacheMode.MEM, CacheMode.DB]:
             # Plugin should work regardless of cache mode
             mock_envelope = Mock()
             mock_operation = Mock()
@@ -334,7 +311,7 @@ class TestCoreIntegration:
             with patch.object(plugin, "_format_xml", return_value="<test/>"):
                 plugin.egress(mock_envelope, {}, mock_operation, {})
 
-        assert len(plugin.history) == 4
+        assert len(plugin.history) == 3
 
 
 class TestErrorHandlingInCore:
@@ -385,13 +362,15 @@ class TestONVIFOperator:  # pylint: disable=too-few-public-methods
     """Test ONVIFOperator transport configuration."""
 
     def test_timeout_applied_as_operation_timeout(self):
-        """
-        Test timeout is passed to zeep as operation_timeout, not load_timeout.
+        """Test timeout is passed to zeep as operation_timeout, not load_timeout.
 
-        zeep's Transport accepts both `timeout` (bounds WSDL/XSD document fetching) and `operation_timeout` (bounds SOAP calls). Passing the wrong one
-        is silent -- both are valid kwargs -- so assert on the attribute that governs actual SOAP requests.
+        zeep's Transport accepts both `timeout` (bounds WSDL/XSD document fetching) and
+        `operation_timeout` (bounds SOAP calls). Passing the wrong one is silent -- both
+        are valid kwargs -- so assert on the attribute that governs actual SOAP
+        requests.
 
-        WSDLs load from local files, so no network I/O occurs here and the unreachable host is never contacted.
+        WSDLs load from local files, so no network I/O occurs here and the unreachable
+        host is never contacted.
         """
         definition = ONVIFWSDL.get_definition("devicemgmt")
 

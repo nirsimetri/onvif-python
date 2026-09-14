@@ -1,10 +1,13 @@
-from base_service_test import ONVIFServiceTestBase
+"""Tests for AuthorizationServer service."""
 
 from onvif.services import AuthorizationServer
 
+from .base_service_test import ONVIFServiceTestBase
+
 
 class TestAuthorizationServerWSDLCompliance(ONVIFServiceTestBase):
-    """Test that AuthorizationServer service implementation matches WSDL specification."""
+    """Test that AuthorizationServer service implementation matches WSDL
+    specification."""
 
     # Service-specific configuration
     SERVICE_CLASS = AuthorizationServer
