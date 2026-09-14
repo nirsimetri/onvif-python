@@ -12,8 +12,8 @@ import requests
 import urllib3
 from requests import Session
 from requests.auth import HTTPDigestAuth
-from zeep import CachingClient, Client, Settings, Transport
-from zeep.cache import SqliteCache
+from zeep import Client, Settings, Transport
+from zeep.cache import InMemoryCache, SqliteCache
 from zeep.exceptions import Fault
 from zeep.proxy import ServiceProxy
 from zeep.wsse.username import UsernameToken
@@ -29,62 +29,64 @@ class CacheMode(Enum):
     """WSDL caching strategies for ONVIF client performance optimization.
 
     Different caching modes provide trade-offs between performance, memory usage,
-    and disk storage. Choose based on your application's requirements.
+    and disk storage. Choose based on the application's requirements.
 
     Attributes:
-        ALL : Maximum performance with both memory and disk caching
-        DB: Disk-only caching for persistent storage
-        MEM: Memory-only caching for temporary sessions
-        NONE: No caching, always fetch fresh WSDLs
-    """
+        NONE (Literal['none']): No caching; WSDL and XSD documents are fetched fresh.
+        MEM (Literal['mem']): In-memory caching for the lifetime of the process.
+        DB (Literal['db']): Persistent SQLite caching across process restarts.
 
-    ALL = "all"
-    """
-    `CachingClient` + `SqliteCache`
-
-    :material-check-circle: Fast startup (WSDL/schema cached in memory + disk), 
-        great for multi-device and long-running apps
-
-    :material-alert-circle: More complex, extra overhead on both disk and memory
-
-    !!! tip "Use case"
-        Production servers with many cameras, need stability & bandwidth savings
-    """
-
-    DB = "db"
-    """
-    `Client` + `SqliteCache`
-    
-    :material-check-circle: Persistent disk cache, saves bandwidth (WSDL/schema not fetched every time)
-
-    :material-alert-circle: Still parses full WSDL into memory at each startup
-    
-    !!! tip "Use case"
-        Batch jobs / CLI tools, or low-resource environments needing long-term cache
-    """
-
-    MEM = "mem"
-    """
-    `CachingClient` only
-
-    :material-check-circle: Lightweight compared to ALL, in-memory cache only, fast during runtime
-
-    :material-alert-circle: Cache lost on restart, WSDL will be fetched again after each restart
-
-    !!! tip "Use case"
-        Short-lived scripts, demos, quick debugging, no need for disk persistence
+    !!! tip "Version History"
+        - Removed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `ALL`
     """
 
     NONE = "none"
     """
-    `Client` only
+    No cache.
 
-    :material-check-circle: Simplest, no caching at all
+    Uses Zeep's default transport without a cache backend.
 
-    :material-alert-circle: Slow (always fetches & parses WSDL), high bandwidth usage
+    :material-check-circle:{ .success } Simplest configuration
 
-    !!! tip "Use case"
-        Pure debugging, small integration testing without performance concerns
+    :material-alert-circle:{ .danger } WSDL/XSD documents are fetched without caching
+
+    !!! danger "Use case"
+        Debugging, testing, and situations where fresh WSDL/XSD documents
+        are required.
+    """
+
+    MEM = "mem"
+    """
+    In-memory cache.
+
+    Uses Zeep's `InMemoryCache` (`zeep.cache.InMemoryCache`) backend.
+
+    :material-check-circle:{ .success } Fast process-local WSDL/XSD reuse
+
+    :material-check-circle:{ .success } No disk I/O
+
+    :material-alert-circle:{ .danger } Cache is lost when the process exits
+
+    !!! danger "Use case"
+        Long-running applications, temporary sessions, and applications
+        where persistent cache storage is not required.
+    """
+
+    DB = "db"
+    """
+    Persistent SQLite cache.
+
+    Uses Zeep's `SqliteCache` (`zeep.cache.SqliteCache`) backend.
+
+    :material-check-circle:{ .success } Persistent across process restarts
+
+    :material-check-circle:{ .success } Reduces repeated WSDL/XSD downloads
+
+    :material-alert-circle:{ .danger } Requires disk I/O and a writable cache directory
+
+    !!! danger "Use case"
+        Production applications, CLI tools, and environments where
+        WSDL/XSD caching should persist across restarts.
     """
 
 
@@ -108,11 +110,11 @@ class ONVIFOperator:
         port (int): Device port number
         username (str | None): ONVIF username
         password (str | None): ONVIF password
-        http_digest (bool): Whether to use **HTTP Digest** or **WS-Usernametoken** for auth
+        http_digest (bool): Whether to use **HTTP Digest** or **WS-UsernameToken** for auth
         timeout (int): Request timeout in seconds
         apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
         address (str): Service endpoint URL (XAddr)
-        client (ClientType): Zeep SOAP client instance
+        client (Client): Zeep SOAP client instance
         service (ServiceProxy): Zeep service proxy for making SOAP calls
         service_name (str): Name of the ONVIF service (e.g., "Device", "Media")
     """
@@ -124,12 +126,12 @@ class ONVIFOperator:
         port: int,
         username: str | None = None,
         password: str | None = None,
-        http_digest: bool = False,  # True = use HTTP Digest / False = use WS-Usernametoken
+        http_digest: bool = False,  # True = use HTTP Digest / False = use WS-UsernameToken
         timeout: int = 10,
         binding: str | None = None,
         service_path: str | None = None,
         xaddr: str | None = None,
-        cache: CacheMode = CacheMode.ALL,  # all | db | mem | none
+        cache: CacheMode = CacheMode.DB,  #  db | mem | none
         cache_path: str | None = None,
         use_https: bool = False,
         verify_ssl: bool = False,
@@ -163,7 +165,10 @@ class ONVIFOperator:
 
         transport_kwargs = {"session": session, "operation_timeout": self.timeout}
 
-        if cache in (CacheMode.DB, CacheMode.ALL):
+        if cache == CacheMode.MEM:
+            logger.debug("Using in-memory WSDL cache")
+            transport_kwargs["cache"] = InMemoryCache()
+        elif cache == CacheMode.DB:
             if cache_path is None:
                 user_cache_dir = os.path.expanduser("~/.onvif-python")
                 os.makedirs(user_cache_dir, exist_ok=True)
@@ -171,6 +176,8 @@ class ONVIFOperator:
 
             logger.debug("Using SQLite cache: %s", cache_path)
             transport_kwargs["cache"] = SqliteCache(path=cache_path)
+        elif cache != CacheMode.NONE:
+            raise ValueError(f"Unknown cache option: {cache}")
 
         transport = Transport(**transport_kwargs)
 
@@ -178,18 +185,9 @@ class ONVIFOperator:
         settings = Settings(strict=False, xml_huge_tree=True)
         wsse: UsernameToken | None = self._create_wsse()
 
-        ClientType: type[Client | CachingClient]  # pylint: disable=invalid-name
-
-        if cache in (CacheMode.ALL, CacheMode.MEM):
-            ClientType = CachingClient
-        elif cache in (CacheMode.DB, CacheMode.NONE):
-            ClientType = Client
-        else:
-            raise ValueError(f"Unknown cache option: {cache}")
-
         logger.debug("Using cache mode: %s", cache.value)
 
-        self.client = ClientType(
+        self.client: Client = Client(
             wsdl=self.wsdl_path,
             transport=transport,
             settings=settings,
