@@ -323,12 +323,12 @@ class ONVIFDiscovery:
                         namespace = getattr(service, "Namespace", "")
                         service_mappings = ONVIF_NAMESPACE_MAP.get(namespace, [])
 
-                    if not service_mappings:
-                        # Unknown namespace
-                        device["services"].append(f"unknown({namespace})")
-                    else:
-                        # Add the main service entry (first service in mappings)
-                        device["services"].append(service_mappings[0][0])
+                        if not service_mappings:
+                            # Unknown namespace
+                            device["services"].append(f"unknown({namespace})")
+                        else:
+                            # Add the main service entry (first service in mappings)
+                            device["services"].append(service_mappings[0][0])
             except (KeyError, ONVIFOperationException):
                 pass
 
