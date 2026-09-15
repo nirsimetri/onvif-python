@@ -139,7 +139,7 @@ class ONVIFService:
             ONVIFOperationException: If type creation fails
 
         Example:
-            ```python
+            ```python linenums="1"
             device = client.devicemgmt()
 
             newuser = device.type('CreateUsers')
@@ -180,7 +180,7 @@ class ONVIFService:
             List of operation names that can be used with `type()` method
 
         Example:
-            ```python
+            ```python linenums="1"
             ptz = client.ptz()
 
             # List all available operations for each service
@@ -244,7 +244,7 @@ class ONVIFService:
             ONVIFOperationException: If method doesn't exist or documentation cannot be retrieved
 
         Example:
-            ```python
+            ```python linenums="1"
             device = client.devicemgmt()
 
             # Get description for a method
@@ -344,7 +344,7 @@ class ONVIFService:
             Python dictionary representation of the zeep object
 
         Example:
-            ```python
+            ```python linenums="1"
             device = client.devicemgmt()
 
             info = device.GetDeviceInformation()

@@ -1,7 +1,7 @@
 Every ONVIF service provides **four** essential helper methods to improve the development experience and make working with ONVIF operations more intuitive:
 
 !!! info
-    These helper methods are available on **all** ONVIF services (`devicemgmt()`, `media()`, `ptz()`, `events()`, `imaging()`, `analytics()`, etc.) and provide a consistent API for exploring and using ONVIF capabilities across different device types and manufacturers.
+    These helper methods are available on **all** ONVIF services (`devicemgmt()`, `media()`, `ptz()`, `events()`, `imaging()`, `analytics()`, etc.) (via [`ONVIFService`](../api/utilities/onvif_service.md) class inheritance) and provide a consistent API for exploring and using ONVIF capabilities across different device types and manufacturers.
 
 ### `type(type_name)`
 

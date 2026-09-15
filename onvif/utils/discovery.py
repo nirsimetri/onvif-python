@@ -26,10 +26,12 @@ class ONVIFDiscovery:
     on the local network using WS-Discovery multicast.
 
     Attributes:
-        WS_DISCOVERY_PORT (int): UDP port used by WS-Discovery.
-        WS_DISCOVERY_ADDRESS_IPV4 (str): IPv4 multicast address used for discovery.
-        WS_DISCOVERY_PROBE_MESSAGE (str): SOAP probe message sent to discover devices.
-        NAMESPACES (dict[str, str]): XML namespaces used to parse WS-Discovery responses.
+        WS_DISCOVERY_PORT (int): UDP port used by WS-Discovery
+        WS_DISCOVERY_ADDRESS_IPV4 (str): IPv4 multicast address used for discovery
+        WS_DISCOVERY_PROBE_MESSAGE (str): SOAP probe message sent to discover devices
+        NAMESPACES (dict[str, str]): XML namespaces used to parse WS-Discovery responses
+        timeout (int): Discovery timeout in seconds
+        interface (str | None): Network interface IP to bind to (default: auto-detect)
 
     !!! tip "Version History"
         - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6).
