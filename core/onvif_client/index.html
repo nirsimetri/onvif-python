@@ -3526,12 +3526,12 @@
 <td><code>list[Plugin]</code></td>
 <td>❌ No</td>
 <td><code>None</code></td>
-<td>List of user-provided Zeep plugins (<code>zeep.plugins</code>) (applied at <a href="../../releases/#v0.2.2"><code>&gt;=v0.2.2</code></a>)</td>
+<td>List of user-provided Zeep plugins (<code>zeep.plugins</code>) (applied at <a href="../../releases/#v0.2.2"><code>&gt;=v0.2.2</code></a>)<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup></td>
 </tr>
 </tbody>
 </table>
 <h3 id="cache-modes">Cache Modes</h3>
-<p>The library provides four caching strategies via the <a href="../../api/utilities/cache_mode/"><code>CacheMode</code></a> enum:</p>
+<p>The library provides three caching strategies via the <a href="../../api/utilities/cache_mode/"><code>CacheMode</code></a> enum:</p>
 <table>
 <thead>
 <tr>
@@ -3546,9 +3546,9 @@
 <tbody>
 <tr>
 <td><code>CacheMode.DB</code></td>
-<td>Persistent disk cache (SQLite)<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup></td>
+<td>Persistent disk cache (SQLite)<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup></td>
 <td>Production servers, batch jobs, CLI tools</td>
-<td>Fast<sup id="fnref2:6"><a class="footnote-ref" href="#fn:6">6</a></sup></td>
+<td>Fast<sup id="fnref2:7"><a class="footnote-ref" href="#fn:7">7</a></sup></td>
 <td>Low–Medium</td>
 <td>Medium</td>
 </tr>
@@ -3556,7 +3556,7 @@
 <td><code>CacheMode.MEM</code></td>
 <td>Process-local in-memory cache</td>
 <td>Long-running apps, short-lived sessions</td>
-<td>Fast<sup id="fnref3:6"><a class="footnote-ref" href="#fn:6">6</a></sup></td>
+<td>Fast<sup id="fnref3:7"><a class="footnote-ref" href="#fn:7">7</a></sup></td>
 <td>None</td>
 <td>Medium</td>
 </tr>
@@ -3571,7 +3571,7 @@
 </tbody>
 </table>
 <p><strong>Recommendation:</strong></p>
-<p>Use <code>CacheMode.DB</code> (default) for production applications to maximize performance<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup>.</p>
+<p>Use <code>CacheMode.DB</code> (default) for production applications to maximize performance<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Version History</p>
 <ul>
@@ -3749,10 +3749,14 @@
 <p>The directory should have a flat structure with WSDL files directly in the root (e.g., <code>/path/to/custom/wsdl/devicemgmt.wsdl</code>, <code>/path/to/custom/wsdl/media.wsdl</code>, etc.).&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
 </li>
 <li id="fn:5">
-<p>Disk cache <code>CacheMode.DB</code> is stored in <code>~/.onvif-python/onvif_zeep_cache.sqlite</code>.&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+<p>The <code>plugins</code> parameter accepts a list of user-provided Zeep <a href="https://docs.python-zeep.org/en/master/plugins.html"><code>Plugin</code></a> instances that can intercept and inspect SOAP messages before they are sent or after they are received.</p>
+<p>This can be used to implement custom request/response processing, logging, XML manipulation, or other integrations with Zeep's SOAP transport. The plugins are applied to the underlying Zeep clients created by <a href="../../api/core/onvif_client/"><code>ONVIFClient</code></a>.&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
 </li>
 <li id="fn:6">
-<p><strong>Fast after the cache is populated</strong>. The first startup may still need to download and parse the WSDL/XSD documents.&#160;<a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:6" title="Jump back to footnote 6 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+<p>Disk cache <code>CacheMode.DB</code> is stored in <code>~/.onvif-python/onvif_zeep_cache.sqlite</code>.&#160;<a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:7">
+<p><strong>Fast after the cache is populated</strong>. The first startup may still need to download and parse the WSDL/XSD documents.&#160;<a class="footnote-backref" href="#fnref:7" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:7" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:7" title="Jump back to footnote 7 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
