@@ -43,7 +43,7 @@ class ZeepPatcher:
         5. Flatten parsed data into parent objects for easy access
 
     !!! question "Before Patching (Raw XML Elements)"
-        ```python
+        ```python linenums="1"
         capabilities = client.devicemgmt().GetCapabilities()
         # capabilities.Extension contains raw lxml elements
         # Hard to access: capabilities.Extension._value_1[0].tag
@@ -51,7 +51,7 @@ class ZeepPatcher:
         ```
 
     !!! question "After Patching (Structured object)"
-        ```python
+        ```python linenums="1"
         ZeepPatcher.apply_patch()
         capabilities = client.devicemgmt().GetCapabilities()
         # capabilities.Extension contains parsed object
@@ -77,9 +77,8 @@ class ZeepPatcher:
         - Does not affect operations without `xsd:any` fields
 
     ??? example "Example - Basic Usage"
-        ```python
-        from onvif import ONVIFClient
-        from onvif.utils import ZeepPatcher
+        ```python linenums="1"
+        from onvif import ONVIFClient, ZeepPatcher
 
         # Apply patch before creating client
         # You do not need to do this; since the `apply path`
@@ -97,7 +96,7 @@ class ZeepPatcher:
         ```
 
     ??? example "Example - Type Conversion"
-        ```python
+        ```python linenums="1"
         # Before patch: "true" is a string
         # After patch: True is a boolean
         imaging = client.imaging().GetImagingSettings(VideoSourceToken="0")
@@ -106,7 +105,7 @@ class ZeepPatcher:
         ```
 
     ??? example "Example - Check and Remove Patch"
-        ```python
+        ```python linenums="1"
         if ZeepPatcher.is_patched():
             print("Patch is active")
             ZeepPatcher.remove_patch()
@@ -114,7 +113,7 @@ class ZeepPatcher:
         ```
 
     ??? example "Example - Flattening"
-        ```python
+        ```python linenums="1"
         # The patch also flattens wrapper tags
         # Instead of: response._value_1.Capabilities.Device.XAddr
         # You get: response.Capabilities.Device.XAddr
@@ -632,8 +631,9 @@ class ZeepPatcher:
         Should be called once at application startup.
 
         Example:
-            ```python
-            from onvif.utils.zeep import ZeepPatcher
+            ```python linenums="1"
+            from onvif import ZeepPatcher
+
             ZeepPatcher.apply_patch()
             ```
         """
@@ -653,8 +653,9 @@ class ZeepPatcher:
         Reverts zeep to its original behavior. Useful for testing or debugging.
 
         Example:
-            ```python
-            from onvif.utils.zeep import ZeepPatcher
+            ```python linenums="1"
+            from onvif import ZeepPatcher
+
             ZeepPatcher.remove_patch()
             ```
         """
@@ -674,8 +675,9 @@ class ZeepPatcher:
             `True` if patch is active, `False` otherwise.
 
         Example:
-            ```python
-            from onvif.utils.zeep import ZeepPatcher
+            ```python linenums="1"
+            from onvif import ZeepPatcher
+
             if ZeepPatcher.is_patched():
                 print("Zeep patch is active")
             ```

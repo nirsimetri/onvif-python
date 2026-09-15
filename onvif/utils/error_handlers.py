@@ -60,7 +60,7 @@ def is_action_not_supported(exception: ONVIFOperationException | Fault) -> bool:
         `True` if the exception contains an `ActionNotSupported` SOAP fault, `False` otherwise.
 
     Example:
-        ```python
+        ```python linenums="1"
         from onvif import ONVIFClient, is_action_not_supported
 
         try:
@@ -123,6 +123,9 @@ def safe_call(
         log_error (bool): Whether to log errors encountered during the operation.
             Defaults to `True`.
 
+    !!! tip "Version History"
+        - Changed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): ~~`ignore_unsupported`~~ → `handle_unsupported`.
+
     Returns:
         The result returned by `func`, or `default` when the operation is
             unsupported and `handle_unsupported` is enabled.
@@ -133,7 +136,7 @@ def safe_call(
         Exception: If `func` raises an unexpected exception.
 
     Example:
-        ```python
+        ```python linenums="1"
         from onvif import ONVIFClient, safe_call
 
         client = ONVIFClient("192.168.1.17", 80, "admin", "password")
@@ -192,7 +195,7 @@ def ignore_unsupported(func) -> Any | None:
         Exception: If the decorated function raises an unexpected exception.
 
     Example:
-        ```python
+        ```python linenums="1"
         from onvif import ONVIFClient, ignore_unsupported
 
         client = ONVIFClient("192.168.1.17", 80, "admin", "password")

@@ -52,22 +52,22 @@ class ONVIFOperationException(Exception):
 
     ??? example "Example Error Messages"
 
-        SOAP Error - ActionNotSupported
+        **SOAP Error** - Action Not Supported
         ```python
         ONVIF operation 'GetImagingSettings' failed: SOAP Error: code=Receiver, subcode=ActionNotSupported, msg=Optional Action Not Implemented
         ```
 
-        SOAP Error - Invalid Argument
+        **SOAP Error** - Invalid Argument
         ```python
         ONVIF operation 'SetVideoEncoderConfiguration' failed: SOAP Error: code=Sender, subcode=InvalidArgVal, msg=Invalid resolution, detail=Width=1920, Height=1080
         ```
 
-        Protocol Error - Connection Timeout
+        **Protocol Error** - Connection Timeout
         ```python
         ONVIF operation 'GetCapabilities' failed: Protocol Error: HTTPConnectionPool(host='192.168.1.100', port=80): Read timed out.
         ```
 
-        Application Error - Missing Argument
+        **Application Error** - Missing Argument
         ```python
         ONVIF operation 'UpgradeSystemFirmware' failed: Application Error: TypeError - Device.UpgradeSystemFirmware() missing 1 required positional argument: 'Firmware'
         ```

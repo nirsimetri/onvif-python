@@ -145,6 +145,7 @@ markdown_extensions:
   - md_in_html
   - admonition
   - footnotes
+  - pymdownx.tilde
   - pymdownx.snippets
   - pymdownx.details
   - pymdownx.highlight:

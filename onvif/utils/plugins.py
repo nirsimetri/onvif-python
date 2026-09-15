@@ -37,7 +37,7 @@ class ONVIFParser(Plugin):
         - Available since [`>=v0.2.2`](/onvif-python/releases/#v0.2.2).
 
     ??? example "Usage"
-        ```python
+        ```python linenums="1"
         from onvif import ONVIFClient, ONVIFParser
 
         parser = ONVIFParser({
