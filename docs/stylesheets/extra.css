@@ -135,3 +135,17 @@
 .muted {
   color: var(--color-muted);
 }
+
+[data-md-toggle="search"]:not(:checked) ~ .md-header .md-search__form::after {
+  position: absolute;
+  top: .3rem;
+  right: .3rem;
+  display: block;
+  padding: .1rem .4rem;
+  color: #ebebeb;
+  font-weight: bold;
+  font-size: .8rem;
+  border: .05rem solid #ebebeb7a;
+  border-radius: .2rem;
+  content: "/";
+}
