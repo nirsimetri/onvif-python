@@ -12,4 +12,4 @@ Your feedback, code, documentation, and ideas help make this project better for 
 
 ## How to contribute?
 
-Please check the [Contributing](https://nirsimetri.github.io/onvif-python/contributing) guide page, that page explains step-by-step how to contribute to the project correctly.
+Please check the [Contributing](https://nirsimetri.github.io/onvif-python/project/contributing) guide page, that page explains step-by-step how to contribute to the project correctly.
