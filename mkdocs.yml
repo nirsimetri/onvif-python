@@ -18,6 +18,7 @@ theme:
   features:
     - navigation.instant
     - navigation.instant.progress
+    - navigation.instant.preview
     - navigation.sections
     - navigation.top
     - content.code.copy
