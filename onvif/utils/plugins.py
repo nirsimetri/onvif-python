@@ -92,7 +92,7 @@ class ONVIFParser(Plugin):
 
     def ingress(
         self, envelope: etree._Element, http_headers: dict[str, str], operation: Any
-    ):
+    ) -> tuple[Any, dict[str, str]]:
         """Process a SOAP response before Zeep deserializes it.
 
         This Zeep ``ingress`` hook inspects the raw SOAP response envelope and
@@ -268,7 +268,7 @@ class XMLCapturePlugin(Plugin):
         http_headers: dict[str, str],
         operation: Any,
         binding_options: dict[str, object],
-    ):
+    ) -> tuple[Any, dict[str, str]]:
         """Capture a SOAP request before it is sent to the device.
 
         This Zeep ``egress`` hook serializes the outgoing SOAP envelope and stores
@@ -320,7 +320,7 @@ class XMLCapturePlugin(Plugin):
 
     def ingress(
         self, envelope: etree._Element, http_headers: dict[str, str], operation: Any
-    ):
+    ) -> tuple[Any, dict[str, str]]:
         """Capture a SOAP response after it is received from the device.
 
         This Zeep ``ingress`` hook serializes the incoming SOAP envelope and stores
@@ -461,7 +461,7 @@ class ReferenceParametersPlugin(Plugin):
         http_headers: dict[str, str],
         operation: Any,
         binding_options: dict[str, object],
-    ):
+    ) -> tuple[Any, dict[str, str]]:
         """Inject WS-Addressing reference parameters into a SOAP request.
 
         This Zeep ``egress`` hook adds the configured reference parameters to the

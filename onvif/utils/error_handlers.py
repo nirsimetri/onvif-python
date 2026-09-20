@@ -38,6 +38,7 @@ cases.
 """
 
 import logging
+from collections.abc import Callable
 from typing import Any
 
 from zeep.exceptions import Fault
@@ -105,7 +106,7 @@ def is_action_not_supported(exception: ONVIFOperationException | Fault) -> bool:
 
 
 def safe_call(
-    func,
+    func: Callable,
     default: Any | None = None,
     handle_unsupported: bool = True,
     log_error: bool = True,
@@ -114,7 +115,7 @@ def safe_call(
     Safely call an ONVIF operation with graceful error handling.
 
     Args:
-        func: The callable that performs the ONVIF operation.
+        func (Callable): The callable that performs the ONVIF operation.
         default (Any | None): The value to return when the operation is unsupported and
             `handle_unsupported` is enabled. Defaults to `None`.
         handle_unsupported (bool): Whether to catch `ActionNotSupported` faults and
@@ -179,11 +180,11 @@ def safe_call(
         raise
 
 
-def ignore_unsupported(func) -> Any | None:
+def ignore_unsupported(func: Callable) -> Any | None:
     """Decorator to ignore `ActionNotSupported` SOAP faults.
 
     Args:
-        func: The function to decorate. The function may accept positional
+        func (Callable): The function to decorate. The function may accept positional
             and keyword arguments.
 
     Returns:
