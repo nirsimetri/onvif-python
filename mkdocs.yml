@@ -161,6 +161,11 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
 
+validation:
+  links:
+    absolute_links: ignore
+    anchors: ignore
+
 extra:
   generator: false
 
