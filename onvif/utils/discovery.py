@@ -7,6 +7,7 @@ import socket
 import struct
 import uuid
 from typing import Any, ClassVar
+from urllib.parse import urlparse
 
 from lxml import etree
 
@@ -501,23 +502,25 @@ class ONVIFDiscovery:
             # Use first XAddr (usually HTTP)
             xaddr = xaddrs[0]
 
-        if "://" not in xaddr:
-            return
-
         try:
-            # Detect protocol
-            protocol = xaddr.split("://")[0]
-            device_info["use_https"] = protocol == "https"
+            parsed = urlparse(xaddr)
 
-            # Extract host and port
-            parts = xaddr.split("://")[1].split("/")[0]
-            if ":" in parts:
-                device_info["host"] = parts.split(":")[0]
-                device_info["port"] = int(parts.split(":")[1])
-            else:
-                device_info["host"] = parts
-                # Set default port based on protocol
-                device_info["port"] = 443 if protocol == "https" else 80
+            if not parsed.scheme or not parsed.hostname:
+                return
+
+            port = parsed.port
+
+            # A port of 443 implies HTTPS even if the device
+            # incorrectly advertises the XAddr with an HTTP scheme.
+            use_https = parsed.scheme.lower() == "https" or port == 443
+
+            if port is None:
+                port = 443 if use_https else 80
+
+            device_info["host"] = parsed.hostname
+            device_info["port"] = port
+            device_info["use_https"] = use_https
+
         except (ValueError, IndexError, KeyError) as e:
             # Failed to parse XAddr
             logger.warning("Error occurred while parsing XAddr %s: %s", xaddr, e)
