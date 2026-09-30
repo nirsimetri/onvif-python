@@ -106,7 +106,7 @@ class ONVIFWSDL:
             custom_dir (str): Path to directory containing custom WSDL files
 
         Example:
-            ```python
+            ```python linenums="1"
             from onvif import ONVIFWSDL
 
             ONVIFWSDL.set_custom_wsdl_dir("/home/user/my_wsdls")
@@ -124,7 +124,7 @@ class ONVIFWSDL:
             str or None: Current custom WSDL directory, or None if using built-in
 
         Example:
-            ```python
+            ```python linenums="1"
             from onvif import ONVIFWSDL
 
             ONVIFWSDL.set_custom_wsdl_dir("/custom/path")
@@ -138,7 +138,7 @@ class ONVIFWSDL:
         """Clear custom WSDL directory, revert to built-in WSDLs.
 
         Example:
-            ```python
+            ```python linenums="1"
             from onvif import ONVIFWSDL
 
             ONVIFWSDL.set_custom_wsdl_dir("/custom/path")
@@ -188,16 +188,16 @@ class ONVIFWSDL:
         Returns:
             dict: Complete WSDL mapping for all services
 
-        WSDL Map Structure:
-            {
-                "{service_name}": {
-                    "{version}": {
-                        "path": "/full/path/to/service.wsdl",
-                        "binding": "ServiceBinding",
-                        "namespace": "http://www.onvif.org/ver10/service/wsdl"
+            WSDL Map Structure:
+                {
+                    "{service_name}": {
+                        "{version}": {
+                            "path": "/full/path/to/service.wsdl",
+                            "binding": "ServiceBinding",
+                            "namespace": "http://www.onvif.org/ver10/service/wsdl"
+                        }
                     }
                 }
-            }
 
         Path Resolution:
             - Built-in: Uses ONVIF standard directory structure

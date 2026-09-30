@@ -24,7 +24,7 @@ from onvif.operator import CacheMode
 from onvif.utils import ONVIFOperationException
 
 
-def create_parser() -> ArgumentParser:
+def _create_parser() -> ArgumentParser:
     """Create argument parser for ONVIF CLI."""
     parser = ArgumentParser(
         prog="onvif",
@@ -163,50 +163,8 @@ def create_parser() -> ArgumentParser:
     return parser
 
 
-# pylint: disable=too-many-statements,too-many-branches
-def main() -> None:
-    """Main CLI entry point."""
-    # Setup custom warning format for cleaner output
-    setup_warning_format()
-
-    parser = create_parser()
-
-    # Check if no arguments provided at all
-    if len(sys.argv) == 1:
-        parser.print_help()
-        sys.exit(0)
-
-    args = parser.parse_intermixed_args()
-
-    # Show ONVIF CLI version
-    if args.version:
-        print(colorize(__version__, "yellow"))
-        sys.exit(0)
-
-    # Handle product search
-    if args.search:
-        search_products(args.search, args.page, args.per_page)
-        sys.exit(0)
-
-    # Validate arguments early (before discovery)
-    # Skip validation if search mode is active
-    if (
-        not args.search
-        and not args.interactive
-        and (not args.service or not args.method)
-    ):
-        parser.error(
-            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} "
-            f"mode or {colorize('service/method', 'white')} must be specified"
-        )
-
-    # Validate output argument
-    if args.output and args.interactive:
-        parser.error(
-            f"{colorize('--output', 'white')} cannot be used with {colorize('--interactive', 'white')} mode"
-        )
-
-    # Handle discovery mode
+def _handle_discovery_mode(parser, args) -> None:
+    """Handle discovery mode."""
     if args.discover:
         if args.host:
             parser.error(
@@ -240,15 +198,9 @@ def main() -> None:
         # Set host, port, and HTTPS from selected device
         args.host, args.port, _ = selected
 
-        # Use device's detected protocol (already filtered by prefer_https in discover_devices)
-        # No need to override - device info already has correct protocol based on --https flag
 
-    # Validate that host is provided (either via --host or --discover) unless using --search
-    if not args.search and not args.host:
-        parser.error(
-            f"Either {colorize('--host', 'white')} or {colorize('--discover', 'white')} must be specified"
-        )
-
+def _handle_authentication(args) -> None:
+    """Handle auth prompt."""
     # Handle username prompt (skip for search mode)
     if not args.search and not args.username:
         try:
@@ -267,6 +219,9 @@ def main() -> None:
             print("\nPassword entry cancelled.")
             sys.exit(1)
 
+
+def _process_onvif_client(args) -> None:
+    """Process ONVIFClient initialization."""
     # Skip ONVIF client creation for search mode
     if args.search:
         return
@@ -336,6 +291,61 @@ def main() -> None:
         if args.debug:
             traceback_lib.print_exc()
         sys.exit(1)
+
+
+def main() -> None:
+    """Main CLI entry point."""
+    # Setup custom warning format for cleaner output
+    setup_warning_format()
+
+    parser = _create_parser()
+
+    # Check if no arguments provided at all
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
+
+    args = parser.parse_intermixed_args()
+
+    # Show ONVIF CLI version
+    if args.version:
+        print(colorize(__version__, "yellow"))
+        sys.exit(0)
+
+    # Handle product search
+    if args.search:
+        search_products(args.search, args.page, args.per_page)
+        sys.exit(0)
+
+    # Validate arguments early (before discovery)
+    # Skip validation if search mode is active
+    if (
+        not args.search
+        and not args.interactive
+        and (not args.service or not args.method)
+    ):
+        parser.error(
+            f"Either {colorize('--interactive', 'white')}/{colorize('-i', 'white')} "
+            f"mode or {colorize('service/method', 'white')} must be specified"
+        )
+
+    # Validate output argument
+    if args.output and args.interactive:
+        parser.error(
+            f"{colorize('--output', 'white')} cannot be used with {colorize('--interactive', 'white')} mode"
+        )
+
+    _handle_discovery_mode(parser, args)
+
+    # Validate that host is provided (either via --host or --discover) unless using --search
+    if not args.search and not args.host:
+        parser.error(
+            f"Either {colorize('--host', 'white')} or {colorize('--discover', 'white')} must be specified"
+        )
+
+    _handle_authentication(args)
+
+    _process_onvif_client(args)
 
 
 if __name__ == "__main__":

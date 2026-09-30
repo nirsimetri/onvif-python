@@ -38,6 +38,7 @@ cases.
 """
 
 import logging
+from collections.abc import Callable
 from typing import Any
 
 from zeep.exceptions import Fault
@@ -60,7 +61,7 @@ def is_action_not_supported(exception: ONVIFOperationException | Fault) -> bool:
         `True` if the exception contains an `ActionNotSupported` SOAP fault, `False` otherwise.
 
     Example:
-        ```python
+        ```python linenums="1"
         from onvif import ONVIFClient, is_action_not_supported
 
         try:
@@ -105,7 +106,7 @@ def is_action_not_supported(exception: ONVIFOperationException | Fault) -> bool:
 
 
 def safe_call(
-    func,
+    func: Callable,
     default: Any | None = None,
     handle_unsupported: bool = True,
     log_error: bool = True,
@@ -114,7 +115,7 @@ def safe_call(
     Safely call an ONVIF operation with graceful error handling.
 
     Args:
-        func: The callable that performs the ONVIF operation.
+        func (Callable): The callable that performs the ONVIF operation.
         default (Any | None): The value to return when the operation is unsupported and
             `handle_unsupported` is enabled. Defaults to `None`.
         handle_unsupported (bool): Whether to catch `ActionNotSupported` faults and
@@ -122,6 +123,9 @@ def safe_call(
             `True`.
         log_error (bool): Whether to log errors encountered during the operation.
             Defaults to `True`.
+
+    !!! tip "Version History"
+        - Changed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): ~~`ignore_unsupported`~~ → `handle_unsupported`.
 
     Returns:
         The result returned by `func`, or `default` when the operation is
@@ -133,7 +137,7 @@ def safe_call(
         Exception: If `func` raises an unexpected exception.
 
     Example:
-        ```python
+        ```python linenums="1"
         from onvif import ONVIFClient, safe_call
 
         client = ONVIFClient("192.168.1.17", 80, "admin", "password")
@@ -176,11 +180,11 @@ def safe_call(
         raise
 
 
-def ignore_unsupported(func) -> Any | None:
+def ignore_unsupported(func: Callable) -> Any | None:
     """Decorator to ignore `ActionNotSupported` SOAP faults.
 
     Args:
-        func: The function to decorate. The function may accept positional
+        func (Callable): The function to decorate. The function may accept positional
             and keyword arguments.
 
     Returns:
@@ -192,7 +196,7 @@ def ignore_unsupported(func) -> Any | None:
         Exception: If the decorated function raises an unexpected exception.
 
     Example:
-        ```python
+        ```python linenums="1"
         from onvif import ONVIFClient, ignore_unsupported
 
         client = ONVIFClient("192.168.1.17", 80, "admin", "password")

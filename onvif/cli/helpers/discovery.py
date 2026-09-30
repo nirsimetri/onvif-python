@@ -18,7 +18,8 @@ def discover_devices(
         timeout (int): Discovery timeout in seconds
         interface (str | None): Network interface to use for discovery
         prefer_https (bool): If True, prioritize HTTPS XAddrs when available
-        filter_term (str | None): Optional search term to filter devices by types or scopes (case-insensitive)
+        filter_term (str | None): Optional search term to filter devices by
+            types or scopes (case-insensitive)
 
     Returns:
         List of discovered devices with connection info
@@ -38,7 +39,6 @@ def discover_devices(
     return devices
 
 
-# pylint: disable=too-many-locals,too-many-statements,too-many-branches
 def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
     """Display devices and allow user to select one interactively.
 
@@ -55,7 +55,6 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
     print(f"{colorize(f'Found {len(devices)} ONVIF device(s):', 'green')}")
 
     for idx, device in enumerate(devices, 1):
-        idx_str = colorize(f"[{idx}]", "yellow")
         protocol = "https" if device.get("use_https", False) else "http"
         host_port = f"{device['host']}:{device['port']}"
         protocol_indicator = (
@@ -63,7 +62,9 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
             if device.get("use_https", False)
             else colorize("HTTP", "white")
         )
-        print(f"\n{idx_str} {colorize(host_port, 'yellow')} ({protocol_indicator})")
+        print(
+            f"\n{colorize(f"[{idx}]", "yellow")} {colorize(host_port, 'yellow')} ({protocol_indicator})"
+        )
 
         # Remove uuid: or urn:uuid: prefix from EPR
         epr_display = device["epr"]
@@ -73,12 +74,12 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
             epr_display = epr_display.replace("uuid:", "")
         print(f"    [uuid] {epr_display}")
 
-        if device.get("hostname"):
-            print(f"    [hostname] {device["hostname"]}")
+        _print_optional_field("hostname", device.get("hostname"))
 
-        if device.get("xaddrs"):
-            xaddrs_parts = [f"[{xaddr}]" for xaddr in device["xaddrs"]]
-            print(f"    [xaddrs] {' '.join(xaddrs_parts)}")
+        _print_optional_field(
+            "xaddrs",
+            " ".join(f"[{xaddr}]" for xaddr in device.get("xaddrs", [])),
+        )
 
         if device.get("date_time"):
             utc = (
@@ -101,13 +102,16 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
                 f'{" [Local: " + local + "]" if local else ""}'
             )
 
-        if device.get("types"):
-            types_parts = [f"[{t}]" for t in device["types"]]
-            print(f"    [types] {' '.join(types_parts)}")
+        _print_optional_field(
+            "types",
+            " ".join(f"[{device_type}]" for device_type in device.get("types", [])),
+        )
 
-        if device.get("services"):
-            service = [colorize(f"[{t}]", "cyan") for t in device["services"]]
-            print(f"    [services] {' '.join(service)}")
+        _print_optional_field(
+            "services",
+            " ".join(f"[{service}]" for service in device.get("services", [])),
+            "cyan",
+        )
 
         if device.get("scopes"):
             scope_parts = []
@@ -123,11 +127,31 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
             if scope_parts:
                 print(f"    [scopes] {' '.join(scope_parts)}")
 
-    # Simple selection (without arrow keys for cross-platform compatibility)
+    return _process_device_selection(protocol, devices)
+
+
+def _print_optional_field(
+    label: str,
+    value: object,
+    color: str | None = None,
+) -> None:
+    """Print an optional device field when it has a value."""
+    if not value:
+        return
+
+    if color:
+        value = colorize(str(value), color)
+
+    print(f"    [{label}] {value}")
+
+
+def _process_device_selection(protocol, devices):
+    """Simple selection (without arrow keys for cross-platform compatibility)"""
     while True:
         try:
             selection = input(
-                f"\nSelect device number {colorize(f'1-{len(devices)}', 'white')} or {colorize('q', 'white')} to quit: "
+                f"\nSelect device number {colorize(f'1-{len(devices)}', 'white')} "
+                f"or {colorize('q', 'white')} to quit: "
             )
 
             if selection.lower() == "q":
@@ -139,7 +163,8 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
                 protocol = "https" if selected.get("use_https", False) else "http"
                 host_port = f"{selected['host']}:{selected['port']}"
                 print(
-                    f"\n{colorize('Selected:', 'green')} {colorize(protocol, 'cyan')}://{colorize(host_port, 'yellow')}"
+                    f"\n{colorize('Selected:', 'green')} {colorize(protocol, 'cyan')}:"
+                    f"//{colorize(host_port, 'yellow')}"
                 )
 
                 return (

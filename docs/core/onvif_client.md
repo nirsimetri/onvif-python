@@ -36,21 +36,21 @@ The [`ONVIFClient`](../api/core/onvif_client.md) class provides various configur
 | `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better `xsd:any` field parsing and automatic flattening (applied at [`>=v0.0.4`](../releases.md/#v0.0.4))[^2] |
 | `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses (applied at [`>=v0.0.6`](../releases.md/#v0.0.6))[^3] |
 | `wsdl_dir`    | `str ⏐ None`  | ❌ No | `None` | Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., `/path/to/custom/wsdl`) (applied at [`>=v0.1.0`](../releases.md/#v0.1.0))[^4] |
-| `plugins`    | `list[Plugin]`  | ❌ No | `None` | List of user-provided Zeep plugins (`zeep.plugins`) (applied at [`>=v0.2.2`](../releases.md/#v0.2.2)) |
+| `plugins`    | `list[Plugin]`  | ❌ No | `None` | List of user-provided Zeep plugins (`zeep.plugins`) (applied at [`>=v0.2.2`](../releases.md/#v0.2.2))[^5] |
 
 ### Cache Modes
 
-The library provides four caching strategies via the [`CacheMode`](../api/utilities/cache_mode.md) enum:
+The library provides three caching strategies via the [`CacheMode`](../api/utilities/cache_mode.md) enum:
 
 | Mode             | Description                    | Best For                                  | Startup Speed | Disk Usage | Memory Usage |
 | ---------------- | ------------------------------ | ----------------------------------------- | ------------- | ---------- | ------------ |
-| `CacheMode.DB`   | Persistent disk cache (SQLite)[^5] | Production servers, batch jobs, CLI tools | Fast[^6]         | Low–Medium | Medium       |
-| `CacheMode.MEM`  | Process-local in-memory cache  | Long-running apps, short-lived sessions   | Fast[^6]         | None       | Medium       |
+| `CacheMode.DB`   | Persistent disk cache (SQLite)[^6] | Production servers, batch jobs, CLI tools | Fast[^7]         | Low–Medium | Medium       |
+| `CacheMode.MEM`  | Process-local in-memory cache  | Long-running apps, short-lived sessions   | Fast[^7]         | None       | Medium       |
 | `CacheMode.NONE` | No WSDL/XSD caching            | Testing, debugging                        | Slowest       | None       | Low          |
 
 **Recommendation:**
 
-Use `CacheMode.DB` (default) for production applications to maximize performance[^6].
+Use `CacheMode.DB` (default) for production applications to maximize performance[^7].
 
 !!! tip "Version History"
     - Removed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
@@ -238,5 +238,9 @@ client = ONVIFClient(
     Use `wsdl_dir` parameter to specify a custom directory containing WSDL files. 
     
     The directory should have a flat structure with WSDL files directly in the root (e.g., `/path/to/custom/wsdl/devicemgmt.wsdl`, `/path/to/custom/wsdl/media.wsdl`, etc.).
-[^5]: Disk cache `CacheMode.DB` is stored in `~/.onvif-python/onvif_zeep_cache.sqlite`.
-[^6]: **Fast after the cache is populated**. The first startup may still need to download and parse the WSDL/XSD documents.
+[^5]: 
+    The `plugins` parameter accepts a list of user-provided Zeep [`Plugin`](https://docs.python-zeep.org/en/master/plugins.html) instances that can intercept and inspect SOAP messages before they are sent or after they are received.
+    
+    This can be used to implement custom request/response processing, logging, XML manipulation, or other integrations with Zeep's SOAP transport. The plugins are applied to the underlying Zeep clients created by [`ONVIFClient`](../api/core/onvif_client.md).
+[^6]: Disk cache `CacheMode.DB` is stored in `~/.onvif-python/onvif_zeep_cache.sqlite`.
+[^7]: **Fast after the cache is populated**. The first startup may still need to download and parse the WSDL/XSD documents.

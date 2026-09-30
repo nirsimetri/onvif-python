@@ -145,7 +145,7 @@ class InteractiveShell(cmd.Cmd):
                     onvif_version = str(major)
         except ONVIFOperationException as e:
             if isinstance(e.original_exception, (RequestException, TransportError)):
-                self._handle_connection_error(e)
+                self._handle_connection_error()
             else:
                 # For other errors (e.g., GetServices not supported), we can still proceed
                 # with basic device info if GetDeviceInformation succeeded.
@@ -230,7 +230,7 @@ class InteractiveShell(cmd.Cmd):
             # Wait before next check or stop signal
             self._stop_health_check.wait(health_check_interval)
 
-    def _handle_connection_error(self, e):  # pylint: disable=unused-argument
+    def _handle_connection_error(self):
         """Handle connection errors by notifying the user and exiting."""
         print(f"\n{colorize('Connection to device lost.', 'red')}", file=sys.stderr)
         # print(f"{colorize('Error:', 'red')} {e}", file=sys.stderr)
@@ -449,7 +449,10 @@ class InteractiveShell(cmd.Cmd):
     def update_prompt(self):
         """Update command prompt based on current context."""
         if self.current_service_name:
-            self.prompt = f"{self.args.username}@{self.args.host}:{self.args.port}/{self.current_service_name} > "
+            self.prompt = (
+                f"{self.args.username}@{self.args.host}:{self.args.port}"
+                f"/{self.current_service_name} > "
+            )
         else:
             self.prompt = f"{self.args.username}@{self.args.host}:{self.args.port} > "
 
@@ -602,7 +605,7 @@ class InteractiveShell(cmd.Cmd):
             stop = self.onecmd(line)
             stop = self.postcmd(stop, line)
 
-    def columnize(self, list, displaywidth=80):  # pylint: disable=redefined-builtin
+    def columnize(self, list, _displaywidth=80):  # pylint: disable=redefined-builtin
         """Override columnize to use grid format for TAB completion."""
         if not list:
             return
@@ -610,7 +613,7 @@ class InteractiveShell(cmd.Cmd):
         # Use our grid display for TAB completion with coloring enabled
         self._display_grid(list)
 
-    def print_topics(self, header, cmds, cmdlen, maxcol):
+    def print_topics(self, header, cmds, _cmdlen, _maxcol):
         """Override print_topics to use grid format for TAB completion."""
         if not cmds:
             return
@@ -622,7 +625,7 @@ class InteractiveShell(cmd.Cmd):
         # Use our grid display for TAB completion with coloring enabled
         self._display_grid(cmds)
 
-    def do_capabilities(self, line):  # pylint: disable=unused-argument
+    def do_capabilities(self, _line):
         """Show device capabilities in service format."""
         try:
             if hasattr(self.client, "capabilities") and self.client.capabilities:
@@ -641,11 +644,11 @@ class InteractiveShell(cmd.Cmd):
             print(output)
         except ONVIFOperationException as e:
             if isinstance(e.original_exception, (RequestException, TransportError)):
-                self._handle_connection_error(e)
+                self._handle_connection_error()
             else:
                 print(f"{colorize('Error:', 'red')} {e}")
 
-    def do_services(self, line):  # pylint: disable=unused-argument
+    def do_services(self, _line):
         """Show available services in service format."""
         try:
             if hasattr(self.client, "services") and self.client.services:
@@ -664,7 +667,7 @@ class InteractiveShell(cmd.Cmd):
             print(output)
         except ONVIFOperationException as e:
             if isinstance(e.original_exception, (RequestException, TransportError)):
-                self._handle_connection_error(e)
+                self._handle_connection_error()
             else:
                 print(f"{colorize('Error:', 'red')} {e}")
 
@@ -694,10 +697,12 @@ class InteractiveShell(cmd.Cmd):
                         f"{colorize('Error:', 'red')} Service '{service_name}' requires arguments"
                     )
                     print(
-                        f"{colorize('Usage:', 'yellow')} {service_name} {' '.join([f'{arg}=<value>' for arg in required_args])}"
+                        f"{colorize('Usage:', 'yellow')} {service_name} "
+                        f"{' '.join([f'{arg}=<value>' for arg in required_args])}"
                     )
                     print(
-                        f"{colorize('Example:', 'yellow')} {service_name} {required_args[0]}=$subscription"
+                        f"{colorize('Example:', 'yellow')} "
+                        f"{service_name} {required_args[0]}=$subscription"
                     )
                     return
 
@@ -712,10 +717,12 @@ class InteractiveShell(cmd.Cmd):
                 missing_args = [arg for arg in required_args if arg not in parsed_args]
                 if missing_args:
                     print(
-                        f"{colorize('Error:', 'red')} Missing required arguments: {', '.join(missing_args)}"
+                        f"{colorize('Error:', 'red')} "
+                        f"Missing required arguments: {', '.join(missing_args)}"
                     )
                     print(
-                        f"{colorize('Usage:', 'yellow')} {service_name} {' '.join([f'{arg}=<value>' for arg in required_args])}"
+                        f"{colorize('Usage:', 'yellow')} {service_name} "
+                        f"{' '.join([f'{arg}=<value>' for arg in required_args])}"
                     )
                     return
 
@@ -728,7 +735,8 @@ class InteractiveShell(cmd.Cmd):
                         resolved_value = self._resolve_stored_reference(reference)
                         if resolved_value is None:
                             print(
-                                f"{colorize('Error:', 'red')} Could not resolve reference '{arg_value}'"
+                                f"{colorize('Error:', 'red')} "
+                                f"Could not resolve reference '{arg_value}'"
                             )
                             return
                         parsed_args[arg_name] = resolved_value
@@ -753,10 +761,12 @@ class InteractiveShell(cmd.Cmd):
             methods_preview = ", ".join(methods[:10])
             if len(methods) > 10:
                 print(
-                    f"{colorize('Available methods:', 'yellow')} {methods_preview} ... and {colorize(f'{len(methods) - 10} more.', 'yellow')}"
+                    f"{colorize('Available methods:', 'yellow')} {methods_preview} ... "
+                    f"and {colorize(f'{len(methods) - 10} more.', 'yellow')}"
                 )
                 print(
-                    f"Type {colorize('ls', 'cyan')}/press <{colorize('TAB', 'yellow')}> to see all."
+                    f"Type {colorize('ls', 'cyan')}/press "
+                    f"<{colorize('TAB', 'yellow')}> to see all."
                 )
             else:
                 print(f"{colorize('Available methods:', 'yellow')} {methods_preview}")
@@ -767,7 +777,7 @@ class InteractiveShell(cmd.Cmd):
             if self.args.debug:
                 traceback.print_exc()
 
-    def do_ls(self, line):  # pylint: disable=unused-argument
+    def do_ls(self, _line):
         """List available commands/services like TAB completion."""
         if self.current_service:
             # In service mode - show available methods
@@ -811,7 +821,8 @@ class InteractiveShell(cmd.Cmd):
 
         if not hasattr(self.current_service, method_name):
             print(
-                f"{colorize('Error:', 'red')} Method '{method_name}' not found in service '{self.current_service_name}'."
+                f"{colorize('Error:', 'red')} Method '{method_name}' "
+                f"not found in service '{self.current_service_name}'."
             )
             print(f"Use {colorize('ls', 'yellow')} to see available methods.")
             return
@@ -820,7 +831,8 @@ class InteractiveShell(cmd.Cmd):
 
         if doc_info:
             print(
-                f"\n{colorize('Description for', 'yellow')} {self.current_service_name}.{method_name}():"
+                f"\n{colorize('Description for', 'yellow')} "
+                f"{self.current_service_name}.{method_name}():"
             )
             doc_parts = doc_info["doc"].split("\n")
             for part in doc_parts:
@@ -844,9 +856,7 @@ class InteractiveShell(cmd.Cmd):
                 f"No documentation or parameter info found for method '{method_name}'."
             )
 
-    def complete_desc(
-        self, text, line, begidx, endidx
-    ):  # pylint: disable=unused-argument
+    def complete_desc(self, text, _line, _begidx, _endidx):
         """Autocomplete method names for desc command."""
         if not self.current_service:
             return []
@@ -873,7 +883,8 @@ class InteractiveShell(cmd.Cmd):
 
         if not hasattr(self.current_service, method_name):
             print(
-                f"{colorize('Error:', 'red')} Method '{method_name}' not found in service '{self.current_service_name}'."
+                f"{colorize('Error:', 'red')} Method '{method_name}' "
+                f"not found in service '{self.current_service_name}'."
             )
             print(f"Use {colorize('ls', 'yellow')} to see available methods.")
             return
@@ -1011,12 +1022,11 @@ class InteractiveShell(cmd.Cmd):
             print()  # Add newline for spacing
         else:
             print(
-                f"{colorize('Error:', 'red')} Could not retrieve type information for '{method_name}'."
+                f"{colorize('Error:', 'red')} "
+                f"Could not retrieve type information for '{method_name}'."
             )
 
-    def complete_type(
-        self, text, line, begidx, endidx
-    ):  # pylint: disable=unused-argument
+    def complete_type(self, text, _line, _begidx, _endidx):
         """Autocomplete method names for type command."""
         if not self.current_service:
             return []
@@ -1033,14 +1043,12 @@ class InteractiveShell(cmd.Cmd):
             return None
         return self.do_enter_service(line)
 
-    def complete_cd(
-        self, text, line, begidx, endidx
-    ):  # pylint: disable=unused-argument
+    def complete_cd(self, text, _line, _begidx, _endidx):
         """Autocomplete service names for cd command."""
         services = get_device_available_services(self.client)
         return [s for s in services if s.lower().startswith(text.lower())]
 
-    def do_shortcuts(self, line):  # pylint: disable=unused-argument
+    def do_shortcuts(self, _line):
         """Show available shortcuts."""
         print(INTERACTIVE_SHORTCUTS)
 
@@ -1048,11 +1056,12 @@ class InteractiveShell(cmd.Cmd):
         """Show device capabilities (alias for 'capabilities')"""
         return self.do_capabilities(line)
 
-    def do_up(self, line):  # pylint: disable=unused-argument
+    def do_up(self, _line):
         """Exit current service mode (go up one level)"""
         if self.current_service:
             print(
-                f"{colorize('Exited service:', 'yellow')} {colorize(f'{self.current_service_name}', 'cyan')}"
+                f"{colorize('Exited service:', 'yellow')} "
+                f"{colorize(f'{self.current_service_name}', 'cyan')}"
             )
             self.current_service = None
             self.current_service_name = None
@@ -1114,9 +1123,7 @@ class InteractiveShell(cmd.Cmd):
         else:
             print(f"{colorize('Error:', 'red')} No stored data named '{line}'")
 
-    def complete_rm(
-        self, text, line, begidx, endidx
-    ):  # pylint: disable=unused-argument
+    def complete_rm(self, text, _line, _begidx, _endidx):
         """Autocomplete stored variable names for rm command."""
         return [name for name in self.stored_data if name.startswith(text)]
 
@@ -1146,9 +1153,7 @@ class InteractiveShell(cmd.Cmd):
         else:
             print(f"{colorize('Error:', 'red')} Cannot resolve '{line}'")
 
-    def complete_show(
-        self, text, line, begidx, endidx
-    ):  # pylint: disable=unused-argument
+    def complete_show(self, text, line, _begidx, _endidx):
         """Autocomplete stored variable names for show command."""
         # Get the part being completed
         parts = line.split()
@@ -1157,18 +1162,18 @@ class InteractiveShell(cmd.Cmd):
             return [name for name in self.stored_data if name.startswith(text)]
         return []
 
-    def do_clear(self, line):  # pylint: disable=unused-argument
+    def do_clear(self, _line):
         """Clear terminal screen."""
         # Clear screen for both Windows and Unix-like systems
         os.system("cls" if os.name == "nt" else "clear")
 
-    def do_cls(self, line):  # pylint: disable=unused-argument
+    def do_cls(self, _line):
         """Clear stored data."""
         self.stored_data.clear()
         self.stored_metadata.clear()
         print(f"{colorize('Cleared all stored data', 'yellow')}")
 
-    def do_info(self, line):  # pylint: disable=unused-argument
+    def do_info(self, _line):
         """Show connection and device information."""
         # Build connection and CLI options info
         options_info = []
@@ -1213,8 +1218,10 @@ class InteractiveShell(cmd.Cmd):
         # Display connection and device information using stored data
         print(
             f"\n{colorize('[ONVIF Terminal Client]', 'yellow')}"
-            f"\n  Connected to  : {colorize(f'{self.args.host}:{self.args.port}', 'yellow')}"
-            f"\n  Auth Method   : {colorize(f'{'HTTP Digest' if self.args.digest else 'WS-UsernameToken'}', 'yellow')}"
+            f"\n  Connected to  : "
+            f"{colorize(f'{self.args.host}:{self.args.port}', 'yellow')}"
+            f"\n  Auth Method   : "
+            f"{colorize(f'{'HTTP Digest' if self.args.digest else 'WS-UsernameToken'}', 'yellow')}"
             f"{options_display}{self.device_info_text}"
         )
         print()  # Extra newline for spacing
@@ -1229,7 +1236,8 @@ class InteractiveShell(cmd.Cmd):
             method = getattr(self.current_service, method_name)
         except AttributeError:
             print(
-                f"{colorize('Error:', 'red')} Unknown method '{method_name}' for service '{self.current_service_name}'"
+                f"{colorize('Error:', 'red')} Unknown method "
+                f"'{method_name}' for service '{self.current_service_name}'"
             )
             available_methods = get_service_methods(self.current_service)
             print(
@@ -1237,7 +1245,8 @@ class InteractiveShell(cmd.Cmd):
             )
             if len(available_methods) > 5:
                 print(
-                    f"Type {colorize('ls', 'cyan')}/press {colorize('<TAB>', 'yellow')} to see all available methods"
+                    f"Type {colorize('ls', 'cyan')}/press "
+                    f"{colorize('<TAB>', 'yellow')} to see all available methods"
                 )
             return
 
@@ -1260,9 +1269,10 @@ class InteractiveShell(cmd.Cmd):
             if isinstance(e, ONVIFOperationException) and isinstance(
                 e.original_exception, (RequestException, TransportError)
             ):
-                self._handle_connection_error(e)
+                self._handle_connection_error()
             else:
-                # For all other errors (SOAP faults, TypeErrors, etc.), just print and continue.
+                # For all other errors (SOAP faults, TypeErrors, etc.),
+                # just print and continue.
                 print(f"{colorize('Error:', 'red')} {e}")
                 if self.args.debug:
                     # In debug mode, show traceback for unexpected errors, but not for
@@ -1273,7 +1283,7 @@ class InteractiveShell(cmd.Cmd):
                     if not is_soap_fault and not isinstance(e, TypeError):
                         traceback.print_exc()
 
-    def do_debug(self, line):  # pylint: disable=unused-argument
+    def do_debug(self, _line):
         """Show debug information."""
         if self.client.xml_plugin:
             if self._last_method and self._last_operation_timestamp:
@@ -1293,7 +1303,7 @@ class InteractiveShell(cmd.Cmd):
                 f"Start CLI with {colorize('--debug', 'white')} flag to enable XML capture"
             )
 
-    def do_exit(self, line):  # pylint: disable=unused-argument
+    def do_exit(self, _line):
         """Exit the shell."""
         self._stop_health_check.set()
         print(colorize("Goodbye!", "cyan"))
