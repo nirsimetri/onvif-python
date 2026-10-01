@@ -1221,7 +1221,7 @@ class InteractiveShell(cmd.Cmd):
             f"\n  Connected to  : "
             f"{colorize(f'{self.args.host}:{self.args.port}', 'yellow')}"
             f"\n  Auth Method   : "
-            f"{colorize(f'{'HTTP Digest' if self.args.digest else 'WS-UsernameToken'}', 'yellow')}"
+            f"{colorize('HTTP Digest' if self.args.digest else 'WS-UsernameToken', 'yellow')}"
             f"{options_display}{self.device_info_text}"
         )
         print()  # Extra newline for spacing

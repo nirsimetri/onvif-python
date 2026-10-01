@@ -81,7 +81,7 @@ def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None
         )
         print(
             f"Showing {colorize(f'{offset + 1}-{min(offset + per_page, total_count)}', 'cyan')} "
-            f"of {colorize(f"{total_count} results", 'cyan')}"
+            f"of {colorize(f'{total_count} results', 'cyan')}"
         )
         print()
 

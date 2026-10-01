@@ -63,7 +63,7 @@ def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
             else colorize("HTTP", "white")
         )
         print(
-            f"\n{colorize(f"[{idx}]", "yellow")} {colorize(host_port, 'yellow')} ({protocol_indicator})"
+            f"\n{colorize(f'[{idx}]', 'yellow')} {colorize(host_port, 'yellow')} ({protocol_indicator})"
         )
 
         # Remove uuid: or urn:uuid: prefix from EPR
