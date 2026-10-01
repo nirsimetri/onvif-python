@@ -1,11 +1,3 @@
-# This workflow will upload a Python Package to PyPI when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Upload Python Package
 
 on:
@@ -20,20 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Set up Python 3.x
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.x"
 
+        # NOTE: put your own distribution build steps here.
       - name: Build release distributions
         run: |
-          # NOTE: put your own distribution build steps here.
           python -m pip install build
           python -m build
 
       - name: Upload distributions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: release-dists
           path: dist/
@@ -50,17 +42,16 @@ jobs:
     # For more information, see: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules
     environment:
       name: pypi
-      # OPTIONAL: uncomment and update to include your PyPI project URL in the deployment status:
       url: https://pypi.org/project/onvif-python
 
     steps:
       - name: Retrieve release distributions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: release-dists
           path: dist/
 
       - name: Publish release distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33
         with:
           packages-dir: dist/

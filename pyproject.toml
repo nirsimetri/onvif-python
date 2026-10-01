@@ -53,11 +53,12 @@ dev = [
     "pytest-cov",
     "black",
     "mypy",
-    "types-setuptools",
-    "lxml-stubs",
     "isort",
     "pylint",
     "docformatter",
+    "lxml-stubs",
+    "types-setuptools",
+    "types-requests",
 ]
 docs = [
     "mkdocs-material",
@@ -99,7 +100,6 @@ extend-exclude = '''
 [tool.isort]
 profile = "black"
 skip  = [
-    "^examples/",
     "^assets/",
     "^temp/",
     "^build/",
