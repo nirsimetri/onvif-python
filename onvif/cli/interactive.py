@@ -124,30 +124,33 @@ class InteractiveShell(cmd.Cmd):
             serial = getattr(self.device_data, "SerialNumber", "Unknown")
             hardware_id = getattr(self.device_data, "HardwareId", "Unknown")
 
-            # Get ONVIF version
-            services = self.client.devicemgmt().GetServices(IncludeCapability=False)
-            devicemgmt_service = next(
-                (
-                    s
-                    for s in services
-                    if hasattr(s, "Namespace")
-                    and s.Namespace == "http://www.onvif.org/ver10/device/wsdl"
-                ),
-                None,
-            )
-            if devicemgmt_service and hasattr(devicemgmt_service, "Version"):
-                version = devicemgmt_service.Version
-                major = getattr(version, "Major", "")
-                minor = getattr(version, "Minor", "")
-                if major and minor:
-                    onvif_version = f"{major}.{minor}"
-                elif major:
-                    onvif_version = str(major)
-        except ONVIFOperationException as e:
+            # Get latest supported ONVIF version
+            supported_versions = self.client.devicemgmt().GetCapabilities(
+                Category="All"
+            )["Device"]["System"]["SupportedVersions"]
+            if supported_versions:
+                latest_version = max(
+                    supported_versions,
+                    key=lambda version: (
+                        getattr(version, "Major", 0),
+                        getattr(version, "Minor", 0),
+                    ),
+                )
+
+                major = getattr(latest_version, "Major", "")
+                minor = getattr(latest_version, "Minor", "")
+
+                if major != "":
+                    onvif_version = (
+                        f"{major}.{minor} {colorize('[Latest]', 'green')}"
+                        if minor != ""
+                        else str(major)
+                    )
+        except (ONVIFOperationException, KeyError, AttributeError) as e:
             if isinstance(e.original_exception, (RequestException, TransportError)):
                 self._handle_connection_error()
             else:
-                # For other errors (e.g., GetServices not supported), we can still proceed
+                # For other errors (e.g., GetCapabilities not supported), we can still proceed
                 # with basic device info if GetDeviceInformation succeeded.
                 pass
 
