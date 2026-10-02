@@ -3,13 +3,13 @@
 """ONVIF CLI interactive shell implementation."""
 
 import cmd
+import ctypes
 import json
 import os
 import re
 import shutil
 import socket
 import ssl
-import subprocess
 import sys
 import textwrap
 import threading
@@ -1169,8 +1169,10 @@ class InteractiveShell(cmd.Cmd):
 
     def do_clear(self, _line):
         """Clear terminal screen."""
-        command = ["cmd", "/c", "cls"] if sys.platform == "win32" else ["clear"]
-        subprocess.run(command, check=False)
+        if sys.platform == "win32":
+            print("\033[2J\033[3J\033[H", end="")
+        else:
+            print("\033[2J\033[H", end="")
 
     def do_cls(self, _line):
         """Clear stored data."""
