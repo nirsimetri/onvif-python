@@ -3,7 +3,6 @@
 """ONVIF CLI interactive shell implementation."""
 
 import cmd
-import ctypes
 import json
 import os
 import re
