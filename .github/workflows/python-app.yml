@@ -17,6 +17,10 @@ on:
 permissions:
   contents: read
 
+env:
+  COVERAGE_FAIL_UNDER: 49  # Will be raised gradually (in percentage)
+  MIN_PYTHON_VERSION: 3.10  # Use the minimum supported Python version for coverage generation
+
 jobs:
   build:
 
@@ -26,13 +30,11 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
-    environment:
-      name: application
-
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -56,17 +58,10 @@ jobs:
     - name: Type check with mypy
       run: mypy .
 
-    - name: Test with pytest
+    - name: Test and coverage check with pytest
       run: |
-        if [ "${{ matrix.python-version }}" = "3.10" ]; then
-          pytest --cov=onvif --cov-report=xml
+        if [ "${{ matrix.python-version }}" = "${{ env.MIN_PYTHON_VERSION }}" ]; then
+          pytest --cov=onvif --cov-fail-under=${{ env.COVERAGE_FAIL_UNDER }} --cov-report=term-missing
         else
           pytest .
         fi
-
-    - name: Upload coverage to Codacy
-      if: matrix.python-version == '3.10'
-      uses: codacy/codacy-coverage-reporter-action@89d6c85cfafaec52c72b6c5e8b2878d33104c699
-      with:
-        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        coverage-reports: coverage.xml
