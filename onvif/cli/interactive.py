@@ -1168,8 +1168,10 @@ class InteractiveShell(cmd.Cmd):
 
     def do_clear(self, _line):
         """Clear terminal screen."""
-        # Clear screen for both Windows and Unix-like systems
-        os.system("cls" if os.name == "nt" else "clear")
+        if sys.platform == "win32":
+            print("\033[2J\033[3J\033[H", end="")
+        else:
+            print("\033[2J\033[H", end="")
 
     def do_cls(self, _line):
         """Clear stored data."""
