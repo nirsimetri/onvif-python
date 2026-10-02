@@ -879,6 +879,11 @@
 						<xs:documentation>Indicates the maximum number of certification paths that may be assigned to the TLS server simultaneously.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="SetupDuration" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Indicates the maximum time taken for updated TLS server settings to take effect.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 				<!-- ========================================= -->
 				<!-- Begin cert-based client auth capabilities -->
 				<!-- ========================================= -->
@@ -2913,9 +2918,9 @@
 		<wsdl:part name="parameters" element="tas:DeleteAuthorizationServerConfigurationResponse"/>
 	</wsdl:message>
 	<wsdl:portType name="AdvancedSecurityService">
-		<wsdl:documentation>Common functionality for all security configuraiton service parts.</wsdl:documentation>
+		<wsdl:documentation>Common functionality for all security configuration service parts.</wsdl:documentation>
 		<wsdl:operation name="GetServiceCapabilities">
-			<wsdl:documentation>Returns the capabilities of the security configuraiton service. The result is returned in a typed answer.</wsdl:documentation>
+			<wsdl:documentation>Returns the capabilities of the security configuration service. The result is returned in a typed answer.</wsdl:documentation>
 			<wsdl:input message="tas:GetServiceCapabilitiesRequest"/>
 			<wsdl:output message="tas:GetServiceCapabilitiesResponse"/>
 		</wsdl:operation>
@@ -3316,13 +3321,13 @@
 		<wsdl:operation name="AddServerCertificateAssignment">
 			<wsdl:documentation>
 				This operation assigns a key pair and certificate along with a certification path (certificate chain) to the TLS server on the device.
-				The TLS server shall use this information for key exchange during the TLS handshake, particularly for constructing server certificate messages as specified in RFC 4346 and RFC 2246.<br/>
+				The TLS server shall use this information for key exchange during the TLS handshake, particularly for constructing server certificate messages.<br/>
 				
 				Certification paths are identified by their certification path IDs in the keystore. The first certificate in the certification path must be the TLS server certificate.
 				Since each certificate has exactly one associated key pair, a reference to the key pair that is associated with the server certificate is not supplied explicitly.
 				Devices shall obtain the private key or results of operations under the private key by suitable internal interaction with the keystore.<br/>
 				If a device chooses to perform a TLS key exchange based on the supplied certification path,  it shall use the key pair that is associated with the server certificate for 
-				key exchange and transmit the certification path to TLS clients as-is, i.e., the device shall not check conformance of the certification path to RFC 4346 norRFC 2246.
+				key exchange and transmit the certification path to TLS clients as-is.
 				In order to use the server certificate during the TLS handshake, the corresponding private key is required.
 				Therefore, if the key pair that is associated with the server certificate, i.e., the first certificate in the certification path, does not have an associated private key, 
 				the NoPrivateKey fault is produced and the certification path is not associated to the TLS server.<br/>
@@ -3356,7 +3361,7 @@
 				Since each certificate has exactly one associated key pair, a reference to the key pair that is associated with the new server certificate is not supplied explicitly.
 				Devices shall obtain the private key or results of operations under the private key by suitable internal interaction with the keystore.<br/>
 				If a device chooses to perform a TLS key exchange based on the new certification path,  it shall use the key pair that is associated with the server certificate
-				for key exchange and transmit the certification path to TLS clients as-is, i.e., the device shall not check conformance of the certification path to RFC 4346 norRFC 2246.
+				for key exchange and transmit the certification path to TLS clients as-is.
 				In order to use the server certificate during the TLS handshake, the corresponding private key is required.
 				Therefore, if the key pair that is associated with the server certificate, i.e., the first certificate in the certification path, does not have an associated private key,
 				the NoPrivateKey fault is produced and the certification path is not associated to the TLS server.
