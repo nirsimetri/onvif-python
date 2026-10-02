@@ -1,6 +1,6 @@
 [project]
 name = "onvif-python"
-version = "0.4.1"
+version = "0.4.2"
 description = "A modern Python library for ONVIF-compliant devices"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -56,6 +56,9 @@ dev = [
     "isort",
     "pylint",
     "docformatter",
+    "lxml-stubs",
+    "types-setuptools",
+    "types-requests",
 ]
 docs = [
     "mkdocs-material",
@@ -97,7 +100,6 @@ extend-exclude = '''
 [tool.isort]
 profile = "black"
 skip  = [
-    "^examples/",
     "^assets/",
     "^temp/",
     "^build/",

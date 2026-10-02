@@ -4,11 +4,11 @@ Author: @kaburagisec
 Created: September 23, 2025
 Tested devices: EZVIZ H8C (https://www.ezviz.com/inter/product/h8c/43162)
 
-This script connects to an ONVIF-compliant device and retrieves its
-ONVIF version using the Device Management service.
+This script connects to an ONVIF-compliant device and retrieves
+the ONVIF versions supported by the camera.
 """
 
-from onvif import ONVIFClient
+from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"
 PORT = 80
@@ -16,14 +16,15 @@ USERNAME = "admin"
 PASSWORD = "admin123"
 
 try:
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+    client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
     device = client.devicemgmt()
 
-    services = device.GetServices(IncludeCapability=False)
-    for service in services:
-        if (
-            service["Namespace"] == "http://www.onvif.org/ver10/device/wsdl"
-        ):  # ONVIF Version is from Device service
-            print(service["Version"])
-except Exception as e:  # pylint: disable=broad-exception-caught
+    supported_versions = device.GetCapabilities(Category="All")["Device"]["System"][
+        "SupportedVersions"
+    ]
+    print("Supported ONVIF Versions:")
+    print(
+        " ".join(f"[{version.Major}.{version.Minor}]" for version in supported_versions)
+    )
+except (ONVIFOperationException, KeyError, AttributeError) as e:
     print(e)

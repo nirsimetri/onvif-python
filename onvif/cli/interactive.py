@@ -90,7 +90,7 @@ class InteractiveShell(cmd.Cmd):
             import readline
 
             # Set completer to this instance
-            readline.set_completer(self.complete)  # type: ignore[attr-defined]
+            readline.set_completer(self.complete)  # type: ignore[attr-defined, arg-type]
             readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")  # type: ignore[attr-defined]
 
             # Enable tab completion, making it compatible with both GNU readline and libedit
@@ -124,30 +124,34 @@ class InteractiveShell(cmd.Cmd):
             serial = getattr(self.device_data, "SerialNumber", "Unknown")
             hardware_id = getattr(self.device_data, "HardwareId", "Unknown")
 
-            # Get ONVIF version
-            services = self.client.devicemgmt().GetServices(IncludeCapability=False)
-            devicemgmt_service = next(
-                (
-                    s
-                    for s in services
-                    if hasattr(s, "Namespace")
-                    and s.Namespace == "http://www.onvif.org/ver10/device/wsdl"
-                ),
-                None,
-            )
-            if devicemgmt_service and hasattr(devicemgmt_service, "Version"):
-                version = devicemgmt_service.Version
-                major = getattr(version, "Major", "")
-                minor = getattr(version, "Minor", "")
-                if major and minor:
-                    onvif_version = f"{major}.{minor}"
-                elif major:
-                    onvif_version = str(major)
-        except ONVIFOperationException as e:
-            if isinstance(e.original_exception, (RequestException, TransportError)):
-                self._handle_connection_error()
+            # Get latest supported ONVIF version
+            supported_versions = self.client.devicemgmt().GetCapabilities(
+                Category="All"
+            )["Device"]["System"]["SupportedVersions"]
+            if supported_versions:
+                latest_version = max(
+                    supported_versions,
+                    key=lambda version: (
+                        getattr(version, "Major", 0),
+                        getattr(version, "Minor", 0),
+                    ),
+                )
+
+                major = getattr(latest_version, "Major", "")
+                minor = getattr(latest_version, "Minor", "")
+
+                if major != "":
+                    onvif_version = (
+                        f"{major}.{minor} {colorize('[Latest]', 'green')}"
+                        if minor != ""
+                        else str(major)
+                    )
+        except (ONVIFOperationException, KeyError, AttributeError) as e:
+            if isinstance(e, ONVIFOperationException):
+                if isinstance(e.original_exception, (RequestException, TransportError)):
+                    self._handle_connection_error()
             else:
-                # For other errors (e.g., GetServices not supported), we can still proceed
+                # For other errors (e.g., GetCapabilities not supported), we can still proceed
                 # with basic device info if GetDeviceInformation succeeded.
                 pass
 
@@ -1164,8 +1168,10 @@ class InteractiveShell(cmd.Cmd):
 
     def do_clear(self, _line):
         """Clear terminal screen."""
-        # Clear screen for both Windows and Unix-like systems
-        os.system("cls" if os.name == "nt" else "clear")
+        if sys.platform == "win32":
+            print("\033[2J\033[3J\033[H", end="")
+        else:
+            print("\033[2J\033[H", end="")
 
     def do_cls(self, _line):
         """Clear stored data."""
@@ -1221,7 +1227,7 @@ class InteractiveShell(cmd.Cmd):
             f"\n  Connected to  : "
             f"{colorize(f'{self.args.host}:{self.args.port}', 'yellow')}"
             f"\n  Auth Method   : "
-            f"{colorize(f'{'HTTP Digest' if self.args.digest else 'WS-UsernameToken'}', 'yellow')}"
+            f"{colorize('HTTP Digest' if self.args.digest else 'WS-UsernameToken', 'yellow')}"
             f"{options_display}{self.device_info_text}"
         )
         print()  # Extra newline for spacing
