@@ -286,9 +286,9 @@ class Media2(ONVIFService):
             "SetAudioDecoderConfiguration", Configuration=Configuration
         )
 
-    def SetEQPreset(self, Configuration):
+    def SetEQPresetConfiguration(self, Configuration):
         """This command is to configure Audio EQPreset."""
-        return self.operator.call("SetEQPreset", Configuration=Configuration)
+        return self.operator.call("SetEQPresetConfiguration", Configuration=Configuration)
 
     def GetVideoSourceConfigurationOptions(
         self, ConfigurationToken=None, ProfileToken=None
