@@ -9,6 +9,7 @@ import re
 import shutil
 import socket
 import ssl
+import subprocess
 import sys
 import textwrap
 import threading
@@ -1168,8 +1169,8 @@ class InteractiveShell(cmd.Cmd):
 
     def do_clear(self, _line):
         """Clear terminal screen."""
-        # Clear screen for both Windows and Unix-like systems
-        os.system("cls" if os.name == "nt" else "clear")
+        command = ["cmd", "/c", "cls"] if sys.platform == "win32" else ["clear"]
+        subprocess.run(command, check=False)
 
     def do_cls(self, _line):
         """Clear stored data."""
