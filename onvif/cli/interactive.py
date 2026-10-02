@@ -90,7 +90,7 @@ class InteractiveShell(cmd.Cmd):
             import readline
 
             # Set completer to this instance
-            readline.set_completer(self.complete)  # type: ignore[attr-defined]
+            readline.set_completer(self.complete)  # type: ignore[attr-defined, arg-type]
             readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")  # type: ignore[attr-defined]
 
             # Enable tab completion, making it compatible with both GNU readline and libedit
@@ -147,8 +147,9 @@ class InteractiveShell(cmd.Cmd):
                         else str(major)
                     )
         except (ONVIFOperationException, KeyError, AttributeError) as e:
-            if isinstance(e.original_exception, (RequestException, TransportError)):
-                self._handle_connection_error()
+            if isinstance(e, ONVIFOperationException):
+                if isinstance(e.original_exception, (RequestException, TransportError)):
+                    self._handle_connection_error()
             else:
                 # For other errors (e.g., GetCapabilities not supported), we can still proceed
                 # with basic device info if GetDeviceInformation succeeded.

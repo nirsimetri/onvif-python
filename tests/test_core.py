@@ -274,10 +274,8 @@ class TestCacheMode:
 
     def test_cache_mode_comparison(self):
         """Test cache mode comparison."""
-        assert CacheMode.NONE == CacheMode.NONE
-        assert CacheMode.MEM == CacheMode.MEM
-        assert CacheMode.DB == CacheMode.DB
-
+        assert CacheMode.NONE != CacheMode.MEM
+        assert CacheMode.NONE != CacheMode.DB
         assert CacheMode.MEM != CacheMode.DB
 
 

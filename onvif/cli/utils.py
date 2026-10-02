@@ -230,7 +230,7 @@ def _colors_enabled() -> bool:
 
     try:
         # Enable ANSI escape sequences
-        kernel32 = ctypes.windll.kernel32
+        kernel32 = ctypes.windll.kernel32  # type: ignore[attr-defined]
         h_stdout = kernel32.GetStdHandle(-11)
 
         # Get current console mode
