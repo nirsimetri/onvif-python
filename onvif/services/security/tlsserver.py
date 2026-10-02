@@ -30,9 +30,8 @@ class TLSServer(ONVIFService):
         """This operation assigns a key pair and certificate along with a certification
         path (certificate chain) to the TLS server on the device.
 
-        The TLS server shall use this information for key exchange during the TLS
-        handshake, particularly for constructing server certificate messages as
-        specified in RFC 4346 and RFC 2246.
+        The TLS server shall use this information for key exchange during the TLS handshake,
+        particularly for constructing server certificate messages.
 
         Certification paths are identified by their certification path IDs in the
         keystore. The first certificate in the certification path must be the TLS server
@@ -44,14 +43,12 @@ class TLSServer(ONVIFService):
 
         If a device chooses to perform a TLS key exchange based on the supplied
         certification path, it shall use the key pair that is associated with the server
-        certificate for key exchange and transmit the certification path to TLS clients
-        as-is, i.e., the device shall not check conformance of the certification path to
-        RFC 4346 norRFC 2246. In order to use the server certificate during the TLS
-        handshake, the corresponding private key is required. Therefore, if the key pair
-        that is associated with the server certificate, i.e., the first certificate in
-        the certification path, does not have an associated private key, the
-        NoPrivateKey fault is produced and the certification path is not associated to
-        the TLS server.
+        certificate for key exchange and transmit the certification path to TLS clients as-is.
+        In order to use the server certificate during the TLS handshake, the corresponding
+        private key is required. Therefore, if the key pair that is associated with the server
+        certificate, i.e., the first certificate in the certification path, does not have an
+        associated private key, the NoPrivateKey fault is produced and the certification path
+        is not associated to the TLS server.
 
         A TLS server may present different certification paths to different clients
         during the TLS handshake instead of presenting the same certification path to
