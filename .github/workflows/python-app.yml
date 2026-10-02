@@ -1,12 +1,6 @@
 name: Python Application
 
 on:
-  push:
-    branches: [ "dev" ]
-    paths:
-      - "onvif/**"
-      - "tests/**"
-      - "examples/**"
   pull_request:
     branches: [ "main", "dev" ]
     paths:
