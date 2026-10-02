@@ -717,7 +717,10 @@ class ONVIFWSDL:
     def get_wsdl_map(cls) -> dict[str, dict[str, Any]]:
         """Get the complete WSDL map for all services."""
         cls._ensure_wsdl_map_initialized()
-        assert cls.WSDL_MAP is not None
+
+        if cls.WSDL_MAP is None:
+            raise RuntimeError("WSDL map was not initialized")
+
         return cls.WSDL_MAP
 
     @classmethod
