@@ -21,9 +21,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+
+    environment:
+      name: application
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -53,9 +57,15 @@ jobs:
       run: mypy .
 
     - name: Test with pytest
-      run: pytest --cov=onvif --cov-report=xml
+      run: |
+        if [ "${{ matrix.python-version }}" = "3.10" ]; then
+          pytest --cov=onvif --cov-report=xml
+        else
+          pytest .
+        fi
 
     - name: Upload coverage to Codacy
+      if: matrix.python-version == '3.10'
       uses: codacy/codacy-coverage-reporter-action@89d6c85cfafaec52c72b6c5e8b2878d33104c699
       with:
         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
