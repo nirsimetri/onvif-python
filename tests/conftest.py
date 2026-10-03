@@ -100,6 +100,7 @@ def mock_onvif_client():
             password="admin123",
             timeout=5,
             cache=CacheMode.NONE,
+            plugins=None,
         )
 
         client._devicemgmt = mock_device
@@ -127,4 +128,5 @@ def test_client_params():
         "password": "admin123",
         "timeout": 5,
         "cache": CacheMode.NONE,
+        "plugins": None,
     }
