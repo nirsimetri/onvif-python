@@ -3,9 +3,11 @@
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
+from zeep import Plugin
 
 from onvif import CacheMode, ONVIFClient
 from onvif.utils import ONVIFOperationException, XMLCapturePlugin, ZeepPatcher
+from onvif.utils.plugins import ReferenceParametersPlugin
 
 
 class TestONVIFClientInitialization:
@@ -22,6 +24,7 @@ class TestONVIFClientInitialization:
             assert client.common_args["password"] == "admin123"
             assert client.common_args["timeout"] == 5
             assert client.common_args["cache"] == CacheMode.NONE
+            assert client.common_args["plugins"] is None
 
     def test_https_initialization(self, test_client_params):
         """Test HTTPS client initialization."""
@@ -44,6 +47,22 @@ class TestONVIFClientInitialization:
 
             assert client.xml_plugin is not None
             assert isinstance(client.xml_plugin, XMLCapturePlugin)
+
+    def test_plugins_initialization(self, test_client_params):
+        """Test plugins initialization."""
+        params = test_client_params.copy()
+        params["capture_xml"] = True
+        params["plugins"] = [ReferenceParametersPlugin()]
+
+        with patch("onvif.client.Device"):
+            client = ONVIFClient(**params)
+
+            assert len(client.plugins) == 1
+            assert isinstance(client.plugins[0], ReferenceParametersPlugin)
+            assert issubclass(ReferenceParametersPlugin, Plugin)
+            assert isinstance(
+                client.xml_plugin, XMLCapturePlugin
+            )  # Ensure XML plugin is still initialized
 
     def test_custom_wsdl_directory(self, test_client_params):
         """Test custom WSDL directory setup."""
