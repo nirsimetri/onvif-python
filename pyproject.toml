@@ -56,6 +56,7 @@ dev = [
     "isort",
     "pylint",
     "docformatter",
+    "codespell",
     "lxml-stubs",
     "types-setuptools",
     "types-requests",
@@ -151,3 +152,8 @@ omit = [
     "examples/*",
     "docs/*",
 ]
+
+[tool.codespell]
+skip = "*.wsdl, *.xsd, *.xsl, *.html, *.json, *.js, *.css, *.map"
+count = true
+quiet-level = 3
