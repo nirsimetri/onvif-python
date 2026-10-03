@@ -101,7 +101,7 @@ class Recording(ONVIFService):
         """GetRecordingOptions returns information for a recording identified by the
         RecordingToken.
 
-        The information includes the number of additonal tracks as well as recording
+        The information includes the number of additional tracks as well as recording
         jobs that can be configured.
         """
         return self.operator.call("GetRecordingOptions", RecordingToken=RecordingToken)
