@@ -55,6 +55,7 @@ dev = [
     "mypy",
     "isort",
     "pylint",
+    "pylint-pytest",
     "docformatter",
     "codespell",
     "lxml-stubs",
@@ -124,6 +125,7 @@ ignore-paths = [
     "^build/",
     "^site/",
 ]
+load-plugins = ["pylint_pytest"]
 
 [tool.pylint.format]
 max-line-length = 150
