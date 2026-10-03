@@ -2,11 +2,9 @@ name: Codacy Coverage Reporter
 
 on:
   push:
+    # Codacy always requests the latest coverage report 
+    # from the most recent commit, even if it is out of context.
     branches: [ "main", "dev" ]
-    paths:
-      - "onvif/**"
-      - "tests/**"
-      - "pyproject.toml"
 
 permissions:
   contents: read
