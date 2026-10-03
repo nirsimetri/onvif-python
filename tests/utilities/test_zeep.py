@@ -755,10 +755,10 @@ class TestFlattenXsdAnyFields:
 
         ZeepPatcher.flatten_xsd_any_fields(obj)
 
-        assert obj.Device == {
+        assert getattr(obj, "Device") == {
             "XAddr": "http://device",
         }
-        assert obj.Media == {
+        assert getattr(obj, "Media") == {
             "XAddr": "http://media",
         }
         assert not obj._value_1
