@@ -75,7 +75,7 @@ class DeviceIO(ONVIFService):
     def GetAudioOutputs(self):
         """List all available audio outputs of a device.
 
-        A device that has one ore more physical audio outputs shall support listing of
+        A device that has one or more physical audio outputs shall support listing of
         available audio outputs through the GetAudioOutputs command.
         """
         return self.operator.call("GetAudioOutputs")
@@ -185,7 +185,7 @@ class DeviceIO(ONVIFService):
     def SetAudioOutputConfiguration(self, Configuration, ForcePersistence):
         """Modify an audio output configuration.
 
-        A device that has one ore more audio outputs shall support the setting of the
+        A device that has one or more audio outputs shall support the setting of the
         AudioOutputConfiguration through this command.
 
         This method is deprecated.
@@ -220,7 +220,7 @@ class DeviceIO(ONVIFService):
     def GetAudioSourceConfigurationOptions(self, AudioSourceToken):
         """Request the AudioSourceConfigurationOptions of an AudioSource.
 
-        A device with one ore more AudioSources shall support this command.
+        A device with one or more AudioSources shall support this command.
 
         This method is deprecated.
         """

@@ -38,8 +38,8 @@ class Media2(ONVIFService):
         """This operation creates a new media profile.
 
         A created profile created via this method may be deleted via the DeleteProfile
-        method. Optionally Configurations can be assinged to the profile on creation.
-        For details regarding profile assignement check also the method
+        method. Optionally Configurations can be assigned to the profile on creation.
+        For details regarding profile assignment check also the method
         AddConfiguration.
         """
         return self.operator.call(
@@ -632,7 +632,7 @@ class Media2(ONVIFService):
         )
 
     def AddTTSAudioClip(self, Configuration, TTSConfiguration, Token=None):
-        """This operation sends a text and its configuartion to device that supports TTS
+        """This operation sends a text and its configuration to device that supports TTS
         function, so that device could convert the text into an audio clip and play it
         according to audio clip Configuration and TTS Configuration."""
         return self.operator.call(

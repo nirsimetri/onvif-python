@@ -133,7 +133,7 @@ class TLSServer(ONVIFService):
         """This operation sets the version(s) of TLS which the device shall use.
 
         Valid values are taken from the TLSServerSupported capability. A client
-        initiates a TLS session by sending a ClientHello with the hightest TLS version
+        initiates a TLS session by sending a ClientHello with the highest TLS version
         it supports. This suggests to the server that the client can accept any TLS
         version up to and including that version.
 
