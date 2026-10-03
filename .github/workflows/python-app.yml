@@ -1,6 +1,12 @@
 name: Python Application
 
 on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "onvif/**"
+      - "tests/**"
+      - "examples/**"
   pull_request:
     branches: [ "main", "dev" ]
     paths:
@@ -45,6 +51,9 @@ jobs:
 
     - name: Check imports order with isort
       run: isort --check-only .
+
+    - name: Check spelling with codespell
+      run: codespell .
 
     - name: Lint with pylint
       run: pylint .
