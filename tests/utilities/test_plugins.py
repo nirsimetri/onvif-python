@@ -53,10 +53,8 @@ class TestONVIFParser:
                 "custom": ".//{urn:test}Custom",
             }
         )
-        envelope = etree.fromstring(
-            """<Envelope xmlns="urn:test"> <Topic>TopicA</Topic>
-            <Custom>CustomA</Custom> </Envelope>"""
-        )
+        envelope = etree.fromstring("""<Envelope xmlns="urn:test"> <Topic>TopicA</Topic>
+            <Custom>CustomA</Custom> </Envelope>""")
 
         parser.ingress(envelope, {}, Mock())
 
