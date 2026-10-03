@@ -1,4 +1,4 @@
-"""Tests for ONVIFClient constructor."""
+"""Tests for ONVIFClient."""
 
 from unittest.mock import MagicMock, Mock, patch
 
@@ -11,7 +11,7 @@ from onvif.utils.plugins import ReferenceParametersPlugin
 
 
 class TestONVIFClientInitialization:
-    """Test ONVIF client initialization and configuration."""
+    """Test ONVIFClient initialization and configuration."""
 
     def test_basic_initialization(self, test_client_params):
         """Test basic client initialization."""
@@ -208,6 +208,40 @@ class TestONVIFClientServiceAccess:
         assert client._pullpoints[cache_key] is pullpoint2
         assert pullpoint2 is pullpoint1
 
+    def test_get_xaddr_from_service(self, mock_onvif_client):
+        """Test retrieval of XAddr for a given service namespace."""
+        client = mock_onvif_client
+
+        assert client._get_xaddr("media", "Media") == (
+            "http://192.168.1.17:8000/onvif/Media"
+        )
+
+        assert client._get_xaddr("ptz", "PTZ") == ("http://192.168.1.17:8000/onvif/PTZ")
+
+    def test_get_xaddr_from_capabilities(self, mock_onvif_client):
+        """Test resolving XAddr from GetCapabilities response."""
+        client = mock_onvif_client
+
+        # Ignore XAddr values discovered from GetServices
+        client._service_map = {}
+
+        assert client._get_xaddr("media", "Media") == (
+            "http://192.168.1.17:8000/onvif/Media"
+        )
+
+        assert client._get_xaddr("ptz", "PTZ") == ("http://192.168.1.17:8000/onvif/PTZ")
+
+    def test_get_xaddr_fallback(self, mock_onvif_client):
+        """Test resolving XAddr using the default URL."""
+        client = mock_onvif_client
+
+        client.services = []
+        client.capabilities = None
+
+        assert client._get_xaddr("media", "Media") == (
+            "http://192.168.1.17:8000/onvif/Media"
+        )
+
 
 class TestONVIFClientErrorHandling:
     """Test error handling scenarios."""
@@ -255,6 +289,18 @@ class TestONVIFClientErrorHandling:
         # Should rewrite to use client's host/port
         expected = "http://192.168.1.17:8000/onvif/device_service"
         assert result == expected
+
+    def test_rewrite_xaddr_if_needed_parse_error(self, mock_onvif_client, monkeypatch):
+        """Test that invalid XAddr parsing returns the original value."""
+        client = mock_onvif_client
+        xaddr = "invalid-xaddr"
+
+        def raise_value_error(_):
+            raise ValueError("Invalid XAddr")
+
+        monkeypatch.setattr("onvif.client.urlparse", raise_value_error)
+
+        assert client._rewrite_xaddr_if_needed(xaddr) == xaddr
 
 
 class TestONVIFClientConfiguration:
