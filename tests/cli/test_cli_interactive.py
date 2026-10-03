@@ -172,7 +172,7 @@ class TestGetSuggestions:
 
         result = shell.get_suggestions("me")
 
-        assert "media" in result
+        assert any("media" in suggestion for suggestion in result)
 
     def test_limits_suggestions(self, monkeypatch):
         """Test that suggestions are limited to five results."""

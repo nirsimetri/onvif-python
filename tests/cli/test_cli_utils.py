@@ -1,10 +1,12 @@
 """Tests for ONVIF CLI utility functions."""
 
+import ctypes
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 import pytest
 
+import onvif.cli.utils as cli_utils
 from onvif.cli.utils import (
     _colors_enabled,
     _is_valid_json,
@@ -310,9 +312,12 @@ class TestColorsEnabled:
         kernel32.GetConsoleMode.return_value = True
         kernel32.SetConsoleMode.return_value = True
 
+        windll = Mock()
+        windll.kernel32 = kernel32
+
         with (
-            patch("onvif.cli.utils.os.name", "nt"),
-            patch("onvif.cli.utils.ctypes.windll.kernel32", kernel32),
+            patch.object(cli_utils.os, "name", "nt"),
+            patch.object(ctypes, "windll", windll, create=True),
         ):
             assert _colors_enabled() is True
 
