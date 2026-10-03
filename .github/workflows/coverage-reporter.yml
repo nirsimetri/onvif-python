@@ -6,7 +6,6 @@ on:
     paths:
       - "onvif/**"
       - "tests/**"
-      - "examples/**"
       - "pyproject.toml"
 
 permissions:
@@ -16,7 +15,7 @@ env:
   MIN_PYTHON_VERSION: "3.10"  # Use the minimum supported Python version for coverage generation
 
 jobs:
-  codacy-coverage-reporter:
+  coverage-reporter:
 
     runs-on: ubuntu-latest
 
