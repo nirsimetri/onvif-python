@@ -7,12 +7,14 @@ on:
       - "onvif/**"
       - "tests/**"
       - "examples/**"
+      - "pyproject.toml"
   pull_request:
     branches: [ "main", "dev" ]
     paths:
       - "onvif/**"
       - "tests/**"
       - "examples/**"
+      - "pyproject.toml"
 
 permissions:
   contents: read
