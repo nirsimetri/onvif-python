@@ -11,25 +11,30 @@ maintainers = [
     {name = "Kaburagi"},
 ]
 keywords = [
-    "onvif", "Camera", "onvif python", "ip camera", "cctv", "soap", "surveillance", "cctv cameras", "soap client", "onvif client", "onvif library", "onvif specifications"
+    "onvif", "Camera", "onvif python", "ip camera",
+    "cctv", "soap", "surveillance", "cctv cameras",
+    "soap client", "onvif client", "onvif library",
+    "onvif specifications"
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
-    'Environment :: Console',
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "Operating System :: OS Independent",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Information Technology",
-    'Intended Audience :: Science/Research',
     "Topic :: Software Development :: Libraries",
-    'Topic :: Software Development :: Libraries :: Python Modules',
+    "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Security",
     "Topic :: Multimedia :: Video",
-    'Topic :: Multimedia :: Sound/Audio',
+    "Topic :: Multimedia :: Sound/Audio",
     "Topic :: Communications",
     "Topic :: Text Processing :: Markup :: XML",
 ]
@@ -72,8 +77,14 @@ docs = [
 onvif = "onvif.cli.main:main"
 
 [build-system]
-requires = ["setuptools>=77.0.3", "wheel"]
+requires = [
+    "setuptools>=77.0.3",
+    "wheel>=0.48.0,<1.0.0",
+]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+license-files = ["LICENSE", "NOTICE"]
 
 [tool.setuptools.packages.find]
 where = ["."]
