@@ -58,13 +58,13 @@ dev = [
     "pylint-pytest>=1.1,<2.0",
     "docformatter>=1.0,<2.0",
     "codespell>=2.0,<3.0",
-    "lxml-stubs>=0.0,<1.0",
-    "types-setuptools>=0.0,<1.0",
-    "types-requests>=0.0,<3.0",
+    "lxml-stubs",
+    "types-setuptools",
+    "types-requests",
 ]
 docs = [
     "mkdocs-material>=9.7.7,<10.0.0",
-    "mkdocstrings[python]>=2.0.9,<3.0.0",
+    "mkdocstrings[python]>=1.0.0,<3.0.0",
     "mkdocs-git-authors-plugin>=0.10.0,<1.0.0",
 ]
 
