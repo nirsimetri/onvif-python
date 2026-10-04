@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   preview:
-    name: Build documentation preview
+
     runs-on: ubuntu-latest
 
     steps:
@@ -54,5 +54,4 @@ jobs:
           source-dir: site/
           preview-branch: gh-pages
           umbrella-dir: pr-preview
-          action: ${{ github.event.action }}
           wait-for-pages-deployment: true
