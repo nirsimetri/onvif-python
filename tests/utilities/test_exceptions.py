@@ -96,6 +96,7 @@ class TestONVIFOperationException:
         """Test fallback when SOAP fault subcodes cannot be processed."""
 
         class InvalidSubcodes:
+            """InvalidSubcodes."""
             def __iter__(self):
                 raise TypeError("invalid subcodes")
 
@@ -172,7 +173,7 @@ class TestONVIFOperationException:
         error = etree.SubElement(detail, "Error")
         error.text = "Invalid value"
 
-        reason = etree.SubElement(detail, "Reason")
+        etree.SubElement(detail, "Reason")
 
         mock_fault.detail = detail
 
