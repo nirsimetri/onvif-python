@@ -36,9 +36,9 @@ classifiers = [
 license = "MIT"
 
 dependencies = [
-    "zeep>=4.3.0",
-    "requests>=2.32.0",
-    'pyreadline3>=3.5.4; sys_platform == "win32"',
+    "zeep>=4.3.0,<4.4.0",
+    "requests>=2.32.0,<3.0.0",
+    'pyreadline3>=3.5.4,<4.0.0; sys_platform == "win32"',
 ]
 
 [project.urls]
@@ -49,23 +49,23 @@ Issues = "https://github.com/nirsimetri/onvif-python/issues"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0",
-    "pytest-cov",
-    "black",
-    "mypy",
-    "isort",
-    "pylint",
-    "pylint-pytest",
-    "docformatter",
-    "codespell",
+    "pytest>=8.0,<10.0",
+    "pytest-cov>=6.0,<7.0",
+    "black>=26.0,<27.0",
+    "mypy>=1.0,<2.0",
+    "isort>=6.0,<7.0",
+    "pylint>=4.1.2,<4.3.0",
+    "pylint-pytest>=1.1,<2.0",
+    "docformatter>=1.0,<2.0",
+    "codespell>=2.0,<3.0",
     "lxml-stubs",
     "types-setuptools",
     "types-requests",
 ]
 docs = [
-    "mkdocs-material",
-    "mkdocstrings[python]",
-    "mkdocs-git-authors-plugin",
+    "mkdocs-material>=9.7.7,<10.0.0",
+    "mkdocstrings[python]>=1.0.0,<3.0.0",
+    "mkdocs-git-authors-plugin>=0.10.0,<1.0.0",
 ]
 
 [project.scripts]
