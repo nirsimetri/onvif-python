@@ -85,6 +85,9 @@ If you can help translate documentation or error messages, let us know!
    # Sort import order
    isort .
 
+   # Spelling check
+   codespell .
+
    # Format docstring with docformatter
    docformatter --recursive --black --in-place .
    
@@ -211,15 +214,12 @@ docs/
 ├── core/
 ├── references/
 ├── utilities/
+├── project/
 ├── legal/
 ├── index.md
 ├── installation.md
 ├── quick_start.md
 ├── philosophy.md
-├── contributing.md
-├── roadmap.md
-├── used_by.md
-├── external.md
 └── releases.md
 ```
 
