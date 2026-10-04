@@ -97,6 +97,7 @@ class TestONVIFOperationException:
 
         class InvalidSubcodes:
             """InvalidSubcodes."""
+
             def __iter__(self):
                 raise TypeError("invalid subcodes")
 
