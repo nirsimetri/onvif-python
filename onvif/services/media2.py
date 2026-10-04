@@ -1,7 +1,7 @@
 """Media2 service implementation."""
 
 from onvif.operator import ONVIFOperator
-from onvif.utils.service import ONVIFService
+from onvif.utils.service import ONVIFService, deprecated
 from onvif.utils.wsdl import ONVIFWSDL
 
 
@@ -39,8 +39,8 @@ class Media2(ONVIFService):
 
         A created profile created via this method may be deleted via the DeleteProfile
         method. Optionally Configurations can be assigned to the profile on creation.
-        For details regarding profile assignment check also the method
-        AddConfiguration.
+
+        For details regarding profile assignment check also the method AddConfiguration.
         """
         return self.operator.call(
             "CreateProfile", Name=Name, Configuration=Configuration
@@ -284,6 +284,23 @@ class Media2(ONVIFService):
         """This operation modifies an audio decoder configuration."""
         return self.operator.call(
             "SetAudioDecoderConfiguration", Configuration=Configuration
+        )
+
+    @deprecated(
+        "Use SetEQPresetConfiguration instead. See https://github.com/onvif/specs/pull/830"
+    )
+    def SetEQPreset(self, Configuration):
+        """Set Audio EQPreset using the legacy ONVIF operation name.
+
+        This operation is retained for compatibility with devices implementing the ONVIF
+        25.12 operation name before it was renamed in later specifications.
+
+        Compatible with ONVIF >=25.12 and <26.12.
+        """
+        return self.operator.legacy_call(
+            "SetEQPreset",
+            "SetEQPresetConfiguration",
+            Configuration=Configuration,
         )
 
     def SetEQPresetConfiguration(self, Configuration):
