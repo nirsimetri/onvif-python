@@ -8,6 +8,7 @@ from zeep import Plugin
 from onvif import CacheMode, ONVIFClient
 from onvif.utils import ONVIFOperationException, XMLCapturePlugin, ZeepPatcher
 from onvif.utils.plugins import ReferenceParametersPlugin
+from onvif.utils.wsdl import ONVIFWSDL
 
 
 class TestONVIFClientInitialization:
@@ -241,6 +242,94 @@ class TestONVIFClientServiceAccess:
         assert client._get_xaddr("media", "Media") == (
             "http://192.168.1.17:8000/onvif/Media"
         )
+
+    def test_get_xaddr_handles_getservices_mapping_error(
+        self, mock_onvif_client, monkeypatch
+    ):
+        """Test handling errors while processing the GetServices mapping."""
+        client = mock_onvif_client
+        client.services = [Mock()]
+        client._service_map = {}
+
+        monkeypatch.setattr(
+            ONVIFWSDL,
+            "get_wsdl_map",
+            lambda: {
+                "Media": {
+                    "ver10": {
+                        "invalid": "mapping",
+                    },
+                },
+            },
+        )
+
+        client.capabilities = None
+
+        result = client._get_xaddr("Media", "Media")
+
+        assert result == "http://192.168.1.17:8000/onvif/Media"
+
+    def test_get_xaddr_from_capabilities_direct(self, mock_onvif_client):
+        """Test resolving XAddr from a direct GetCapabilities service."""
+        client = mock_onvif_client
+
+        client._service_map = {}
+        client.capabilities = Mock()
+        client.capabilities.Media = Mock(XAddr="http://192.168.1.100:80/onvif/Media")
+
+        assert client._get_xaddr("media", "Media") == (
+            "http://192.168.1.17:8000/onvif/Media"
+        )
+
+    def test_get_xaddr_from_capabilities_extension(self, mock_onvif_client):
+        """Test resolving XAddr from a service in GetCapabilities.Extension."""
+        client = mock_onvif_client
+
+        client._service_map = {}
+        client.capabilities = Mock(spec=["Extension"])
+        client.capabilities.Extension = Mock(spec=["DeviceIO"])
+        client.capabilities.Extension.DeviceIO = Mock(
+            XAddr="http://192.168.1.100:80/onvif/DeviceIO"
+        )
+
+        assert client._get_xaddr("deviceio", "DeviceIO") == (
+            "http://192.168.1.17:8000/onvif/DeviceIO"
+        )
+
+    def test_get_xaddr_from_capabilities_nested_extension(self, mock_onvif_client):
+        """Test resolving XAddr from a nested GetCapabilities extension."""
+        client = mock_onvif_client
+
+        client._service_map = {}
+        client.capabilities = Mock(spec=["Extension"])
+        client.capabilities.Extension = Mock(spec=["Extensions"])
+        client.capabilities.Extension.Extensions = Mock(spec=["Provisioning"])
+        client.capabilities.Extension.Extensions.Provisioning = Mock(
+            XAddr="http://192.168.1.100:80/onvif/Provisioning"
+        )
+
+        assert client._get_xaddr("provisioning", "Provisioning") == (
+            "http://192.168.1.17:8000/onvif/Provisioning"
+        )
+
+    def test_get_xaddr_capabilities_lookup_error(self, mock_onvif_client):
+        """Test fallback when GetCapabilities lookup raises a handled exception."""
+        client = mock_onvif_client
+
+        client._service_map = {}
+        client.capabilities = BrokenCapabilities()
+
+        assert client._get_xaddr("media", "Media") == (
+            "http://192.168.1.17:8000/onvif/Media"
+        )
+
+
+class BrokenCapabilities:  # pylint: disable=too-few-public-methods
+    """BrokenCapabilities."""
+
+    def __getattr__(self, _name):
+        """Attribute getter."""
+        raise ValueError("invalid capabilities mapping")
 
 
 class TestONVIFClientErrorHandling:
