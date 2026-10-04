@@ -13,11 +13,9 @@ env:
   MIN_PYTHON_VERSION: "3.10"  # Use the minimum supported Python version for coverage generation
 
 jobs:
-  coverage-reporter:
+  reporter:
 
     runs-on: ubuntu-latest
-
-    name: codacy-coverage-reporter
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
