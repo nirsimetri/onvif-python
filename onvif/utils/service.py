@@ -1,8 +1,13 @@
 """ONVIFService: Base class for all ONVIF service implementations."""
 
+from __future__ import annotations
+
 import inspect
 import logging
-from typing import Any
+import warnings
+from collections.abc import Callable
+from functools import wraps
+from typing import Any, ParamSpec, TypeVar
 
 import zeep.helpers
 
@@ -11,6 +16,39 @@ from onvif.utils.exceptions import ONVIFOperationException
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
+
+P = ParamSpec("P")
+R = TypeVar("R")
+
+
+def deprecated(reason: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
+    """Mark a function as deprecated and emit a warning when it is called.
+
+    Args:
+        reason: Explanation of why the function is deprecated and, when
+            applicable, the preferred replacement.
+
+    Returns:
+        A decorator that emits a :class:`DeprecationWarning` when the
+            decorated function is called.
+    """
+
+    def decorator(func: Callable[P, R]) -> Callable[P, R]:
+        @wraps(func)
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            warnings.warn(
+                f"{func.__name__} is deprecated. {reason}",
+                DeprecationWarning,
+                stacklevel=3,
+            )
+            return func(*args, **kwargs)
+
+        setattr(wrapper, "__deprecated__", True)
+        setattr(wrapper, "__deprecation_reason__", reason)
+
+        return wrapper
+
+    return decorator
 
 
 def _is_zeep_object(obj):
