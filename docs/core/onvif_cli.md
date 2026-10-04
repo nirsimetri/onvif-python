@@ -304,10 +304,13 @@ onvif media GetProfiles -d -u admin -p password
 1. **Automatic Network Scanning**: Sends a WS-Discovery Probe message to the multicast address `239.255.255.250:3702`
 2. **Device Detection**: Listens for ProbeMatch responses from ONVIF devices (default timeout: 4 seconds)
 3. **Interactive Selection**: Displays a numbered list of discovered devices with their details:
-   - Device UUID (Endpoint Reference)
-   - XAddrs (ONVIF service URLs)
-   - Device Types (e.g., NetworkVideoTransmitter)
-   - Scopes (name, location, hardware, profile information)
+    - Device UUID (Endpoint Reference)
+    - Hostname (hostname of the device)
+    - XAddrs (ONVIF service URLs)
+    - Date & Time (in UTC and/or Local)
+    - Device Types (e.g., NetworkVideoTransmitter)
+    - Services (available services on device)
+    - Scopes (name, location, hardware, profile information)
 4. **Connection**: Once you select a device, the CLI automatically connects using the discovered host and port
 
 #### Example Discovery Output
