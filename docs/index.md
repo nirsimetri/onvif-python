@@ -2,15 +2,15 @@
 
 [![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python)](https://pypi.org/project/onvif-python)
 [![PyPI Version](https://img.shields.io/pypi/v/onvif-python?logo=pypi&logoColor=white&color=blue&style=plastic&label=PyPI)](https://pypi.org/project/onvif-python/)
-[![Quality](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Quality)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard)
-[![Coverage](https://img.shields.io/codacy/coverage/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Coverage)](https://app.codacy.com/gh/nirsimetri/onvif-python/coverage)
+<br>
+[![Code Quality](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Code%20Quality)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard)
+[![Code Coverage](https://img.shields.io/codacy/coverage/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Code%20Coverage)](https://app.codacy.com/gh/nirsimetri/onvif-python/coverage)
+[![Total Downloads](https://img.shields.io/pepy/dt/onvif-python?label=Total%20Downloads&color=red&style=plastic)](https://pepy.tech/projects/onvif-python)
 <br>
 [![Build](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-app.yml?logo=github&style=plastic&label=Build)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
 [![Upload Python](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-publish.yml?logo=github&style=plastic&label=Upload%20Package)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml)
 [![CLI Cross-Platform](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/cli-cross-platform.yml?logo=github&style=plastic&label=CLI%20Cross-Platform)](https://github.com/nirsimetri/onvif-python/actions/workflows/cli-cross-platform.yml)
 
-
-**This project provides a comprehensive and developer-friendly Python library for working with ONVIF-compliant devices.** It is designed to be reliable, easy to integrate, and flexible enough to support a wide range of ONVIF profiles and services.  
 
 **[ONVIF](https://www.onvif.org) (Open Network Video Interface Forum)** is a global standard for the interface of IP-based physical security products, including network cameras, video recorders, and related systems.  
 
