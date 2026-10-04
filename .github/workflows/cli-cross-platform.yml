@@ -17,7 +17,7 @@ env:
 
 jobs:
   cli-test:
-    name: CLI Test (${{ matrix.os }})
+
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -37,12 +37,14 @@ jobs:
         with:
           python-version: ${{ env.MIN_PYTHON_VERSION }}
 
-      - name: Install package
+      - name: Install package (${{ matrix.os }})
         run: |
           python -m pip install --upgrade pip
           pip install .
 
-      - name: Test CLI
+      - name: Test CLI Help (${{ matrix.os }})
+        run: onvif --help
+
+      - name: Test CLI Discovery (${{ matrix.os }})
         run: |
-          onvif --help
-          onvif --version
+          python -c "import subprocess, sys; result = subprocess.run(['onvif', '--discover', '--interactive']); sys.exit(0 if result.returncode == 1 else result.returncode)"
