@@ -55,7 +55,7 @@ This library includes a powerful command-line interface (CLI) for interacting wi
                 [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
                 [service] [method] [params ...]
 
-    ONVIF Terminal Client — v0.4.2
+    ONVIF Terminal Client — v0.4.3
     https://github.com/nirsimetri/onvif-python
 
     positional arguments:
@@ -137,7 +137,7 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 ??? abstract "Interactive Shell"
 
     ```shell
-    ONVIF Interactive Shell — v0.4.2
+    ONVIF Interactive Shell — v0.4.3
     https://github.com/nirsimetri/onvif-python
 
     Basic Commands:
