@@ -2,5 +2,5 @@
 
 from typing import Final
 
-__version__: Final[str] = "0.4.3"
+__version__: Final[str] = "0.4.4"
 __repository__: Final[str] = "https://github.com/nirsimetri/onvif-python"
