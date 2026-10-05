@@ -118,6 +118,7 @@ class ONVIFClient:
         services (list): List of available services from `GetServices` response
         capabilities (CompoundValue): Device capabilities from `GetCapabilities` response (fallback)
         xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if `capture_xml=True`)
+        plugins (list[Plugin] | None): List of user-provided Zeep plugins (if any)
         wsdl_dir (str | None): Custom WSDL directory path (if provided)
 
     !!! tip "Version History"
@@ -183,6 +184,7 @@ class ONVIFClient:
             capture_xml,
             plugins,
         )
+        self.plugins = plugins
 
         # Store custom WSDL directory if provided
         self.wsdl_dir: str | None = wsdl_dir

@@ -229,7 +229,7 @@ def _process_onvif_client(args) -> None:
     try:
         # Create ONVIF client
         # Auto-enable debug mode if output format is XML
-        auto_debug = args.debug or (
+        auto_debug = args.debug or bool(
             args.output and args.output.lower().endswith(".xml")
         )
 

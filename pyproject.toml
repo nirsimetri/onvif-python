@@ -1,6 +1,6 @@
 [project]
 name = "onvif-python"
-version = "0.4.2"
+version = "0.4.3"
 description = "A modern Python library for ONVIF-compliant devices"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -11,34 +11,39 @@ maintainers = [
     {name = "Kaburagi"},
 ]
 keywords = [
-    "onvif", "Camera", "onvif python", "ip camera", "cctv", "soap", "surveillance", "cctv cameras", "soap client", "onvif client", "onvif library", "onvif specifications"
+    "onvif", "Camera", "onvif python", "ip camera",
+    "cctv", "soap", "surveillance", "cctv cameras",
+    "soap client", "onvif client", "onvif library",
+    "onvif specifications"
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
-    'Environment :: Console',
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "Operating System :: OS Independent",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Information Technology",
-    'Intended Audience :: Science/Research',
     "Topic :: Software Development :: Libraries",
-    'Topic :: Software Development :: Libraries :: Python Modules',
+    "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Security",
     "Topic :: Multimedia :: Video",
-    'Topic :: Multimedia :: Sound/Audio',
+    "Topic :: Multimedia :: Sound/Audio",
     "Topic :: Communications",
     "Topic :: Text Processing :: Markup :: XML",
 ]
 license = "MIT"
 
 dependencies = [
-    "zeep>=4.3.0",
-    "requests>=2.32.0",
-    'pyreadline3>=3.5.4; sys_platform == "win32"',
+    "zeep>=4.3.0,<4.4.0",
+    "requests>=2.32.0,<3.0.0",
+    'pyreadline3>=3.5.4,<4.0.0; sys_platform == "win32"',
 ]
 
 [project.urls]
@@ -49,29 +54,37 @@ Issues = "https://github.com/nirsimetri/onvif-python/issues"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0",
-    "pytest-cov",
-    "black",
-    "mypy",
-    "isort",
-    "pylint",
-    "docformatter",
+    "pytest>=8.0,<10.0",
+    "pytest-cov>=6.0,<7.0",
+    "black>=26.0,<27.0",
+    "mypy>=1.0,<2.0",
+    "isort>=6.0,<7.0",
+    "pylint>=4.1.2,<4.3.0",
+    "pylint-pytest>=1.1,<2.0",
+    "docformatter>=1.0,<2.0",
+    "codespell>=2.0,<3.0",
     "lxml-stubs",
     "types-setuptools",
     "types-requests",
 ]
 docs = [
-    "mkdocs-material",
-    "mkdocstrings[python]",
-    "mkdocs-git-authors-plugin",
+    "mkdocs-material>=9.7.7,<10.0.0",
+    "mkdocstrings[python]>=1.0.0,<3.0.0",
+    "mkdocs-git-authors-plugin>=0.10.0,<1.0.0",
 ]
 
 [project.scripts]
 onvif = "onvif.cli.main:main"
 
 [build-system]
-requires = ["setuptools>=77.0.3", "wheel"]
+requires = [
+    "setuptools>=77.0.3",
+    "wheel>=0.48.0,<1.0.0",
+]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+license-files = ["LICENSE", "NOTICE"]
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -123,6 +136,7 @@ ignore-paths = [
     "^build/",
     "^site/",
 ]
+load-plugins = ["pylint_pytest"]
 
 [tool.pylint.format]
 max-line-length = 150
@@ -151,3 +165,8 @@ omit = [
     "examples/*",
     "docs/*",
 ]
+
+[tool.codespell]
+skip = "*.wsdl, *.xsd, *.xsl, *.html, *.json, *.js, *.css, *.map"
+count = true
+quiet-level = 3

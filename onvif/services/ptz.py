@@ -89,7 +89,7 @@ class PTZ(ONVIFService):
     def RemovePreset(self, ProfileToken, PresetToken):
         """Operation to remove a PTZ preset for the Node in the selected profile.
 
-        The operation is supported if the PresetPosition capability exists for teh Node
+        The operation is supported if the PresetPosition capability exists for the Node
         in the selected profile.
         """
         return self.operator.call(

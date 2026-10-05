@@ -23,6 +23,7 @@ site/
 .coverage
 coverage.xml
 codacy-coverage.sh
+result.json
 
 # Python cache
 __pycache__/

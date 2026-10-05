@@ -166,7 +166,7 @@ class Device(ONVIFService):
         return self.operator.call("GetSystemLog", LogType=LogType)
 
     def GetSystemSupportInformation(self):
-        """This operation gets arbitary device diagnostics information from the
+        """This operation gets arbitrary device diagnostics information from the
         device."""
         return self.operator.call("GetSystemSupportInformation")
 
@@ -469,7 +469,7 @@ class Device(ONVIFService):
         It shall be possible to set the device hostname configurations through the
         SetHostname command.
 
-        A device shall accept string formated according to RFC 1123 section 2.1 or
+        A device shall accept string formatted according to RFC 1123 section 2.1 or
         alternatively to RFC 952, other string shall be considered as invalid strings.
         """
         return self.operator.call("SetHostname", Name=Name)
@@ -510,7 +510,7 @@ class Device(ONVIFService):
         If the device supports NTP, it shall be possible to set the NTP server settings
         through the SetNTP command.
 
-        A device shall accept string formated according to RFC 1123 section 2.1 or
+        A device shall accept string formatted according to RFC 1123 section 2.1 or
         alternatively to RFC 952, other string shall be considered as invalid strings.
 
         Changes to the NTP server list will not affect the clock mode DateTimeType. Use

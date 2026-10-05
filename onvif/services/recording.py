@@ -51,9 +51,10 @@ class Recording(ONVIFService):
         - AUDIO001 Audio
         - META001 Metadata
 
-        All tracks created as response to a CreateRecording request shall have the
-        MaximumRetentionTime set to 0 (unlimited), and the Description set to the empty
-        string, by default.
+        The created recording shall have MaximumRetentionTime set to the value specified in
+        the RecordingConfiguration supplied to CreateRecording. If that value is PT0S, the
+        recording shall have unlimited retention. All tracks created as part of the request
+        shall have the Description set to the empty string by default.
         """
         return self.operator.call(
             "CreateRecording", RecordingConfiguration=RecordingConfiguration
@@ -100,7 +101,7 @@ class Recording(ONVIFService):
         """GetRecordingOptions returns information for a recording identified by the
         RecordingToken.
 
-        The information includes the number of additonal tracks as well as recording
+        The information includes the number of additional tracks as well as recording
         jobs that can be configured.
         """
         return self.operator.call("GetRecordingOptions", RecordingToken=RecordingToken)

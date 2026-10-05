@@ -1,19 +1,26 @@
 name: Python Application
 
 on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "onvif/**"
+      - "tests/**"
+      - "examples/**"  # to enforce lint and format standard
+      - "pyproject.toml"
   pull_request:
     branches: [ "main", "dev" ]
     paths:
       - "onvif/**"
       - "tests/**"
-      - "examples/**"
+      - "examples/**"  # to enforce lint and format standard
+      - "pyproject.toml"
 
 permissions:
   contents: read
 
 env:
-  COVERAGE_FAIL_UNDER: 49  # Will be raised gradually (in percentage)
-  MIN_PYTHON_VERSION: "3.10"  # Use the minimum supported Python version for coverage generation
+  COVERAGE_FAIL_UNDER: 85  # Will be raised gradually (in percentage)
 
 jobs:
   build:
@@ -46,6 +53,9 @@ jobs:
     - name: Check imports order with isort
       run: isort --check-only .
 
+    - name: Check spelling with codespell
+      run: codespell .
+
     - name: Lint with pylint
       run: pylint .
 
@@ -53,9 +63,4 @@ jobs:
       run: mypy .
 
     - name: Test and coverage check with pytest
-      run: |
-        if [ "${{ matrix.python-version }}" = "${{ env.MIN_PYTHON_VERSION }}" ]; then
-          pytest --cov=onvif --cov-fail-under=${{ env.COVERAGE_FAIL_UNDER }} --cov-report=term-missing
-        else
-          pytest .
-        fi
+      run: pytest --cov=onvif --cov-fail-under=${{ env.COVERAGE_FAIL_UNDER }} --cov-report=term-missing

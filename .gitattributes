@@ -1,2 +1,4 @@
-onvif/wsdl/** linguist-generated=true
-onvif/** linguist-generated=true
+onvif/wsdl/** linguist-generated
+onvif/db/** linguist-generated
+assets/** linguist-generated
+docs/** linguist-documentation

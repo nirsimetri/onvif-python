@@ -9,6 +9,8 @@ from unittest.mock import Mock, patch
 
 from lxml import etree
 
+from onvif.operator import ONVIFOperator
+
 
 # pylint: disable=not-callable
 class ONVIFServiceTestBase:
@@ -102,6 +104,7 @@ class ONVIFServiceTestBase:
                 methods[name] = {
                     "params": params,
                     "signature": sig,
+                    "deprecated": getattr(method, "__deprecated__", False),
                 }
 
         return methods
@@ -405,6 +408,10 @@ class ONVIFServiceTestBase:
             errors = []
 
             for method_name, method_info in implemented_methods.items():
+                # Skip deprecated method
+                if method_info["deprecated"]:
+                    continue
+
                 # Skip helper methods
                 if method_name in helper_methods:
                     continue
@@ -453,6 +460,77 @@ class ONVIFServiceTestBase:
 
             assert not errors, "Operator call errors:\n" + "\n".join(errors)
 
+    def test_legacy_call_uses_legacy_operation(self):
+        """Test that legacy_call temporarily registers and invokes a legacy operation."""
+        operator = object.__new__(ONVIFOperator)
+
+        current_operation = Mock()
+        current_operation.name = "SetEQPresetConfiguration"
+        current_operation.soapaction = (
+            "http://www.onvif.org/ver20/media/wsdl/SetEQPresetConfiguration"
+        )
+
+        class FakeBinding:  # pylint: disable=too-few-public-methods
+            """Minimal binding implementation for testing legacy operations."""
+
+            def __init__(self):
+                self._operations = {
+                    "SetEQPresetConfiguration": current_operation,
+                }
+
+            def get(self, name):
+                """Return an operation by name."""
+                return self._operations.get(name)
+
+        class FakeService:  # pylint: disable=too-few-public-methods
+            """Minimal service proxy that resolves operations from the binding."""
+
+            def __init__(self, binding):
+                self._binding = binding
+                self.called_operation = None
+                self.called_kwargs = None
+
+            def __getattr__(self, name):
+                """Resolve a temporary legacy operation from the binding."""
+                if name not in self._binding._operations:
+                    raise AttributeError(name)
+
+                operation = self._binding._operations[name]
+
+                def call(**kwargs):
+                    self.called_operation = operation.name
+                    self.called_kwargs = kwargs
+                    return "legacy-result"
+
+                return call
+
+        binding = FakeBinding()
+        service = FakeService(binding)
+
+        operator.service = service
+        operator.service_name = "Media2"
+        operator.apply_patch = False
+
+        result = operator.legacy_call(
+            "SetEQPreset",
+            "SetEQPresetConfiguration",
+            Configuration="configuration",
+        )
+
+        assert result == "legacy-result"
+        assert service.called_operation == "SetEQPreset"
+        assert service.called_kwargs == {"Configuration": "configuration"}
+
+        # The legacy operation must be removed after the call.
+        # pylint: disable=protected-access
+        assert "SetEQPreset" not in binding._operations
+
+        # The original WSDL operation must remain untouched.
+        # pylint: disable=protected-access
+        assert "SetEQPresetConfiguration" in binding._operations
+        # pylint: disable=protected-access
+        assert binding._operations["SetEQPresetConfiguration"] is current_operation
+
     def test_no_extra_methods(self):
         """Test that there are no extra public methods not in WSDL."""
         wsdl_operations = self.get_wsdl_operations()
@@ -462,10 +540,11 @@ class ONVIFServiceTestBase:
         allowed_helper_methods = ["type", "desc", "operations", "to_dict"]
 
         extra_methods = []
-        for method_name in implemented_methods:
+        for method_name, method_info in implemented_methods.items():
             if (
                 method_name not in wsdl_operations
                 and method_name not in allowed_helper_methods
+                and not method_info["deprecated"]
             ):
                 extra_methods.append(method_name)
 
@@ -474,9 +553,8 @@ class ONVIFServiceTestBase:
             not extra_methods
         ), f"Extra methods found that are not in WSDL: {extra_methods}"
 
-    def test_parameter_forwarding_for_all_methods(  # pylint: disable=too-many-locals,too-many-branches,too-many-nested-blocks
-        self,
-    ):
+    # pylint: disable=too-many-locals,too-many-branches,too-many-nested-blocks
+    def test_parameter_forwarding_for_all_methods(self):
         """Test that all method parameters are correctly forwarded to
         operator.call()."""
         if not self.SERVICE_CLASS:
@@ -556,7 +634,7 @@ class ONVIFServiceTestBase:
                                                 )
                                                 break
 
-                except Exception as e:  # pylint: disable=broad-exception-caught
+                except (AttributeError, KeyError, TypeError) as e:
                     errors.append(
                         f"{method_name}: Error during parameter forwarding test - {str(e)}"
                     )

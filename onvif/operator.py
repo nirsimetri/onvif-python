@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import os
 import warnings
+from copy import copy
 from enum import Enum
 from typing import Any
 
@@ -274,8 +275,8 @@ class ONVIFOperator:
 
         Args:
             method (str): Name of the ONVIF operation to call (e.g., "GetDeviceInformation")
-            *args (any): Positional arguments to pass to the operation
-            **kwargs (any): Keyword arguments to pass to the operation
+            *args (Any): Positional arguments to pass to the operation
+            **kwargs (Any): Keyword arguments to pass to the operation
 
         Returns:
             The operation result with `xsd:any` fields flattened if `apply_patch=True`
@@ -303,6 +304,95 @@ class ONVIFOperator:
             raise ONVIFOperationException(operation=method, original_exception=e) from e
         except Exception as e:
             raise ONVIFOperationException(operation=method, original_exception=e) from e
+
+    def legacy_call(
+        self,
+        legacy_method: str,
+        current_method: str,
+        *args,
+        **kwargs,
+    ) -> Any:
+        """Call a legacy ONVIF operation using the current WSDL definition.
+
+        This provides compatibility with devices which implemented an older
+        operation name that was subsequently renamed in the ONVIF WSDL.
+
+        The legacy operation is created as a temporary alias of the current
+        Zeep SOAP operation. The alias reuses the current operation's request
+        and response definitions while overriding the operation name and SOAP
+        action.
+
+        Args:
+            legacy_method: Name of the legacy ONVIF operation.
+            current_method: Name of the operation defined by the current WSDL.
+            *args (Any): Positional arguments to pass to the operation.
+            **kwargs (Any): Keyword arguments to pass to the operation.
+
+        Returns:
+           The operation result with `xsd:any` fields flattened if `apply_patch=True`
+
+        Raises:
+            ONVIFOperationException: If either operation cannot be resolved or
+                the SOAP operation fails.
+        """
+        logger.debug(
+            "Calling legacy ONVIF method: %s.%s -> %s",
+            self.service_name,
+            legacy_method,
+            current_method,
+        )
+
+        try:
+            binding = self.service._binding  # pylint: disable=protected-access
+
+            current_operation = binding.get(current_method)
+            if current_operation is None:
+                raise AttributeError(
+                    f"Current WSDL operation '{current_method}' was not found"
+                )
+
+            legacy_operation = copy(current_operation)
+            legacy_operation.name = legacy_method
+
+            if legacy_operation.soapaction:
+                legacy_operation.soapaction = legacy_operation.soapaction.replace(
+                    current_method,
+                    legacy_method,
+                )
+
+            binding._operations[legacy_method] = (  # pylint: disable=protected-access
+                legacy_operation
+            )
+
+            try:
+                func = getattr(self.service, legacy_method)
+                result = func(*args, **kwargs)
+            finally:
+                binding._operations.pop(  # pylint: disable=protected-access
+                    legacy_method, None
+                )
+
+            logger.debug(
+                "Legacy ONVIF call %s.%s succeeded",
+                self.service_name,
+                legacy_method,
+            )
+
+            if self.apply_patch:
+                result = ZeepPatcher.flatten_xsd_any_fields(result)
+
+            return result
+
+        except Fault as e:
+            raise ONVIFOperationException(
+                operation=legacy_method, original_exception=e
+            ) from e
+        except ONVIFOperationException:
+            raise
+        except Exception as e:
+            raise ONVIFOperationException(
+                operation=legacy_method, original_exception=e
+            ) from e
 
     def create_type(self, type_name: str) -> Any:
         """Create a type instance from WSDL schema for the given type name.

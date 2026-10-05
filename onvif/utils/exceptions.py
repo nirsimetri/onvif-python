@@ -1,5 +1,7 @@
 """ONVIFOperationException: Enhanced exception wrapper for ONVIF operation failures."""
 
+from __future__ import annotations
+
 import requests
 from zeep.exceptions import Fault
 
@@ -86,7 +88,7 @@ class ONVIFOperationException(Exception):
         - `requests.exceptions.RequestException`: Base HTTP error
     """
 
-    def __init__(self, operation, original_exception):
+    def __init__(self, operation: str, original_exception: Exception):
         self.operation = operation
         self.original_exception = original_exception
 

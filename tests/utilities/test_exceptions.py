@@ -1,10 +1,10 @@
-"""Tests for Exceptions."""
+"""Tests for ONVIFOperationException."""
 
 from unittest.mock import Mock
 
 import pytest
+from lxml import etree
 
-# Import from onvif main package to match actual structure
 from onvif.utils.exceptions import ONVIFOperationException
 
 # Try to import these dependencies, use mocks if not available
@@ -93,20 +93,140 @@ class TestONVIFOperationException:
         assert "Additional error details" in error_str
 
     def test_soap_fault_with_invalid_subcodes(self):
-        """Test ONVIFOperationException with invalid subcodes that cause exceptions."""
+        """Test fallback when SOAP fault subcodes cannot be processed."""
+
+        class InvalidSubcodes:
+            """InvalidSubcodes."""
+
+            def __iter__(self):
+                raise TypeError("invalid subcodes")
+
+            def __str__(self):
+                return "invalid-subcodes"
+
+        fault = Mock(spec=Fault)
+        fault.code = "SOAP-ENV:Server"
+        fault.message = "Operation failed"
+        fault.subcodes = InvalidSubcodes()
+        fault.detail = None
+
+        exception = ONVIFOperationException("TestOperation", fault)
+
+        assert "subcode=invalid-subcodes" in str(exception)
+
+    def test_soap_fault_missing_attributes(self):
+        """Test SOAP fault handling when some attributes are missing."""
+        mock_fault = Mock(spec=Fault)
+        # Only set some attributes, leave others as None
+        mock_fault.message = "Partial error info"
+        mock_fault.code = None
+        mock_fault.faultcode = "SOAP-ENV:Server"  # Fallback attribute
+        mock_fault.detail = None
+        mock_fault.subcodes = None
+
+        operation = "GetSystemDateAndTime"
+        exception = ONVIFOperationException(operation, mock_fault)
+
+        error_str = str(exception)
+        assert "SOAP Error" in error_str
+        assert "SOAP-ENV:Server" in error_str
+        assert "Partial error info" in error_str
+
+    def test_soap_fault_no_message(self):
+        """Test SOAP fault handling when message is None."""
         mock_fault = Mock(spec=Fault)
         mock_fault.code = "SOAP-ENV:Client"
-        mock_fault.message = "Test error"
+        mock_fault.message = None
         mock_fault.detail = None
-        mock_fault.subcodes = ["invalid", "subcodes"]  # Not QName objects
+        mock_fault.subcodes = None
+        mock_fault.__str__ = Mock(return_value="String representation of fault")
 
-        operation = "TestOperation"
+        operation = "GetNetworkInterfaces"
         exception = ONVIFOperationException(operation, mock_fault)
 
         # Should handle invalid subcodes gracefully
         error_str = str(exception)
         assert "SOAP Error" in error_str
-        assert "Test error" in error_str
+        assert "String representation of fault" in error_str
+
+    def test_soap_fault_with_detail_text(self):
+        """Test SOAP fault detail containing direct text."""
+        mock_fault = Mock(spec=Fault)
+        mock_fault.code = "SOAP-ENV:Server"
+        mock_fault.message = "Operation failed"
+        mock_fault.subcodes = None
+        mock_fault.detail = etree.Element("Detail")
+        mock_fault.detail.text = "Detailed failure"
+
+        exception = ONVIFOperationException("TestOperation", mock_fault)
+
+        assert "detail=Detailed failure" in str(exception)
+
+    def test_soap_fault_with_detail_children(self):
+        """Test SOAP fault detail containing child elements."""
+        mock_fault = Mock(spec=Fault)
+        mock_fault.code = "SOAP-ENV:Server"
+        mock_fault.message = "Operation failed"
+        mock_fault.subcodes = None
+
+        detail = etree.Element("Detail")
+
+        error = etree.SubElement(detail, "Error")
+        error.text = "Invalid value"
+
+        etree.SubElement(detail, "Reason")
+
+        mock_fault.detail = detail
+
+        exception = ONVIFOperationException("TestOperation", mock_fault)
+
+        error_str = str(exception)
+
+        assert "detail=Error=Invalid value, Reason" in error_str
+
+    def test_soap_fault_with_non_iterable_detail(self):
+        """Test SOAP fault detail represented by a non-iterable object."""
+
+        class NonIterableDetail:  # pylint: disable=too-few-public-methods
+            """NonIterableDetail."""
+
+            def __str__(self):
+                """Class string."""
+                return "custom-detail"
+
+        fault = Mock(spec=Fault)
+        fault.code = "SOAP-ENV:Server"
+        fault.message = "Operation failed"
+        fault.subcodes = None
+        fault.detail = NonIterableDetail()
+
+        exception = ONVIFOperationException("TestOperation", fault)
+
+        assert "detail=custom-detail" in str(exception)
+
+    def test_soap_fault_with_empty_detail(self):
+        """Test SOAP fault detail fallback when no child details are available."""
+
+        class EmptyDetail:
+            """EmptyDetail."""
+
+            def __iter__(self):
+                """Iterator class."""
+                return iter(())
+
+            def __str__(self):
+                """Class string."""
+                return "empty-detail"
+
+        fault = Mock(spec=Fault)
+        fault.code = "SOAP-ENV:Server"
+        fault.message = "Operation failed"
+        fault.subcodes = None
+        fault.detail = EmptyDetail()
+
+        exception = ONVIFOperationException("TestOperation", fault)
+
+        assert "detail=empty-detail" in str(exception)
 
     def test_requests_exception(self):
         """Test ONVIFOperationException with requests exception."""
@@ -155,40 +275,6 @@ class TestONVIFOperationException:
         assert isinstance(exception, Exception)
         assert hasattr(exception, "operation")
         assert hasattr(exception, "original_exception")
-
-    def test_soap_fault_missing_attributes(self):
-        """Test SOAP fault handling when some attributes are missing."""
-        mock_fault = Mock(spec=Fault)
-        # Only set some attributes, leave others as None
-        mock_fault.message = "Partial error info"
-        mock_fault.code = None
-        mock_fault.faultcode = "SOAP-ENV:Server"  # Fallback attribute
-        mock_fault.detail = None
-        mock_fault.subcodes = None
-
-        operation = "GetSystemDateAndTime"
-        exception = ONVIFOperationException(operation, mock_fault)
-
-        error_str = str(exception)
-        assert "SOAP Error" in error_str
-        assert "SOAP-ENV:Server" in error_str
-        assert "Partial error info" in error_str
-
-    def test_soap_fault_no_message(self):
-        """Test SOAP fault handling when message is None."""
-        mock_fault = Mock(spec=Fault)
-        mock_fault.code = "SOAP-ENV:Client"
-        mock_fault.message = None
-        mock_fault.detail = None
-        mock_fault.subcodes = None
-        mock_fault.__str__ = Mock(return_value="String representation of fault")
-
-        operation = "GetNetworkInterfaces"
-        exception = ONVIFOperationException(operation, mock_fault)
-
-        error_str = str(exception)
-        assert "SOAP Error" in error_str
-        assert "String representation of fault" in error_str
 
 
 class TestExceptionErrorMessages:
