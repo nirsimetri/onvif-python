@@ -2,6 +2,7 @@
 
 import cmd
 import sys
+from datetime import date
 
 from requests.exceptions import RequestException
 from zeep.exceptions import TransportError
@@ -9,6 +10,7 @@ from zeep.exceptions import TransportError
 from onvif.cli.helpers.messages import print_interactive_intro
 from onvif.cli.utils import colorize, get_device_available_services
 from onvif.client import ONVIFClient
+from onvif.mappings import ONVIF_VERSION_MAP
 from onvif.utils.exceptions import ONVIFOperationException
 
 from .context import ShellContext
@@ -33,18 +35,32 @@ class InteractiveShell(
         cmd.Cmd.__init__(self)
 
         self.context = ShellContext(client=client, args=args)
+        self.device_data = None
 
         self._initialize_health_check()
+        self._initialize_readline()
 
-        # Enable tab completion
-        # for Windows will use pyreadline3 to install readline module
+        # Set prompt
+        self.update_prompt()
+
+        self._initialize_device_information()
+
+        self.intro = print_interactive_intro(args, self.context.device_info_text)
+
+        # Start background health check after successful initialization
+        self.health_check_thread.start()
+
+    def _initialize_readline(self) -> None:
+        """Initialize readline support and tab completion."""
         # pylint: disable=import-outside-toplevel
         try:
             import readline
 
             # Set completer to this instance
             readline.set_completer(self.complete)  # type: ignore[attr-defined, arg-type]
-            readline.set_completer_delims(" \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?")  # type: ignore[attr-defined]
+            readline.set_completer_delims(  # type: ignore[attr-defined]
+                " \t\n`!@#$%^&*()=+[{]}\\|;:'\",<>?"
+            )
 
             # Enable tab completion, making it compatible with both GNU readline and libedit
             if (
@@ -52,76 +68,114 @@ class InteractiveShell(
                 and readline.__doc__
                 and "libedit" in readline.__doc__
             ):
-                readline.parse_and_bind("bind ^I rl_complete")  # type: ignore[attr-defined]
+                readline.parse_and_bind(  # type: ignore[attr-defined]
+                    "bind ^I rl_complete"
+                )
             else:
                 readline.parse_and_bind("tab: complete")  # type: ignore[attr-defined]
         except ImportError:
-            pass  # readline not available on some systems
+            pass
 
-        # Set prompt
-        self.update_prompt()
+    def _initialize_device_information(self) -> None:
+        """Retrieve and format device information."""
+        device_info = self._get_device_information()
+        onvif_version = self._get_onvif_version()
 
-        manufacturer = "Unknown"
-        model = "Unknown"
-        firmware = "Unknown"
-        serial = "Unknown"
-        hardware_id = "Unknown"
-        onvif_version = "Unknown"
+        self.context.device_info_text = (
+            f"\n\n{colorize('[Device Info]', 'cyan')}\n"
+            f"  Manufacturer  : {colorize(device_info['manufacturer'], 'white')}\n"
+            f"  Model         : {colorize(device_info['model'], 'white')}\n"
+            f"  Firmware      : {colorize(device_info['firmware'], 'white')}\n"
+            f"  Serial        : {colorize(device_info['serial'], 'white')}\n"
+            f"  HardwareId    : {colorize(device_info['hardware_id'], 'white')}\n"
+            f"  ONVIF Version : {colorize(onvif_version, 'white')}"
+        )
 
+    def _get_device_information(self) -> dict[str, str]:
+        """Retrieve basic device information."""
         try:
-            # Get device information and store it
             self.device_data = self.context.client.devicemgmt().GetDeviceInformation()
-            manufacturer = getattr(self.device_data, "Manufacturer", "Unknown")
-            model = getattr(self.device_data, "Model", "Unknown")
-            firmware = getattr(self.device_data, "FirmwareVersion", "Unknown")
-            serial = getattr(self.device_data, "SerialNumber", "Unknown")
-            hardware_id = getattr(self.device_data, "HardwareId", "Unknown")
 
-            # Get latest supported ONVIF version
-            supported_versions = self.context.client.devicemgmt().GetCapabilities(
-                Category="All"
-            )["Device"]["System"]["SupportedVersions"]
-            if supported_versions:
-                latest_version = max(
-                    supported_versions,
-                    key=lambda version: (
-                        getattr(version, "Major", 0),
-                        getattr(version, "Minor", 0),
-                    ),
-                )
-
-                major = getattr(latest_version, "Major", "")
-                minor = getattr(latest_version, "Minor", "")
-
-                if major != "":
-                    onvif_version = (
-                        f"{major}.{minor} {colorize('[Latest]', 'green')}"
-                        if minor != ""
-                        else str(major)
-                    )
+            return {
+                "manufacturer": getattr(self.device_data, "Manufacturer", "Unknown"),
+                "model": getattr(self.device_data, "Model", "Unknown"),
+                "firmware": getattr(self.device_data, "FirmwareVersion", "Unknown"),
+                "serial": getattr(self.device_data, "SerialNumber", "Unknown"),
+                "hardware_id": getattr(self.device_data, "HardwareId", "Unknown"),
+            }
         except (ONVIFOperationException, KeyError, AttributeError) as e:
             if isinstance(e, ONVIFOperationException):
                 if isinstance(e.original_exception, (RequestException, TransportError)):
                     self._handle_connection_error()
-            else:
-                # For other errors (e.g., GetCapabilities not supported), we can still proceed
-                # with basic device info if GetDeviceInformation succeeded.
-                pass
 
-        self.context.device_info_text = (
-            f"\n\n{colorize('[Device Info]', 'cyan')}\n"
-            f"  Manufacturer  : {colorize(manufacturer, 'white')}\n"
-            f"  Model         : {colorize(model, 'white')}\n"
-            f"  Firmware      : {colorize(firmware, 'white')}\n"
-            f"  Serial        : {colorize(serial, 'white')}\n"
-            f"  HardwareId    : {colorize(hardware_id, 'white')}\n"
-            f"  ONVIF Version : {colorize(onvif_version, 'white')}"
+            return {
+                "manufacturer": "Unknown",
+                "model": "Unknown",
+                "firmware": "Unknown",
+                "serial": "Unknown",
+                "hardware_id": "Unknown",
+            }
+
+    def _get_onvif_version(self) -> str:
+        """Retrieve and format the latest supported ONVIF version."""
+        try:
+            supported_versions = self.context.client.devicemgmt().GetCapabilities(
+                Category="All"
+            )["Device"]["System"]["SupportedVersions"]
+        except (ONVIFOperationException, KeyError, AttributeError) as e:
+            if isinstance(e, ONVIFOperationException):
+                if isinstance(e.original_exception, (RequestException, TransportError)):
+                    self._handle_connection_error()
+
+            return "Unknown"
+
+        if not supported_versions:
+            return "Unknown"
+
+        latest_version = max(
+            supported_versions,
+            key=lambda version: (
+                getattr(version, "Major", 0),
+                getattr(version, "Minor", 0),
+            ),
         )
 
-        self.intro = print_interactive_intro(args, self.context.device_info_text)
+        major = getattr(latest_version, "Major", None)
+        minor = getattr(latest_version, "Minor", None)
 
-        # Start background health check after successful initialization
-        self.health_check_thread.start()
+        if major is None:
+            return "Unknown"
+
+        if minor is None:
+            return str(major)
+
+        version_key = (major, minor)
+        release_date = ONVIF_VERSION_MAP.get(version_key)
+
+        version = f"{major}.{minor:02d}"
+
+        if release_date:
+            version += f" ({release_date.strftime('%B %Y')})"
+
+        if release_date and self._is_latest_released_version(release_date):
+            version += f" {colorize('[Latest]', 'green')}"
+
+        return version
+
+    def _is_latest_released_version(self, release_date: date) -> bool:
+        """Return whether the release date is the latest released ONVIF version."""
+        today = date.today()
+
+        latest_release = max(
+            (
+                version_date
+                for version_date in ONVIF_VERSION_MAP.values()
+                if version_date <= today
+            ),
+            default=None,
+        )
+
+        return release_date == latest_release
 
     def cmdloop(self, intro=None):
         """Override cmdloop to handle TAB completion manually."""

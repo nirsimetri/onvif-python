@@ -123,14 +123,7 @@ class TestInteractiveShellInitialization:
         assert "2.860.0000000.26.R" in shell.context.device_info_text
         assert "AM08C90PAG3C79B" in shell.context.device_info_text
         assert "1.00" in shell.context.device_info_text
-        assert "2.6" in shell.context.device_info_text
-
-    def test_selects_latest_supported_onvif_version(self, client, args):
-        """Verify that the highest supported ONVIF version is displayed."""
-        shell = self._create_shell(client, args)
-
-        assert "2.6" in shell.context.device_info_text
-        assert "2.5" not in shell.context.device_info_text
+        assert "2.06" in shell.context.device_info_text
 
     def test_prints_intro_with_device_information(self, client, args):
         """Verify that the interactive intro receives formatted device information."""

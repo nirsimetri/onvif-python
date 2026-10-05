@@ -642,6 +642,7 @@ class TestGetDeviceAvailableServices:
                 "pullpoint",
                 "notification",
                 "subscription",
+                "pausable_subscription",
                 "media",
                 "ptz",
             }
@@ -688,6 +689,7 @@ class TestGetDeviceAvailableServices:
                 "pullpoint",
                 "notification",
                 "subscription",
+                "pausable_subscription",
                 "imaging",
                 "media",
                 "ptz",
