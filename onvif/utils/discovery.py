@@ -11,8 +11,8 @@ from urllib.parse import urlparse
 
 from lxml import etree
 
-from onvif.cli.utils import ONVIF_NAMESPACE_MAP
 from onvif.client import ONVIFClient
+from onvif.mappings import ONVIF_NAMESPACE_MAP
 from onvif.utils.error_handlers import safe_call
 from onvif.utils.exceptions import ONVIFOperationException
 
@@ -324,7 +324,9 @@ class ONVIFDiscovery:
                 if client.services:
                     for service in client.services:
                         namespace = getattr(service, "Namespace", "")
-                        service_mappings = ONVIF_NAMESPACE_MAP.get(namespace, [])
+                        service_mappings: tuple[tuple[str, str], ...] = (
+                            ONVIF_NAMESPACE_MAP.get(namespace, ())
+                        )
 
                         if not service_mappings:
                             # Unknown namespace
