@@ -9,6 +9,8 @@ import pytest
 from onvif.cli.interactive.context import ShellContext
 from onvif.cli.interactive.reference import ReferenceCommands
 
+from .conftest import strip_ansi
+
 
 def create_context(**overrides):
     """Create a mocked shell context with sensible defaults."""
@@ -193,7 +195,7 @@ class TestReferenceCommandsStore:
 
         commands.do_store("result")
 
-        output = capsys.readouterr().out
+        output = strip_ansi(capsys.readouterr().out)
 
         assert "Stored result as:" in output
         assert "$result" in output
@@ -209,7 +211,7 @@ class TestReferenceCommandsStore:
 
         commands.do_store("profiles")
 
-        output = capsys.readouterr().out
+        output = strip_ansi(capsys.readouterr().out)
 
         assert "Stored result as:" in output
         assert "$profiles" in output
@@ -250,7 +252,7 @@ class TestReferenceCommandsShow:
 
         commands.do_show("")
 
-        output = capsys.readouterr().out
+        output = strip_ansi(capsys.readouterr().out)
 
         assert "$profiles" in output
         assert "media.GetProfiles()" in output
@@ -265,7 +267,7 @@ class TestReferenceCommandsShow:
 
         commands.do_show("")
 
-        output = capsys.readouterr().out
+        output = strip_ansi(capsys.readouterr().out)
 
         assert "$result" in output
         assert "unknown.unknown()" in output

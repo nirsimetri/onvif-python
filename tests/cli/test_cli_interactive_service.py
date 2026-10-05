@@ -11,6 +11,8 @@ from zeep.exceptions import Fault, TransportError
 from onvif.cli.interactive.service import ServiceCommands
 from onvif.utils.exceptions import ONVIFOperationException
 
+from .conftest import strip_ansi
+
 
 def create_args(**overrides):
     """Create mocked CLI arguments."""
@@ -369,11 +371,11 @@ class TestServiceCommandsDescription:
         ):
             commands.do_desc("KnownMethod")
 
-        captured = capsys.readouterr()
+        captured = strip_ansi(capsys.readouterr().out)
 
-        assert "Description for devicemgmt.KnownMethod():" in captured.out
-        assert "Retrieve device information." in captured.out
-        assert "Returns manufacturer details." in captured.out
+        assert "Description for devicemgmt.KnownMethod():" in captured
+        assert "Retrieve device information." in captured
+        assert "Returns manufacturer details." in captured
 
     def test_desc_displays_required_and_optional_arguments(self, capsys):
         """Verify desc displays required and optional arguments."""
@@ -419,10 +421,10 @@ class TestServiceCommandsDescription:
         ):
             commands.do_desc("KnownMethod")
 
-        captured = capsys.readouterr()
+        captured = strip_ansi(capsys.readouterr().out)
 
-        assert "Description for devicemgmt.KnownMethod():" in captured.out
-        assert len(captured.out.splitlines()) > 2
+        assert "Description for devicemgmt.KnownMethod():" in captured
+        assert len(captured.splitlines()) > 2
 
     def test_complete_desc_without_service(self):
         """Verify desc completion returns nothing outside service mode."""
@@ -589,16 +591,16 @@ class TestServiceCommandsType:
         ):
             commands.do_type("TestMethod")
 
-        captured = capsys.readouterr()
+        captured = strip_ansi(capsys.readouterr().out)
 
-        assert "+RequiredParam" not in captured.out
-        assert "-RequiredParam" in captured.out
-        assert "[string]" in captured.out
-        assert "required" in captured.out
-        assert "OptionalParam" in captured.out
-        assert "optional" in captured.out
-        assert "ListParam" in captured.out
-        assert "unbounded" in captured.out
+        assert "+RequiredParam" not in captured
+        assert "-RequiredParam" in captured
+        assert "[string]" in captured
+        assert "required" in captured
+        assert "OptionalParam" in captured
+        assert "optional" in captured
+        assert "ListParam" in captured
+        assert "unbounded" in captured
 
     def test_type_displays_attributes(self, capsys):
         """Verify attributes use the plus prefix and required occurrence."""
@@ -634,11 +636,11 @@ class TestServiceCommandsType:
         ):
             commands.do_type("TestMethod")
 
-        captured = capsys.readouterr()
+        captured = strip_ansi(capsys.readouterr().out)
 
-        assert "+OptionalAttribute" in captured.out
-        assert "+RequiredAttribute" in captured.out
-        assert "required" in captured.out
+        assert "+OptionalAttribute" in captured
+        assert "+RequiredAttribute" in captured
+        assert "required" in captured
 
     def test_type_displays_nested_parameters(self, capsys):
         """Verify nested parameters use tree-style formatting."""

@@ -10,6 +10,8 @@ import pytest
 
 from onvif.cli.interactive.utils import ShellUtilities
 
+from .conftest import strip_ansi
+
 
 def create_args(**overrides):
     """Create mocked CLI arguments."""
@@ -349,7 +351,7 @@ class TestShellUtilitiesSuggestions:
         ):
             suggestions = utilities.get_suggestions("med")
 
-        assert suggestions == ["Media"]
+        assert [strip_ansi(item) for item in suggestions] == ["Media"]
 
     def test_get_suggestions_in_service_mode(self):
         """Verify that service methods are suggested in service mode."""

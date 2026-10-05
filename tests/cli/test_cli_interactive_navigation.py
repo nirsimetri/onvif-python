@@ -5,6 +5,8 @@ from unittest.mock import MagicMock, patch
 
 from onvif.cli.interactive.navigation import NavigationCommands
 
+from .conftest import strip_ansi
+
 
 def create_args(**overrides):
     """Create mocked CLI arguments."""
@@ -483,7 +485,7 @@ class TestNavigationCommandsEnterService:
         ):
             commands.do_enter_service("devicemgmt")
 
-        output = capsys.readouterr().out
+        output = strip_ansi(capsys.readouterr().out)
 
         assert "Entered service:" in output
         assert "devicemgmt" in output
