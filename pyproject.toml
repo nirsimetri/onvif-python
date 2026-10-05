@@ -99,7 +99,10 @@ exclude = [
 ]
 
 [tool.setuptools.package-data]
-onvif = ["wsdl/*", "db/*"]
+onvif = [
+    "wsdl/**/*",
+    "db/**/*",
+]
 
 [tool.black]
 line-length = 88
