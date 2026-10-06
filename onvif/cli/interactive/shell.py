@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import cmd
-import os
 import sys
 from argparse import Namespace
 from datetime import date
