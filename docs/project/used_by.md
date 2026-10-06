@@ -1,4 +1,4 @@
-With <a href="https://pepy.tech/projects/onvif-python"><img src="https://img.shields.io/pepy/dt/onvif-python?label=Total Downloads&color=red&style=plastic" alt="Total Downloads" style="vertical-align: -3.5px;"></a>, the `onvif-python` library is already being used by several well-known open-source projects, including:
+With <a href="https://pepy.tech/projects/onvif-python" class="no-external-icon"><img src="https://img.shields.io/pepy/dt/onvif-python?label=Total Downloads&color=red&style=plastic" alt="Total Downloads" style="vertical-align: -3.5px;"></a>, the `onvif-python` library is already being used by several well-known open-source projects, including:
 
 ## Viseron
 

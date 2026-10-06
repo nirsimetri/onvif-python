@@ -1,6 +1,6 @@
 ## Stay tuned and star ⭐ this repo
 
-[![GitHub stars](https://img.shields.io/github/stars/nirsimetri/onvif-python?style=social)](https://github.com/nirsimetri/onvif-python)
+[![GitHub stars](https://img.shields.io/github/stars/nirsimetri/onvif-python?style=social)](https://github.com/nirsimetri/onvif-python){ .no-external-icon }
 
 - [x] Add debugging mode with raw xml on SOAP requests and responses ([`v0.0.6`](../releases.md/#v0.0.6))
 - [x] Add functionality for `ONVIFClient` to accept a custom `wsdl_dir` ([`v0.1.0`](../releases.md/#v0.1.0))

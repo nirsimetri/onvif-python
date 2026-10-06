@@ -25,14 +25,10 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 <table>
   <tr>
     <td width="35%">
-      <a href="https://github.com/nirsimetri/onvif-python">
         <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png" />
-      </a>
     </td>
     <td width="65%">
-        <a href="https://github.com/nirsimetri/onvif-python">
         <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_operations.png" />
-        </a>
     </td>
   </tr>
   <tr>
