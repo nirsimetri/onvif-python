@@ -1,5 +1,7 @@
 """Information commands implementation."""
 
+from __future__ import annotations
+
 import cmd
 from typing import Callable
 
@@ -30,11 +32,11 @@ class InformationCommands:
         else:
             print(INTERACTIVE_HELP)
 
-    def do_shortcuts(self, _line):
+    def do_shortcuts(self, _line) -> None:
         """Show available shortcuts."""
         print(INTERACTIVE_SHORTCUTS)
 
-    def do_info(self, _line):
+    def do_info(self, _line) -> None:
         """Show connection and device information."""
         # Build connection and CLI options info
         options_info = []
@@ -92,7 +94,7 @@ class InformationCommands:
         )
         print()  # Extra newline for spacing
 
-    def do_capabilities(self, _line):
+    def do_capabilities(self, _line) -> None:
         """Show device capabilities in service format."""
         try:
             if (
@@ -120,11 +122,11 @@ class InformationCommands:
             else:
                 print(f"{colorize('Error:', 'red')} {e}")
 
-    def do_caps(self, line):
+    def do_caps(self, line) -> None:
         """Show device capabilities (alias for 'capabilities')"""
         return self.do_capabilities(line)
 
-    def do_services(self, _line):
+    def do_services(self, _line) -> None:
         """Show available ONVIF services in service format."""
         try:
             if (
@@ -152,7 +154,7 @@ class InformationCommands:
             else:
                 print(f"{colorize('Error:', 'red')} {e}")
 
-    def do_debug(self, _line):
+    def do_debug(self, _line) -> None:
         """Show debug information."""
         if self.context.client.xml_plugin:
             if self.context.last_method and self.context.last_operation_timestamp:

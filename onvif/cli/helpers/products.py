@@ -1,5 +1,7 @@
 """ONVIF products search helpers."""
 
+from __future__ import annotations
+
 import os
 import shutil
 import sqlite3

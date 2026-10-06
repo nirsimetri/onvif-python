@@ -1,5 +1,8 @@
 """ONVIF Interactive Shell context."""
 
+from __future__ import annotations
+
+from argparse import Namespace
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
@@ -14,7 +17,7 @@ class ShellContext:  # pylint: disable=too-many-instance-attributes
     UNSET = object()
 
     client: ONVIFClient
-    args: object
+    args: Namespace
 
     current_service: object | None = None
     current_service_name: str | None = None

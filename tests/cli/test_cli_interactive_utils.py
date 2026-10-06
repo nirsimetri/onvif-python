@@ -281,14 +281,16 @@ class TestShellUtilitiesPrintTopics:
         display_grid.assert_not_called()
         assert result is None
 
-    def test_print_topics_writes_nonempty_header(self):
-        """Verify that a nonempty header is written to stdout."""
+    def test_print_topics_writes_nonempty_header(self, capsys):
+        """Verify that a nonempty header is printed to stdout."""
         utilities = create_utilities()
 
         with patch.object(utilities, "_display_grid") as display_grid:
             utilities.print_topics("Commands", ["help", "exit"], 10, 2)
 
-        utilities.stdout.write.assert_called_once_with("Commands\n")
+        captured = capsys.readouterr()
+
+        assert captured.out == "Commands\n\n"
         display_grid.assert_called_once_with(["help", "exit"])
 
     def test_print_topics_ignores_whitespace_header(self):
@@ -585,10 +587,11 @@ class TestShellUtilitiesHealthCheck:
         ssl_context.wrap_socket.return_value = tls_socket
 
         with (
+            # pylint: disable=redefined-outer-name
             patch(
                 "onvif.cli.interactive.utils.ssl.create_default_context",
                 return_value=ssl_context,
-            ) as create_context,  # pylint: disable=redefined-outer-name
+            ) as create_context,
             patch(
                 "onvif.cli.interactive.utils.socket.socket",
                 return_value=raw_socket,

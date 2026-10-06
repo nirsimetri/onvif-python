@@ -1,5 +1,7 @@
 """Service commands implementation."""
 
+from __future__ import annotations
+
 import cmd
 import textwrap
 import traceback
@@ -31,7 +33,7 @@ class ServiceCommands(cmd.Cmd):
     _handle_connection_error: Callable[..., None]
     _split_multi_commands: Callable[[str], list]
 
-    def execute_service_method(self, method_name, params_str):
+    def execute_service_method(self, method_name: str, params_str: str) -> None:
         """Execute a method on the current service."""
         if not self.context.current_service:
             print(f"{colorize('Error:', 'red')} Not in service mode")
@@ -50,7 +52,7 @@ class ServiceCommands(cmd.Cmd):
             )
             if len(available_methods) > 5:
                 print(
-                    f"Type {colorize('ls', 'cyan')}/press "
+                    f"Type {colorize('ls', 'cyan')} or press "
                     f"{colorize('<TAB>', 'yellow')} to see all available methods"
                 )
             return
@@ -90,7 +92,7 @@ class ServiceCommands(cmd.Cmd):
                     if not is_soap_fault and not isinstance(e, TypeError):
                         traceback.print_exc()
 
-    def do_desc(self, line):
+    def do_desc(self, line) -> None:
         """Describes a method from its WSDL documentation.
 
         Usage: desc <method_name>
@@ -145,15 +147,8 @@ class ServiceCommands(cmd.Cmd):
                 f"No documentation or parameter info found for method '{method_name}'."
             )
 
-    def complete_desc(self, text, _line, _begidx, _endidx):
-        """Autocomplete method names for desc command."""
-        if not self.context.current_service:
-            return []
-        methods = get_service_methods(self.context.current_service)
-        return [m for m in methods if m.lower().startswith(text.lower())]
-
     # pylint: disable=too-many-branches,too-many-statements
-    def do_type(self, line):
+    def do_type(self, line) -> None:
         """Show input and output types for a method.
 
         Usage: type <method_name>
@@ -317,7 +312,14 @@ class ServiceCommands(cmd.Cmd):
                 f"Could not retrieve type information for '{method_name}'."
             )
 
-    def complete_type(self, text, _line, _begidx, _endidx):
+    def complete_desc(self, text, _line, _begidx, _endidx) -> list:
+        """Autocomplete method names for desc command."""
+        if not self.context.current_service:
+            return []
+        methods = get_service_methods(self.context.current_service)
+        return [m for m in methods if m.lower().startswith(text.lower())]
+
+    def complete_type(self, text, _line, _begidx, _endidx) -> list:
         """Autocomplete method names for type command."""
         if not self.context.current_service:
             return []

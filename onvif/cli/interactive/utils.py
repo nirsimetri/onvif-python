@@ -1,5 +1,7 @@
 """ONVIF Interactive Shell utilities."""
 
+from __future__ import annotations
+
 import os
 import shutil
 import socket
@@ -25,25 +27,29 @@ class ShellUtilities:
     stop_health_check: threading.Event
     health_check_thread: threading.Thread
 
-    def _initialize_health_check(self):
+    def _initialize_health_check(self) -> None:
         """Initialize the background health check."""
         self.stop_health_check = threading.Event()
         self.health_check_thread = threading.Thread(
             target=self._periodic_health_check, daemon=True
         )
 
-    def update_prompt(self):
+    def update_prompt(self) -> None:
         """Update command prompt based on current context."""
         if self.context.current_service_name:
             self.prompt = (
-                f"{self.context.args.username}@{self.context.args.host}:{self.context.args.port}"
+                f"{self.context.args.username}@{self.context.args.host}"
+                f":{self.context.args.port}"
                 f"/{self.context.current_service_name} > "
             )
         else:
-            self.prompt = f"{self.context.args.username}@{self.context.args.host}:{self.context.args.port} > "
+            self.prompt = (
+                f"{self.context.args.username}@{self.context.args.host}"
+                f":{self.context.args.port} > "
+            )
 
     # pylint: disable=too-many-locals
-    def _display_grid(self, items):
+    def _display_grid(self, items: list):
         """Display items in grid format matching TAB completion (vertical layout)"""
         if not items:
             return
@@ -116,8 +122,7 @@ class ShellUtilities:
 
         # Print without header if it's empty or whitespace
         if header.strip():
-            # pylint: disable=no-member
-            self.stdout.write(f"{header}\n")
+            print(f"{header}\n")
 
         # Use our grid display for TAB completion with coloring enabled
         self._display_grid(cmds)
@@ -151,8 +156,8 @@ class ShellUtilities:
 
         return suggestions[:5]  # Limit to 5 suggestions
 
-    def completenames(self, text: str, *_ignored) -> list[str]:
-        """Tab completion for command names."""
+    def completenames(self, text: str, *_ignored):
+        """Override completenames for tab completion from command names."""
         if self.context.current_service:
             # Complete method names in service mode
             methods = get_service_methods(self.context.current_service)
@@ -174,7 +179,7 @@ class ShellUtilities:
 
         return completions
 
-    def _periodic_health_check(self):
+    def _periodic_health_check(self) -> None:
         """Periodically checks device connection using TCP or TLS depending on mode."""
         # Get health check interval from args, default to 10 seconds
         health_check_interval = getattr(self.context.args, "health_check_interval", 10)
@@ -183,7 +188,7 @@ class ShellUtilities:
         self.stop_health_check.wait(health_check_interval)
 
         while not self.stop_health_check.is_set():
-            sock = None
+            sock: socket.socket | None = None
             try:
                 # For HTTPS, use ssl.create_connection for proper TLS handling
                 if getattr(self.context.args, "https", False):
@@ -238,7 +243,7 @@ class ShellUtilities:
             # Wait before next check or stop signal
             self.stop_health_check.wait(health_check_interval)
 
-    def _handle_connection_error(self):
+    def _handle_connection_error(self) -> None:
         """Handle connection errors by notifying the user and exiting."""
         print(f"\n{colorize('Connection to device lost.', 'red')}", file=sys.stderr)
         # print(f"{colorize('Error:', 'red')} {e}", file=sys.stderr)
