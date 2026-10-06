@@ -12,6 +12,8 @@ from requests.exceptions import RequestException
 from onvif.cli.interactive.shell import InteractiveShell
 from onvif.utils.exceptions import ONVIFOperationException
 
+from .conftest import strip_ansi
+
 
 def create_args(**overrides):
     """Create mocked CLI arguments."""
@@ -188,11 +190,13 @@ class TestInteractiveShellInitialization:
 
         shell = self._create_shell(client, args, device_data)
 
-        assert "Manufacturer  : Unknown" in shell.context.device_info_text
-        assert "Model         : Unknown" in shell.context.device_info_text
-        assert "Firmware      : Unknown" in shell.context.device_info_text
-        assert "Serial        : Unknown" in shell.context.device_info_text
-        assert "HardwareId    : Unknown" in shell.context.device_info_text
+        output = strip_ansi(shell.context.device_info_text)
+
+        assert "Manufacturer  : Unknown" in output
+        assert "Model         : Unknown" in output
+        assert "Firmware      : Unknown" in output
+        assert "Serial        : Unknown" in output
+        assert "HardwareId    : Unknown" in output
 
     def test_handles_connection_error(self, client, args, device_data):
         """Verify that transport-related ONVIF errors invoke connection handling."""
