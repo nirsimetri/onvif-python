@@ -1,7 +1,10 @@
 """Reference commands implementation."""
 
+from __future__ import annotations
+
 import json
 import re
+from typing import Any
 
 from onvif.cli.utils import colorize
 
@@ -13,7 +16,7 @@ class ReferenceCommands:
 
     context: ShellContext
 
-    def do_store(self, line):
+    def do_store(self, line) -> None:
         """Store last result with a name: store <name>."""
         if not line:
             print("Usage: store <name>")
@@ -61,7 +64,7 @@ class ReferenceCommands:
             f"{colorize(service, 'cyan')}.{colorize(method, 'white')}()"
         )
 
-    def do_show(self, line):
+    def do_show(self, line) -> None:
         """Show stored data: show <name> or show <name>.<attribute> or show
         <name>[index]"""
         if not line:
@@ -101,7 +104,7 @@ class ReferenceCommands:
             r"\$([a-zA-Z_][a-zA-Z0-9_]*(?:\[[0-9]+\])?(?:\.[a-zA-Z_][a-zA-Z0-9_]*)*)"
         )
 
-        def replace_reference(match):
+        def replace_reference(match) -> Any | str:
             reference = match.group(1)
             value = self._resolve_stored_reference(reference)
 
@@ -120,7 +123,7 @@ class ReferenceCommands:
 
         return re.sub(pattern, replace_reference, params_str)
 
-    def _resolve_stored_reference(self, reference: str):
+    def _resolve_stored_reference(self, reference: str) -> Any | None:
         """Resolve stored data reference like 'profiles[0].token' or 'profiles.Token'.
 
         Args:
@@ -171,7 +174,7 @@ class ReferenceCommands:
 
         return current
 
-    def complete_show(self, text, line, _begidx, _endidx):
+    def complete_show(self, text, line, _begidx, _endidx) -> list:
         """Autocomplete stored variable names for show command."""
         # Get the part being completed
         parts = line.split()
@@ -180,7 +183,7 @@ class ReferenceCommands:
             return [name for name in self.context.stored_data if name.startswith(text)]
         return []
 
-    def do_rm(self, line):
+    def do_rm(self, line) -> None:
         """Remove stored data: rm <name>"""
         if not line:
             print("Usage: rm <name>")
@@ -193,11 +196,11 @@ class ReferenceCommands:
         else:
             print(f"{colorize('Error:', 'red')} No stored data named '{line}'")
 
-    def complete_rm(self, text, _line, _begidx, _endidx):
+    def complete_rm(self, text, _line, _begidx, _endidx) -> list:
         """Autocomplete stored variable names for rm command."""
         return [name for name in self.context.stored_data if name.startswith(text)]
 
-    def do_cls(self, _line):
+    def do_cls(self, _line) -> None:
         """Clear stored data."""
         self.context.stored_data.clear()
         self.context.stored_metadata.clear()

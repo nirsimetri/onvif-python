@@ -2,6 +2,7 @@
 """Tests for the ONVIF interactive shell."""
 
 import cmd
+from datetime import date
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
@@ -65,6 +66,18 @@ def create_client():
     return client
 
 
+def create_device_data():
+    """Create device information data as dict."""
+
+    return {
+        "Manufacturer": "Dahua",
+        "Model": "DH-H5D-5F",
+        "FirmwareVersion": "2.860.0000000.26.R",
+        "SerialNumber": "AM08C90PAG3C79B",
+        "HardwareId": "1.00",
+    }
+
+
 class TestInteractiveShellInitialization:
     """Test initialization and startup behavior of ``InteractiveShell``."""
 
@@ -78,44 +91,53 @@ class TestInteractiveShellInitialization:
         """Provide default CLI arguments for initialization tests."""
         return create_args()
 
-    @staticmethod
-    def _create_shell(client, args):
-        with patch("onvif.cli.interactive.utils.threading.Thread"):
-            return InteractiveShell(client, args)
+    @pytest.fixture
+    def device_data(self):
+        """Provide default device info for initialization tests."""
+        return create_device_data()
 
-    def test_initializes_context(self, client, args):
+    @staticmethod
+    def _create_shell(client, args, device_data):
+        with patch("onvif.cli.interactive.utils.threading.Thread"):
+            return InteractiveShell(client, args, device_data)
+
+    def test_initializes_context(self, client, args, device_data):
         """Verify that initialization creates the shared shell context."""
-        shell = self._create_shell(client, args)
+        shell = self._create_shell(client, args, device_data)
 
         assert shell.context.client is client
         assert shell.context.args is args
 
-    def test_initializes_cmd_state(self, client, args):
+    def test_initializes_cmd_state(self, client, args, device_data):
         """Verify that ``cmd.Cmd`` state is initialized."""
-        shell = self._create_shell(client, args)
+        shell = self._create_shell(client, args, device_data)
 
         assert hasattr(shell, "stdin")
         assert hasattr(shell, "stdout")
         assert hasattr(shell, "cmdqueue")
         assert shell.prompt.endswith("> ")
 
-    def test_fetches_device_information(self, client, args):
-        """Verify that device information is requested during initialization."""
-        self._create_shell(client, args)
+    def test_uses_provided_device_information(self, client, args, device_data):
+        """Verify that provided device information is used during initialization."""
+        shell = self._create_shell(client, args, device_data)
 
-        client.devicemgmt.return_value.GetDeviceInformation.assert_called_once_with()
+        assert "Dahua" in shell.context.device_info_text
+        assert "DH-H5D-5F" in shell.context.device_info_text
+        assert "2.860.0000000.26.R" in shell.context.device_info_text
+        assert "AM08C90PAG3C79B" in shell.context.device_info_text
+        assert "1.00" in shell.context.device_info_text
 
-    def test_fetches_supported_onvif_versions(self, client, args):
+    def test_fetches_supported_onvif_versions(self, client, args, device_data):
         """Verify that supported ONVIF versions are requested during initialization."""
-        self._create_shell(client, args)
+        self._create_shell(client, args, device_data)
 
         client.devicemgmt.return_value.GetCapabilities.assert_called_once_with(
             Category="All"
         )
 
-    def test_builds_device_information_text(self, client, args):
+    def test_builds_device_information_text(self, client, args, device_data):
         """Verify that device information is formatted into the shell context."""
-        shell = self._create_shell(client, args)
+        shell = self._create_shell(client, args, device_data)
 
         assert shell.context.device_info_text is not None
         assert "Dahua" in shell.context.device_info_text
@@ -125,13 +147,13 @@ class TestInteractiveShellInitialization:
         assert "1.00" in shell.context.device_info_text
         assert "2.06" in shell.context.device_info_text
 
-    def test_prints_intro_with_device_information(self, client, args):
+    def test_prints_intro_with_device_information(self, client, args, device_data):
         """Verify that the interactive intro receives formatted device information."""
         with patch(
             "onvif.cli.interactive.shell.print_interactive_intro",
             return_value="Interactive ONVIF shell",
         ) as print_intro:
-            shell = self._create_shell(client, args)
+            shell = self._create_shell(client, args, device_data)
 
         print_intro.assert_called_once_with(
             args,
@@ -139,22 +161,22 @@ class TestInteractiveShellInitialization:
         )
         assert shell.intro == "Interactive ONVIF shell"
 
-    def test_starts_health_check_after_initialization(self, client, args):
+    def test_starts_health_check_after_initialization(self, client, args, device_data):
         """Verify that the background health-check thread starts after initialization."""
         with patch("onvif.cli.interactive.utils.threading.Thread") as thread_cls:
             health_thread = thread_cls.return_value
 
-            InteractiveShell(client, args)
+            InteractiveShell(client, args, device_data)
 
         health_thread.start.assert_called_once_with()
 
-    def test_handles_missing_capabilities(self, client, args):
+    def test_handles_missing_capabilities(self, client, args, device_data):
         """Verify that initialization continues when capability data is unavailable."""
         client.devicemgmt.return_value.GetCapabilities.side_effect = KeyError(
             "SupportedVersions"
         )
 
-        shell = self._create_shell(client, args)
+        shell = self._create_shell(client, args, device_data)
 
         assert shell.context.device_info_text is not None
         assert "Dahua" in shell.context.device_info_text
@@ -162,36 +184,380 @@ class TestInteractiveShellInitialization:
 
     def test_handles_missing_device_attributes(self, client, args):
         """Verify that missing device attributes fall back to ``Unknown``."""
-        client.devicemgmt.return_value.GetDeviceInformation.return_value = (
-            SimpleNamespace()
-        )
+        device_data = {}
 
-        shell = self._create_shell(client, args)
+        shell = self._create_shell(client, args, device_data)
 
-        assert "Unknown" in shell.context.device_info_text
+        assert "Manufacturer  : Unknown" in shell.context.device_info_text
+        assert "Model         : Unknown" in shell.context.device_info_text
+        assert "Firmware      : Unknown" in shell.context.device_info_text
+        assert "Serial        : Unknown" in shell.context.device_info_text
+        assert "HardwareId    : Unknown" in shell.context.device_info_text
 
-    def test_handles_connection_error(self, client, args):
+    def test_handles_connection_error(self, client, args, device_data):
         """Verify that transport-related ONVIF errors invoke connection handling."""
-        original_exception = MagicMock()
-
         original_exception = RequestException("Connection failed")
 
-        client.devicemgmt.return_value.GetDeviceInformation.side_effect = (
+        client.devicemgmt.return_value.GetCapabilities.side_effect = (
             ONVIFOperationException(
                 "Connection failed",
                 original_exception=original_exception,
             )
         )
 
-        with (
-            patch.object(
-                InteractiveShell,
-                "_handle_connection_error",
-            ) as handle_connection_error,
-        ):
-            self._create_shell(client, args)
+        with patch.object(
+            InteractiveShell,
+            "_handle_connection_error",
+        ) as handle_connection_error:
+            shell = self._create_shell(client, args, device_data)
 
         handle_connection_error.assert_called_once_with()
+        assert "ONVIF Version" in shell.context.device_info_text
+        assert "Unknown" in shell.context.device_info_text
+
+
+class TestInteractiveShellDeviceInformation:
+    """Test device information formatting."""
+
+    def test_formats_complete_device_information(self):
+        """Verify that all device information fields are formatted."""
+        shell = object.__new__(InteractiveShell)
+
+        device_data = {
+            "Manufacturer": "Dahua",
+            "Model": "DH-H5D-5F",
+            "FirmwareVersion": "2.860",
+            "SerialNumber": "ABC123",
+            "HardwareId": "1.00",
+        }
+
+        result = shell._format_device_information(device_data)
+
+        assert result == {
+            "manufacturer": "Dahua",
+            "model": "DH-H5D-5F",
+            "firmware": "2.860",
+            "serial": "ABC123",
+            "hardware_id": "1.00",
+        }
+
+    def test_formats_missing_device_information(self):
+        """Verify that missing fields fall back to ``Unknown``."""
+        shell = object.__new__(InteractiveShell)
+
+        result = shell._format_device_information({})
+
+        assert result == {
+            "manufacturer": "Unknown",
+            "model": "Unknown",
+            "firmware": "Unknown",
+            "serial": "Unknown",
+            "hardware_id": "Unknown",
+        }
+
+    def test_handles_invalid_device_information(self):
+        """Verify that invalid device data falls back to ``Unknown``."""
+        shell = object.__new__(InteractiveShell)
+
+        class InvalidDeviceData:  # pylint: disable=too-few-public-methods
+            """Device data that raises an error when accessed."""
+
+            def get(self, _key, _default):
+                """ "Get invalid device data."""
+                raise ValueError("Invalid device data")
+
+        result = shell._format_device_information(InvalidDeviceData())
+
+        assert result == {
+            "manufacturer": "Unknown",
+            "model": "Unknown",
+            "firmware": "Unknown",
+            "serial": "Unknown",
+            "hardware_id": "Unknown",
+        }
+
+
+class TestInteractiveShellONVIFVersion:
+    """Test ONVIF version detection and formatting."""
+
+    @staticmethod
+    def _create_shell(client):
+        shell = object.__new__(InteractiveShell)
+        shell.context = MagicMock()
+        shell.context.client = client
+        return shell
+
+    def test_returns_unknown_when_capabilities_raise_onvif_error(self):
+        """Verify that ONVIF operation errors return ``Unknown``."""
+        client = MagicMock()
+        client.devicemgmt.return_value.GetCapabilities.side_effect = (
+            ONVIFOperationException(
+                "Failed to get capabilities", RuntimeError("Failed")
+            )
+        )
+
+        shell = self._create_shell(client)
+
+        assert shell._get_onvif_version() == "Unknown"
+
+    def test_handles_transport_error_from_onvif_error(self):
+        """Verify that transport errors invoke connection handling."""
+        client = MagicMock()
+
+        original_exception = RequestException("Connection failed")
+
+        client.devicemgmt.return_value.GetCapabilities.side_effect = (
+            ONVIFOperationException(
+                "Failed to get capabilities",
+                original_exception=original_exception,
+            )
+        )
+
+        shell = self._create_shell(client)
+
+        with patch.object(
+            shell,
+            "_handle_connection_error",
+        ) as handle_connection_error:
+            result = shell._get_onvif_version()
+
+        assert result == "Unknown"
+        handle_connection_error.assert_called_once_with()
+
+    def test_returns_unknown_for_empty_supported_versions(self):
+        """Verify that an empty version list returns ``Unknown``."""
+        client = MagicMock()
+        client.devicemgmt.return_value.GetCapabilities.return_value = {
+            "Device": {
+                "System": {
+                    "SupportedVersions": [],
+                }
+            }
+        }
+
+        shell = self._create_shell(client)
+
+        assert shell._get_onvif_version() == "Unknown"
+
+    def test_formats_version_without_minor(self):
+        """Verify that versions without a minor component use the major version."""
+        client = MagicMock()
+        client.devicemgmt.return_value.GetCapabilities.return_value = {
+            "Device": {
+                "System": {
+                    "SupportedVersions": [
+                        SimpleNamespace(Major=3, Minor=None),
+                    ]
+                }
+            }
+        }
+
+        shell = self._create_shell(client)
+
+        assert shell._get_onvif_version() == "3"
+
+    def test_returns_unknown_when_major_is_missing(self):
+        """Verify that a version without a major component returns ``Unknown``."""
+        client = MagicMock()
+        client.devicemgmt.return_value.GetCapabilities.return_value = {
+            "Device": {
+                "System": {
+                    "SupportedVersions": [
+                        SimpleNamespace(Major=None, Minor=5),
+                    ]
+                }
+            }
+        }
+
+        shell = self._create_shell(client)
+
+        assert shell._get_onvif_version() == "Unknown"
+
+    def test_formats_version_with_release_date(self):
+        """Verify that a known ONVIF version includes its release date."""
+        client = MagicMock()
+        client.devicemgmt.return_value.GetCapabilities.return_value = {
+            "Device": {
+                "System": {
+                    "SupportedVersions": [
+                        SimpleNamespace(Major=2, Minor=60),
+                    ]
+                }
+            }
+        }
+
+        shell = self._create_shell(client)
+
+        with patch.object(
+            shell,
+            "_is_latest_released_version",
+            return_value=False,
+        ):
+            result = shell._get_onvif_version()
+
+        assert result.startswith("2.60 (")
+        assert "[Latest]" not in result
+
+    def test_formats_latest_version(self):
+        """Verify that the latest released version includes the latest marker."""
+        client = MagicMock()
+        client.devicemgmt.return_value.GetCapabilities.return_value = {
+            "Device": {
+                "System": {
+                    "SupportedVersions": [
+                        SimpleNamespace(Major=2, Minor=60),
+                    ]
+                }
+            }
+        }
+
+        shell = self._create_shell(client)
+
+        with patch.object(
+            shell,
+            "_is_latest_released_version",
+            return_value=True,
+        ):
+            result = shell._get_onvif_version()
+
+        assert result.startswith("2.60 (")
+        assert "[Latest]" in result
+
+    def test_formats_unknown_version_without_release_date(self):
+        """Verify that an unknown ONVIF version has no release-date suffix."""
+        client = MagicMock()
+        client.devicemgmt.return_value.GetCapabilities.return_value = {
+            "Device": {
+                "System": {
+                    "SupportedVersions": [
+                        SimpleNamespace(Major=9, Minor=99),
+                    ]
+                }
+            }
+        }
+
+        shell = self._create_shell(client)
+
+        assert shell._get_onvif_version() == "9.99"
+
+    def test_selects_highest_supported_version(self):
+        """Verify that the highest major/minor version is selected."""
+        client = MagicMock()
+        client.devicemgmt.return_value.GetCapabilities.return_value = {
+            "Device": {
+                "System": {
+                    "SupportedVersions": [
+                        SimpleNamespace(Major=2, Minor=0),
+                        SimpleNamespace(Major=1, Minor=99),
+                        SimpleNamespace(Major=2, Minor=6),
+                        SimpleNamespace(Major=2, Minor=5),
+                    ]
+                }
+            }
+        }
+
+        shell = self._create_shell(client)
+
+        with patch.object(
+            shell,
+            "_is_latest_released_version",
+            return_value=False,
+        ):
+            result = shell._get_onvif_version()
+
+        assert result.startswith("2.06")
+
+
+class TestInteractiveShellLatestVersion:
+    """Test latest released ONVIF version detection."""
+
+    def test_returns_true_for_latest_released_version(self):
+        """Verify that the latest released version is detected."""
+        shell = object.__new__(InteractiveShell)
+
+        with patch(
+            "onvif.cli.interactive.shell.date",
+            wraps=date,
+        ) as mock_date:
+            mock_date.today.return_value = date(2026, 10, 6)
+
+            assert shell._is_latest_released_version(date(2026, 6, 1))
+
+    def test_returns_false_for_older_released_version(self):
+        """Verify that an older released version is not considered latest."""
+        shell = object.__new__(InteractiveShell)
+
+        with patch(
+            "onvif.cli.interactive.shell.ONVIF_VERSION_MAP",
+            {
+                (2, 5): date(2025, 1, 1),
+                (2, 6): date(2026, 6, 1),
+            },
+        ):
+            with patch("onvif.cli.interactive.shell.date") as mock_date:
+                mock_date.today.return_value = date(2026, 10, 6)
+
+                assert not shell._is_latest_released_version(date(2025, 1, 1))
+
+    def test_returns_false_for_future_release(self):
+        """Verify that a future release is not considered the latest."""
+        shell = object.__new__(InteractiveShell)
+
+        with patch("onvif.cli.interactive.shell.date") as mock_date:
+            mock_date.today.return_value = date(2026, 10, 6)
+
+            assert not shell._is_latest_released_version(date(2026, 12, 1))
+
+    def test_returns_false_when_no_version_has_been_released(self):
+        """Verify that no released versions results in ``False``."""
+        shell = object.__new__(InteractiveShell)
+
+        with patch(
+            "onvif.cli.interactive.shell.ONVIF_VERSION_MAP",
+            {
+                (2, 7): date(2027, 1, 1),
+            },
+        ):
+            with patch("onvif.cli.interactive.shell.date") as mock_date:
+                mock_date.today.return_value = date(2026, 10, 6)
+
+                assert not shell._is_latest_released_version(date(2027, 1, 1))
+
+    def test_returns_true_for_december_release(self):
+        """Verify that the December release is latest in December."""
+        shell = object.__new__(InteractiveShell)
+
+        with patch(
+            "onvif.cli.interactive.shell.date",
+            wraps=date,
+        ) as mock_date:
+            mock_date.today.return_value = date(2026, 12, 1)
+
+            assert shell._is_latest_released_version(date(2026, 12, 1))
+
+    def test_returns_true_for_june_release(self):
+        """Verify that the June release is latest from June through November."""
+        shell = object.__new__(InteractiveShell)
+
+        with patch(
+            "onvif.cli.interactive.shell.date",
+            wraps=date,
+        ) as mock_date:
+            mock_date.today.return_value = date(2026, 10, 6)
+
+            assert shell._is_latest_released_version(date(2026, 6, 1))
+
+    def test_returns_true_for_previous_december_release(self):
+        """Verify that the previous December release is latest before June."""
+        shell = object.__new__(InteractiveShell)
+
+        with patch(
+            "onvif.cli.interactive.shell.date",
+            wraps=date,
+        ) as mock_date:
+            mock_date.today.return_value = date(2026, 3, 1)
+
+            assert shell._is_latest_released_version(date(2025, 12, 1))
 
 
 class TestInteractiveShellPrompt:

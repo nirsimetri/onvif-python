@@ -380,6 +380,7 @@ ONVIF_NAMESPACE_MAP: Final[dict[str, tuple[tuple[str, str], ...]]] = {
 }
 
 ONVIF_VERSION_MAP: Final[dict[tuple[int, int], date]] = {
+    # 2008–2015 only
     (1, 0): date(2008, 11, 1),
     (1, 10): date(2009, 7, 1),
     (1, 20): date(2010, 6, 1),
@@ -395,25 +396,5 @@ ONVIF_VERSION_MAP: Final[dict[tuple[int, int], date]] = {
     (2, 50): date(2014, 12, 1),
     (2, 60): date(2015, 6, 1),
     (2, 61): date(2015, 12, 1),
-    (16, 6): date(2016, 6, 1),
-    (16, 12): date(2016, 12, 1),
-    (17, 6): date(2017, 6, 1),
-    (17, 12): date(2017, 12, 1),
-    (18, 6): date(2018, 6, 1),
-    (18, 12): date(2018, 12, 1),
-    (19, 6): date(2019, 6, 1),
-    (19, 12): date(2019, 12, 1),
-    (20, 6): date(2020, 6, 1),
-    (20, 12): date(2020, 12, 1),
-    (21, 6): date(2021, 6, 1),
-    (21, 12): date(2021, 12, 1),
-    (22, 6): date(2022, 6, 1),
-    (22, 12): date(2022, 12, 1),
-    (23, 6): date(2023, 6, 1),
-    (23, 12): date(2023, 12, 1),
-    (24, 6): date(2024, 6, 1),
-    (24, 12): date(2024, 12, 1),
-    (25, 6): date(2025, 6, 1),
-    (25, 12): date(2025, 12, 1),
-    (26, 6): date(2026, 6, 1),
+    # Modern version (2016 +) will use the {Year}.{Month} format.
 }

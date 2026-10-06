@@ -1,5 +1,7 @@
 """ONVIF WSDL parser helpers."""
 
+from __future__ import annotations
+
 import inspect
 import os
 import re
@@ -37,7 +39,9 @@ class OperationTypeInfo(TypedDict):
 
 
 # pylint: disable=too-many-locals,too-many-statements,too-many-branches
-def get_method_documentation(service_obj, method_name: str) -> dict[str, Any] | None:
+def get_method_documentation(
+    service_obj: Any, method_name: str
+) -> dict[str, Any] | None:
     """Extracts documentation from WSDL and parameters from the Python method signature.
 
     Returns a dictionary with 'doc', 'required', and 'optional' keys.
@@ -171,7 +175,7 @@ def get_method_documentation(service_obj, method_name: str) -> dict[str, Any] | 
 
 
 def get_operation_type_info(
-    service_obj, operation_name: str
+    service_obj: Any, operation_name: str
 ) -> OperationTypeInfo | None:
     """Extract input and output message types from WSDL for a given operation.
 

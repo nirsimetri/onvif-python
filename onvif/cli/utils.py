@@ -151,7 +151,7 @@ def get_service_required_args(service_name: str) -> list[str] | None:
     return None
 
 
-def get_service_methods(service_obj) -> list:
+def get_service_methods(service_obj: object) -> list:
     """Get list of available methods for a service."""
     methods = []
     for attr_name in dir(service_obj):
@@ -211,7 +211,7 @@ def colorize(text: str, color: str) -> str:
 
 
 def format_capabilities_as_services(capabilities) -> str:
-    """Format capabilities response as service list with XAddr."""
+    """Format GetCapabilities response as service list with XAddr."""
     services = []
 
     # Map of capability names to service function names
@@ -289,7 +289,7 @@ def format_capabilities_as_services(capabilities) -> str:
     return f"{colorize('No services found in capabilities', 'yellow')}"
 
 
-def format_services_list(services_list) -> str:
+def format_services_list(services_list: list) -> str:
     """Format GetServices response as service list with XAddr and binding support.
 
     Shows binding information for all services (single and multi-binding).

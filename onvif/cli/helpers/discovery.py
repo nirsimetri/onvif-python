@@ -1,5 +1,7 @@
 """ONVIF discovery helpers."""
 
+from __future__ import annotations
+
 from datetime import datetime
 
 from onvif.cli.utils import colorize
@@ -145,7 +147,7 @@ def _print_optional_field(
     print(f"    [{label}] {value}")
 
 
-def _process_device_selection(protocol, devices):
+def _process_device_selection(protocol: str, devices: list) -> tuple | None:
     """Simple selection (without arrow keys for cross-platform compatibility)"""
     while True:
         try:

@@ -1,7 +1,9 @@
 """Navigation commands implementation."""
 
+from __future__ import annotations
+
 import traceback
-from typing import Callable
+from typing import Any, Callable
 
 from onvif.cli.utils import (
     colorize,
@@ -19,9 +21,10 @@ class NavigationCommands:
 
     context: ShellContext
     _display_grid: Callable[..., None]
+    _resolve_stored_reference: Callable[[str], Any | None]
     update_prompt: Callable[[], None]
 
-    def do_ls(self, _line):
+    def do_ls(self, _line) -> None:
         """List available commands/services like TAB completion."""
         if self.context.current_service:
             # In service mode - show available methods
@@ -45,7 +48,7 @@ class NavigationCommands:
             else:
                 print("No commands available")
 
-    def do_cd(self, line):
+    def do_cd(self, line) -> None:
         """Change to service directory (alias for entering service)"""
         if not line:
             print("Usage: cd <service_name>")
@@ -55,12 +58,12 @@ class NavigationCommands:
             return None
         return self.do_enter_service(line)
 
-    def complete_cd(self, text, _line, _begidx, _endidx):
+    def complete_cd(self, text, _line, _begidx, _endidx) -> list:
         """Autocomplete service names for cd command."""
         services = get_device_available_services(self.context.client)
         return [s for s in services if s.lower().startswith(text.lower())]
 
-    def do_up(self, _line):
+    def do_up(self, _line) -> None:
         """Exit current service mode (go up one level)"""
         if self.context.current_service:
             print(
@@ -74,7 +77,7 @@ class NavigationCommands:
             print("Not in service mode")
 
     # pylint: disable=too-many-locals,too-many-branches,too-many-statements
-    def do_enter_service(self, line):
+    def do_enter_service(self, line) -> None:
         """Enter service mode with optional arguments for services that require them."""
         # Parse service name and arguments
         parts = line.split(None, 1)
@@ -168,8 +171,8 @@ class NavigationCommands:
                     f"and {colorize(f'{len(methods) - 10} more.', 'yellow')}"
                 )
                 print(
-                    f"Type {colorize('ls', 'cyan')}/press "
-                    f"<{colorize('TAB', 'yellow')}> to see all."
+                    f"Type {colorize('ls', 'cyan')} or press "
+                    f"{colorize('<TAB>', 'yellow')} to see all."
                 )
             else:
                 print(f"{colorize('Available methods:', 'yellow')} {methods_preview}")
@@ -180,6 +183,6 @@ class NavigationCommands:
             if self.context.args.debug:
                 traceback.print_exc()
 
-    def do_exit_service(self, line):
+    def do_exit_service(self, line) -> None:
         """Exit current service mode (alias for 'up')"""
         return self.do_up(line)
