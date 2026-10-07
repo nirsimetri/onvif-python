@@ -9,7 +9,6 @@ from onvif.utils.exceptions import ONVIFOperationException
 from onvif.utils.service import ONVIFService, _is_zeep_object
 
 
-# pylint: disable=invalid-name
 class TestService(ONVIFService):
     """Concrete test implementation of ONVIFService."""
 
@@ -37,7 +36,7 @@ class TestService(ONVIFService):
         return "private"
 
 
-# pylint: disable=invalid-name,unnecessary-pass
+# pylint: disable=unnecessary-pass
 class DescriptionService(ONVIFService):
     """Concrete test implementation of ONVIFService with method documentation."""
 
@@ -289,7 +288,7 @@ class TestZeepObjectConversion:
         """Test that AttributeError raised during Zeep object conversion is wrapped in
         ONVIFOperationException."""
 
-        class Params:  # pylint: disable=too-few-public-methods
+        class Params:
             """Mock Zeep object with _xsd_type.elements that raises AttributeError."""
 
             _xsd_type = SimpleNamespace(elements=[("Missing", object())])

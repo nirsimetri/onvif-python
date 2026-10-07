@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class AccessControl(ONVIFService):
     """AccessControl service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.3 (May 2013) |
     | **Binding name** | `PACSBinding` (`ver10/pacs/accesscontrol.wsdl`) |
-    | **Operations** | [accesscontrol.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/accesscontrol.wsdl) |
-    | **Specification** | [AccessControl.xml](https://developer.onvif.org/pub/specs/branches/development/doc/AccessControl.xml) |
+    | **Operations** | [accesscontrol.wsdl](https://www.onvif.org/ver10/pacs/accesscontrol.wsdl) |
+    | **Spec** | [AccessControl](https://www.onvif.org/specs/srv/access/ONVIF-AccessControl-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

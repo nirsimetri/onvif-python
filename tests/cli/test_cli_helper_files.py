@@ -77,7 +77,7 @@ class TestSerializeForJson:
     def test_regular_object(self):
         """Test serialization of a regular object."""
 
-        class Camera:  # pylint: disable=too-few-public-methods
+        class Camera:
             """Simple camera object for serialization testing."""
 
             def __init__(self):
@@ -95,7 +95,7 @@ class TestSerializeForJson:
     def test_regular_object_nested(self):
         """Test serialization of a regular object with nested values."""
 
-        class Camera:  # pylint: disable=too-few-public-methods
+        class Camera:
             """Simple camera object with nested settings."""
 
             def __init__(self):
@@ -118,7 +118,7 @@ class TestSerializeForJson:
     def test_regular_object_uses_dir_when_dict_empty(self):
         """Test serialization using public attributes when __dict__ is empty."""
 
-        class Camera:  # pylint: disable=too-few-public-methods
+        class Camera:
             """Camera object exposing a property instead of instance attributes."""
 
             @property
@@ -135,7 +135,7 @@ class TestSerializeForJson:
     def test_regular_object_skips_callable_attributes(self):
         """Test that callable attributes are excluded from serialization."""
 
-        class Camera:  # pylint: disable=too-few-public-methods
+        class Camera:
             """Camera object containing a callable attribute."""
 
             def __init__(self):
@@ -154,7 +154,7 @@ class TestSerializeForJson:
     def test_zeep_object(self):
         """Test serialization of a Zeep-like object."""
 
-        class ZeepObject:  # pylint: disable=too-few-public-methods
+        class ZeepObject:
             """Simple object that mimics a Zeep object."""
 
             _xsd_type = type(
@@ -181,7 +181,7 @@ class TestSerializeForJson:
     def test_zeep_object_nested(self):
         """Test serialization of a nested Zeep-like object."""
 
-        class Profile:  # pylint: disable=too-few-public-methods
+        class Profile:
             """Simple profile object that mimics a Zeep object."""
 
             _xsd_type = type(
@@ -200,7 +200,7 @@ class TestSerializeForJson:
 
         profile = Profile()
 
-        class Camera:  # pylint: disable=too-few-public-methods
+        class Camera:
             """Simple camera object containing a nested profile."""
 
             _xsd_type = type(
@@ -225,7 +225,7 @@ class TestSerializeForJson:
     def test_zeep_object_skips_missing_element(self):
         """Test that missing Zeep elements are skipped."""
 
-        class ZeepObject:  # pylint: disable=too-few-public-methods
+        class ZeepObject:
             """Simple Zeep-like object with a missing element."""
 
             _xsd_type = type(
@@ -250,7 +250,7 @@ class TestSerializeForJson:
     def test_zeep_object_skips_none_element(self):
         """Test that Zeep elements with None values are skipped."""
 
-        class ZeepObject:  # pylint: disable=too-few-public-methods
+        class ZeepObject:
             """Simple Zeep-like object containing a None element."""
 
             _xsd_type = type(
@@ -270,7 +270,7 @@ class TestSerializeForJson:
     def test_zeep_object_includes_regular_attributes(self):
         """Test that regular attributes are included with Zeep elements."""
 
-        class ZeepObject:  # pylint: disable=too-few-public-methods
+        class ZeepObject:
             """Simple Zeep-like object with an additional attribute."""
 
             _xsd_type = type(
@@ -294,7 +294,7 @@ class TestSerializeForJson:
     def test_zeep_object_does_not_duplicate_xsd_element(self):
         """Test that XSD elements are not duplicated as regular attributes."""
 
-        class ZeepObject:  # pylint: disable=too-few-public-methods
+        class ZeepObject:
             """Simple Zeep-like object with an XSD element."""
 
             _xsd_type = type(
@@ -316,7 +316,7 @@ class TestSerializeForJson:
     def test_value_1(self):
         """Test serialization of an object containing _value_1."""
 
-        class ZeepValue:  # pylint: disable=too-few-public-methods
+        class ZeepValue:
             """Simple object containing a Zeep _value_1 attribute."""
 
             __slots__ = ("_value_1",)
@@ -335,7 +335,7 @@ class TestSerializeForJson:
     def test_value_1_nested(self):
         """Test serialization of nested values stored in _value_1."""
 
-        class ZeepValue:  # pylint: disable=too-few-public-methods
+        class ZeepValue:
             """Simple object containing nested Zeep values."""
 
             __slots__ = ("_value_1",)
@@ -354,7 +354,7 @@ class TestSerializeForJson:
     def test_fallback_to_vars(self):
         """Test fallback serialization for objects without serializable attributes."""
 
-        class CustomObject:  # pylint: disable=too-few-public-methods
+        class CustomObject:
             """Simple object that falls back to string conversion."""
 
             __slots__ = ()
@@ -621,7 +621,6 @@ class TestSaveOutputToFileText:
         assert "SOAP Response:" not in content
 
 
-# pylint: disable=too-few-public-methods
 class TestSaveOutputToFileExtensionHandling:
     """Tests for output file extension handling."""
 

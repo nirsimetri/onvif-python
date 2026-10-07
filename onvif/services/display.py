@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Display(ONVIFService):
     """Display service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | -------- | ------- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
     | **Binding name** | `DisplayBinding` (`ver10/display.wsdl`) |
-    | **Operations** | [display.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/display.wsdl) |
-    | **Specification** | [Display.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Display.xml) |
+    | **Operations** | [display.wsdl](https://www.onvif.org/ver10/display.wsdl) |
+    | **Spec** | [Display](https://www.onvif.org/specs/srv/disp/ONVIF-Display-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

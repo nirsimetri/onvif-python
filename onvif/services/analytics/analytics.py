@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Analytics(ONVIFService):
     """Analytics service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.41 (December 2013) |
     | **Binding name** | `AnalyticsEngineBinding` (`ver20/analytics/wsdl/analytics.wsdl`) |
-    | **Operations** | [analytics.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/wsdl/analytics.wsdl) |
-    | **Specification** | [Analytics.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Analytics.xml) |
+    | **Operations** | [analytics.wsdl](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl) |
+    | **Spec** | [Analytics](https://www.onvif.org/specs/srv/analytics/ONVIF-Analytics-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

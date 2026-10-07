@@ -37,7 +37,7 @@ class ReferenceCommands:
             )
             return
 
-        UNSET = object()  # pylint: disable=invalid-name
+        UNSET = object()
 
         if self.context.last_result is UNSET:
             print(f"{colorize('Error:', 'red')} No result to store")

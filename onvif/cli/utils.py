@@ -22,7 +22,7 @@ def _is_valid_json(s: str) -> bool:
     return True
 
 
-# pylint: disable=too-many-statements,too-many-branches
+# pylint: disable=too-many-branches
 def parse_json_params(params_str: str) -> dict[str, Any]:
     """Parse parameters from a JSON string or key=value pairs into a dict.
 
@@ -352,7 +352,7 @@ def format_services_list(services_list: list) -> str:
     return result
 
 
-# pylint: disable=too-many-statements,too-many-branches
+# pylint: disable=too-many-branches
 def get_device_available_services(client) -> list:
     """Get list of services actually available on the connected device.
 

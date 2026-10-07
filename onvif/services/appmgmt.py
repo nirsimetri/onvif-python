@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class AppManagement(ONVIFService):
     """AppManagement service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 19.12 (December 2019) |
     | **Binding name** | `AppManagementBinding` (`ver10/appmgmt/wsdl/appmgmt.wsdl`) |
-    | **Operations** | [appmgmt.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/appmgmt/wsdl/appmgmt.wsdl) |
-    | **Specification** | [AppMgmt.xml](https://developer.onvif.org/pub/specs/branches/development/doc/AppMgmt.xml) |
+    | **Operations** | [appmgmt.wsdl](https://www.onvif.org/ver10/appmgmt/wsdl/appmgmt.wsdl) |
+    | **Spec** | [AppMgmt](https://www.onvif.org/specs/srv/appmgmt/ONVIF-ApplicationManagement-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

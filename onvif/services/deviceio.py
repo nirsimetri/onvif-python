@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class DeviceIO(ONVIFService):
     """DeviceIO service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | -------- | ------- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
     | **Binding name** | `DeviceIOBinding` (`ver10/deviceio.wsdl`) |
-    | **Operations** | [deviceio.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/deviceio.wsdl) |
-    | **Specification** | [DeviceIo.xml](https://developer.onvif.org/pub/specs/branches/development/doc/DeviceIo.xml) |
+    | **Operations** | [deviceio.wsdl](https://www.onvif.org/ver10/deviceio.wsdl) |
+    | **Spec** | [DeviceIO](https://www.onvif.org/specs/srv/io/ONVIF-DeviceIo-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

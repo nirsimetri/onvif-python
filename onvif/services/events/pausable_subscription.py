@@ -5,7 +5,6 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class PausableSubscription(ONVIFService):
     """WS-BaseNotification PausableSubscriptionManager service client.
 
@@ -16,9 +15,10 @@ class PausableSubscription(ONVIFService):
     devices.
 
     | Property | Details |
-    | --- | --- |
-    | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
+    | -------- | ------- |
+    | **See** | ONVIF Core Spec, OASIS WS-BaseNotification Spec |
     | **Binding name** | `PausableSubscriptionManagerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
+    | **Spec** | [PausableSubscription](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.htm#_Toc133735641) |
 
     !!! tip "Version History"
         - Available since [`>=v0.2.4`](/onvif-python/releases/#v0.2.4).

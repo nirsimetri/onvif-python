@@ -103,8 +103,6 @@ def service(func: Callable[P, R]) -> Callable[P, R]:
     return wrapper
 
 
-# pylint: disable=too-many-instance-attributes,too-many-locals
-# pylint: disable=too-many-public-methods,too-many-statements
 class ONVIFClient:
     """High-level ONVIF client for interacting with ONVIF-compliant devices.
 
@@ -164,7 +162,8 @@ class ONVIFClient:
             - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
             - Added in [`>=v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
             - Added in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
-            - Changed in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `username` → `str | None`, `password` → `str | None`
+            - Changed in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `username` → `str | None`,
+                `password` → `str | None`
         """
         logger.info("Initializing ONVIF client for %s:%d", host, port)
         logger.debug(
@@ -559,7 +558,7 @@ class ONVIFClient:
         return self._events
 
     @service
-    def pullpoint(self, SubscriptionRef) -> PullPoint:  # pylint: disable=invalid-name
+    def pullpoint(self, SubscriptionRef) -> PullPoint:
         """Access the PullPoint service."""
         logger.debug("Initializing PullPoint service")
         return self._get_subscription_service(
@@ -579,9 +578,7 @@ class ONVIFClient:
         return self._notification
 
     @service
-    def subscription(
-        self, SubscriptionRef  # pylint: disable=invalid-name
-    ) -> Subscription:
+    def subscription(self, SubscriptionRef) -> Subscription:
         """Access the Subscription service."""
         logger.debug("Initializing Subscription service")
         return self._get_subscription_service(
@@ -591,9 +588,7 @@ class ONVIFClient:
         )
 
     @service
-    def pausable_subscription(
-        self, SubscriptionRef  # pylint: disable=invalid-name
-    ) -> PausableSubscription:
+    def pausable_subscription(self, SubscriptionRef) -> PausableSubscription:
         """Access the PausableSubscription service."""
         logger.debug("Initializing PausableSubscription service")
         return self._get_subscription_service(

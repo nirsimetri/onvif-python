@@ -124,7 +124,6 @@ class ONVIFDiscovery:
             self._local_ip = ""
             return self._local_ip
 
-    # pylint: disable=too-many-locals
     def discover(
         self, prefer_https: bool = False, search: str | None = None
     ) -> list[dict[str, Any]]:
@@ -149,7 +148,7 @@ class ONVIFDiscovery:
             | `scopes` | `list[str]` | Device scopes. |
             | `xaddrs` | `list[str]` | All available XAddrs. |
             | `hostname` | `str | None` | Hostname of the device. |
-            | `date_time` | `dict[str, str]` | Device system date and time (`utc` and/or `local`); empty if none are available. |
+            | `date_time` | `dict[str, str]` | Device system date and time (`utc`, `local`); empty if none are available. |
             | `services` | `list[str]` | List of supported ONVIF services; empty if none are available. |
 
             !!! tip "Version History"

@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 
-# pylint: disable=too-many-branches,too-many-statements,too-many-nested-blocks,too-many-locals,too-many-return-statements
+# pylint: disable=too-many-branches,too-many-nested-blocks,too-many-return-statements
 class ZeepPatcher:
     """Utility for patching zeep SOAP library to handle ONVIF `xsd:any` fields.
 

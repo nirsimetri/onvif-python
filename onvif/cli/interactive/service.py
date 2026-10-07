@@ -147,7 +147,7 @@ class ServiceCommands(cmd.Cmd):
                 f"No documentation or parameter info found for method '{method_name}'."
             )
 
-    # pylint: disable=too-many-branches,too-many-statements
+    # pylint: disable=too-many-branches
     def do_type(self, line) -> None:
         """Show input and output types for a method.
 
@@ -178,7 +178,7 @@ class ServiceCommands(cmd.Cmd):
 
         if type_info:
             # Helper function to display parameters recursively with tree-style indentation
-            # pylint: disable=too-many-locals,too-many-branches
+            # pylint: disable=too-many-branches
             def display_params(params, prefix_lines=None, is_root_level=False):
                 """Display parameters with tree-style formatting.
 

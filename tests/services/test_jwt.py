@@ -32,7 +32,11 @@ class TestJWTWSDLCompliance(ONVIFServiceTestBase):
                     "Configuration": {
                         "TokenIssuer": "https://issuer.example.com",
                         "Audience": "onvif-device",
-                        "PublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...\n-----END PUBLIC KEY-----",
+                        "PublicKey": (
+                            "-----BEGIN PUBLIC KEY-----\n"
+                            "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...\n"
+                            "-----END PUBLIC KEY-----"
+                        ),
                     }
                 },
             },

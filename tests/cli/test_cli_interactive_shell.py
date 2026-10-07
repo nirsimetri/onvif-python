@@ -263,7 +263,7 @@ class TestInteractiveShellDeviceInformation:
         """Verify that invalid device data falls back to ``Unknown``."""
         shell = object.__new__(InteractiveShell)
 
-        class InvalidDeviceData:  # pylint: disable=too-few-public-methods
+        class InvalidDeviceData:
             """Device data that raises an error when accessed."""
 
             def get(self, _key, _default):

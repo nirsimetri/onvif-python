@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class Credential(ONVIFService):
     """Credential service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.6 (June 2015) |
     | **Binding name** | `CredentialBinding` (`ver10/credential/wsdl/credential.wsdl`) |
-    | **Operations** | [credential.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/credential/wsdl/credential.wsdl) |
-    | **Specification** | [Credential.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Credential.xml) |
+    | **Operations** | [credential.wsdl](https://www.onvif.org/ver10/credential/wsdl/credential.wsdl) |
+    | **Spec** | [Credential](https://www.onvif.org/specs/srv/access/ONVIF-Credential-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

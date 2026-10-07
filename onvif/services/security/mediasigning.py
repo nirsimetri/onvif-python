@@ -5,16 +5,17 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,line-too-long
 class MediaSigning(ONVIFService):
     """Security (MediaSigning) service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 24.12 (December 2024) |
     | **Binding name** | `MediaSigningBinding` (`ver10/advancedsecurity/wsdl/advancedsecurity.wsdl`) |
-    | **Operations** | [advancedsecurity.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) |
-    | **Specification** | [Security.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml) |
+    | **Operations** | [advancedsecurity.wsdl](https://www.onvif.org/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) |
+    | **Spec** | [Security](https://www.onvif.org/specs/srv/security/ONVIF-Security-Service-Spec.pdf) |
+    | **Data Format** | [Media Signing](https://www.onvif.org/specs/stream/ONVIF-MediaSigning-Spec.pdf) |
+    | **File Format** | [Export File](https://www.onvif.org/specs/stream/ONVIF-ExportFileFormat-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -31,7 +32,7 @@ class MediaSigning(ONVIFService):
         media signing, replacing the one that is provisioned during factory production.
 
         The leaf certificate in the chain and its associated private key shall be used
-        for signing media as described in the [Media Signing Specification]. This key
+        for signing media as described in the [Media Signing Spec]. This key
         and certificate is referred to as user provisioned key and certificate in that
         specification.
 

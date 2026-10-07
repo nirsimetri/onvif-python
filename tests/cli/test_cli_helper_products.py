@@ -359,7 +359,6 @@ class TestGetTerminalWidth:
             assert result[index] < original_widths[index]
 
 
-# pylint: disable=too-few-public-methods
 class TestFormatDateWidth:
     """Tests for formatting dates for table display."""
 
@@ -394,7 +393,6 @@ class TestFormatDateWidth:
         assert _format_date_width(value) == expected
 
 
-# pylint: disable=too-few-public-methods
 class TestPrintDataHeader:
     """Tests for printing the product table header."""
 

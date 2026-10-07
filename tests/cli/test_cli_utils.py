@@ -259,7 +259,6 @@ class TestGetServiceRequiredArgs:
         assert get_service_required_args(service_name) is None
 
 
-# pylint: disable=too-few-public-methods
 class TestGetServiceMethods:
     """Tests for extracting callable public service methods."""
 
@@ -334,7 +333,7 @@ class TestColorsEnabled:
     def test_windows_failure(self, exception):
         """Test Windows ANSI detection failure."""
 
-        class FakeWindll:  # pylint: disable=too-few-public-methods
+        class FakeWindll:
             """Fake ctypes.windll for testing."""
 
             @property

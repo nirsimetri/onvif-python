@@ -38,7 +38,7 @@ class OperationTypeInfo(TypedDict):
     output: MessageInfo | None
 
 
-# pylint: disable=too-many-locals,too-many-statements,too-many-branches
+# pylint: disable=too-many-branches
 def get_method_documentation(
     service_obj: Any, method_name: str
 ) -> dict[str, Any] | None:
@@ -449,7 +449,7 @@ def _load_imported_schemas(root, schema_context: dict, namespaces: dict):
                         continue
 
 
-# pylint: disable=too-many-locals,too-many-statements,too-many-branches
+# pylint: disable=too-many-branches
 def resolve_element_type(
     element_name: str,
     namespaces: dict,
@@ -612,7 +612,7 @@ def resolve_element_type(
     return parameters
 
 
-# pylint: disable=too-many-locals,too-many-statements,too-many-branches
+# pylint: disable=too-many-branches
 def resolve_complex_type(
     type_name: str,
     namespaces: dict,
@@ -802,7 +802,7 @@ def resolve_complex_type(
     return children
 
 
-# pylint: disable=too-many-locals,too-many-statements,too-many-branches
+# pylint: disable=too-many-branches
 def parse_inline_complex_type(
     complex_type,
     namespaces: dict,

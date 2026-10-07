@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class Device(ONVIFService):
     """Device service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Core |
     | **Binding name** | `DeviceBinding` (`ver10/device/wsdl/devicemgmt.wsdl`) |
-    | **Operations** | [devicemgmt.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl) |
-    | **Specification** | [Core.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml) |
+    | **Operations** | [devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl) |
+    | **Spec** | [Core](https://www.onvif.org/specs/core/ONVIF-Core-Specification.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -69,7 +68,8 @@ class Device(ONVIFService):
         - tt: WashingProcedure |Off - Request to stop the washing procedure.
         - tt:IRLamp|On - Request to turn ON an IR illuminator attached to the unit.
         - tt:IRLamp|Off - Request to turn OFF an IR illuminator attached to the unit.
-        - tt:IRLamp|Auto - Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.
+        - tt:IRLamp|Auto - Request to configure an IR illuminator attached to the unit
+            so that it automatically turns ON and OFF.
 
         A device that indicates auxiliary service capability shall support this command.
         """
