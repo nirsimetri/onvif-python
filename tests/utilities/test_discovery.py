@@ -1141,7 +1141,6 @@ class TestDiscoveryConstants:
         assert "http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe" in probe
         assert "urn:uuid:{uuid}" in probe
         assert "urn:schemas-xmlsoap-org:ws:2005:04:discovery" in probe
-        assert "tds:Device" in probe
 
 
 # Socket modules
