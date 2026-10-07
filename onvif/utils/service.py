@@ -302,7 +302,8 @@ class ONVIFService:
                 available_methods = self.operations()
                 raise ValueError(
                     f"Method '{method_name}' not found in service. "
-                    f"Available methods: {', '.join(available_methods[:5])}{'...' if len(available_methods) > 5 else ''}"
+                    f"Available methods: {', '.join(available_methods[:5])}"
+                    f"{'...' if len(available_methods) > 5 else ''}"
                 )
 
             # Extract service name from binding for context

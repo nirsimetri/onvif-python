@@ -6,8 +6,9 @@ import requests
 from zeep.exceptions import Fault
 
 
-# pylint: disable=line-too-long,too-many-locals,too-many-nested-blocks,too-many-branches,too-many-statements
+# pylint: disable=too-many-nested-blocks,too-many-branches
 class ONVIFOperationException(Exception):
+    # pylint: disable=line-too-long
     """Enhanced exception wrapper for ONVIF operation failures.
 
     This exception provides detailed error information including operation name,
@@ -87,6 +88,7 @@ class ONVIFOperationException(Exception):
         - `zeep.exceptions.Fault`: Base SOAP fault exception
         - `requests.exceptions.RequestException`: Base HTTP error
     """
+    # pylint: enable=line-too-long
 
     def __init__(self, operation: str, original_exception: Exception):
         self.operation = operation

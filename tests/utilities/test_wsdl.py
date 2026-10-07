@@ -176,7 +176,7 @@ class TestGetWsdlMap:
                 assert {"path", "binding", "namespace"} <= definition.keys()
 
 
-# pylint: disable=protected-access,too-few-public-methods
+# pylint: disable=protected-access
 class TestEnsureWsdlMapInitialized:
     """Test lazy WSDL map initialization."""
 

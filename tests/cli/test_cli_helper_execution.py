@@ -11,13 +11,13 @@ from onvif.cli.helpers.execution import (
 )
 
 
-class FakeService:  # pylint: disable=too-few-public-methods
+class FakeService:
     """Minimal fake service used to test CLI command execution."""
 
     def __init__(self, result=None):
         self.result = result
 
-    def GetProfiles(self, **kwargs):  # pylint: disable=invalid-name
+    def GetProfiles(self, **kwargs):
         """Return a predictable result for GetProfiles."""
         return self.result or {
             "method": "GetProfiles",
@@ -25,7 +25,7 @@ class FakeService:  # pylint: disable=too-few-public-methods
         }
 
 
-class FakeClient:  # pylint: disable=too-few-public-methods
+class FakeClient:
     """Minimal fake client used to provide services to CLI command execution."""
 
     def __init__(self, service=None):
@@ -208,11 +208,11 @@ def test_execute_command_unknown_method():
 def test_execute_command_preserves_method_attribute_error_as_value_error():
     """Test that a method lookup AttributeError raises ValueError."""
 
-    class Service:  # pylint: disable=too-few-public-methods
+    class Service:
         """Service with property."""
 
         @property
-        def GetProfiles(self):  # pylint: disable=invalid-name
+        def GetProfiles(self):
             """Unavailable method."""
             raise AttributeError("method unavailable")
 

@@ -5,16 +5,16 @@ from onvif.utils.service import ONVIFService, deprecated
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class Media2(ONVIFService):
     """Media2 service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.61 (December 2015) |
     | **Binding name** | `Media2Binding` (`ver20/media/wsdl/media.wsdl`) |
-    | **Operations** | [media.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/media/wsdl/media.wsdl) |
-    | **Specification** | [Media2.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Media2.xml) |
+    | **Operations** | [media.wsdl](https://www.onvif.org/ver20/media/wsdl/media.wsdl) |
+    | **Spec** | [Media2](https://www.onvif.org/specs/srv/media/ONVIF-Media2-Service-Spec.pdf) |
+    | **Data Format** | [Streaming](https://www.onvif.org/specs/stream/ONVIF-Streaming-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

@@ -84,7 +84,7 @@ def create_utilities():
     return utilities
 
 
-class TestShellUtilitiesInitialization:  # pylint: disable=too-few-public-methods
+class TestShellUtilitiesInitialization:
     """Test health-check initialization."""
 
     def test_initialize_health_check_creates_event(self):

@@ -11,7 +11,7 @@ from onvif.client import ONVIFClient
 
 
 @dataclass
-class ShellContext:  # pylint: disable=too-many-instance-attributes
+class ShellContext:
     """Store shared state for the interactive shell."""
 
     UNSET = object()
@@ -26,7 +26,7 @@ class ShellContext:  # pylint: disable=too-many-instance-attributes
     )  # For storing command results
     stored_metadata: dict[str, dict[str, Any]] = field(
         default_factory=dict
-    )  # For storing metadata about stored data (service, method
+    )  # For storing metadata about stored data (service, method)
 
     last_result: Any = field(default=UNSET, repr=False)
     last_method: str | None = None

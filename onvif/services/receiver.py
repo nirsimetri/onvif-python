@@ -5,16 +5,16 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Receiver(ONVIFService):
     """Receiver service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | -------- | ------- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
     | **Binding name** | `ReceiverBinding` (`ver10/receiver.wsdl`) |
-    | **Operations** | [receiver.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/receiver.wsdl) |
-    | **Specification** | [Receiver.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Receiver.xml) |
+    | **Operations** | [receiver.wsdl](https://www.onvif.org/ver10/receiver.wsdl) |
+    | **Spec** | [Receiver](https://www.onvif.org/specs/srv/rcv/ONVIF-Receiver-Service-Spec.pdf) |
+    | **Data Format** | [Streaming](https://www.onvif.org/specs/stream/ONVIF-Streaming-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

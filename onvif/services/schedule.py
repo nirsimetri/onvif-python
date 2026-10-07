@@ -5,16 +5,16 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,redefined-outer-name
+# pylint: disable=redefined-outer-name
 class Schedule(ONVIFService):
     """Schedule service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.6 (June 2015) |
     | **Binding name** | `ScheduleBinding` (`ver10/schedule/wsdl/schedule.wsdl`) |
-    | **Operations** | [schedule.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/schedule/wsdl/schedule.wsdl) |
-    | **Specification** | [Schedule.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Schedule.xml) |
+    | **Operations** | [schedule.wsdl](https://www.onvif.org/ver10/schedule/wsdl/schedule.wsdl) |
+    | **Spec** | [Scheduler](https://www.onvif.org/specs/srv/sched/ONVIF-Scheduler-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -53,7 +53,7 @@ class Schedule(ONVIFService):
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
-        the next set of data. Please refer Access Control Service Specification for more
+        the next set of data. Please refer Access Control Service Spec for more
         details. The number of items returned shall not be greater the Limit parameter.
         """
         return self.operator.call(
@@ -75,7 +75,7 @@ class Schedule(ONVIFService):
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
-        the next set of data. Please refer Access Control Service Specification for more
+        the next set of data. Please refer Access Control Service Spec for more
         details. The number of items returned shall not be greater the Limit parameter.
         """
         return self.operator.call(
@@ -143,7 +143,7 @@ class Schedule(ONVIFService):
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
-        the next set of data. Please refer Access Control Service Specification for more
+        the next set of data. Please refer Access Control Service Spec for more
         details. The number of items returned shall not be greater the Limit parameter.
         """
         return self.operator.call(

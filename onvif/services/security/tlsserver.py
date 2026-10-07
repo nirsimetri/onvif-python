@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,line-too-long
 class TLSServer(ONVIFService):
     """Security (TLSServer) service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.4 (August 2013) |
     | **Binding name** | `TLSServerBinding` (`ver10/advancedsecurity/wsdl/advancedsecurity.wsdl`) |
-    | **Operations** | [advancedsecurity.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) |
-    | **Specification** | [Security.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Security.xml) |
+    | **Operations** | [advancedsecurity.wsdl](https://www.onvif.org/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) |
+    | **Spec** | [Security](https://www.onvif.org/specs/srv/security/ONVIF-Security-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

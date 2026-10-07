@@ -48,7 +48,6 @@ class ShellUtilities:
                 f":{self.context.args.port} > "
             )
 
-    # pylint: disable=too-many-locals
     def _display_grid(self, items: list):
         """Display items in grid format matching TAB completion (vertical layout)"""
         if not items:

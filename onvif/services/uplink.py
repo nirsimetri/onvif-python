@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Uplink(ONVIFService):
     """Uplink service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 18.12 (December 2018) |
     | **Binding name** | `UplinkBinding` (`ver10/uplink/wsdl/uplink.wsdl`) |
-    | **Operations** | [uplink.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/uplink/wsdl/uplink.wsdl) |
-    | **Specification** | [Uplink.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Uplink.xml) |
+    | **Operations** | [uplink.wsdl](https://www.onvif.org/ver10/uplink/wsdl/uplink.wsdl) |
+    | **Spec** | [Uplink](https://www.onvif.org/specs/srv/uplink/ONVIF-Uplink-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

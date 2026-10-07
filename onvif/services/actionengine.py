@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class ActionEngine(ONVIFService):
     """ActionEngine service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.2 (September 2012) |
     | **Binding name** | `ActionEngineBinding` (`ver10/actionengine.wsdl`) |
-    | **Operations** | [actionengine.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/actionengine.wsdl) |
-    | **Specification** | [ActionEngine.xml](https://developer.onvif.org/pub/specs/branches/development/doc/ActionEngine.xml) |
+    | **Operations** | [actionengine.wsdl](https://www.onvif.org/ver10/actionengine.wsdl) |
+    | **Spec** | [ActionEngine](https://www.onvif.org/specs/srv/act/ONVIF-ActionEngine-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

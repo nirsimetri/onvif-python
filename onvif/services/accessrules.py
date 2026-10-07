@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class AccessRules(ONVIFService):
     """AccessRules service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.6 (June 2015) |
     | **Binding name** | `AccessRulesBinding` (`ver10/accessrules/wsdl/accessrules.wsdl`) |
-    | **Operations** | [accessrules.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/accessrules/wsdl/accessrules.wsdl) |
-    | **Specification** | [AccessRules.xml](https://developer.onvif.org/pub/specs/branches/development/doc/AccessRules.xml) |
+    | **Operations** | [accessrules.wsdl](https://www.onvif.org/ver10/accessrules/wsdl/accessrules.wsdl) |
+    | **Spec** | [AccessRules](https://www.onvif.org/specs/srv/access/ONVIF-AccessRules-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

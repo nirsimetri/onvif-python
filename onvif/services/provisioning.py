@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,line-too-long
 class Provisioning(ONVIFService):
     """Provisioning service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 16.12 (December 2016) |
     | **Binding name** | `ProvisioningBinding` (`ver10/provisioning/wsdl/provisioning.wsdl`) |
-    | **Operations** | [provisioning.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/provisioning/wsdl/provisioning.wsdl) |
-    | **Specification** | [Provisioning.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Provisioning.xml) |
+    | **Operations** | [provisioning.wsdl](https://www.onvif.org/ver10/provisioning/wsdl/provisioning.wsdl) |
+    | **Spec** | [Provisioning](https://www.onvif.org/specs/srv/ptz/ONVIF-Provisioning-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

@@ -5,7 +5,6 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Notification(ONVIFService):
     """WS-BaseNotification NotificationProducer service client.
 
@@ -13,9 +12,10 @@ class Notification(ONVIFService):
     ONVIF devices for push-based event notification subscriptions.
 
     | Property | Details |
-    | --- | --- |
-    | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
+    | -------- | ------- |
+    | **See** | ONVIF Core Spec, OASIS WS-BaseNotification Spec |
     | **Binding name** | `NotificationProducerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
+    | **Spec** | [Notification](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.htm#_Toc133735622) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

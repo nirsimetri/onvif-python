@@ -27,10 +27,10 @@ try:
     import requests
 except ImportError:
     # Create mock requests module for testing
-    class MockRequestsModule:  # pylint: disable=too-few-public-methods
+    class MockRequestsModule:
         """MockRequestsModule."""
 
-        class exceptions:  # pylint: disable=invalid-name,too-few-public-methods
+        class exceptions:
             """exceptions."""
 
             class RequestException(Exception):
@@ -187,7 +187,7 @@ class TestONVIFOperationException:
     def test_soap_fault_with_non_iterable_detail(self):
         """Test SOAP fault detail represented by a non-iterable object."""
 
-        class NonIterableDetail:  # pylint: disable=too-few-public-methods
+        class NonIterableDetail:
             """NonIterableDetail."""
 
             def __str__(self):

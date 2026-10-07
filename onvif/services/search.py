@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Search(ONVIFService):
     """Search service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | -------- | ------- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
     | **Binding name** | `SearchBinding` (`ver10/search.wsdl`) |
-    | **Operations** | [search.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/search.wsdl) |
-    | **Specification** | [RecordingSearch.xml](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingSearch.xml) |
+    | **Operations** | [search.wsdl](https://www.onvif.org/ver10/search.wsdl) |
+    | **Spec** | [RecordingSearch](https://www.onvif.org/specs/srv/rsrch/ONVIF-RecordingSearch-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

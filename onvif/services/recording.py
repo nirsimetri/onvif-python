@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class Recording(ONVIFService):
     """Recording service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | -------- | ------- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
     | **Binding name** | `RecordingBinding` (`ver10/recording.wsdl`) |
-    | **Operations** | [recording.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/recording.wsdl) |
-    | **Specification** | [RecordingControl.xml](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingControl.xml) |
+    | **Operations** | [recording.wsdl](https://www.onvif.org/ver10/recording.wsdl) |
+    | **Spec** | [RecordingControl](https://www.onvif.org/specs/srv/rec/ONVIF-RecordingControl-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

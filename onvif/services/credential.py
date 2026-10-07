@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class Credential(ONVIFService):
     """Credential service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Release 2.6 (June 2015) |
     | **Binding name** | `CredentialBinding` (`ver10/credential/wsdl/credential.wsdl`) |
-    | **Operations** | [credential.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/credential/wsdl/credential.wsdl) |
-    | **Specification** | [Credential.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Credential.xml) |
+    | **Operations** | [credential.wsdl](https://www.onvif.org/ver10/credential/wsdl/credential.wsdl) |
+    | **Spec** | [Credential](https://www.onvif.org/specs/srv/access/ONVIF-Credential-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -57,7 +56,7 @@ class Credential(ONVIFService):
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
         the next set of data. Please refer to section 4.8.3 in [ONVIF Access Control
-        Service Specification] for more details. The number of items returned shall not
+        Service Spec] for more details. The number of items returned shall not
         be greater than the Limit parameter.
         """
         return self.operator.call(
@@ -82,7 +81,7 @@ class Credential(ONVIFService):
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
         the next set of data. Please refer section 4.8.3 in [Access Control Service
-        Specification] for more details. The number of items returned shall not be
+        Spec] for more details. The number of items returned shall not be
         greater the Limit parameter.
         """
         return self.operator.call(

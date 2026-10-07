@@ -5,16 +5,16 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Replay(ONVIFService):
     """Recording service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | -------- | ------- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
     | **Binding name** | `ReplayBinding` (`ver10/replay.wsdl`) |
-    | **Operations** | [replay.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/replay.wsdl) |
-    | **Specification** | [Replay.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Replay.xml) |
+    | **Operations** | [replay.wsdl](https://www.onvif.org/ver10/replay.wsdl) |
+    | **Spec** | [ReplayControl](https://www.onvif.org/specs/srv/replay/ONVIF-ReplayControl-Service-Spec.pdf) |
+    | **Data Format** | [Streaming](https://www.onvif.org/specs/stream/ONVIF-Streaming-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

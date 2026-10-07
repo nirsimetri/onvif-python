@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class PullPoint(ONVIFService):
     """Events (PullPoint) service client.
 
     | Property | Details |
-    | --- | --- |
+    | -------- | ------- |
     | **First introduced** | ONVIF Core |
     | **Binding name** | `PullPointSubscriptionBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
-    | **Operations** | [event-vs.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/events/wsdl/event-vs.wsdl) |
-    | **Specification** | [Core.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml) |
+    | **Operations** | [event-vs.wsdl](https://www.onvif.org/ver10/events/wsdl/event-vs.wsdl) |
+    | **Spec** | [Core](https://www.onvif.org/specs/core/ONVIF-Core-Specification.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

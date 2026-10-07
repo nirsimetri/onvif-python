@@ -76,7 +76,7 @@ class NavigationCommands:
         else:
             print("Not in service mode")
 
-    # pylint: disable=too-many-locals,too-many-branches,too-many-statements
+    # pylint: disable=too-many-branches
     def do_enter_service(self, line) -> None:
         """Enter service mode with optional arguments for services that require them."""
         # Parse service name and arguments

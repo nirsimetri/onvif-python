@@ -5,16 +5,15 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class PTZ(ONVIFService):
     """PTZ service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | -------- | ------- |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
     | **Binding name** | `PTZBinding` (`ver20/ptz/wsdl/ptz.wsdl`) |
-    | **Operations** | [ptz.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/ptz/wsdl/ptz.wsdl) |
-    | **Specification** | [PTZ.xml](https://developer.onvif.org/pub/specs/branches/development/doc/PTZ.xml) |
+    | **Operations** | [ptz.wsdl](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl) |
+    | **Spec** | [PTZ](https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
