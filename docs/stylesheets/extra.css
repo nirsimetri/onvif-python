@@ -56,21 +56,24 @@
   margin-bottom: 3rem;
 }
 
-.github-release__date {
-  color: var(--md-default-fg-color--light);
+.github-release__metadata {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
   font-size: 0.8rem;
+  margin-bottom: 0rem;
+}
+
+.github-release__date,
+.github-release__immutable,
+.github-release__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .github-release__body {
-  margin-top: 2rem;
-}
-
-.github-release__body h2 {
-  margin-top: 2rem;
-}
-
-.github-release__body h3 {
-  margin-top: 1.5rem;
+  margin-top: 0rem;
 }
 
 .highlight .go::before {

@@ -1,7 +1,8 @@
  /* global DOMPurify, marked, document$ */
 
-const GITHUB_API =
-  "https://api.github.com/repos/nirsimetri/onvif-python/releases?per_page=100";
+const GITHUB_REPOSITORY = "nirsimetri/onvif-python";
+const [, GITHUB_REPOSITORY_NAME] = GITHUB_REPOSITORY.split("/");
+const GITHUB_API = `https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?per_page=100`;
 
 const RELEASES_NAV_STATE_KEY = "github-releases-nav-open";
 
@@ -116,7 +117,7 @@ function createReleaseNav(releases) {
     const link = document.createElement("a");
 
     link.className = "md-nav__link";
-    link.href = `/onvif-python/releases/#${encodeURIComponent(
+    link.href = `/${GITHUB_REPOSITORY_NAME}/releases/#${encodeURIComponent(
       release.tag_name
     )}`;
 
@@ -143,8 +144,7 @@ function createReleaseNav(releases) {
   const allReleasesLink = document.createElement("a");
 
   allReleasesLink.className = "md-nav__link";
-  allReleasesLink.href =
-    "https://github.com/nirsimetri/onvif-python/releases";
+  allReleasesLink.href = `https://github.com/${GITHUB_REPOSITORY}/releases`;
   allReleasesLink.target = "_blank";
   allReleasesLink.rel = "noopener noreferrer";
 
@@ -203,11 +203,55 @@ function renderRelease(releases, tag = null) {
   const heading = document.createElement("h2");
   heading.textContent = release.name || release.tag_name;
 
-  const dateElement = document.createElement("p");
-  dateElement.className = "github-release__date";
+  const metadataElement = document.createElement("p");
+  metadataElement.className = "github-release__metadata";
 
-  const date = new Date(release.published_at);
-  dateElement.textContent = date.toLocaleDateString();
+  if (release.immutable || release.tag_name || release.published_at) {
+    if(release.published_at){
+      const dateElement = document.createElement("span");
+      dateElement.className = "github-release__date";
+
+      const date = new Date(release.published_at);
+      const year = date.getFullYear();
+      const month = date.toLocaleString("en-US", { month: "long" });
+      const day = String(date.getDate()).padStart(2, "0");
+
+      dateElement.textContent = `🗓️ ${year}-${month}-${day}`;
+      metadataElement.appendChild(dateElement);
+    }
+
+    if (release.immutable) {
+      const immutableElement = document.createElement("span");
+      immutableElement.className = "github-release__immutable";
+
+      const lockIcon = document.createElement("span");
+      lockIcon.textContent = "🔒";
+      lockIcon.setAttribute("aria-hidden", "true");
+
+      const immutableText = document.createElement("span");
+      immutableText.textContent = "Immutable";
+
+      immutableElement.appendChild(lockIcon);
+      immutableElement.appendChild(immutableText);
+      metadataElement.appendChild(immutableElement);
+    }
+
+    if (release.tag_name) {
+      const tagElement = document.createElement("span");
+      tagElement.className = "github-release__tag";
+
+      const tagIcon = document.createElement("span");
+      tagIcon.textContent = "🏷️";
+      tagIcon.setAttribute("aria-hidden", "true");
+
+      const tagText = document.createElement("span");
+      tagText.textContent = release.tag_name;
+
+      tagElement.appendChild(tagIcon);
+      tagElement.appendChild(tagText);
+      metadataElement.appendChild(tagElement);
+    }
+  }
 
   const body = document.createElement("div");
   body.className = "github-release__body";
@@ -223,7 +267,7 @@ function renderRelease(releases, tag = null) {
   body.appendChild(safeFragment);
 
   article.appendChild(heading);
-  article.appendChild(dateElement);
+  article.appendChild(metadataElement);
   article.appendChild(body);
 
   container.replaceChildren(article);
@@ -396,23 +440,49 @@ function processGitHubReferences(markdown) {
 
   // Convert GitHub issue/PR URLs to # references.
   text = text.replace(
-    /https:\/\/github\.com\/nirsimetri\/onvif-python\/(issues|pull)\/(\d+)/g,
-    (_, type, number) =>
-      `[#${number}](https://github.com/nirsimetri/onvif-python/${type}/${number})`
+    /https:\/\/github\.com\/([^/\s]+)\/([^/\s]+)\/(issues|pull)\/(\d+)/g,
+    (_, owner, repo, type, number) => {
+      const repository = `${owner}/${repo}`;
+      const url = `https://github.com/${repository}/${type}/${number}`;
+
+      if (repository === GITHUB_REPOSITORY) {
+        return `[#${number}](${url})`;
+      }
+
+      return `[${repository}#${number}](${url})`;
+    },
   );
 
   // Convert GitHub commit URLs to short commit hashes.
   text = text.replace(
-    /https:\/\/github\.com\/nirsimetri\/onvif-python\/commit\/([a-f0-9]{7,40})/gi,
-    (_, hash) =>
-      `[${hash.substring(0, 7)}](https://github.com/nirsimetri/onvif-python/commit/${hash})`
+    /https:\/\/github\.com\/([^/\s]+)\/([^/\s]+)\/commit\/([a-f0-9]{7,40})/gi,
+    (_, owner, repo, hash) => {
+      const repository = `${owner}/${repo}`;
+      const url = `https://github.com/${repository}/commit/${hash}`;
+
+      if (repository === GITHUB_REPOSITORY) {
+        return `[\`${hash.substring(0, 7)}\`](${url})`;
+      }
+
+      return `[${repository}@\`${hash.substring(0, 7)}\`](${url})`;
+    },
   );
 
-  // Convert @username to GitHub profile links.
-  text = text.replace(
-    /(^|[^\w])@([a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)/g,
-    "$1[@$2](https://github.com/$2)"
-  );
+  // Convert @username to GitHub profile links, except inside inline code.
+  text = text
+    .split(/(`[^`]*`)/g)
+    .map((part, index) => {
+      // Odd parts are inline code blocks.
+      if (index % 2 === 1) {
+        return part;
+      }
+
+      return part.replace(
+        /(^|[^\w])@([a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)/g,
+        "$1[@$2](https://github.com/$2)",
+      );
+    })
+    .join("");
 
   return text;
 }
