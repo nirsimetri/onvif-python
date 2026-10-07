@@ -203,37 +203,54 @@ function renderRelease(releases, tag = null) {
   const heading = document.createElement("h2");
   heading.textContent = release.name || release.tag_name;
 
-  const dateElement = document.createElement("p");
-  dateElement.className = "github-release__date";
+  const metadataElement = document.createElement("p");
+  metadataElement.className = "github-release__metadata";
 
-  const date = new Date(release.published_at);
-  const year = date.getFullYear();
-  const month = date.toLocaleString("en-US", { month: "long" });
-  const day = String(date.getDate()).padStart(2, "0");
+  if (release.immutable || release.tag_name || release.published_at) {
+    if(release.published_at){
+      const dateElement = document.createElement("span");
+      dateElement.className = "github-release__date";
 
-  dateElement.textContent = `🗓️ ${year}-${month}-${day}`;
+      const date = new Date(release.published_at);
+      const year = date.getFullYear();
+      const month = date.toLocaleString("en-US", { month: "long" });
+      const day = String(date.getDate()).padStart(2, "0");
 
-  if (release.immutable || release.tag_name) {
-    const metadataElement = document.createElement("span");
-    metadataElement.className = "github-release__metadata";
+      dateElement.textContent = `🗓️ ${year}-${month}-${day}`;
+      metadataElement.appendChild(dateElement);
+    }
 
     if (release.immutable) {
       const immutableElement = document.createElement("span");
       immutableElement.className = "github-release__immutable";
-      immutableElement.innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp;🔒 Immutable`;
 
+      const lockIcon = document.createElement("span");
+      lockIcon.textContent = "🔒";
+      lockIcon.setAttribute("aria-hidden", "true");
+
+      const immutableText = document.createElement("span");
+      immutableText.textContent = "Immutable";
+
+      immutableElement.appendChild(lockIcon);
+      immutableElement.appendChild(immutableText);
       metadataElement.appendChild(immutableElement);
     }
 
     if (release.tag_name) {
       const tagElement = document.createElement("span");
       tagElement.className = "github-release__tag";
-      tagElement.innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp;🏷️ ${release.tag_name}`;
 
+      const tagIcon = document.createElement("span");
+      tagIcon.textContent = "🏷️";
+      tagIcon.setAttribute("aria-hidden", "true");
+
+      const tagText = document.createElement("span");
+      tagText.textContent = release.tag_name;
+
+      tagElement.appendChild(tagIcon);
+      tagElement.appendChild(tagText);
       metadataElement.appendChild(tagElement);
     }
-
-    dateElement.appendChild(metadataElement);
   }
 
   const body = document.createElement("div");
@@ -250,7 +267,7 @@ function renderRelease(releases, tag = null) {
   body.appendChild(safeFragment);
 
   article.appendChild(heading);
-  article.appendChild(dateElement);
+  article.appendChild(metadataElement);
   article.appendChild(body);
 
   container.replaceChildren(article);
