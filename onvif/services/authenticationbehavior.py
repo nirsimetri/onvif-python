@@ -49,7 +49,7 @@ class AuthenticationBehavior(ONVIFService):
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
-        the next set of data. Please refer Access Control Service Spec for more
+        the next set of data. Please refer Access Control Service Specification for more
         details. The number of items returned shall not be greater than Limit parameter.
         """
         return self.operator.call(
@@ -74,7 +74,7 @@ class AuthenticationBehavior(ONVIFService):
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
-        the next set of data. Please refer Access Control Service Spec for more
+        the next set of data. Please refer Access Control Service Specification for more
         details. The number of items returned shall not be greater the Limit parameter.
         """
         return self.operator.call(
@@ -147,7 +147,7 @@ class AuthenticationBehavior(ONVIFService):
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
-        the next set of data. Please refer Access Control Service Spec for more
+        the next set of data. Please refer Access Control Service Specification for more
         details. The number of items returned shall not be greater than Limit parameter.
         """
         return self.operator.call(
@@ -170,7 +170,7 @@ class AuthenticationBehavior(ONVIFService):
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
-        the next set of data. Please refer Access Control Service Spec for more
+        the next set of data. Please refer Access Control Service Specification for more
         details. The number of items returned shall not be greater the Limit parameter.
         """
         return self.operator.call(

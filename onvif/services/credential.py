@@ -56,7 +56,7 @@ class Credential(ONVIFService):
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
         the next set of data. Please refer to section 4.8.3 in [ONVIF Access Control
-        Service Spec] for more details. The number of items returned shall not
+        Service Specification] for more details. The number of items returned shall not
         be greater than the Limit parameter.
         """
         return self.operator.call(
@@ -81,7 +81,7 @@ class Credential(ONVIFService):
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
         the next set of data. Please refer section 4.8.3 in [Access Control Service
-        Spec] for more details. The number of items returned shall not be
+        Specification] for more details. The number of items returned shall not be
         greater the Limit parameter.
         """
         return self.operator.call(
