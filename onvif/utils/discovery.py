@@ -1,4 +1,4 @@
-"""ONVIFDiscovery: Discover ONVIF-compliant devices on the local network using WS-Discovery protocol."""
+"""Discover ONVIF-compliant devices on the local network using WS-Discovery protocol."""
 
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ class ONVIFDiscovery:
         interface (str | None): Network interface IP to bind to (default: auto-detect)
 
     !!! tip "Version History"
-        - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6).
+        - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6)
     """
 
     WS_DISCOVERY_PORT: int = 3702
@@ -88,8 +88,11 @@ class ONVIFDiscovery:
     def get_local_ip(self) -> str:
         """Get local network interface IP address.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6)
+
         Returns:
-            str: Local IP address
+            Local IP address
         """
         if self._local_ip is not None:
             return self._local_ip
@@ -129,30 +132,33 @@ class ONVIFDiscovery:
     ) -> list[dict[str, Any]]:
         """Discover ONVIF devices on the network.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6)
+
         Args:
             prefer_https (bool): If True, prioritize HTTPS XAddrs when available
             search (str | None): Optional search term to filter devices by types or scopes (case-insensitive)
 
         Returns:
-            List of discovered devices (as dict); empty if none are available.
+            List of discovered devices (as dict); empty if none are available
 
         !!! abstract "Device dict"
 
             | Key | Type | Description |
             | --- | ---- | ----------- |
-            | `host` | `str` | Device IP address or hostname. |
-            | `port` | `int` | Device port number. |
-            | `use_https` | `bool` | Whether the device supports HTTPS. |
-            | `epr` | `str` | Endpoint reference. |
-            | `types` | `list[str]` | Device types. |
-            | `scopes` | `list[str]` | Device scopes. |
-            | `xaddrs` | `list[str]` | All available XAddrs. |
-            | `hostname` | `str | None` | Hostname of the device. |
-            | `date_time` | `dict[str, str]` | Device system date and time (`utc`, `local`); empty if none are available. |
-            | `services` | `list[str]` | List of supported ONVIF services; empty if none are available. |
+            | `host` | `str` | Device IP address or hostname |
+            | `port` | `int` | Device port number |
+            | `use_https` | `bool` | Whether the device supports HTTPS |
+            | `epr` | `str` | Endpoint reference |
+            | `types` | `list[str]` | Device types |
+            | `scopes` | `list[str]` | Device scopes |
+            | `xaddrs` | `list[str]` | All available XAddrs |
+            | `hostname` | `str | None` | Hostname of the device |
+            | `date_time` | `dict[str, str]` | System date and time (`utc`, `local`); empty if none are available |
+            | `services` | `list[str]` | List of supported ONVIF services; empty if none are available |
 
             !!! tip "Version History"
-                - Added in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `hostname`, `date_time`, and `services`.
+                - Added in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `hostname`, `date_time`, and `services`
         """
         local_ip = self.get_local_ip()
         logger.info("Starting ONVIF device discovery (timeout: %ss)", self.timeout)

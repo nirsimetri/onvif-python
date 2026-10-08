@@ -1,4 +1,4 @@
-"""ONVIFOperationException: Enhanced exception wrapper for ONVIF operation failures."""
+"""Enhanced exception wrapper for ONVIF operation failures."""
 
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ class ONVIFOperationException(Exception):
         original_exception (Exception): The underlying exception that was raised
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
+        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
 
     ## Error Categories
 

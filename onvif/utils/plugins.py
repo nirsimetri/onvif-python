@@ -25,16 +25,14 @@ class ONVIFParser(Plugin):
     `simpleContent` elements with attributes.
 
     Args:
-        extract_xpaths: Dictionary mapping extraction names to XPath expressions.
+        extract_xpaths: Dictionary mapping extraction names to XPath expressions
 
     Attributes:
         extract_xpaths: XPath expressions used to extract elements from SOAP
-            responses.
-        _extracted_elements: Extracted element texts from the most recent SOAP
-            response, grouped by extraction name.
+            responses
 
     !!! tip "Version History"
-        - Available since [`>=v0.2.2`](/onvif-python/releases/#v0.2.2).
+        - Available since [`>=v0.2.2`](/onvif-python/releases/#v0.2.2)
 
     ??? example "Usage"
         ```python linenums="1"
@@ -73,7 +71,7 @@ class ONVIFParser(Plugin):
 
         Args:
             extract_xpaths: Dictionary mapping names to XPath expressions.
-                            XPath expressions will be used to find elements in SOAP response.
+                XPath expressions will be used to find elements in SOAP response.
 
         Example:
             ```python
@@ -104,9 +102,9 @@ class ONVIFParser(Plugin):
         always contains values from the most recently processed SOAP response.
 
         Args:
-            envelope: Raw SOAP response envelope as an `lxml.etree.Element`.
-            http_headers: HTTP response headers returned by the device.
-            operation: Zeep operation associated with the SOAP response.
+            envelope: Raw SOAP response envelope as an `lxml.etree.Element`
+            http_headers: HTTP response headers returned by the device
+            operation: Zeep operation associated with the SOAP response
 
         Returns:
             A tuple containing the unchanged ``envelope`` and ``http_headers``.
@@ -170,8 +168,8 @@ class XMLCapturePlugin(Plugin):
         history (list[dict[str, Any]]): All captured requests/responses with metadata
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.6`](/onvif-python/releases/#v0.0.6).
-        - Moved to `plugins` since [`>=v0.4.0`](/onvif-python/releases/#v0.4.0).
+        - Available since [`>=v0.0.6`](/onvif-python/releases/#v0.0.6)
+        - Moved to `plugins` since [`>=v0.4.0`](/onvif-python/releases/#v0.4.0)
 
     !!! abstract "The plugin automatically captures"
         - Outgoing SOAP requests (`egress`)
@@ -279,13 +277,13 @@ class XMLCapturePlugin(Plugin):
         hook only observes the outgoing request and does not modify it.
 
         Args:
-            envelope: SOAP request envelope that is about to be sent.
-            http_headers: HTTP request headers that will be sent with the request.
-            operation: Zeep operation being invoked.
-            binding_options: Zeep binding options for the current request.
+            envelope: SOAP request envelope that is about to be sent
+            http_headers: HTTP request headers that will be sent with the request
+            operation: Zeep operation being invoked
+            binding_options: Zeep binding options for the current request
 
         Returns:
-            A tuple containing the unchanged ``envelope`` and ``http_headers``.
+            A tuple containing the unchanged ``envelope`` and ``http_headers``
         """
         logger.debug(
             "Capturing outgoing SOAP request for operation: %s", operation.name
@@ -331,12 +329,12 @@ class XMLCapturePlugin(Plugin):
         hook only observes the incoming response and does not modify it.
 
         Args:
-            envelope: Raw SOAP response envelope received from the device.
-            http_headers: HTTP response headers returned by the device.
-            operation: Zeep operation associated with the response.
+            envelope: Raw SOAP response envelope received from the device
+            http_headers: HTTP response headers returned by the device
+            operation: Zeep operation associated with the response
 
         Returns:
-            A tuple containing the unchanged ``envelope`` and ``http_headers``.
+            A tuple containing the unchanged ``envelope`` and ``http_headers``
         """
         logger.debug(
             "Capturing incoming SOAP response for operation: %s", operation.name
@@ -437,14 +435,13 @@ class ReferenceParametersPlugin(Plugin):
 
     Attributes:
         reference_parameters: XML elements to inject into outgoing SOAP
-            headers.
+            headers
 
     !!! tip "Version History"
-        - Available since [`>=v0.3.1`](/onvif-python/releases/#v0.3.1).
+        - Available since [`>=v0.3.1`](/onvif-python/releases/#v0.3.1)
 
     !!! note
-
-        The plugin supports both SOAP 1.1 and SOAP 1.2 envelope namespaces.
+        The plugin supports both SOAP 1.1 and SOAP 1.2 envelope namespaces
     """
 
     SOAP_NAMESPACES = (
@@ -472,16 +469,16 @@ class ReferenceParametersPlugin(Plugin):
         XML elements remain unchanged and can safely be reused.
 
         Args:
-            envelope: SOAP request envelope that is about to be sent.
-            http_headers: HTTP request headers that will be sent with the request.
-            operation: Zeep operation being invoked.
-            binding_options: Zeep binding options for the current request.
+            envelope: SOAP request envelope that is about to be sent
+            http_headers: HTTP request headers that will be sent with the request
+            operation: Zeep operation being invoked
+            binding_options: Zeep binding options for the current request
 
         Returns:
-            A tuple containing the modified ``envelope`` and the unchanged ``http_headers``.
+            A tuple containing the modified ``envelope`` and the unchanged ``http_headers``
 
         Raises:
-            RuntimeError: If the SOAP envelope uses an unsupported SOAP namespace.
+            RuntimeError: If the SOAP envelope uses an unsupported SOAP namespace
         """
         soap_namespace = etree.QName(envelope).namespace
 

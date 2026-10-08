@@ -1,4 +1,4 @@
-"""ONVIFWSDL: WSDL file manager for ONVIF services with support for built-in and custom WSDL dir."""
+"""WSDL file manager for ONVIF services with support for built-in and custom WSDL dir."""
 
 from __future__ import annotations
 
@@ -25,10 +25,9 @@ class ONVIFWSDL:
     Attributes:
         BASE_DIR (str): Default base directory for WSDL files (Built-in)
         WSDL_MAP (dict[str, dict[str, Any]] | None): Will be initialized when first accessed
-        _custom_wsdl_dir (str | None): Global custom WSDL directory
 
     !!! tip "Version History"
-        - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0).
+        - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
 
     !!! abstract "Features"
         - Centralized WSDL definition mapping for all ONVIF services
@@ -71,6 +70,7 @@ class ONVIFWSDL:
     !!! question "Service Definition Format"
         Each service has a definition containing:
 
+        - `filename` : WSDL file name
         - `path`: Full path to WSDL file
         - `binding`: SOAP binding name (e.g., "DeviceBinding")
         - `namespace`: XML namespace URI (e.g., "http://www.onvif.org/ver10/device/wsdl")
@@ -101,8 +101,11 @@ class ONVIFWSDL:
     _custom_wsdl_dir: str | None = None
 
     @classmethod
-    def set_custom_wsdl_dir(cls, custom_dir) -> None:
+    def set_custom_wsdl_dir(cls, custom_dir: str) -> None:
         """Set global custom WSDL directory for all services.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
 
         Args:
             custom_dir (str): Path to directory containing custom WSDL files
@@ -122,8 +125,11 @@ class ONVIFWSDL:
     def get_custom_wsdl_dir(cls) -> str | None:
         """Get current global custom WSDL directory.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
+
         Returns:
-            str or None: Current custom WSDL directory, or None if using built-in
+            Current custom WSDL directory, or None if using built-in
 
         Example:
             ```python linenums="1"
@@ -139,6 +145,9 @@ class ONVIFWSDL:
     def clear_custom_wsdl_dir(cls) -> None:
         """Clear custom WSDL directory, revert to built-in WSDLs.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
+
         Example:
             ```python linenums="1"
             from onvif import ONVIFWSDL
@@ -152,13 +161,13 @@ class ONVIFWSDL:
         cls._custom_wsdl_dir = None
 
     @classmethod
-    def _get_base_dir(cls, custom_wsdl_dir=None) -> str | Any:
+    def _get_base_dir(cls, custom_wsdl_dir: str | None = None) -> str | Any:
         """Get the base WSDL directory, using custom directory if provided.
 
         This method implements the priority chain for WSDL directory resolution.
 
         Args:
-            custom_wsdl_dir (str, optional): Per-call custom directory
+            custom_wsdl_dir (str | None): Per-call custom directory
 
         Returns:
             str: Resolved WSDL base directory path
@@ -187,7 +196,7 @@ class ONVIFWSDL:
         The structure differs based on whether custom WSDLs are used.
 
         Args:
-            custom_wsdl_dir (str, optional): Custom WSDL directory path
+            custom_wsdl_dir (str | None): Custom WSDL directory path
 
         Returns:
             dict: Complete WSDL mapping for all services
@@ -196,6 +205,7 @@ class ONVIFWSDL:
                 {
                     "{service_name}": {
                         "{version}": {
+                            "filename": "service.wsdl",
                             "path": "/full/path/to/service.wsdl",
                             "binding": "ServiceBinding",
                             "namespace": "http://www.onvif.org/ver10/service/wsdl"
@@ -248,7 +258,11 @@ class ONVIFWSDL:
 
     @classmethod
     def get_wsdl_map(cls) -> dict[str, dict[str, Any]]:
-        """Get the complete WSDL map for all services."""
+        """Get the complete WSDL map for all services.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        """
         cls._ensure_wsdl_map_initialized()
 
         if cls.WSDL_MAP is None:
@@ -265,6 +279,9 @@ class ONVIFWSDL:
         Returns complete WSDL definition including file path, SOAP binding name,
         and XML namespace for the requested service and version.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
+
         Args:
             service (str): Service name (e.g., "devicemgmt", "media", "ptz").
             version (str): ONVIF version (default: "ver10").
@@ -279,9 +296,13 @@ class ONVIFWSDL:
 
             | Key | Type | Description |
             | --- | ---- | ----------- |
+            | `filename` | `str`  | WSDL file name |
             | `path` | `str | None` | Full path to WSDL file |
             | `binding` | `str` | SOAP binding name |
             | `namespace` | `str` | XML namespace URI |
+
+            !!! tip "Version History"
+                - Added in [`>=v0.4.5`](/onvif-python/releases/#v0.4.5): `filename`
 
         ??? note
             - Most services use ver10, some newer ones use ver20

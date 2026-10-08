@@ -21,7 +21,7 @@ class PausableSubscription(ONVIFService):
     | **Spec** | [PausableSubscription](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.htm#_Toc133735641) |
 
     !!! tip "Version History"
-        - Available since [`>=v0.2.4`](/onvif-python/releases/#v0.2.4).
+        - Available since [`>=v0.2.4`](/onvif-python/releases/#v0.2.4)
     """
 
     def __init__(self, xaddr=None, **kwargs):

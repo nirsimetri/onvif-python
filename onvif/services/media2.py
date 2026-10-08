@@ -304,7 +304,11 @@ class Media2(ONVIFService):
         )
 
     def SetEQPresetConfiguration(self, Configuration):
-        """This command is to configure Audio EQPreset."""
+        """This command is to configure Audio EQPreset.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.4.3`](/onvif-python/releases/#v0.4.3)
+        """
         return self.operator.call(
             "SetEQPresetConfiguration", Configuration=Configuration
         )
@@ -651,7 +655,11 @@ class Media2(ONVIFService):
     def AddTTSAudioClip(self, Configuration, TTSConfiguration, Token=None):
         """This operation sends a text and its configuration to device that supports TTS
         function, so that device could convert the text into an audio clip and play it
-        according to audio clip Configuration and TTS Configuration."""
+        according to audio clip Configuration and TTS Configuration.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        """
         return self.operator.call(
             "AddTTSAudioClip",
             Token=Token,
@@ -666,21 +674,33 @@ class Media2(ONVIFService):
 
     def GetMulticastAudioDecoderConfigurationOptions(self, ConfigurationToken=None):
         """This operation gets the available options for the MulticastAudioDecoder
-        configuration."""
+        configuration.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+        """
         return self.operator.call(
             "GetMulticastAudioDecoderConfigurationOptions",
             ConfigurationToken=ConfigurationToken,
         )
 
     def GetMulticastAudioDecoderConfigurations(self, ConfigurationToken=None):
-        """This operation gets the list of multicast audio decoder configurations."""
+        """This operation gets the list of multicast audio decoder configurations.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+        """
         return self.operator.call(
             "GetMulticastAudioDecoderConfigurations",
             ConfigurationToken=ConfigurationToken,
         )
 
     def SetMulticastAudioDecoderConfiguration(self, Configuration):
-        """This operation sets the MulticastAudioDecoderConfiguration."""
+        """This operation sets the MulticastAudioDecoderConfiguration.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+        """
         return self.operator.call(
             "SetMulticastAudioDecoderConfiguration", Configuration=Configuration
         )

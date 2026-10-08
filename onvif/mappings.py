@@ -15,7 +15,7 @@ class WSDLDefinition(TypedDict):
 
 WSDLMap = dict[str, dict[str, WSDLDefinition]]
 
-ONVIF_WSDL_MAP: Final[dict[str, dict[str, WSDLDefinition]]] = {
+ONVIF_WSDL_MAP: Final[WSDLMap] = {
     "devicemgmt": {
         "ver10": {
             "filename": "devicemgmt.wsdl",

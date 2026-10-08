@@ -311,6 +311,9 @@ class Device(ONVIFService):
 
         Whenever an editable user level is passed in the request, information only about
         that level is returned.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.7`](/onvif-python/releases/#v0.2.7)
         """
         return self.operator.call("GetUserRoles", UserRole=UserRole)
 
@@ -319,11 +322,18 @@ class Device(ONVIFService):
 
         If the level passed in UserRole already exists in the device, its configuration
         is overwritten. Otherwise, a new editable user level is created.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.7`](/onvif-python/releases/#v0.2.7)
         """
         return self.operator.call("SetUserRole", UserRole=UserRole)
 
     def DeleteUserRole(self, UserRole):
-        """This operation deletes an editable user level in the device."""
+        """This operation deletes an editable user level in the device.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.7`](/onvif-python/releases/#v0.2.7)
+        """
         return self.operator.call("DeleteUserRole", UserRole=UserRole)
 
     def GetUsers(self):
@@ -896,6 +906,9 @@ class Device(ONVIFService):
         as all the parameters of the Uplink and Security service unchanged, so that it
         can connect to the cloud. Additionally a firmware upgrade shall not change user
         credentials.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
         """
         return self.operator.call("UpgradeFirmware", Version=Version)
 
