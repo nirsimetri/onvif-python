@@ -350,7 +350,11 @@ class Search(ONVIFService):
         MaxMatches=None,
     ):
         """Starts a natural language search session and specifies the search
-        parameters."""
+        parameters.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        """
         return self.operator.call(
             "SearchImageByNL",
             StartPoint=StartPoint,
@@ -365,7 +369,11 @@ class Search(ONVIFService):
     def GetNLSearchResults(
         self, SearchToken, MinResults=None, MaxResults=None, WaitTime=None
     ):
-        """Gets results from a natural language search session."""
+        """Gets results from a natural language search session.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        """
         return self.operator.call(
             "GetNLSearchResults",
             SearchToken=SearchToken,
@@ -384,7 +392,11 @@ class Search(ONVIFService):
         TargetImageData=None,
         MaxMatches=None,
     ):
-        """Starts an image-based search session and specifies the search parameters."""
+        """Starts an image-based search session and specifies the search parameters.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        """
         return self.operator.call(
             "SearchImageByImage",
             StartPoint=StartPoint,
@@ -399,7 +411,11 @@ class Search(ONVIFService):
     def GetImageSearchResults(
         self, SearchToken, MinResults=None, MaxResults=None, WaitTime=None
     ):
-        """Gets results from an image-based search session."""
+        """Gets results from an image-based search session.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        """
         return self.operator.call(
             "GetImageSearchResults",
             SearchToken=SearchToken,

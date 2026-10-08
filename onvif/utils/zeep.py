@@ -1,4 +1,4 @@
-"""ZeepPatcher: Patch zeep SOAP library to handle ONVIF `xsd:any` fields."""
+"""Patch zeep SOAP library to handle ONVIF `xsd:any` fields."""
 
 from __future__ import annotations
 
@@ -23,12 +23,8 @@ class ZeepPatcher:
     elements, making them difficult to work with. The patch converts them into
     structured dictionaries with proper type conversion.
 
-    Attributes:
-        _original_parse_xmlelements (Callable[..., Any]): Backup of original zeep method
-        _is_patched (bool): Current patch status
-
     !!! tip "Version History"
-        - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4).
+        - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
 
     !!! failure "The Problem"
         ONVIF uses `xsd:any` extensively for extensibility. By default, zeep doesn't
@@ -387,6 +383,9 @@ class ZeepPatcher:
         This handles all `xsd:any` occurrences (`_value_1`, `_value_2`, `_value_3`, etc.),
         not just the first one.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+
         Args:
             obj (XsdAny): The zeep object to process
             _visited (XsdAny): Set of visited object IDs to prevent infinite recursion
@@ -632,6 +631,9 @@ class ZeepPatcher:
         This enables better parsing of `xsd:any` fields in ONVIF SOAP responses.
         Should be called once at application startup.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+
         Example:
             ```python linenums="1"
             from onvif import ZeepPatcher
@@ -654,6 +656,9 @@ class ZeepPatcher:
 
         Reverts zeep to its original behavior. Useful for testing or debugging.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+
         Example:
             ```python linenums="1"
             from onvif import ZeepPatcher
@@ -673,8 +678,11 @@ class ZeepPatcher:
     def is_patched(cls) -> bool:
         """Check if the patch is currently applied.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+
         Returns:
-            `True` if patch is active, `False` otherwise.
+            `True` if patch is active, `False` otherwise
 
         Example:
             ```python linenums="1"

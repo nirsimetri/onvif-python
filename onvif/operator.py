@@ -1,4 +1,4 @@
-"""ONVIFOperator: Low-level ONVIF service operator using Zeep SOAP client."""
+"""Low-level ONVIF service operator using Zeep SOAP client."""
 
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ class CacheMode(Enum):
         DB (Literal['db']): Persistent SQLite caching across process restarts.
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
+        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
         - Removed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
     """
 
@@ -99,7 +99,7 @@ class ONVIFOperator:
     WSDL loading, service binding, authentication, caching, and error handling.
 
     !!! danger
-        ``ONVIFOperator`` is typically used internally by service classes
+        ``ONVIFOperator`` is typically **used internally** by service classes
         such as Device, Media, and PTZ, and is not intended to be
         instantiated directly by end users.
 
@@ -120,7 +120,8 @@ class ONVIFOperator:
         service_name (str): Name of the ONVIF service (e.g., "Device", "Media")
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
+        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
+        - No version tracking for attribute changes because this class is used internally
     """
 
     def __init__(
@@ -272,6 +273,9 @@ class ONVIFOperator:
         errors gracefully. It automatically flattens `xsd:any` fields in the response
         when `apply_patch` is enabled.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
+
         Args:
             method (str): Name of the ONVIF operation to call (e.g., "GetDeviceInformation")
             *args (Any): Positional arguments to pass to the operation
@@ -321,18 +325,21 @@ class ONVIFOperator:
         and response definitions while overriding the operation name and SOAP
         action.
 
+        !!! tip "Version History"
+            - Available since [`>=v0.4.3`](/onvif-python/releases/#v0.4.3)
+
         Args:
-            legacy_method: Name of the legacy ONVIF operation.
-            current_method: Name of the operation defined by the current WSDL.
-            *args (Any): Positional arguments to pass to the operation.
-            **kwargs (Any): Keyword arguments to pass to the operation.
+            legacy_method: Name of the legacy ONVIF operation
+            current_method: Name of the operation defined by the current WSDL
+            *args (Any): Positional arguments to pass to the operation
+            **kwargs (Any): Keyword arguments to pass to the operation
 
         Returns:
            The operation result with `xsd:any` fields flattened if `apply_patch=True`
 
         Raises:
             ONVIFOperationException: If either operation cannot be resolved or
-                the SOAP operation fails.
+                the SOAP operation fails
         """
         logger.debug(
             "Calling legacy ONVIF method: %s.%s -> %s",
@@ -398,6 +405,9 @@ class ONVIFOperator:
 
         Recursively initializes nested complex types so that fields like TimeZone, DateTime,
         Date, and Time are properly instantiated as objects rather than None.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.1.9`](/onvif-python/releases/#v0.1.9)
 
         Args:
             type_name (str): Name of the type to create (e.g., 'SetHostname', 'SetIPAddressFilter')

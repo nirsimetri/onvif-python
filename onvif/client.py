@@ -1,4 +1,4 @@
-"""ONVIFClient: High-level ONVIF client for interacting with ONVIF-compliant devices."""
+"""High-level ONVIF client for interacting with ONVIF-compliant devices."""
 
 from __future__ import annotations
 
@@ -116,11 +116,14 @@ class ONVIFClient:
         services (list): List of available services from `GetServices` response
         capabilities (CompoundValue): Device capabilities from `GetCapabilities` response (fallback)
         xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if `capture_xml=True`)
-        plugins (list[Plugin] | None): List of user-provided Zeep plugins (if any)
         wsdl_dir (str | None): Custom WSDL directory path (if provided)
+        plugins (list[Plugin] | None): List of user-provided Zeep plugins (if any)
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
+        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
+        - Added in [`>=v0.0.6`](/onvif-python/releases/#v0.0.6): `xml_plugin`
+        - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
+        - Added in [`>=v0.4.3`](/onvif-python/releases/#v0.4.3): `plugins`
     """
 
     def __init__(
@@ -589,7 +592,12 @@ class ONVIFClient:
 
     @service
     def pausable_subscription(self, SubscriptionRef) -> PausableSubscription:
-        """Access the PausableSubscription service."""
+        """
+        Access the PausableSubscription service.
+
+        !!! tip "Version History"
+            - Available since [`>=v0.2.4`](/onvif-python/releases/#v0.2.4)
+        """
         logger.debug("Initializing PausableSubscription service")
         return self._get_subscription_service(
             SubscriptionRef,
