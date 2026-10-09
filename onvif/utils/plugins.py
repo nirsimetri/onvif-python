@@ -171,14 +171,14 @@ class XMLCapturePlugin(Plugin):
         - Available since [`>=v0.0.6`](/onvif-python/releases/#v0.0.6)
         - Moved to `plugins` since [`>=v0.4.0`](/onvif-python/releases/#v0.4.0)
 
-    !!! abstract "The plugin automatically captures"
+    !!! question "The plugin automatically captures"
         - Outgoing SOAP requests (`egress`)
         - Incoming SOAP responses (`ingress`)
         - HTTP headers for both directions
         - Operation names for context
         - Complete history of all transactions
 
-    !!! danger "Use Cases"
+    !!! bug "Use Cases"
         1. **Debugging**: See exact SOAP messages being sent/received
         2. **Learning**: Understand ONVIF protocol structure
         3. **Testing**: Verify request format and response structure

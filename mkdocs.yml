@@ -1,37 +1,63 @@
 site_name: ONVIF Python
-site_description: A modern Python library for ONVIF-compliant IP cameras and devices, providing a clean, typed API for discovery, device management, media, PTZ, and events.
+site_description: >-
+  A modern Python library for ONVIF-compliant IP cameras and devices, providing a clean,
+  typed API for discovery, device management, media, PTZ, and events.
 site_url: https://nirsimetri.github.io/onvif-python/
 repo_url: https://github.com/nirsimetri/onvif-python
 repo_name: nirsimetri/onvif-python
+edit_uri: edit/main/docs/
 use_directory_urls: true
 
 theme:
   name: material
+  language: en
   custom_dir: docs/overrides
   logo: assets/nirsimetri-light.svg
   favicon: assets/nirsimetri-dark.svg
   icon:
     repo: fontawesome/brands/github
+    admonition:
+      example: material/code-tags
+      danger: material/skull
+      bug: material/flask-outline
+      note: material/book-open-variant
+      tip: material/source-pull
+      info: material/lightbulb
+      abstract: material/feature-search
+      warning: material/traffic-cone
+      question: material/telescope
+      success: material/check-circle
+      failure: material/cancel
   font:
     text: Manrope
     code: JetBrains Mono
   features:
+    - content.code.copy
+    - content.code.annotate
+    - content.tooltips
+    - content.footnote.tooltips
+    - navigation.path
+    - navigation.indexes
     - navigation.instant
     - navigation.instant.progress
     - navigation.instant.preview
     - navigation.sections
     - navigation.top
-    - content.code.copy
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.footer
+    - navigation.prune
+    - search.highlight
     - search.suggest
-    - content.tooltips
-    - content.footnote.tooltips
+    - toc.follow
+    
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: custom
       accent: custom
       toggle:
-        icon: material/weather-night
+        icon: material/lightbulb-on-10
         name: Switch to dark mode
 
     - media: "(prefers-color-scheme: dark)"
@@ -39,94 +65,116 @@ theme:
       primary: custom
       accent: custom
       toggle:
-        icon: material/weather-sunny
+        icon: material/lightbulb-on-90
         name: Switch to light mode
 
 nav:
-  - About: index.md
-  - Philosophy: philosophy.md
-  - Installation: installation.md
-  - Quick Start: quick_start.md
-  - Core:
-    - Client: core/onvif_client.md
-    - CLI: core/onvif_cli.md
-    - Discovery: core/onvif_discovery.md
-  - Utilities:
-    - Helper Methods: utilities/helper_methods.md
-  - References:
-    - ONVIF Profiles: references/supported_profiles.md
+  - Home: index.md
+  - Get Started:
+    - Philosophy: philosophy.md
+    - Installation: installation.md
+    - Quickstart: quick_start.md
+    - Main Features:
+      - Client: main/onvif_client.md
+      - CLI: main/onvif_cli.md
+    - Utilities:
+      - Helper Methods: utilities/helper_methods.md
+  - Reference:
+    - ONVIF Profiles:
+      - Supports: references/supported_profiles.md
     - ONVIF Services:
       - Coverage: references/implemented_services.md
-      - Service Discovery: references/service_discovery.md
-      - Service Bindings: references/service_bindings.md
+      - Discovery: references/service_discovery.md
+      - Bindings: references/service_bindings.md
   - API:
+    - api/index.md
     - Core:
+      - api/core/index.md
       - ONVIFClient: api/core/onvif_client.md
       - ONVIFOperator: api/core/onvif_operator.md
-      - ONVIFDiscovery: api/core/onvif_discovery.md
     - Exceptions:
+      - api/exceptions/index.md
       - ONVIFOperationException: api/exceptions/onvif_exception.md
       - Error Handlers: api/exceptions/onvif_error_handlers.md
     - Utilities:
+      - api/utilities/index.md
+      - ONVIFDiscovery: api/utilities/onvif_discovery.md
       - CacheMode: api/utilities/cache_mode.md
       - ONVIFWSDL: api/utilities/onvif_wsdl.md
       - ONVIFService: api/utilities/onvif_service.md
       - ZeepPatcher: api/utilities/zeep_patcher.md
       - Plugins: api/utilities/plugins.md
     - Services:
+      - api/services/index.md
       - Device: api/services/device.md
       - Events:
-        - Events: api/services/events.md
-        - PullPoint: api/services/pullpoint.md
-        - Notification: api/services/notification.md
-        - Subscription: api/services/subscription.md
-        - PausableSubscription: api/services/pausable_subscription.md
+        - api/services/events/index.md
+        - PullPoint: api/services/events/pullpoint.md
+        - Notification: api/services/events/notification.md
+        - Subscription: api/services/events/subscription.md
+        - PausableSubscription: api/services/events/pausable_subscription.md
       - Imaging: api/services/imaging.md
       - Media: api/services/media.md
       - Media2: api/services/media2.md
       - PTZ: api/services/ptz.md
+      - Provisioning: api/services/provisioning.md
       - DeviceIO: api/services/deviceio.md
       - Display: api/services/display.md
+      - Thermal: api/services/thermal.md
       - Analytics:
-        - Analytics: api/services/analytics.md
-        - RuleEngine: api/services/ruleengine.md
+        - api/services/analytics/index.md
+        - RuleEngine: api/services/analytics/ruleengine.md
       - AnalyticsDevice: api/services/analyticsdevice.md
-      - AccessControl: api/services/accesscontrol.md
-      - DoorControl: api/services/doorcontrol.md
-      - AccessRules: api/services/accessrules.md
-      - ActionEngine: api/services/actionengine.md
-      - AppManagement: api/services/appmgmt.md
-      - AuthenticationBehavior: api/services/authenticationbehavior.md
-      - Credential: api/services/credential.md
+      - Receiver: api/services/receiver.md
       - Recording: api/services/recording.md
       - Search: api/services/search.md
       - Replay: api/services/replay.md
-      - Provisioning: api/services/provisioning.md
-      - Receiver: api/services/receiver.md
+      - ActionEngine: api/services/actionengine.md
       - Schedule: api/services/schedule.md
-      - Thermal: api/services/thermal.md
-      - Uplink: api/services/uplink.md
+      - AccessControl: api/services/accesscontrol.md
+      - DoorControl: api/services/doorcontrol.md
+      - AccessRules: api/services/accessrules.md
+      - AuthenticationBehavior: api/services/authenticationbehavior.md
+      - Credential: api/services/credential.md
       - Security:
-        - AdvancedSecurity: api/services/advancedsecurity.md
-        - AuthorizationServer: api/services/authorizationserver.md
-        - Dot1x: api/services/dot1x.md
-        - JWT: api/services/jwt.md
-        - KeyStore: api/services/keystore.md
-        - MediaSigning: api/services/mediasigning.md
-        - TLSServer: api/services/tlsserver.md
+        - api/services/security/index.md
+        - AuthorizationServer: api/services/security/authorizationserver.md
+        - Dot1x: api/services/security/dot1x.md
+        - JWT: api/services/security/jwt.md
+        - KeyStore: api/services/security/keystore.md
+        - MediaSigning: api/services/security/mediasigning.md
+        - TLSServer: api/services/security/tlsserver.md
+      - AppManagement: api/services/appmgmt.md
+      - Uplink: api/services/uplink.md
   - Project:
     - Contributing: project/contributing.md
     - Roadmap: project/roadmap.md
     - Used By: project/used_by.md
     - External: project/external.md
   - Legal:
-    - Legal Notice: legal/legal_notice.md
+    - Notice: legal/notice.md
     - License: legal/license.md
   - Releases: releases.md  # It will be hidden because it serves as a placeholder.
 
 plugins:
   - search
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      js_files:
+        - javascripts/github-releases.js
+        - javascripts/external-links.js
+      css_files:
+        - stylesheets/extra.css
+  - git-revision-date-localized:
+      exclude:
+        - releases.md
+      type: timeago
+      enable_creation_date: true
   - git-authors:
+      exclude:
+        - releases.md
       show_contribution: true
       show_email_address: false
       sort_authors_by: contribution
@@ -157,6 +205,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
@@ -168,6 +219,30 @@ validation:
 
 extra:
   generator: false
+  social:
+    - icon: fontawesome/solid/globe
+      link: https://nirsimetri.com
+      name: Website
+
+    - icon: fontawesome/brands/github
+      link: https://github.com/nirsimetri
+      name: GitHub
+
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/onvif-python/
+      name: PyPI
+
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/nirsimetri
+      name: X
+
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@nirsimetri
+      name: Mastodon
+
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/nirsimetri-technologies
+      name: LinkedIn
 
 extra_css:
   - stylesheets/extra.css
@@ -181,4 +256,5 @@ extra_javascript:
 hooks:
   - docs/hooks.py
 
-copyright: Copyright &copy; 2026 &nbsp;—&nbsp; <a href="https://github.com/nirsimetri"><b>Nirsimetri Technologies®</b></a>
+copyright: >-
+  Copyright &copy; 2026 &nbsp;—&nbsp; <a href="https://github.com/nirsimetri"><b>Nirsimetri Technologies®</b></a>

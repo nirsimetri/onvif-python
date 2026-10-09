@@ -1,3 +1,8 @@
+---
+hide:
+  - path
+---
+
 MIT License
 
 Copyright (c) 2025-2026 Nirsimetri Technologies®

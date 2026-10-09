@@ -1,3 +1,8 @@
+---
+hide:
+  - path
+---
+
 !!! info
     This library will be continuously updated as ONVIF versions are updated. It uses a built-in WSDL that will always follow changes to the [ONVIF WSDL Specifications](https://github.com/onvif/specs).
     

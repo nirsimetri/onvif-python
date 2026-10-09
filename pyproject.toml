@@ -78,6 +78,8 @@ docs = [
     "mkdocs-material>=9.7.7,<10.0.0",
     "mkdocstrings[python]>=1.0.0,<3.0.0",
     "mkdocs-git-authors-plugin>=0.10.0,<1.0.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.6.0,<2.0.0",
+    "mkdocs-minify-plugin>=0.8.0,<1.0.0",
 ]
 
 [project.scripts]

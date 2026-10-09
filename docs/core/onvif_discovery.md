@@ -1,1 +1,0 @@
-To be written.. see [`ONVIFDiscovery`](../api/core/onvif_discovery.md)

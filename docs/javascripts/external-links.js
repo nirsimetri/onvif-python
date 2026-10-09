@@ -2,6 +2,14 @@
 
 document$.subscribe(() => {
   document.querySelectorAll('.md-content a[href]').forEach((link) => {
+    if (
+      link.closest('.md-content__button') ||
+      link.closest('.md-content__button--edit') ||
+      link.closest('.md-content__button--view')
+    ) {
+      return;
+    }
+    
     const url = new URL(link.href, window.location.href);
 
     if (
@@ -20,9 +28,7 @@ document$.subscribe(() => {
         icon.setAttribute("aria-hidden", "true");
 
         icon.innerHTML = `
-          <svg viewBox="0 0 24 24">
-            <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h5V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5h-2v5H5V5z"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="m216-160-56-56 464-464H360v-80h400v400h-80v-264L216-160Z"/></svg>
         `;
 
         link.appendChild(icon);

@@ -1,10 +1,9 @@
-# ONVIF Python
+# ONVIF Python [![Downloads](https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red&style=plastic)](https://pepy.tech/projects/onvif-python)
 
 [![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python)](https://pypi.org/project/onvif-python)
 [![PyPI Version](https://img.shields.io/pypi/v/onvif-python?logo=pypi&logoColor=white&color=blue&style=plastic&label=PyPI)](https://pypi.org/project/onvif-python/)
 [![Quality](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Quality)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard)
 [![Coverage](https://img.shields.io/codacy/coverage/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Coverage)](https://app.codacy.com/gh/nirsimetri/onvif-python/coverage)
-[![Downloads](https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red&style=plastic)](https://pepy.tech/projects/onvif-python)
 <br>
 [![Build](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-app.yml?logo=github&style=plastic&label=Build)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
 [![Upload Python](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-publish.yml?logo=github&style=plastic&label=Upload%20Package)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml)
@@ -34,6 +33,12 @@ This library simplifies that process by wrapping SOAP communication into a clean
 From official [PyPI](https://pypi.org/project/onvif-python/):
 ```shell
 pip install --upgrade onvif-python
+```
+
+Or install using [pipx](https://pipx.pypa.io/stable/) for an isolated environment:
+```shell
+pipx install git+https://github.com/nirsimetri/onvif-python
+
 ```
 
 Or clone this repository and install locally:

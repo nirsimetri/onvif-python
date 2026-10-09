@@ -1,3 +1,8 @@
+---
+hide:
+  - path
+---
+
 !!! warning
     Before performing any operations on an ONVIF device, it is highly recommended to discover which services are available and supported by the device.
     
@@ -19,7 +24,7 @@ By checking available services, your application can adapt its workflow and UI t
 
 ## How service discovery works in this library
 
-!!! tip
+!!! question "Behind the scene"
     The library handles service discovery automatically with intelligent fallback. You typically don't need to call discovery methods manually unless you need detailed capability information or want to refresh the service list after device configuration changes.
 
 The [`ONVIFClient`](../api/core/onvif_client.md) uses a **3-tier discovery approach** to maximize device compatibility:

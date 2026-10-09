@@ -1,4 +1,7 @@
-def on_page_content(html, page, config, files):
+"""Mkdocs hooks."""
+
+
+def on_page_content(html, page, config, files):  # pylint: disable=unused-argument
     """Exclude mkdocstrings source blocks from Material search."""
     return html.replace(
         '<details class="mkdocstrings-source">',

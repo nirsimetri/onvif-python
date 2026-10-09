@@ -1,13 +1,18 @@
+---
+hide:
+  - path
+---
+
 Below are simple examples to help you get started with the ONVIF Python library. These demonstrate how to discover and connect to ONVIF-compliant devices and retrieve basic device information.
 
-!!! tip "For beginners"
+!!! note "For beginners"
     If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course).
     
-    Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](legal/legal_notice.md) for details.
+    Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](legal/notice.md) for details.
 
 ### Discover ONVIF Devices
 
-Use [`ONVIFDiscovery`](api/core/onvif_discovery.md) (applied at [`>=v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
+Use [`ONVIFDiscovery`](api/utilities/onvif_discovery.md) (applied at [`>=v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
 
 ```python linenums="1"
 from onvif import ONVIFDiscovery

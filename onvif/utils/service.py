@@ -392,7 +392,9 @@ class ONVIFService:
             zeep_object (Any): The zeep object returned from ONVIF operations
 
         Returns:
-            Python dictionary representation of the zeep object
+            Python `dict` representation of the Zeep object.
+            Returns an empty dict `{}` if `zeep_object` is `None` or
+                if conversion fails for any reason.
 
         Example:
             ```python linenums="1"

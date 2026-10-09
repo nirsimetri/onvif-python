@@ -1,3 +1,8 @@
+---
+hide:
+  - path
+---
+
 ## Contributors
 
 <a href="https://github.com/nirsimetri/onvif-python/graphs/contributors">
@@ -216,6 +221,7 @@ docs/
 ├── utilities/
 ├── project/
 ├── legal/
+├── hooks.py
 ├── index.md
 ├── installation.md
 ├── quick_start.md

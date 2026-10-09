@@ -29,14 +29,6 @@ class ONVIFWSDL:
     !!! tip "Version History"
         - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
 
-    !!! abstract "Features"
-        - Centralized WSDL definition mapping for all ONVIF services
-        - Support for multiple ONVIF versions (ver10, ver20)
-        - Custom WSDL directory support (global and per-call)
-        - Automatic path resolution for built-in and custom WSDLs
-        - Service discovery with namespace and binding information
-        - File existence validation
-
     !!! warning "WSDL Structure"
         Built-in WSDLs are organized in the ONVIF standard directory structure:
 
@@ -67,7 +59,7 @@ class ONVIFWSDL:
             └── ptz.wsdl
         ```
 
-    !!! question "Service Definition Format"
+    !!! abstract "Service Definition Format"
         Each service has a definition containing:
 
         - `filename` : WSDL file name
@@ -75,7 +67,7 @@ class ONVIFWSDL:
         - `binding`: SOAP binding name (e.g., "DeviceBinding")
         - `namespace`: XML namespace URI (e.g., "http://www.onvif.org/ver10/device/wsdl")
 
-    ??? tip "Custom WSDL Directory Priority"
+    ??? question "Custom WSDL Directory Priority"
         1. Per-call `custom_wsdl_dir` parameter (highest priority)
         2. Global `_custom_wsdl_dir` setting
         3. Built-in `BASE_DIR` (default)

@@ -52,7 +52,7 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } WSDL/XSD documents are fetched without caching
 
-    !!! danger "Use case"
+    !!! bug "Use case"
         Debugging, testing, and situations where fresh WSDL/XSD documents
         are required.
     """
@@ -69,7 +69,7 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } Cache is lost when the process exits
 
-    !!! danger "Use case"
+    !!! bug "Use case"
         Long-running applications, temporary sessions, and applications
         where persistent cache storage is not required.
     """
@@ -86,7 +86,7 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } Requires disk I/O and a writable cache directory
 
-    !!! danger "Use case"
+    !!! bug "Use case"
         Production applications, CLI tools, and environments where
         WSDL/XSD caching should persist across restarts.
     """
