@@ -29,8 +29,8 @@ theme:
       success: material/check-circle
       failure: material/cancel
   font:
-    text: Manrope
-    code: JetBrains Mono
+    text: Geist
+    code: Geist Mono
   features:
     - content.code.copy
     - content.code.annotate
@@ -79,7 +79,8 @@ nav:
       - CLI: main/onvif_cli.md
     - Utilities:
       - Helper Methods: utilities/helper_methods.md
-  - Reference:
+  - References:
+    - references/index.md
     - ONVIF Profiles:
       - Supports: references/supported_profiles.md
     - ONVIF Services:
@@ -203,11 +204,12 @@ markdown_extensions:
       pygments_lang_class: true
       linenums_style: pymdownx-inline
   - pymdownx.emoji:
+      strict: true
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
       options:
         custom_icons:
-          - overrides/.icons
+          - docs/overrides/.icons
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true

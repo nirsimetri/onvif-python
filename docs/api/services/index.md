@@ -15,7 +15,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Manage device configuration, device capabilities, interfaces, and related hardware functionality.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: Device</span>](device.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: DeviceIO</span>](deviceio.md)
@@ -30,7 +30,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Subscribe to device events, retrieve notifications, and manage event subscriptions and pull-point mechanisms.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: Events</span>](events/index.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: PullPoint</span>](events/pullpoint.md)
@@ -48,7 +48,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Access media profiles, streaming configuration, video sources, imaging settings, and related media operations.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: Media</span>](media.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: Media2</span>](media2.md)
@@ -61,19 +61,19 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Control device movement (PTZ), focus, presets, and supported movement functions.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: PTZ</span>](ptz.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: Provisioning</span>](provisioning.md)
 
 
--   :material-chart-box-outline:{ .lg .middle }&nbsp; **Analytics**
+-   :material-analytics:{ .lg .middle }&nbsp; **Analytics**
 
     ---
 
     Interact with analytics functionality, rule engines, and analytics-related device services.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: Analytics</span>](analytics/index.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: RuleEngine</span>](analytics/ruleengine.md)
@@ -86,7 +86,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Access recording configuration, search for recorded content, replay media, and manage receiver functionality.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: Recording</span>](recording.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: Search</span>](search.md)
@@ -101,7 +101,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Configure device actions and time-based schedules for automated operations.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: ActionEngine</span>](actionengine.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: Schedule</span>](schedule.md)
@@ -112,7 +112,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Manage access control systems, door operations, and access rules through ONVIF services.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: AccessControl</span>](accesscontrol.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: DoorControl</span>](doorcontrol.md)
@@ -129,7 +129,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Explore ONVIF security services for authentication, authorization, network authentication, cryptographic key management, and media integrity.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: AdvancedSecurity</span>](security/index.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: AuthorizationServer</span>](security/authorizationserver.md)
@@ -150,7 +150,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     Manage device applications and establish connectivity between services behind firewalls and internet-accessible clients.
 
-    <br>
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: AppManagement</span>](appmgmt.md)
 
     [<span class="icon-link">:octicons-arrow-right-24: Uplink</span>](uplink.md)

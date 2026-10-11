@@ -205,3 +205,29 @@
   align-items: center;
   gap: 0.35em;
 }
+
+/* TOC separators */
+.md-nav--secondary .md-nav__list {
+  border-left: 2px solid var(--md-default-fg-color--lightest);
+  margin-left: 0.5rem;
+  padding-left: 0.75rem;
+}
+
+.md-nav--secondary > .md-nav__list {
+  border-left: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.md-nav--secondary .md-nav__link {
+  position: relative;
+}
+
+.md-nav--secondary .md-nav__link::before {
+  content: "";
+  position: absolute;
+  left: -0.6rem;
+  top: 50%;
+  width: 0.4rem;
+  border-top: 2px solid var(--md-default-fg-color--lightest);
+}

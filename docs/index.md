@@ -62,12 +62,16 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
     Python **3.10 or higher** is required.
 
+    ---
+    [<span class="icon-link">:octicons-arrow-right-24: PyPI</span>](https://pypi.org/project/onvif-python){ .no-external-icon }
+
 -   :material-package-variant-closed:{ .lg .middle }&nbsp; **Zeep**
 
     ---
 
     SOAP client for ONVIF communication.
 
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: GitHub</span>](https://github.com/mvantellingen/python-zeep){ .no-external-icon }
 
 -   :material-package-variant-closed:{ .lg .middle }&nbsp; **Requests**
@@ -76,6 +80,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
     HTTP library for network requests.
 
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: GitHub</span>](https://github.com/psf/requests){ .no-external-icon }
 
 -   :material-package-variant-closed:{ .lg .middle }&nbsp; **Pyreadline3**
@@ -84,6 +89,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
     Only installed on Windows (`win32`).
 
+    ---
     [<span class="icon-link">:octicons-arrow-right-24: GitHub</span>](https://github.com/pyreadline3/pyreadline3){ .no-external-icon }
 
 </div>
