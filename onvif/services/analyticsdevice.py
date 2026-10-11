@@ -22,7 +22,7 @@ class AnalyticsDevice(ONVIFService):
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011), split from Core 2.0 |
+    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
     | **Deprecated** | ONVIF Release 18.12 (December 2018) |
     | **Binding name** | `AnalyticsDeviceBinding` (`ver10/analyticsdevice.wsdl`) |
     | **Successor** | `Analytics` Service (`ver20/analytics/wsdl/analytics.wsdl`) |

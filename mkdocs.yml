@@ -142,7 +142,7 @@ nav:
         - AuthorizationServer: api/services/security/authorizationserver.md
         - Dot1x: api/services/security/dot1x.md
         - JWT: api/services/security/jwt.md
-        - KeyStore: api/services/security/keystore.md
+        - Keystore: api/services/security/keystore.md
         - MediaSigning: api/services/security/mediasigning.md
         - TLSServer: api/services/security/tlsserver.md
       - AppManagement: api/services/appmgmt.md

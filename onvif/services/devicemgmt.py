@@ -65,7 +65,7 @@ class Device(ONVIFService):
         - tt:Washer|On - Request to start the washer.
         - tt:Washer|Off - Request to stop the washer.
         - tt:WashingProcedure|On - Request to start the washing procedure.
-        - tt: WashingProcedure |Off - Request to stop the washing procedure.
+        - tt:WashingProcedure|Off - Request to stop the washing procedure.
         - tt:IRLamp|On - Request to turn ON an IR illuminator attached to the unit.
         - tt:IRLamp|Off - Request to turn OFF an IR illuminator attached to the unit.
         - tt:IRLamp|Auto - Request to configure an IR illuminator attached to the unit
