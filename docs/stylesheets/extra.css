@@ -206,28 +206,48 @@
   gap: 0.35em;
 }
 
-/* TOC separators */
-.md-nav--secondary .md-nav__list {
-  border-left: 2px solid var(--md-default-fg-color--lightest);
-  margin-left: 0.5rem;
-  padding-left: 0.75rem;
+/* TOC separators — desktop only */
+@media screen and (min-width: 76.25em) {
+  .md-nav--secondary .md-nav__list {
+    border-left: 2px solid var(--md-default-fg-color--lightest);
+    margin-left: 0.5rem;
+    padding-left: 0.75rem;
+  }
+
+  .md-nav--secondary > .md-nav__list {
+    border-left: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .md-nav--secondary .md-nav__link {
+    position: relative;
+  }
+
+  .md-nav--secondary .md-nav__link::before {
+    content: "";
+    position: absolute;
+    left: -0.6rem;
+    top: 50%;
+    width: 0.4rem;
+    border-top: 2px solid var(--md-default-fg-color--lightest);
+  }
+
+  /* Remove separators from top-level TOC links */
+  .md-nav--secondary > .md-nav__list > .md-nav__item > .md-nav__link::before {
+    display: none;
+  }
 }
 
-.md-nav--secondary > .md-nav__list {
-  border-left: none;
-  margin-left: 0;
-  padding-left: 0;
-}
-
-.md-nav--secondary .md-nav__link {
-  position: relative;
-}
-
-.md-nav--secondary .md-nav__link::before {
+/* TOC title icon */
+.md-nav--secondary .md-nav__title::before {
   content: "";
-  position: absolute;
-  left: -0.6rem;
-  top: 50%;
-  width: 0.4rem;
-  border-top: 2px solid var(--md-default-fg-color--lightest);
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.1rem;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath fill='black' d='M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm-56.5-263.5Q120-687 120-720t23.5-56.5Q167-800 200-800t56.5 23.5Q280-753 280-720t-23.5 56.5Q233-640 200-640t-56.5-23.5Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath fill='black' d='M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm-56.5-263.5Q120-687 120-720t23.5-56.5Q167-800 200-800t56.5 23.5Q280-753 280-720t-23.5 56.5Q233-640 200-640t-56.5-23.5Z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
