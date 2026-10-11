@@ -11,7 +11,7 @@ hide:
 
     ---
 
-    Connect to ONVIF devices, configure connections and authenticaton, and manage service access.
+    Connect to ONVIF devices, configure connections and authentication, and manage service access.
 
 -   :material-connection:{ .lg .middle }&nbsp; [**ONVIFOperator**](onvif_operator.md)
 
