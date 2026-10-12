@@ -29,20 +29,20 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 
 <table>
   <tr>
-    <td width="35%">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png" />
-    </td>
-    <td width="65%">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_operations.png" />
-    </td>
-  </tr>
-  <tr>
     <th align="center">
       Onboarding
     </th>
     <th align="center">
       List available operations
     </th>
+  </tr>
+  <tr>
+    <td width="35%">
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png" />
+    </td>
+    <td width="65%">
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_operations.png" />
+    </td>
   </tr>
 </table>
 

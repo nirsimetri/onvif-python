@@ -1,4 +1,4 @@
-# KeyStore
+# Keystore
 
 ::: onvif.services.security.keystore
     options:
