@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="error-page">
+  <div class="error-page__content">
+    <p class="error-page__code">404</p>
+
+    <h1>Page not found</h1>
+
+    <p class="error-page__description">
+      The page you're looking for doesn't exist or may have been moved.
+    </p>
+
+    <div class="error-page__actions">
+      <a href="{{ config.site_url }}" class="md-button md-button--primary">
+        Back Home
+      </a>
+
+      <a href="{{ config.repo_url }}" class="md-button">
+        Go to GitHub
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

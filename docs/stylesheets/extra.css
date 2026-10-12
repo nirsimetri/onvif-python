@@ -292,3 +292,73 @@
   border-top-right-radius: 0.5rem !important;
   border-top-left-radius: 0.5rem !important;
 }
+
+/* 404 page */
+@media screen and (min-width: 76.25em) {
+  body:has(.error-page) .md-sidebar {
+    display: none !important;
+  }
+
+  body:has(.error-page) .md-content {
+    max-width: 100% !important;
+    margin-inline: 0 !important;
+  }
+
+  body:has(.error-page) .md-content__inner {
+    margin-inline: 0 !important;
+  }
+}
+
+.error-page {
+  display: flex;
+  min-height: 55vh;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.error-page__content {
+  width: 100%;
+  max-width: 30rem;
+}
+
+.error-page__code {
+  margin: 0;
+  color: var(--md-typeset-a-color);
+  font-size: clamp(4rem, 16vw, 8rem);
+  font-weight: 800;
+  letter-spacing: -0.08em;
+  line-height: 1;
+}
+
+.error-page h1 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--md-default-fg-color);
+}
+
+.error-page__description {
+  max-width: 30rem;
+  margin: 0 0 2rem;
+  color: var(--md-default-fg-color--light);
+  line-height: 1.7;
+}
+
+.error-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.error-page__actions .md-button {
+  margin: 0;
+  border-radius: 0.5rem;
+  color: var(--md-typeset-a-color);
+}
+
+.error-page__actions .md-button--primary {
+  background-color: var(--md-typeset-a-color);
+  border-color: var(--md-typeset-a-color);
+  color: var(--md-default-bg-color) !important;
+}
