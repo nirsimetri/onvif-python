@@ -17,16 +17,71 @@ Behind the scenes, ONVIF communication relies on **[SOAP](https://en.wikipedia.o
 This library simplifies that process by wrapping SOAP communication into a clean, Pythonic API. You no longer need to handle low-level XML parsing, namespaces, or security tokens manually; the library takes care of it, letting you focus on building functionality.
 
 ## Who Is It For?
-- **Individual developers** exploring ONVIF or building hobby projects  
-- **Companies** building video intelligence, analytics, or VMS platforms  
-- **Security integrators** who need reliable ONVIF interoperability across devices
+
+<table>
+  <tr>
+    <th align="start">
+    <img
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/account-hard-hat.svg"
+      width="24"
+      height="24"
+      valign="middle"
+    />&nbsp;Individual Developers
+    </th>
+    <th align="start">
+    <img
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/domain.svg"
+      width="24"
+      height="24"
+      valign="middle"
+    />&nbsp;Companies
+    </th>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <p>Explore ONVIF capabilities, experiment with network cameras, and build hobby projects.</p>
+    </td>
+    <td width="50%" valign="top">
+      <p>Build video intelligence, analytics, and video management system (VMS) platforms.</p>
+    </td>
+  </tr>
+  <tr>
+    <th align="start">
+    <img
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/cctv.svg"
+      width="24"
+      height="24"
+      valign="middle"
+    />&nbsp;Security Integrators
+    </th>
+    <th align="start">
+    <img
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/chip.svg"
+      width="24"
+      height="24"
+      valign="middle"
+    />&nbsp;IoT Experts
+    </th>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <p>Ensure reliable ONVIF interoperability across cameras and other security devices.</p>
+    </td>
+    <td width="50%" valign="top">
+      <p>Test security, assess interoperability, and investigate ONVIF-enabled devices and related systems.</p>
+    </td>
+  </tr>
+</table>
 
 ## Requirements
 
-- **Python**: 3.10 or higher
-- **Dependencies**:
-  - [`zeep>=4.3.0`](https://github.com/mvantellingen/python-zeep) - SOAP client for ONVIF communication
-  - [`requests>=2.32.0`](https://github.com/psf/requests) - HTTP library for network requests
+Python **3.10 or higher** is required.
+
+## Dependencies
+
+- [zeep](https://github.com/mvantellingen/python-zeep) → SOAP client for ONVIF communication.
+- [requests](https://github.com/psf/requests) → HTTP library for network requests.
+- [pyreadline3](https://github.com/pyreadline3/pyreadline3) → Only installed on Windows (`win32`) for tab completion.
 
 ## Installation
 
