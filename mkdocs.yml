@@ -5,7 +5,7 @@ site_description: >-
 site_url: https://nirsimetri.github.io/onvif-python/
 repo_url: https://github.com/nirsimetri/onvif-python
 repo_name: nirsimetri/onvif-python
-edit_uri: edit/main/docs/
+edit_uri: edit/dev/docs/
 use_directory_urls: true
 
 theme:
@@ -28,10 +28,14 @@ theme:
       question: material/telescope
       success: material/check-circle
       failure: material/cancel
+    edit: material/text-box-edit-outline
+    view: material/text-box-search-outline
   font:
     text: Geist
     code: Geist Mono
   features:
+    - content.action.edit
+    - content.action.view
     - content.code.copy
     - content.code.annotate
     - content.tooltips
@@ -70,7 +74,7 @@ theme:
 
 nav:
   - Home: index.md
-  - Get Started:
+  - Getting Started:
     - Philosophy: philosophy.md
     - Installation: installation.md
     - Quickstart: quick_start.md
@@ -166,6 +170,7 @@ plugins:
       js_files:
         - javascripts/github-releases.js
         - javascripts/external-links.js
+        - javascripts/extra.js
       css_files:
         - stylesheets/extra.css
   - git-revision-date-localized:
@@ -254,6 +259,7 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/dompurify@3.4.15/dist/purify.min.js
   - javascripts/github-releases.js
   - javascripts/external-links.js
+  - javascripts/extra.js
 
 hooks:
   - docs/hooks.py
