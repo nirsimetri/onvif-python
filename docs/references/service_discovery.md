@@ -30,10 +30,10 @@ By checking available services, your application can adapt its workflow and UI t
 The [`ONVIFClient`](../api/core/onvif_client.md) uses a **3-tier discovery approach** to maximize device compatibility:
 
 ### `GetServices` (Preferred)
-Tries `GetServices` first for detailed service information.
+Tries [`GetServices`](../api/services/device.md#onvif.services.devicemgmt.Device.GetServices) first for detailed service information.
 
 ### `GetCapabilities` (Fallback)
-Falls back to `GetCapabilities` if `GetServices` is not supported by the device.
+Falls back to [`GetCapabilities`](../api/services/device.md#onvif.services.devicemgmt.Device.GetCapabilities) if [`GetServices`](../api/services/device.md#onvif.services.devicemgmt.Device.GetServices) is not supported by the device.
 
 ### Default URLs (Final Fallback)
 Uses standard ONVIF URLs as last resort.
@@ -44,7 +44,12 @@ You can check which service discovery method your ONVIF connection is using with
 ```python linenums="1"
 from onvif import ONVIFClient
 
-client = ONVIFClient("192.168.1.17", 8000, "admin", "admin123")
+client = ONVIFClient(
+    host="192.168.1.17",
+    port=8000,
+    username="admin",
+    password="password"
+)
 
 # Check what discovery method was used
 if client.services:
@@ -60,9 +65,9 @@ else:
 
 ## Why this approach?
 
-`GetServices` provides the most accurate and detailed service information, but it's **optional** in the ONVIF specification.
+[`GetServices`](../api/services/device.md#onvif.services.devicemgmt.Device.GetServices) provides the most accurate and detailed service information, but it's **optional** in the ONVIF specification.
 
-`GetCapabilities` is **mandatory** for all ONVIF-compliant devices, ensuring broader compatibility.
+[`GetCapabilities`](../api/services/device.md#onvif.services.devicemgmt.Device.GetCapabilities) is **mandatory** for all ONVIF-compliant devices, ensuring broader compatibility.
 
 **Default URLs** guarantee basic connectivity even with non-compliant devices.
 

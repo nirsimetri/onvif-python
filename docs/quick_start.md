@@ -91,7 +91,7 @@ Retrieve basic information about the device, such as manufacturer, model, firmwa
 info = device.GetDeviceInformation()
 print(info)
 # Example output:
-# {'Manufacturer': '..', 'Model': '..', 'FirmwareVersion': '..', 'SerialNumber': '..'}
+# {'Manufacturer': '..', 'Model': '..', 'FirmwareVersion': '..', ...}
 ```
 
 ### Get RTSP URL

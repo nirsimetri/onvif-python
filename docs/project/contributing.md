@@ -71,7 +71,7 @@ If you can help translate documentation or error messages, let us know!
 
    Coverage is optional for local development. To generate an XML coverage report:
    ```shell
-   pytest --cov=. --cov-report=xml
+   pytest --cov=onvif --cov-report=xml --cov-report=term-missing
    ```
    This generates `coverage.xml`, which can be used by coverage analysis tools such as Codacy.
 
@@ -117,17 +117,17 @@ Make sure to write a comprehensive description for the PR you create to make it 
 
 Use the following commit title types:
 
-- **`feat`** → ✨ New feature
-- **`fix`** → 🐛 Bug fix
-- **`chore`** → 🔧 Non-code tasks such as updating dependencies, configs, or build tools
-- **`docs`** → 📚 Documentation-only changes
-- **`style`** → 🎨 Code style changes (formatting, spacing, etc. — without affecting logic)
-- **`refactor`** → 🔨 Code refactoring without adding features or fixing bugs
-- **`test`** → ✅ Adding or modifying tests (unit tests, integration tests, etc.)
-- **`perf`** → 🚀 Performance improvements
-- **`ci`** → ⚙️ Changes to CI/CD configuration or pipelines
-- **`build`** → 📦 Changes to the build system or external dependencies (e.g., Dockerfile)
-- **`revert`** → ⏪ Reverting a previous commit
+- **`feat`** → New feature
+- **`fix`** → Bug fix
+- **`chore`** → Non-code tasks such as updating dependencies, configs, or build tools
+- **`docs`** → Documentation-only changes
+- **`style`** → Code style changes (formatting, spacing, etc. — without affecting logic)
+- **`refactor`** → Code refactoring without adding features or fixing bugs
+- **`test`** → Adding or modifying tests (unit tests, integration tests, etc.)
+- **`perf`** → Performance improvements
+- **`ci`** → Changes to CI/CD configuration or pipelines
+- **`build`** → Changes to the build system or external dependencies (e.g., Dockerfile)
+- **`revert`** → Reverting a previous commit
 - **`code`** → General code changes that support but are not core features (e.g., examples)
 
 **Examples:**
@@ -175,9 +175,11 @@ pip install -e ".[docs]"
 
 This installs the documentation tooling defined in `pyproject.toml`, including:
 
-* `mkdocs-material` — MkDocs theme and Material extensions
-* `mkdocstrings[python]` — API documentation generated from Python source code
-* `mkdocs-git-authors-plugin` — contributor information for documentation pages
+* `mkdocs-material` → MkDocs theme and Material extensions
+* `mkdocstrings[python]` → API documentation generated from Python source code
+* `mkdocs-git-authors-plugin` → contributor information for documentation pages
+* `mkdocs-git-revision-date-localized-plugin` → revision date information for documentation pages
+* `mkdocs-minify-plugin` → to minify any generated html/css/js files
 
 ### Run Locally
 
