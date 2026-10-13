@@ -170,11 +170,18 @@
   display: block;
   padding: .1rem .4rem;
   color: #ebebeb;
-  font-weight: bold;
-  font-size: .8rem;
-  border: .05rem solid #ebebeb7a;
-  border-radius: .2rem;
+  font-weight: 600;
+  font-size: .75rem;
+  border: .05rem solid #ebebeb50;
+  border-radius: .3rem;
   content: "/";
+}
+
+[data-md-toggle=search]:not(:checked) ~ .md-header .md-search__form {
+  border-top-right-radius: 0.5rem !important;
+	border-bottom-left-radius: 0.5rem !important;
+	border-bottom-right-radius: 0.5rem !important;
+	border-top-left-radius: 0.5rem !important;
 }
 
 .md-tooltip2 {
@@ -361,4 +368,25 @@
   background-color: var(--md-typeset-a-color);
   border-color: var(--md-typeset-a-color);
   color: var(--md-default-bg-color) !important;
+}
+
+/* Grid cards — border color on hover */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid.cards > ul > li > hr {
+  transition: border-color 200ms ease;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--md-accent-fg-color);
+}
+
+/* Code content — border color on hover */
+.md-typeset .highlight .md-code__content {
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+}
+
+.md-typeset .highlight .md-code__content:hover {
+  border-color: var(--md-accent-fg-color);
+  transition: border-color 200ms ease;
 }
