@@ -30,16 +30,16 @@ This library simplifies that process by wrapping SOAP communication into a clean
     </th>
     <th align="start">
     <img
-      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/domain.svg"
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/video-wireless.svg"
       width="24"
       height="24"
       valign="middle"
-    />&nbsp;Companies
+    />&nbsp;Platform Developers
     </th>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <p>Explore ONVIF capabilities, experiment with network cameras, and build hobby projects.</p>
+      <p>Explore ONVIF capabilities and build applications for IP cameras and compatible devices.</p>
     </td>
     <td width="50%" valign="top">
       <p>Build video intelligence, analytics, and video management system (VMS) platforms.</p>
@@ -60,15 +60,15 @@ This library simplifies that process by wrapping SOAP communication into a clean
       width="24"
       height="24"
       valign="middle"
-    />&nbsp;IoT Experts
+    />&nbsp;Device & IoT Engineers
     </th>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <p>Ensure reliable ONVIF interoperability across cameras and other security devices.</p>
+      <p>Integrate security devices and troubleshoot ONVIF interoperability across vendors.</p>
     </td>
     <td width="50%" valign="top">
-      <p>Test security, assess interoperability, and investigate ONVIF-enabled devices and related systems.</p>
+      <p>Develop, test, and integrate ONVIF-compliant devices and IP-based physical security systems.</p>
     </td>
   </tr>
 </table>
@@ -81,7 +81,7 @@ Python **3.10 or higher** is required.
 
 - [zeep](https://github.com/mvantellingen/python-zeep) → SOAP client for ONVIF communication.
 - [requests](https://github.com/psf/requests) → HTTP library for network requests.
-- [pyreadline3](https://github.com/pyreadline3/pyreadline3) → Only installed on Windows (`win32`) for tab completion.
+- [pyreadline3](https://github.com/pyreadline3/pyreadline3) → Only installed on Windows (`win32`) for CLI auto-completion.
 
 ## Installation
 

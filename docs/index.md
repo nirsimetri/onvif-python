@@ -30,9 +30,9 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
     ---
 
-    Explore ONVIF capabilities, experiment with network cameras, and build hobby projects.
+    Explore ONVIF capabilities and build applications for IP cameras and compatible devices.
 
--   :material-corporate-fare:{ .lg .middle }&nbsp; **Companies**
+-   :material-video-wireless:{ .lg .middle }&nbsp; **Platform Developers**
 
     ---
 
@@ -42,13 +42,13 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
     ---
 
-    Ensure reliable ONVIF interoperability across cameras and other security devices.
+    Integrate security devices and troubleshoot ONVIF interoperability across vendors.
 
--   :material-chip:{ .lg .middle }&nbsp; **IoT Experts**
+-   :material-chip:{ .lg .middle }&nbsp; **Device & IoT Engineers**
 
     ---
 
-    Test security, assess interoperability, and investigate ONVIF-enabled devices, and related systems.
+    Develop, test, and integrate ONVIF-compliant devices and IP-based physical security systems.
 
 </div>
 
