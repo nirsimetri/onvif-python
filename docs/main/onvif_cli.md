@@ -372,7 +372,7 @@ onvif media GetProfiles -H 192.168.1.17 -P 8000 -u admin -p password -o profiles
 
 ### ONVIF Product Search
 
-The CLI includes a built-in database of ONVIF-compatible products that can be searched to help identify and research devices before connecting (applied at [`>=v0.2.0`](../releases.md/#v0.2.0)).
+The CLI includes a built-in database of ONVIF-compliant products that can be searched to help identify and research devices before connecting (applied at [`>=v0.2.0`](../releases.md/#v0.2.0)).
 
 #### Basic Search
 ```shell
