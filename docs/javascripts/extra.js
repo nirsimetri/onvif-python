@@ -1,4 +1,4 @@
-/* global document$ */
+/* global document$, GITHUB_REPOSITORY */
 
 document$.subscribe(() => {
   document.querySelectorAll('.md-content__button[href*="/raw/"]').forEach((editButton) => {
