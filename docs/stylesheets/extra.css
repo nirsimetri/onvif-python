@@ -446,3 +446,14 @@
   height: 1.2rem;
   vertical-align: middle;
 }
+
+/* Back to top button */
+html {
+  scroll-behavior: smooth;
+}
+
+.md-top {
+  z-index: 10;
+  top: auto !important;
+  bottom: 1.5rem !important;
+}

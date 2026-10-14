@@ -30,6 +30,7 @@ theme:
       failure: material/cancel
     edit: material/text-box-edit-outline
     view: material/text-box-search-outline
+    top: material/transfer-up
   font:
     text: Geist
     code: Geist Mono
