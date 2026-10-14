@@ -32,7 +32,7 @@ class ONVIFParser(Plugin):
             responses
 
     !!! tip "Version History"
-        - Available since [`>=v0.2.2`](/onvif-python/releases/#v0.2.2)
+        - Available since [`v0.2.2`](/onvif-python/releases/#v0.2.2)
 
     ??? example "Usage"
         ```python linenums="1"
@@ -168,8 +168,8 @@ class XMLCapturePlugin(Plugin):
         history (list[dict[str, Any]]): All captured requests/responses with metadata
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.6`](/onvif-python/releases/#v0.0.6)
-        - Moved to `plugins` since [`>=v0.4.0`](/onvif-python/releases/#v0.4.0)
+        - Available since [`v0.0.6`](/onvif-python/releases/#v0.0.6)
+        - Moved to `plugins` since [`v0.4.0`](/onvif-python/releases/#v0.4.0)
 
     !!! question "The plugin automatically captures"
         - Outgoing SOAP requests (`egress`)
@@ -438,7 +438,7 @@ class ReferenceParametersPlugin(Plugin):
             headers
 
     !!! tip "Version History"
-        - Available since [`>=v0.3.1`](/onvif-python/releases/#v0.3.1)
+        - Available since [`v0.3.1`](/onvif-python/releases/#v0.3.1)
 
     !!! note
         The plugin supports both SOAP 1.1 and SOAP 1.2 envelope namespaces

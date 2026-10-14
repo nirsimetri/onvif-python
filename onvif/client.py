@@ -120,10 +120,10 @@ class ONVIFClient:
         plugins (list[Plugin] | None): List of user-provided Zeep plugins (if any)
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
-        - Added in [`>=v0.0.6`](/onvif-python/releases/#v0.0.6): `xml_plugin`
-        - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
-        - Added in [`>=v0.4.3`](/onvif-python/releases/#v0.4.3): `plugins`
+        - Available since [`v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
+        - Added in [`v0.0.6`](/onvif-python/releases/#v0.0.6): `xml_plugin`
+        - Added in [`v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
+        - Added in [`v0.4.3`](/onvif-python/releases/#v0.4.3): `plugins`
     """
 
     def __init__(
@@ -160,12 +160,12 @@ class ONVIFClient:
             plugins (list[Plugin] | None): List of user-provided Zeep plugins (zeep.plugins)
 
         !!! tip "Version History"
-            - Added in [`>=v0.0.4`](/onvif-python/releases/#v0.0.4): `apply_patch`
-            - Added in [`>=v0.0.6`](/onvif-python/releases/#v0.0.6): `capture_xml`
-            - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
-            - Added in [`>=v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
-            - Added in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
-            - Changed in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `username` → `str | None`,
+            - Added in [`v0.0.4`](/onvif-python/releases/#v0.0.4): `apply_patch`
+            - Added in [`v0.0.6`](/onvif-python/releases/#v0.0.6): `capture_xml`
+            - Added in [`v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
+            - Added in [`v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
+            - Added in [`v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
+            - Changed in [`v0.3.0`](/onvif-python/releases/#v0.3.0): `username` → `str | None`,
                 `password` → `str | None`
         """
         logger.info("Initializing ONVIF client for %s:%d", host, port)
@@ -596,7 +596,7 @@ class ONVIFClient:
         Access the PausableSubscription service.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.4`](/onvif-python/releases/#v0.2.4)
+            - Available since [`v0.2.4`](/onvif-python/releases/#v0.2.4)
         """
         logger.debug("Initializing PausableSubscription service")
         return self._get_subscription_service(

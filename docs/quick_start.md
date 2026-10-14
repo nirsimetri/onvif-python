@@ -12,7 +12,7 @@ Below are simple examples to help you get started with the ONVIF Python library.
 
 ### Discover ONVIF Devices
 
-Use [`ONVIFDiscovery`](api/utilities/onvif_discovery.md) (applied at [`>=v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
+Use [`ONVIFDiscovery`](api/utilities/onvif_discovery.md) (applied from [`v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
 
 ```python linenums="1"
 from onvif import ONVIFDiscovery
@@ -68,12 +68,12 @@ client = ONVIFClient(
 
 [`ONVIFClient`](api/core/onvif_client.md) provides several main services that can be accessed via the following methods:
 
-- `client.devicemgmt()` — Device Management
-- `client.events()` — Events
-- `client.imaging()` — Imaging
-- `client.media()` — Media
-- `client.ptz()` — PTZ (Pan-Tilt-Zoom)
-- `client.analytics()` — Analytics
+- `client.devicemgmt()` → Device Management
+- `client.events()` → Events
+- `client.imaging()` → Imaging
+- `client.media()` → Media
+- `client.ptz()` → PTZ (Pan-Tilt-Zoom)
+- `client.analytics()` → Analytics
 
 and so on, check [`ONVIFClient`](api/core/onvif_client.md) for more details
 

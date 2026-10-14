@@ -24,7 +24,7 @@ class ZeepPatcher:
     structured dictionaries with proper type conversion.
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+        - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
     !!! failure "The Problem"
         ONVIF uses `xsd:any` extensively for extensibility. By default, zeep doesn't
@@ -384,7 +384,7 @@ class ZeepPatcher:
         not just the first one.
 
         !!! tip "Version History"
-            - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+            - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
         Args:
             obj (XsdAny): The zeep object to process
@@ -632,7 +632,7 @@ class ZeepPatcher:
         Should be called once at application startup.
 
         !!! tip "Version History"
-            - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+            - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
         Example:
             ```python linenums="1"
@@ -657,7 +657,7 @@ class ZeepPatcher:
         Reverts zeep to its original behavior. Useful for testing or debugging.
 
         !!! tip "Version History"
-            - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+            - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
         Example:
             ```python linenums="1"
@@ -679,7 +679,7 @@ class ZeepPatcher:
         """Check if the patch is currently applied.
 
         !!! tip "Version History"
-            - Available since [`>=v0.0.4`](/onvif-python/releases/#v0.0.4)
+            - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
         Returns:
             `True` if patch is active, `False` otherwise

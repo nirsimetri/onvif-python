@@ -38,7 +38,9 @@ class ONVIFDiscovery:
         interface (str | None): Network interface IP to bind to (default: auto-detect)
 
     !!! tip "Version History"
-        - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6)
+        - Available since [`v0.1.6`](/onvif-python/releases/#v0.1.6)
+        - Changed in [`v0.4.0`](/onvif-python/releases/#v0.4.0):
+            ~~`WS_DISCOVERY_ADDRESS_IPv4`~~ → `WS_DISCOVERY_ADDRESS_IPV4`
     """
 
     WS_DISCOVERY_PORT: int = 3702
@@ -57,7 +59,7 @@ class ONVIFDiscovery:
         "</soap:Header>"
         "<soap:Body>"
         "<tns:Probe>"
-        "<tns:Types/>"
+        "<tns:Types>tds:Device</tns:Types>"
         "</tns:Probe>"
         "</soap:Body>"
         "</soap:Envelope>"
@@ -89,7 +91,7 @@ class ONVIFDiscovery:
         """Get local network interface IP address.
 
         !!! tip "Version History"
-            - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6)
+            - Available since [`v0.1.6`](/onvif-python/releases/#v0.1.6)
 
         Returns:
             Local IP address
@@ -133,7 +135,7 @@ class ONVIFDiscovery:
         """Discover ONVIF devices on the network.
 
         !!! tip "Version History"
-            - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6)
+            - Available since [`v0.1.6`](/onvif-python/releases/#v0.1.6)
 
         Args:
             prefer_https (bool): If True, prioritize HTTPS XAddrs when available
@@ -158,7 +160,7 @@ class ONVIFDiscovery:
             | `services` | `list[str]` | List of supported ONVIF services; empty if none are available |
 
             !!! tip "Version History"
-                - Added in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `hostname`, `date_time`, and `services`
+                - Added in [`v0.4.0`](/onvif-python/releases/#v0.4.0): `hostname`, `date_time`, and `services`
         """
         local_ip = self.get_local_ip()
         logger.info("Starting ONVIF device discovery (timeout: %ss)", self.timeout)

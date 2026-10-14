@@ -16,14 +16,14 @@ The [`ONVIFClient`](../api/core/onvif_client.md) class provides various configur
 | `password` | `str ⏐ None` | ❌ No | `None` | Password for device authentication |
 
 !!! warning
-    As of version [`>=v0.3.0`](../releases.md/#v0.3.0), the `username` and `password` parameters are no longer mandatory, in order to maximize compatibility with devices that lack a default user or have no user at all. However, if your device does have a user, you must of course enter the appropriate `username` and `password`.
+    As of version [`v0.3.0`](../releases.md/#v0.3.0), the `username` and `password` parameters are no longer mandatory, in order to maximize compatibility with devices that lack a default user or have no user at all. However, if your device does have a user, you must of course enter the appropriate `username` and `password`.
 
     Furthermore, this implementation enables the class constructor to perform operations marked as **PRE_AUTH** (according to ONVIF specifications); such as `GetSystemDateAndTime` or `GetCapabilities` within the [`Device`](../api/services/device.md) service that require no authentication.
 
 ### Connection Parameters
 | Name | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
-| `http_digest` | `str` | ❌ No | `False` | `True` = use HTTP Digest / `False` = use WS-UsernameToken (HTTP Digest support from [`>=v0.3.0`](../releases.md/#v0.3.0))[^1] |
+| `http_digest` | `str` | ❌ No | `False` | `True` = use HTTP Digest / `False` = use WS-UsernameToken (HTTP Digest support from [`v0.3.0`](../releases.md/#v0.3.0))[^1] |
 | `timeout` | `int` | ❌ No | `10` | Connection timeout in seconds for SOAP requests |
 | `use_https` | `bool` | ❌ No | `False` | Use HTTPS instead of HTTP for secure communication |
 | `verify_ssl` | `bool` | ❌ No | `False` | Verify SSL certificates when using HTTPS (set to `False` for self-signed certificates) |
@@ -38,10 +38,10 @@ The [`ONVIFClient`](../api/core/onvif_client.md) class provides various configur
 
 | Name | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
-| `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better `xsd:any` field parsing and automatic flattening (applied at [`>=v0.0.4`](../releases.md/#v0.0.4))[^2] |
-| `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses (applied at [`>=v0.0.6`](../releases.md/#v0.0.6))[^3] |
-| `wsdl_dir`    | `str ⏐ None`  | ❌ No | `None` | Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., `/path/to/custom/wsdl`) (applied at [`>=v0.1.0`](../releases.md/#v0.1.0))[^4] |
-| `plugins`    | `list[Plugin]`  | ❌ No | `None` | List of user-provided Zeep plugins (`zeep.plugins`) (applied at [`>=v0.2.2`](../releases.md/#v0.2.2))[^5] |
+| `apply_patch` | `bool` | ❌ No | `True` | Enable zeep patching for better `xsd:any` field parsing and automatic flattening (applied from [`v0.0.4`](../releases.md/#v0.0.4))[^2] |
+| `capture_xml` | `bool` | ❌ No | `False` | Enable XML capture plugin for debugging SOAP requests/responses (applied from [`v0.0.6`](../releases.md/#v0.0.6))[^3] |
+| `wsdl_dir`    | `str ⏐ None`  | ❌ No | `None` | Custom WSDL directory path for using external WSDL files instead of built-in ones (e.g., `/path/to/custom/wsdl`) (applied from [`v0.1.0`](../releases.md/#v0.1.0))[^4] |
+| `plugins`    | `list[Plugin]`  | ❌ No | `None` | List of user-provided Zeep plugins (`zeep.plugins`) (applied from [`v0.2.2`](../releases.md/#v0.2.2))[^5] |
 
 ### Cache Modes
 
@@ -58,7 +58,7 @@ The library provides three caching strategies via the [`CacheMode`](../api/utili
 Use `CacheMode.DB` (default) for production applications to maximize performance[^7].
 
 !!! tip "Version History"
-    - Removed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
+    - Removed in [`v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
 
 ### Usage Examples
 
@@ -77,7 +77,7 @@ client = ONVIFClient(
 
 #### Use HTTP Digest Authentication
 
-Set `http_digest` to `True`. This `http_digest` parameter available since [`>=v0.3.0`](../releases.md/#v0.3.0).
+Set `http_digest` to `True`. This `http_digest` parameter available since [`v0.3.0`](../releases.md/#v0.3.0).
 
 ```python linenums="1"
 from onvif import ONVIFClient
@@ -235,7 +235,7 @@ client = ONVIFClient(
 [^1]:
     This library uses **WS-Security UsernameToken** authentication by default, which is the standard for ONVIF devices.
 
-    You can also use **HTTP Digest** for authentication with `http_digest=True` in [`ONVIFClient`](../api/core/onvif_client.md) constructor, this parameter available since [`>=v0.3.0`](../releases.md/#v0.3.0).
+    You can also use **HTTP Digest** for authentication with `http_digest=True` in [`ONVIFClient`](../api/core/onvif_client.md) constructor, this parameter available since [`v0.3.0`](../releases.md/#v0.3.0).
 [^2]: 
     The `apply_patch=True` (default) enables custom zeep patching that improves `xsd:any` field parsing. This is recommended for better compatibility with ONVIF responses.
 [^3]: Only use `capture_xml=True` during development/debugging as it increases memory usage and may expose sensitive data in logs.

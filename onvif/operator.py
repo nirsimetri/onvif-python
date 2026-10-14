@@ -38,8 +38,8 @@ class CacheMode(Enum):
         DB (Literal['db']): Persistent SQLite caching across process restarts.
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
-        - Removed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
+        - Available since [`v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
+        - Removed in [`v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
     """
 
     NONE = "none"
@@ -120,7 +120,7 @@ class ONVIFOperator:
         service_name (str): Name of the ONVIF service (e.g., "Device", "Media")
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
+        - Available since [`v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
         - No version tracking for attribute changes because this class is used internally
     """
 
@@ -274,7 +274,7 @@ class ONVIFOperator:
         when `apply_patch` is enabled.
 
         !!! tip "Version History"
-            - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
+            - Available since [`v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
 
         Args:
             method (str): Name of the ONVIF operation to call (e.g., "GetDeviceInformation")
@@ -326,7 +326,7 @@ class ONVIFOperator:
         action.
 
         !!! tip "Version History"
-            - Available since [`>=v0.4.3`](/onvif-python/releases/#v0.4.3)
+            - Available since [`v0.4.3`](/onvif-python/releases/#v0.4.3)
 
         Args:
             legacy_method: Name of the legacy ONVIF operation
@@ -407,7 +407,7 @@ class ONVIFOperator:
         Date, and Time are properly instantiated as objects rather than None.
 
         !!! tip "Version History"
-            - Available since [`>=v0.1.9`](/onvif-python/releases/#v0.1.9)
+            - Available since [`v0.1.9`](/onvif-python/releases/#v0.1.9)
 
         Args:
             type_name (str): Name of the type to create (e.g., 'SetHostname', 'SetIPAddressFilter')

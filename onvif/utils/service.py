@@ -67,7 +67,7 @@ class ONVIFService:
     [`Media`](../services/media.md), [`PTZ`](../services/ptz.md), etc.).
 
     !!! tip "Version History"
-        - Available since [`>=v0.1.8`](/onvif-python/releases/#v0.1.8)
+        - Available since [`v0.1.8`](/onvif-python/releases/#v0.1.8)
 
     !!! danger "All service classes inherit from `ONVIFService` to ensure"
         - Consistent exception handling across all ONVIF operations
@@ -168,7 +168,7 @@ class ONVIFService:
         Create and return an instance of the specified ONVIF type.
 
         !!! tip "Version History"
-            - Available since [`>=v0.1.9`](/onvif-python/releases/#v0.1.9)
+            - Available since [`v0.1.9`](/onvif-python/releases/#v0.1.9)
 
         Args:
             type_name (str): Name of the type to create (e.g., 'SetHostname', 'SetIPAddressFilter')
@@ -218,7 +218,7 @@ class ONVIFService:
         """List all available operations for this service.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.0`](/onvif-python/releases/#v0.2.0)
+            - Available since [`v0.2.0`](/onvif-python/releases/#v0.2.0)
 
         Returns:
             List of operation names that can be used with `type()` method
@@ -269,7 +269,7 @@ class ONVIFService:
         Get documentation and parameter information for a specific operation/method.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.0`](/onvif-python/releases/#v0.2.0)
+            - Available since [`v0.2.0`](/onvif-python/releases/#v0.2.0)
 
         Args:
             method_name (str): Name of the method to describe (e.g., 'GetDeviceInformation', 'SetHostname')
@@ -386,7 +386,7 @@ class ONVIFService:
         Convert a zeep object (result from ONVIF operation) to Python dictionary.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.9`](/onvif-python/releases/#v0.2.9)
+            - Available since [`v0.2.9`](/onvif-python/releases/#v0.2.9)
 
         Args:
             zeep_object (Any): The zeep object returned from ONVIF operations

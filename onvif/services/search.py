@@ -353,7 +353,7 @@ class Search(ONVIFService):
         parameters.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "SearchImageByNL",
@@ -372,7 +372,7 @@ class Search(ONVIFService):
         """Gets results from a natural language search session.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "GetNLSearchResults",
@@ -395,7 +395,7 @@ class Search(ONVIFService):
         """Starts an image-based search session and specifies the search parameters.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "SearchImageByImage",
@@ -414,7 +414,7 @@ class Search(ONVIFService):
         """Gets results from an image-based search session.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "GetImageSearchResults",

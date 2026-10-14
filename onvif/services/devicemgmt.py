@@ -313,7 +313,7 @@ class Device(ONVIFService):
         that level is returned.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.7`](/onvif-python/releases/#v0.2.7)
+            - Available since [`v0.2.7`](/onvif-python/releases/#v0.2.7)
         """
         return self.operator.call("GetUserRoles", UserRole=UserRole)
 
@@ -324,7 +324,7 @@ class Device(ONVIFService):
         is overwritten. Otherwise, a new editable user level is created.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.7`](/onvif-python/releases/#v0.2.7)
+            - Available since [`v0.2.7`](/onvif-python/releases/#v0.2.7)
         """
         return self.operator.call("SetUserRole", UserRole=UserRole)
 
@@ -332,7 +332,7 @@ class Device(ONVIFService):
         """This operation deletes an editable user level in the device.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.7`](/onvif-python/releases/#v0.2.7)
+            - Available since [`v0.2.7`](/onvif-python/releases/#v0.2.7)
         """
         return self.operator.call("DeleteUserRole", UserRole=UserRole)
 
@@ -908,7 +908,7 @@ class Device(ONVIFService):
         credentials.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+            - Available since [`v0.2.6`](/onvif-python/releases/#v0.2.6)
         """
         return self.operator.call("UpgradeFirmware", Version=Version)
 

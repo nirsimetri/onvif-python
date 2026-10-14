@@ -307,7 +307,7 @@ class Media2(ONVIFService):
         """This command is to configure Audio EQPreset.
 
         !!! tip "Version History"
-            - Available since [`>=v0.4.3`](/onvif-python/releases/#v0.4.3)
+            - Available since [`v0.4.3`](/onvif-python/releases/#v0.4.3)
         """
         return self.operator.call(
             "SetEQPresetConfiguration", Configuration=Configuration
@@ -658,7 +658,7 @@ class Media2(ONVIFService):
         according to audio clip Configuration and TTS Configuration.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "AddTTSAudioClip",
@@ -677,7 +677,7 @@ class Media2(ONVIFService):
         configuration.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+            - Available since [`v0.2.6`](/onvif-python/releases/#v0.2.6)
         """
         return self.operator.call(
             "GetMulticastAudioDecoderConfigurationOptions",
@@ -688,7 +688,7 @@ class Media2(ONVIFService):
         """This operation gets the list of multicast audio decoder configurations.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+            - Available since [`v0.2.6`](/onvif-python/releases/#v0.2.6)
         """
         return self.operator.call(
             "GetMulticastAudioDecoderConfigurations",
@@ -699,7 +699,7 @@ class Media2(ONVIFService):
         """This operation sets the MulticastAudioDecoderConfiguration.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+            - Available since [`v0.2.6`](/onvif-python/releases/#v0.2.6)
         """
         return self.operator.call(
             "SetMulticastAudioDecoderConfiguration", Configuration=Configuration

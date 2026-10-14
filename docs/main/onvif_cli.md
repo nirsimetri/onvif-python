@@ -13,7 +13,7 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 !!! info
     The CLI is automatically installed when you install the `onvif-python` see [Installation](../installation.md).
     
-    This feature has been available since `onvif-python` version [`>=0.1.1`](../releases.md/#v0.1.1).
+    This feature has been available since `onvif-python` version [`0.1.1`](../releases.md/#v0.1.1).
 
 ## Features
 
@@ -269,7 +269,7 @@ This feature is particularly useful for:
 
 ### Device Discovery
 
-The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol with [`ONVIFDiscovery`](../api/utilities/onvif_discovery.md) class. This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand (applied at [`>=v0.1.2`](../releases.md/#v0.1.2)).
+The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol with [`ONVIFDiscovery`](../api/utilities/onvif_discovery.md) class. This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand (applied from [`v0.1.2`](../releases.md/#v0.1.2)).
 
 !!! danger
     - Discovery only works on the local network (same subnet)
@@ -372,7 +372,7 @@ onvif media GetProfiles -H 192.168.1.17 -P 8000 -u admin -p password -o profiles
 
 ### ONVIF Product Search
 
-The CLI includes a built-in database of ONVIF-compliant products that can be searched to help identify and research devices before connecting (applied at [`>=v0.2.0`](../releases.md/#v0.2.0)).
+The CLI includes a built-in database of ONVIF-compliant products that can be searched to help identify and research devices before connecting (applied from [`v0.2.0`](../releases.md/#v0.2.0)).
 
 #### Basic Search
 ```shell

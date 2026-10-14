@@ -27,7 +27,7 @@ class ONVIFWSDL:
         WSDL_MAP (dict[str, dict[str, Any]] | None): Will be initialized when first accessed
 
     !!! tip "Version History"
-        - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
+        - Available since [`v0.1.0`](/onvif-python/releases/#v0.1.0)
 
     !!! warning "WSDL Structure"
         Built-in WSDLs are organized in the ONVIF standard directory structure:
@@ -97,7 +97,7 @@ class ONVIFWSDL:
         """Set global custom WSDL directory for all services.
 
         !!! tip "Version History"
-            - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
+            - Available since [`v0.1.0`](/onvif-python/releases/#v0.1.0)
 
         Args:
             custom_dir (str): Path to directory containing custom WSDL files
@@ -118,7 +118,7 @@ class ONVIFWSDL:
         """Get current global custom WSDL directory.
 
         !!! tip "Version History"
-            - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
+            - Available since [`v0.1.0`](/onvif-python/releases/#v0.1.0)
 
         Returns:
             Current custom WSDL directory, or None if using built-in
@@ -138,7 +138,7 @@ class ONVIFWSDL:
         """Clear custom WSDL directory, revert to built-in WSDLs.
 
         !!! tip "Version History"
-            - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
+            - Available since [`v0.1.0`](/onvif-python/releases/#v0.1.0)
 
         Example:
             ```python linenums="1"
@@ -253,7 +253,7 @@ class ONVIFWSDL:
         """Get the complete WSDL map for all services.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         cls._ensure_wsdl_map_initialized()
 
@@ -272,7 +272,7 @@ class ONVIFWSDL:
         and XML namespace for the requested service and version.
 
         !!! tip "Version History"
-            - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0)
+            - Available since [`v0.1.0`](/onvif-python/releases/#v0.1.0)
 
         Args:
             service (str): Service name (e.g., "devicemgmt", "media", "ptz").
@@ -294,7 +294,7 @@ class ONVIFWSDL:
             | `namespace` | `str` | XML namespace URI |
 
             !!! tip "Version History"
-                - Added in [`>=v0.4.5`](/onvif-python/releases/#v0.4.5): `filename`
+                - Added in [`v0.4.5`](/onvif-python/releases/#v0.4.5): `filename`
 
         ??? note
             - Most services use ver10, some newer ones use ver20

@@ -258,7 +258,7 @@ class Recording(ONVIFService):
         """Lists available recorded segments related to the specified RecordingToken.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "ListRecordedSegments",
@@ -279,7 +279,7 @@ class Recording(ONVIFService):
         storage attached to the given recording configuration.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "ExportRecordedSegments",
@@ -294,7 +294,7 @@ class Recording(ONVIFService):
         """Stops the selected ExportRecordedSegments operation.
 
         !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+            - Available since [`v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "StopExportRecordedSegments", OperationToken=OperationToken
