@@ -16,7 +16,7 @@ The [`ONVIFClient`](../api/core/onvif_client.md) class provides various configur
 | `password` | `str ⏐ None` | ❌ No | `None` | Password for device authentication |
 
 !!! warning
-    As of version [`v0.3.0`](../releases.md/#v0.3.0), the `username` and `password` parameters are no longer mandatory, in order to maximize compatibility with devices that lack a default user or have no user at all. However, if your device does have a user, you must of course enter the appropriate `username` and `password`.
+    As of version [`v0.3.0`](../releases.md/#v0.3.0), the `username` and `password` parameters are **no longer mandatory**, in order to maximize compatibility with devices that lack a default user or have no user at all. However, if your device does have a user, you must of course enter the appropriate `username` and `password`.
 
     Furthermore, this implementation enables the class constructor to perform operations marked as **PRE_AUTH** (according to ONVIF specifications); such as `GetSystemDateAndTime` or `GetCapabilities` within the [`Device`](../api/services/device.md) service that require no authentication.
 

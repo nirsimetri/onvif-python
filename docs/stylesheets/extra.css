@@ -21,7 +21,12 @@
 }
 
 [data-md-color-scheme="slate"] .md-footer-meta {
-  background-color: #020617;
+  background-color: #1E2129;
+}
+
+.md-footer-meta__inner {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .md-nav__source {
@@ -286,6 +291,12 @@
 .admonition-title {
   border-top-right-radius: 0.5rem !important;
 	border-top-left-radius: 0.5rem !important;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-width: 0;
+  border-left-width: 3px;
 }
 
 /* Rounded collapsible admonition */
