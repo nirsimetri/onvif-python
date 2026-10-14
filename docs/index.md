@@ -3,7 +3,7 @@ hide:
   - navigation
 ---
 
-# ONVIF Python &nbsp;[![Downloads](https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red&style=plastic)](https://pepy.tech/projects/onvif-python){ .no-external-icon }
+# ONVIF Python &nbsp;[![Downloads](https://static.pepy.tech/badge/onvif-python)](https://pepy.tech/projects/onvif-python){ .no-external-icon }
 
 
 [![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python)](https://pypi.org/project/onvif-python){ .no-external-icon }
