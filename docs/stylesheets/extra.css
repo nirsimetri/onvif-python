@@ -47,7 +47,7 @@
 }
 
 .md-content__inner {
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
 }
 
 .md-source-file__fact {
@@ -55,7 +55,7 @@
 }
 
 .github-release {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .github-release__metadata {
@@ -383,7 +383,12 @@
 /* Code content — border color on hover */
 .md-typeset .highlight .md-code__content {
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-typeset .highlight .md-code__content {
+    border-radius: 0.5rem;
+  }
 }
 
 .md-typeset .highlight .md-code__content:hover {
