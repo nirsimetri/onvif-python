@@ -427,7 +427,7 @@
   width: max-content;
   max-width: 16rem;
   padding: 0.3rem 0.5rem;
-  border-radius: 0.2rem;
+  border-radius: 0.5rem;
   background: var(--md-default-bg-color);
   color: var(--md-default-fg-color);
   box-shadow: var(--md-shadow-z2);
@@ -467,4 +467,39 @@ html {
   z-index: 10;
   top: auto !important;
   bottom: 1.5rem !important;
+}
+
+/* Flash section when scroll */
+.section-flash-overlay {
+  position: fixed;
+  z-index: 10;
+  pointer-events: none;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+}
+
+@keyframes section-outline-flash {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+
+  25%,
+  75% {
+    border-color: var(--md-accent-fg-color);
+  }
+}
+
+.section-flash-overlay.is-visible {
+  animation: section-outline-flash 0.5s ease-in-out;
+}
+
+/* Tooltip */
+.md-tooltip2__inner {
+  border-radius: 0.5rem;
+}
+
+.md-tooltip {
+  border-radius: 0.5rem;
 }

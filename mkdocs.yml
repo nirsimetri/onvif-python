@@ -79,9 +79,9 @@ nav:
     - Philosophy: philosophy.md
     - Installation: installation.md
     - Quickstart: quick_start.md
-    - Main Features:
-      - Client: main/onvif_client.md
-      - CLI: main/onvif_cli.md
+  - Usage:
+    - Client: main/onvif_client.md
+    - CLI: main/onvif_cli.md
     - Utilities:
       - Helper Methods: utilities/helper_methods.md
   - References:
@@ -171,6 +171,7 @@ plugins:
       js_files:
         - javascripts/github-releases.js
         - javascripts/external-links.js
+        - javascripts/section-flash.js
         - javascripts/extra.js
       css_files:
         - stylesheets/extra.css
@@ -190,10 +191,13 @@ plugins:
         python:
           options:
             show_source: false
+            show_labels: true
             docstring_style: google
             show_root_full_path: false
             show_root_toc_entry: false
             show_signature_annotations: true
+            show_symbol_type_toc: true
+            show_symbol_type_heading: true
 
 markdown_extensions:
   - abbr
@@ -260,6 +264,7 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/dompurify@3.4.15/dist/purify.min.js
   - javascripts/github-releases.js
   - javascripts/external-links.js
+  - javascripts/section-flash.js
   - javascripts/extra.js
 
 hooks:
