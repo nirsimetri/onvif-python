@@ -1,4 +1,4 @@
-"""Mkdocs hooks."""
+"""Misc Mkdocs hooks."""
 
 
 def on_page_content(html, page, config, files):  # pylint: disable=unused-argument

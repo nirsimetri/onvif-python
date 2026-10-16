@@ -1,0 +1,55 @@
+{% if page.meta.comments %}
+  <h2 id="__comments">{{ lang.t("meta.comments") }}</h2>
+    <script src="https://giscus.app/client.js"
+            data-repo="nirsimetri/onvif-python"
+            data-repo-id="R_kgDOP2QG1A"
+            data-category="Comments"
+            data-category-id="DIC_kwDOP2QG1M4DIh0b"
+            data-mapping="title"
+            data-strict="1"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="en"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+
+    <!-- Synchronize Giscus theme with palette -->
+    <script>
+        function syncGiscusTheme() {
+            var palette = __md_get("__palette");
+
+            if (palette && typeof palette.color === "object") {
+                var theme = palette.color.scheme === "slate"
+                    ? "dark"
+                    : "light";
+
+                var frame = document.querySelector(".giscus-frame");
+
+                if (frame && frame.contentWindow) {
+                    frame.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    "https://giscus.app"
+                    );
+                }
+            }
+        }
+
+        // Synchronize theme on initial load and instant navigation.
+        document$.subscribe(function() {
+            var ref = document.querySelector(
+                "[data-md-component=palette]"
+            );
+
+            if (ref && !ref.dataset.giscusThemeSync) {
+                ref.dataset.giscusThemeSync = "true";
+                ref.addEventListener("change", syncGiscusTheme);
+            }
+
+            syncGiscusTheme();
+        });
+    </script>
+{% endif %}

@@ -76,9 +76,9 @@ theme:
 nav:
   - Home: index.md
   - Getting Started:
-    - Philosophy: philosophy.md
     - Installation: installation.md
     - Quickstart: quick_start.md
+    - Approach: approach.md
   - Usage:
     - Client: main/onvif_client.md
     - CLI: main/onvif_cli.md
@@ -198,6 +198,8 @@ plugins:
             show_signature_annotations: true
             show_symbol_type_toc: true
             show_symbol_type_heading: true
+            extensions:
+              - docs/hooks/griffe_extensions.py:DocstringShortcodes
 
 markdown_extensions:
   - abbr
@@ -268,7 +270,8 @@ extra_javascript:
   - javascripts/extra.js
 
 hooks:
-  - docs/hooks.py
+  - docs/hooks/misc.py
+  - docs/hooks/shortcodes.py
 
 copyright: >-
   &copy; 2025 - 2026 &nbsp;<br><a href="https://github.com/nirsimetri">Nirsimetri Technologies®</a>
