@@ -248,7 +248,7 @@ def _badge_for_onvif_version(args: str):
     match = re.fullmatch(r"(\S+)\s+(https?://\S+)", args.strip())
 
     if not match:
-        raise ValueError("Invalid onvif_version shortcode. " "Expected: VERSION URL")
+        raise ValueError("Invalid onvif_version shortcode. Expected: VERSION URL")
 
     version, href = match.groups()
 
