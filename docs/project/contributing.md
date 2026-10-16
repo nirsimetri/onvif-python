@@ -38,72 +38,73 @@ If you can help translate documentation or error messages, let us know!
 
 ### Clone the repository and switch to dev branch
 
-   ```shell
-   # Option 1: Clone dev branch directly
-   git clone -b dev https://github.com/nirsimetri/onvif-python.git
-   cd onvif-python
+```shell
+# Option 1: Clone dev branch directly
+git clone -b dev https://github.com/nirsimetri/onvif-python.git
+cd onvif-python
    
-   # Option 2: Clone then switch to dev
-   git clone https://github.com/nirsimetri/onvif-python.git
-   cd onvif-python
-   git checkout dev
-   ```
+# Option 2: Clone then switch to dev
+git clone https://github.com/nirsimetri/onvif-python.git
+cd onvif-python
+git checkout dev
+```
+
 ### Install locally
 
-   ```shell
-   # Install the package in development mode
-   pip install -e .
+```shell
+# Install the package in development mode
+pip install -e .
    
-   # Install development dependencies
-   # (pytest, pytest-cov, pylint, mypy, isort, docformatter, black)
-   pip install -e ".[dev]"
-   ```
-   Or use `pyproject.toml` with your preferred tool (e.g., Poetry, pip).
+# Install development dependencies
+# (pytest, pytest-cov, pylint, mypy, isort, docformatter, black)
+pip install -e ".[dev]"
+```
+Or use `pyproject.toml` with your preferred tool (e.g., Poetry, pip).
 
 ### Run tests
 
-   ```shell
-   python -m pytest
-   ```
-   Make sure all tests pass before submitting your changes.
+```shell
+python -m pytest
+```
+Make sure all tests pass before submitting your changes.
 
 ### Generate coverage report
 
-   Coverage is optional for local development. To generate an XML coverage report:
-   ```shell
-   pytest --cov=onvif --cov-report=xml --cov-report=term-missing
-   ```
-   This generates `coverage.xml`, which can be used by coverage analysis tools such as Codacy.
+Coverage is optional for local development. To generate an XML coverage report:
+```shell
+pytest --cov=onvif --cov-report=xml --cov-report=term-missing
+```
+This generates `coverage.xml`, which can be used by coverage analysis tools such as Codacy.
 
 ### Lint and format code
 
-   ```shell
-   # Check code linting with pylint
-   pylint .
+```shell
+# Check code linting with pylint
+pylint .
 
-   # Check error with pylint
-   pylint . --errors-only --score=n
+# Check error with pylint
+pylint . --errors-only --score=n
 
-   # Static type checking
-   mypy .
+# Static type checking
+mypy .
 
-   # Sort import order
-   isort .
+# Sort import order
+isort .
 
-   # Spelling check
-   codespell .
+# Spelling check
+codespell .
 
-   # Format docstring with docformatter
-   docformatter --recursive --black --in-place .
+# Format docstring with docformatter
+docformatter --recursive --black --in-place .
    
-   # Format code with black
-   black .
-   ```
-   Ensure your code follows PEP8 standards and is properly formatted.
+# Format code with black
+black .
+```
+Ensure your code follows PEP8 standards and is properly formatted.
 
 ### Try example scripts
 
-   See the [`examples/`](https://github.com/nirsimetri/onvif-python/tree/dev/examples) folder for usage scenarios.
+See the [`examples/`](https://github.com/nirsimetri/onvif-python/tree/dev/examples) folder for usage scenarios.
 
 ## Pull Request Guidelines
 
@@ -214,21 +215,23 @@ The documentation source is located in the [`docs/`](https://github.com/nirsimet
 ```text
 docs/
 ├── assets/
+├── hooks/
 ├── javascripts/
 ├── stylesheets/
 ├── overrides/
 ├── api/
-├── core/
+├── main/
 ├── references/
 ├── utilities/
 ├── project/
 ├── legal/
-├── hooks.py
 ├── index.md
 ├── installation.md
 ├── quick_start.md
-├── philosophy.md
-└── releases.md
+├── approach.md
+├── releases.md
+├── llms.txt
+└── robots.txt
 ```
 
 API reference pages under [`docs/api/`](https://github.com/nirsimetri/onvif-python/tree/dev/docs/api) use `mkdocstrings` to generate documentation from the corresponding Python modules and classes.

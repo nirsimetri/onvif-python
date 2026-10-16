@@ -14,6 +14,6 @@ hide:
 - [x] Enhance documentation with API references and diagrams (not from [AI Wiki](https://deepwiki.com/nirsimetri/onvif-python)) ([`v0.3.1`](../releases.md/#v0.3.1))
 - [ ] Add asynchronous (`async`/`await`) support for non-blocking operations
 - [ ] Implement structured data models for ONVIF Schemas using [xsdata](https://github.com/tefra/xsdata)
-- [ ] Add more usage examples for advanced features
+- [ ] Implement operation tracking based on the device's ONVIF version
+- [ ] Add automated comprehensive tests for ONVIF device capabilities
 - [ ] Add benchmarking and performance metrics
-- [ ] Add community-contributed device configuration templates

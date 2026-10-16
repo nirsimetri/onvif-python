@@ -10,7 +10,11 @@ Every ONVIF service provides **four** essential helper methods to improve the de
 
 ### `type(type_name)`
 
-Creates and returns an instance of the specified ONVIF type for building complex request parameters (applied from [`v0.1.9`](../releases.md/#v0.1.9)).
+<!-- md:version 0.1.9 -->
+<!-- md:utility -->
+<!-- md:example_view set_device_time.py -->
+
+Creates and returns an instance of the specified ONVIF type for building complex request parameters.
 
 **Parameters:**
 
@@ -59,7 +63,10 @@ device.SetSystemDateAndTime(time_params)
 
 ### `operations()`
 
-Lists all available operations for the current service (applied from [`v0.2.0`](../releases.md/#v0.2.0)).
+<!-- md:version 0.2.0 -->
+<!-- md:utility -->
+
+Lists all available operations for the current service.
 
 **Returns:**
 
@@ -93,7 +100,10 @@ if 'ContinuousMove' in ptz.operations():
 
 ### `desc(method_name)`
 
-Provides comprehensive documentation and parameter information for any ONVIF operation (applied from [`v0.2.0`](../releases.md/#v0.2.0)).
+<!-- md:version 0.2.0 -->
+<!-- md:utility -->
+
+Provides comprehensive documentation and parameter information for any ONVIF operation.
 
 **Parameters:**
 
@@ -139,7 +149,11 @@ for method in methods[:5]:  # Show first 5 methods
 
 ### `to_dict(zeep_object)`
 
-Converts a Zeep object (`zeep.objects`) (the raw result returned from ONVIF operations) into a native Python dictionary that is easy to serialize, inspect, and manipulate (applied from [`v0.2.9`](../releases.md/#v0.2.9)).
+<!-- md:version 0.2.9 -->
+<!-- md:utility -->
+<!-- md:example_view check_device.py -->
+
+Converts a Zeep object (`zeep.objects`) (the raw result returned from ONVIF operations) into a native Python dictionary that is easy to serialize, inspect, and manipulate.
 
 **Parameters:**
 

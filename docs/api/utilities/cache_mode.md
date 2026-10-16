@@ -6,3 +6,4 @@
       docstring_style: google
       members: true
       members_order: source
+      heading_level: 3

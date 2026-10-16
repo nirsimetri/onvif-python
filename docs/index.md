@@ -52,7 +52,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
 
 </div>
 
-## Requirements
+## Dependencies
 
 <div class="grid cards" markdown>
 

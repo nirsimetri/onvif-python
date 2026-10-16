@@ -1,13 +1,27 @@
 [data-md-color-scheme="default"] {
+  /* Background */
   --md-default-bg-color: #ebebeb;
+
+  /* Primary */
   --md-primary-fg-color: #003399;
+  --md-typeset-a-color: #003399;
+
+  /* Accent */
+  --md-accent-fg-color: #005fd3;
+  --md-accent-fg-color--transparent: rgba(0, 51, 153, 0.08);
 }
 
 [data-md-color-scheme="slate"] {
+  /* Primary */
   --md-primary-fg-color: #002266;
   --md-typeset-a-color: #60a5fa;
+
+  /* Accent */
+  --md-accent-fg-color: #93c5fd;
+  --md-accent-fg-color--transparent: rgba(96, 165, 250, 0.12);
 }
 
+/* Footer — Light */
 [data-md-color-scheme="default"] .md-footer {
   background-color: #002266;
 }
@@ -16,12 +30,13 @@
   background-color: #003399;
 }
 
+/* Footer — Dark */
 [data-md-color-scheme="slate"] .md-footer {
   background-color: #030b1c;
 }
 
 [data-md-color-scheme="slate"] .md-footer-meta {
-  background-color: #1E2129;
+  background-color: #002266;
 }
 
 .md-footer-meta__inner {
@@ -469,6 +484,16 @@ html {
   bottom: 1.5rem !important;
 }
 
+[data-md-color-scheme="default"] .md-top:hover,
+[data-md-color-scheme="default"] .md-top:focus {
+  color: #F5F5F5;
+}
+
+[data-md-color-scheme="slate"] .md-top:hover,
+[data-md-color-scheme="slate"] .md-top:focus {
+  color: #030b1c;
+}
+
 /* Flash section when scroll */
 .section-flash-overlay {
   position: fixed;
@@ -492,7 +517,7 @@ html {
 }
 
 .section-flash-overlay.is-visible {
-  animation: section-outline-flash 0.5s ease-in-out;
+  animation: section-outline-flash 0.6s ease-in-out;
 }
 
 /* Tooltip */
@@ -502,4 +527,58 @@ html {
 
 .md-tooltip {
   border-radius: 0.5rem;
+}
+
+/* MDX Badge */
+.md-typeset .mdx-badge {
+  display: inline-flex;
+  align-items: stretch;
+  vertical-align: middle;
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+.md-typeset .mdx-badge--right {
+  float: right;
+  margin-left: 0.35em;
+}
+
+.md-typeset .mdx-badge__icon,
+.md-typeset .mdx-badge__text {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0.25rem 0.35rem;
+}
+
+.md-typeset .mdx-badge__icon {
+  justify-content: center;
+  color: var(--md-typeset-a-color);
+  background: var(--md-accent-fg-color--transparent);
+  border-start-start-radius: 0.25rem;
+  border-end-start-radius: 0.25rem;
+}
+
+.md-typeset .mdx-badge__icon:last-child {
+  border-radius: 0.25rem;
+}
+
+.md-typeset .mdx-badge__icon .twemoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.md-typeset .mdx-badge__icon svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.md-typeset .mdx-badge__text {
+  color: var(--md-typeset-a-color);
+  border-start-end-radius: 0.25rem;
+  border-end-end-radius: 0.25rem;
+  box-shadow: 0 0 0 1px inset
+    var(--md-accent-fg-color--transparent);
 }
