@@ -24,7 +24,13 @@ DEFAULT_MAX_WORKERS = 10
 
 
 class ONVIFDiscovery:
-    """Discover ONVIF devices using the WS-Discovery protocol.
+    """
+    <!-- md:version 0.1.6 -->
+    <!-- md:utility Utility class-->
+    <!-- md:example_view device_discovery.py -->
+    <!-- md:example_view device_discovery_raw.py -->
+
+    Discover ONVIF devices using the WS-Discovery protocol.
 
     This class provides methods for discovering ONVIF-compliant devices
     on the local network using WS-Discovery multicast.
@@ -38,7 +44,6 @@ class ONVIFDiscovery:
         interface (str | None): Network interface IP to bind to (default: auto-detect)
 
     !!! tip "Version History"
-        - Available since [`v0.1.6`](/onvif-python/releases/#v0.1.6)
         - Changed in [`v0.4.0`](/onvif-python/releases/#v0.4.0):
             ~~`WS_DISCOVERY_ADDRESS_IPv4`~~ → `WS_DISCOVERY_ADDRESS_IPV4`
     """
@@ -88,10 +93,11 @@ class ONVIFDiscovery:
         self._local_ip: str | None = None
 
     def get_local_ip(self) -> str:
-        """Get local network interface IP address.
+        """
+        <!-- md:version 0.1.6 -->
+        <!-- md:utility -->
 
-        !!! tip "Version History"
-            - Available since [`v0.1.6`](/onvif-python/releases/#v0.1.6)
+        Get local network interface IP address.
 
         Returns:
             Local IP address
@@ -132,14 +138,16 @@ class ONVIFDiscovery:
     def discover(
         self, prefer_https: bool = False, search: str | None = None
     ) -> list[dict[str, Any]]:
-        """Discover ONVIF devices on the network.
+        """
+        <!-- md:version 0.1.6 -->
+        <!-- md:utility -->
 
-        !!! tip "Version History"
-            - Available since [`v0.1.6`](/onvif-python/releases/#v0.1.6)
+        Discover ONVIF devices on the network.
 
         Args:
             prefer_https (bool): If True, prioritize HTTPS XAddrs when available
-            search (str | None): Optional search term to filter devices by types or scopes (case-insensitive)
+            search (str | None): Optional search term to filter devices
+                by types or scopes (case-insensitive)
 
         Returns:
             List of discovered devices (as dict); empty if none are available

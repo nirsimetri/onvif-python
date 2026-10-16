@@ -6,11 +6,16 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Analytics(ONVIFService):
-    """Analytics service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.4 https://www.onvif.org/specs/DocMap-2.4.html -->
+    <!-- md:example_file get_analytics_list.py -->
+
+    Analytics service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.41 (December 2013) |
+    | **First introduced** | ONVIF 2.4 (August 2013) |
     | **Binding name** | `AnalyticsEngineBinding` (`ver20/analytics/wsdl/analytics.wsdl`) |
     | **Operations** | [analytics.wsdl](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl) |
     | **Spec** | [Analytics](https://www.onvif.org/specs/srv/analytics/ONVIF-Analytics-Service-Spec.pdf) |

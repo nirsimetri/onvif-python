@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Replay(ONVIFService):
-    """Recording service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.0 http://developer.onvif.org/pub/core/Core_2.00.pdf -->
+
+    Recording service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
+    | **First introduced** | ONVIF 2.0 (November 2010) |
     | **Binding name** | `ReplayBinding` (`ver10/replay.wsdl`) |
     | **Operations** | [replay.wsdl](https://www.onvif.org/ver10/replay.wsdl) |
     | **Spec** | [ReplayControl](https://www.onvif.org/specs/srv/replay/ONVIF-ReplayControl-Service-Spec.pdf) |

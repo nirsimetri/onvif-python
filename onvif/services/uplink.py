@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Uplink(ONVIFService):
-    """Uplink service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 18.12 https://www.onvif.org/profiles/specifications/specification-history/december-2018 -->
+
+    Uplink service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 18.12 (December 2018) |
+    | **First introduced** | ONVIF 18.12 (December 2018) |
     | **Binding name** | `UplinkBinding` (`ver10/uplink/wsdl/uplink.wsdl`) |
     | **Operations** | [uplink.wsdl](https://www.onvif.org/ver10/uplink/wsdl/uplink.wsdl) |
     | **Spec** | [Uplink](https://www.onvif.org/specs/srv/uplink/ONVIF-Uplink-Spec.pdf) |

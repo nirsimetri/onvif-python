@@ -7,8 +7,12 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 class AnalyticsDevice(ONVIFService):
     # pylint: disable=line-too-long
-    """The AnalyticsDevice service (AnalyticsDeviceBinding) aka 'Video Analytics Device'
-    has been marked as obsolete since ONVIF Release 18.12.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.0 http://developer.onvif.org/pub/core/Core_2.00.pdf -->
+
+    The AnalyticsDevice service (AnalyticsDeviceBinding) aka 'Video Analytics Device'
+    has been marked as obsolete since ONVIF 18.12.
 
     Its functionality has largely been merged into the Analytics service and, in some cases
     Media/Media2.
@@ -22,8 +26,8 @@ class AnalyticsDevice(ONVIFService):
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
-    | **Deprecated** | ONVIF Release 18.12 (December 2018) |
+    | **First introduced** | ONVIF 2.0 (November 2010) |
+    | **Deprecated** | ONVIF 18.12 (December 2018) |
     | **Binding name** | `AnalyticsDeviceBinding` (`ver10/analyticsdevice.wsdl`) |
     | **Successor** | `Analytics` Service (`ver20/analytics/wsdl/analytics.wsdl`) |
     | **Operations** | [analyticsdevice.wsdl](https://www.onvif.org/ver10/analyticsdevice.wsdl) |

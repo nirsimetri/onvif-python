@@ -6,7 +6,11 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Notification(ONVIFService):
-    """WS-BaseNotification NotificationProducer service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 1.0 http://developer.onvif.org/pub/core/onvif_core_ver10.pdf -->
+
+    WS-BaseNotification NotificationProducer service client.
 
     This service provides access to the NotificationProducer interface used by
     ONVIF devices for push-based event notification subscriptions.

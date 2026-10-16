@@ -16,15 +16,16 @@ logger.addHandler(logging.NullHandler())
 
 # pylint: disable=too-many-branches,too-many-nested-blocks,too-many-return-statements
 class ZeepPatcher:
-    """Utility for patching zeep SOAP library to handle ONVIF `xsd:any` fields.
+    """
+    <!-- md:version 0.0.4 -->
+    <!-- md:utility Utility class-->
+
+    Utility for patching zeep SOAP library to handle ONVIF `xsd:any` fields.
 
     This class patches the zeep library to better parse `xsd:any` fields commonly found
     in ONVIF SOAP responses. Without this patch, `xsd:any` fields remain as raw XML
     elements, making them difficult to work with. The patch converts them into
     structured dictionaries with proper type conversion.
-
-    !!! tip "Version History"
-        - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
     !!! failure "The Problem"
         ONVIF uses `xsd:any` extensively for extensibility. By default, zeep doesn't
@@ -369,7 +370,11 @@ class ZeepPatcher:
 
     @staticmethod
     def flatten_xsd_any_fields(obj, _visited=None) -> Any:
-        """Post-process zeep objects to flatten `xsd:any` fields (`_value_1`, `_value_2`,
+        """
+        <!-- md:version 0.0.4 -->
+        <!-- md:internal -->
+
+        Post-process zeep objects to flatten `xsd:any` fields (`_value_1`, `_value_2`,
         etc.) into the main object.
 
         Zeep uses `_value_N` fields to store parsed content from `xsd:any` elements.
@@ -382,9 +387,6 @@ class ZeepPatcher:
 
         This handles all `xsd:any` occurrences (`_value_1`, `_value_2`, `_value_3`, etc.),
         not just the first one.
-
-        !!! tip "Version History"
-            - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
         Args:
             obj (XsdAny): The zeep object to process
@@ -626,13 +628,14 @@ class ZeepPatcher:
 
     @classmethod
     def apply_patch(cls):
-        """Inject the custom `parse_xmlelements` method into `zeep.xsd.elements.any.Any`.
+        """
+        <!-- md:version 0.0.4 -->
+        <!-- md:utility -->
+
+        Inject the custom `parse_xmlelements` method into `zeep.xsd.elements.any.Any`.
 
         This enables better parsing of `xsd:any` fields in ONVIF SOAP responses.
         Should be called once at application startup.
-
-        !!! tip "Version History"
-            - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
         Example:
             ```python linenums="1"
@@ -652,12 +655,13 @@ class ZeepPatcher:
 
     @classmethod
     def remove_patch(cls):
-        """Restore the original `parse_xmlelements` method.
+        """
+        <!-- md:version 0.0.4 -->
+        <!-- md:utility -->
+
+        Restore the original `parse_xmlelements` method.
 
         Reverts zeep to its original behavior. Useful for testing or debugging.
-
-        !!! tip "Version History"
-            - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
 
         Example:
             ```python linenums="1"
@@ -676,10 +680,11 @@ class ZeepPatcher:
 
     @classmethod
     def is_patched(cls) -> bool:
-        """Check if the patch is currently applied.
+        """
+        <!-- md:version 0.0.4 -->
+        <!-- md:utility -->
 
-        !!! tip "Version History"
-            - Available since [`v0.0.4`](/onvif-python/releases/#v0.0.4)
+        Check if the patch is currently applied.
 
         Returns:
             `True` if patch is active, `False` otherwise

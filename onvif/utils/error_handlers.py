@@ -1,4 +1,9 @@
 """
+<!-- md:version 0.4.0 -->
+<!-- md:error_handler -->
+<!-- md:example_file error_handling.py -->
+<!-- md:module utils/error_handlers.py -->
+
 Error handling utilities for ONVIF operations.
 
 This module provides utilities to gracefully handle ONVIF SOAP errors,
@@ -53,10 +58,10 @@ logger.addHandler(logging.NullHandler())
 
 def is_action_not_supported(exception: ONVIFOperationException | Fault) -> bool:
     """
-    Check whether an exception is caused by an `ActionNotSupported` SOAP fault.
+    <!-- md:version 0.4.0 -->
+    <!-- md:error_handler Error handling function-->
 
-    !!! tip "Version History"
-        - Available since [`v0.4.0`](/onvif-python/releases/#v0.4.0)
+    Check whether an exception is caused by an `ActionNotSupported` SOAP fault.
 
     Args:
         exception: The exception to inspect. Can be an
@@ -117,10 +122,10 @@ def safe_call(
     log_error: bool = True,
 ) -> Any | None:
     """
-    Safely call an ONVIF operation with graceful error handling.
+    <!-- md:version 0.4.0 -->
+    <!-- md:error_handler Error handling function-->
 
-    !!! tip "Version History"
-        - Available since [`v0.4.0`](/onvif-python/releases/#v0.4.0)
+    Safely call an ONVIF operation with graceful error handling.
 
     Args:
         func (Callable): The callable that performs the ONVIF operation.
@@ -190,10 +195,11 @@ def safe_call(
 
 
 def ignore_unsupported(func: Callable) -> Any | None:
-    """Decorator to ignore `ActionNotSupported` SOAP faults.
+    """
+    <!-- md:version 0.4.0 -->
+    <!-- md:error_handler Error handling decorator-->
 
-    !!! tip "Version History"
-        - Available since [`v0.4.0`](/onvif-python/releases/#v0.4.0)
+    Decorator to ignore `ActionNotSupported` SOAP faults.
 
     Args:
         func (Callable): The function to decorate. The function may accept positional

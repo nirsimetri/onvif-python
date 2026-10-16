@@ -7,11 +7,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 # pylint: disable=redefined-outer-name
 class Schedule(ONVIFService):
-    """Schedule service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.6 https://www.onvif.org/specs/DocMap-2.6.html -->
+
+    Schedule service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.6 (June 2015) |
+    | **First introduced** | ONVIF 2.6 (June 2015) |
     | **Binding name** | `ScheduleBinding` (`ver10/schedule/wsdl/schedule.wsdl`) |
     | **Operations** | [schedule.wsdl](https://www.onvif.org/ver10/schedule/wsdl/schedule.wsdl) |
     | **Spec** | [Scheduler](https://www.onvif.org/specs/srv/sched/ONVIF-Scheduler-Service-Spec.pdf) |

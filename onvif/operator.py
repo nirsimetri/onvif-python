@@ -27,7 +27,11 @@ logger.addHandler(logging.NullHandler())
 
 
 class CacheMode(Enum):
-    """WSDL caching strategies for ONVIF client performance optimization.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:utility Utility class-->
+
+    WSDL caching strategies for ONVIF client performance optimization.
 
     Different caching modes provide trade-offs between performance, memory usage,
     and disk storage. Choose based on the application's requirements.
@@ -38,7 +42,6 @@ class CacheMode(Enum):
         DB (Literal['db']): Persistent SQLite caching across process restarts.
 
     !!! tip "Version History"
-        - Available since [`v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
         - Removed in [`v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
     """
 
@@ -93,7 +96,11 @@ class CacheMode(Enum):
 
 
 class ONVIFOperator:
-    """Low-level ONVIF service operator using Zeep SOAP client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:internal -->
+
+    Low-level ONVIF service operator using Zeep SOAP client.
 
     This class handles the actual SOAP communication with ONVIF devices. It manages
     WSDL loading, service binding, authentication, caching, and error handling.
@@ -120,7 +127,6 @@ class ONVIFOperator:
         service_name (str): Name of the ONVIF service (e.g., "Device", "Media")
 
     !!! tip "Version History"
-        - Available since [`v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
         - No version tracking for attribute changes because this class is used internally
     """
 
@@ -267,14 +273,15 @@ class ONVIFOperator:
         )
 
     def call(self, method: str, *args, **kwargs) -> Any:
-        """Call an ONVIF service operation.
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:internal -->
+
+        Call an ONVIF service operation.
 
         This method invokes a SOAP operation on the ONVIF device service and handles
         errors gracefully. It automatically flattens `xsd:any` fields in the response
         when `apply_patch` is enabled.
-
-        !!! tip "Version History"
-            - Available since [`v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
 
         Args:
             method (str): Name of the ONVIF operation to call (e.g., "GetDeviceInformation")
@@ -315,7 +322,11 @@ class ONVIFOperator:
         *args,
         **kwargs,
     ) -> Any:
-        """Call a legacy ONVIF operation using the current WSDL definition.
+        """
+        <!-- md:version 0.4.3 -->
+        <!-- md:internal -->
+
+        Call a legacy ONVIF operation using the current WSDL definition.
 
         This provides compatibility with devices which implemented an older
         operation name that was subsequently renamed in the ONVIF WSDL.
@@ -324,9 +335,6 @@ class ONVIFOperator:
         Zeep SOAP operation. The alias reuses the current operation's request
         and response definitions while overriding the operation name and SOAP
         action.
-
-        !!! tip "Version History"
-            - Available since [`v0.4.3`](/onvif-python/releases/#v0.4.3)
 
         Args:
             legacy_method: Name of the legacy ONVIF operation
@@ -401,13 +409,14 @@ class ONVIFOperator:
             ) from e
 
     def create_type(self, type_name: str) -> Any:
-        """Create a type instance from WSDL schema for the given type name.
+        """
+        <!-- md:version 0.1.9 -->
+        <!-- md:internal -->
+
+        Create a type instance from WSDL schema for the given type name.
 
         Recursively initializes nested complex types so that fields like TimeZone, DateTime,
         Date, and Time are properly instantiated as objects rather than None.
-
-        !!! tip "Version History"
-            - Available since [`v0.1.9`](/onvif-python/releases/#v0.1.9)
 
         Args:
             type_name (str): Name of the type to create (e.g., 'SetHostname', 'SetIPAddressFilter')

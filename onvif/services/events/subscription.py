@@ -6,7 +6,11 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Subscription(ONVIFService):
-    """WS-BaseNotification SubscriptionManager service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 1.0 http://developer.onvif.org/pub/core/onvif_core_ver10.pdf -->
+
+    WS-BaseNotification SubscriptionManager service client.
 
     This interface manages the lifecycle of a notification subscription created through
     the WS-BaseNotification NotificationProducer interface.

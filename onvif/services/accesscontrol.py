@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class AccessControl(ONVIFService):
-    """AccessControl service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.3 https://www.onvif.org/specs/DocMap-2.3.html -->
+
+    AccessControl service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.3 (May 2013) |
+    | **First introduced** | ONVIF 2.3 (May 2013) |
     | **Binding name** | `PACSBinding` (`ver10/pacs/accesscontrol.wsdl`) |
     | **Operations** | [accesscontrol.wsdl](https://www.onvif.org/ver10/pacs/accesscontrol.wsdl) |
     | **Spec** | [AccessControl](https://www.onvif.org/specs/srv/access/ONVIF-AccessControl-Service-Spec.pdf) |
