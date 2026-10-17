@@ -73,7 +73,7 @@ def service(func: Callable[P, R]) -> Callable[P, R]:
     ONVIF client service accessors.
 
     Args:
-        func: Service accessor method to wrap.
+        func (Callable): Service accessor method to wrap.
 
     Returns:
         Wrapped service accessor method.
@@ -113,8 +113,10 @@ class ONVIFClient:
     This is the main class for interacting with ONVIF devices. It provides access to
     all ONVIF services including Device Management, Media, PTZ, Events, Analytics, and more.
 
-    The client automatically discovers available services on the device using `GetServices`
-    or `GetCapabilities`, and provides lazy initialization for service endpoints.
+    The client automatically discovers available services on the device using
+    [`GetServices`](../services/device.md#onvif.services.devicemgmt.Device.GetServices) or
+    [`GetCapabilities`](../services/device.md#onvif.services.devicemgmt.Device.GetCapabilities),
+    and provides lazy initialization for service endpoints.
 
     Attributes:
         services (list | None): List of available services from `GetServices` response

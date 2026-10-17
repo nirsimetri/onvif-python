@@ -29,7 +29,7 @@ logger.addHandler(logging.NullHandler())
 class CacheMode(Enum):
     """
     <!-- md:version 0.0.1 -->
-    <!-- md:utility Utility class-->
+    <!-- md:utility Utility enum-->
 
     WSDL caching strategies for ONVIF client performance optimization.
 

@@ -11,7 +11,7 @@ class ONVIFOperationException(Exception):
     # pylint: disable=line-too-long
     """
     <!-- md:version 0.0.1 -->
-    <!-- md:exception -->
+    <!-- md:exception Exception type -->
 
     Enhanced exception wrapper for ONVIF operation failures.
 
