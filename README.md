@@ -1,4 +1,4 @@
-# ONVIF Python [![Downloads](https://static.pepy.tech/badge/onvif-python)](https://pepy.tech/projects/onvif-python)
+# ONVIF Python [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&style=plastic)](https://pepy.tech/projects/onvif-python)
 
 [![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python)](https://pypi.org/project/onvif-python)
 [![PyPI Version](https://img.shields.io/pypi/v/onvif-python?logo=pypi&logoColor=white&color=blue&style=plastic&label=PyPI)](https://pypi.org/project/onvif-python/)
