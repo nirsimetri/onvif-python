@@ -57,7 +57,7 @@ function createReleaseNav(releases) {
   const releaseItem = document.createElement("li");
 
   releaseItem.className =
-    "md-nav__item md-nav__item--nested github-releases-nav";
+    "md-nav__item md-nav__item--pruned github-releases-nav";
 
   const toggleId = "__nav_releases";
 
@@ -122,16 +122,20 @@ function createReleaseNav(releases) {
     )}`;
 
     const title = document.createElement("span");
-
-    const date = new Date(release.published_at);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-
     title.className = "md-ellipsis";
-    title.textContent = `${release.tag_name} (${formattedDate})`;
+    title.textContent = release.tag_name;
 
+    const date = document.createElement("small");
+    date.className = "github-release__date_title";
+    const publishedAt = new Date(release.published_at);
+
+    date.textContent = publishedAt.toLocaleDateString(navigator.language, {
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    });
+
+    title.append(" ", date);
     link.appendChild(title);
     item.appendChild(link);
     releaseList.appendChild(item);
@@ -200,58 +204,8 @@ function renderRelease(releases, tag = null) {
   const article = document.createElement("article");
   article.className = "github-release";
 
-  const heading = document.createElement("h2");
+  const heading = document.createElement("h1");
   heading.textContent = release.name || release.tag_name;
-
-  const metadataElement = document.createElement("p");
-  metadataElement.className = "github-release__metadata";
-
-  if (release.immutable || release.tag_name || release.published_at) {
-    if(release.published_at){
-      const dateElement = document.createElement("span");
-      dateElement.className = "github-release__date";
-
-      const date = new Date(release.published_at);
-      const year = date.getFullYear();
-      const month = date.toLocaleString("en-US", { month: "long" });
-      const day = String(date.getDate()).padStart(2, "0");
-
-      dateElement.textContent = `🗓️ ${year}-${month}-${day}`;
-      metadataElement.appendChild(dateElement);
-    }
-
-    if (release.immutable) {
-      const immutableElement = document.createElement("span");
-      immutableElement.className = "github-release__immutable";
-
-      const lockIcon = document.createElement("span");
-      lockIcon.textContent = "🔒";
-      lockIcon.setAttribute("aria-hidden", "true");
-
-      const immutableText = document.createElement("span");
-      immutableText.textContent = "Immutable";
-
-      immutableElement.appendChild(lockIcon);
-      immutableElement.appendChild(immutableText);
-      metadataElement.appendChild(immutableElement);
-    }
-
-    if (release.tag_name) {
-      const tagElement = document.createElement("span");
-      tagElement.className = "github-release__tag";
-
-      const tagIcon = document.createElement("span");
-      tagIcon.textContent = "🏷️";
-      tagIcon.setAttribute("aria-hidden", "true");
-
-      const tagText = document.createElement("span");
-      tagText.textContent = release.tag_name;
-
-      tagElement.appendChild(tagIcon);
-      tagElement.appendChild(tagText);
-      metadataElement.appendChild(tagElement);
-    }
-  }
 
   const body = document.createElement("div");
   body.className = "github-release__body";
@@ -267,7 +221,6 @@ function renderRelease(releases, tag = null) {
   body.appendChild(safeFragment);
 
   article.appendChild(heading);
-  article.appendChild(metadataElement);
   article.appendChild(body);
 
   container.replaceChildren(article);
@@ -301,6 +254,8 @@ async function initializeReleases() {
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
     }, 100);
+
+    updateReleaseNavigationState();
   } catch (error) {
     console.error("Failed to load GitHub releases:", error);
 
@@ -311,6 +266,60 @@ async function initializeReleases() {
         "<p>Failed to load releases from GitHub.</p>";
     }
   }
+}
+
+function updateReleaseNavigationState() {
+  const path = window.location.pathname.replace(/\/+$/, "");
+  const isReleasesPage = path.endsWith("/releases");
+
+  const placeholder = document.querySelector(
+    '.md-nav--primary > .md-nav__list > .md-nav__item > a[href$="/releases/"]'
+  )?.parentElement;
+
+  const releaseNav = document.querySelector(
+    ".github-releases-nav"
+  );
+
+  if (!placeholder || !releaseNav) {
+    return;
+  }
+
+  placeholder.classList.toggle(
+    "md-nav__item--active",
+    !isReleasesPage
+  );
+
+  releaseNav.classList.toggle(
+    "md-nav__item--active",
+    isReleasesPage
+  );
+
+  releaseNav.classList.toggle(
+    "md-nav__item--pruned",
+    !isReleasesPage
+  );
+
+  const placeholderLink = placeholder.querySelector(
+    ":scope > a.md-nav__link"
+  );
+
+  if (placeholderLink) {
+    placeholderLink.classList.toggle(
+      "md-nav__link--active",
+      !isReleasesPage
+    );
+  }
+
+  releaseNav.querySelectorAll(".md-nav__link").forEach((link) => {
+    const isActive =
+      isReleasesPage &&
+      new URL(link.href, window.location.href).hash ===
+        window.location.hash &&
+      new URL(link.href, window.location.href).pathname ===
+        window.location.pathname;
+
+    link.classList.toggle("md-nav__link--active", isActive);
+  });
 }
 
 if (typeof document$ !== "undefined") {

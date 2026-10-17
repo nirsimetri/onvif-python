@@ -85,24 +85,30 @@
   margin-bottom: 2rem;
 }
 
-.github-release__metadata {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.8rem;
-  margin-bottom: 0rem;
-}
-
-.github-release__date,
-.github-release__immutable,
-.github-release__tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
 .github-release__body {
   margin-top: 0rem;
+}
+
+/* Hide the Releases toggle label on desktop */
+@media screen and (min-width: 76.25em) {
+  .github-releases-nav > label.md-nav__link {
+    display: none;
+  }
+}
+
+/* Inactive date */
+.github-releases-nav .github-release__date_title {
+  color: var(--md-default-fg-color--light);
+}
+
+/* Hovered release link */
+.github-releases-nav .md-nav__link:hover .github-release__date_title {
+  color: inherit;
+}
+
+/* Active release link */
+.github-releases-nav .md-nav__link--active .github-release__date_title {
+  color: inherit;
 }
 
 .highlight .go::before {
