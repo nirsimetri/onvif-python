@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://nirsimetri.github.io/onvif-python/sitemap.xml
