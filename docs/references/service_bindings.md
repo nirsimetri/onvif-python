@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+comments: true
 ---
 
 ONVIF services are defined by WSDL bindings. In this library, there are two main patterns:

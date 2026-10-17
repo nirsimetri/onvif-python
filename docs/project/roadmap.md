@@ -15,5 +15,5 @@ hide:
 - [ ] Add asynchronous (`async`/`await`) support for non-blocking operations
 - [ ] Implement structured data models for ONVIF Schemas using [xsdata](https://github.com/tefra/xsdata)
 - [ ] Implement operation tracking based on the device's ONVIF version
-- [ ] Add automated comprehensive tests for ONVIF device capabilities
+- [ ] Add automated comprehensive checks for ONVIF device capabilities
 - [ ] Add benchmarking and performance metrics

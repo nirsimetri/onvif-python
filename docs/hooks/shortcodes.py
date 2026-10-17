@@ -254,7 +254,7 @@ def _badge_for_onvif_version(args: str):
 
     return _badge(
         icon=f":{ICON_FOR_ONVIF_VERSION}:",
-        text=f"[`{version}`]({href})",
+        text=f"[`{version}`]({href}){{.no-external-icon }}",
         title="Minimum ONVIF version",
     )
 

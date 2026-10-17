@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+comments: true
 ---
 
 Below are simple examples to help you get started with the ONVIF Python library. These demonstrate how to discover and connect to ONVIF-compliant devices and retrieve basic device information.

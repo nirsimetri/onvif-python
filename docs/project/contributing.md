@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+comments: true
 ---
 
 ## Contributors
@@ -33,6 +34,13 @@ Share your experience with different ONVIF devices by contributing results to th
 
 ### Translations
 If you can help translate documentation or error messages, let us know!
+
+## Reporting Issues
+
+- Search existing issues before opening a new one to avoid duplicates.
+- Provide as much detail as possible: environment, device model, ONVIF version, error messages, and steps to reproduce.
+- Attach logs, screenshots, or code snippets if relevant.
+- Be polite and constructive; remember, maintainers and contributors are volunteers.
 
 ## Development Setup
 
@@ -106,7 +114,15 @@ Ensure your code follows PEP8 standards and is properly formatted.
 
 See the [`examples/`](https://github.com/nirsimetri/onvif-python/tree/dev/examples) folder for usage scenarios.
 
-## Pull Request Guidelines
+## Style Guide
+
+- **PEP8** is the standard for Python code style. Use tools like `pylint` and `black` to check and format your code.
+- **Docstrings:** Use clear, concise docstrings for modules, classes, and functions. Use `docformatter` to format your docstring.
+- **Type hints:** Add type annotations where appropriate for better readability and tooling support.
+- **Comments:** Write helpful comments, especially for complex logic.
+- **Naming:** Use descriptive variable, function, and class names.
+
+## Pull Request Guide
 
 ### PR Convention
 
@@ -139,30 +155,15 @@ Use the following commit title types:
 
 ### General Guidelines
 
-- **Describe your changes clearly** in the PR description.  
-- **Reference related issues** by number (e.g., `Fixes #123`).  
-- **Keep changes focused**—avoid mixing unrelated fixes or features in one PR.  
-- **Include tests** for new features or bug fixes when possible.  
-- **Follow the style guide** and ensure your code passes linting and tests.  
-- **Be responsive to review feedback** and update your PR as needed.  
-- **Squash commits** if requested, to keep history clean.  
+- **Describe your changes clearly** in the PR description.
+- **Reference related issues** by number (e.g., `Fixes #123`).
+- **Keep changes focused**—avoid mixing unrelated fixes or features in one PR.
+- **Include tests** for new features or bug fixes when possible.
+- **Follow the style guide** and ensure your code passes linting and tests.
+- **Be responsive to review feedback** and update your PR as needed.
+- **Squash commits** if requested, to keep history clean.
 
-## Reporting Issues
-
-- Search existing issues before opening a new one to avoid duplicates.
-- Provide as much detail as possible: environment, device model, ONVIF version, error messages, and steps to reproduce.
-- Attach logs, screenshots, or code snippets if relevant.
-- Be polite and constructive—remember, maintainers and contributors are volunteers.
-
-## Style Guide
-
-- **PEP8** is the standard for Python code style. Use tools like `pylint` and `black` to check and format your code.
-- **Docstrings:** Use clear, concise docstrings for modules, classes, and functions. Use `docformatter` to format your docstring.
-- **Type hints:** Add type annotations where appropriate for better readability and tooling support.
-- **Comments:** Write helpful comments, especially for complex logic.
-- **Naming:** Use descriptive variable, function, and class names.
-
-## Documentation
+## Documentation Guide
 
 The documentation is built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) and [mkdocstrings](https://mkdocstrings.github.io/) to generate API documentation directly from the Python source code.
 

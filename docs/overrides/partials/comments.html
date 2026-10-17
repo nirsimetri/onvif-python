@@ -1,20 +1,33 @@
 {% if page.meta.comments %}
   <h2 id="__comments">{{ lang.t("meta.comments") }}</h2>
-    <script src="https://giscus.app/client.js"
-            data-repo="nirsimetri/onvif-python"
-            data-repo-id="R_kgDOP2QG1A"
-            data-category="Comments"
-            data-category-id="DIC_kwDOP2QG1M4DIh0b"
-            data-mapping="title"
-            data-strict="1"
-            data-reactions-enabled="1"
-            data-emit-metadata="0"
-            data-input-position="top"
-            data-theme="light"
-            data-lang="en"
-            data-loading="lazy"
-            crossorigin="anonymous"
-            async>
+    
+    <script>
+        var palette = __md_get("__palette");
+
+        var giscusTheme =
+        palette && palette.color && palette.color.scheme === "slate"
+            ? "dark"
+            : "light";
+
+        var giscusScript = document.createElement("script");
+
+        giscusScript.src = "https://giscus.app/client.js";
+        giscusScript.dataset.repo = "nirsimetri/onvif-python";
+        giscusScript.dataset.repoId = "R_kgDOP2QG1A";
+        giscusScript.dataset.category = "Comments";
+        giscusScript.dataset.categoryId = "DIC_kwDOP2QG1M4DIh0b";
+        giscusScript.dataset.mapping = "title";
+        giscusScript.dataset.strict = "1";
+        giscusScript.dataset.reactionsEnabled = "1";
+        giscusScript.dataset.emitMetadata = "0";
+        giscusScript.dataset.inputPosition = "top";
+        giscusScript.dataset.theme = giscusTheme;
+        giscusScript.dataset.lang = "en";
+        giscusScript.dataset.loading = "lazy";
+        giscusScript.crossOrigin = "anonymous";
+        giscusScript.async = true;
+
+        document.currentScript.after(giscusScript);
     </script>
 
     <!-- Synchronize Giscus theme with palette -->
@@ -22,19 +35,21 @@
         function syncGiscusTheme() {
             var palette = __md_get("__palette");
 
-            if (palette && typeof palette.color === "object") {
-                var theme = palette.color.scheme === "slate"
-                    ? "dark"
-                    : "light";
+            if (!palette || typeof palette.color !== "object") {
+                return;
+            }
 
-                var frame = document.querySelector(".giscus-frame");
+            var theme = palette.color.scheme === "slate"
+                ? "dark"
+                : "light";
 
-                if (frame && frame.contentWindow) {
-                    frame.contentWindow.postMessage(
+            var frame = document.querySelector(".giscus-frame");
+
+            if (frame && frame.contentWindow) {
+                frame.contentWindow.postMessage(
                     { giscus: { setConfig: { theme: theme } } },
                     "https://giscus.app"
-                    );
-                }
+                );
             }
         }
 

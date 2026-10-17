@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+comments: true
 ---
 
 Below is a list of ONVIF services implemented and supported by this library, along with links to the official specifications, service definitions, and schema files as referenced from the [ONVIF Developer Specs](https://developer.onvif.org/pub/specs/branches/development/doc/index.html).

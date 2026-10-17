@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+comments: true
 ---
 
 Every ONVIF service provides **four** essential helper methods to improve the development experience and make working with ONVIF operations more intuitive:

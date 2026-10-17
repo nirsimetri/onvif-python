@@ -7,7 +7,7 @@ hide:
 
 <div class="grid cards" markdown>
 
--   :material-token:{ .lg .middle }&nbsp; **ONVIF Profiles**
+-   :material-category:{ .lg .middle }&nbsp; **ONVIF Profiles**
 
     ---
 
@@ -16,7 +16,7 @@ hide:
     ---
     [<span class="icon-link">:octicons-arrow-right-24: Supported Profiles</span>](supported_profiles.md)
 
--   :material-api:{ .lg .middle }&nbsp; **ONVIF Services**
+-   :material-network-node:{ .lg .middle }&nbsp; **ONVIF Services**
 
     ---
 

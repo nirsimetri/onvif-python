@@ -25,7 +25,7 @@ hide:
 
     Work with WSDL resources used to describe ONVIF service operations and their SOAP interfaces.
 
--   :material-cog-outline:{ .lg .middle }&nbsp; [**ONVIFService**](onvif_service.md)
+-   :material-network-node:{ .lg .middle }&nbsp; [**ONVIFService**](onvif_service.md)
 
     ---
 

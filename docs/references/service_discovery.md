@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+comments: true
 ---
 
 !!! warning

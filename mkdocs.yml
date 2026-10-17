@@ -189,13 +189,20 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
+          inventories:
+            - https://docs.python.org/3/objects.inv
+            - https://docs.python-zeep.org/en/master/objects.inv
           options:
             show_source: false
             show_labels: true
             docstring_style: google
             show_root_full_path: false
             show_root_toc_entry: false
+            show_signature: true
             show_signature_annotations: true
+            separate_signature: true
+            signature_crossrefs: true
+            show_attribute_values: true
             show_symbol_type_toc: true
             show_symbol_type_heading: true
             extensions:

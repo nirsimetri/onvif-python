@@ -95,7 +95,7 @@ Browse the ONVIF service clients exposed by `onvif-python`. Each service provide
 
     [<span class="icon-link">:octicons-arrow-right-24: Receiver</span>](receiver.md)
 
--   :material-calendar-clock:{ .lg .middle }&nbsp; **Automation & Scheduling**
+-   :material-automation:{ .lg .middle }&nbsp; **Automation & Scheduling**
 
     ---
 

@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+comments: true
 ---
 
 This library fully supports all major ONVIF Profiles listed below. Each profile represents a standardized set of features and use cases, ensuring interoperability between ONVIF-compliant devices and clients. You can use this library to integrate with devices and systems that implement any of these profiles.

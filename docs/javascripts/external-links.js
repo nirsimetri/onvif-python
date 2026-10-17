@@ -37,6 +37,11 @@ document$.subscribe(() => {
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
 
+      // Do not add external icons inside source-code blocks.
+      if (link.closest('.highlight, .highlighttable, pre')) {
+        return;
+      }
+
       if (
         !link.classList.contains('no-external-icon') &&
         !link.querySelector('.external-link-icon')
@@ -51,7 +56,10 @@ document$.subscribe(() => {
           </svg>
         `;
 
-        link.appendChild(icon);
+        const code = link.querySelector('code');
+
+        // Place the icon inside inline code when present.
+        (code || link).appendChild(icon);
       }
     }
   });
