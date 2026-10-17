@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Display(ONVIFService):
-    """Display service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.0 http://developer.onvif.org/pub/core/Core_2.00.pdf -->
+
+    Display service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
+    | **First introduced** | ONVIF 2.0 (November 2010) |
     | **Binding name** | `DisplayBinding` (`ver10/display.wsdl`) |
     | **Operations** | [display.wsdl](https://www.onvif.org/ver10/display.wsdl) |
     | **Spec** | [Display](https://www.onvif.org/specs/srv/disp/ONVIF-Display-Service-Spec.pdf) |

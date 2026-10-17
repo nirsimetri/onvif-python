@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class AccessRules(ONVIFService):
-    """AccessRules service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.6 https://www.onvif.org/specs/DocMap-2.6.html -->
+
+    AccessRules service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.6 (June 2015) |
+    | **First introduced** | ONVIF 2.6 (June 2015) |
     | **Binding name** | `AccessRulesBinding` (`ver10/accessrules/wsdl/accessrules.wsdl`) |
     | **Operations** | [accessrules.wsdl](https://www.onvif.org/ver10/accessrules/wsdl/accessrules.wsdl) |
     | **Spec** | [AccessRules](https://www.onvif.org/specs/srv/access/ONVIF-AccessRules-Service-Spec.pdf) |

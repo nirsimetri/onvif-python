@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Media2(ONVIFService):
-    """Media2 service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.6.1 https://www.onvif.org/specs/rl/ONVIF_SpecSet_RL_2.6.1.pdf -->
+
+    Media2 service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.61 (December 2015) |
+    | **First introduced** | ONVIF 2.6.1 (December 2015) |
     | **Binding name** | `Media2Binding` (`ver20/media/wsdl/media.wsdl`) |
     | **Operations** | [media.wsdl](https://www.onvif.org/ver20/media/wsdl/media.wsdl) |
     | **Spec** | [Media2](https://www.onvif.org/specs/srv/media/ONVIF-Media2-Service-Spec.pdf) |
@@ -304,10 +308,10 @@ class Media2(ONVIFService):
         )
 
     def SetEQPresetConfiguration(self, Configuration):
-        """This command is to configure Audio EQPreset.
+        """
+        <!-- md:version 0.4.3 -->
 
-        !!! tip "Version History"
-            - Available since [`>=v0.4.3`](/onvif-python/releases/#v0.4.3)
+        This command is to configure Audio EQPreset.
         """
         return self.operator.call(
             "SetEQPresetConfiguration", Configuration=Configuration
@@ -653,12 +657,12 @@ class Media2(ONVIFService):
         )
 
     def AddTTSAudioClip(self, Configuration, TTSConfiguration, Token=None):
-        """This operation sends a text and its configuration to device that supports TTS
+        """
+        <!-- md:version 0.2.11 -->
+
+        This operation sends a text and its configuration to device that supports TTS
         function, so that device could convert the text into an audio clip and play it
         according to audio clip Configuration and TTS Configuration.
-
-        !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
         """
         return self.operator.call(
             "AddTTSAudioClip",
@@ -673,11 +677,11 @@ class Media2(ONVIFService):
         return self.operator.call("GetPlayingAudioClips")
 
     def GetMulticastAudioDecoderConfigurationOptions(self, ConfigurationToken=None):
-        """This operation gets the available options for the MulticastAudioDecoder
-        configuration.
+        """
+        <!-- md:version 0.2.6 -->
 
-        !!! tip "Version History"
-            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+        This operation gets the available options for the MulticastAudioDecoder
+        configuration.
         """
         return self.operator.call(
             "GetMulticastAudioDecoderConfigurationOptions",
@@ -685,10 +689,10 @@ class Media2(ONVIFService):
         )
 
     def GetMulticastAudioDecoderConfigurations(self, ConfigurationToken=None):
-        """This operation gets the list of multicast audio decoder configurations.
+        """
+        <!-- md:version 0.2.6 -->
 
-        !!! tip "Version History"
-            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+        This operation gets the list of multicast audio decoder configurations.
         """
         return self.operator.call(
             "GetMulticastAudioDecoderConfigurations",
@@ -696,10 +700,10 @@ class Media2(ONVIFService):
         )
 
     def SetMulticastAudioDecoderConfiguration(self, Configuration):
-        """This operation sets the MulticastAudioDecoderConfiguration.
+        """
+        <!-- md:version 0.2.6 -->
 
-        !!! tip "Version History"
-            - Available since [`>=v0.2.6`](/onvif-python/releases/#v0.2.6)
+        This operation sets the MulticastAudioDecoderConfiguration.
         """
         return self.operator.call(
             "SetMulticastAudioDecoderConfiguration", Configuration=Configuration

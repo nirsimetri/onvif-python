@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class DeviceIO(ONVIFService):
-    """DeviceIO service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.0 http://developer.onvif.org/pub/core/Core_2.00.pdf -->
+
+    DeviceIO service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
+    | **First introduced** | ONVIF 2.0 (November 2010) |
     | **Binding name** | `DeviceIOBinding` (`ver10/deviceio.wsdl`) |
     | **Operations** | [deviceio.wsdl](https://www.onvif.org/ver10/deviceio.wsdl) |
     | **Spec** | [DeviceIO](https://www.onvif.org/specs/srv/io/ONVIF-DeviceIo-Service-Spec.pdf) |

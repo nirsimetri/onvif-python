@@ -1,3 +1,12 @@
+---
+hide:
+  - path
+comments: true
+---
+
+<!-- md:version 0.1.1 -->
+<!-- md:module cli -->
+
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=plastic&logo=gitforwindows&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=plastic&logo=linux&logoColor=black)
 ![macOS](https://img.shields.io/badge/macOS-1A9FEE?style=plastic&logo=apple&logoColor=white)
@@ -7,8 +16,6 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 
 !!! info
     The CLI is automatically installed when you install the `onvif-python` see [Installation](../installation.md).
-    
-    This feature has been available since `onvif-python` version [`>=0.1.1`](../releases.md/#v0.1.1).
 
 ## Features
 
@@ -24,14 +31,6 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 
 <table>
   <tr>
-    <td width="35%">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png" />
-    </td>
-    <td width="65%">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_operations.png" />
-    </td>
-  </tr>
-  <tr>
     <th align="center">
       Onboarding
     </th>
@@ -39,19 +38,27 @@ This library includes a powerful command-line interface (CLI) for interacting wi
       List available operations
     </th>
   </tr>
+  <tr>
+    <td width="35%">
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png" />
+    </td>
+    <td width="65%">
+        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_operations.png" />
+    </td>
+  </tr>
 </table>
 
 ## Help Command
 
 ??? abstract "Direct CLI"
 
-    ```shell
+    ```shell { data-search-exclude }
     usage: onvif [-h] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD] [--discover] [--filter FILTER] [--interface INTERFACE] [--discovery-timeout DISCOVERY_TIMEOUT] [--search SEARCH]
                 [--page PAGE] [--per-page PER_PAGE] [--timeout TIMEOUT] [--digest] [--https] [--no-verify] [--no-patch] [--interactive] [--debug] [--wsdl WSDL] [--cache {none,mem,db}]
                 [--health-check-interval HEALTH_CHECK_INTERVAL] [--output OUTPUT] [--version]
                 [service] [method] [params ...]
 
-    ONVIF Terminal Client — v0.4.4
+    ONVIF Terminal Client — <version>
     https://github.com/nirsimetri/onvif-python
 
     positional arguments:
@@ -132,8 +139,8 @@ This library includes a powerful command-line interface (CLI) for interacting wi
 
 ??? abstract "Interactive Shell"
 
-    ```shell
-    ONVIF Interactive Shell — v0.4.4
+    ```shell { data-search-exclude }
+    ONVIF Interactive Shell — <version>
     https://github.com/nirsimetri/onvif-python
 
     Basic Commands:
@@ -236,7 +243,9 @@ If you omit the username or password, you will be prompted to enter them securel
 | `exit` | Exit the shell |
 
 !!! warning
-    You can see all the other commands available in the interactive shell by trying it out directly. The interactive shell runs periodic background health checks to detect connection loss. It uses silent TCP pings to avoid interrupting your work and will automatically exit if the device is unreachable, similar to an SSH session.
+    You can see all the other commands available in the interactive shell by trying it out directly with `help` command from interactive shell.
+    
+    The interactive shell runs periodic background health checks to detect connection loss. It uses silent TCP pings to avoid interrupting your work and will automatically exit if the device is unreachable, similar to an SSH session.
 
 #### Command Chaining with `&&`
 
@@ -262,7 +271,9 @@ This feature is particularly useful for:
 
 ### Device Discovery
 
-The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol with [`ONVIFDiscovery`](../api/core/onvif_discovery.md) class. This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand (applied at [`>=v0.1.2`](../releases.md/#v0.1.2)).
+<!-- md:version 0.1.2 -->
+
+The CLI includes automatic ONVIF device discovery using the WS-Discovery protocol with [`ONVIFDiscovery`](../api/utilities/onvif_discovery.md) class (since [`v0.1.6`](../releases.md/#v0.1.6)). This feature allows you to find all ONVIF-compliant devices on your local network without knowing their IP addresses beforehand.
 
 !!! danger
     - Discovery only works on the local network (same subnet)
@@ -310,7 +321,7 @@ onvif media GetProfiles -d -u admin -p password
 4. **Connection**: Once you select a device, the CLI automatically connects using the discovered host and port
 
 #### Example Discovery Output
-```shell
+```shell  { data-search-exclude }
 onvif -d -i
 
 Discovering ONVIF devices on network...
@@ -365,7 +376,9 @@ onvif media GetProfiles -H 192.168.1.17 -P 8000 -u admin -p password -o profiles
 
 ### ONVIF Product Search
 
-The CLI includes a built-in database of ONVIF-compatible products that can be searched to help identify and research devices before connecting (applied at [`>=v0.2.0`](../releases.md/#v0.2.0)).
+<!-- md:version 0.2.0 -->
+
+The CLI includes a built-in database of ONVIF-compliant products that can be searched to help identify and research devices before connecting.
 
 #### Basic Search
 ```shell

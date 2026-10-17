@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class AdvancedSecurity(ONVIFService):
-    """Security service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.4 https://www.onvif.org/specs/DocMap-2.4.html -->
+
+    Security service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.4 (August 2013) |
+    | **First introduced** | ONVIF 2.4 (August 2013) |
     | **Binding name** | `AdvancedSecurityServiceBinding` (`ver10/advancedsecurity/wsdl/advancedsecurity.wsdl`) |
     | **Operations** | [advancedsecurity.wsdl](https://www.onvif.org/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) |
     | **Spec** | [Security](https://www.onvif.org/specs/srv/security/ONVIF-Security-Service-Spec.pdf) |

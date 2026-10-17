@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class AuthorizationServer(ONVIFService):
-    """Security (AuthorizationServer) service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 23.12 https://www.onvif.org/profiles/specifications/specification-history/december-2023 -->
+
+    Security (AuthorizationServer) service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 23.12 (December 2023) |
+    | **First introduced** | ONVIF 23.12 (December 2023) |
     | **Binding name** | `AuthorizationServerBinding` (`ver10/advancedsecurity/wsdl/advancedsecurity.wsdl`) |
     | **Operations** | [advancedsecurity.wsdl](https://www.onvif.org/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) |
     | **Spec** | [Security](https://www.onvif.org/specs/srv/security/ONVIF-Security-Service-Spec.pdf) |

@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Provisioning(ONVIFService):
-    """Provisioning service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 16.12 https://www.onvif.org/specs/DocMap-16.12.html -->
+
+    Provisioning service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 16.12 (December 2016) |
+    | **First introduced** | ONVIF 16.12 (December 2016) |
     | **Binding name** | `ProvisioningBinding` (`ver10/provisioning/wsdl/provisioning.wsdl`) |
     | **Operations** | [provisioning.wsdl](https://www.onvif.org/ver10/provisioning/wsdl/provisioning.wsdl) |
     | **Spec** | [Provisioning](https://www.onvif.org/specs/srv/ptz/ONVIF-Provisioning-Service-Spec.pdf) |

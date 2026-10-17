@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Dot1X(ONVIFService):
-    """Security (Dot1X) service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 16.06 https://www.onvif.org/specs/DocMap-16.06.html -->
+
+    Security (Dot1X) service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 16.06 (June 2016) |
+    | **First introduced** | ONVIF 16.06 (June 2016) |
     | **Binding name** | `Dot1XBinding` (`ver10/advancedsecurity/wsdl/advancedsecurity.wsdl`) |
     | **Operations** | [advancedsecurity.wsdl](https://www.onvif.org/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl) |
     | **Spec** | [Security](https://www.onvif.org/specs/srv/security/ONVIF-Security-Service-Spec.pdf) |

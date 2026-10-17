@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class PullPoint(ONVIFService):
-    """Events (PullPoint) service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 1.0 http://developer.onvif.org/pub/core/onvif_core_ver10.pdf -->
+
+    Events (PullPoint) service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Core |
+    | **First introduced** | ONVIF 1.0 (November 2008) |
     | **Binding name** | `PullPointSubscriptionBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
     | **Operations** | [event-vs.wsdl](https://www.onvif.org/ver10/events/wsdl/event-vs.wsdl) |
     | **Spec** | [Core](https://www.onvif.org/specs/core/ONVIF-Core-Specification.pdf) |

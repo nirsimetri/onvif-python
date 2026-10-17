@@ -1,3 +1,9 @@
+---
+hide:
+  - path
+comments: true
+---
+
 ONVIF services are defined by WSDL bindings. In this library, there are two main patterns:
 
 ### Single Binding Services
@@ -30,6 +36,7 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
     - **Sub-bindings:**
         - `PullPointSubscriptionBinding` (created via `CreatePullPointSubscription`)
         - `SubscriptionManagerBinding` (manages existing subscriptions)
+        - `PausableSubscriptionManagerBinding` (manages existing pausable subscriptions)
         - `NotificationProducerBinding`
 
     **Usage in library:**
@@ -38,6 +45,7 @@ Some ONVIF services have multiple bindings in the same WSDL. These typically inc
     client.events()                   # root binding
     client.pullpoint(subscription)    # sub-binding (dynamic, via SubscriptionReference)
     client.subscription(subscription) # sub-binding (dynamic, via SubscriptionReference)
+    client.pausable_subscription(subscription) # sub-binding (dynamic, via SubscriptionReference)
     client.notification()             # sub-binding accessor
     ```
 

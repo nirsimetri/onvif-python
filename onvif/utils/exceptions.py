@@ -9,7 +9,11 @@ from zeep.exceptions import Fault
 # pylint: disable=too-many-nested-blocks,too-many-branches
 class ONVIFOperationException(Exception):
     # pylint: disable=line-too-long
-    """Enhanced exception wrapper for ONVIF operation failures.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:exception Exception type -->
+
+    Enhanced exception wrapper for ONVIF operation failures.
 
     This exception provides detailed error information including operation name,
     error category, SOAP fault details, and the original exception.
@@ -19,9 +23,6 @@ class ONVIFOperationException(Exception):
     Attributes:
         operation (str): Name of the ONVIF operation that failed
         original_exception (Exception): The underlying exception that was raised
-
-    !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release)
 
     ## Error Categories
 

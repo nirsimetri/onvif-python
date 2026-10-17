@@ -1,3 +1,9 @@
+---
+hide:
+  - path
+comments: true
+---
+
 ## Contributors
 
 <a href="https://github.com/nirsimetri/onvif-python/graphs/contributors">
@@ -29,78 +35,94 @@ Share your experience with different ONVIF devices by contributing results to th
 ### Translations
 If you can help translate documentation or error messages, let us know!
 
+## Reporting Issues
+
+- Search existing issues before opening a new one to avoid duplicates.
+- Provide as much detail as possible: environment, device model, ONVIF version, error messages, and steps to reproduce.
+- Attach logs, screenshots, or code snippets if relevant.
+- Be polite and constructive; remember, maintainers and contributors are volunteers.
+
 ## Development Setup
 
 ### Clone the repository and switch to dev branch
 
-   ```shell
-   # Option 1: Clone dev branch directly
-   git clone -b dev https://github.com/nirsimetri/onvif-python.git
-   cd onvif-python
+```shell
+# Option 1: Clone dev branch directly
+git clone -b dev https://github.com/nirsimetri/onvif-python.git
+cd onvif-python
    
-   # Option 2: Clone then switch to dev
-   git clone https://github.com/nirsimetri/onvif-python.git
-   cd onvif-python
-   git checkout dev
-   ```
+# Option 2: Clone then switch to dev
+git clone https://github.com/nirsimetri/onvif-python.git
+cd onvif-python
+git checkout dev
+```
+
 ### Install locally
 
-   ```shell
-   # Install the package in development mode
-   pip install -e .
+```shell
+# Install the package in development mode
+pip install -e .
    
-   # Install development dependencies
-   # (pytest, pytest-cov, pylint, mypy, isort, docformatter, black)
-   pip install -e ".[dev]"
-   ```
-   Or use `pyproject.toml` with your preferred tool (e.g., Poetry, pip).
+# Install development dependencies
+# (pytest, pytest-cov, pylint, mypy, isort, docformatter, black)
+pip install -e ".[dev]"
+```
+Or use `pyproject.toml` with your preferred tool (e.g., Poetry, pip).
 
 ### Run tests
 
-   ```shell
-   python -m pytest
-   ```
-   Make sure all tests pass before submitting your changes.
+```shell
+python -m pytest
+```
+Make sure all tests pass before submitting your changes.
 
 ### Generate coverage report
 
-   Coverage is optional for local development. To generate an XML coverage report:
-   ```shell
-   pytest --cov=. --cov-report=xml
-   ```
-   This generates `coverage.xml`, which can be used by coverage analysis tools such as Codacy.
+Coverage is optional for local development. To generate an XML coverage report:
+```shell
+pytest --cov=onvif --cov-report=xml --cov-report=term-missing
+```
+This generates `coverage.xml`, which can be used by coverage analysis tools such as Codacy.
 
 ### Lint and format code
 
-   ```shell
-   # Check code linting with pylint
-   pylint .
+```shell
+# Check code linting with pylint
+pylint .
 
-   # Check error with pylint
-   pylint . --errors-only --score=n
+# Check error with pylint
+pylint . --errors-only --score=n
 
-   # Static type checking
-   mypy .
+# Static type checking
+mypy .
 
-   # Sort import order
-   isort .
+# Sort import order
+isort .
 
-   # Spelling check
-   codespell .
+# Spelling check
+codespell .
 
-   # Format docstring with docformatter
-   docformatter --recursive --black --in-place .
+# Format docstring with docformatter
+docformatter --recursive --black --in-place .
    
-   # Format code with black
-   black .
-   ```
-   Ensure your code follows PEP8 standards and is properly formatted.
+# Format code with black
+black .
+```
+Ensure your code follows PEP8 standards and is properly formatted.
 
 ### Try example scripts
 
-   See the [`examples/`](https://github.com/nirsimetri/onvif-python/tree/dev/examples) folder for usage scenarios.
+See the [`examples/`](https://github.com/nirsimetri/onvif-python/tree/dev/examples) folder for usage scenarios.
 
-## Pull Request Guidelines
+## Style Guide
+
+- **PEP8** is the standard for Python code style. Use tools like `pylint` and `black` to check and format your code.
+- **Docstrings:** Use clear, concise docstrings for modules, classes, and functions. Use `docformatter` to format your docstring.
+- **Type hints:** Add type annotations where appropriate for better readability and tooling support.
+- **Comments:** Write helpful comments, especially for complex logic.
+- **Naming:** Use descriptive variable, function, and class names.
+
+## Pull Request Guide
 
 ### PR Convention
 
@@ -112,17 +134,17 @@ Make sure to write a comprehensive description for the PR you create to make it 
 
 Use the following commit title types:
 
-- **`feat`** → ✨ New feature
-- **`fix`** → 🐛 Bug fix
-- **`chore`** → 🔧 Non-code tasks such as updating dependencies, configs, or build tools
-- **`docs`** → 📚 Documentation-only changes
-- **`style`** → 🎨 Code style changes (formatting, spacing, etc. — without affecting logic)
-- **`refactor`** → 🔨 Code refactoring without adding features or fixing bugs
-- **`test`** → ✅ Adding or modifying tests (unit tests, integration tests, etc.)
-- **`perf`** → 🚀 Performance improvements
-- **`ci`** → ⚙️ Changes to CI/CD configuration or pipelines
-- **`build`** → 📦 Changes to the build system or external dependencies (e.g., Dockerfile)
-- **`revert`** → ⏪ Reverting a previous commit
+- **`feat`** → New feature
+- **`fix`** → Bug fix
+- **`chore`** → Non-code tasks such as updating dependencies, configs, or build tools
+- **`docs`** → Documentation-only changes
+- **`style`** → Code style changes (formatting, spacing, etc. — without affecting logic)
+- **`refactor`** → Code refactoring without adding features or fixing bugs
+- **`test`** → Adding or modifying tests (unit tests, integration tests, etc.)
+- **`perf`** → Performance improvements
+- **`ci`** → Changes to CI/CD configuration or pipelines
+- **`build`** → Changes to the build system or external dependencies (e.g., Dockerfile)
+- **`revert`** → Reverting a previous commit
 - **`code`** → General code changes that support but are not core features (e.g., examples)
 
 **Examples:**
@@ -133,30 +155,15 @@ Use the following commit title types:
 
 ### General Guidelines
 
-- **Describe your changes clearly** in the PR description.  
-- **Reference related issues** by number (e.g., `Fixes #123`).  
-- **Keep changes focused**—avoid mixing unrelated fixes or features in one PR.  
-- **Include tests** for new features or bug fixes when possible.  
-- **Follow the style guide** and ensure your code passes linting and tests.  
-- **Be responsive to review feedback** and update your PR as needed.  
-- **Squash commits** if requested, to keep history clean.  
+- **Describe your changes clearly** in the PR description.
+- **Reference related issues** by number (e.g., `Fixes #123`).
+- **Keep changes focused**—avoid mixing unrelated fixes or features in one PR.
+- **Include tests** for new features or bug fixes when possible.
+- **Follow the style guide** and ensure your code passes linting and tests.
+- **Be responsive to review feedback** and update your PR as needed.
+- **Squash commits** if requested, to keep history clean.
 
-## Reporting Issues
-
-- Search existing issues before opening a new one to avoid duplicates.
-- Provide as much detail as possible: environment, device model, ONVIF version, error messages, and steps to reproduce.
-- Attach logs, screenshots, or code snippets if relevant.
-- Be polite and constructive—remember, maintainers and contributors are volunteers.
-
-## Style Guide
-
-- **PEP8** is the standard for Python code style. Use tools like `pylint` and `black` to check and format your code.
-- **Docstrings:** Use clear, concise docstrings for modules, classes, and functions. Use `docformatter` to format your docstring.
-- **Type hints:** Add type annotations where appropriate for better readability and tooling support.
-- **Comments:** Write helpful comments, especially for complex logic.
-- **Naming:** Use descriptive variable, function, and class names.
-
-## Documentation
+## Documentation Guide
 
 The documentation is built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) and [mkdocstrings](https://mkdocstrings.github.io/) to generate API documentation directly from the Python source code.
 
@@ -170,9 +177,11 @@ pip install -e ".[docs]"
 
 This installs the documentation tooling defined in `pyproject.toml`, including:
 
-* `mkdocs-material` — MkDocs theme and Material extensions
-* `mkdocstrings[python]` — API documentation generated from Python source code
-* `mkdocs-git-authors-plugin` — contributor information for documentation pages
+* `mkdocs-material` → MkDocs theme and Material extensions
+* `mkdocstrings[python]` → API documentation generated from Python source code
+* `mkdocs-git-authors-plugin` → contributor information for documentation pages
+* `mkdocs-git-revision-date-localized-plugin` → revision date information for documentation pages
+* `mkdocs-minify-plugin` → to minify any generated html/css/js files
 
 ### Run Locally
 
@@ -207,11 +216,12 @@ The documentation source is located in the [`docs/`](https://github.com/nirsimet
 ```text
 docs/
 ├── assets/
+├── hooks/
 ├── javascripts/
 ├── stylesheets/
 ├── overrides/
 ├── api/
-├── core/
+├── main/
 ├── references/
 ├── utilities/
 ├── project/
@@ -219,8 +229,10 @@ docs/
 ├── index.md
 ├── installation.md
 ├── quick_start.md
-├── philosophy.md
-└── releases.md
+├── approach.md
+├── releases.md
+├── llms.txt
+└── robots.txt
 ```
 
 API reference pages under [`docs/api/`](https://github.com/nirsimetri/onvif-python/tree/dev/docs/api) use `mkdocstrings` to generate documentation from the corresponding Python modules and classes.

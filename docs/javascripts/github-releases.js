@@ -1,4 +1,4 @@
- /* global DOMPurify, marked, document$ */
+ /* global DOMPurify, marked, document$, GITHUB_REPOSITORY */
 
 const GITHUB_REPOSITORY = "nirsimetri/onvif-python";
 const [, GITHUB_REPOSITORY_NAME] = GITHUB_REPOSITORY.split("/");

@@ -1,3 +1,8 @@
+---
+hide:
+  - path
+---
+
 This project is an **independent open-source implementation** of the [ONVIF](https://www.onvif.org) specifications. It is **not affiliated with, endorsed by, or sponsored by ONVIF** or its member companies.
 
 - The name **“ONVIF”** and the ONVIF logo are registered trademarks of the ONVIF organization.  

@@ -6,11 +6,16 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Media(ONVIFService):
-    """Media service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 1.0 http://developer.onvif.org/pub/core/onvif_core_ver10.pdf -->
+    <!-- md:example_file open_stream.py -->
+
+    Media service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
+    | **First introduced** | ONVIF 1.0 (November 2008) |
     | **Binding name** | `MediaBinding` (`ver10/media/wsdl/media.wsdl`) |
     | **Operations** | [media.wsdl](https://www.onvif.org/ver10/media/wsdl/media.wsdl) |
     | **Spec** | [Media](https://www.onvif.org/specs/srv/media/ONVIF-Media-Service-Spec.pdf) |

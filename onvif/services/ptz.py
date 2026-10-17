@@ -6,11 +6,16 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class PTZ(ONVIFService):
-    """PTZ service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 1.0 http://developer.onvif.org/pub/core/onvif_core_ver10.pdf -->
+    <!-- md:example_file check_ptz.py -->
+
+    PTZ service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
+    | **First introduced** | ONVIF 1.0 (November 2008) |
     | **Binding name** | `PTZBinding` (`ver20/ptz/wsdl/ptz.wsdl`) |
     | **Operations** | [ptz.wsdl](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl) |
     | **Spec** | [PTZ](https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec.pdf) |

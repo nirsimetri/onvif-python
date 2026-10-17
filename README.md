@@ -1,10 +1,9 @@
-# ONVIF Python
+# ONVIF Python [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&style=plastic)](https://pepy.tech/projects/onvif-python)
 
 [![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python)](https://pypi.org/project/onvif-python)
 [![PyPI Version](https://img.shields.io/pypi/v/onvif-python?logo=pypi&logoColor=white&color=blue&style=plastic&label=PyPI)](https://pypi.org/project/onvif-python/)
 [![Quality](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Quality)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard)
 [![Coverage](https://img.shields.io/codacy/coverage/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Coverage)](https://app.codacy.com/gh/nirsimetri/onvif-python/coverage)
-[![Downloads](https://img.shields.io/pepy/dt/onvif-python?label=Downloads&color=red&style=plastic)](https://pepy.tech/projects/onvif-python)
 <br>
 [![Build](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-app.yml?logo=github&style=plastic&label=Build)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
 [![Upload Python](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-publish.yml?logo=github&style=plastic&label=Upload%20Package)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml)
@@ -18,22 +17,83 @@ Behind the scenes, ONVIF communication relies on **[SOAP](https://en.wikipedia.o
 This library simplifies that process by wrapping SOAP communication into a clean, Pythonic API. You no longer need to handle low-level XML parsing, namespaces, or security tokens manually; the library takes care of it, letting you focus on building functionality.
 
 ## Who Is It For?
-- **Individual developers** exploring ONVIF or building hobby projects  
-- **Companies** building video intelligence, analytics, or VMS platforms  
-- **Security integrators** who need reliable ONVIF interoperability across devices
+
+<table>
+  <tr>
+    <th align="start">
+    <img
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/account-hard-hat.svg"
+      width="24"
+      height="24"
+      valign="middle"
+    />&nbsp;Individual Developers
+    </th>
+    <th align="start">
+    <img
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/video-wireless.svg"
+      width="24"
+      height="24"
+      valign="middle"
+    />&nbsp;Platform Developers
+    </th>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <p>Explore ONVIF capabilities and build applications for IP cameras and compatible devices.</p>
+    </td>
+    <td width="50%" valign="top">
+      <p>Build video intelligence, analytics, and video management system (VMS) platforms.</p>
+    </td>
+  </tr>
+  <tr>
+    <th align="start">
+    <img
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/cctv.svg"
+      width="24"
+      height="24"
+      valign="middle"
+    />&nbsp;Security Integrators
+    </th>
+    <th align="start">
+    <img
+      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/chip.svg"
+      width="24"
+      height="24"
+      valign="middle"
+    />&nbsp;Device & IoT Engineers
+    </th>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <p>Integrate security devices and troubleshoot ONVIF interoperability across vendors.</p>
+    </td>
+    <td width="50%" valign="top">
+      <p>Develop, test, and integrate ONVIF-compliant devices and IP-based physical security systems.</p>
+    </td>
+  </tr>
+</table>
 
 ## Requirements
 
-- **Python**: 3.10 or higher
-- **Dependencies**:
-  - [`zeep>=4.3.0`](https://github.com/mvantellingen/python-zeep) - SOAP client for ONVIF communication
-  - [`requests>=2.32.0`](https://github.com/psf/requests) - HTTP library for network requests
+Python **3.10 or higher** is required.
+
+## Dependencies
+
+- [zeep](https://github.com/mvantellingen/python-zeep) → SOAP client for ONVIF communication.
+- [requests](https://github.com/psf/requests) → HTTP library for network requests.
+- [pyreadline3](https://github.com/pyreadline3/pyreadline3) → Only installed on Windows (`win32`) for CLI auto-completion.
 
 ## Installation
 
 From official [PyPI](https://pypi.org/project/onvif-python/):
 ```shell
 pip install --upgrade onvif-python
+```
+
+Or install using [pipx](https://pipx.pypa.io/stable/) for an isolated environment:
+```shell
+pipx install git+https://github.com/nirsimetri/onvif-python
+
 ```
 
 Or clone this repository and install locally:

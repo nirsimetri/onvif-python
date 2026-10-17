@@ -6,11 +6,15 @@ from onvif.utils.wsdl import ONVIFWSDL
 
 
 class Search(ONVIFService):
-    """Search service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.0 http://developer.onvif.org/pub/core/Core_2.00.pdf -->
+
+    Search service client.
 
     | Property | Details |
     | -------- | ------- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) split from Core 2.0 |
+    | **First introduced** | ONVIF 2.0 (November 2010) |
     | **Binding name** | `SearchBinding` (`ver10/search.wsdl`) |
     | **Operations** | [search.wsdl](https://www.onvif.org/ver10/search.wsdl) |
     | **Spec** | [RecordingSearch](https://www.onvif.org/specs/srv/rsrch/ONVIF-RecordingSearch-Service-Spec.pdf) |
@@ -349,11 +353,11 @@ class Search(ONVIFService):
         Similarity=None,
         MaxMatches=None,
     ):
-        """Starts a natural language search session and specifies the search
-        parameters.
+        """
+        <!-- md:version 0.2.11 -->
 
-        !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        Starts a natural language search session and specifies the search
+        parameters.
         """
         return self.operator.call(
             "SearchImageByNL",
@@ -369,10 +373,10 @@ class Search(ONVIFService):
     def GetNLSearchResults(
         self, SearchToken, MinResults=None, MaxResults=None, WaitTime=None
     ):
-        """Gets results from a natural language search session.
+        """
+        <!-- md:version 0.2.11 -->
 
-        !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        Gets results from a natural language search session.
         """
         return self.operator.call(
             "GetNLSearchResults",
@@ -392,10 +396,10 @@ class Search(ONVIFService):
         TargetImageData=None,
         MaxMatches=None,
     ):
-        """Starts an image-based search session and specifies the search parameters.
+        """
+        <!-- md:version 0.2.11 -->
 
-        !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        Starts an image-based search session and specifies the search parameters.
         """
         return self.operator.call(
             "SearchImageByImage",
@@ -411,10 +415,10 @@ class Search(ONVIFService):
     def GetImageSearchResults(
         self, SearchToken, MinResults=None, MaxResults=None, WaitTime=None
     ):
-        """Gets results from an image-based search session.
+        """
+        <!-- md:version 0.2.11 -->
 
-        !!! tip "Version History"
-            - Available since [`>=v0.2.11`](/onvif-python/releases/#v0.2.11)
+        Gets results from an image-based search session.
         """
         return self.operator.call(
             "GetImageSearchResults",
