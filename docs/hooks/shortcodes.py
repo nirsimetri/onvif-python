@@ -226,7 +226,7 @@ def _badge(icon: str, text: str = "", type: str = "", title: str = ""):
     )
 
 
-# Create badge for pacakge version
+# Create badge for package version
 def _badge_for_version(text: str, page: Page | None = None, files: Files | None = None):
     path = f"releases.md#v{text}"
 

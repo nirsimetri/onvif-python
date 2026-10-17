@@ -1,4 +1,4 @@
-"""Griffe extentions."""
+"""Griffe extensions."""
 
 from __future__ import annotations
 
