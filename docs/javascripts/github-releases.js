@@ -57,7 +57,7 @@ function createReleaseNav(releases) {
   const releaseItem = document.createElement("li");
 
   releaseItem.className =
-    "md-nav__item md-nav__item--nested github-releases-nav";
+    "md-nav__item md-nav__item--pruned github-releases-nav";
 
   const toggleId = "__nav_releases";
 
@@ -122,16 +122,17 @@ function createReleaseNav(releases) {
     )}`;
 
     const title = document.createElement("span");
-
-    const date = new Date(release.published_at);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-
     title.className = "md-ellipsis";
-    title.textContent = `${release.tag_name} (${formattedDate})`;
+    title.textContent = release.tag_name.replace("v", "");
 
+    const date = document.createElement("small");
+    date.className = "github-release__date_title";
+
+    const publishedAt = new Date(release.published_at);
+
+    date.textContent = formatReleaseDate(publishedAt);
+
+    title.append(" ", date);
     link.appendChild(title);
     item.appendChild(link);
     releaseList.appendChild(item);
@@ -200,77 +201,326 @@ function renderRelease(releases, tag = null) {
   const article = document.createElement("article");
   article.className = "github-release";
 
-  const heading = document.createElement("h2");
-  heading.textContent = release.name || release.tag_name;
+  const heading = document.createElement("h1");
+  heading.append(document.createTextNode(release.tag_name.replace("v", "")));
 
-  const metadataElement = document.createElement("p");
-  metadataElement.className = "github-release__metadata";
+  const latestRelease = releases.find(
+    (item) => !item.draft && !item.prerelease
+  );
 
-  if (release.immutable || release.tag_name || release.published_at) {
-    if(release.published_at){
-      const dateElement = document.createElement("span");
-      dateElement.className = "github-release__date";
+  if (latestRelease?.id === release.id) {
+    const badge = document.createElement("span");
+    badge.className = "github-release__badge";
+    badge.textContent = "Latest";
 
-      const date = new Date(release.published_at);
-      const year = date.getFullYear();
-      const month = date.toLocaleString("en-US", { month: "long" });
-      const day = String(date.getDate()).padStart(2, "0");
-
-      dateElement.textContent = `🗓️ ${year}-${month}-${day}`;
-      metadataElement.appendChild(dateElement);
-    }
-
-    if (release.immutable) {
-      const immutableElement = document.createElement("span");
-      immutableElement.className = "github-release__immutable";
-
-      const lockIcon = document.createElement("span");
-      lockIcon.textContent = "🔒";
-      lockIcon.setAttribute("aria-hidden", "true");
-
-      const immutableText = document.createElement("span");
-      immutableText.textContent = "Immutable";
-
-      immutableElement.appendChild(lockIcon);
-      immutableElement.appendChild(immutableText);
-      metadataElement.appendChild(immutableElement);
-    }
-
-    if (release.tag_name) {
-      const tagElement = document.createElement("span");
-      tagElement.className = "github-release__tag";
-
-      const tagIcon = document.createElement("span");
-      tagIcon.textContent = "🏷️";
-      tagIcon.setAttribute("aria-hidden", "true");
-
-      const tagText = document.createElement("span");
-      tagText.textContent = release.tag_name;
-
-      tagElement.appendChild(tagIcon);
-      tagElement.appendChild(tagText);
-      metadataElement.appendChild(tagElement);
-    }
+    heading.append(" ", badge);
   }
+
+  const dateHeading = document.createElement("h1");
+  dateHeading.className = "github-release__date_header";
+
+  const date = document.createElement("small");
+
+  const publishedAt = new Date(release.published_at);
+  date.textContent = formatReleaseDate(publishedAt)
+
+  dateHeading.appendChild(date);
+
+  const header = document.createElement("div");
+  header.className = "github-release__header";
+
+  header.appendChild(heading);
+  header.appendChild(dateHeading);
+
+  const hr = document.createElement("hr");
+
+  const metadata = document.createElement("div");
+  metadata.className = "github-release__metadata";
+
+  const author = document.createElement("span");
+  author.className = "github-release__author";
+
+  const username = release.author?.login;
+
+  author.textContent = username
+    ? `@${username} released this `
+    : "Released ";
+
+  const time = document.createElement("time");
+  time.className = "github-release__time";
+  time.dateTime = release.published_at;
+  time.textContent = formatRelativeTime(release.published_at);
+
+  author.appendChild(time);
+
+  const releaseLink = document.createElement("a");
+  releaseLink.className = "github-release__link";
+  
+  const releaseUrl = new URL(release.html_url);
+  if (
+    releaseUrl.protocol === "https:" &&
+    releaseUrl.hostname === "github.com"
+  ) {
+    releaseLink.href = releaseUrl.href;
+  } else {
+    releaseLink.removeAttribute("href");
+  }
+
+  releaseLink.target = "_blank";
+  releaseLink.rel = "noopener noreferrer";
+  releaseLink.textContent = "Go to release";
+  releaseLink.dataset.tooltip = "View release on GitHub";
+
+  metadata.append(author, releaseLink);
 
   const body = document.createElement("div");
   body.className = "github-release__body";
 
   const markdownHtml = marked.parse(
-    processGitHubReferences(release.body || "")
+    processGitHubReferences(release.body || "", release.tag_name)
   );
 
   const safeFragment = DOMPurify.sanitize(markdownHtml, {
     RETURN_DOM_FRAGMENT: true,
   });
 
+  convertGitHubAlerts(safeFragment);
+
   body.appendChild(safeFragment);
 
-  article.appendChild(heading);
-  article.appendChild(metadataElement);
+  body.querySelectorAll("a[href]").forEach((link) => {
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    const url = new URL(link.href);
+
+    if (url.hostname !== "github.com") {
+      return;
+    }
+
+    const match = url.pathname.match(
+      /^\/([^/]+)\/([^/]+)\/(pull|issues)\/(\d+)\/?$/
+    );
+
+    if (match) {
+      const [, , , type, number] = match;
+      link.dataset.tooltip =
+        type === "pull"
+          ? `Pull Request #${number}`
+          : `Issue #${number}`;
+
+      return;
+    }
+
+    const commitMatch = url.pathname.match(
+      /^\/([^/]+)\/([^/]+)\/commit\/([a-f0-9]{7,40})\/?$/i
+    );
+
+    if (commitMatch) {
+      link.dataset.tooltip = `Commit ${commitMatch[3].slice(0, 7)}`;
+      return;
+    }
+
+    const profileMatch = url.pathname.match(/^\/([a-zA-Z0-9-]+)\/?$/);
+
+    if (profileMatch) {
+      link.dataset.tooltip = `GitHub user @${profileMatch[1]}`;
+    }
+
+    const compareMatch = url.pathname.match(
+      /^\/([^/]+)\/([^/]+)\/compare\/([^/]+)\.\.\.([^/]+)\/?$/
+    );
+
+    if (compareMatch) {
+      const [, , , base, head] = compareMatch;
+      link.dataset.tooltip = `Compare ${base} → ${head}`;
+      return;
+    }
+
+    const repositoryMatch = url.pathname.match(
+      /^\/([^/]+)\/([^/]+)\/?$/
+    );
+
+    if (repositoryMatch) {
+      const [, owner, repo] = repositoryMatch;
+      link.dataset.tooltip = `GitHub repository ${owner}/${repo}`;
+      return;
+    }
+
+    const actionRunMatch = url.pathname.match(
+      /^\/([^/]+)\/([^/]+)\/actions\/runs\/(\d+)\/?$/
+    );
+
+    if (actionRunMatch) {
+      link.dataset.tooltip = `GitHub Actions Run #${actionRunMatch[3]}`;
+      return;
+    }
+  });
+
+  article.appendChild(header);
+  article.appendChild(hr);
+  article.appendChild(metadata);
   article.appendChild(body);
 
   container.replaceChildren(article);
+}
+
+function formatReleaseDate(dateString) {
+  return new Date(dateString).toLocaleDateString(navigator.language, {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  });
+}
+
+function formatRelativeTime(dateString) {
+  const date = new Date(dateString);
+  const seconds = Math.floor((date.getTime() - Date.now()) / 1000);
+  const units = [
+    ["year", 365 * 24 * 60 * 60],
+    ["month", 30 * 24 * 60 * 60],
+    ["week", 7 * 24 * 60 * 60],
+    ["day", 24 * 60 * 60],
+    ["hour", 60 * 60],
+    ["minute", 60],
+  ];
+
+  for (const [unit, secondsPerUnit] of units) {
+    if (Math.abs(seconds) >= secondsPerUnit) {
+      return new Intl.RelativeTimeFormat(navigator.language, {
+        numeric: "auto",
+      }).format(Math.round(seconds / secondsPerUnit), unit);
+    }
+  }
+
+  return "just now";
+}
+
+function updateReleaseTOC() {
+  const body = document.querySelector(".github-release__body");
+  const nav = document.querySelector(
+    ".md-sidebar--secondary .md-nav--secondary"
+  );
+
+  if (!body || !nav) {
+    return;
+  }
+
+  // Create the TOC title if it doesn't exist.
+  let title = nav.querySelector(":scope > .md-nav__title");
+
+  if (!title) {
+    title = document.createElement("label");
+    title.className = "md-nav__title";
+    title.htmlFor = "__toc";
+
+    const icon = document.createElement("span");
+    icon.className = "md-nav__icon md-icon";
+
+    title.appendChild(icon);
+    title.append(" Table of contents");
+    nav.prepend(title);
+  }
+
+  // Create the root TOC list if it doesn't exist.
+  let toc = nav.querySelector(":scope > .md-nav__list");
+
+  if (!toc) {
+    toc = document.createElement("ul");
+    toc.className = "md-nav__list";
+    toc.dataset.mdComponent = "toc";
+    nav.appendChild(toc);
+  }
+
+  const headings = body.querySelectorAll("h2, h3, h4");
+  const usedIds = new Set();
+  const stack = [{ level: 1, list: toc }];
+
+  toc.replaceChildren();
+
+  headings.forEach((heading, index) => {
+    const base =
+      heading.textContent
+        .trim()
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-") || `section-${index + 1}`;
+
+    let id = base;
+    let suffix = 1;
+
+    while (
+      usedIds.has(id) ||
+      (document.getElementById(id) &&
+        document.getElementById(id) !== heading)
+    ) {
+      id = `${base}-${suffix++}`;
+    }
+
+    usedIds.add(id);
+    heading.id = id;
+
+    const level = Number(heading.tagName.substring(1));
+
+    // Find the parent list for this heading level.
+    while (stack.length > 1 && stack.at(-1).level >= level) {
+      stack.pop();
+    }
+
+    const parentList = stack.at(-1).list;
+
+    const item = document.createElement("li");
+    item.className = "md-nav__item";
+
+    const link = document.createElement("a");
+    link.className = "md-nav__link";
+    link.href = `#${encodeURIComponent(id)}`;
+
+    const text = document.createElement("span");
+    text.className = "md-ellipsis";
+    text.textContent = heading.textContent.trim();
+
+    link.appendChild(text);
+
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      heading.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+
+    item.appendChild(link);
+    parentList.appendChild(item);
+
+    // Create a nested navigation list for child headings.
+    const childList = document.createElement("ul");
+    childList.className = "md-nav__list";
+
+    const childNav = document.createElement("nav");
+    childNav.className = "md-nav";
+    childNav.setAttribute(
+      "aria-label",
+      heading.textContent.trim()
+    );
+
+    childNav.appendChild(childList);
+    item.appendChild(childNav);
+
+    stack.push({ level, list: childList });
+  });
+
+  // Remove empty child navigation lists.
+  toc.querySelectorAll("li").forEach((item) => {
+    const childNav = item.querySelector(":scope > nav.md-nav");
+
+    if (childNav && !childNav.querySelector(".md-nav__item")) {
+      childNav.remove();
+    }
+  });
+
+  nav.hidden = headings.length === 0;
 }
 
 async function initializeReleases() {
@@ -291,7 +541,14 @@ async function initializeReleases() {
       pendingReleaseTag ??
       decodeURIComponent(window.location.hash.substring(1));
 
+    const { default: markedAlert } = await import(
+      "https://cdn.jsdelivr.net/npm/marked-alert@2.1.2/+esm"
+    );
+
+    marked.use(markedAlert());
+
     renderRelease(data, tag || null);
+    updateReleaseTOC();
 
     pendingReleaseTag = null;
     updateActiveReleaseLink();
@@ -301,16 +558,104 @@ async function initializeReleases() {
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
     }, 100);
+
+    updateReleaseNavigationState();
   } catch (error) {
     console.error("Failed to load GitHub releases:", error);
 
     const container = document.getElementById("github-releases");
 
     if (container) {
-      container.innerHTML =
-        "<p>Failed to load releases from GitHub.</p>";
+      const message = document.createElement("p");
+      message.textContent = "Failed to load releases from GitHub.";
+      container.replaceChildren(message);
     }
   }
+}
+
+function convertGitHubAlerts(fragment) {
+  const alertTypes = [
+    "note",
+    "tip",
+    "important",
+    "warning",
+    "caution",
+  ];
+
+  fragment.querySelectorAll(".markdown-alert").forEach((alert) => {
+    const type = alertTypes.find((name) =>
+      alert.classList.contains(`markdown-alert-${name}`),
+    );
+
+    if (!type) {
+      return;
+    }
+
+    alert.className = `admonition ${type}`;
+
+    const title = alert.querySelector(".markdown-alert-title");
+
+    if (title) {
+      title.className = "admonition-title";
+      title.querySelectorAll("svg").forEach((svg) => svg.remove());
+      title.textContent = title.textContent.trim();
+    }
+  });
+}
+
+
+function updateReleaseNavigationState() {
+  const path = window.location.pathname.replace(/\/+$/, "");
+  const isReleasesPage = path.endsWith("/releases");
+
+  const placeholder = document.querySelector(
+    '.md-nav--primary > .md-nav__list > .md-nav__item > a[href$="/releases/"]'
+  )?.parentElement;
+
+  const releaseNav = document.querySelector(
+    ".github-releases-nav"
+  );
+
+  if (!placeholder || !releaseNav) {
+    return;
+  }
+
+  placeholder.classList.toggle(
+    "md-nav__item--active",
+    !isReleasesPage
+  );
+
+  releaseNav.classList.toggle(
+    "md-nav__item--active",
+    isReleasesPage
+  );
+
+  releaseNav.classList.toggle(
+    "md-nav__item--pruned",
+    !isReleasesPage
+  );
+
+  const placeholderLink = placeholder.querySelector(
+    ":scope > a.md-nav__link"
+  );
+
+  if (placeholderLink) {
+    placeholderLink.classList.toggle(
+      "md-nav__link--active",
+      !isReleasesPage
+    );
+  }
+
+  releaseNav.querySelectorAll(".md-nav__link").forEach((link) => {
+    const isActive =
+      isReleasesPage &&
+      new URL(link.href, window.location.href).hash ===
+        window.location.hash &&
+      new URL(link.href, window.location.href).pathname ===
+        window.location.pathname;
+
+    link.classList.toggle("md-nav__link--active", isActive);
+  });
 }
 
 if (typeof document$ !== "undefined") {
@@ -366,24 +711,30 @@ function updateActiveReleaseLink() {
   const releaseLinks = document.querySelectorAll(
     ".github-releases-nav a[href*='/releases/#']"
   );
-  const currentHash = window.location.hash;
+
+  const path = window.location.pathname.replace(/\/+$/, "");
+  const isReleasesPage = path.endsWith("/releases");
+
+  const currentTag = window.location.hash
+    ? decodeURIComponent(window.location.hash.slice(1))
+    : isReleasesPage
+      ? releases[0]?.tag_name
+      : null;
 
   releaseLinks.forEach((link) => {
-    const url = new URL(link.href);
-    const linkHash = url.hash;
-    const li = link.closest("li");
+    const linkTag = decodeURIComponent(
+      new URL(link.href).hash.slice(1)
+    );
 
-    if (li) {
-      li.classList.remove("md-nav__item--active");
-    }
-    link.classList.remove("md-nav__link--active");
+    const isActive =
+      isReleasesPage &&
+      currentTag !== null &&
+      linkTag === currentTag;
 
-    if (linkHash === currentHash) {
-      if (li) {
-        li.classList.add("md-nav__item--active");
-      }
-      link.classList.add("md-nav__link--active");
-    }
+    const item = link.closest("li");
+
+    item?.classList.toggle("md-nav__item--active", isActive);
+    link.classList.toggle("md-nav__link--active", isActive);
   });
 }
 
@@ -419,6 +770,7 @@ document.addEventListener("click", (event) => {
   if (releasesLoaded) {
     setTimeout(() => {
       renderRelease(releases, pendingReleaseTag);
+      updateReleaseTOC();
       pendingReleaseTag = null;
       restoreReleaseNavState();
       updateActiveReleaseLink();
@@ -435,8 +787,17 @@ if (typeof document$ !== "undefined") {
   });
 }
 
-function processGitHubReferences(markdown) {
-  let text = markdown;
+function processGitHubReferences(markdown, tag) {
+  const htmlBlocks = [];
+
+  // Protect HTML tags from Markdown URL transformations.
+  let text = markdown.replace(
+    /<[^>]+>/g,
+    (match) => {
+      const index = htmlBlocks.push(match) - 1;
+      return `HTMLBLOCKPLACEHOLDER${index}END`;
+    },
+  );
 
   // Convert GitHub issue/PR URLs to # references.
   text = text.replace(
@@ -444,12 +805,12 @@ function processGitHubReferences(markdown) {
     (_, owner, repo, type, number) => {
       const repository = `${owner}/${repo}`;
       const url = `https://github.com/${repository}/${type}/${number}`;
+      const label =
+        repository === GITHUB_REPOSITORY
+          ? `#${number}`
+          : `${repository}#${number}`;
 
-      if (repository === GITHUB_REPOSITORY) {
-        return `[#${number}](${url})`;
-      }
-
-      return `[${repository}#${number}](${url})`;
+      return `[${label}](${url})`;
     },
   );
 
@@ -459,12 +820,13 @@ function processGitHubReferences(markdown) {
     (_, owner, repo, hash) => {
       const repository = `${owner}/${repo}`;
       const url = `https://github.com/${repository}/commit/${hash}`;
+      const shortHash = hash.substring(0, 7);
+      const label =
+        repository === GITHUB_REPOSITORY
+          ? `\`${shortHash}\``
+          : `${repository}@\`${shortHash}\``;
 
-      if (repository === GITHUB_REPOSITORY) {
-        return `[\`${hash.substring(0, 7)}\`](${url})`;
-      }
-
-      return `[${repository}@\`${hash.substring(0, 7)}\`](${url})`;
+      return `[${label}](${url})`;
     },
   );
 
@@ -483,6 +845,38 @@ function processGitHubReferences(markdown) {
       );
     })
     .join("");
+
+  // Convert GitHub compare URLs to version range links.
+  text = text.replace(
+    /https:\/\/github\.com\/([^/\s]+)\/([^/\s]+)\/compare\/([^/\s]+)\.\.\.([^/\s]+)/g,
+    (_, owner, repo, base, head) => {
+      const repository = `${owner}/${repo}`;
+      const url = `https://github.com/${repository}/compare/${base}...${head}`;
+
+      return repository === GITHUB_REPOSITORY
+        ? `[\`${base}...${head}\`](${url})`
+        : `[${repository}: \`${base}...${head}\`](${url})`;
+    },
+  );
+
+  // Convert relative file links to GitHub release source links.
+  text = text.replace(
+    /(\[[^\]]+\])\((\.\/[^)\s]+)\)/g,
+    (_, label, path) =>
+      `${label}(https://github.com/${GITHUB_REPOSITORY}/blob/${tag}/${path.slice(2)})`,
+  );
+
+  // Convert plain GitHub repository URLs to Markdown links.
+  text = text.replace(
+    /(?<!\]\()https:\/\/github\.com\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9_.-]+)\/?(?![^\s]*\))/g,
+    (url, owner, repo) => `[${owner}/${repo}](${url})`,
+  );
+
+  // Restore protected HTML tags.
+  text = text.replace(
+    /HTMLBLOCKPLACEHOLDER(\d+)END/g,
+    (_, index) => htmlBlocks[Number(index)],
+  );
 
   return text;
 }
