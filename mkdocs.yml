@@ -77,12 +77,14 @@ nav:
   - Home: index.md
   - Getting Started:
     - Installation: installation.md
+    - Conventions: conventions.md
     - Quickstart: quick_start.md
     - Approach: approach.md
   - Usage:
     - Client: main/onvif_client.md
     - CLI: main/onvif_cli.md
     - Utilities:
+      - Logging: utilities/logging.md
       - Helper Methods: utilities/helper_methods.md
   - References:
     - references/index.md
@@ -215,7 +217,9 @@ markdown_extensions:
   - admonition
   - footnotes
   - pymdownx.tilde
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      auto_append:
+        - docs/includes/abbreviations.md
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
@@ -267,6 +271,7 @@ extra:
 
 extra_css:
   - stylesheets/extra.css
+  - https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap
 
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/marked/marked.min.js

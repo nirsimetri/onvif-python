@@ -82,7 +82,7 @@ client = ONVIFClient(
 
 Set `http_digest` to `True`.
 
-```python linenums="1"
+```python linenums="1" hl_lines="9"
 from onvif import ONVIFClient
 
 # Minimal configuration
@@ -96,7 +96,7 @@ client = ONVIFClient(
 ```
 
 #### Secure Connection (HTTPS)
-```python linenums="1"
+```python linenums="1" hl_lines="10"
 from onvif import ONVIFClient
 
 # Connect via HTTPS with custom timeout
@@ -111,7 +111,7 @@ client = ONVIFClient(
 ```
 
 #### Performance Optimized (Memory Cache)
-```python linenums="1"
+```python linenums="1" hl_lines="9"
 from onvif import ONVIFClient, CacheMode
 
 # Use memory-only cache for quick scripts
@@ -128,7 +128,7 @@ client = ONVIFClient(
 
 <!-- md:version 0.0.4 -->
 
-```python linenums="1"
+```python linenums="1" hl_lines="9 10"
 from onvif import ONVIFClient, CacheMode
 
 # Disable all caching for testing
@@ -146,7 +146,7 @@ client = ONVIFClient(
 
 <!-- md:version 0.0.6 -->
 
-```python linenums="1"
+```python linenums="1" hl_lines="9 18 21 24 26 29-31 34-37 40"
 from onvif import ONVIFClient
 
 # Enable XML capture for debugging
@@ -196,7 +196,7 @@ if client.xml_plugin:
 
 <!-- md:version 0.1.0 -->
 
-```python linenums="1"
+```python linenums="1" hl_lines="9"
 from onvif import ONVIFClient
 
 # Use custom WSDL files instead of built-in ones
@@ -224,7 +224,7 @@ ptz = client.ptz()
 
 #### Production Configuration
 
-```python linenums="1"
+```python linenums="1" hl_lines="9 11-16"
 from onvif import ONVIFClient, CacheMode
 
 # Recommended production settings
@@ -232,7 +232,7 @@ client = ONVIFClient(
     host="your-cctv-node.viewplexus.com",
     port=443,
     username="admin",
-    password="secure_password",
+    password="@secure_password88",
     http_digest=True,           # Use HTTP Digest authentiation
     timeout=15,
     cache=CacheMode.DB,         # Maximum performance (default)

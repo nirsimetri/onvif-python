@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+comments: true
 ---
 
 From official [PyPI](https://pypi.org/project/onvif-python/):
