@@ -55,7 +55,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/nirsimetri/onvif-python"
-Documentation = "https://onvif-python.nirsimetri.workers.dev"
+Documentation = "https://onvif-python.pages.dev"
 Changelog = "https://github.com/nirsimetri/onvif-python/releases"
 Issues = "https://github.com/nirsimetri/onvif-python/issues"
 

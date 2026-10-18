@@ -103,14 +103,14 @@ cd onvif-python
 pip install .
 ```
 
-Once the installation is successful, you can also immediately access the [ONVIF CLI](https://onvif-python.nirsimetri.workers.dev/core/onvif_cli/) via the terminal using:
+Once the installation is successful, you can also immediately access the [ONVIF CLI](https://onvif-python.pages.dev/core/onvif_cli/) via the terminal using:
 ```shell
 onvif --help
 ```
 
 ## Documentation
 
-For complete guide, including usage examples and API references, please visit the [Documentation Site](https://onvif-python.nirsimetri.workers.dev/).
+For complete guide, including usage examples and API references, please visit the [Documentation Site](https://onvif-python.pages.dev/).
 
 ## License
 
