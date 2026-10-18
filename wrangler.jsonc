@@ -3,7 +3,8 @@
   "name": "onvif-python",
   "compatibility_date": "2026-10-18",
   "assets": {
-    "directory": "./site"
+    "directory": "./site",
+    "not_found_handling": "404-page"
   },
   "previews": {}
 }
