@@ -6,7 +6,7 @@ ONVIF Python is an independent open-source implementation of the ONVIF specifica
 
 The library uses Zeep for SOAP communication and Requests for HTTP transport. It aims to preserve official ONVIF operation names, parameter structures, and response formats while providing type hints, IDE completion, connection configuration, caching, error handling, and debugging facilities.
 
-- Official documentation: https://nirsimetri.github.io/onvif-python
+- Official documentation: https://onvif-python.nirsimetri.workers.dev
 - GitHub repository: https://github.com/nirsimetri/onvif-python
 - PyPI package: https://pypi.org/project/onvif-python
 - Python requirement: 3.10 or higher
@@ -14,15 +14,15 @@ The library uses Zeep for SOAP communication and Requests for HTTP transport. It
 
 ## Getting Started
 
-- [Installation](https://nirsimetri.github.io/onvif-python/installation/): Install the package using pip, pipx, or a local repository checkout.
-- [Quickstart](https://nirsimetri.github.io/onvif-python/quick_start/): Discover ONVIF devices, initialize `ONVIFClient`, create service instances, retrieve device information, and obtain RTSP stream URIs.
-- [Philosophy](https://nirsimetri.github.io/onvif-python/philosophy/): Understand the library's design principles, WYSIWYG API approach, interoperability goals, specification accuracy, Python typing, and dependency philosophy.
+- [Installation](https://onvif-python.nirsimetri.workers.dev/installation/): Install the package using pip, pipx, or a local repository checkout.
+- [Quickstart](https://onvif-python.nirsimetri.workers.dev/quick_start/): Discover ONVIF devices, initialize `ONVIFClient`, create service instances, retrieve device information, and obtain RTSP stream URIs.
+- [Philosophy](https://onvif-python.nirsimetri.workers.dev/philosophy/): Understand the library's design principles, WYSIWYG API approach, interoperability goals, specification accuracy, Python typing, and dependency philosophy.
 
 ## Main Features
 
-- [ONVIF Client Guide](https://nirsimetri.github.io/onvif-python/main/onvif_client/): Configure connections, authentication, HTTPS, timeouts, WSDL directories, Zeep plugins, caching modes, and XML debugging.
-- [CLI Guide](https://nirsimetri.github.io/onvif-python/main/onvif_cli/): Discover devices, execute service operations, use the interactive shell, inspect services, search the ONVIF product database, and export command output.
-- [Helper Methods](https://nirsimetri.github.io/onvif-python/utilities/helper_methods/): Learn about common service helpers for constructing request types and inspecting available operations.
+- [ONVIF Client Guide](https://onvif-python.nirsimetri.workers.dev/main/onvif_client/): Configure connections, authentication, HTTPS, timeouts, WSDL directories, Zeep plugins, caching modes, and XML debugging.
+- [CLI Guide](https://onvif-python.nirsimetri.workers.dev/main/onvif_cli/): Discover devices, execute service operations, use the interactive shell, inspect services, search the ONVIF product database, and export command output.
+- [Helper Methods](https://onvif-python.nirsimetri.workers.dev/utilities/helper_methods/): Learn about common service helpers for constructing request types and inspecting available operations.
 
 ## API Reference
 
@@ -30,85 +30,85 @@ The API reference is generated from the library's Python source code. Use it to 
 
 ### Core
 
-- [API Reference Overview](https://nirsimetri.github.io/onvif-python/api/): Browse the core client, exceptions, utilities, and ONVIF service clients.
-- [ONVIFClient](https://nirsimetri.github.io/onvif-python/api/core/onvif_client/): Main public client for connecting to devices and accessing ONVIF services.
-- [ONVIFOperator](https://nirsimetri.github.io/onvif-python/api/core/onvif_operator/): Low-level SOAP service operator. Should use `ONVIFClient` for normal application development.
+- [API Reference Overview](https://onvif-python.nirsimetri.workers.dev/api/): Browse the core client, exceptions, utilities, and ONVIF service clients.
+- [ONVIFClient](https://onvif-python.nirsimetri.workers.dev/api/core/onvif_client/): Main public client for connecting to devices and accessing ONVIF services.
+- [ONVIFOperator](https://onvif-python.nirsimetri.workers.dev/api/core/onvif_operator/): Low-level SOAP service operator. Should use `ONVIFClient` for normal application development.
 
 ### Exceptions
 
-- [ONVIFOperationException](https://nirsimetri.github.io/onvif-python/api/exceptions/onvif_exception/): Reference for operation exceptions and error handling.
-- [Error Handlers](https://nirsimetri.github.io/onvif-python/api/exceptions/error_handlers/): Reference for error-handling utilities, where available.
+- [ONVIFOperationException](https://onvif-python.nirsimetri.workers.dev/api/exceptions/onvif_exception/): Reference for operation exceptions and error handling.
+- [Error Handlers](https://onvif-python.nirsimetri.workers.dev/api/exceptions/error_handlers/): Reference for error-handling utilities, where available.
 
 ### Utilities
 
-- [ONVIFDiscovery](https://nirsimetri.github.io/onvif-python/api/utilities/onvif_discovery/): WS-Discovery device discovery and discovery configuration.
-- [CacheMode](https://nirsimetri.github.io/onvif-python/api/utilities/cache_mode/): Cache mode configuration.
-- [ONVIFWSDL](https://nirsimetri.github.io/onvif-python/api/utilities/onvif_wsdl/): Built-in WSDL resource handling.
-- [ONVIFService](https://nirsimetri.github.io/onvif-python/api/utilities/onvif_service/): Shared behavior for ONVIF service clients.
-- [ZeepPatcher](https://nirsimetri.github.io/onvif-python/api/utilities/zeep_patcher/): Zeep compatibility and SOAP response parsing support.
-- [Plugins](https://nirsimetri.github.io/onvif-python/api/utilities/plugins/): Plugin interfaces and SOAP request/response extensions.
+- [ONVIFDiscovery](https://onvif-python.nirsimetri.workers.dev/api/utilities/onvif_discovery/): WS-Discovery device discovery and discovery configuration.
+- [CacheMode](https://onvif-python.nirsimetri.workers.dev/api/utilities/cache_mode/): Cache mode configuration.
+- [ONVIFWSDL](https://onvif-python.nirsimetri.workers.dev/api/utilities/onvif_wsdl/): Built-in WSDL resource handling.
+- [ONVIFService](https://onvif-python.nirsimetri.workers.dev/api/utilities/onvif_service/): Shared behavior for ONVIF service clients.
+- [ZeepPatcher](https://onvif-python.nirsimetri.workers.dev/api/utilities/zeep_patcher/): Zeep compatibility and SOAP response parsing support.
+- [Plugins](https://onvif-python.nirsimetri.workers.dev/api/utilities/plugins/): Plugin interfaces and SOAP request/response extensions.
 
 ### ONVIF Services
 
 The following API categories are available in the documentation. Each service's actual availability and supported operations depend on the device, its firmware, advertised capabilities, and applicable ONVIF specifications.
 
-- [Device](https://nirsimetri.github.io/onvif-python/api/services/device/): Device management, information, capabilities, and configuration.
-- [Events](https://nirsimetri.github.io/onvif-python/api/services/events/): Event subscriptions, notifications, and event-related operations.
-- [Imaging](https://nirsimetri.github.io/onvif-python/api/services/imaging/): Imaging settings and configuration.
-- [Media](https://nirsimetri.github.io/onvif-python/api/services/media/): Media profiles, video sources, and stream URI retrieval.
-- [Media2](https://nirsimetri.github.io/onvif-python/api/services/media2/): Media2 service operations.
-- [PTZ](https://nirsimetri.github.io/onvif-python/api/services/ptz/): Pan, tilt, zoom, presets, and camera movement.
-- [Provisioning](https://nirsimetri.github.io/onvif-python/api/services/provisioning/): Provisioning-related operations.
-- [DeviceIO](https://nirsimetri.github.io/onvif-python/api/services/device_io/): Device input/output operations.
-- [Display](https://nirsimetri.github.io/onvif-python/api/services/display/): Display service operations.
-- [Thermal](https://nirsimetri.github.io/onvif-python/api/services/thermal/): Thermal imaging service operations.
-- [Analytics](https://nirsimetri.github.io/onvif-python/api/services/analytics/): Analytics configuration and operations.
-- [AnalyticsDevice](https://nirsimetri.github.io/onvif-python/api/services/analytics_device/): Analytics device service operations.
-- [Receiver](https://nirsimetri.github.io/onvif-python/api/services/receiver/): Receiver service operations.
-- [Recording](https://nirsimetri.github.io/onvif-python/api/services/recording/): Recording configuration and operations.
-- [Search](https://nirsimetri.github.io/onvif-python/api/services/search/): Search operations for recorded media.
-- [Replay](https://nirsimetri.github.io/onvif-python/api/services/replay/): Replay service operations.
-- [ActionEngine](https://nirsimetri.github.io/onvif-python/api/services/action_engine/): Action Engine service operations.
-- [Schedule](https://nirsimetri.github.io/onvif-python/api/services/schedule/): Scheduling service operations.
-- [AccessControl](https://nirsimetri.github.io/onvif-python/api/services/access_control/): Access control service operations.
-- [DoorControl](https://nirsimetri.github.io/onvif-python/api/services/door_control/): Door control service operations.
-- [AccessRules](https://nirsimetri.github.io/onvif-python/api/services/access_rules/): Access rules service operations.
-- [AuthenticationBehavior](https://nirsimetri.github.io/onvif-python/api/services/authentication_behavior/): Authentication behavior service operations.
-- [Credential](https://nirsimetri.github.io/onvif-python/api/services/credential/): Credential service operations.
-- [Security](https://nirsimetri.github.io/onvif-python/api/services/security/): Security service operations.
-- [AppManagement](https://nirsimetri.github.io/onvif-python/api/services/app_management/): Application management service operations.
-- [Uplink](https://nirsimetri.github.io/onvif-python/api/services/uplink/): Uplink service operations.
+- [Device](https://onvif-python.nirsimetri.workers.dev/api/services/device/): Device management, information, capabilities, and configuration.
+- [Events](https://onvif-python.nirsimetri.workers.dev/api/services/events/): Event subscriptions, notifications, and event-related operations.
+- [Imaging](https://onvif-python.nirsimetri.workers.dev/api/services/imaging/): Imaging settings and configuration.
+- [Media](https://onvif-python.nirsimetri.workers.dev/api/services/media/): Media profiles, video sources, and stream URI retrieval.
+- [Media2](https://onvif-python.nirsimetri.workers.dev/api/services/media2/): Media2 service operations.
+- [PTZ](https://onvif-python.nirsimetri.workers.dev/api/services/ptz/): Pan, tilt, zoom, presets, and camera movement.
+- [Provisioning](https://onvif-python.nirsimetri.workers.dev/api/services/provisioning/): Provisioning-related operations.
+- [DeviceIO](https://onvif-python.nirsimetri.workers.dev/api/services/device_io/): Device input/output operations.
+- [Display](https://onvif-python.nirsimetri.workers.dev/api/services/display/): Display service operations.
+- [Thermal](https://onvif-python.nirsimetri.workers.dev/api/services/thermal/): Thermal imaging service operations.
+- [Analytics](https://onvif-python.nirsimetri.workers.dev/api/services/analytics/): Analytics configuration and operations.
+- [AnalyticsDevice](https://onvif-python.nirsimetri.workers.dev/api/services/analytics_device/): Analytics device service operations.
+- [Receiver](https://onvif-python.nirsimetri.workers.dev/api/services/receiver/): Receiver service operations.
+- [Recording](https://onvif-python.nirsimetri.workers.dev/api/services/recording/): Recording configuration and operations.
+- [Search](https://onvif-python.nirsimetri.workers.dev/api/services/search/): Search operations for recorded media.
+- [Replay](https://onvif-python.nirsimetri.workers.dev/api/services/replay/): Replay service operations.
+- [ActionEngine](https://onvif-python.nirsimetri.workers.dev/api/services/action_engine/): Action Engine service operations.
+- [Schedule](https://onvif-python.nirsimetri.workers.dev/api/services/schedule/): Scheduling service operations.
+- [AccessControl](https://onvif-python.nirsimetri.workers.dev/api/services/access_control/): Access control service operations.
+- [DoorControl](https://onvif-python.nirsimetri.workers.dev/api/services/door_control/): Door control service operations.
+- [AccessRules](https://onvif-python.nirsimetri.workers.dev/api/services/access_rules/): Access rules service operations.
+- [AuthenticationBehavior](https://onvif-python.nirsimetri.workers.dev/api/services/authentication_behavior/): Authentication behavior service operations.
+- [Credential](https://onvif-python.nirsimetri.workers.dev/api/services/credential/): Credential service operations.
+- [Security](https://onvif-python.nirsimetri.workers.dev/api/services/security/): Security service operations.
+- [AppManagement](https://onvif-python.nirsimetri.workers.dev/api/services/app_management/): Application management service operations.
+- [Uplink](https://onvif-python.nirsimetri.workers.dev/api/services/uplink/): Uplink service operations.
 
-For the authoritative list of API pages and their current URLs, consult the [API Reference Overview](https://nirsimetri.github.io/onvif-python/api/).
+For the authoritative list of API pages and their current URLs, consult the [API Reference Overview](https://onvif-python.nirsimetri.workers.dev/api/).
 
 ## ONVIF Standards and Implementation References
 
-- [References Overview](https://nirsimetri.github.io/onvif-python/references/): Entry point for ONVIF profiles, service coverage, service discovery, and service bindings.
-- [Supported Profiles](https://nirsimetri.github.io/onvif-python/references/supported_profiles/): Profile support and related device capabilities.
-- [Implementation Coverage](https://nirsimetri.github.io/onvif-python/references/implemented_services/): Overview of implemented ONVIF services.
-- [Service Discovery](https://nirsimetri.github.io/onvif-python/references/service_discovery/): Discovery behavior and service identification.
-- [Service Bindings](https://nirsimetri.github.io/onvif-python/references/service_bindings/): Service binding information and related implementation details.
+- [References Overview](https://onvif-python.nirsimetri.workers.dev/references/): Entry point for ONVIF profiles, service coverage, service discovery, and service bindings.
+- [Supported Profiles](https://onvif-python.nirsimetri.workers.dev/references/supported_profiles/): Profile support and related device capabilities.
+- [Implementation Coverage](https://onvif-python.nirsimetri.workers.dev/references/implemented_services/): Overview of implemented ONVIF services.
+- [Service Discovery](https://onvif-python.nirsimetri.workers.dev/references/service_discovery/): Discovery behavior and service identification.
+- [Service Bindings](https://onvif-python.nirsimetri.workers.dev/references/service_bindings/): Service binding information and related implementation details.
 - [Official ONVIF Website](https://www.onvif.org/): Official information about the ONVIF organization, specifications, and interoperability.
 - [ONVIF Profiles](https://www.onvif.org/profiles/): Official profile information.
 
 ## Project and Development
 
-- [Contributing](https://nirsimetri.github.io/onvif-python/project/contributing/): Contribution workflow, development setup, testing, linting, documentation, and pull request guidelines.
-- [Roadmap](https://nirsimetri.github.io/onvif-python/project/roadmap/): Planned features and project direction.
-- [Used By](https://nirsimetri.github.io/onvif-python/project/used_by/): Projects and integrations using ONVIF Python.
-- [External Resources](https://nirsimetri.github.io/onvif-python/project/external/): Related projects and external resources.
+- [Contributing](https://onvif-python.nirsimetri.workers.dev/project/contributing/): Contribution workflow, development setup, testing, linting, documentation, and pull request guidelines.
+- [Roadmap](https://onvif-python.nirsimetri.workers.dev/project/roadmap/): Planned features and project direction.
+- [Used By](https://onvif-python.nirsimetri.workers.dev/project/used_by/): Projects and integrations using ONVIF Python.
+- [External Resources](https://onvif-python.nirsimetri.workers.dev/project/external/): Related projects and external resources.
 - [GitHub Repository](https://github.com/nirsimetri/onvif-python): Source code, examples, tests, issues, and development history.
 - [Examples](https://github.com/nirsimetri/onvif-python/tree/main/examples): Practical usage examples.
 - [Tests](https://github.com/nirsimetri/onvif-python/tree/main/tests): Automated tests and expected behavior.
-- [Releases](https://nirsimetri.github.io/onvif-python/releases/): Project release history and release notes.
+- [Releases](https://onvif-python.nirsimetri.workers.dev/releases/): Project release history and release notes.
 - [GitHub Releases](https://github.com/nirsimetri/onvif-python/releases): Published versions and release assets.
 - [Issues](https://github.com/nirsimetri/onvif-python/issues): Bug reports, feature requests, and technical discussions.
 
 ## Legal
 
-- [Legal Overview](https://nirsimetri.github.io/onvif-python/legal/): Legal notices and licensing information.
-- [Notice](https://nirsimetri.github.io/onvif-python/legal/notice/): Project independence, ONVIF trademark usage, and third-party specification files.
-- [License](https://nirsimetri.github.io/onvif-python/legal/license/): License information.
+- [Legal Overview](https://onvif-python.nirsimetri.workers.dev/legal/): Legal notices and licensing information.
+- [Notice](https://onvif-python.nirsimetri.workers.dev/legal/notice/): Project independence, ONVIF trademark usage, and third-party specification files.
+- [License](https://onvif-python.nirsimetri.workers.dev/legal/license/): License information.
 
 ## Installation and Usage Notes
 

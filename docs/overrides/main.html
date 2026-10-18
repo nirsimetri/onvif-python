@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block extrahead %}
+  {{ super() }}
+
   <!-- Open Graph -->
   <meta property="og:title" content="ONVIF Python / Python Library for ONVIF Devices" />
   <meta
@@ -11,7 +13,7 @@
   <meta property="og:type" content="website" />
   <meta
     property="og:url"
-    content="https://nirsimetri.github.io/onvif-python/"
+    content="https://onvif-python.nirsimetri.workers.dev/"
   />
   <meta
     property="og:image"
@@ -36,24 +38,28 @@
   />
 
   <!-- Google Search Console -->
-  <meta
-    name="google-site-verification"
-    content="7ceHA9OWIOPzaASzIzpsLwemT8FgwUKqup6EhLeTKE4"
-  />
+  {% if config.extra.google_site_verification %}
+    <meta
+      name="google-site-verification"
+      content="{{ config.extra.google_site_verification }}"
+    />
+  {% endif %}
 
   <!-- Google tag (gtag.js) -->
-  <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-MV7GBC2H6F"
-  ></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+  {% if config.extra.google_analytics_id %}
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.google_analytics_id }}"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+      function gtag() {
+        dataLayer.push(arguments);
+      }
 
-    gtag("js", new Date());
-    gtag("config", "G-MV7GBC2H6F");
-  </script>
+      gtag("js", new Date());
+      gtag("config", "{{ config.extra.google_analytics_id }}");
+    </script>
+  {% endif %}
 {% endblock %}
