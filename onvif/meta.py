@@ -2,7 +2,7 @@
 
 from typing import Final
 
-__version__: Final[str] = "0.4.4"
+__version__: Final[str] = "0.4.5"
 __repository__: Final[str] = "https://github.com/nirsimetri/onvif-python"
 
 __terminal_name__: Final[str] = "ONVIF Terminal Client"
