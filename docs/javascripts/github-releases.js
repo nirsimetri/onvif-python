@@ -255,15 +255,22 @@ function renderRelease(releases, tag = null) {
 
   const releaseLink = document.createElement("a");
   releaseLink.className = "github-release__link";
-  
-  const releaseUrl = new URL(release.html_url);
-  if (
-    releaseUrl.protocol === "https:" &&
-    releaseUrl.hostname === "github.com"
-  ) {
-    releaseLink.href = releaseUrl.href;
-  } else {
-    releaseLink.removeAttribute("href");
+
+  const isValidReleaseUrl = (value) => {
+    try {
+      const url = new URL(value);
+
+      return (
+        url.protocol === "https:" &&
+        url.hostname === "github.com"
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  if (isValidReleaseUrl(release.html_url)) {
+    releaseLink.href = release.html_url;
   }
 
   releaseLink.target = "_blank";
