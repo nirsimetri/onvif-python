@@ -1,4 +1,4 @@
-site_name: ONVIF Python / Python Library for ONVIF Devices
+site_name: ONVIF Python
 site_description: >-
   A modern Python library for ONVIF-compliant IP cameras and devices, providing a clean,
   typed API for discovery, device management, media, PTZ, and events.
