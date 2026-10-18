@@ -130,11 +130,7 @@ function createReleaseNav(releases) {
 
     const publishedAt = new Date(release.published_at);
 
-    date.textContent = publishedAt.toLocaleDateString(navigator.language, {
-      year: "numeric",
-      month: "long",
-      day: "2-digit",
-    });
+    date.textContent = formatReleaseDate(publishedAt);
 
     title.append(" ", date);
     link.appendChild(title);
@@ -226,11 +222,7 @@ function renderRelease(releases, tag = null) {
   const date = document.createElement("small");
 
   const publishedAt = new Date(release.published_at);
-  date.textContent = publishedAt.toLocaleDateString(navigator.language, {
-    year: "numeric",
-    month: "long",
-    day: "2-digit",
-  });
+  date.textContent = formatReleaseDate(publishedAt)
 
   dateHeading.appendChild(date);
 
@@ -263,7 +255,17 @@ function renderRelease(releases, tag = null) {
 
   const releaseLink = document.createElement("a");
   releaseLink.className = "github-release__link";
-  releaseLink.href = release.html_url;
+  
+  const releaseUrl = new URL(release.html_url);
+  if (
+    releaseUrl.protocol === "https:" &&
+    releaseUrl.hostname === "github.com"
+  ) {
+    releaseLink.href = releaseUrl.href;
+  } else {
+    releaseLink.removeAttribute("href");
+  }
+
   releaseLink.target = "_blank";
   releaseLink.rel = "noopener noreferrer";
   releaseLink.textContent = "Go to release";
@@ -278,11 +280,11 @@ function renderRelease(releases, tag = null) {
     processGitHubReferences(release.body || "", release.tag_name)
   );
 
-  const convertedHtml = convertGitHubAlerts(markdownHtml);
-
-  const safeFragment = DOMPurify.sanitize(convertedHtml, {
+  const safeFragment = DOMPurify.sanitize(markdownHtml, {
     RETURN_DOM_FRAGMENT: true,
   });
+
+  convertGitHubAlerts(safeFragment);
 
   body.appendChild(safeFragment);
 
@@ -361,6 +363,14 @@ function renderRelease(releases, tag = null) {
   article.appendChild(body);
 
   container.replaceChildren(article);
+}
+
+function formatReleaseDate(dateString) {
+  return new Date(dateString).toLocaleDateString(navigator.language, {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  });
 }
 
 function formatRelativeTime(dateString) {
@@ -556,16 +566,14 @@ async function initializeReleases() {
     const container = document.getElementById("github-releases");
 
     if (container) {
-      container.innerHTML =
-        "<p>Failed to load releases from GitHub.</p>";
+      const message = document.createElement("p");
+      message.textContent = "Failed to load releases from GitHub.";
+      container.replaceChildren(message);
     }
   }
 }
 
-function convertGitHubAlerts(html) {
-  const template = document.createElement("template");
-  template.innerHTML = html;
-
+function convertGitHubAlerts(fragment) {
   const alertTypes = [
     "note",
     "tip",
@@ -574,30 +582,27 @@ function convertGitHubAlerts(html) {
     "caution",
   ];
 
-  template.content
-    .querySelectorAll(".markdown-alert")
-    .forEach((alert) => {
-      const type = alertTypes.find((name) =>
-        alert.classList.contains(`markdown-alert-${name}`)
-      );
+  fragment.querySelectorAll(".markdown-alert").forEach((alert) => {
+    const type = alertTypes.find((name) =>
+      alert.classList.contains(`markdown-alert-${name}`),
+    );
 
-      if (!type) {
-        return;
-      }
+    if (!type) {
+      return;
+    }
 
-      alert.className = `admonition ${type}`;
+    alert.className = `admonition ${type}`;
 
-      const title = alert.querySelector(".markdown-alert-title");
+    const title = alert.querySelector(".markdown-alert-title");
 
-      if (title) {
-        title.className = "admonition-title";
-        title.querySelectorAll("svg").forEach((svg) => svg.remove());
-        title.textContent = title.textContent.trim();
-      }
-    });
-
-  return template.innerHTML;
+    if (title) {
+      title.className = "admonition-title";
+      title.querySelectorAll("svg").forEach((svg) => svg.remove());
+      title.textContent = title.textContent.trim();
+    }
+  });
 }
+
 
 function updateReleaseNavigationState() {
   const path = window.location.pathname.replace(/\/+$/, "");
