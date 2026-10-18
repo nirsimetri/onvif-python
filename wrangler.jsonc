@@ -1,10 +1,6 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "onvif-python",
   "compatibility_date": "2026-10-18",
-  "assets": {
-    "directory": "./site",
-    "not_found_handling": "404-page"
-  },
-  "previews": {}
+  "pages_build_output_dir": "./site"
 }
