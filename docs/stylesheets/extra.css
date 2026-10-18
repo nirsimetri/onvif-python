@@ -55,6 +55,10 @@
   display: none;
 }
 
+.md-header__topic:first-child {
+  font-weight: 550;
+}
+
 .external-link-icon {
   display: inline-flex;
   width: 0.8em;
@@ -109,6 +113,122 @@
 /* Active release link */
 .github-releases-nav .md-nav__link--active .github-release__date_title {
   color: inherit;
+}
+
+/* External link tooltip */
+.github-release a[data-tooltip] {
+  position: relative;
+}
+
+.github-release a[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 0.3rem);
+  left: 50%;
+  z-index: 100;
+  width: max-content;
+  max-width: 16rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.5rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: var(--md-shadow-z2);
+  font-size: 0.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 5px);
+  transition:
+    opacity 250ms ease,
+    transform 250ms ease,
+    visibility 250ms ease;
+}
+
+.github-release a[data-tooltip]:hover::after,
+.github-release a[data-tooltip]:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+/* Release header */
+
+.github-release__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.github-release__header h1 {
+  margin-bottom: 0;
+}
+
+.github-release__date_header {
+  flex-shrink: 0;
+  color: var(--md-default-fg-color--light);
+}
+
+.github-release__metadata {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+  font-size: 0.75rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.github-release__author {
+  min-width: 0;
+}
+
+.github-release__link {
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 600px) {
+  .github-release__metadata {
+    flex-wrap: wrap;
+  }
+}
+
+.github-release__badge {
+  display: inline-block;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--color-success);
+  border-radius: 0.7rem;
+  margin-left: 0.3rem;
+  font-size: 0.55rem;
+  font-weight: 550;
+  line-height: 1.4;
+  vertical-align: middle;
+  color: var(--color-success);
+}
+
+/* Custom admonition */
+:root {
+  --md-admonition-icon--caution: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M240-400q0 52 21 98.5t60 81.5q-1-5-1-9v-9q0-32 12-60t35-51l113-111 113 111q23 23 35 51t12 60v9q0 4-1 9 39-35 60-81.5t21-98.5q0-50-18.5-94.5T648-574q-20 13-42 19.5t-45 6.5q-62 0-107.5-41T401-690q-39 33-69 68.5t-50.5 72Q261-513 250.5-475T240-400Zm240 52-57 56q-11 11-17 25t-6 29q0 32 23.5 55t56.5 23q33 0 56.5-23t23.5-55q0-16-6-29.5T537-292l-57-56Zm0-492v132q0 34 23.5 57t57.5 23q18 0 33.5-7.5T622-658l18-22q74 42 117 117t43 163q0 134-93 227T480-80q-134 0-227-93t-93-227q0-129 86.5-245T480-840Z"/></svg>')
+}
+.github-release__body .admonition.caution,
+.github-release__body details.caution {
+  border-color: rgb(255, 23, 68);
+}
+
+.github-release__body .caution > .admonition-title,
+.github-release__body .caution > summary {
+  background-color: rgba(255, 23, 68, 0.1);
+}
+
+.github-release__body .caution > .admonition-title::before,
+.github-release__body .caution > summary::before {
+  background-color: rgb(255, 23, 68);
+  -webkit-mask-image: var(--md-admonition-icon--caution);
+  mask-image: var(--md-admonition-icon--caution);
 }
 
 .highlight .go::before {
@@ -540,6 +660,7 @@ html {
 
 .md-tooltip {
   border-radius: 0.5rem;
+  font-weight: 600;
 }
 
 /* MDX Badge */
