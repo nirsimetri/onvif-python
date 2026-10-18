@@ -90,7 +90,7 @@ media = client.media()            # Media
 
 ### Get Device Information
 
-<!-- md:example_file check_device.py -->
+<!-- md:example_file check_device.py type=default -->
 
 Retrieve basic information about the device, such as manufacturer, model, firmware version, and serial number using [`devicemgmt()`](api/services/device.md) service:
 
@@ -103,7 +103,7 @@ print(info)
 
 ### Get RTSP URL
 
-<!-- md:example_file open_stream.py -->
+<!-- md:example_file open_stream.py type=default -->
 
 Retrieve the RTSP stream URL for live video streaming from the device using [`media()`](api/services/media.md) service:
 

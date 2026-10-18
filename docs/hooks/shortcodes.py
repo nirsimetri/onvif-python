@@ -34,6 +34,7 @@ from __future__ import annotations
 import posixpath
 import re
 from re import Match
+from urllib.parse import urlparse
 
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.files import File, Files
@@ -48,7 +49,7 @@ RELEASE_ENDPOINT = "onvif-python/releases"
 EXAMPLE_PATH = "blob/main/examples"
 MODULE_PATH = "blob/main/onvif"
 
-ICON_FOR_VERSION = "material-source-pull"
+ICON_FOR_VERSION = "material-deployed-code"
 ICON_FOR_ONVIF_VERSION = "material-app-badging"
 ICON_FOR_INTERNAL = "material-lock-outline"
 ICON_FOR_EXCEPTION = "material-alert-circle-outline"
@@ -58,8 +59,8 @@ ICON_FOR_FEATURE = "material-toggle-switch"
 ICON_FOR_PLUGIN = "material-puzzle-outline"
 ICON_FOR_UTILITY = "material-hammer-wrench"
 ICON_FOR_EXAMPLE_VIEW = "material-file-eye"
-ICON_FOR_EXAMPLE_FILE = "material-file-code"
-ICON_FOR_MODULE = "material-code-block-tags"
+ICON_FOR_EXAMPLE_FILE = "material-file-download"
+ICON_FOR_MODULE = "material-folder-code"
 ICON_FOR_DEMO = "material-github"
 ICON_FOR_DEFAULT_VALUE = "material-water"
 ICON_FOR_DEFAULT_NONE = "material-water-outline"
@@ -140,8 +141,6 @@ def replace(match: Match, page: Page | None = None, files: Files | None = None):
             return _badge_for_plugin(args, page, files)
         case "utility":
             return _badge_for_utility(args, page, files)
-        case "example":
-            return _badge_for_example(args, page, files)
         case "example_view":
             return _badge_for_example_view(args, page, files)
         case "example_file":
@@ -237,7 +236,7 @@ def _badge_for_version(text: str, page: Page | None = None, files: Files | None 
 
     return _badge(
         icon=f":{ICON_FOR_VERSION}:",
-        text=f"[`v{text}`]({href})" if text else "",
+        text=f"[`{text}`]({href})" if text else "",
         title="Minimum package version",
     )
 
@@ -322,55 +321,81 @@ def _badge_for_utility(text: str, page: Page, files: Files):
     )
 
 
-# Create badge for example
-def _badge_for_example(text: str, page: Page, files: Files):
-    return "\n".join(
-        [
-            _badge_for_example_file(text, page, files),
-            _badge_for_example_view(text, page, files),
-        ]
-    )
+# Parse badge modifier
+def _parse_badge_type(text: str):
+    parts = text.split()
+    args = [part for part in parts if "=" not in part]
+    options = dict(part.split("=", 1) for part in parts if "=" in part)
+
+    badge_type = options.get("type", "right")
+    if badge_type == "default":
+        badge_type = ""
+
+    return " ".join(args), badge_type
 
 
 # Create badge for example view
 def _badge_for_example_view(text: str, page: Page, files: Files):
+    text, badge_type = _parse_badge_type(text)
     href = f"{REPOSITORY}/{EXAMPLE_PATH}/{text}"
+
     return _badge(
         icon=f"[:{ICON_FOR_EXAMPLE_VIEW}:]({href}){{.no-external-icon }}",
         title=f"View example `{text}`",
-        type="right",
+        type=badge_type,
     )
 
 
 # Create badge for example download
 def _badge_for_example_file(text: str, page: Page, files: Files):
+    text, badge_type = _parse_badge_type(text)
     href = f"{REPOSITORY}/{EXAMPLE_PATH}/{text}"
+
+    download_path = EXAMPLE_PATH.removeprefix("blob/main/")
+
+    download_url = (
+        f"https://raw.githubusercontent.com/"
+        f"{urlparse(REPOSITORY).path.strip('/')}/"
+        f"refs/heads/main/{download_path}/{text}"
+    )
+
     return _badge(
-        icon=f"[:{ICON_FOR_EXAMPLE_FILE}:]({href}){{.no-external-icon }}",
-        title="Inspect example file",
+        icon=f"[:{ICON_FOR_EXAMPLE_FILE}:]({download_url}){{.no-external-icon }}",
+        title="Download example file",
         text=f"[`{text}`]({href})",
-        type="right",
+        type=badge_type,
     )
 
 
 # Create badge for module
 def _badge_for_module(text: str, page: Page, files: Files):
+    text, badge_type = _parse_badge_type(text)
     href = f"{REPOSITORY}/{MODULE_PATH}/{text}"
+
     return _badge(
         icon=f"[:{ICON_FOR_MODULE}:]({href}){{.no-external-icon }}",
         title=f"Inspect module `{text}`",
-        type="right",
+        type=badge_type,
     )
 
 
 # Create badge for demo repository
 def _badge_for_demo(text: str, page: Page, files: Files):
-    href = text
+    href, badge_type = _parse_badge_type(text)
+
+    repo = ""
+    if href:
+        path = urlparse(href).path.strip("/")
+        parts = path.split("/")
+
+        if len(parts) >= 2:
+            repo = "/".join(parts[:2])
+
     return _badge(
-        icon=f"[:{ICON_FOR_DEMO}:]({href})",
+        icon=f"[:{ICON_FOR_DEMO}:]({href}){{.no-external-icon }}" if href else "",
+        text=f"[{repo}]({href})",
         title="Go to repository",
-        text=f"*{text}*" if text else "",
-        type="right",
+        type=badge_type,
     )
 
 

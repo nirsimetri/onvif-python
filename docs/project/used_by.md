@@ -8,6 +8,8 @@ With <a href="https://pepy.tech/projects/onvif-python" class="no-external-icon">
 
 ## Viseron
 
+<!-- md:demo https://github.com/roflcoopter/viseron/tree/dev/viseron/components/onvif type=default -->
+
 [Viseron](https://viseron.netlify.app/) is an open-source self-hosted, local only NVR and AI Computer Vision software with support for ONVIF cameras.
 
 <img src="https://viseron.netlify.app/img/ui/cameras/main.png" alt="Viseron" style="width: 100%; max-width: 900px;">
@@ -19,6 +21,8 @@ ONVIF cameras can be configured through Viseron's dashboard, while PTZ cameras c
 For more information, see the [Viseron ONVIF component](https://viseron.netlify.app/components-explorer/components/onvif).
 
 ## pwneye
+
+<!-- md:demo https://github.com/Hackerest/pwneye/blob/main/pwneye/core/network/onvif.py type=default -->
 
 [pwneye](https://github.com/Hackerest/pwneye) is an ONVIF and RTSP camera security testing companion focused on discovering, enumerating, and interacting with real-world security cameras.
 

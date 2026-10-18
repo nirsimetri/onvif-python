@@ -1,7 +1,6 @@
  /* global DOMPurify, marked, document$, GITHUB_REPOSITORY */
 
 const GITHUB_REPOSITORY = "nirsimetri/onvif-python";
-const [, GITHUB_REPOSITORY_NAME] = GITHUB_REPOSITORY.split("/");
 const GITHUB_API = `https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?per_page=100`;
 
 const RELEASES_NAV_STATE_KEY = "github-releases-nav-open";
@@ -117,7 +116,7 @@ function createReleaseNav(releases) {
     const link = document.createElement("a");
 
     link.className = "md-nav__link";
-    link.href = `/${GITHUB_REPOSITORY_NAME}/releases/#${encodeURIComponent(
+    link.href = `/releases/#${encodeURIComponent(
       release.tag_name
     )}`;
 

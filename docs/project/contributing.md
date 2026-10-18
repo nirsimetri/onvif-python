@@ -19,7 +19,7 @@ If you find a bug, please [open an issue](https://github.com/nirsimetri/onvif-py
 Suggest new features or improvements by opening an issue and describing your use case and desired functionality.
 
 ### Code Contributions
-Submit fixes, enhancements, or new features via Pull Requests. See [Development Setup](#development-setup) and [Pull Request Guidelines](#pull-request-guidelines).
+Submit fixes, enhancements, or new features via Pull Requests. See [Development Setup](#development-setup) and [Pull Request Guide](#pull-request-guide).
 
 ### Documentation
 Help improve the [`docs/`](https://github.com/nirsimetri/onvif-python/tree/dev/docs) source, usage examples, or API documentation.
@@ -220,6 +220,7 @@ docs/
 ├── javascripts/
 ├── stylesheets/
 ├── overrides/
+├── includes/
 ├── api/
 ├── main/
 ├── references/
@@ -228,6 +229,7 @@ docs/
 ├── legal/
 ├── index.md
 ├── installation.md
+├── conventions.md
 ├── quick_start.md
 ├── approach.md
 ├── releases.md
