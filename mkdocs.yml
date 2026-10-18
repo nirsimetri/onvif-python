@@ -13,7 +13,7 @@ theme:
   language: en
   custom_dir: docs/overrides
   logo: assets/nirsimetri-light.svg
-  favicon: assets/nirsimetri-dark.svg
+  favicon: assets/favicon-48x48.png
   icon:
     repo: fontawesome/brands/github
     admonition:

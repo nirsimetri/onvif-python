@@ -3,6 +3,47 @@
 {% block extrahead %}
   {{ super() }}
 
+  <link
+    rel="icon shortcut"
+    href="/assets/favicon.ico"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/favicon-32x32.png"
+    sizes="32x32"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/favicon-48x48.png"
+    sizes="48x48"
+  />
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    href="/assets/apple-touch-icon.png"
+    sizes="180x180"
+  />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ONVIF Python",
+    "alternateName": ["onvif python", "onvif library", "onvif zeep"],
+    "url": "https://onvif-python.nirsimetri.workers.dev/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Nirsimetri Technologies",
+      "url": "https://github.com/nirsimetri",
+      "sameAs": [
+        "https://github.com/nirsimetri/onvif-python"
+      ]
+    }
+  }
+  </script>
+
   <!-- Open Graph -->
   <meta property="og:title" content="ONVIF Python / Python Library for ONVIF Devices" />
   <meta
