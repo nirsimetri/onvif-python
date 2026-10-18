@@ -45,7 +45,7 @@ from mkdocs.structure.pages import Page
 # -----------------------------------------------------------------------------
 
 REPOSITORY = "https://github.com/nirsimetri/onvif-python"
-RELEASE_ENDPOINT = "onvif-python/releases"
+RELEASE_ENDPOINT = "releases"
 EXAMPLE_PATH = "blob/main/examples"
 MODULE_PATH = "blob/main/onvif"
 
