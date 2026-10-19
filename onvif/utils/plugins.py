@@ -35,7 +35,7 @@ class XMLCapturePlugin(Plugin):
         history (list[dict[str, Any]]): All captured requests/responses with metadata
 
     !!! tip "Version History"
-        - Moved to `plugins` since [`v0.4.0`](/onvif-python/releases/#v0.4.0)
+        - Moved to `plugins` since [`v0.4.0`](/releases/#v0.4.0)
 
     !!! question "The plugin automatically captures"
         - Outgoing SOAP requests (`egress`)
@@ -337,7 +337,7 @@ class ONVIFParser(Plugin):
             responses
 
     !!! tip "Version History"
-        - Moved to `plugins` since [`v0.3.1`](/onvif-python/releases/#v0.3.1)
+        - Moved to `plugins` since [`v0.3.1`](/releases/#v0.3.1)
 
     ??? example "Usage"
         ```python linenums="1"

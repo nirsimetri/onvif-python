@@ -44,7 +44,7 @@ class ONVIFDiscovery:
         interface (str | None): Network interface IP to bind to (default: auto-detect)
 
     !!! tip "Version History"
-        - Changed in [`v0.4.0`](/onvif-python/releases/#v0.4.0):
+        - Changed in [`v0.4.0`](/releases/#v0.4.0):
             ~~`WS_DISCOVERY_ADDRESS_IPv4`~~ → `WS_DISCOVERY_ADDRESS_IPV4`
     """
 
@@ -168,7 +168,7 @@ class ONVIFDiscovery:
             | `services` | `list[str]` | List of supported ONVIF services; empty if none are available |
 
             !!! tip "Version History"
-                - Added in [`v0.4.0`](/onvif-python/releases/#v0.4.0): `hostname`, `date_time`, and `services`
+                - Added in [`v0.4.0`](/releases/#v0.4.0): `hostname`, `date_time`, and `services`
         """
         local_ip = self.get_local_ip()
         logger.info("Starting ONVIF device discovery (timeout: %ss)", self.timeout)

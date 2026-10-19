@@ -16,8 +16,8 @@ the `ActionNotSupported` subcode. These utilities help detect and handle such
 cases.
 
 !!! tip "Version History"
-    - Available since [`v0.0.7`](/onvif-python/releases/#v0.0.7) as `ONVIFErrorHandler`
-    - Refactor to module since [`v0.4.0`](/onvif-python/releases/#v0.4.0)
+    - Available since [`v0.0.7`](/releases/#v0.0.7) as `ONVIFErrorHandler`
+    - Refactor to module since [`v0.4.0`](/releases/#v0.4.0)
 
 !!! abstract "Features"
     - Detect `ActionNotSupported` SOAP faults
@@ -138,7 +138,7 @@ def safe_call(
             Defaults to `True`.
 
     !!! tip "Version History"
-        - Changed in [`v0.4.0`](/onvif-python/releases/#v0.4.0):
+        - Changed in [`v0.4.0`](/releases/#v0.4.0):
             ~~`ignore_unsupported`~~ → `handle_unsupported`.
 
     Returns:
