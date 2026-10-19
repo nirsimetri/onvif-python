@@ -4,6 +4,7 @@
 *[PKCS]: Public Key Cryptography Standards
 
 *[API]: Application Programming Interface
+*[CLI]: Command Line Interface
 *[SOAP]: Simple Object Access Protocol
 *[REST]: Representational State Transfer
 *[XML]: Extensible Markup Language
@@ -13,6 +14,10 @@
 *[XSD]: XML Schema Definition
 *[HTTP]: Hypertext Transfer Protocol
 *[HTTPS]: Hypertext Transfer Protocol Secure
+
+*[LLM]: Large Language Model
+*[MCP]: Model Context Protocol
+*[NL]: Natural Language
 
 *[WS-Discovery]: Web Services Dynamic Discovery
 *[WS-Security]: Web Services Security
@@ -64,16 +69,17 @@
 *[JPEG]: Joint Photographic Experts Group
 *[WebRTC]: Web Real-Time Communication
 
-*[MCS]: Manufacturer Cloud Service
-*[ACMS]: Access Control Management System
-*[BMS]: Building Management System
-*[PACS]: Physical Access Control System
-*[PSIM]: Physical Security Information Management
-*[REX]: Request-to-Exit
 *[VMS]: Video Management System
+*[VSS]: Video Surveillance System
 *[NVC]: Network Video Client
 *[NVCs]: Network Video Clients
 *[NVT]: Network Video Transmitter
 *[NVD]: Network Video Display
 *[NVS]: Network Video Storage
 *[NVA]: Network Video Analytics
+*[MCS]: Manufacturer Cloud Service
+*[ACMS]: Access Control Management System
+*[BMS]: Building Management System
+*[PACS]: Physical Access Control System
+*[PSIM]: Physical Security Information Management
+*[REX]: Request-to-Exit
