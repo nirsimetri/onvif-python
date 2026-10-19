@@ -59,7 +59,7 @@ The library provides three caching strategies via the [`CacheMode`](../api/utili
 Use `CacheMode.DB` (default) for production applications to maximize performance[^7].
 
 !!! tip "Version History"
-    - Removed in [`v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
+    - Removed in [`v0.4.0`](/releases/#v0.4.0): `CacheMode.ALL`
 
 ### Usage Examples
 

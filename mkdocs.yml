@@ -84,10 +84,11 @@ nav:
     - Client: main/onvif_client.md
     - CLI: main/onvif_cli.md
     - Utilities:
-      - Logging: utilities/logging.md
       - Helper Methods: utilities/helper_methods.md
+      - Logging: utilities/logging.md
   - References:
     - references/index.md
+    - Glossary: references/glossary.md
     - ONVIF Profiles:
       - Supports: references/supported_profiles.md
     - ONVIF Services:
@@ -213,6 +214,7 @@ plugins:
 markdown_extensions:
   - abbr
   - attr_list
+  - def_list
   - md_in_html
   - admonition
   - footnotes
