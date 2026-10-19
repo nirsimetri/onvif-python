@@ -42,7 +42,7 @@ class CacheMode(Enum):
         DB (Literal['db']): Persistent SQLite caching across process restarts.
 
     !!! tip "Version History"
-        - Removed in [`v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
+        - Removed in [`v0.4.0`](/releases/#v0.4.0): `CacheMode.ALL`
     """
 
     NONE = "none"

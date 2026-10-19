@@ -128,9 +128,9 @@ class ONVIFClient:
         plugins (list[Plugin] | None): List of user-provided Zeep plugins (if any)
 
     !!! tip "Version History"
-        - Added in [`v0.0.6`](/onvif-python/releases/#v0.0.6): `xml_plugin`
-        - Added in [`v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
-        - Added in [`v0.4.3`](/onvif-python/releases/#v0.4.3): `plugins`
+        - Added in [`v0.0.6`](/releases/#v0.0.6): `xml_plugin`
+        - Added in [`v0.1.0`](/releases/#v0.1.0): `wsdl_dir`
+        - Added in [`v0.4.3`](/releases/#v0.4.3): `plugins`
     """
 
     def __init__(
@@ -167,12 +167,12 @@ class ONVIFClient:
             plugins (list[Plugin] | None): List of user-provided Zeep plugins (`zeep.Plugin`)
 
         !!! tip "Version History"
-            - Added in [`v0.0.4`](/onvif-python/releases/#v0.0.4): `apply_patch`
-            - Added in [`v0.0.6`](/onvif-python/releases/#v0.0.6): `capture_xml`
-            - Added in [`v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
-            - Added in [`v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
-            - Added in [`v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
-            - Changed in [`v0.3.0`](/onvif-python/releases/#v0.3.0): `username` → `str | None`,
+            - Added in [`v0.0.4`](/releases/#v0.0.4): `apply_patch`
+            - Added in [`v0.0.6`](/releases/#v0.0.6): `capture_xml`
+            - Added in [`v0.1.0`](/releases/#v0.1.0): `wsdl_dir`
+            - Added in [`v0.2.2`](/releases/#v0.2.2): `plugins`
+            - Added in [`v0.3.0`](/releases/#v0.3.0): `http_digest`
+            - Changed in [`v0.3.0`](/releases/#v0.3.0): `username` → `str | None`,
                 `password` → `str | None`
         """
         logger.info("Initializing ONVIF client for %s:%d", host, port)

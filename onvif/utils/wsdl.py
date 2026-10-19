@@ -300,7 +300,7 @@ class ONVIFWSDL:
             | `namespace` | `str` | XML namespace URI |
 
             !!! tip "Version History"
-                - Added in [`v0.4.5`](/onvif-python/releases/#v0.4.5): `filename`
+                - Added in [`v0.4.5`](/releases/#v0.4.5): `filename`
 
         ??? note
             - Most services use ver10, some newer ones use ver20
