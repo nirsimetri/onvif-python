@@ -5,7 +5,7 @@ site_description: >-
 site_url: !ENV [SITE_URL, 'https://onvif-python.pages.dev/']
 repo_url: https://github.com/nirsimetri/onvif-python
 repo_name: nirsimetri/onvif-python
-edit_uri: edit/dev/docs/
+edit_uri: edit/main/docs/
 use_directory_urls: true
 
 theme:
@@ -35,6 +35,7 @@ theme:
     text: Geist
     code: Geist Mono
   features:
+    - announce.dismiss
     - content.action.edit
     - content.action.view
     - content.code.copy

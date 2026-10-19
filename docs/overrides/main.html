@@ -1,5 +1,28 @@
 {% extends "base.html" %}
 
+{% block announce %}
+  <div class="release-announcement">
+    <span class="release-announcement__icon">
+      {% include ".icons/material/source-pull.svg" %}
+    </span>
+
+    <span>
+      <span class="release-announcement__text">
+        Next Regular Release: <strong>December 2026</strong> 
+      </span>
+
+      &nbsp;&nbsp;/&nbsp;&nbsp;
+      <a
+        class="release-announcement__link"
+        href="{{ 'project/roadmap/' | url }}"
+      >
+        <strong>Roadmap →</strong>
+      </a>
+    </span>
+    
+  </div>
+{% endblock %}
+
 {% block extrahead %}
   {{ super() }}
 
