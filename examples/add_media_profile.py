@@ -18,6 +18,7 @@ Steps:
 """
 
 import sys
+
 from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"

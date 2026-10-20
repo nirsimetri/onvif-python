@@ -20,8 +20,8 @@ Note:
 import socket
 import struct
 import sys
-import uuid
 import traceback
+import uuid
 
 from lxml import etree
 

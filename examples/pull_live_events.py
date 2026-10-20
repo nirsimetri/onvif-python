@@ -12,7 +12,7 @@ Uses ONVIFParser (>= v0.2.2 patch) to extract Topic elements that zeep doesn't p
 
 import datetime
 
-from onvif import ONVIFClient, ONVIFParser, ONVIFOperationException
+from onvif import ONVIFClient, ONVIFOperationException, ONVIFParser
 
 HOST = "192.168.1.3"
 PORT = 80
