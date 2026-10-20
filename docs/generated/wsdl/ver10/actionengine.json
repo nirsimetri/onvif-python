@@ -1,0 +1,2125 @@
+{
+  "source": "ver10/actionengine.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/actionengine/wsdl",
+  "operations": [
+    {
+      "name": "GetSupportedActions",
+      "port_type": "ActionEnginePort",
+      "description": "The service provider returns the supported action types. The response returns a list of Action Descriptions according to the Action Description Language. The response also contains a list of URLs that provide the location of the schema files. These schema files describe the types and elements used in the Action Descriptions. If action descriptions reference types or elements of the ONVIF schema file, the ONVIF schema file shall be explicitly listed.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}GetSupportedActionsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}GetSupportedActions",
+            "schema": {
+              "name": "GetSupportedActions",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}GetSupportedActionsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}GetSupportedActionsResponse",
+            "schema": {
+              "name": "GetSupportedActionsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "SupportedActions",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}SupportedActions",
+                    "type_name": "SupportedActions",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "SupportedActions",
+                      "description": "SupportedActions data structure lists the available action types that service provider supports. For each action type, data structure contains the action configuration parameters.",
+                      "fields": [
+                        {
+                          "name": "ActionContentSchemaLocation",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "Lists the location of all schemas that are referenced in the supported actions. If the action descriptions reference data types in the ONVIF schema file,the ONVIF schema file MUST be explicitly listed."
+                        },
+                        {
+                          "name": "ActionDescription",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionConfigDescription",
+                          "type_name": "ActionConfigDescription",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionConfigDescription",
+                            "description": "Describes the configuration parameters of an action.",
+                            "fields": [
+                              {
+                                "name": "ParameterDescription",
+                                "type": "{http://www.onvif.org/ver10/schema}ItemListDescription",
+                                "type_name": "ItemListDescription",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ItemListDescription",
+                                  "description": "Describes a list of items. Each item in the list shall have a unique name.\n\t\t\tThe list is designed as linear structure without optional or unbounded elements.\n\t\t\tUse ElementItems only when complex structures are inevitable.",
+                                  "fields": [
+                                    {
+                                      "name": "SimpleItemDescription",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "attributes": [
+                                          {
+                                            "use": "required",
+                                            "name": "Name",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                            "description": "Item name. Must be unique within a list."
+                                          },
+                                          {
+                                            "use": "required",
+                                            "name": "Type",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}QName"
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": "unbounded",
+                                      "nillable": false,
+                                      "description": "Description of a simple item. The type must be of category simpleType (xs:string, xs:integer, xs:float, ...)."
+                                    },
+                                    {
+                                      "name": "ElementItemDescription",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "attributes": [
+                                          {
+                                            "use": "required",
+                                            "name": "Name",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                            "description": "Item name. Must be unique within a list."
+                                          },
+                                          {
+                                            "use": "required",
+                                            "name": "Type",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                            "description": "The type of the item. The Type must reference a defined type."
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": "unbounded",
+                                      "nillable": false,
+                                      "description": "Description of a complex type. The Type must reference a defined type."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schema}ItemListDescriptionExtension",
+                                      "type_name": "ItemListDescriptionExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "ItemListDescriptionExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name. Must be unique within a list."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Type",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}QName"
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name. Must be unique within a list."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Type",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                      "description": "The type of the item. The Type must reference a defined type."
+                                    }
+                                  ],
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Action configuration parameter descriptions"
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Name",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "description": "Action type name"
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "List of actions supported by Action Engine Service provider."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}SupportedActionsExtension",
+                          "type_name": "SupportedActionsExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SupportedActionsExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Array of supported Action types"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "GetActions",
+      "port_type": "ActionEnginePort",
+      "description": "The service provider returns currently installed Actions.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}GetActionsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}GetActions",
+            "schema": {
+              "name": "GetActions",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}GetActionsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}GetActionsResponse",
+            "schema": {
+              "name": "GetActionsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Action",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}Action",
+                    "type_name": "Action",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Action",
+                      "description": "Action data type contains the configuration settings of one action instance and service provider assigned unique identifier for this action configuration.",
+                      "fields": [
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionConfiguration",
+                          "type_name": "ActionConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionConfiguration",
+                            "description": "Action Configuration data type contains the configuration settings of action configuration parameters, service requester given action Name, and service provider supported action type value",
+                            "fields": [
+                              {
+                                "name": "Parameters",
+                                "type": "{http://www.onvif.org/ver10/schema}ItemList",
+                                "type_name": "ItemList",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ItemList",
+                                  "fields": [
+                                    {
+                                      "name": "SimpleItem",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "attributes": [
+                                          {
+                                            "use": "required",
+                                            "name": "Name",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                            "description": "Item name."
+                                          },
+                                          {
+                                            "use": "required",
+                                            "name": "Value",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}anySimpleType",
+                                            "description": "Item value. The type is defined in the corresponding description."
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": "unbounded",
+                                      "nillable": false,
+                                      "description": "Value name pair as defined by the corresponding description."
+                                    },
+                                    {
+                                      "name": "ElementItem",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "attributes": [
+                                          {
+                                            "use": "required",
+                                            "name": "Name",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                            "description": "Item name."
+                                          }
+                                        ],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 1,
+                                          "max_occurs": 1
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": "unbounded",
+                                      "nillable": false,
+                                      "description": "Complex value structure."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schema}ItemListExtension",
+                                      "type_name": "ItemListExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "ItemListExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Value",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anySimpleType",
+                                      "description": "Item value. The type is defined in the corresponding description."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 1,
+                                    "max_occurs": 1
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Action configuration parameter settings."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Name",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "description": "User given name."
+                              },
+                              {
+                                "use": "required",
+                                "name": "Type",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "description": "Denotes the action type."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Action configuration contains action type, user given action name, and configuratin parameter settings."
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "description": "Unique Action identifier that service provider assigned to the action configuration."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Array of current Action configurations"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "CreateActions",
+      "port_type": "ActionEnginePort",
+      "description": "The create action operation adds actions to configuration. The create action operation is atomic. If a service provider can not create all of requested actions, the service provider responds with a fault message.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}CreateActionsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}CreateActions",
+            "schema": {
+              "name": "CreateActions",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Action",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionConfiguration",
+                    "type_name": "ActionConfiguration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ActionConfiguration",
+                      "description": "Action Configuration data type contains the configuration settings of action configuration parameters, service requester given action Name, and service provider supported action type value",
+                      "fields": [
+                        {
+                          "name": "Parameters",
+                          "type": "{http://www.onvif.org/ver10/schema}ItemList",
+                          "type_name": "ItemList",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ItemList",
+                            "fields": [
+                              {
+                                "name": "SimpleItem",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "fields": [],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Value",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anySimpleType",
+                                      "description": "Item value. The type is defined in the corresponding description."
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Value name pair as defined by the corresponding description."
+                              },
+                              {
+                                "name": "ElementItem",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "fields": [],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 1,
+                                    "max_occurs": 1
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Complex value structure."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/schema}ItemListExtension",
+                                "type_name": "ItemListExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ItemListExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Name",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "description": "Item name."
+                              },
+                              {
+                                "use": "required",
+                                "name": "Value",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anySimpleType",
+                                "description": "Item value. The type is defined in the corresponding description."
+                              },
+                              {
+                                "use": "required",
+                                "name": "Name",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "description": "Item name."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 1,
+                              "max_occurs": 1
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Action configuration parameter settings."
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "Name",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "description": "User given name."
+                        },
+                        {
+                          "use": "required",
+                          "name": "Type",
+                          "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                          "description": "Denotes the action type."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Array of Actions to be configured on service provider"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}CreateActionsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}CreateActionsResponse",
+            "schema": {
+              "name": "CreateActionsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Action",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}Action",
+                    "type_name": "Action",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Action",
+                      "description": "Action data type contains the configuration settings of one action instance and service provider assigned unique identifier for this action configuration.",
+                      "fields": [
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionConfiguration",
+                          "type_name": "ActionConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionConfiguration",
+                            "description": "Action Configuration data type contains the configuration settings of action configuration parameters, service requester given action Name, and service provider supported action type value",
+                            "fields": [
+                              {
+                                "name": "Parameters",
+                                "type": "{http://www.onvif.org/ver10/schema}ItemList",
+                                "type_name": "ItemList",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ItemList",
+                                  "fields": [
+                                    {
+                                      "name": "SimpleItem",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "attributes": [
+                                          {
+                                            "use": "required",
+                                            "name": "Name",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                            "description": "Item name."
+                                          },
+                                          {
+                                            "use": "required",
+                                            "name": "Value",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}anySimpleType",
+                                            "description": "Item value. The type is defined in the corresponding description."
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": "unbounded",
+                                      "nillable": false,
+                                      "description": "Value name pair as defined by the corresponding description."
+                                    },
+                                    {
+                                      "name": "ElementItem",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "attributes": [
+                                          {
+                                            "use": "required",
+                                            "name": "Name",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                            "description": "Item name."
+                                          }
+                                        ],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 1,
+                                          "max_occurs": 1
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": "unbounded",
+                                      "nillable": false,
+                                      "description": "Complex value structure."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schema}ItemListExtension",
+                                      "type_name": "ItemListExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "ItemListExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Value",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anySimpleType",
+                                      "description": "Item value. The type is defined in the corresponding description."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 1,
+                                    "max_occurs": 1
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Action configuration parameter settings."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Name",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "description": "User given name."
+                              },
+                              {
+                                "use": "required",
+                                "name": "Type",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "description": "Denotes the action type."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Action configuration contains action type, user given action name, and configuratin parameter settings."
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "description": "Unique Action identifier that service provider assigned to the action configuration."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Array of configured Actions with service provider assigned unique identifiers"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "DeleteActions",
+      "port_type": "ActionEnginePort",
+      "description": "The delete operation deletes actions. The delete action operation is atomic. If a service provider can not delete all of requested actions, the service provider responds with a fault message.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}DeleteActionsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}DeleteActions",
+            "schema": {
+              "name": "DeleteActions",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Array of tokens referencing existing Action configurations to be removed"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}DeleteActionsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}DeleteActionsResponse",
+            "schema": {
+              "name": "DeleteActionsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "ModifyActions",
+      "port_type": "ActionEnginePort",
+      "description": "The modify action operation modifies action configurations. The modify action operation is atomic. If a service provider can not modify all of requested action configurations, the service provider responds with a fault message. All action parameters, except the action type, can be modified. The service provider shall return InvalidAction error if the request attempts to change the action type with modify action request.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}ModifyActionsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}ModifyActions",
+            "schema": {
+              "name": "ModifyActions",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Action",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}Action",
+                    "type_name": "Action",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Action",
+                      "description": "Action data type contains the configuration settings of one action instance and service provider assigned unique identifier for this action configuration.",
+                      "fields": [
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionConfiguration",
+                          "type_name": "ActionConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionConfiguration",
+                            "description": "Action Configuration data type contains the configuration settings of action configuration parameters, service requester given action Name, and service provider supported action type value",
+                            "fields": [
+                              {
+                                "name": "Parameters",
+                                "type": "{http://www.onvif.org/ver10/schema}ItemList",
+                                "type_name": "ItemList",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ItemList",
+                                  "fields": [
+                                    {
+                                      "name": "SimpleItem",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "attributes": [
+                                          {
+                                            "use": "required",
+                                            "name": "Name",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                            "description": "Item name."
+                                          },
+                                          {
+                                            "use": "required",
+                                            "name": "Value",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}anySimpleType",
+                                            "description": "Item value. The type is defined in the corresponding description."
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": "unbounded",
+                                      "nillable": false,
+                                      "description": "Value name pair as defined by the corresponding description."
+                                    },
+                                    {
+                                      "name": "ElementItem",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "attributes": [
+                                          {
+                                            "use": "required",
+                                            "name": "Name",
+                                            "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                            "description": "Item name."
+                                          }
+                                        ],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 1,
+                                          "max_occurs": 1
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": "unbounded",
+                                      "nillable": false,
+                                      "description": "Complex value structure."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schema}ItemListExtension",
+                                      "type_name": "ItemListExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "ItemListExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Value",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anySimpleType",
+                                      "description": "Item value. The type is defined in the corresponding description."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Name",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Item name."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 1,
+                                    "max_occurs": 1
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Action configuration parameter settings."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Name",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "description": "User given name."
+                              },
+                              {
+                                "use": "required",
+                                "name": "Type",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "description": "Denotes the action type."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Action configuration contains action type, user given action name, and configuratin parameter settings."
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "description": "Unique Action identifier that service provider assigned to the action configuration."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Array of Action configurations to update the existing action configurations"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}ModifyActionsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}ModifyActionsResponse",
+            "schema": {
+              "name": "ModifyActionsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "ActionEnginePort",
+      "description": "The get capabilities operation returns the Action Engine capabilities",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionEngineCapabilities",
+                    "type_name": "ActionEngineCapabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ActionEngineCapabilities",
+                      "description": "Action Engine Capabilities data structure contains the maximum number of supported actions and number of actions in use for generic as well as specific action types",
+                      "fields": [
+                        {
+                          "name": "ActionCapabilities",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTypeLimits",
+                          "type_name": "ActionTypeLimits",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionTypeLimits",
+                            "description": "ActionTypeLimits data structure contains maximum and current usage information for a specific action type in the service provider",
+                            "fields": [],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Type",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "description": "Action Type"
+                              },
+                              {
+                                "use": "required",
+                                "name": "Maximum",
+                                "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                                "description": "For the specific action type, the maximum number of actions that could be concurrently supported by the service provider"
+                              },
+                              {
+                                "use": "optional",
+                                "name": "InUse",
+                                "type": "{http://www.w3.org/2001/XMLSchema}nonNegativeInteger",
+                                "default": "0",
+                                "description": "For the specific action type, the number of actions in use by the service provider"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "Limits for each action type"
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionEngineCapabilitiesExtension",
+                          "type_name": "ActionEngineCapabilitiesExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionEngineCapabilitiesExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "optional",
+                          "name": "MaximumTriggers",
+                          "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                          "description": "The maximum number of trigger configurations that the service provider can concurrently support"
+                        },
+                        {
+                          "use": "optional",
+                          "name": "MaximumActions",
+                          "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                          "description": "The maximum number of actions that the service provider can concurrently support"
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "GetActionTriggers",
+      "port_type": "ActionEnginePort",
+      "description": "The service provider returns existing action triggers",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}GetActionTriggersRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}GetActionTriggers",
+            "schema": {
+              "name": "GetActionTriggers",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}GetActionTriggersResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}GetActionTriggersResponse",
+            "schema": {
+              "name": "GetActionTriggersResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ActionTrigger",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTrigger",
+                    "type_name": "ActionTrigger",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ActionTrigger",
+                      "description": "Action Trigger data type contains the service provider assigned unique identifier for the configuration and action trigger configuration data.",
+                      "fields": [
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTriggerConfiguration",
+                          "type_name": "ActionTriggerConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionTriggerConfiguration",
+                            "description": "Action Trigger configuration data type contains mandatory Topic Expression (Section Topic Filter in [Core Specification]), optional Message content expression (Section Message Content Filter in [Core Specification]), and set of actions to be triggered.",
+                            "fields": [
+                              {
+                                "name": "TopicExpression",
+                                "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                                "type_name": "TopicExpressionType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "TopicExpressionType",
+                                  "fields": [],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Dialect",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": 1
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "strict"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Topic expression, for example, to trigger only for relays. Trigger based on event topic."
+                              },
+                              {
+                                "name": "ContentExpression",
+                                "type": "{http://docs.oasis-open.org/wsn/b-2}QueryExpressionType",
+                                "type_name": "QueryExpressionType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "QueryExpressionType",
+                                  "fields": [],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Dialect",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": 1
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Content expression, for example, to trigger only when the relay value is on. Trigger based on content data in event."
+                              },
+                              {
+                                "name": "ActionToken",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Reference to actions to be triggered when the conditions are satisfied."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTriggerConfigurationExtension",
+                                "type_name": "ActionTriggerConfigurationExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ActionTriggerConfigurationExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Action Trigger Configuration"
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "description": "Unique Action Trigger identifier that service provider assigned to the action trigger configuration."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Array of current Action Trigger configurations"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "CreateActionTriggers",
+      "port_type": "ActionEnginePort",
+      "description": "Creates action triggers. The create action triggers operation is atomic. If a service provider can not create all of requested action triggers, the service provider responds with a fault message.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}CreateActionTriggersRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}CreateActionTriggers",
+            "schema": {
+              "name": "CreateActionTriggers",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ActionTrigger",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTriggerConfiguration",
+                    "type_name": "ActionTriggerConfiguration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ActionTriggerConfiguration",
+                      "description": "Action Trigger configuration data type contains mandatory Topic Expression (Section Topic Filter in [Core Specification]), optional Message content expression (Section Message Content Filter in [Core Specification]), and set of actions to be triggered.",
+                      "fields": [
+                        {
+                          "name": "TopicExpression",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                          "type_name": "TopicExpressionType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "TopicExpressionType",
+                            "fields": [],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Dialect",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": 1
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "strict"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Topic expression, for example, to trigger only for relays. Trigger based on event topic."
+                        },
+                        {
+                          "name": "ContentExpression",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}QueryExpressionType",
+                          "type_name": "QueryExpressionType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "QueryExpressionType",
+                            "fields": [],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Dialect",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": 1
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Content expression, for example, to trigger only when the relay value is on. Trigger based on content data in event."
+                        },
+                        {
+                          "name": "ActionToken",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "type_name": "ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "Reference to actions to be triggered when the conditions are satisfied."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTriggerConfigurationExtension",
+                          "type_name": "ActionTriggerConfigurationExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionTriggerConfigurationExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Action Triggers to be configured"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}CreateActionTriggersResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}CreateActionTriggersResponse",
+            "schema": {
+              "name": "CreateActionTriggersResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ActionTrigger",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTrigger",
+                    "type_name": "ActionTrigger",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ActionTrigger",
+                      "description": "Action Trigger data type contains the service provider assigned unique identifier for the configuration and action trigger configuration data.",
+                      "fields": [
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTriggerConfiguration",
+                          "type_name": "ActionTriggerConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionTriggerConfiguration",
+                            "description": "Action Trigger configuration data type contains mandatory Topic Expression (Section Topic Filter in [Core Specification]), optional Message content expression (Section Message Content Filter in [Core Specification]), and set of actions to be triggered.",
+                            "fields": [
+                              {
+                                "name": "TopicExpression",
+                                "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                                "type_name": "TopicExpressionType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "TopicExpressionType",
+                                  "fields": [],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Dialect",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": 1
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "strict"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Topic expression, for example, to trigger only for relays. Trigger based on event topic."
+                              },
+                              {
+                                "name": "ContentExpression",
+                                "type": "{http://docs.oasis-open.org/wsn/b-2}QueryExpressionType",
+                                "type_name": "QueryExpressionType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "QueryExpressionType",
+                                  "fields": [],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Dialect",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": 1
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Content expression, for example, to trigger only when the relay value is on. Trigger based on content data in event."
+                              },
+                              {
+                                "name": "ActionToken",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Reference to actions to be triggered when the conditions are satisfied."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTriggerConfigurationExtension",
+                                "type_name": "ActionTriggerConfigurationExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ActionTriggerConfigurationExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Action Trigger Configuration"
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "description": "Unique Action Trigger identifier that service provider assigned to the action trigger configuration."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Returns configured Action Triggers with service provider assigned unique identifers"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "DeleteActionTriggers",
+      "port_type": "ActionEnginePort",
+      "description": "Deletes action triggers. The delete action triggers operation is atomic. If a service provider can not delete all of requested action triggers, the service provider responds with a fault message.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}DeleteActionTriggersRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}DeleteActionTriggers",
+            "schema": {
+              "name": "DeleteActionTriggers",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Array of tokens referencing existing Action Trigger configurations to be removed"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}DeleteActionTriggersResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}DeleteActionTriggersResponse",
+            "schema": {
+              "name": "DeleteActionTriggersResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    },
+    {
+      "name": "ModifyActionTriggers",
+      "port_type": "ActionEnginePort",
+      "description": "Modifies existing action triggers. The modify action triggers operation is atomic. If a service provider can not modify all of requested action trigger configurations, the service provider responds with a fault message.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}ModifyActionTriggersRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}ModifyActionTriggers",
+            "schema": {
+              "name": "ModifyActionTriggers",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ActionTrigger",
+                    "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTrigger",
+                    "type_name": "ActionTrigger",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ActionTrigger",
+                      "description": "Action Trigger data type contains the service provider assigned unique identifier for the configuration and action trigger configuration data.",
+                      "fields": [
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTriggerConfiguration",
+                          "type_name": "ActionTriggerConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ActionTriggerConfiguration",
+                            "description": "Action Trigger configuration data type contains mandatory Topic Expression (Section Topic Filter in [Core Specification]), optional Message content expression (Section Message Content Filter in [Core Specification]), and set of actions to be triggered.",
+                            "fields": [
+                              {
+                                "name": "TopicExpression",
+                                "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                                "type_name": "TopicExpressionType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "TopicExpressionType",
+                                  "fields": [],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Dialect",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": 1
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "strict"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Topic expression, for example, to trigger only for relays. Trigger based on event topic."
+                              },
+                              {
+                                "name": "ContentExpression",
+                                "type": "{http://docs.oasis-open.org/wsn/b-2}QueryExpressionType",
+                                "type_name": "QueryExpressionType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "QueryExpressionType",
+                                  "fields": [],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "Dialect",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": 1
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Content expression, for example, to trigger only when the relay value is on. Trigger based on content data in event."
+                              },
+                              {
+                                "name": "ActionToken",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Reference to actions to be triggered when the conditions are satisfied."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/actionengine/wsdl}ActionTriggerConfigurationExtension",
+                                "type_name": "ActionTriggerConfigurationExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ActionTriggerConfigurationExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Action Trigger Configuration"
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "description": "Unique Action Trigger identifier that service provider assigned to the action trigger configuration."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Array of Action Trigger configurations to be updated."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/actionengine/wsdl}ModifyActionTriggersResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/actionengine/wsdl}ModifyActionTriggersResponse",
+            "schema": {
+              "name": "ModifyActionTriggersResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ActionEngineBinding"
+    }
+  ]
+}

@@ -1,0 +1,2078 @@
+{
+  "source": "schema/common/bw-2.wsdl",
+  "target_namespace": "http://docs.oasis-open.org/wsn/bw-2",
+  "operations": [
+    {
+      "name": "Notify",
+      "port_type": "NotificationConsumer",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}Notify",
+        "parts": [
+          {
+            "name": "Notify",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}Notify",
+            "schema": {
+              "name": "Notify",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NotificationMessage",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}NotificationMessageHolderType",
+                    "type_name": "NotificationMessageHolderType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "NotificationMessageHolderType",
+                      "fields": [
+                        {
+                          "name": "SubscriptionReference",
+                          "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                          "type_name": "EndpointReferenceType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "EndpointReferenceType",
+                            "fields": [
+                              {
+                                "name": "Address",
+                                "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                                "type_name": "AttributedURIType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AttributedURIType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                  "fields": [],
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "ReferenceParameters",
+                                "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                                "type_name": "ReferenceParametersType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ReferenceParametersType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "Metadata",
+                                "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                                "type_name": "MetadataType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "MetadataType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##other",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}SubscriptionReference"
+                        },
+                        {
+                          "name": "Topic",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                          "type_name": "TopicExpressionType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "TopicExpressionType",
+                            "fields": [],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Dialect",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": 1
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "strict"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}Topic"
+                        },
+                        {
+                          "name": "ProducerReference",
+                          "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                          "type_name": "EndpointReferenceType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "EndpointReferenceType",
+                            "fields": [
+                              {
+                                "name": "Address",
+                                "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                                "type_name": "AttributedURIType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AttributedURIType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                  "fields": [],
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "ReferenceParameters",
+                                "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                                "type_name": "ReferenceParametersType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ReferenceParametersType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "Metadata",
+                                "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                                "type_name": "MetadataType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "MetadataType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##other",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}ProducerReference"
+                        },
+                        {
+                          "name": "Message",
+                          "definition": {
+                            "kind": "complexType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 1,
+                              "max_occurs": 1
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 1,
+                        "max_occurs": 1
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}NotificationMessage"
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": null,
+        "parts": []
+      },
+      "faults": [],
+      "binding": "NotificationConsumerBinding"
+    },
+    {
+      "name": "Subscribe",
+      "port_type": "NotificationProducer",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}SubscribeRequest",
+        "parts": [
+          {
+            "name": "SubscribeRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}Subscribe",
+            "schema": {
+              "name": "Subscribe",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ConsumerReference",
+                    "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                    "type_name": "EndpointReferenceType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "EndpointReferenceType",
+                      "fields": [
+                        {
+                          "name": "Address",
+                          "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                          "type_name": "AttributedURIType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AttributedURIType",
+                            "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                            "fields": [],
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "ReferenceParameters",
+                          "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                          "type_name": "ReferenceParametersType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ReferenceParametersType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "Metadata",
+                          "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                          "type_name": "MetadataType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "MetadataType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##other",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##other",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false
+                  },
+                  {
+                    "name": "Filter",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}FilterType",
+                    "type_name": "FilterType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "FilterType",
+                      "fields": [],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "strict",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false
+                  },
+                  {
+                    "name": "InitialTerminationTime",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}AbsoluteOrRelativeTimeType",
+                    "type_name": "AbsoluteOrRelativeTimeType",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "AbsoluteOrRelativeTimeType",
+                      "member_types": [
+                        "{http://www.w3.org/2001/XMLSchema}dateTime",
+                        "{http://www.w3.org/2001/XMLSchema}duration"
+                      ]
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": true
+                  },
+                  {
+                    "name": "SubscriptionPolicy",
+                    "definition": {
+                      "kind": "complexType",
+                      "fields": [],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ],
+                "any": {
+                  "namespace": "##any",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}SubscribeResponse",
+        "parts": [
+          {
+            "name": "SubscribeResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}SubscribeResponse",
+            "schema": {
+              "name": "SubscribeResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "SubscriptionReference",
+                    "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                    "type_name": "EndpointReferenceType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "EndpointReferenceType",
+                      "fields": [
+                        {
+                          "name": "Address",
+                          "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                          "type_name": "AttributedURIType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AttributedURIType",
+                            "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                            "fields": [],
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "ReferenceParameters",
+                          "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                          "type_name": "ReferenceParametersType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ReferenceParametersType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "Metadata",
+                          "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                          "type_name": "MetadataType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "MetadataType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##other",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##other",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false
+                  },
+                  {
+                    "name": "CurrentTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}CurrentTime"
+                  },
+                  {
+                    "name": "TerminationTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}TerminationTime"
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "InvalidFilterFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidFilterFault"
+        },
+        {
+          "name": "TopicExpressionDialectUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}TopicExpressionDialectUnknownFault"
+        },
+        {
+          "name": "InvalidTopicExpressionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidTopicExpressionFault"
+        },
+        {
+          "name": "TopicNotSupportedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}TopicNotSupportedFault"
+        },
+        {
+          "name": "InvalidProducerPropertiesExpressionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidProducerPropertiesExpressionFault"
+        },
+        {
+          "name": "InvalidMessageContentExpressionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidMessageContentExpressionFault"
+        },
+        {
+          "name": "UnacceptableInitialTerminationTimeFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnacceptableInitialTerminationTimeFault"
+        },
+        {
+          "name": "UnrecognizedPolicyRequestFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnrecognizedPolicyRequestFault"
+        },
+        {
+          "name": "UnsupportedPolicyRequestFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnsupportedPolicyRequestFault"
+        },
+        {
+          "name": "NotifyMessageNotSupportedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}NotifyMessageNotSupportedFault"
+        },
+        {
+          "name": "SubscribeCreationFailedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}SubscribeCreationFailedFault"
+        }
+      ],
+      "binding": "NotificationProducerBinding"
+    },
+    {
+      "name": "GetCurrentMessage",
+      "port_type": "NotificationProducer",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}GetCurrentMessageRequest",
+        "parts": [
+          {
+            "name": "GetCurrentMessageRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}GetCurrentMessage",
+            "schema": {
+              "name": "GetCurrentMessage",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Topic",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                    "type_name": "TopicExpressionType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "TopicExpressionType",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "Dialect",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": 1
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "strict"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}GetCurrentMessageResponse",
+        "parts": [
+          {
+            "name": "GetCurrentMessageResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}GetCurrentMessageResponse",
+            "schema": {
+              "name": "GetCurrentMessageResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "TopicExpressionDialectUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}TopicExpressionDialectUnknownFault"
+        },
+        {
+          "name": "InvalidTopicExpressionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidTopicExpressionFault"
+        },
+        {
+          "name": "TopicNotSupportedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}TopicNotSupportedFault"
+        },
+        {
+          "name": "NoCurrentMessageOnTopicFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}NoCurrentMessageOnTopicFault"
+        },
+        {
+          "name": "MultipleTopicsSpecifiedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}MultipleTopicsSpecifiedFault"
+        }
+      ],
+      "binding": "NotificationProducerBinding"
+    },
+    {
+      "name": "GetMessages",
+      "port_type": "PullPoint",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}GetMessagesRequest",
+        "parts": [
+          {
+            "name": "GetMessagesRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}GetMessages",
+            "schema": {
+              "name": "GetMessages",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "MaximumNumber",
+                    "type": "{http://www.w3.org/2001/XMLSchema}nonNegativeInteger",
+                    "type_name": "nonNegativeInteger",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                },
+                "any_attribute": {
+                  "namespace": "##any",
+                  "process_contents": "strict"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}GetMessagesResponse",
+        "parts": [
+          {
+            "name": "GetMessagesResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}GetMessagesResponse",
+            "schema": {
+              "name": "GetMessagesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NotificationMessage",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}NotificationMessageHolderType",
+                    "type_name": "NotificationMessageHolderType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "NotificationMessageHolderType",
+                      "fields": [
+                        {
+                          "name": "SubscriptionReference",
+                          "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                          "type_name": "EndpointReferenceType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "EndpointReferenceType",
+                            "fields": [
+                              {
+                                "name": "Address",
+                                "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                                "type_name": "AttributedURIType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AttributedURIType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                  "fields": [],
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "ReferenceParameters",
+                                "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                                "type_name": "ReferenceParametersType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ReferenceParametersType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "Metadata",
+                                "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                                "type_name": "MetadataType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "MetadataType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##other",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}SubscriptionReference"
+                        },
+                        {
+                          "name": "Topic",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                          "type_name": "TopicExpressionType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "TopicExpressionType",
+                            "fields": [],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Dialect",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": 1
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "strict"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}Topic"
+                        },
+                        {
+                          "name": "ProducerReference",
+                          "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                          "type_name": "EndpointReferenceType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "EndpointReferenceType",
+                            "fields": [
+                              {
+                                "name": "Address",
+                                "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                                "type_name": "AttributedURIType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AttributedURIType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                  "fields": [],
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "ReferenceParameters",
+                                "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                                "type_name": "ReferenceParametersType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ReferenceParametersType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "Metadata",
+                                "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                                "type_name": "MetadataType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "MetadataType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##other",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}ProducerReference"
+                        },
+                        {
+                          "name": "Message",
+                          "definition": {
+                            "kind": "complexType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 1,
+                              "max_occurs": 1
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 1,
+                        "max_occurs": 1
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}NotificationMessage"
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                },
+                "any_attribute": {
+                  "namespace": "##any",
+                  "process_contents": "strict"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "UnableToGetMessagesFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnableToGetMessagesFault"
+        }
+      ],
+      "binding": "PullPointBinding"
+    },
+    {
+      "name": "DestroyPullPoint",
+      "port_type": "PullPoint",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}DestroyPullPointRequest",
+        "parts": [
+          {
+            "name": "DestroyPullPointRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}DestroyPullPoint",
+            "schema": {
+              "name": "DestroyPullPoint",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                },
+                "any_attribute": {
+                  "namespace": "##any",
+                  "process_contents": "strict"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}DestroyPullPointResponse",
+        "parts": [
+          {
+            "name": "DestroyPullPointResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}DestroyPullPointResponse",
+            "schema": {
+              "name": "DestroyPullPointResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                },
+                "any_attribute": {
+                  "namespace": "##any",
+                  "process_contents": "strict"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "UnableToDestroyPullPointFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnableToDestroyPullPointFault"
+        }
+      ],
+      "binding": "PullPointBinding"
+    },
+    {
+      "name": "Notify",
+      "port_type": "PullPoint",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}Notify",
+        "parts": [
+          {
+            "name": "Notify",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}Notify",
+            "schema": {
+              "name": "Notify",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NotificationMessage",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}NotificationMessageHolderType",
+                    "type_name": "NotificationMessageHolderType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "NotificationMessageHolderType",
+                      "fields": [
+                        {
+                          "name": "SubscriptionReference",
+                          "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                          "type_name": "EndpointReferenceType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "EndpointReferenceType",
+                            "fields": [
+                              {
+                                "name": "Address",
+                                "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                                "type_name": "AttributedURIType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AttributedURIType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                  "fields": [],
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "ReferenceParameters",
+                                "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                                "type_name": "ReferenceParametersType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ReferenceParametersType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "Metadata",
+                                "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                                "type_name": "MetadataType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "MetadataType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##other",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}SubscriptionReference"
+                        },
+                        {
+                          "name": "Topic",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                          "type_name": "TopicExpressionType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "TopicExpressionType",
+                            "fields": [],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Dialect",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": 1
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "strict"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}Topic"
+                        },
+                        {
+                          "name": "ProducerReference",
+                          "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                          "type_name": "EndpointReferenceType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "EndpointReferenceType",
+                            "fields": [
+                              {
+                                "name": "Address",
+                                "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                                "type_name": "AttributedURIType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AttributedURIType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                  "fields": [],
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "ReferenceParameters",
+                                "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                                "type_name": "ReferenceParametersType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ReferenceParametersType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "Metadata",
+                                "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                                "type_name": "MetadataType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "MetadataType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##other",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}ProducerReference"
+                        },
+                        {
+                          "name": "Message",
+                          "definition": {
+                            "kind": "complexType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 1,
+                              "max_occurs": 1
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 1,
+                        "max_occurs": 1
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}NotificationMessage"
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": null,
+        "parts": []
+      },
+      "faults": [],
+      "binding": "PullPointBinding"
+    },
+    {
+      "name": "CreatePullPoint",
+      "port_type": "CreatePullPoint",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}CreatePullPointRequest",
+        "parts": [
+          {
+            "name": "CreatePullPointRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}CreatePullPoint",
+            "schema": {
+              "name": "CreatePullPoint",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                },
+                "any_attribute": {
+                  "namespace": "##any",
+                  "process_contents": "strict"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}CreatePullPointResponse",
+        "parts": [
+          {
+            "name": "CreatePullPointResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}CreatePullPointResponse",
+            "schema": {
+              "name": "CreatePullPointResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "PullPoint",
+                    "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                    "type_name": "EndpointReferenceType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "EndpointReferenceType",
+                      "fields": [
+                        {
+                          "name": "Address",
+                          "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                          "type_name": "AttributedURIType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AttributedURIType",
+                            "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                            "fields": [],
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "ReferenceParameters",
+                          "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                          "type_name": "ReferenceParametersType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ReferenceParametersType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "Metadata",
+                          "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                          "type_name": "MetadataType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "MetadataType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##other",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##other",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                },
+                "any_attribute": {
+                  "namespace": "##any",
+                  "process_contents": "strict"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "UnableToCreatePullPointFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnableToCreatePullPointFault"
+        }
+      ],
+      "binding": "CreatePullPointBinding"
+    },
+    {
+      "name": "Renew",
+      "port_type": "SubscriptionManager",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}RenewRequest",
+        "parts": [
+          {
+            "name": "RenewRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}Renew",
+            "schema": {
+              "name": "Renew",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "TerminationTime",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}AbsoluteOrRelativeTimeType",
+                    "type_name": "AbsoluteOrRelativeTimeType",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "AbsoluteOrRelativeTimeType",
+                      "member_types": [
+                        "{http://www.w3.org/2001/XMLSchema}dateTime",
+                        "{http://www.w3.org/2001/XMLSchema}duration"
+                      ]
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": true
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}RenewResponse",
+        "parts": [
+          {
+            "name": "RenewResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}RenewResponse",
+            "schema": {
+              "name": "RenewResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "TerminationTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}TerminationTime"
+                  },
+                  {
+                    "name": "CurrentTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}CurrentTime"
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "UnacceptableTerminationTimeFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnacceptableTerminationTimeFault"
+        }
+      ],
+      "binding": "SubscriptionManagerBinding"
+    },
+    {
+      "name": "Unsubscribe",
+      "port_type": "SubscriptionManager",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}UnsubscribeRequest",
+        "parts": [
+          {
+            "name": "UnsubscribeRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}Unsubscribe",
+            "schema": {
+              "name": "Unsubscribe",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}UnsubscribeResponse",
+        "parts": [
+          {
+            "name": "UnsubscribeResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}UnsubscribeResponse",
+            "schema": {
+              "name": "UnsubscribeResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "UnableToDestroySubscriptionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnableToDestroySubscriptionFault"
+        }
+      ],
+      "binding": "SubscriptionManagerBinding"
+    },
+    {
+      "name": "Renew",
+      "port_type": "PausableSubscriptionManager",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}RenewRequest",
+        "parts": [
+          {
+            "name": "RenewRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}Renew",
+            "schema": {
+              "name": "Renew",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "TerminationTime",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}AbsoluteOrRelativeTimeType",
+                    "type_name": "AbsoluteOrRelativeTimeType",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "AbsoluteOrRelativeTimeType",
+                      "member_types": [
+                        "{http://www.w3.org/2001/XMLSchema}dateTime",
+                        "{http://www.w3.org/2001/XMLSchema}duration"
+                      ]
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": true
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}RenewResponse",
+        "parts": [
+          {
+            "name": "RenewResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}RenewResponse",
+            "schema": {
+              "name": "RenewResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "TerminationTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}TerminationTime"
+                  },
+                  {
+                    "name": "CurrentTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}CurrentTime"
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "UnacceptableTerminationTimeFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnacceptableTerminationTimeFault"
+        }
+      ],
+      "binding": "PausableSubscriptionManagerBinding"
+    },
+    {
+      "name": "Unsubscribe",
+      "port_type": "PausableSubscriptionManager",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}UnsubscribeRequest",
+        "parts": [
+          {
+            "name": "UnsubscribeRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}Unsubscribe",
+            "schema": {
+              "name": "Unsubscribe",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}UnsubscribeResponse",
+        "parts": [
+          {
+            "name": "UnsubscribeResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}UnsubscribeResponse",
+            "schema": {
+              "name": "UnsubscribeResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "UnableToDestroySubscriptionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnableToDestroySubscriptionFault"
+        }
+      ],
+      "binding": "PausableSubscriptionManagerBinding"
+    },
+    {
+      "name": "PauseSubscription",
+      "port_type": "PausableSubscriptionManager",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}PauseSubscriptionRequest",
+        "parts": [
+          {
+            "name": "PauseSubscriptionRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}PauseSubscription",
+            "schema": {
+              "name": "PauseSubscription",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}PauseSubscriptionResponse",
+        "parts": [
+          {
+            "name": "PauseSubscriptionResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}PauseSubscriptionResponse",
+            "schema": {
+              "name": "PauseSubscriptionResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "PauseFailedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}PauseFailedFault"
+        }
+      ],
+      "binding": "PausableSubscriptionManagerBinding"
+    },
+    {
+      "name": "ResumeSubscription",
+      "port_type": "PausableSubscriptionManager",
+      "description": null,
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}ResumeSubscriptionRequest",
+        "parts": [
+          {
+            "name": "ResumeSubscriptionRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}ResumeSubscription",
+            "schema": {
+              "name": "ResumeSubscription",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}ResumeSubscriptionResponse",
+        "parts": [
+          {
+            "name": "ResumeSubscriptionResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}ResumeSubscriptionResponse",
+            "schema": {
+              "name": "ResumeSubscriptionResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "ResumeFailedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}ResumeFailedFault"
+        }
+      ],
+      "binding": "PausableSubscriptionManagerBinding"
+    }
+  ]
+}

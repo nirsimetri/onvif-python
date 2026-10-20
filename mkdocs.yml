@@ -191,6 +191,7 @@ plugins:
       show_email_address: false
       sort_authors_by: contribution
   - mkdocstrings:
+      custom_templates: docs/templates
       handlers:
         python:
           inventories:
@@ -211,6 +212,9 @@ plugins:
             show_symbol_type_heading: true
             extensions:
               - docs/hooks/griffe_extensions.py:DocstringShortcodes
+              - docs/hooks/griffe_extensions.py:DocstringCrossReferences
+              - docs/hooks/wsdl_schema.py:WSDLSchemaExtension:
+                  metadata_dir: docs/generated/wsdl
 
 markdown_extensions:
   - abbr
