@@ -1,6 +1,6 @@
 # ONVIF Python
 
-> A modern, developer-friendly Python library for discovering, connecting to, and managing ONVIF-compliant IP cameras, NVRs, and other ONVIF-compliant devices. It provides a Pythonic interface to ONVIF SOAP services, built-in WSDL definitions, WS-Discovery, device management, media streaming, PTZ, events, analytics, and a feature-rich command-line interface.
+> A modern, developer-friendly Python Library + CLI for discovering, connecting to, and managing ONVIF-compliant IP cameras, NVRs, and other ONVIF-compliant devices. It provides a Pythonic interface to ONVIF SOAP services, built-in WSDL definitions, WS-Discovery, device management, media streaming, PTZ, events, analytics, and a feature-rich command-line interface.
 
 ONVIF Python is an independent open-source implementation of the ONVIF specifications, maintained by Nirsimetri Technologies. It is designed for individual developers, companies building video management systems (VMS) and video intelligence platforms, security integrators, and IoT developers.
 
