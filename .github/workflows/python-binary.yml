@@ -1,0 +1,124 @@
+name: Python Binary
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  binary-build:
+    name: Build ${{ matrix.asset_name }}
+    runs-on: ${{ matrix.runner }}
+
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - runner: ubuntu-26.04
+            python_arch: x64
+            asset_name: onvif-linux-amd64
+            executable_name: onvif
+
+          - runner: ubuntu-26.04
+            python_arch: x86
+            asset_name: onvif-linux-i386
+            executable_name: onvif
+
+          - runner: ubuntu-26.04-arm
+            python_arch: arm64
+            asset_name: onvif-linux-arm64
+            executable_name: onvif
+
+          - runner: windows-latest
+            python_arch: x64
+            asset_name: onvif-windows-win64
+            executable_name: onvif.exe
+          
+          - runner: windows-latest
+            python_arch: x86
+            asset_name: onvif-windows-win32
+            executable_name: onvif.exe
+
+          - runner: windows-11-arm
+            python_arch: arm64
+            asset_name: onvif-windows-arm64
+            executable_name: onvif.exe
+
+          - runner: macos-15-intel
+            python_arch: x64
+            asset_name: onvif-macos-amd64
+            executable_name: onvif
+
+          - runner: macos-latest
+            python_arch: arm64
+            asset_name: onvif-macos-arm64
+            executable_name: onvif
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+          architecture: ${{ matrix.python_arch }}
+      
+      - name: Verify Python architecture ${{ matrix.python_arch }} | ${{ matrix.runner }}
+        env:
+          EXPECTED_ARCH: ${{ matrix.python_arch }}
+        run: |
+          python -c "import os, platform, struct, sys; actual = struct.calcsize('P') * 8; expected = {'x86': 32, 'x64': 64, 'arm64': 64}[os.environ['EXPECTED_ARCH']]; print(f'Python: {platform.python_version()}'); print(f'Architecture: {platform.machine()} ({actual}-bit)'); sys.exit(0 if actual == expected else f'Expected {expected}-bit Python, got {actual}-bit')"
+
+      - name: Install project and PyInstaller ${{ matrix.python_arch }} | ${{ matrix.runner }}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install . pyinstaller pillow
+
+      - name: Build executable (${{ matrix.asset_name }})
+        run: >
+          pyinstaller
+          --clean
+          --noconfirm
+          --onedir
+          --collect-all onvif
+          --icon docs/assets/onvif.png
+          --name onvif
+          onvif/cli/__main__.py
+
+      - name: Include license and notice (${{ matrix.asset_name }})
+        shell: bash
+        run: |
+          cp LICENSE dist/onvif/LICENSE
+          if [ -f NOTICE ]; then
+            cp NOTICE dist/onvif/NOTICE
+          fi
+
+      - name: Test executable (${{ matrix.asset_name }})
+        env:
+          EXECUTABLE_NAME: ${{ matrix.executable_name }}
+        run: |
+          python -c "import os, subprocess; from pathlib import Path; p = (Path('dist/onvif') / os.environ['EXECUTABLE_NAME']).resolve(); print(f'Testing: {p}'); result = subprocess.run([str(p), '--help'], capture_output=True, text=True, timeout=60); print(result.stdout); print(result.stderr); raise SystemExit(result.returncode)"
+
+      - name: Package distribution (${{ matrix.asset_name }})
+        env:
+          ASSET_NAME: ${{ matrix.asset_name }}
+        run: |
+          python -c "import os, shutil; from pathlib import Path; src = Path('dist/onvif'); dst = Path('dist') / os.environ['ASSET_NAME']; shutil.make_archive(str(dst), 'zip', root_dir=src.parent, base_dir=src.name); print(f'Created {dst}.zip')"
+
+      - name: Verify archive (${{ matrix.asset_name }})
+        env:
+          ASSET_NAME: ${{ matrix.asset_name }}
+        run: |
+          python -c "import os, sys, zipfile; from pathlib import Path; p = Path('dist') / (os.environ['ASSET_NAME'] + '.zip'); valid = p.is_file() and p.stat().st_size > 0 and zipfile.is_zipfile(p); print(f'Archive: {p} ({p.stat().st_size if p.exists() else 0} bytes)'); sys.exit(0 if valid else f'Invalid archive: {p}')"
+
+      - name: Upload to GitHub Release (${{ matrix.asset_name }})
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$GITHUB_REF_NAME" "dist/${{ matrix.asset_name }}.zip" --clobber
+        shell: bash
