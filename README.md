@@ -22,7 +22,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
   <tr>
     <th align="start">
     <img
-      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/account-hard-hat.svg"
+      src="https://raw.githubusercontent.com/Templarian/MaterialDesign/refs/heads/master/svg/account-hard-hat.svg"
       width="24"
       height="24"
       valign="middle"
@@ -30,7 +30,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
     </th>
     <th align="start">
     <img
-      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/video-wireless.svg"
+      src="https://raw.githubusercontent.com/Templarian/MaterialDesign/refs/heads/master/svg/video-wireless.svg"
       width="24"
       height="24"
       valign="middle"
@@ -48,7 +48,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
   <tr>
     <th align="start">
     <img
-      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/cctv.svg"
+      src="https://raw.githubusercontent.com/Templarian/MaterialDesign/refs/heads/master/svg/cctv.svg"
       width="24"
       height="24"
       valign="middle"
@@ -56,7 +56,7 @@ This library simplifies that process by wrapping SOAP communication into a clean
     </th>
     <th align="start">
     <img
-      src="https://github.com/Templarian/MaterialDesign/blob/master/svg/chip.svg"
+      src="https://raw.githubusercontent.com/Templarian/MaterialDesign/refs/heads/master/svg/chip.svg"
       width="24"
       height="24"
       valign="middle"
@@ -103,10 +103,27 @@ cd onvif-python
 pip install .
 ```
 
-Once the installation is successful, you can also immediately access the [ONVIF CLI](https://onvif-python.pages.dev/core/onvif_cli/) via the terminal using:
+Once the installation is successful, you can also immediately access the [ONVIF CLI](https://onvif-python.pages.dev/main/onvif_cli/) via the terminal using:
 ```shell
 onvif --help
 ```
+
+## Prebuilt Binaries (No Python Required)
+
+To use the [ONVIF CLI](https://onvif-python.pages.dev/main/onvif_cli/) without installing Python or additional dependencies, download a prebuilt binary for your platform from the [GitHub Releases](https://github.com/nirsimetri/onvif-python/releases) page.
+
+Each release includes downloadable binary assets for supported platforms and architectures. Choose the appropriate binary from the table below:
+
+| Platform | Architecture | Download |
+|---|---|---|
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/linux.svg" width="20" height="20" valign="middle"/> &nbsp;Linux | AMD64 (64-bit) | [onvif-linux-amd64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-amd64.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/linux.svg" width="20" height="20" valign="middle"/> &nbsp;Linux | i386 (32-bit) | [onvif-linux-i386.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-i386.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/linux.svg" width="20" height="20" valign="middle"/> &nbsp;Linux | ARM64 (aarch64) | [onvif-linux-arm64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-arm64.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/windows.svg" width="20" height="20" valign="middle"/> &nbsp;Windows | x64 (64-bit) | [onvif-windows-win64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-windows-win64.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/windows.svg" width="20" height="20" valign="middle"/> &nbsp;Windows | x86 (32-bit) | [onvif-windows-win32.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-windows-win32.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/windows.svg" width="20" height="20" valign="middle"/> &nbsp;Windows | ARM64 | [onvif-windows-arm64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-windows-arm64.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/apple.svg" width="20" height="20" valign="middle"/> &nbsp;macOS | Intel (AMD64) | [onvif-macos-amd64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-macos-amd64.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/apple.svg" width="20" height="20" valign="middle"/> &nbsp;macOS | Apple Silicon (ARM64) | [onvif-macos-arm64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-macos-arm64.zip) |
 
 ## Documentation
 
