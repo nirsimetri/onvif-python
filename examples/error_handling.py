@@ -26,7 +26,7 @@ from onvif import (
 HOST = "192.168.1.14"
 PORT = 2020
 USERNAME = "admintapo"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 
 def example_1_safe_call():
@@ -40,7 +40,9 @@ def example_1_safe_call():
     print("Example 1: Using safe_call")
     print("=" * 60)
 
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
+    client = ONVIFClient(
+        host=HOST, port=PORT, username=USERNAME, password=PASSWORD, cache=CacheMode.NONE
+    )
     device = client.devicemgmt()
 
     # Returns None if operation is not supported
@@ -68,7 +70,9 @@ def example_2_decorator():
     print("Example 2: Using @ignore_unsupported decorator")
     print("=" * 60)
 
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
+    client = ONVIFClient(
+        host=HOST, port=PORT, username=USERNAME, password=PASSWORD, cache=CacheMode.NONE
+    )
     device = client.devicemgmt()
 
     @ignore_unsupported
@@ -105,7 +109,9 @@ def example_3_manual_handling():
     print("Example 3: Manual exception handling")
     print("=" * 60)
 
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
+    client = ONVIFClient(
+        host=HOST, port=PORT, username=USERNAME, password=PASSWORD, cache=CacheMode.NONE
+    )
     device = client.devicemgmt()
 
     # Try GetSystemUris (not always supported), fallback to alternative
@@ -167,7 +173,9 @@ def example_4_batch_operations():
     print("Example 4: Batch operations with graceful degradation")
     print("=" * 60)
 
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
+    client = ONVIFClient(
+        host=HOST, port=PORT, username=USERNAME, password=PASSWORD, cache=CacheMode.NONE
+    )
     device = client.devicemgmt()
 
     # Define operations to try
@@ -214,7 +222,9 @@ def example_5_critical_operations():
     print("Example 5: Critical operations (don't ignore errors)")
     print("=" * 60)
 
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
+    client = ONVIFClient(
+        host=HOST, port=PORT, username=USERNAME, password=PASSWORD, cache=CacheMode.NONE
+    )
     device = client.devicemgmt()
 
     # Critical operation - must succeed

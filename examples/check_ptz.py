@@ -9,15 +9,15 @@ This script checks basic PTZ functionality of an ONVIF-compliant device.
 
 from time import sleep
 
-from onvif import ONVIFClient
+from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+    client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
     media = client.media()
     profile = media.GetProfiles()[0]  # use first profile
     ptz = client.ptz()
@@ -33,5 +33,5 @@ try:
     )
     sleep(2.5)
     ptz.Stop(ProfileToken=profile.token)
-except Exception as e:  # pylint: disable=broad-exception-caught
+except (ONVIFOperationException, KeyError) as e:
     print(e)

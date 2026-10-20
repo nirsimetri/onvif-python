@@ -8,15 +8,15 @@ This script connects to an ONVIF-compliant device and retrieves its
 imaging settings using the Imaging service from the first media profile.
 """
 
-from onvif import ONVIFClient
+from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+    client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
     profile = client.media().GetProfiles()[0]  # use the first profile
     imaging = client.imaging()
 
@@ -25,5 +25,5 @@ try:
             VideoSourceToken=profile.VideoSourceConfiguration.SourceToken
         )
     )
-except Exception as e:  # pylint: disable=broad-exception-caught
+except (ONVIFOperationException, KeyError) as e:
     print(e)

@@ -11,15 +11,15 @@ And using to_dict() (>= v0.2.8 patch) function to convert the response to a dict
 
 import json
 
-from onvif import ONVIFClient
+from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"
 PORT = 8000
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+    client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
     device = client.devicemgmt()
 
     # print device information
@@ -27,5 +27,5 @@ try:
 
     # print device scopes
     print(json.dumps(device.to_dict(device.GetScopes()), indent=4))
-except Exception as e:  # pylint: disable=broad-exception-caught
+except ONVIFOperationException as e:
     print(e)
