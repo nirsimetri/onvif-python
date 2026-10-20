@@ -1,6 +1,6 @@
 site_name: ONVIF Python
 site_description: >-
-  A modern Python library for ONVIF-compliant IP cameras and devices, providing a clean,
+  A Python Library + CLI for ONVIF-compliant IP cameras and devices, providing a clean,
   typed API for discovery, device management, media, PTZ, and events.
 site_url: !ENV [SITE_URL, 'https://onvif-python.pages.dev/']
 repo_url: https://github.com/nirsimetri/onvif-python
@@ -81,6 +81,8 @@ nav:
     - Conventions: conventions.md
     - Quickstart: quick_start.md
     - Approach: approach.md
+    - Misc:
+      - Prebuilt Binaries: misc/binaries.md
   - Usage:
     - Client: main/onvif_client.md
     - CLI: main/onvif_cli.md
