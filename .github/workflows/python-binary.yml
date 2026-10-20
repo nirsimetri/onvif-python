@@ -24,11 +24,6 @@ jobs:
             asset_name: onvif-linux-amd64
             executable_name: onvif
 
-          - runner: ubuntu-26.04
-            python_arch: x86
-            asset_name: onvif-linux-i386
-            executable_name: onvif
-
           - runner: ubuntu-26.04-arm
             python_arch: arm64
             asset_name: onvif-linux-arm64
