@@ -17,16 +17,17 @@ Steps:
 7. Verify the profile was created successfully
 """
 
-from onvif import ONVIFClient
+import sys
+from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
     # Initialize ONVIF client
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+    client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
     media = client.media()
 
     # Get available video sources
@@ -34,7 +35,7 @@ try:
     video_sources = media.GetVideoSources()
     if not video_sources:
         print("No video sources available")
-        exit(1)
+        sys.exit()
 
     print(f"Found {len(video_sources)} video source(s)")
     video_source_token = video_sources[0].token
@@ -45,7 +46,7 @@ try:
     video_source_configs = media.GetVideoSourceConfigurations()
     if not video_source_configs:
         print("No video source configurations available")
-        exit(1)
+        sys.exit()
 
     video_source_config_token = video_source_configs[0].token
     print(f"Using video source configuration token: {video_source_config_token}")
@@ -55,7 +56,7 @@ try:
     video_encoder_configs = media.GetVideoEncoderConfigurations()
     if not video_encoder_configs:
         print("No video encoder configurations available")
-        exit(1)
+        sys.exit()
 
     video_encoder_config_token = video_encoder_configs[0].token
     print(f"Using video encoder configuration token: {video_encoder_config_token}")
@@ -112,7 +113,7 @@ try:
     )
     print(f"Stream URI: {stream_uri.Uri}")
 
-except Exception as e:  # pylint: disable=broad-exception-caught
+except (ONVIFOperationException, KeyError, AttributeError) as e:
     print(f"Error: {e}")
     import traceback
 

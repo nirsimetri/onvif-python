@@ -8,15 +8,15 @@ This script connects to an ONVIF-compliant device and retrieves the list of supp
 analytics modules using the Analytics service.
 """
 
-from onvif import ONVIFClient
+from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+    client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
     profile = client.media().GetProfiles()[0]  # use the first profile
     analytics = client.analytics()
 
@@ -29,5 +29,5 @@ try:
         ConfigurationToken=profile.VideoAnalyticsConfiguration.token
     )
     print("Supported Analytics Modules:\n{}".format(supported_analytics_modules))
-except Exception as e:
+except (ONVIFOperationException, KeyError) as e:
     print(e)

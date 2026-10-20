@@ -8,16 +8,18 @@ This script connects to an ONVIF-compliant device and retrieves its
 capabilities using the Core (Device Management) service.
 """
 
-from onvif import CacheMode, ONVIFClient
+from onvif import CacheMode, ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD, cache=CacheMode.NONE)
+    client = ONVIFClient(
+        host=HOST, port=PORT, username=USERNAME, password=PASSWORD, cache=CacheMode.NONE
+    )
     capabilities = client.devicemgmt().GetCapabilities(Category="All")
     print(capabilities)
-except Exception as e:  # pylint: disable=broad-exception-caught
+except ONVIFOperationException as e:
     print(e)

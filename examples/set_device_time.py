@@ -10,15 +10,15 @@ This example demonstrates how to get and set system date and time on an ONVIF de
 
 from datetime import datetime
 
-from onvif import ONVIFClient
+from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.14"
 PORT = 2020
 USERNAME = "admintapo"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+    client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
     device_service = client.devicemgmt()
 
     system_date_time = device_service.GetSystemDateAndTime()
@@ -49,5 +49,5 @@ try:
 
     system_date_time_after = device_service.GetSystemDateAndTime()
     print(f"Updated System Date and Time: {system_date_time_after}\n")
-except Exception as e:  # pylint: disable=broad-exception-caught
+except (ONVIFOperationException, ValueError, AttributeError) as e:
     print(e)
