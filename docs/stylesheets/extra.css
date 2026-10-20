@@ -821,3 +821,224 @@ html {
     background-color: var(--color-success);
     mask-image: var(--md-tasklist-icon--checked);
 }
+
+/* WSDL schema — consistent typography */
+.wsdl-schema__content {
+  padding-top: 0.5rem;
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.wsdl-schema__heading {
+  font-size: inherit;
+  line-height: 1.6;
+}
+
+.wsdl-schema__return {
+  margin-left: 0.35rem;
+  font-weight: 400;
+}
+
+.wsdl-schema__name,
+.wsdl-schema__heading code {
+  font-size: inherit;
+}
+
+.wsdl-schema__description,
+.wsdl-schema__meta,
+.wsdl-schema__enum {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Nested fields should retain the parent's font size */
+.wsdl-schema__tree,
+.wsdl-schema__item,
+.wsdl-schema__node {
+  font-size: inherit;
+}
+
+/* WSDL schema tree — reset list markers */
+.wsdl-schema__content .wsdl-schema__tree,
+.wsdl-schema__content .wsdl-schema__tree ul {
+  list-style: none !important;
+  list-style-type: none !important;
+  margin-top: 0rem;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+/* Remove Material/list pseudo-markers */
+.wsdl-schema__content .wsdl-schema__tree > .wsdl-schema__item::marker {
+  content: "";
+}
+
+.wsdl-schema__content .wsdl-schema__tree > .wsdl-schema__item::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Top-level parameters: no connectors */
+.wsdl-schema__content > .wsdl-schema__tree {
+  border: 0;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* Nested levels */
+.wsdl-schema__content .wsdl-schema__tree .wsdl-schema__tree {
+  position: relative;
+  margin-left: 0.5rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--md-default-fg-color--lightest);
+}
+
+/* Tree nodes */
+.wsdl-schema__content .wsdl-schema__item {
+  position: relative;
+  margin: 0;
+  padding: 0.3rem 0;
+  border: 0;
+}
+
+.wsdl-schema__content .wsdl-schema__node {
+  position: relative;
+  min-width: 0;
+}
+
+/* Horizontal connectors */
+.wsdl-schema__content
+  .wsdl-schema__tree
+  .wsdl-schema__tree
+  > .wsdl-schema__item
+  > .wsdl-schema__node::before {
+  content: "";
+  position: absolute;
+  left: -0.75rem;
+  top: 0.8em;
+  width: 0.5rem;
+  border-top: 2px solid var(--md-default-fg-color--lightest);
+}
+
+/* Reset list item margins */
+.md-typeset .wsdl-schema__content .wsdl-schema__tree > .wsdl-schema__item {
+  margin-left: 0;
+}
+
+/* Consistent typography at every nesting level */
+.wsdl-schema__content .wsdl-schema__node,
+.wsdl-schema__content .wsdl-schema__heading,
+.wsdl-schema__content .wsdl-schema__description,
+.wsdl-schema__content .wsdl-schema__meta,
+.wsdl-schema__content .wsdl-schema__enum {
+  font-size: inherit;
+}
+
+.wsdl-schema__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem;
+  line-height: 1.6;
+}
+
+.wsdl-schema__name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.wsdl-schema__description {
+  margin-top: 0.1rem;
+  line-height: 1.6;
+}
+
+.wsdl-schema__meta,
+.wsdl-schema__enum {
+  margin-top: 0.15rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* Input/Output admonition */
+:root {
+  --md-admonition-icon--wsdl-input: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z'/%3E%3C/svg%3E");
+
+  --md-admonition-icon--wsdl-output: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z'/%3E%3C/svg%3E");
+}
+
+/* WSDL schema — theme-specific backgrounds */
+[data-md-color-scheme="default"] {
+  --wsdl-input-bg: #5bad0f08;
+  --wsdl-output-bg: #8250df08;
+}
+
+[data-md-color-scheme="slate"] {
+  --wsdl-input-bg: #baff791a;
+  --wsdl-output-bg: #d2a8ff1a;
+}
+
+/* WSDL Input */
+.md-typeset .admonition.wsdl-input,
+.md-typeset details.wsdl-input {
+  border-color: var(--doc-symbol-module-fg-color);
+  background-color: var(--wsdl-input-bg);
+}
+
+.md-typeset .wsdl-input > .admonition-title,
+.md-typeset .wsdl-input > summary {
+  color: var(--doc-symbol-module-fg-color);
+  background-color: var(--wsdl-input-bg);
+}
+
+.md-typeset .wsdl-input > .admonition-title::before,
+.md-typeset .wsdl-input > summary::before {
+  background-color: var(--doc-symbol-module-fg-color);
+  -webkit-mask-image: var(--md-admonition-icon--wsdl-input);
+  mask-image: var(--md-admonition-icon--wsdl-input);
+}
+
+/* WSDL Output */
+.md-typeset .admonition.wsdl-output,
+.md-typeset details.wsdl-output {
+  border-color: var(--doc-symbol-method-fg-color);
+  background-color: var(--wsdl-output-bg);
+}
+
+.md-typeset .wsdl-output > .admonition-title,
+.md-typeset .wsdl-output > summary {
+  color: var(--doc-symbol-method-fg-color);
+  background-color: var(--wsdl-output-bg);
+}
+
+.md-typeset .wsdl-output > .admonition-title::before,
+.md-typeset .wsdl-output > summary::before {
+  background-color: var(--doc-symbol-method-fg-color);
+  -webkit-mask-image: var(--md-admonition-icon--wsdl-output);
+  mask-image: var(--md-admonition-icon--wsdl-output);
+}
+
+/* Enum table */
+.wsdl-schema__enum table {
+  display: table;
+  width: 100%;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.wsdl-schema__enum th,
+.wsdl-schema__enum td {
+  vertical-align: top;
+}
+
+.wsdl-schema__enum th {
+  white-space: nowrap;
+}
+
+.wsdl-schema__enum td:first-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.wsdl-schema__enum .md-typeset__table {
+  margin: 0;
+}
