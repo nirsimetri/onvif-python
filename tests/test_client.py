@@ -324,7 +324,7 @@ class TestONVIFClientServiceAccess:
         )
 
 
-class BrokenCapabilities:  # pylint: disable=too-few-public-methods
+class BrokenCapabilities:
     """BrokenCapabilities."""
 
     def __getattr__(self, _name):

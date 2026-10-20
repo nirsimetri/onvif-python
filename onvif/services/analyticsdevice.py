@@ -5,10 +5,14 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class AnalyticsDevice(ONVIFService):
-    """The AnalyticsDevice service (AnalyticsDeviceBinding) aka 'Video Analytics Device'
-    has been marked as obsolete since ONVIF Release 18.12.
+    # pylint: disable=line-too-long
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.0 http://developer.onvif.org/pub/core/Core_2.00.pdf -->
+
+    The AnalyticsDevice service (AnalyticsDeviceBinding) aka 'Video Analytics Device'
+    has been marked as obsolete since ONVIF 18.12.
 
     Its functionality has largely been merged into the Analytics service and, in some cases
     Media/Media2.
@@ -21,14 +25,15 @@ class AnalyticsDevice(ONVIFService):
     available on the device and calling this class will result in SOAP faults.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011), split from Core 2.0 |
-    | **Deprecated** | ONVIF Release 18.12 (December 2018) |
+    | -------- | ------- |
+    | **First introduced** | ONVIF 2.0 (November 2010) |
+    | **Deprecated** | ONVIF 18.12 (December 2018) |
     | **Binding name** | `AnalyticsDeviceBinding` (`ver10/analyticsdevice.wsdl`) |
     | **Successor** | `Analytics` Service (`ver20/analytics/wsdl/analytics.wsdl`) |
-    | **Operations** | [analyticsdevice.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/analyticsdevice.wsdl) |
-    | **Specification** | [Video Analytics Device Spec](https://www.onvif.org/specs/srv/analytics/ONVIF-VideoAnalyticsDevice-Service-Spec-v211.pdf) |
+    | **Operations** | [analyticsdevice.wsdl](https://www.onvif.org/ver10/analyticsdevice.wsdl) |
+    | **Spec** | [Video Analytics Device](https://www.onvif.org/specs/srv/analytics/ONVIF-VideoAnalyticsDevice-Service-Spec-v211.pdf) |
     """
+    # pylint: enable=line-too-long
 
     def __init__(self, xaddr=None, **kwargs):
         definition = ONVIFWSDL.get_definition("analyticsdevice")

@@ -8,18 +8,18 @@ This script connects to an ONVIF-compliant device and retrieves
 the media profiles using the Media service.
 """
 
-from onvif import ONVIFClient
+from onvif import ONVIFClient, ONVIFOperationException
 
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
-    client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+    client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
     device = client.media()
 
     # print available media profiles
     print(device.GetProfiles())
-except Exception as e:  # pylint: disable=broad-exception-caught
+except ONVIFOperationException as e:
     print(e)

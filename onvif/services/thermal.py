@@ -5,16 +5,19 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Thermal(ONVIFService):
-    """Thermal service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 16.06 https://www.onvif.org/specs/DocMap-16.06.html -->
+
+    Thermal service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 16.06 (June 2016) |
+    | -------- | ------- |
+    | **First introduced** | ONVIF 16.06 (June 2016) |
     | **Binding name** | `ThermalBinding` (`ver10/thermal/wsdl/thermal.wsdl`) |
-    | **Operations** | [thermal.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/thermal/wsdl/thermal.wsdl) |
-    | **Specification** | [Thermal.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Thermal.xml) |
+    | **Operations** | [thermal.wsdl](https://www.onvif.org/ver10/thermal/wsdl/thermal.wsdl) |
+    | **Spec** | [Thermal](https://www.onvif.org/specs/srv/thermal/ONVIF-Thermal-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

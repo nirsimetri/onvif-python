@@ -10,7 +10,7 @@ from zeep.xsd.elements.any import Any as XsdAny
 from onvif.utils.zeep import ZeepPatcher
 
 
-class ZeepObject:  # pylint: disable=too-few-public-methods
+class ZeepObject:
     """Simple object that mimics a Zeep object."""
 
     def __init__(self, values):
@@ -18,7 +18,7 @@ class ZeepObject:  # pylint: disable=too-few-public-methods
         self.__values__ = values
 
 
-class PlainObject:  # pylint: disable=too-few-public-methods
+class PlainObject:
     """Simple object that only exposes normal object attributes."""
 
     def __init__(self):
@@ -28,7 +28,7 @@ class PlainObject:  # pylint: disable=too-few-public-methods
         self._private = "ignored"
 
 
-class NestedObject:  # pylint: disable=too-few-public-methods
+class NestedObject:
     """Simple object used for nested object conversion tests."""
 
     def __init__(self, value):
@@ -486,7 +486,7 @@ class TestZeepObjectToDict:
     def test_returns_objects_without_supported_attributes(self):
         """Test returning objects that expose neither values nor dict state."""
 
-        class SlotObject:  # pylint: disable=too-few-public-methods
+        class SlotObject:
             """Object without a __dict__."""
 
             __slots__ = ("value",)
@@ -500,7 +500,6 @@ class TestZeepObjectToDict:
         assert ZeepPatcher._zeep_object_to_dict(obj) is obj
 
 
-# pylint: disable=invalid-name
 class TestFlattenXsdAnyFields:
     """Tests for flattening xsd:any fields."""
 
@@ -521,7 +520,7 @@ class TestFlattenXsdAnyFields:
     def test_returns_object_without_dict_unchanged(self):
         """Test that objects without __dict__ are returned unchanged."""
 
-        class SlotObject:  # pylint: disable=too-few-public-methods
+        class SlotObject:
             """Object without a __dict__."""
 
             __slots__ = ()

@@ -91,7 +91,6 @@ class TestCoreIntegration:
         assert plugin.last_operation is None
 
 
-# pylint: disable=too-few-public-methods
 class TestCoreErrorHandling:
     """Test errors crossing core component boundaries."""
 

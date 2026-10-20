@@ -24,6 +24,85 @@ jobs:
           python -m pip install build
           python -m build
 
+      - name: Verify WSDL files are included
+        run: |
+          python - <<'PY'
+          import sys
+          import zipfile
+          from pathlib import Path
+
+          expected = {
+              path.relative_to(".").as_posix()
+              for path in Path("onvif/wsdl").rglob("*.wsdl")
+          }
+
+          wheels = list(Path("dist").glob("*.whl"))
+
+          if not wheels:
+              print("ERROR: No wheel was produced.")
+              sys.exit(1)
+
+          for wheel in wheels:
+              with zipfile.ZipFile(wheel) as archive:
+                  included = set(archive.namelist())
+
+              missing = expected - included
+
+              if missing:
+                  print(f"ERROR: Missing WSDL files in {wheel.name}:")
+                  for path in sorted(missing):
+                      print(f"  - {path}")
+                  sys.exit(1)
+
+              print(
+                  f"{wheel.name}: all {len(expected)} WSDL files are included."
+              )
+
+          print("WSDL package contents verified successfully.")
+          PY
+
+      - name: Verify database files are included
+        run: |
+          python - <<'PY'
+          import sys
+          import zipfile
+          from pathlib import Path
+
+          expected = {
+              path.relative_to(".").as_posix()
+              for path in Path("onvif/db").rglob("*.db")
+          }
+
+          wheels = list(Path("dist").glob("*.whl"))
+
+          if not wheels:
+              print("ERROR: No wheel was produced.")
+              sys.exit(1)
+
+          if not expected:
+              print("ERROR: No database files found in onvif/db.")
+              sys.exit(1)
+
+          for wheel in wheels:
+              with zipfile.ZipFile(wheel) as archive:
+                  included = set(archive.namelist())
+
+              missing = expected - included
+
+              if missing:
+                  print(f"ERROR: Missing database files in {wheel.name}:")
+                  for path in sorted(missing):
+                      print(f"  - {path}")
+                  sys.exit(1)
+
+              print(
+                  f"{wheel.name}: all {len(expected)} "
+                  f"database files are included."
+              )
+
+          print("Database package contents verified successfully.")
+          PY
+
       - name: Upload distributions
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:

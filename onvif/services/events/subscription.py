@@ -5,9 +5,12 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Subscription(ONVIFService):
-    """WS-BaseNotification SubscriptionManager service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 1.0 http://developer.onvif.org/pub/core/onvif_core_ver10.pdf -->
+
+    WS-BaseNotification SubscriptionManager service client.
 
     This interface manages the lifecycle of a notification subscription created through
     the WS-BaseNotification NotificationProducer interface.
@@ -16,9 +19,10 @@ class Subscription(ONVIFService):
     when creating an event or pull point subscription.
 
     | Property | Details |
-    | --- | --- |
-    | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
+    | -------- | ------- |
+    | **See** | ONVIF Core Spec, OASIS WS-BaseNotification Spec |
     | **Binding name** | `SubscriptionManagerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
+    | **Spec** | [Subscription](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.htm#_Toc133735638) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

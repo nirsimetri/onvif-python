@@ -1,4 +1,4 @@
-"""ONVIFDiscovery: Discover ONVIF-compliant devices on the local network using WS-Discovery protocol."""
+"""Discover ONVIF-compliant devices on the local network using WS-Discovery protocol."""
 
 from __future__ import annotations
 
@@ -6,22 +6,31 @@ import logging
 import socket
 import struct
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from typing import Any, ClassVar
 from urllib.parse import urlparse
 
 from lxml import etree
 
-from onvif.cli.utils import ONVIF_NAMESPACE_MAP
 from onvif.client import ONVIFClient
+from onvif.mappings import ONVIF_NAMESPACE_MAP
 from onvif.utils.error_handlers import safe_call
 from onvif.utils.exceptions import ONVIFOperationException
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
+DEFAULT_MAX_WORKERS = 10
+
 
 class ONVIFDiscovery:
-    """Discover ONVIF devices using the WS-Discovery protocol.
+    """
+    <!-- md:version 0.1.6 -->
+    <!-- md:utility Utility class-->
+    <!-- md:example_view device_discovery.py -->
+    <!-- md:example_view device_discovery_raw.py -->
+
+    Discover ONVIF devices using the WS-Discovery protocol.
 
     This class provides methods for discovering ONVIF-compliant devices
     on the local network using WS-Discovery multicast.
@@ -35,7 +44,8 @@ class ONVIFDiscovery:
         interface (str | None): Network interface IP to bind to (default: auto-detect)
 
     !!! tip "Version History"
-        - Available since [`>=v0.1.6`](/onvif-python/releases/#v0.1.6).
+        - Changed in [`v0.4.0`](/releases/#v0.4.0):
+            ~~`WS_DISCOVERY_ADDRESS_IPv4`~~ → `WS_DISCOVERY_ADDRESS_IPV4`
     """
 
     WS_DISCOVERY_PORT: int = 3702
@@ -83,10 +93,14 @@ class ONVIFDiscovery:
         self._local_ip: str | None = None
 
     def get_local_ip(self) -> str:
-        """Get local network interface IP address.
+        """
+        <!-- md:version 0.1.6 -->
+        <!-- md:utility -->
+
+        Get local network interface IP address.
 
         Returns:
-            str: Local IP address
+            Local IP address
         """
         if self._local_ip is not None:
             return self._local_ip
@@ -102,7 +116,7 @@ class ONVIFDiscovery:
             self._local_ip = s.getsockname()[0]
             s.close()
             return self._local_ip
-        except Exception as e:  # pylint: disable=broad-except
+        except OSError as e:
             logger.debug("Failed to get local IP via default route: %s", e)
             # Try alternative method to get local IP
             try:
@@ -112,7 +126,7 @@ class ONVIFDiscovery:
                     self._local_ip = local_ip
                     logger.debug("Got local IP via hostname: %s", local_ip)
                     return self._local_ip
-            except Exception as exc:  # pylint: disable=broad-except
+            except OSError as exc:
                 logger.debug("Failed to get local IP via hostname: %s", exc)
 
             # Return empty string instead of None for socket binding
@@ -121,36 +135,40 @@ class ONVIFDiscovery:
             self._local_ip = ""
             return self._local_ip
 
-    # pylint: disable=too-many-locals
     def discover(
         self, prefer_https: bool = False, search: str | None = None
     ) -> list[dict[str, Any]]:
-        """Discover ONVIF devices on the network.
+        """
+        <!-- md:version 0.1.6 -->
+        <!-- md:utility -->
+
+        Discover ONVIF devices on the network.
 
         Args:
             prefer_https (bool): If True, prioritize HTTPS XAddrs when available
-            search (str | None): Optional search term to filter devices by types or scopes (case-insensitive)
+            search (str | None): Optional search term to filter devices
+                by types or scopes (case-insensitive)
 
         Returns:
-            List of discovered devices (as dict); empty if none are available.
+            List of discovered devices (as dict); empty if none are available
 
         !!! abstract "Device dict"
 
             | Key | Type | Description |
             | --- | ---- | ----------- |
-            | `host` | `str` | Device IP address or hostname. |
-            | `port` | `int` | Device port number. |
-            | `use_https` | `bool` | Whether the device supports HTTPS. |
-            | `epr` | `str` | Endpoint reference. |
-            | `types` | `list[str]` | Device types. |
-            | `scopes` | `list[str]` | Device scopes. |
-            | `xaddrs` | `list[str]` | All available XAddrs. |
-            | `hostname` | `str | None` | Hostname of the device. |
-            | `date_time` | `dict[str, str]` | Device system date and time (`utc` and/or `local`); empty if none are available. |
-            | `services` | `list[str]` | List of supported ONVIF services; empty if none are available. |
+            | `host` | `str` | Device IP address or hostname |
+            | `port` | `int` | Device port number |
+            | `use_https` | `bool` | Whether the device supports HTTPS |
+            | `epr` | `str` | Endpoint reference |
+            | `types` | `list[str]` | Device types |
+            | `scopes` | `list[str]` | Device scopes |
+            | `xaddrs` | `list[str]` | All available XAddrs |
+            | `hostname` | `str | None` | Hostname of the device |
+            | `date_time` | `dict[str, str]` | System date and time (`utc`, `local`); empty if none are available |
+            | `services` | `list[str]` | List of supported ONVIF services; empty if none are available |
 
             !!! tip "Version History"
-                - Added in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `hostname`, `date_time`, and `services`.
+                - Added in [`v0.4.0`](/releases/#v0.4.0): `hostname`, `date_time`, and `services`
         """
         local_ip = self.get_local_ip()
         logger.info("Starting ONVIF device discovery (timeout: %ss)", self.timeout)
@@ -205,7 +223,7 @@ class ONVIFDiscovery:
                 except socket.timeout:
                     logger.debug("Discovery timeout reached")
                     break
-                except Exception as exc:  # pylint: disable=broad-except
+                except (OSError, UnicodeError) as exc:
                     # Ignore individual packet errors and continue
                     logger.debug(
                         "Error receiving packet: %s",
@@ -215,7 +233,7 @@ class ONVIFDiscovery:
 
             sock.close()
 
-        except Exception as exc:  # pylint: disable=broad-except
+        except OSError as exc:
             # Socket creation or binding failed
             logger.error("Discovery failed: %s", exc)
             return []
@@ -242,132 +260,6 @@ class ONVIFDiscovery:
         logger.info("Discovery completed: found %s ONVIF devices", len(devices))
         return devices
 
-    def _process_device(
-        self, discovered_devices: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
-        """Enrich discovered devices with unauthenticated device information.
-
-        Connects to each discovered device without authentication and attempts to
-        retrieve information that is available without credentials, including the
-        device hostname, system date and time, and supported ONVIF services.
-
-        Devices for which an ONVIF operation fails are skipped and do not prevent
-        the remaining discovered devices from being processed.
-
-        Args:
-            discovered_devices: List of device dictionaries returned by the
-                discovery process. Each device must contain at least the host and
-                port required to establish an ONVIF connection.
-
-        Returns:
-            The list of discovered devices enriched with hostname, date/time, and
-            service information where available.
-        """
-        logger.debug(
-            "Processing information from %s discovered devices",
-            len(discovered_devices),
-        )
-
-        for device in discovered_devices:
-            device["hostname"] = None
-            device["date_time"] = {}
-            device["services"] = []
-
-            try:
-                # connect to device as PRE_AUTH (no auth at all)
-                client = ONVIFClient(host=device["host"], port=device["port"])
-                device_service = client.devicemgmt()  # should not fail !
-            except ONVIFOperationException as e:
-                logger.warning(
-                    "Failed to process discovered device %s:%s: %s",
-                    device["host"],
-                    device["port"],
-                    e,
-                )
-                continue
-
-            try:
-                device_hostname = safe_call(device_service.GetHostname)
-                if device_hostname:
-                    device["hostname"] = device_hostname.Name
-            except (KeyError, ONVIFOperationException):
-                pass
-
-            try:
-                device_date_time = safe_call(device_service.GetSystemDateAndTime)
-
-                if device_date_time:
-                    utc = device_date_time.UTCDateTime
-                    local = device_date_time.LocalDateTime
-
-                    device["date_time"]["utc"] = (
-                        (
-                            f"{utc.Date.Year:04d}-{utc.Date.Month:02d}-{utc.Date.Day:02d}"
-                            f"T{utc.Time.Hour:02d}:{utc.Time.Minute:02d}:{utc.Time.Second:02d}"
-                        )
-                        if utc
-                        else None
-                    )
-
-                    device["date_time"]["local"] = (
-                        (
-                            f"{local.Date.Year:04d}-{local.Date.Month:02d}-{local.Date.Day:02d}"
-                            f"T{local.Time.Hour:02d}:{local.Time.Minute:02d}:{local.Time.Second:02d}"
-                        )
-                        if local
-                        else None
-                    )
-            except (KeyError, ONVIFOperationException):
-                pass
-
-            try:
-                if client.services:
-                    for service in client.services:
-                        namespace = getattr(service, "Namespace", "")
-                        service_mappings = ONVIF_NAMESPACE_MAP.get(namespace, [])
-
-                        if not service_mappings:
-                            # Unknown namespace
-                            device["services"].append(f"unknown({namespace})")
-                        else:
-                            # Add the main service entry (first service in mappings)
-                            device["services"].append(service_mappings[0][0])
-            except (KeyError, ONVIFOperationException):
-                pass
-
-        return discovered_devices
-
-    def _parse_responses(
-        self, responses: list[dict[str, str]], prefer_https: bool = False
-    ) -> list[dict[str, Any]]:
-        """Parse WS-Discovery responses into device information.
-
-        Args:
-            responses (list[dict[str, str]]): List of raw XML responses
-            prefer_https (bool): If True, prioritize HTTPS XAddrs
-
-        Returns:
-            List of parsed device information
-        """
-        logger.debug("Parsing %s WS-Discovery responses", len(responses))
-        devices = []
-
-        for resp in responses:
-            try:
-                device_info = self._parse_single_response(resp["xml"], prefer_https)
-                if device_info and device_info.get("host"):
-                    devices.append(device_info)
-                    logger.debug(
-                        "Parsed device: %s:%s", device_info["host"], device_info["port"]
-                    )
-            except (KeyError, TypeError, ValueError) as e:
-                # Skip malformed responses
-                logger.debug("Failed to parse response: %s", e)
-                continue
-
-        logger.debug("Successfully parsed %s valid devices", len(devices))
-        return devices
-
     def _filter_devices(
         self, devices: list[dict[str, Any]], search_term: str
     ) -> list[dict[str, Any]]:
@@ -375,7 +267,8 @@ class ONVIFDiscovery:
 
         Args:
             devices (list[dict[str, Any]]): List of discovered devices
-            search_term (str): Search string to match against types/scopes (case-insensitive)
+            search_term (str): Search string to match against types/scopes
+                (case-insensitive)
 
         Returns:
             Filtered list of devices matching the search term
@@ -402,6 +295,126 @@ class ONVIFDiscovery:
                 filtered.append(device)
 
         return filtered
+
+    def _process_single_device(self, device: dict[str, Any]) -> dict[str, Any]:
+        """Enrich a single discovered device with unauthenticated information.
+
+        Connects to the discovered device without authentication and attempts to
+        retrieve information that is available without credentials, including the
+        device hostname, system date and time, and supported ONVIF services.
+
+        Args:
+            device: Device dictionary containing at least the host and port required
+                to establish an ONVIF connection.
+
+        Returns:
+            The discovered device enriched with hostname, date/time, and service
+                information where available.
+        """
+        device["hostname"] = None
+        device["date_time"] = {}
+        device["services"] = []
+
+        try:
+            # connect to device as PRE_AUTH (no auth at all)
+            client = ONVIFClient(host=device["host"], port=device["port"])
+            device_service = client.devicemgmt()  # should not fail !
+        except ONVIFOperationException as e:
+            logger.warning(
+                "Failed to process discovered device %s:%s: %s",
+                device["host"],
+                device["port"],
+                e,
+            )
+            return device
+
+        try:
+            device_hostname = safe_call(device_service.GetHostname)
+            if device_hostname:
+                device["hostname"] = device_hostname.Name
+        except (KeyError, ONVIFOperationException):
+            pass
+
+        try:
+            device_date_time = safe_call(device_service.GetSystemDateAndTime)
+
+            if device_date_time:
+                utc = device_date_time.UTCDateTime
+                local = device_date_time.LocalDateTime
+
+                device["date_time"]["utc"] = (
+                    (
+                        f"{utc.Date.Year:04d}-{utc.Date.Month:02d}-{utc.Date.Day:02d}"
+                        f"T{utc.Time.Hour:02d}:{utc.Time.Minute:02d}:{utc.Time.Second:02d}"
+                    )
+                    if utc
+                    else None
+                )
+
+                device["date_time"]["local"] = (
+                    (
+                        f"{local.Date.Year:04d}-{local.Date.Month:02d}-{local.Date.Day:02d}"
+                        f"T{local.Time.Hour:02d}:{local.Time.Minute:02d}:{local.Time.Second:02d}"
+                    )
+                    if local
+                    else None
+                )
+        except (KeyError, ONVIFOperationException):
+            pass
+
+        try:
+            if client.services:
+                for service in client.services:
+                    namespace = getattr(service, "Namespace", "")
+                    service_mappings: tuple[tuple[str, str], ...] = (
+                        ONVIF_NAMESPACE_MAP.get(namespace, ())
+                    )
+
+                    if not service_mappings:
+                        # Unknown namespace
+                        device["services"].append(f"unknown({namespace})")
+                    else:
+                        # Add the main service entry (first service in mappings)
+                        device["services"].append(service_mappings[0][0])
+        except (KeyError, ONVIFOperationException):
+            pass
+
+        return device
+
+    def _process_device(
+        self, discovered_devices: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        """Enrich discovered devices with unauthenticated device information.
+
+        Connects to each discovered device without authentication and processes
+        devices concurrently using a thread pool. Information that is available
+        without credentials includes the device hostname, system date and time,
+        and supported ONVIF services.
+
+        Devices for which an ONVIF operation fails are skipped and do not prevent
+        the remaining discovered devices from being processed.
+
+        Args:
+            discovered_devices: List of device dictionaries returned by the
+                discovery process. Each device must contain at least the host and
+                port required to establish an ONVIF connection.
+
+        Returns:
+            The list of discovered devices enriched with hostname, date/time, and
+                service information where available.
+        """
+        logger.debug(
+            "Processing information from %s discovered devices",
+            len(discovered_devices),
+        )
+
+        if not discovered_devices:
+            return discovered_devices
+
+        max_workers = min(len(discovered_devices), DEFAULT_MAX_WORKERS)
+
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            return list(executor.map(self._process_single_device, discovered_devices))
 
     def _parse_single_response(
         self, xml_data: str, prefer_https: bool = False
@@ -474,11 +487,43 @@ class ONVIFDiscovery:
 
             return device_info
 
-        except etree.XMLSyntaxError:
+        except etree.XMLSyntaxError as e1:
+            logger.warning("Error occurred while parsing device info: %s", e1)
             return None
-        except Exception as e:  # pylint: disable=broad-except
-            logger.warning("Error occurred while parsing device info: %s", e)
+        except (TypeError, ValueError, AttributeError) as e2:
+            logger.warning("Error occurred while parsing device info: %s", e2)
             return None
+
+    def _parse_responses(
+        self, responses: list[dict[str, str]], prefer_https: bool = False
+    ) -> list[dict[str, Any]]:
+        """Parse WS-Discovery responses into device information.
+
+        Args:
+            responses (list[dict[str, str]]): List of raw XML responses
+            prefer_https (bool): If True, prioritize HTTPS XAddrs
+
+        Returns:
+            List of parsed device information
+        """
+        logger.debug("Parsing %s WS-Discovery responses", len(responses))
+        devices = []
+
+        for resp in responses:
+            try:
+                device_info = self._parse_single_response(resp["xml"], prefer_https)
+                if device_info and device_info.get("host"):
+                    devices.append(device_info)
+                    logger.debug(
+                        "Parsed device: %s:%s", device_info["host"], device_info["port"]
+                    )
+            except (KeyError, TypeError, ValueError) as e:
+                # Skip malformed responses
+                logger.debug("Failed to parse response: %s", e)
+                continue
+
+        logger.debug("Successfully parsed %s valid devices", len(devices))
+        return devices
 
     def _parse_xaddr(
         self, device_info: dict[str, Any], prefer_https: bool = False

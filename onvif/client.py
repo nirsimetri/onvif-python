@@ -1,4 +1,5 @@
-"""ONVIFClient: High-level ONVIF client for interacting with ONVIF-compliant devices."""
+# pylint: disable=too-many-lines
+"""High-level ONVIF client for interacting with ONVIF-compliant devices."""
 
 from __future__ import annotations
 
@@ -72,7 +73,7 @@ def service(func: Callable[P, R]) -> Callable[P, R]:
     ONVIF client service accessors.
 
     Args:
-        func: Service accessor method to wrap.
+        func (Callable): Service accessor method to wrap.
 
     Returns:
         Wrapped service accessor method.
@@ -103,26 +104,33 @@ def service(func: Callable[P, R]) -> Callable[P, R]:
     return wrapper
 
 
-# pylint: disable=too-many-instance-attributes,too-many-locals
-# pylint: disable=too-many-public-methods,too-many-statements
 class ONVIFClient:
-    """High-level ONVIF client for interacting with ONVIF-compliant devices.
+    """
+    <!-- md:version 0.0.1 -->
+
+    High-level ONVIF client for interacting with ONVIF-compliant devices.
 
     This is the main class for interacting with ONVIF devices. It provides access to
     all ONVIF services including Device Management, Media, PTZ, Events, Analytics, and more.
 
-    The client automatically discovers available services on the device using `GetServices`
-    or `GetCapabilities`, and provides lazy initialization for service endpoints.
+    The client automatically discovers available services on the device using
+    [`GetServices`](../services/device.md#onvif.services.devicemgmt.Device.GetServices) or
+    [`GetCapabilities`](../services/device.md#onvif.services.devicemgmt.Device.GetCapabilities),
+    and provides lazy initialization for service endpoints.
 
     Attributes:
-        services (list): List of available services from `GetServices` response
-        capabilities (CompoundValue): Device capabilities from `GetCapabilities` response (fallback)
-        xml_plugin (XMLCapturePlugin): XML capture plugin for debugging (if `capture_xml=True`)
-        plugins (list[Plugin] | None): List of user-provided Zeep plugins (if any)
+        services (list | None): List of available services from `GetServices` response
+        capabilities (CompoundValue | None): Device capabilities from `GetCapabilities`
+            response (fallback)
+        xml_plugin (XMLCapturePlugin | None): XML capture plugin for debugging
+            (if `capture_xml=True`)
         wsdl_dir (str | None): Custom WSDL directory path (if provided)
+        plugins (list[Plugin] | None): List of user-provided Zeep plugins (if any)
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
+        - Added in [`v0.0.6`](/releases/#v0.0.6): `xml_plugin`
+        - Added in [`v0.1.0`](/releases/#v0.1.0): `wsdl_dir`
+        - Added in [`v0.4.3`](/releases/#v0.4.3): `plugins`
     """
 
     def __init__(
@@ -156,15 +164,16 @@ class ONVIFClient:
             apply_patch (bool): Whether to apply ``xsd:any`` flattening patch
             capture_xml (bool): Whether to use XML capture plugin for debugging SOAP requests/responses
             wsdl_dir (str | None): Custom WSDL directory path for using external WSDL files instead of built-in ones
-            plugins (list[Plugin] | None): List of user-provided Zeep plugins (zeep.plugins)
+            plugins (list[Plugin] | None): List of user-provided Zeep plugins (`zeep.Plugin`)
 
         !!! tip "Version History"
-            - Added in [`>=v0.0.4`](/onvif-python/releases/#v0.0.4): `apply_patch`
-            - Added in [`>=v0.0.6`](/onvif-python/releases/#v0.0.6): `capture_xml`
-            - Added in [`>=v0.1.0`](/onvif-python/releases/#v0.1.0): `wsdl_dir`
-            - Added in [`>=v0.2.2`](/onvif-python/releases/#v0.2.2): `plugins`
-            - Added in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `http_digest`
-            - Changed in [`>=v0.3.0`](/onvif-python/releases/#v0.3.0): `username` → `str | None`, `password` → `str | None`
+            - Added in [`v0.0.4`](/releases/#v0.0.4): `apply_patch`
+            - Added in [`v0.0.6`](/releases/#v0.0.6): `capture_xml`
+            - Added in [`v0.1.0`](/releases/#v0.1.0): `wsdl_dir`
+            - Added in [`v0.2.2`](/releases/#v0.2.2): `plugins`
+            - Added in [`v0.3.0`](/releases/#v0.3.0): `http_digest`
+            - Changed in [`v0.3.0`](/releases/#v0.3.0): `username` → `str | None`,
+                `password` → `str | None`
         """
         logger.info("Initializing ONVIF client for %s:%d", host, port)
         logger.debug(
@@ -482,7 +491,11 @@ class ONVIFClient:
 
     @service
     def devicemgmt(self) -> Device:
-        """Access the Device Management service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Device Management service."""
         if self._devicemgmt is None:
             logger.debug("Initializing Device Management service")
             self._devicemgmt = Device(**self.common_args)
@@ -550,7 +563,11 @@ class ONVIFClient:
 
     @service
     def events(self) -> Events:
-        """Access the Events service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Events service."""
         if self._events is None:
             logger.debug("Initializing Events service")
             self._events = Events(
@@ -559,8 +576,12 @@ class ONVIFClient:
         return self._events
 
     @service
-    def pullpoint(self, SubscriptionRef) -> PullPoint:  # pylint: disable=invalid-name
-        """Access the PullPoint service."""
+    def pullpoint(self, SubscriptionRef) -> PullPoint:
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the PullPoint service."""
         logger.debug("Initializing PullPoint service")
         return self._get_subscription_service(
             SubscriptionRef,
@@ -570,7 +591,11 @@ class ONVIFClient:
 
     @service
     def notification(self) -> Notification:
-        """Access the Notification service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Notification service."""
         if self._notification is None:
             logger.debug("Initializing Notification service")
             self._notification = Notification(
@@ -579,10 +604,12 @@ class ONVIFClient:
         return self._notification
 
     @service
-    def subscription(
-        self, SubscriptionRef  # pylint: disable=invalid-name
-    ) -> Subscription:
-        """Access the Subscription service."""
+    def subscription(self, SubscriptionRef) -> Subscription:
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Subscription service."""
         logger.debug("Initializing Subscription service")
         return self._get_subscription_service(
             SubscriptionRef,
@@ -591,10 +618,13 @@ class ONVIFClient:
         )
 
     @service
-    def pausable_subscription(
-        self, SubscriptionRef  # pylint: disable=invalid-name
-    ) -> PausableSubscription:
-        """Access the PausableSubscription service."""
+    def pausable_subscription(self, SubscriptionRef) -> PausableSubscription:
+        """
+        <!-- md:version 0.2.4 -->
+        <!-- md:entry_point -->
+
+        Access the PausableSubscription service.
+        """
         logger.debug("Initializing PausableSubscription service")
         return self._get_subscription_service(
             SubscriptionRef,
@@ -606,7 +636,11 @@ class ONVIFClient:
 
     @service
     def imaging(self) -> Imaging:
-        """Access the Imaging service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Imaging service."""
         if self._imaging is None:
             logger.debug("Initializing Imaging service")
             self._imaging = Imaging(
@@ -618,7 +652,11 @@ class ONVIFClient:
 
     @service
     def media(self) -> Media:
-        """Access the Media service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Media service."""
         if self._media is None:
             logger.debug("Initializing Media service")
             self._media = Media(
@@ -628,7 +666,11 @@ class ONVIFClient:
 
     @service
     def media2(self) -> Media2:
-        """Access the Media2 service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Media2 service."""
         if self._media2 is None:
             logger.debug("Initializing Media2 service")
             self._media2 = Media2(
@@ -640,7 +682,11 @@ class ONVIFClient:
 
     @service
     def ptz(self) -> PTZ:
-        """Access the PTZ service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the PTZ service."""
         if self._ptz is None:
             logger.debug("Initializing PTZ service")
             self._ptz = PTZ(xaddr=self._get_xaddr("ptz", "PTZ"), **self.common_args)
@@ -650,7 +696,11 @@ class ONVIFClient:
 
     @service
     def deviceio(self) -> DeviceIO:
-        """Access the DeviceIO service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the DeviceIO service."""
         if self._deviceio is None:
             logger.debug("Initializing DeviceIO service")
             self._deviceio = DeviceIO(
@@ -662,7 +712,11 @@ class ONVIFClient:
 
     @service
     def display(self) -> Display:
-        """Access the Display service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Display service."""
         if self._display is None:
             logger.debug("Initializing Display service")
             self._display = Display(
@@ -674,7 +728,11 @@ class ONVIFClient:
 
     @service
     def analytics(self) -> Analytics:
-        """Access the Analytics service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Analytics service."""
         if self._analytics is None:
             logger.debug("Initializing Analytics service")
             self._analytics = Analytics(
@@ -684,7 +742,11 @@ class ONVIFClient:
 
     @service
     def ruleengine(self) -> RuleEngine:
-        """Access the RuleEngine service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the RuleEngine service."""
         if self._ruleengine is None:
             logger.debug("Initializing RuleEngine service")
             self._ruleengine = RuleEngine(
@@ -694,7 +756,11 @@ class ONVIFClient:
 
     @service
     def analyticsdevice(self) -> AnalyticsDevice:
-        """Access the AnalyticsDevice service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the AnalyticsDevice service."""
         if self._analyticsdevice is None:
             logger.debug("Initializing AnalyticsDevice service")
             self._analyticsdevice = AnalyticsDevice(
@@ -707,7 +773,11 @@ class ONVIFClient:
 
     @service
     def accesscontrol(self) -> AccessControl:
-        """Access the AccessControl service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the AccessControl service."""
         if self._accesscontrol is None:
             logger.debug("Initializing AccessControl service")
             self._accesscontrol = AccessControl(
@@ -718,7 +788,11 @@ class ONVIFClient:
 
     @service
     def doorcontrol(self) -> DoorControl:
-        """Access the DoorControl service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the DoorControl service."""
         if self._doorcontrol is None:
             logger.debug("Initializing DoorControl service")
             self._doorcontrol = DoorControl(
@@ -730,7 +804,11 @@ class ONVIFClient:
 
     @service
     def accessrules(self) -> AccessRules:
-        """Access the AccessRules service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the AccessRules service."""
         if self._accessrules is None:
             logger.debug("Initializing AccessRules service")
             self._accessrules = AccessRules(
@@ -742,7 +820,11 @@ class ONVIFClient:
 
     @service
     def actionengine(self) -> ActionEngine:
-        """Access the ActionEngine service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the ActionEngine service."""
         if self._actionengine is None:
             logger.debug("Initializing ActionEngine service")
             self._actionengine = ActionEngine(
@@ -755,7 +837,11 @@ class ONVIFClient:
 
     @service
     def appmanagement(self) -> AppManagement:
-        """Access the AppManagement service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the AppManagement service."""
         if self._appmanagement is None:
             logger.debug("Initializing AppManagement service")
             self._appmanagement = AppManagement(
@@ -768,7 +854,11 @@ class ONVIFClient:
 
     @service
     def authenticationbehavior(self) -> AuthenticationBehavior:
-        """Access the AuthenticationBehavior service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the AuthenticationBehavior service."""
         if self._authenticationbehavior is None:
             logger.debug("Initializing AuthenticationBehavior service")
             self._authenticationbehavior = AuthenticationBehavior(
@@ -783,7 +873,11 @@ class ONVIFClient:
 
     @service
     def credential(self) -> Credential:
-        """Access the Credential service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Credential service."""
         if self._credential is None:
             logger.debug("Initializing Credential service")
             self._credential = Credential(
@@ -796,7 +890,11 @@ class ONVIFClient:
 
     @service
     def recording(self) -> Recording:
-        """Access the Recording service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Recording service."""
         if self._recording is None:
             logger.debug("Initializing Recording service")
             self._recording = Recording(
@@ -809,7 +907,11 @@ class ONVIFClient:
 
     @service
     def replay(self) -> Replay:
-        """Access the Replay service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Replay service."""
         if self._replay is None:
             logger.debug("Initializing Replay service")
             self._replay = Replay(
@@ -822,7 +924,11 @@ class ONVIFClient:
 
     @service
     def provisioning(self) -> Provisioning:
-        """Access the Provisioning service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Provisioning service."""
         if self._provisioning is None:
             logger.debug("Initializing Provisioning service")
             self._provisioning = Provisioning(
@@ -835,7 +941,11 @@ class ONVIFClient:
 
     @service
     def receiver(self) -> Receiver:
-        """Access the Receiver service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Receiver service."""
         if self._receiver is None:
             logger.debug("Initializing Receiver service")
             self._receiver = Receiver(
@@ -848,7 +958,11 @@ class ONVIFClient:
 
     @service
     def schedule(self) -> Schedule:
-        """Access the Schedule service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Schedule service."""
         if self._schedule is None:
             logger.debug("Initializing Schedule service")
             self._schedule = Schedule(
@@ -861,7 +975,11 @@ class ONVIFClient:
 
     @service
     def search(self) -> Search:
-        """Access the Search service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Search service."""
         if self._search is None:
             logger.debug("Initializing Search service")
             self._search = Search(
@@ -874,7 +992,11 @@ class ONVIFClient:
 
     @service
     def thermal(self) -> Thermal:
-        """Access the Thermal service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Thermal service."""
         if self._thermal is None:
             logger.debug("Initializing Thermal service")
             self._thermal = Thermal(
@@ -887,7 +1009,11 @@ class ONVIFClient:
 
     @service
     def uplink(self) -> Uplink:
-        """Access the Uplink service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Uplink service."""
         if self._uplink is None:
             logger.debug("Initializing Uplink service")
             self._uplink = Uplink(
@@ -900,7 +1026,11 @@ class ONVIFClient:
 
     @service
     def security(self) -> AdvancedSecurity:
-        """Access the AdvancedSecurity service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the AdvancedSecurity service."""
         if self._security is None:
             logger.debug("Initializing Security service")
             self._security = AdvancedSecurity(
@@ -911,7 +1041,11 @@ class ONVIFClient:
 
     @service
     def jwt(self) -> JWT:
-        """Access the JWT service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the JWT service."""
         if self._jwt is None:
             logger.debug("Initializing JWT service")
             self._jwt = JWT(
@@ -921,7 +1055,11 @@ class ONVIFClient:
 
     @service
     def keystore(self) -> Keystore:
-        """Access the Keystore service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Keystore service."""
         if self._keystore is None:
             logger.debug("Initializing Keystore service")
             self._keystore = Keystore(
@@ -931,7 +1069,11 @@ class ONVIFClient:
 
     @service
     def tlsserver(self) -> TLSServer:
-        """Access the TLSServer service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the TLSServer service."""
         if self._tlsserver is None:
             logger.debug("Initializing TLSServer service")
             self._tlsserver = TLSServer(
@@ -941,7 +1083,11 @@ class ONVIFClient:
 
     @service
     def dot1x(self) -> Dot1X:
-        """Access the Dot1X service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the Dot1X service."""
         if self._dot1x is None:
             logger.debug("Initializing Dot1X service")
             self._dot1x = Dot1X(
@@ -951,7 +1097,11 @@ class ONVIFClient:
 
     @service
     def authorizationserver(self) -> AuthorizationServer:
-        """Access the AuthorizationServer service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the AuthorizationServer service."""
         if self._authorizationserver is None:
             logger.debug("Initializing AuthorizationServer service")
             self._authorizationserver = AuthorizationServer(
@@ -962,7 +1112,11 @@ class ONVIFClient:
 
     @service
     def mediasigning(self) -> MediaSigning:
-        """Access the MediaSigning service."""
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:entry_point -->
+
+        Access the MediaSigning service."""
         if self._mediasigning is None:
             logger.debug("Initializing MediaSigning service")
             self._mediasigning = MediaSigning(

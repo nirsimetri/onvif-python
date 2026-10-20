@@ -1,0 +1,853 @@
+{
+  "source": "ver10/provisioning/wsdl/provisioning.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/provisioning/wsdl",
+  "operations": [
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "ProvisioningService",
+      "description": "Returns the capabilities of the provisioning service.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/provisioning/wsdl}Capabilities",
+                    "type_name": "Capabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Capabilities",
+                      "description": "The capabilities of Provisioning Service on the device.",
+                      "fields": [
+                        {
+                          "name": "DefaultTimeout",
+                          "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                          "type_name": "duration",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Maximum time before stopping movement after a move operation."
+                        },
+                        {
+                          "name": "Source",
+                          "type": "{http://www.onvif.org/ver10/provisioning/wsdl}SourceCapabilities",
+                          "type_name": "SourceCapabilities",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SourceCapabilities",
+                            "description": "The provisioning capabilities of a video source on the device.",
+                            "fields": [],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "VideoSourceToken",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "description": "Unique identifier of a video source."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "MaximumPanMoves",
+                                "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                                "description": "Lifetime limit of pan moves for this video source.  Presence of this attribute indicates support of pan move."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "MaximumTiltMoves",
+                                "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                                "description": "Lifetime limit of tilt moves for this video source.  Presence of this attribute indicates support of tilt move."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "MaximumZoomMoves",
+                                "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                                "description": "Lifetime limit of zoom moves for this video source.  Presence of this attribute indicates support of zoom move."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "MaximumRollMoves",
+                                "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                                "description": "Lifetime limit of roll moves for this video source.  Presence of this attribute indicates support of roll move."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "AutoLevel",
+                                "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                                "description": "Indicates \"auto\" as a valid enum for Direction in RollMove."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "MaximumFocusMoves",
+                                "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                                "description": "Lifetime limit of focus moves for this video source.  Presence of this attribute indicates support of focus move."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "AutoFocus",
+                                "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                                "description": "Indicates \"auto\" as a valid enum for Direction in FocusMove."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "Capabilities per video source."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capabilities for the provisioning service on this device."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ProvisioningBinding"
+    },
+    {
+      "name": "PanMove",
+      "port_type": "ProvisioningService",
+      "description": "Moves device on the pan axis.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}PanMoveRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}PanMove",
+            "schema": {
+              "name": "PanMove",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSource",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The video source associated with the provisioning."
+                  },
+                  {
+                    "name": "Direction",
+                    "type": "{http://www.onvif.org/ver10/provisioning/wsdl}PanDirection",
+                    "type_name": "PanDirection",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "PanDirection",
+                      "description": "The direction for PanMove to move the device.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "enumeration": [
+                        {
+                          "value": "Left",
+                          "description": "Move left in relation to the video source image."
+                        },
+                        {
+                          "value": "Right",
+                          "description": "Move right in relation to the video source image."
+                        }
+                      ]
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"left\" or \"right\"."
+                  },
+                  {
+                    "name": "Timeout",
+                    "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                    "type_name": "duration",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"Operation timeout, if less than default timeout."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}PanMoveResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}PanMoveResponse",
+            "schema": {
+              "name": "PanMoveResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ProvisioningBinding"
+    },
+    {
+      "name": "TiltMove",
+      "port_type": "ProvisioningService",
+      "description": "Moves device on the tilt axis.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}TiltMoveRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}TiltMove",
+            "schema": {
+              "name": "TiltMove",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSource",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The video source associated with the provisioning."
+                  },
+                  {
+                    "name": "Direction",
+                    "type": "{http://www.onvif.org/ver10/provisioning/wsdl}TiltDirection",
+                    "type_name": "TiltDirection",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "TiltDirection",
+                      "description": "The direction for TiltMove to move the device.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "enumeration": [
+                        {
+                          "value": "Up",
+                          "description": "Move up in relation to the video source image."
+                        },
+                        {
+                          "value": "Down",
+                          "description": "Move down in relation to the video source image."
+                        }
+                      ]
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"up\" or \"down\"."
+                  },
+                  {
+                    "name": "Timeout",
+                    "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                    "type_name": "duration",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"Operation timeout, if less than default timeout."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}TiltMoveResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}TiltMoveResponse",
+            "schema": {
+              "name": "TiltMoveResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ProvisioningBinding"
+    },
+    {
+      "name": "ZoomMove",
+      "port_type": "ProvisioningService",
+      "description": "Moves device on the zoom axis.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}ZoomMoveRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}ZoomMove",
+            "schema": {
+              "name": "ZoomMove",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSource",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The video source associated with the provisioning."
+                  },
+                  {
+                    "name": "Direction",
+                    "type": "{http://www.onvif.org/ver10/provisioning/wsdl}ZoomDirection",
+                    "type_name": "ZoomDirection",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ZoomDirection",
+                      "description": "The direction for ZoomMove to change the focal length in relation to the video source.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "enumeration": [
+                        {
+                          "value": "Wide",
+                          "description": "Move video source lens toward a wider field of view."
+                        },
+                        {
+                          "value": "Telephoto",
+                          "description": "Move video source lens toward a narrower field of view."
+                        }
+                      ]
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"wide\" or \"telephoto\"."
+                  },
+                  {
+                    "name": "Timeout",
+                    "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                    "type_name": "duration",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"Operation timeout, if less than default timeout."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}ZoomMoveResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}ZoomMoveResponse",
+            "schema": {
+              "name": "ZoomMoveResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ProvisioningBinding"
+    },
+    {
+      "name": "RollMove",
+      "port_type": "ProvisioningService",
+      "description": "Moves device on the roll axis.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}RollMoveRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}RollMove",
+            "schema": {
+              "name": "RollMove",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSource",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The video source associated with the provisioning."
+                  },
+                  {
+                    "name": "Direction",
+                    "type": "{http://www.onvif.org/ver10/provisioning/wsdl}RollDirection",
+                    "type_name": "RollDirection",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "RollDirection",
+                      "description": "The direction for RollMove to move the device.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "enumeration": [
+                        {
+                          "value": "Clockwise",
+                          "description": "Move clockwise in relation to the video source image."
+                        },
+                        {
+                          "value": "Counterclockwise",
+                          "description": "Move counterclockwise in relation to the video source image."
+                        },
+                        {
+                          "value": "Auto",
+                          "description": "Automatically level the device in relation to the video source image."
+                        }
+                      ]
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"clockwise\", \"counterclockwise\", or \"auto\"."
+                  },
+                  {
+                    "name": "Timeout",
+                    "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                    "type_name": "duration",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"Operation timeout, if less than default timeout."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}RollMoveResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}RollMoveResponse",
+            "schema": {
+              "name": "RollMoveResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ProvisioningBinding"
+    },
+    {
+      "name": "FocusMove",
+      "port_type": "ProvisioningService",
+      "description": "Moves device on the focus axis.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}FocusMoveRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}FocusMove",
+            "schema": {
+              "name": "FocusMove",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSource",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The video source associated with the provisioning."
+                  },
+                  {
+                    "name": "Direction",
+                    "type": "{http://www.onvif.org/ver10/provisioning/wsdl}FocusDirection",
+                    "type_name": "FocusDirection",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "FocusDirection",
+                      "description": "The direction for FocusMove to move the focal plane in relation to the video source.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "enumeration": [
+                        {
+                          "value": "Near",
+                          "description": "Move to focus on close objects."
+                        },
+                        {
+                          "value": "Far",
+                          "description": "Move to focus on distant objects."
+                        },
+                        {
+                          "value": "Auto",
+                          "description": "Automatically focus for the sharpest video source image."
+                        }
+                      ]
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"near\", \"far\", or \"auto\"."
+                  },
+                  {
+                    "name": "Timeout",
+                    "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                    "type_name": "duration",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "\"Operation timeout, if less than default timeout."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}FocusMoveResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}FocusMoveResponse",
+            "schema": {
+              "name": "FocusMoveResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ProvisioningBinding"
+    },
+    {
+      "name": "Stop",
+      "port_type": "ProvisioningService",
+      "description": "Stops device motion on all axes.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}StopRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}Stop",
+            "schema": {
+              "name": "Stop",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSource",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The video source associated with the provisioning."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}StopResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}StopResponse",
+            "schema": {
+              "name": "StopResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ProvisioningBinding"
+    },
+    {
+      "name": "GetUsage",
+      "port_type": "ProvisioningService",
+      "description": "Returns the lifetime move counts.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}GetUsageRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}GetUsage",
+            "schema": {
+              "name": "GetUsage",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSource",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The video source associated with the provisioning."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/provisioning/wsdl}GetUsageResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/provisioning/wsdl}GetUsageResponse",
+            "schema": {
+              "name": "GetUsageResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Usage",
+                    "type": "{http://www.onvif.org/ver10/provisioning/wsdl}Usage",
+                    "type_name": "Usage",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Usage",
+                      "description": "The quantity of movement events that have occured over the lifetime of the device.",
+                      "fields": [
+                        {
+                          "name": "Pan",
+                          "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                          "type_name": "positiveInteger",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The quantity of pan movement events over the life of the device."
+                        },
+                        {
+                          "name": "Tilt",
+                          "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                          "type_name": "positiveInteger",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The quantity of tilt movement events over the life of the device."
+                        },
+                        {
+                          "name": "Zoom",
+                          "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                          "type_name": "positiveInteger",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The quantity of zoom movement events over the life of the device."
+                        },
+                        {
+                          "name": "Roll",
+                          "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                          "type_name": "positiveInteger",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The quantity of roll movement events over the life of the device."
+                        },
+                        {
+                          "name": "Focus",
+                          "type": "{http://www.w3.org/2001/XMLSchema}positiveInteger",
+                          "type_name": "positiveInteger",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The quantity of focus movement events over the life of the device."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The set of lifetime usage values for the provisioning associated with the video source."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ProvisioningBinding"
+    }
+  ]
+}

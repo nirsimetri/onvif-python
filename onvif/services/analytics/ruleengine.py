@@ -5,16 +5,19 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class RuleEngine(ONVIFService):
-    """Analytics (RuleEngine) service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.4 https://www.onvif.org/specs/DocMap-2.4.html -->
+
+    Analytics (RuleEngine) service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.41 (December 2013) |
+    | -------- | ------- |
+    | **First introduced** | ONVIF 2.4 (August 2013) |
     | **Binding name** | `RuleEngineBinding` (`ver20/analytics/wsdl/analytics.wsdl`) |
-    | **Operations** | [analytics.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver20/analytics/wsdl/analytics.wsdl) |
-    | **Specification** | [Analytics.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Analytics.xml) |
+    | **Operations** | [analytics.wsdl](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl) |
+    | **Spec** | [Analytics](https://www.onvif.org/specs/srv/analytics/ONVIF-Analytics-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

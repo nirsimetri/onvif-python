@@ -1,0 +1,3280 @@
+{
+  "source": "ver10/schedule/wsdl/schedule.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/schedule/wsdl",
+  "operations": [
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "SchedulePort",
+      "description": "This operation returns the capabilities of the schedule service.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}ServiceCapabilities",
+                    "type_name": "ServiceCapabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ServiceCapabilities",
+                      "description": "The service capabilities reflect optional functionality of a service.\n\t\t\t\t\t\tThe information is static and does not change during device operation.\n\t\t\t\t\t\tThe following capabilities are available:",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "MaxLimit",
+                          "type": "{http://www.onvif.org/ver10/pacs}PositiveInteger",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "PositiveInteger",
+                            "description": "Type used to represent the numbers from 1 ,2 , 3,...",
+                            "base": "{http://www.w3.org/2001/XMLSchema}unsignedInt",
+                            "minInclusive": "1"
+                          },
+                          "description": "The maximum number of entries returned by a single Get&lt;Entity&gt;List or\n\t\t\t\t\t\t\tGet&lt;Entity&gt; request. The device shall never return more than this number\n\t\t\t\t\t\t\tof entities in a single response."
+                        },
+                        {
+                          "use": "required",
+                          "name": "MaxSchedules",
+                          "type": "{http://www.onvif.org/ver10/pacs}PositiveInteger",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "PositiveInteger",
+                            "description": "Type used to represent the numbers from 1 ,2 , 3,...",
+                            "base": "{http://www.w3.org/2001/XMLSchema}unsignedInt",
+                            "minInclusive": "1"
+                          },
+                          "description": "Indicates the maximum number of schedules the device supports.\n\t\t\t\t\t\t\tThe device shall support at least one schedule."
+                        },
+                        {
+                          "use": "required",
+                          "name": "MaxTimePeriodsPerDay",
+                          "type": "{http://www.onvif.org/ver10/pacs}PositiveInteger",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "PositiveInteger",
+                            "description": "Type used to represent the numbers from 1 ,2 , 3,...",
+                            "base": "{http://www.w3.org/2001/XMLSchema}unsignedInt",
+                            "minInclusive": "1"
+                          },
+                          "description": "Indicates the maximum number of time periods per day the device supports\n\t\t\t\t\t\t\tin a schedule including special days schedule. The device shall support\n\t\t\t\t\t\t\tat least one time period per day."
+                        },
+                        {
+                          "use": "required",
+                          "name": "MaxSpecialDayGroups",
+                          "type": "{http://www.onvif.org/ver10/pacs}PositiveInteger",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "PositiveInteger",
+                            "description": "Type used to represent the numbers from 1 ,2 , 3,...",
+                            "base": "{http://www.w3.org/2001/XMLSchema}unsignedInt",
+                            "minInclusive": "1"
+                          },
+                          "description": "Indicates the maximum number of special day group entities the device supports.\n\t\t\t\t\t\t\tThe device shall support at least one ‘SpecialDayGroup’ entity."
+                        },
+                        {
+                          "use": "required",
+                          "name": "MaxDaysInSpecialDayGroup",
+                          "type": "{http://www.onvif.org/ver10/pacs}PositiveInteger",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "PositiveInteger",
+                            "description": "Type used to represent the numbers from 1 ,2 , 3,...",
+                            "base": "{http://www.w3.org/2001/XMLSchema}unsignedInt",
+                            "minInclusive": "1"
+                          },
+                          "description": "Indicates the maximum number of days per ‘SpecialDayGroup’ entity the device\n\t\t\t\t\t\t\tsupports. The device shall support at least one day per ‘SpecialDayGroup’ entity."
+                        },
+                        {
+                          "use": "required",
+                          "name": "MaxSpecialDaysSchedules",
+                          "type": "{http://www.onvif.org/ver10/pacs}PositiveInteger",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "PositiveInteger",
+                            "description": "Type used to represent the numbers from 1 ,2 , 3,...",
+                            "base": "{http://www.w3.org/2001/XMLSchema}unsignedInt",
+                            "minInclusive": "1"
+                          },
+                          "description": "Indicates the maximum number of ‘SpecialDaysSchedule’ entities referred by a\n\t\t\t\t\t\t\tschedule that the device supports."
+                        },
+                        {
+                          "use": "required",
+                          "name": "ExtendedRecurrenceSupported",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "For schedules:\n\t\t\t\t\t\t\tIf this capability is supported, then all iCalendar recurrence types shall\n\t\t\t\t\t\t\tbe supported by the device. The device shall also support the start and end dates (or\n\t\t\t\t\t\t\tiCalendar occurrence count) in recurring events (see iCalendar examples in section 3).\n\t\t\t\t\t\t\tIf this capability is not supported, then only the weekly iCalendar recurrence\n\t\t\t\t\t\t\ttype shall be supported. Non-recurring events and other recurring types are\n\t\t\t\t\t\t\tnot supported. The device shall only accept a start date with the year ‘1970’\n\t\t\t\t\t\t\t(the month and day is needed to reflect the week day of the recurrence)\n\t\t\t\t\t\t\tand will not accept an occurrence count (or iCalendar until date) in recurring events.\n\t\t\t\t\t\t\tFor special days (only applicable if SpecialDaysSupported is set to true):\n\t\t\t\t\t\t\tIf this capability is supported, then all iCalendar recurrence types shall\n\t\t\t\t\t\t\tbe supported by the device. The device shall also support the start and\n\t\t\t\t\t\t\tend dates (or occurrence count) in recurring events.\n\t\t\t\t\t\t\tIf this capability is not supported, then only non-recurring special days are supported."
+                        },
+                        {
+                          "use": "required",
+                          "name": "SpecialDaysSupported",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "If this capability is supported, then the device shall support special days."
+                        },
+                        {
+                          "use": "required",
+                          "name": "StateReportingSupported",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "If this capability is set to true, the device shall implement the\n\t\t\t\t\t\t\tGetScheduleState command, and shall notify subscribing clients whenever\n\t\t\t\t\t\t\tschedules become active or inactive."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "ClientSuppliedTokenSupported",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "default": "false",
+                          "description": "Indicates that the client is allowed to supply the token when creating schedules and special day groups.\n\t\t\t\t\t\t\tTo enable the use of the commands SetSchedule and SetSpecialDayGroup, the value must be set to true."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capability response message contains the requested schedule service\n\t\t\t\t\t\t\t\t\tcapabilities using a hierarchical XML capability structure."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetScheduleState",
+      "port_type": "SchedulePort",
+      "description": "This operation requests the ScheduleState for the schedule instance specified by the given token.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleStateRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleState",
+            "schema": {
+              "name": "GetScheduleState",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Token of schedule instance to get ScheduleState."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleStateResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleStateResponse",
+            "schema": {
+              "name": "GetScheduleStateResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ScheduleState",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleState",
+                    "type_name": "ScheduleState",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ScheduleState",
+                      "description": "The ScheduleState contains state information for a schedule.",
+                      "fields": [
+                        {
+                          "name": "Active",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "type_name": "boolean",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Indicates that the current time is within the boundaries of the schedule\n\t\t\t\t\t\t\t\tor its special days schedules’ time periods. For example, if this\n\t\t\t\t\t\t\t\tschedule is being used for triggering automatic recording on a video source,\n\t\t\t\t\t\t\t\tthe Active flag will be true when the schedule-based recording is supposed to record."
+                        },
+                        {
+                          "name": "SpecialDay",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "type_name": "boolean",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Indicates that the current time is within the boundaries of its special\n\t\t\t\t\t\t\t\tdays schedules’ time periods. For example, if this schedule is being used\n\t\t\t\t\t\t\t\tfor recording at a lower frame rate on a video source during special days,\n\t\t\t\t\t\t\t\tthe SpecialDay flag will be true. If special days are not supported by the device,\n\t\t\t\t\t\t\t\tthis field may be omitted and interpreted as false by the client."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleStateExtension",
+                          "type_name": "ScheduleStateExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ScheduleStateExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "ScheduleState item."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetScheduleInfo",
+      "port_type": "SchedulePort",
+      "description": "This method returns a list of schedule info items, specified in the request. Only found schedules shall be returned, i.e., the returned numbers of elements can differ from the requested element. The device shall ignore tokens it cannot resolve and shall return an empty list if there are no items matching the specified tokens. If the number of requested items is greater than MaxLimit, a TooManyItems fault shall be returned.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleInfoRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleInfo",
+            "schema": {
+              "name": "GetScheduleInfo",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Tokens of ScheduleInfo items to get."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleInfoResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleInfoResponse",
+            "schema": {
+              "name": "GetScheduleInfoResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ScheduleInfo",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleInfo",
+                    "type_name": "ScheduleInfo",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ScheduleInfo",
+                      "description": "The ScheduleInfo type represents the schedule as a physical object.\n\t\t\t\t\t\tThe structure contains information of a specific schedule instance.",
+                      "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "DataEntity",
+                        "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                        "fields": [],
+                        "attributes": [
+                          {
+                            "use": "required",
+                            "name": "token",
+                            "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "ReferenceToken",
+                              "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "description": "A service-unique identifier of the item."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Name",
+                          "type": "{http://www.onvif.org/ver10/pacs}Name",
+                          "type_name": "Name",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Name",
+                            "description": "Type used for names of logical and physical entities.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "A user readable name. It shall be up to 64 characters."
+                        },
+                        {
+                          "name": "Description",
+                          "type": "{http://www.onvif.org/ver10/pacs}Description",
+                          "type_name": "Description",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Description",
+                            "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "1024"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable description for the schedule. It shall be up to 1024 characters."
+                        }
+                      ]
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of ScheduleInfo items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetScheduleInfoList",
+      "port_type": "SchedulePort",
+      "description": "This operation requests a list of all of ScheduleInfo items provided by the device. A call to this method shall return a StartReference when not all data is returned and more data is available. The reference shall be valid for retrieving the next set of data. Please refer Access Control Service Specification for more details. The number of items returned shall not be greater the Limit parameter.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleInfoListRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleInfoList",
+            "schema": {
+              "name": "GetScheduleInfoList",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Limit",
+                    "type": "{http://www.w3.org/2001/XMLSchema}int",
+                    "type_name": "int",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Maximum number of entries to return. If not specified, less than one\n\t\t\t\t\t\t\t\t\tor higher than what the device supports, the number of items is\n\t\t\t\t\t\t\t\t\tdetermined by the device."
+                  },
+                  {
+                    "name": "StartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Start returning entries from this start reference.\n\t\t\t\t\t\t\t\t\tIf not specified, entries shall start from the beginning of the dataset."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleInfoListResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleInfoListResponse",
+            "schema": {
+              "name": "GetScheduleInfoListResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NextStartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "StartReference to use in next call to get the following items.\n\t\t\t\t\t\t\t\t\tIf absent, no more items to get."
+                  },
+                  {
+                    "name": "ScheduleInfo",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleInfo",
+                    "type_name": "ScheduleInfo",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ScheduleInfo",
+                      "description": "The ScheduleInfo type represents the schedule as a physical object.\n\t\t\t\t\t\tThe structure contains information of a specific schedule instance.",
+                      "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "DataEntity",
+                        "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                        "fields": [],
+                        "attributes": [
+                          {
+                            "use": "required",
+                            "name": "token",
+                            "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "ReferenceToken",
+                              "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "description": "A service-unique identifier of the item."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Name",
+                          "type": "{http://www.onvif.org/ver10/pacs}Name",
+                          "type_name": "Name",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Name",
+                            "description": "Type used for names of logical and physical entities.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "A user readable name. It shall be up to 64 characters."
+                        },
+                        {
+                          "name": "Description",
+                          "type": "{http://www.onvif.org/ver10/pacs}Description",
+                          "type_name": "Description",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Description",
+                            "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "1024"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable description for the schedule. It shall be up to 1024 characters."
+                        }
+                      ]
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of ScheduleInfo items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetSchedules",
+      "port_type": "SchedulePort",
+      "description": "This operation returns the specified schedule item matching the given tokens. The device shall ignore tokens it cannot resolve and shall return an empty list if there are no items matching the specified tokens. If the number of requested items is greater than MaxLimit, a TooManyItems fault shall be returned",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSchedulesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSchedules",
+            "schema": {
+              "name": "GetSchedules",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Tokens of Schedule items to get"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSchedulesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSchedulesResponse",
+            "schema": {
+              "name": "GetSchedulesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Schedule",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}Schedule",
+                    "type_name": "Schedule",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Schedule",
+                      "description": "The schedule structure shall include all properties of the ScheduleInfo structure\n\t\t\t\t\t\tand also the standard events (iCalendar format) and a list of SpecialDaysSchedule instances.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "ScheduleInfo",
+                        "description": "The ScheduleInfo type represents the schedule as a physical object.\n\t\t\t\t\t\tThe structure contains information of a specific schedule instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the schedule. It shall be up to 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Standard",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that defines a number of events. Events\n\t\t\t\t\t\t\t\t\t\tcan be recurring or non-recurring. The events can, for instance,\n\t\t\t\t\t\t\t\t\t\tbe used to control when a camera should record or when a facility\n\t\t\t\t\t\t\t\t\t\tis accessible. Some devices might not be able to fully support\n\t\t\t\t\t\t\t\t\t\tall the features of iCalendar. Setting the service capability\n\t\t\t\t\t\t\t\t\t\tExtendedRecurrenceSupported to false will enable more devices\n\t\t\t\t\t\t\t\t\t\tto be ONVIF compliant. Is of type string (but contains an iCalendar structure)."
+                        },
+                        {
+                          "name": "SpecialDays",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysSchedule",
+                          "type_name": "SpecialDaysSchedule",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDaysSchedule",
+                            "description": "A override schedule that defines alternate time periods for a group of special days.",
+                            "fields": [
+                              {
+                                "name": "GroupToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Indicates the list of special days in a schedule."
+                              },
+                              {
+                                "name": "TimeRange",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriod",
+                                "type_name": "TimePeriod",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "TimePeriod",
+                                  "description": "A time period defines a start and end time. For full day access, the\n\t\t\t\t\t\tstart time =\"00:00:00\" with no defined end time. For a time period with no\n\t\t\t\t\t\tend time, the schedule runs until midnight. The end time must always be greater\n\t\t\t\t\t\tthan the start time, otherwise an InvalidArgVal error messages is generated by the device.",
+                                  "fields": [
+                                    {
+                                      "name": "From",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the start time."
+                                    },
+                                    {
+                                      "name": "Until",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the end time. Is optional, if omitted, the period ends at midnight.\n\t\t\t\t\t\t\t\tThe end time is exclusive, meaning that that exact moment in time is not\n\t\t\t\t\t\t\t\tpart of the period. To determine if a moment in time (t) is part of a time period,\n\t\t\t\t\t\t\t\tthe formula StartTime ≤ t &lt; EndTime is used."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriodExtension",
+                                      "type_name": "TimePeriodExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "TimePeriodExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Indicates the alternate time periods for the list of special days\n\t\t\t\t\t\t\t\t(overrides the regular schedule). For example, the regular schedule indicates\n\t\t\t\t\t\t\t\tthat it is active from 8AM to 5PM on Mondays. However, this particular\n\t\t\t\t\t\t\t\tMonday is a special day, and the alternate time periods state that the\n\t\t\t\t\t\t\t\tschedule is active from 9 AM to 11 AM and 1 PM to 4 PM.\n\t\t\t\t\t\t\t\tIf no time periods are defined, then no access is allowed.\n\t\t\t\t\t\t\t\tIs of type TimePeriod."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysScheduleExtension",
+                                "type_name": "SpecialDaysScheduleExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "SpecialDaysScheduleExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "For devices that are not able to support all the features of iCalendar,\n\t\t\t\t\t\t\t\t\t\tsupporting special days is essential. Each SpecialDaysSchedule\n\t\t\t\t\t\t\t\t\t\tinstance defines an alternate set of time periods that overrides\n\t\t\t\t\t\t\t\t\t\tthe regular schedule for a specified list of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type SpecialDaysSchedule."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleExtension",
+                          "type_name": "ScheduleExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ScheduleExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of schedule items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetScheduleList",
+      "port_type": "SchedulePort",
+      "description": "This operation requests a list of all of Schedule items provided by the device. A call to this method shall return a StartReference when not all data is returned and more data is available. The reference shall be valid for retrieving the next set of data. Please refer Access Control Service Specification for more details. The number of items returned shall not be greater the Limit parameter.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleListRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleList",
+            "schema": {
+              "name": "GetScheduleList",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Limit",
+                    "type": "{http://www.w3.org/2001/XMLSchema}int",
+                    "type_name": "int",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Maximum number of entries to return.\n\t\t\t\t\t\t\t\t\tIf not specified, less than one or higher than what the device supports,\n\t\t\t\t\t\t\t\t\tthe number of items is determined by the device."
+                  },
+                  {
+                    "name": "StartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Start returning entries from this start reference.\n\t\t\t\t\t\t\t\t\tIf not specified, entries shall start from the beginning of the dataset."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleListResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetScheduleListResponse",
+            "schema": {
+              "name": "GetScheduleListResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NextStartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "StartReference to use in next call to get the following items.\n\t\t\t\t\t\t\t\t\tIf absent, no more items to get."
+                  },
+                  {
+                    "name": "Schedule",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}Schedule",
+                    "type_name": "Schedule",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Schedule",
+                      "description": "The schedule structure shall include all properties of the ScheduleInfo structure\n\t\t\t\t\t\tand also the standard events (iCalendar format) and a list of SpecialDaysSchedule instances.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "ScheduleInfo",
+                        "description": "The ScheduleInfo type represents the schedule as a physical object.\n\t\t\t\t\t\tThe structure contains information of a specific schedule instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the schedule. It shall be up to 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Standard",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that defines a number of events. Events\n\t\t\t\t\t\t\t\t\t\tcan be recurring or non-recurring. The events can, for instance,\n\t\t\t\t\t\t\t\t\t\tbe used to control when a camera should record or when a facility\n\t\t\t\t\t\t\t\t\t\tis accessible. Some devices might not be able to fully support\n\t\t\t\t\t\t\t\t\t\tall the features of iCalendar. Setting the service capability\n\t\t\t\t\t\t\t\t\t\tExtendedRecurrenceSupported to false will enable more devices\n\t\t\t\t\t\t\t\t\t\tto be ONVIF compliant. Is of type string (but contains an iCalendar structure)."
+                        },
+                        {
+                          "name": "SpecialDays",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysSchedule",
+                          "type_name": "SpecialDaysSchedule",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDaysSchedule",
+                            "description": "A override schedule that defines alternate time periods for a group of special days.",
+                            "fields": [
+                              {
+                                "name": "GroupToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Indicates the list of special days in a schedule."
+                              },
+                              {
+                                "name": "TimeRange",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriod",
+                                "type_name": "TimePeriod",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "TimePeriod",
+                                  "description": "A time period defines a start and end time. For full day access, the\n\t\t\t\t\t\tstart time =\"00:00:00\" with no defined end time. For a time period with no\n\t\t\t\t\t\tend time, the schedule runs until midnight. The end time must always be greater\n\t\t\t\t\t\tthan the start time, otherwise an InvalidArgVal error messages is generated by the device.",
+                                  "fields": [
+                                    {
+                                      "name": "From",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the start time."
+                                    },
+                                    {
+                                      "name": "Until",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the end time. Is optional, if omitted, the period ends at midnight.\n\t\t\t\t\t\t\t\tThe end time is exclusive, meaning that that exact moment in time is not\n\t\t\t\t\t\t\t\tpart of the period. To determine if a moment in time (t) is part of a time period,\n\t\t\t\t\t\t\t\tthe formula StartTime ≤ t &lt; EndTime is used."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriodExtension",
+                                      "type_name": "TimePeriodExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "TimePeriodExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Indicates the alternate time periods for the list of special days\n\t\t\t\t\t\t\t\t(overrides the regular schedule). For example, the regular schedule indicates\n\t\t\t\t\t\t\t\tthat it is active from 8AM to 5PM on Mondays. However, this particular\n\t\t\t\t\t\t\t\tMonday is a special day, and the alternate time periods state that the\n\t\t\t\t\t\t\t\tschedule is active from 9 AM to 11 AM and 1 PM to 4 PM.\n\t\t\t\t\t\t\t\tIf no time periods are defined, then no access is allowed.\n\t\t\t\t\t\t\t\tIs of type TimePeriod."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysScheduleExtension",
+                                "type_name": "SpecialDaysScheduleExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "SpecialDaysScheduleExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "For devices that are not able to support all the features of iCalendar,\n\t\t\t\t\t\t\t\t\t\tsupporting special days is essential. Each SpecialDaysSchedule\n\t\t\t\t\t\t\t\t\t\tinstance defines an alternate set of time periods that overrides\n\t\t\t\t\t\t\t\t\t\tthe regular schedule for a specified list of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type SpecialDaysSchedule."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleExtension",
+                          "type_name": "ScheduleExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ScheduleExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of Schedule items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "CreateSchedule",
+      "port_type": "SchedulePort",
+      "description": "This operation creates the specified schedule. The token field of the schedule structure shall be empty, the device shall allocate a token for the schedule. The allocated token shall be returned in the response. If the client sends any value in the token field, the device shall return InvalidArgVal as generic fault code.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}CreateScheduleRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}CreateSchedule",
+            "schema": {
+              "name": "CreateSchedule",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Schedule",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}Schedule",
+                    "type_name": "Schedule",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Schedule",
+                      "description": "The schedule structure shall include all properties of the ScheduleInfo structure\n\t\t\t\t\t\tand also the standard events (iCalendar format) and a list of SpecialDaysSchedule instances.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "ScheduleInfo",
+                        "description": "The ScheduleInfo type represents the schedule as a physical object.\n\t\t\t\t\t\tThe structure contains information of a specific schedule instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the schedule. It shall be up to 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Standard",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that defines a number of events. Events\n\t\t\t\t\t\t\t\t\t\tcan be recurring or non-recurring. The events can, for instance,\n\t\t\t\t\t\t\t\t\t\tbe used to control when a camera should record or when a facility\n\t\t\t\t\t\t\t\t\t\tis accessible. Some devices might not be able to fully support\n\t\t\t\t\t\t\t\t\t\tall the features of iCalendar. Setting the service capability\n\t\t\t\t\t\t\t\t\t\tExtendedRecurrenceSupported to false will enable more devices\n\t\t\t\t\t\t\t\t\t\tto be ONVIF compliant. Is of type string (but contains an iCalendar structure)."
+                        },
+                        {
+                          "name": "SpecialDays",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysSchedule",
+                          "type_name": "SpecialDaysSchedule",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDaysSchedule",
+                            "description": "A override schedule that defines alternate time periods for a group of special days.",
+                            "fields": [
+                              {
+                                "name": "GroupToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Indicates the list of special days in a schedule."
+                              },
+                              {
+                                "name": "TimeRange",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriod",
+                                "type_name": "TimePeriod",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "TimePeriod",
+                                  "description": "A time period defines a start and end time. For full day access, the\n\t\t\t\t\t\tstart time =\"00:00:00\" with no defined end time. For a time period with no\n\t\t\t\t\t\tend time, the schedule runs until midnight. The end time must always be greater\n\t\t\t\t\t\tthan the start time, otherwise an InvalidArgVal error messages is generated by the device.",
+                                  "fields": [
+                                    {
+                                      "name": "From",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the start time."
+                                    },
+                                    {
+                                      "name": "Until",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the end time. Is optional, if omitted, the period ends at midnight.\n\t\t\t\t\t\t\t\tThe end time is exclusive, meaning that that exact moment in time is not\n\t\t\t\t\t\t\t\tpart of the period. To determine if a moment in time (t) is part of a time period,\n\t\t\t\t\t\t\t\tthe formula StartTime ≤ t &lt; EndTime is used."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriodExtension",
+                                      "type_name": "TimePeriodExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "TimePeriodExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Indicates the alternate time periods for the list of special days\n\t\t\t\t\t\t\t\t(overrides the regular schedule). For example, the regular schedule indicates\n\t\t\t\t\t\t\t\tthat it is active from 8AM to 5PM on Mondays. However, this particular\n\t\t\t\t\t\t\t\tMonday is a special day, and the alternate time periods state that the\n\t\t\t\t\t\t\t\tschedule is active from 9 AM to 11 AM and 1 PM to 4 PM.\n\t\t\t\t\t\t\t\tIf no time periods are defined, then no access is allowed.\n\t\t\t\t\t\t\t\tIs of type TimePeriod."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysScheduleExtension",
+                                "type_name": "SpecialDaysScheduleExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "SpecialDaysScheduleExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "For devices that are not able to support all the features of iCalendar,\n\t\t\t\t\t\t\t\t\t\tsupporting special days is essential. Each SpecialDaysSchedule\n\t\t\t\t\t\t\t\t\t\tinstance defines an alternate set of time periods that overrides\n\t\t\t\t\t\t\t\t\t\tthe regular schedule for a specified list of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type SpecialDaysSchedule."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleExtension",
+                          "type_name": "ScheduleExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ScheduleExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The Schedule to create"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}CreateScheduleResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}CreateScheduleResponse",
+            "schema": {
+              "name": "CreateScheduleResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of created Schedule"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "SetSchedule",
+      "port_type": "SchedulePort",
+      "description": "This operation modifies or creates the specified schedule.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}SetScheduleRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}SetSchedule",
+            "schema": {
+              "name": "SetSchedule",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Schedule",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}Schedule",
+                    "type_name": "Schedule",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Schedule",
+                      "description": "The schedule structure shall include all properties of the ScheduleInfo structure\n\t\t\t\t\t\tand also the standard events (iCalendar format) and a list of SpecialDaysSchedule instances.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "ScheduleInfo",
+                        "description": "The ScheduleInfo type represents the schedule as a physical object.\n\t\t\t\t\t\tThe structure contains information of a specific schedule instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the schedule. It shall be up to 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Standard",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that defines a number of events. Events\n\t\t\t\t\t\t\t\t\t\tcan be recurring or non-recurring. The events can, for instance,\n\t\t\t\t\t\t\t\t\t\tbe used to control when a camera should record or when a facility\n\t\t\t\t\t\t\t\t\t\tis accessible. Some devices might not be able to fully support\n\t\t\t\t\t\t\t\t\t\tall the features of iCalendar. Setting the service capability\n\t\t\t\t\t\t\t\t\t\tExtendedRecurrenceSupported to false will enable more devices\n\t\t\t\t\t\t\t\t\t\tto be ONVIF compliant. Is of type string (but contains an iCalendar structure)."
+                        },
+                        {
+                          "name": "SpecialDays",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysSchedule",
+                          "type_name": "SpecialDaysSchedule",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDaysSchedule",
+                            "description": "A override schedule that defines alternate time periods for a group of special days.",
+                            "fields": [
+                              {
+                                "name": "GroupToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Indicates the list of special days in a schedule."
+                              },
+                              {
+                                "name": "TimeRange",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriod",
+                                "type_name": "TimePeriod",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "TimePeriod",
+                                  "description": "A time period defines a start and end time. For full day access, the\n\t\t\t\t\t\tstart time =\"00:00:00\" with no defined end time. For a time period with no\n\t\t\t\t\t\tend time, the schedule runs until midnight. The end time must always be greater\n\t\t\t\t\t\tthan the start time, otherwise an InvalidArgVal error messages is generated by the device.",
+                                  "fields": [
+                                    {
+                                      "name": "From",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the start time."
+                                    },
+                                    {
+                                      "name": "Until",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the end time. Is optional, if omitted, the period ends at midnight.\n\t\t\t\t\t\t\t\tThe end time is exclusive, meaning that that exact moment in time is not\n\t\t\t\t\t\t\t\tpart of the period. To determine if a moment in time (t) is part of a time period,\n\t\t\t\t\t\t\t\tthe formula StartTime ≤ t &lt; EndTime is used."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriodExtension",
+                                      "type_name": "TimePeriodExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "TimePeriodExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Indicates the alternate time periods for the list of special days\n\t\t\t\t\t\t\t\t(overrides the regular schedule). For example, the regular schedule indicates\n\t\t\t\t\t\t\t\tthat it is active from 8AM to 5PM on Mondays. However, this particular\n\t\t\t\t\t\t\t\tMonday is a special day, and the alternate time periods state that the\n\t\t\t\t\t\t\t\tschedule is active from 9 AM to 11 AM and 1 PM to 4 PM.\n\t\t\t\t\t\t\t\tIf no time periods are defined, then no access is allowed.\n\t\t\t\t\t\t\t\tIs of type TimePeriod."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysScheduleExtension",
+                                "type_name": "SpecialDaysScheduleExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "SpecialDaysScheduleExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "For devices that are not able to support all the features of iCalendar,\n\t\t\t\t\t\t\t\t\t\tsupporting special days is essential. Each SpecialDaysSchedule\n\t\t\t\t\t\t\t\t\t\tinstance defines an alternate set of time periods that overrides\n\t\t\t\t\t\t\t\t\t\tthe regular schedule for a specified list of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type SpecialDaysSchedule."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleExtension",
+                          "type_name": "ScheduleExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ScheduleExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The Schedule to modify/create"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}SetScheduleResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}SetScheduleResponse",
+            "schema": {
+              "name": "SetScheduleResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "ModifySchedule",
+      "port_type": "SchedulePort",
+      "description": "This operation modifies or updates the specified schedule.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}ModifyScheduleRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}ModifySchedule",
+            "schema": {
+              "name": "ModifySchedule",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Schedule",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}Schedule",
+                    "type_name": "Schedule",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Schedule",
+                      "description": "The schedule structure shall include all properties of the ScheduleInfo structure\n\t\t\t\t\t\tand also the standard events (iCalendar format) and a list of SpecialDaysSchedule instances.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "ScheduleInfo",
+                        "description": "The ScheduleInfo type represents the schedule as a physical object.\n\t\t\t\t\t\tThe structure contains information of a specific schedule instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the schedule. It shall be up to 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Standard",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that defines a number of events. Events\n\t\t\t\t\t\t\t\t\t\tcan be recurring or non-recurring. The events can, for instance,\n\t\t\t\t\t\t\t\t\t\tbe used to control when a camera should record or when a facility\n\t\t\t\t\t\t\t\t\t\tis accessible. Some devices might not be able to fully support\n\t\t\t\t\t\t\t\t\t\tall the features of iCalendar. Setting the service capability\n\t\t\t\t\t\t\t\t\t\tExtendedRecurrenceSupported to false will enable more devices\n\t\t\t\t\t\t\t\t\t\tto be ONVIF compliant. Is of type string (but contains an iCalendar structure)."
+                        },
+                        {
+                          "name": "SpecialDays",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysSchedule",
+                          "type_name": "SpecialDaysSchedule",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDaysSchedule",
+                            "description": "A override schedule that defines alternate time periods for a group of special days.",
+                            "fields": [
+                              {
+                                "name": "GroupToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Indicates the list of special days in a schedule."
+                              },
+                              {
+                                "name": "TimeRange",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriod",
+                                "type_name": "TimePeriod",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "TimePeriod",
+                                  "description": "A time period defines a start and end time. For full day access, the\n\t\t\t\t\t\tstart time =\"00:00:00\" with no defined end time. For a time period with no\n\t\t\t\t\t\tend time, the schedule runs until midnight. The end time must always be greater\n\t\t\t\t\t\tthan the start time, otherwise an InvalidArgVal error messages is generated by the device.",
+                                  "fields": [
+                                    {
+                                      "name": "From",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the start time."
+                                    },
+                                    {
+                                      "name": "Until",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}time",
+                                      "type_name": "time",
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates the end time. Is optional, if omitted, the period ends at midnight.\n\t\t\t\t\t\t\t\tThe end time is exclusive, meaning that that exact moment in time is not\n\t\t\t\t\t\t\t\tpart of the period. To determine if a moment in time (t) is part of a time period,\n\t\t\t\t\t\t\t\tthe formula StartTime ≤ t &lt; EndTime is used."
+                                    },
+                                    {
+                                      "name": "Extension",
+                                      "type": "{http://www.onvif.org/ver10/schedule/wsdl}TimePeriodExtension",
+                                      "type_name": "TimePeriodExtension",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "TimePeriodExtension",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded",
+                                "nillable": false,
+                                "description": "Indicates the alternate time periods for the list of special days\n\t\t\t\t\t\t\t\t(overrides the regular schedule). For example, the regular schedule indicates\n\t\t\t\t\t\t\t\tthat it is active from 8AM to 5PM on Mondays. However, this particular\n\t\t\t\t\t\t\t\tMonday is a special day, and the alternate time periods state that the\n\t\t\t\t\t\t\t\tschedule is active from 9 AM to 11 AM and 1 PM to 4 PM.\n\t\t\t\t\t\t\t\tIf no time periods are defined, then no access is allowed.\n\t\t\t\t\t\t\t\tIs of type TimePeriod."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDaysScheduleExtension",
+                                "type_name": "SpecialDaysScheduleExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "SpecialDaysScheduleExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "For devices that are not able to support all the features of iCalendar,\n\t\t\t\t\t\t\t\t\t\tsupporting special days is essential. Each SpecialDaysSchedule\n\t\t\t\t\t\t\t\t\t\tinstance defines an alternate set of time periods that overrides\n\t\t\t\t\t\t\t\t\t\tthe regular schedule for a specified list of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type SpecialDaysSchedule."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}ScheduleExtension",
+                          "type_name": "ScheduleExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ScheduleExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The Schedule to modify/update"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}ModifyScheduleResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}ModifyScheduleResponse",
+            "schema": {
+              "name": "ModifyScheduleResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "DeleteSchedule",
+      "port_type": "SchedulePort",
+      "description": "This operation will delete the specified schedule. If it is associated with one or more entities some devices may not be able to delete the schedule, and consequently a ReferenceInUse fault shall be generated.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}DeleteScheduleRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}DeleteSchedule",
+            "schema": {
+              "name": "DeleteSchedule",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of the schedule to delete."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}DeleteScheduleResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}DeleteScheduleResponse",
+            "schema": {
+              "name": "DeleteScheduleResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetSpecialDayGroupInfo",
+      "port_type": "SchedulePort",
+      "description": "This operation requests a list of SpecialDayGroupInfo items matching the given tokens. The device shall ignore tokens it cannot resolve and shall return an empty list if there are no items matching specified tokens. The device shall not return a fault in this case. If the number of requested items is greater than MaxLimit, a TooManyItems fault shall be returned.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupInfoRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupInfo",
+            "schema": {
+              "name": "GetSpecialDayGroupInfo",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Tokens of SpecialDayGroupInfo items to get."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupInfoResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupInfoResponse",
+            "schema": {
+              "name": "GetSpecialDayGroupInfoResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "SpecialDayGroupInfo",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupInfo",
+                    "type_name": "SpecialDayGroupInfo",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "SpecialDayGroupInfo",
+                      "description": "The SpecialDayGroupInfo structure contains the basic information about the special days list.",
+                      "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "DataEntity",
+                        "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                        "fields": [],
+                        "attributes": [
+                          {
+                            "use": "required",
+                            "name": "token",
+                            "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "ReferenceToken",
+                              "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "description": "A service-unique identifier of the item."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Name",
+                          "type": "{http://www.onvif.org/ver10/pacs}Name",
+                          "type_name": "Name",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Name",
+                            "description": "Type used for names of logical and physical entities.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable name. It shall be up to 64 characters."
+                        },
+                        {
+                          "name": "Description",
+                          "type": "{http://www.onvif.org/ver10/pacs}Description",
+                          "type_name": "Description",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Description",
+                            "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "1024"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable description for the special days. It shall be up to 1024\n\t\t\t\t\t\t\t\t\t\tcharacters."
+                        }
+                      ]
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of SpecialDayGroupInfo items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetSpecialDayGroupInfoList",
+      "port_type": "SchedulePort",
+      "description": "This operation requests a list of all of SpecialDayGroupInfo items provided by the device. A call to this method shall return a StartReference when not all data is returned and more data is available. The reference shall be valid for retrieving the next set of data. The number of items returned shall not be greater than Limit parameter.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupInfoListRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupInfoList",
+            "schema": {
+              "name": "GetSpecialDayGroupInfoList",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Limit",
+                    "type": "{http://www.w3.org/2001/XMLSchema}int",
+                    "type_name": "int",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Maximum number of entries to return. If not specified, less than\n\t\t\t\t\t\t\t\t\tone or higher than what the device supports, the number\n\t\t\t\t\t\t\t\t\tof items is determined by the device."
+                  },
+                  {
+                    "name": "StartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Start returning entries from this start reference.\n\t\t\t\t\t\t\t\t\tIf not specified, entries shall start from the beginning of the dataset."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupInfoListResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupInfoListResponse",
+            "schema": {
+              "name": "GetSpecialDayGroupInfoListResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NextStartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "StartReference to use in next call to get the following items.\n\t\t\t\t\t\t\t\t\tIf absent, no more items to get."
+                  },
+                  {
+                    "name": "SpecialDayGroupInfo",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupInfo",
+                    "type_name": "SpecialDayGroupInfo",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "SpecialDayGroupInfo",
+                      "description": "The SpecialDayGroupInfo structure contains the basic information about the special days list.",
+                      "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "DataEntity",
+                        "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                        "fields": [],
+                        "attributes": [
+                          {
+                            "use": "required",
+                            "name": "token",
+                            "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "ReferenceToken",
+                              "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "description": "A service-unique identifier of the item."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Name",
+                          "type": "{http://www.onvif.org/ver10/pacs}Name",
+                          "type_name": "Name",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Name",
+                            "description": "Type used for names of logical and physical entities.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable name. It shall be up to 64 characters."
+                        },
+                        {
+                          "name": "Description",
+                          "type": "{http://www.onvif.org/ver10/pacs}Description",
+                          "type_name": "Description",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Description",
+                            "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "1024"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable description for the special days. It shall be up to 1024\n\t\t\t\t\t\t\t\t\t\tcharacters."
+                        }
+                      ]
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of SpecialDayGroupInfo items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetSpecialDayGroups",
+      "port_type": "SchedulePort",
+      "description": "This operation returns the specified special day group item matching the given token.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroups",
+            "schema": {
+              "name": "GetSpecialDayGroups",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Tokens of the SpecialDayGroup items to get"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupsResponse",
+            "schema": {
+              "name": "GetSpecialDayGroupsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "SpecialDayGroup",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroup",
+                    "type_name": "SpecialDayGroup",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "SpecialDayGroup",
+                      "description": "The special day group structure shall include all properties of the SpecialDayGroupInfo\n\t\t\t\t\t\tstructure and also a set of special days. A special day group are days (or parts of days)\n\t\t\t\t\t\tthat require the regular schedule to be overridden with an alternate schedule.\n\t\t\t\t\t\tFor example holidays, half-days, working Sundays, etc.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "SpecialDayGroupInfo",
+                        "description": "The SpecialDayGroupInfo structure contains the basic information about the special days list.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the special days. It shall be up to 1024\n\t\t\t\t\t\t\t\t\t\tcharacters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Days",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that contains a group of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type string (containing an iCalendar structure)."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupExtension",
+                          "type_name": "SpecialDayGroupExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDayGroupExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of SpecialDayGroup items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "GetSpecialDayGroupList",
+      "port_type": "SchedulePort",
+      "description": "This operation requests a list of all of SpecialDayGroupList items provided by the device. A call to this method shall return a StartReference when not all data is returned and more data is available. The reference shall be valid for retrieving the next set of data. Please refer Access Control Service Specification for more details. The number of items returned shall not be greater the Limit parameter.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupListRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupList",
+            "schema": {
+              "name": "GetSpecialDayGroupList",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Limit",
+                    "type": "{http://www.w3.org/2001/XMLSchema}int",
+                    "type_name": "int",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Maximum number of entries to return. If not specified, less than\n\t\t\t\t\t\t\t\t\tone or higher than what the device supports, the number of\n\t\t\t\t\t\t\t\t\titems is determined by the device."
+                  },
+                  {
+                    "name": "StartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Start returning entries from this start reference.\n\t\t\t\t\t\t\t\t\tIf not specified, entries shall start from the beginning of the dataset."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupListResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}GetSpecialDayGroupListResponse",
+            "schema": {
+              "name": "GetSpecialDayGroupListResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NextStartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "StartReference to use in next call to get the following items. If\n\t\t\t\t\t\t\t\t\tabsent, no more items to get."
+                  },
+                  {
+                    "name": "SpecialDayGroup",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroup",
+                    "type_name": "SpecialDayGroup",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "SpecialDayGroup",
+                      "description": "The special day group structure shall include all properties of the SpecialDayGroupInfo\n\t\t\t\t\t\tstructure and also a set of special days. A special day group are days (or parts of days)\n\t\t\t\t\t\tthat require the regular schedule to be overridden with an alternate schedule.\n\t\t\t\t\t\tFor example holidays, half-days, working Sundays, etc.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "SpecialDayGroupInfo",
+                        "description": "The SpecialDayGroupInfo structure contains the basic information about the special days list.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the special days. It shall be up to 1024\n\t\t\t\t\t\t\t\t\t\tcharacters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Days",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that contains a group of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type string (containing an iCalendar structure)."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupExtension",
+                          "type_name": "SpecialDayGroupExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDayGroupExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of SpecialDayGroup items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "CreateSpecialDayGroup",
+      "port_type": "SchedulePort",
+      "description": "This operation creates the specified special day group. The token field of the SpecialDayGroup structure shall be empty, the device shall allocate a token for the special day group. The allocated token shall be returned in the response. If there is any value in the token field, the device shall return InvalidArgVal as generic fault code.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}CreateSpecialDayGroupRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}CreateSpecialDayGroup",
+            "schema": {
+              "name": "CreateSpecialDayGroup",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "SpecialDayGroup",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroup",
+                    "type_name": "SpecialDayGroup",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "SpecialDayGroup",
+                      "description": "The special day group structure shall include all properties of the SpecialDayGroupInfo\n\t\t\t\t\t\tstructure and also a set of special days. A special day group are days (or parts of days)\n\t\t\t\t\t\tthat require the regular schedule to be overridden with an alternate schedule.\n\t\t\t\t\t\tFor example holidays, half-days, working Sundays, etc.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "SpecialDayGroupInfo",
+                        "description": "The SpecialDayGroupInfo structure contains the basic information about the special days list.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the special days. It shall be up to 1024\n\t\t\t\t\t\t\t\t\t\tcharacters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Days",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that contains a group of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type string (containing an iCalendar structure)."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupExtension",
+                          "type_name": "SpecialDayGroupExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDayGroupExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The special day group to create."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}CreateSpecialDayGroupResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}CreateSpecialDayGroupResponse",
+            "schema": {
+              "name": "CreateSpecialDayGroupResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of created special day group."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "SetSpecialDayGroup",
+      "port_type": "SchedulePort",
+      "description": "This operation modifies or creates the specified special day group.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}SetSpecialDayGroupRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}SetSpecialDayGroup",
+            "schema": {
+              "name": "SetSpecialDayGroup",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "SpecialDayGroup",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroup",
+                    "type_name": "SpecialDayGroup",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "SpecialDayGroup",
+                      "description": "The special day group structure shall include all properties of the SpecialDayGroupInfo\n\t\t\t\t\t\tstructure and also a set of special days. A special day group are days (or parts of days)\n\t\t\t\t\t\tthat require the regular schedule to be overridden with an alternate schedule.\n\t\t\t\t\t\tFor example holidays, half-days, working Sundays, etc.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "SpecialDayGroupInfo",
+                        "description": "The SpecialDayGroupInfo structure contains the basic information about the special days list.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the special days. It shall be up to 1024\n\t\t\t\t\t\t\t\t\t\tcharacters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Days",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that contains a group of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type string (containing an iCalendar structure)."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupExtension",
+                          "type_name": "SpecialDayGroupExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDayGroupExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The SpecialDayGroup to modify/create"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}SetSpecialDayGroupResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}SetSpecialDayGroupResponse",
+            "schema": {
+              "name": "SetSpecialDayGroupResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "ModifySpecialDayGroup",
+      "port_type": "SchedulePort",
+      "description": "This operation updates the specified special day group.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}ModifySpecialDayGroupRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}ModifySpecialDayGroup",
+            "schema": {
+              "name": "ModifySpecialDayGroup",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "SpecialDayGroup",
+                    "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroup",
+                    "type_name": "SpecialDayGroup",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "SpecialDayGroup",
+                      "description": "The special day group structure shall include all properties of the SpecialDayGroupInfo\n\t\t\t\t\t\tstructure and also a set of special days. A special day group are days (or parts of days)\n\t\t\t\t\t\tthat require the regular schedule to be overridden with an alternate schedule.\n\t\t\t\t\t\tFor example holidays, half-days, working Sundays, etc.",
+                      "base": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "SpecialDayGroupInfo",
+                        "description": "The SpecialDayGroupInfo structure contains the basic information about the special days list.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the special days. It shall be up to 1024\n\t\t\t\t\t\t\t\t\t\tcharacters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Days",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "An iCalendar structure that contains a group of special days.\n\t\t\t\t\t\t\t\t\t\tIs of type string (containing an iCalendar structure)."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/schedule/wsdl}SpecialDayGroupExtension",
+                          "type_name": "SpecialDayGroupExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "SpecialDayGroupExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The special day group to modify/update."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}ModifySpecialDayGroupResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}ModifySpecialDayGroupResponse",
+            "schema": {
+              "name": "ModifySpecialDayGroupResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    },
+    {
+      "name": "DeleteSpecialDayGroup",
+      "port_type": "SchedulePort",
+      "description": "This method deletes the specified special day group. If it is associated with one or more schedules some devices may not be able to delete the special day group, and consequently a ReferenceInUse fault must be generated.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}DeleteSpecialDayGroupRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}DeleteSpecialDayGroup",
+            "schema": {
+              "name": "DeleteSpecialDayGroup",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of the special day group item to delete."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/schedule/wsdl}DeleteSpecialDayGroupResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/schedule/wsdl}DeleteSpecialDayGroupResponse",
+            "schema": {
+              "name": "DeleteSpecialDayGroupResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ScheduleBinding"
+    }
+  ]
+}

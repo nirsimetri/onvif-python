@@ -1,4 +1,4 @@
-"""ONVIFService: Base class for all ONVIF service implementations."""
+"""Base class for all ONVIF service implementations."""
 
 from __future__ import annotations
 
@@ -60,18 +60,20 @@ def _is_zeep_object(obj):
 
 
 class ONVIFService:
-    """Base class for all ONVIF service implementations.
+    """
+    <!-- md:version 0.1.8 -->
+    <!-- md:internal -->
+
+    Base class for all ONVIF service implementations.
 
     This abstract base class provides automatic error handling and consistent API
     behavior for all ONVIF services ([`Device`](../services/device.md),
     [`Media`](../services/media.md), [`PTZ`](../services/ptz.md), etc.).
 
-    !!! tip "Version History"
-        - Available since [`>=v0.1.8`](/onvif-python/releases/#v0.1.8).
-
     !!! danger "All service classes inherit from `ONVIFService` to ensure"
         - Consistent exception handling across all ONVIF operations
-        - Automatic wrapping of errors into [`ONVIFOperationException`](../exceptions/onvif_exception.md)
+        - Automatic wrapping of errors into
+            [`ONVIFOperationException`](../exceptions/onvif_exception.md)
         - Uniform error reporting with operation names
         - Transparent method interception without explicit wrappers
 
@@ -79,8 +81,10 @@ class ONVIFService:
         - Uses `__getattribute__` magic method to intercept all method calls
         - Automatically wraps ONVIF operations (methods starting with uppercase)
         - Preserves non-ONVIF methods, private methods, and attributes
-        - Converts all exceptions to [`ONVIFOperationException`](../exceptions/onvif_exception.md) for consistency
-        - Re-raises existing [`ONVIFOperationException`](../exceptions/onvif_exception.md) without double-wrapping
+        - Converts all exceptions to
+            [`ONVIFOperationException`](../exceptions/onvif_exception.md) for consistency
+        - Re-raises existing
+            [`ONVIFOperationException`](../exceptions/onvif_exception.md) without double-wrapping
 
     ??? note "Notes"
         - This is an abstract base class - don't instantiate directly
@@ -90,13 +94,18 @@ class ONVIFService:
         - Compatible with all Python magic methods and properties
 
     ??? note "See Also"
-        - [`ONVIFOperationException`](../exceptions/onvif_exception.md): Exception class for wrapped errors
+        - [`ONVIFOperationException`](../exceptions/onvif_exception.md):
+            Exception class for wrapped errors
         - [`ONVIFOperator`](../core/onvif_operator.md): Low-level SOAP operation handler
-        - Device, Media, PTZ, etc.: Concrete service implementations
+        - Device, Media, PTZ, etc: Concrete service implementations
     """
 
     def __getattribute__(self, name: str) -> Any:
-        """Intercept all method calls and wrap ONVIF operations with error handling.
+        """
+        <!-- md:version 0.1.8 -->
+        <!-- md:internal -->
+
+        Intercept all method calls and wrap ONVIF operations with error handling.
 
         This magic method is called for every attribute access on the service object.
         It intercepts ONVIF operation calls and wraps them with consistent error handling.
@@ -111,7 +120,7 @@ class ONVIFService:
             ONVIFOperationException: If the ONVIF operation fails
 
         !!! question "Method Interception Logic"
-            1. Get the attribute using object.__getattribute__
+            1. Get the attribute using `object.__getattribute__`
             2. Skip if not callable, private, or internal attribute
             3. Check if method name starts with uppercase (ONVIF convention)
             4. If yes, return wrapped version that catches and converts exceptions
@@ -165,6 +174,10 @@ class ONVIFService:
 
     def type(self, type_name: str) -> Any:
         """
+        <!-- md:version 0.1.9 -->
+        <!-- md:utility -->
+        <!-- md:example_view set_device_time.py -->
+
         Create and return an instance of the specified ONVIF type.
 
         Args:
@@ -181,7 +194,9 @@ class ONVIFService:
             device = client.devicemgmt()
 
             newuser = device.type('CreateUsers')
-            newuser.User.append({"Username": 'new_user', "Password": 'new_password', "UserLevel": 'User'})
+            newuser.User.append({
+                "Username": 'new_user', "Password": 'new_password', "UserLevel": 'User'
+            })
             device.CreateUsers(newuser)
 
             hostname = device.type('SetHostname')
@@ -212,7 +227,11 @@ class ONVIFService:
             raise ONVIFOperationException(f"type({type_name})", e) from e
 
     def operations(self) -> list[str] | list:
-        """List all available operations for this service.
+        """
+        <!-- md:version 0.2.0 -->
+        <!-- md:utility -->
+
+        List all available operations for this service.
 
         Returns:
             List of operation names that can be used with `type()` method
@@ -260,13 +279,16 @@ class ONVIFService:
 
     def desc(self, method_name: str) -> dict:
         """
+        <!-- md:version 0.2.0 -->
+        <!-- md:utility -->
+
         Get documentation and parameter information for a specific operation/method.
 
         Args:
             method_name (str): Name of the method to describe (e.g., 'GetDeviceInformation', 'SetHostname')
 
         Returns:
-            Operation documentation dictionary.
+            Operation documentation dictionary
 
         !!! abstract "Documentation dict"
 
@@ -302,7 +324,8 @@ class ONVIFService:
                 available_methods = self.operations()
                 raise ValueError(
                     f"Method '{method_name}' not found in service. "
-                    f"Available methods: {', '.join(available_methods[:5])}{'...' if len(available_methods) > 5 else ''}"
+                    f"Available methods: {', '.join(available_methods[:5])}"
+                    f"{'...' if len(available_methods) > 5 else ''}"
                 )
 
             # Extract service name from binding for context
@@ -373,13 +396,18 @@ class ONVIFService:
 
     def to_dict(self, zeep_object: Any) -> dict:
         """
+        <!-- md:version 0.2.9 -->
+        <!-- md:utility -->
+        <!-- md:example_view check_device.py -->
+
         Convert a zeep object (result from ONVIF operation) to Python dictionary.
 
         Args:
             zeep_object (Any): The zeep object returned from ONVIF operations
 
         Returns:
-            Python dictionary representation of the zeep object
+            Python `dict` representation of the Zeep object. <br>Returns an empty dict
+                `{}` if `zeep_object` is `None` or if conversion fails for any reason.
 
         Example:
             ```python linenums="1"

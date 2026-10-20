@@ -37,7 +37,6 @@ def make_service(wsdl_path, **methods):
     return service
 
 
-# pylint: disable=invalid-name
 class TestGetMethodDocumentation:
     """Tests for extracting WSDL documentation and method parameters."""
 

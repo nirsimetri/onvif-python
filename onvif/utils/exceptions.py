@@ -1,4 +1,4 @@
-"""ONVIFOperationException: Enhanced exception wrapper for ONVIF operation failures."""
+"""Enhanced exception wrapper for ONVIF operation failures."""
 
 from __future__ import annotations
 
@@ -6,9 +6,14 @@ import requests
 from zeep.exceptions import Fault
 
 
-# pylint: disable=line-too-long,too-many-locals,too-many-nested-blocks,too-many-branches,too-many-statements
+# pylint: disable=too-many-nested-blocks,too-many-branches
 class ONVIFOperationException(Exception):
-    """Enhanced exception wrapper for ONVIF operation failures.
+    # pylint: disable=line-too-long
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:exception Exception type -->
+
+    Enhanced exception wrapper for ONVIF operation failures.
 
     This exception provides detailed error information including operation name,
     error category, SOAP fault details, and the original exception.
@@ -18,9 +23,6 @@ class ONVIFOperationException(Exception):
     Attributes:
         operation (str): Name of the ONVIF operation that failed
         original_exception (Exception): The underlying exception that was raised
-
-    !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
 
     ## Error Categories
 
@@ -87,6 +89,7 @@ class ONVIFOperationException(Exception):
         - `zeep.exceptions.Fault`: Base SOAP fault exception
         - `requests.exceptions.RequestException`: Base HTTP error
     """
+    # pylint: enable=line-too-long
 
     def __init__(self, operation: str, original_exception: Exception):
         self.operation = operation

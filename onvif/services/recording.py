@@ -5,16 +5,19 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class Recording(ONVIFService):
-    """Recording service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.0 http://developer.onvif.org/pub/core/Core_2.00.pdf -->
+
+    Recording service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.1 (June 2011) Split from Core 2.0 |
+    | -------- | ------- |
+    | **First introduced** | ONVIF 2.0 (November 2010) |
     | **Binding name** | `RecordingBinding` (`ver10/recording.wsdl`) |
-    | **Operations** | [recording.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/recording.wsdl) |
-    | **Specification** | [RecordingControl.xml](https://developer.onvif.org/pub/specs/branches/development/doc/RecordingControl.xml) |
+    | **Operations** | [recording.wsdl](https://www.onvif.org/ver10/recording.wsdl) |
+    | **Spec** | [RecordingControl](https://www.onvif.org/specs/srv/rec/ONVIF-RecordingControl-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -256,7 +259,11 @@ class Recording(ONVIFService):
         )
 
     def ListRecordedSegments(self, Time, RecordingToken, MaxResults=None):
-        """Lists available recorded segments related to the specified RecordingToken."""
+        """
+        <!-- md:version 0.2.11 -->
+
+        Lists available recorded segments related to the specified RecordingToken.
+        """
         return self.operator.call(
             "ListRecordedSegments",
             Time=Time,
@@ -272,8 +279,12 @@ class Recording(ONVIFService):
         StorageToken=None,
         Track=None,
     ):
-        """Exports the selected recorded segments (from existing recorded data) to the
-        storage attached to the given recording configuration."""
+        """
+        <!-- md:version 0.2.11 -->
+
+        Exports the selected recorded segments (from existing recorded data) to the
+        storage attached to the given recording configuration.
+        """
         return self.operator.call(
             "ExportRecordedSegments",
             Time=Time,
@@ -284,7 +295,11 @@ class Recording(ONVIFService):
         )
 
     def StopExportRecordedSegments(self, OperationToken):
-        """Stops the selected ExportRecordedSegments operation."""
+        """
+        <!-- md:version 0.2.11 -->
+
+        Stops the selected ExportRecordedSegments operation.
+        """
         return self.operator.call(
             "StopExportRecordedSegments", OperationToken=OperationToken
         )

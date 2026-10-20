@@ -1,5 +1,8 @@
 """ONVIF Interactive Shell context."""
 
+from __future__ import annotations
+
+from argparse import Namespace
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
@@ -8,13 +11,13 @@ from onvif.client import ONVIFClient
 
 
 @dataclass
-class ShellContext:  # pylint: disable=too-many-instance-attributes
+class ShellContext:
     """Store shared state for the interactive shell."""
 
     UNSET = object()
 
     client: ONVIFClient
-    args: object
+    args: Namespace
 
     current_service: object | None = None
     current_service_name: str | None = None
@@ -23,7 +26,7 @@ class ShellContext:  # pylint: disable=too-many-instance-attributes
     )  # For storing command results
     stored_metadata: dict[str, dict[str, Any]] = field(
         default_factory=dict
-    )  # For storing metadata about stored data (service, method
+    )  # For storing metadata about stored data (service, method)
 
     last_result: Any = field(default=UNSET, repr=False)
     last_method: str | None = None

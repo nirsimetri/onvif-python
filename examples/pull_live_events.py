@@ -12,12 +12,12 @@ Uses ONVIFParser (>= v0.2.2 patch) to extract Topic elements that zeep doesn't p
 
 import datetime
 
-from onvif import ONVIFClient, ONVIFParser
+from onvif import ONVIFClient, ONVIFOperationException, ONVIFParser
 
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 # Create parser to extract Topic elements from SOAP responses
 parser = ONVIFParser(
@@ -118,7 +118,7 @@ while datetime.datetime.now() < end_time:
                     print("\n-> Event without Message")
         else:
             print("\n-> 🔁 No new events.")
-    except Exception as e:  # pylint: disable=broad-exception-caught
+    except (ONVIFOperationException, AttributeError, ValueError, KeyError) as e:
         print("\n-> ❌ Error while pulling events:", e)
 
     # time.sleep(1)  # small delay between requests

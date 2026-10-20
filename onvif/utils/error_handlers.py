@@ -1,4 +1,9 @@
 """
+<!-- md:version 0.4.0 -->
+<!-- md:error_handler -->
+<!-- md:example_file error_handling.py -->
+<!-- md:module utils/error_handlers.py -->
+
 Error handling utilities for ONVIF operations.
 
 This module provides utilities to gracefully handle ONVIF SOAP errors,
@@ -11,8 +16,8 @@ the `ActionNotSupported` subcode. These utilities help detect and handle such
 cases.
 
 !!! tip "Version History"
-    - Available since [`>=v0.0.7`](/onvif-python/releases/#v0.0.7) as `ONVIFErrorHandler`.
-    - Refactor to module since [`>=v0.4.0`](/onvif-python/releases/#v0.4.0).
+    - Available since [`v0.0.7`](/releases/#v0.0.7) as `ONVIFErrorHandler`
+    - Refactor to module since [`v0.4.0`](/releases/#v0.4.0)
 
 !!! abstract "Features"
     - Detect `ActionNotSupported` SOAP faults
@@ -53,6 +58,9 @@ logger.addHandler(logging.NullHandler())
 
 def is_action_not_supported(exception: ONVIFOperationException | Fault) -> bool:
     """
+    <!-- md:version 0.4.0 -->
+    <!-- md:error_handler Error handling function-->
+
     Check whether an exception is caused by an `ActionNotSupported` SOAP fault.
 
     Args:
@@ -60,7 +68,7 @@ def is_action_not_supported(exception: ONVIFOperationException | Fault) -> bool:
             [`ONVIFOperationException`](onvif_exception.md) or a raw `zeep.exceptions.Fault`.
 
     Returns:
-        `True` if the exception contains an `ActionNotSupported` SOAP fault, `False` otherwise.
+        `True` if the exception contains an `ActionNotSupported` SOAP fault, `False` otherwise
 
     Example:
         ```python linenums="1"
@@ -114,6 +122,9 @@ def safe_call(
     log_error: bool = True,
 ) -> Any | None:
     """
+    <!-- md:version 0.4.0 -->
+    <!-- md:error_handler Error handling function-->
+
     Safely call an ONVIF operation with graceful error handling.
 
     Args:
@@ -127,11 +138,12 @@ def safe_call(
             Defaults to `True`.
 
     !!! tip "Version History"
-        - Changed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): ~~`ignore_unsupported`~~ → `handle_unsupported`.
+        - Changed in [`v0.4.0`](/releases/#v0.4.0):
+            ~~`ignore_unsupported`~~ → `handle_unsupported`.
 
     Returns:
         The result returned by `func`, or `default` when the operation is
-            unsupported and `handle_unsupported` is enabled.
+            unsupported and `handle_unsupported` is enabled
 
     Raises:
         ONVIFOperationException: If the operation fails for a reason other
@@ -183,14 +195,18 @@ def safe_call(
 
 
 def ignore_unsupported(func: Callable) -> Any | None:
-    """Decorator to ignore `ActionNotSupported` SOAP faults.
+    """
+    <!-- md:version 0.4.0 -->
+    <!-- md:error_handler Error handling decorator-->
+
+    Decorator to ignore `ActionNotSupported` SOAP faults.
 
     Args:
         func (Callable): The function to decorate. The function may accept positional
             and keyword arguments.
 
     Returns:
-        A wrapped function that returns `None` when an `ActionNotSupported` fault occurs.
+        A wrapped function that returns `None` when an `ActionNotSupported` fault occurs
 
     Raises:
         ONVIFOperationException: If the decorated function fails for a reason

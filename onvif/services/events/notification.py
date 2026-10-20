@@ -5,17 +5,21 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class Notification(ONVIFService):
-    """WS-BaseNotification NotificationProducer service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 1.0 http://developer.onvif.org/pub/core/onvif_core_ver10.pdf -->
+
+    WS-BaseNotification NotificationProducer service client.
 
     This service provides access to the NotificationProducer interface used by
     ONVIF devices for push-based event notification subscriptions.
 
     | Property | Details |
-    | --- | --- |
-    | **See** | ONVIF Core Specification, OASIS WS-BaseNotification Specification |
+    | -------- | ------- |
+    | **See** | ONVIF Core Spec, OASIS WS-BaseNotification Spec |
     | **Binding name** | `NotificationProducerBinding` (`ver10/events/wsdl/event-vs.wsdl`) |
+    | **Spec** | [Notification](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.htm#_Toc133735622) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

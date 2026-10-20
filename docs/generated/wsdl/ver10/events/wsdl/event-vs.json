@@ -1,0 +1,1509 @@
+{
+  "source": "ver10/events/wsdl/event-vs.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/events/wsdl",
+  "operations": [
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "EventPortType",
+      "description": "Returns the capabilities of the event service. The result is returned in a typed answer.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/events/wsdl}Capabilities",
+                    "type_name": "Capabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Capabilities",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "optional",
+                          "name": "WSSubscriptionPolicySupport",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates that the WS Subscription policy is supported."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "WSPausableSubscriptionManagerInterfaceSupport",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates that the WS Pausable Subscription Manager Interface is supported."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "MaxNotificationProducers",
+                          "type": "{http://www.w3.org/2001/XMLSchema}int",
+                          "description": "Maximum number of supported notification producers as defined by WS-BaseNotification."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "MaxPullPoints",
+                          "type": "{http://www.w3.org/2001/XMLSchema}int",
+                          "description": "Maximum supported number of notification pull points."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "PersistentNotificationStorage",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indication if the device supports persistent notification storage."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "EventBrokerProtocols",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "description": "A space separated list of supported event broker protocols as defined by the tev:EventBrokerProtocol datatype."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "MaxEventBrokers",
+                          "type": "{http://www.w3.org/2001/XMLSchema}int",
+                          "description": "Maxiumum number of event broker configurations that can be added to the device."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "MetadataOverMQTT",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates that metadata streaming over MQTT is supported"
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capabilities for the event service is returned in the Capabilities element."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "EventBinding"
+    },
+    {
+      "name": "CreatePullPointSubscription",
+      "port_type": "EventPortType",
+      "description": "This method returns a PullPointSubscription that can be polled using PullMessages. This message contains the same elements as the SubscriptionRequest of the WS-BaseNotification without the ConsumerReference. If no Filter is specified the pullpoint notifies all occurring events to the client. This method is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}CreatePullPointSubscriptionRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}CreatePullPointSubscription",
+            "schema": {
+              "name": "CreatePullPointSubscription",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Filter",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}FilterType",
+                    "type_name": "FilterType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "FilterType",
+                      "fields": [],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "strict",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Optional XPATH expression to select specific topics."
+                  },
+                  {
+                    "name": "InitialTerminationTime",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}AbsoluteOrRelativeTimeType",
+                    "type_name": "AbsoluteOrRelativeTimeType",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "AbsoluteOrRelativeTimeType",
+                      "member_types": [
+                        "{http://www.w3.org/2001/XMLSchema}dateTime",
+                        "{http://www.w3.org/2001/XMLSchema}duration"
+                      ]
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": true,
+                    "description": "Initial termination time."
+                  },
+                  {
+                    "name": "SubscriptionPolicy",
+                    "definition": {
+                      "kind": "complexType",
+                      "fields": [],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Refer to <a href=\"http://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.htm\">Web Services Base Notification 1.3 (WS-BaseNotification)</a>."
+                  }
+                ],
+                "any": {
+                  "namespace": "##any",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}CreatePullPointSubscriptionResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}CreatePullPointSubscriptionResponse",
+            "schema": {
+              "name": "CreatePullPointSubscriptionResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "SubscriptionReference",
+                    "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                    "type_name": "EndpointReferenceType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "EndpointReferenceType",
+                      "fields": [
+                        {
+                          "name": "Address",
+                          "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                          "type_name": "AttributedURIType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AttributedURIType",
+                            "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                            "fields": [],
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "ReferenceParameters",
+                          "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                          "type_name": "ReferenceParametersType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ReferenceParametersType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "Metadata",
+                          "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                          "type_name": "MetadataType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "MetadataType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##other",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##other",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Endpoint reference of the subscription to be used for pulling the messages."
+                  },
+                  {
+                    "name": "CurrentTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}CurrentTime",
+                    "description": "Current time of the device for synchronization purposes."
+                  },
+                  {
+                    "name": "TerminationTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}TerminationTime",
+                    "description": "Date time when the PullPoint will be shut down without further pull requests."
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "InvalidFilterFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidFilterFault"
+        },
+        {
+          "name": "TopicExpressionDialectUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}TopicExpressionDialectUnknownFault"
+        },
+        {
+          "name": "InvalidTopicExpressionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidTopicExpressionFault"
+        },
+        {
+          "name": "TopicNotSupportedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}TopicNotSupportedFault"
+        },
+        {
+          "name": "InvalidProducerPropertiesExpressionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidProducerPropertiesExpressionFault"
+        },
+        {
+          "name": "InvalidMessageContentExpressionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}InvalidMessageContentExpressionFault"
+        },
+        {
+          "name": "UnacceptableInitialTerminationTimeFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnacceptableInitialTerminationTimeFault"
+        },
+        {
+          "name": "UnrecognizedPolicyRequestFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnrecognizedPolicyRequestFault"
+        },
+        {
+          "name": "UnsupportedPolicyRequestFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnsupportedPolicyRequestFault"
+        },
+        {
+          "name": "NotifyMessageNotSupportedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}NotifyMessageNotSupportedFault"
+        },
+        {
+          "name": "SubscribeCreationFailedFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}SubscribeCreationFailedFault"
+        }
+      ],
+      "binding": "EventBinding"
+    },
+    {
+      "name": "GetEventProperties",
+      "port_type": "EventPortType",
+      "description": "The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties. This specification does not require the implementation of the WS-ResourceProperty interface. Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device in order to provide information about the FilterDialects, Schema files and topics supported by the device.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}GetEventPropertiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}GetEventProperties",
+            "schema": {
+              "name": "GetEventProperties",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}GetEventPropertiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}GetEventPropertiesResponse",
+            "schema": {
+              "name": "GetEventPropertiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "TopicNamespaceLocation",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of topic namespaces supported."
+                  },
+                  {
+                    "name": "FixedTopicSet",
+                    "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                    "type_name": "boolean",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "default": "true",
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}FixedTopicSet",
+                    "description": "True when topicset is fixed for all times."
+                  },
+                  {
+                    "name": "TopicSet",
+                    "type": "{http://docs.oasis-open.org/wsn/t-1}TopicSetType",
+                    "type_name": "TopicSetType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "TopicSetType",
+                      "base": "{http://docs.oasis-open.org/wsn/t-1}ExtensibleDocumented",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "ExtensibleDocumented",
+                        "fields": [
+                          {
+                            "name": "documentation",
+                            "type": "{http://docs.oasis-open.org/wsn/t-1}Documentation",
+                            "type_name": "Documentation",
+                            "definition": {
+                              "kind": "complexType",
+                              "name": "Documentation",
+                              "fields": [],
+                              "any": {
+                                "namespace": "##any",
+                                "process_contents": "lax",
+                                "min_occurs": 0,
+                                "max_occurs": "unbounded"
+                              }
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false
+                          }
+                        ],
+                        "any_attribute": {
+                          "namespace": "##other",
+                          "process_contents": "lax"
+                        }
+                      },
+                      "fields": [],
+                      "any": {
+                        "namespace": "##other",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/t-1}TopicSet",
+                    "description": "Set of topics supported."
+                  },
+                  {
+                    "name": "TopicExpressionDialect",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionDialect",
+                    "description": "Defines the XPath expression syntax supported for matching topic expressions. <br>\n\t\t\t\t\t\t\tThe following TopicExpressionDialects are mandatory for an ONVIF compliant device :\n\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t<li>http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete</li>\n\t\t\t\t\t\t\t\t\t\t<li>http://www.onvif.org/ver10/tev/topicExpression/ConcreteSet.</li>\n\t\t\t\t\t\t\t\t\t</ul>"
+                  },
+                  {
+                    "name": "MessageContentFilterDialect",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Defines the XPath function set supported for message content filtering.<br> \n\t\t\t\t\t\tThe following MessageContentFilterDialects should be returned if a device supports the message content filtering:\n\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t<li>http://www.onvif.org/ver10/tev/messageContentFilter/ItemFilter.</li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\tA device that does not support any MessageContentFilterDialect returns a single empty url."
+                  },
+                  {
+                    "name": "ProducerPropertiesFilterDialect",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Optional ProducerPropertiesDialects. Refer to <a href=\"http://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.htm\">Web Services Base Notification 1.3 (WS-BaseNotification)</a> for advanced filtering."
+                  },
+                  {
+                    "name": "MessageContentSchemaLocation",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "The Message Content Description Language allows referencing\n\t\t\t\t\t\t\tof vendor-specific types. In order to ease the integration of such types into a client application,\n\t\t\t\t\t\t\tthe GetEventPropertiesResponse shall list all URI locations to schema files whose types are\n\t\t\t\t\t\t\tused in the description of notifications, with MessageContentSchemaLocation elements.<br> \n\t\t\t\t\t\t\tThis list shall at least contain the URI of the ONVIF schema file."
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "strict",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "EventBinding"
+    },
+    {
+      "name": "AddEventBroker",
+      "port_type": "EventPortType",
+      "description": "The AddEventBroker command allows an ONVIF client to add an event broker configuration to device to enable ONVIF events to be transferred to an event broker. If an existing event broker configuration already exists with the same Address, the existing configuration shall be modified.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}AddEventBrokerRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}AddEventBroker",
+            "schema": {
+              "name": "AddEventBroker",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "EventBroker",
+                    "type": "{http://www.onvif.org/ver10/events/wsdl}EventBrokerConfig",
+                    "type_name": "EventBrokerConfig",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "EventBrokerConfig",
+                      "fields": [
+                        {
+                          "name": "Address",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Event broker address in the format \"scheme://host:port[/resource]\". The supported schemes shall be returned by the EventBrokerProtocols capability. The resource part of the URL is only valid when using websocket. The Address must be unique."
+                        },
+                        {
+                          "name": "TopicPrefix",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Prefix that will be prepended to all topics before they are published. This is used to make published topics unique for each device. TopicPrefix is not allowed to be empty."
+                        },
+                        {
+                          "name": "UserName",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User name for the event broker."
+                        },
+                        {
+                          "name": "Password",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Password for the event broker. Password shall not be included when returned with GetEventBrokers."
+                        },
+                        {
+                          "name": "CertificateID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}token",
+                          "type_name": "token",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Optional certificate ID in the key store pointing to a client certificate to be used for authenticating the device at the message broker."
+                        },
+                        {
+                          "name": "PublishFilter",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}FilterType",
+                          "type_name": "FilterType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "FilterType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "strict",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Concrete Topic Expression to select specific event topics to publish."
+                        },
+                        {
+                          "name": "QoS",
+                          "type": "{http://www.w3.org/2001/XMLSchema}int",
+                          "type_name": "int",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Quality of service level to use when publishing. This defines the guarantee of delivery for a specific message: 0 = At most once, 1 = At least once, 2 = Exactly once."
+                        },
+                        {
+                          "name": "Status",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current connection status (see tev:ConnectionStatus for possible values)."
+                        },
+                        {
+                          "name": "CertPathValidationPolicyID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The ID of the certification path validation policy used to validate the broker certificate. In case encryption is used but no validation policy is specified, the device shall not validate the broker certificate."
+                        },
+                        {
+                          "name": "MetadataFilter",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}FilterType",
+                          "type_name": "FilterType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "FilterType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "strict",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Concrete Topic Expression to select specific metadata topics to publish."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}AddEventBrokerResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}AddEventBrokerResponse",
+            "schema": {
+              "name": "AddEventBrokerResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "EventBinding"
+    },
+    {
+      "name": "DeleteEventBroker",
+      "port_type": "EventPortType",
+      "description": "The DeleteEventBroker allows an ONVIF client to delete an event broker configuration from an ONVIF device.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}DeleteEventBrokerRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}DeleteEventBroker",
+            "schema": {
+              "name": "DeleteEventBroker",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Address",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}DeleteEventBrokerResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}DeleteEventBrokerResponse",
+            "schema": {
+              "name": "DeleteEventBrokerResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "EventBinding"
+    },
+    {
+      "name": "GetEventBrokers",
+      "port_type": "EventPortType",
+      "description": "The GetEventBrokers command lets a client retrieve event broker configurations from the device.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}GetEventBrokersRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}GetEventBrokers",
+            "schema": {
+              "name": "GetEventBrokers",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Address",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}GetEventBrokersResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}GetEventBrokersResponse",
+            "schema": {
+              "name": "GetEventBrokersResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "EventBroker",
+                    "type": "{http://www.onvif.org/ver10/events/wsdl}EventBrokerConfig",
+                    "type_name": "EventBrokerConfig",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "EventBrokerConfig",
+                      "fields": [
+                        {
+                          "name": "Address",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Event broker address in the format \"scheme://host:port[/resource]\". The supported schemes shall be returned by the EventBrokerProtocols capability. The resource part of the URL is only valid when using websocket. The Address must be unique."
+                        },
+                        {
+                          "name": "TopicPrefix",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Prefix that will be prepended to all topics before they are published. This is used to make published topics unique for each device. TopicPrefix is not allowed to be empty."
+                        },
+                        {
+                          "name": "UserName",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User name for the event broker."
+                        },
+                        {
+                          "name": "Password",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Password for the event broker. Password shall not be included when returned with GetEventBrokers."
+                        },
+                        {
+                          "name": "CertificateID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}token",
+                          "type_name": "token",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Optional certificate ID in the key store pointing to a client certificate to be used for authenticating the device at the message broker."
+                        },
+                        {
+                          "name": "PublishFilter",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}FilterType",
+                          "type_name": "FilterType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "FilterType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "strict",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Concrete Topic Expression to select specific event topics to publish."
+                        },
+                        {
+                          "name": "QoS",
+                          "type": "{http://www.w3.org/2001/XMLSchema}int",
+                          "type_name": "int",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Quality of service level to use when publishing. This defines the guarantee of delivery for a specific message: 0 = At most once, 1 = At least once, 2 = Exactly once."
+                        },
+                        {
+                          "name": "Status",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current connection status (see tev:ConnectionStatus for possible values)."
+                        },
+                        {
+                          "name": "CertPathValidationPolicyID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The ID of the certification path validation policy used to validate the broker certificate. In case encryption is used but no validation policy is specified, the device shall not validate the broker certificate."
+                        },
+                        {
+                          "name": "MetadataFilter",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}FilterType",
+                          "type_name": "FilterType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "FilterType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "strict",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Concrete Topic Expression to select specific metadata topics to publish."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "EventBinding"
+    },
+    {
+      "name": "PullMessages",
+      "port_type": "PullPointSubscription",
+      "description": "This method pulls one or more messages from a PullPoint. The device shall provide the following PullMessages command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command. This method shall not wait until the requested number of messages is available but return as soon as at least one message is available. The command shall at least support a Timeout of one minute. In case a device supports retrieval of less messages than requested it shall return these without generating a fault.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}PullMessagesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}PullMessages",
+            "schema": {
+              "name": "PullMessages",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Timeout",
+                    "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                    "type_name": "duration",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Maximum time to block until this method returns."
+                  },
+                  {
+                    "name": "MessageLimit",
+                    "type": "{http://www.w3.org/2001/XMLSchema}int",
+                    "type_name": "int",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Upper limit for the number of messages to return at once. A server implementation may decide to return less messages."
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "strict",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}PullMessagesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}PullMessagesResponse",
+            "schema": {
+              "name": "PullMessagesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "CurrentTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Current time of the device for synchronization purposes."
+                  },
+                  {
+                    "name": "TerminationTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Date time when the PullPoint will be shut down without further pull requests."
+                  },
+                  {
+                    "name": "NotificationMessage",
+                    "type": "{http://docs.oasis-open.org/wsn/b-2}NotificationMessageHolderType",
+                    "type_name": "NotificationMessageHolderType",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "NotificationMessageHolderType",
+                      "fields": [
+                        {
+                          "name": "SubscriptionReference",
+                          "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                          "type_name": "EndpointReferenceType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "EndpointReferenceType",
+                            "fields": [
+                              {
+                                "name": "Address",
+                                "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                                "type_name": "AttributedURIType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AttributedURIType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                  "fields": [],
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "ReferenceParameters",
+                                "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                                "type_name": "ReferenceParametersType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ReferenceParametersType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "Metadata",
+                                "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                                "type_name": "MetadataType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "MetadataType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##other",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}SubscriptionReference"
+                        },
+                        {
+                          "name": "Topic",
+                          "type": "{http://docs.oasis-open.org/wsn/b-2}TopicExpressionType",
+                          "type_name": "TopicExpressionType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "TopicExpressionType",
+                            "fields": [],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "Dialect",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": 1
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "strict"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}Topic"
+                        },
+                        {
+                          "name": "ProducerReference",
+                          "type": "{http://www.w3.org/2005/08/addressing}EndpointReferenceType",
+                          "type_name": "EndpointReferenceType",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "EndpointReferenceType",
+                            "fields": [
+                              {
+                                "name": "Address",
+                                "type": "{http://www.w3.org/2005/08/addressing}AttributedURIType",
+                                "type_name": "AttributedURIType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AttributedURIType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                  "fields": [],
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "ReferenceParameters",
+                                "type": "{http://www.w3.org/2005/08/addressing}ReferenceParametersType",
+                                "type_name": "ReferenceParametersType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ReferenceParametersType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              },
+                              {
+                                "name": "Metadata",
+                                "type": "{http://www.w3.org/2005/08/addressing}MetadataType",
+                                "type_name": "MetadataType",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "MetadataType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##other",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "ref": "{http://www.w3.org/2005/08/addressing}Metadata"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##other",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##other",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "ref": "{http://docs.oasis-open.org/wsn/b-2}ProducerReference"
+                        },
+                        {
+                          "name": "Message",
+                          "definition": {
+                            "kind": "complexType",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 1,
+                              "max_occurs": 1
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 1,
+                        "max_occurs": 1
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "ref": "{http://docs.oasis-open.org/wsn/b-2}NotificationMessage",
+                    "description": "List of messages. This list shall be empty in case of a timeout."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "PullMessagesFaultResponse",
+          "message": "{http://www.onvif.org/ver10/events/wsdl}PullMessagesFaultResponse"
+        }
+      ],
+      "binding": "PullPointSubscriptionBinding"
+    },
+    {
+      "name": "Seek",
+      "port_type": "PullPointSubscription",
+      "description": "This method readjusts the pull pointer into the past. A device supporting persistent notification storage shall provide the following Seek command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command. The optional Reverse argument can be used to reverse the pull direction of the PullMessages command. The UtcTime argument will be matched against the UtcTime attribute on a NotificationMessage.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}SeekRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}Seek",
+            "schema": {
+              "name": "Seek",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "UtcTime",
+                    "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                    "type_name": "dateTime",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The date and time to match against stored messages."
+                  },
+                  {
+                    "name": "Reverse",
+                    "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                    "type_name": "boolean",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Reverse the pull direction of PullMessages."
+                  }
+                ],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "strict",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}SeekResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}SeekResponse",
+            "schema": {
+              "name": "SeekResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "PullPointSubscriptionBinding"
+    },
+    {
+      "name": "SetSynchronizationPoint",
+      "port_type": "PullPointSubscription",
+      "description": "Properties inform a client about property creation, changes and deletion in a uniform way. When a client wants to synchronize its properties with the properties of the device, it can request a synchronization point which repeats the current status of all properties to which a client has subscribed. The PropertyOperation of all produced notifications is set to \"Initialized\". The Synchronization Point is requested directly from the SubscriptionManager which was returned in either the SubscriptionResponse or in the CreatePullPointSubscriptionResponse. The property update is transmitted via the notification transportation of the notification interface. This method is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}SetSynchronizationPointRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}SetSynchronizationPoint",
+            "schema": {
+              "name": "SetSynchronizationPoint",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/events/wsdl}SetSynchronizationPointResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/events/wsdl}SetSynchronizationPointResponse",
+            "schema": {
+              "name": "SetSynchronizationPointResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "PullPointSubscriptionBinding"
+    },
+    {
+      "name": "Unsubscribe",
+      "port_type": "PullPointSubscription",
+      "description": "The device shall provide the following Unsubscribe command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command. This command shall terminate the lifetime of a pull point.",
+      "input": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}UnsubscribeRequest",
+        "parts": [
+          {
+            "name": "UnsubscribeRequest",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}Unsubscribe",
+            "schema": {
+              "name": "Unsubscribe",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://docs.oasis-open.org/wsn/bw-2}UnsubscribeResponse",
+        "parts": [
+          {
+            "name": "UnsubscribeResponse",
+            "element": "{http://docs.oasis-open.org/wsn/b-2}UnsubscribeResponse",
+            "schema": {
+              "name": "UnsubscribeResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [],
+                "any": {
+                  "namespace": "##other",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "ResourceUnknownFault",
+          "message": "{http://docs.oasis-open.org/wsrf/rw-2}ResourceUnknownFault"
+        },
+        {
+          "name": "UnableToDestroySubscriptionFault",
+          "message": "{http://docs.oasis-open.org/wsn/bw-2}UnableToDestroySubscriptionFault"
+        }
+      ],
+      "binding": "PullPointSubscriptionBinding"
+    }
+  ]
+}

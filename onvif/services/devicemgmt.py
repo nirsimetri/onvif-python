@@ -5,16 +5,20 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name,too-many-public-methods
 class Device(ONVIFService):
-    """Device service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 1.0 http://developer.onvif.org/pub/core/onvif_core_ver10.pdf -->
+    <!-- md:example_file get_onvif_version.py -->
+
+    Device service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Core |
+    | -------- | ------- |
+    | **First introduced** | ONVIF 1.0 (November 2008) |
     | **Binding name** | `DeviceBinding` (`ver10/device/wsdl/devicemgmt.wsdl`) |
-    | **Operations** | [devicemgmt.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/device/wsdl/devicemgmt.wsdl) |
-    | **Specification** | [Core.xml](https://developer.onvif.org/pub/specs/branches/development/doc/Core.xml) |
+    | **Operations** | [devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl) |
+    | **Spec** | [Core](https://www.onvif.org/specs/core/ONVIF-Core-Specification.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):
@@ -66,10 +70,11 @@ class Device(ONVIFService):
         - tt:Washer|On - Request to start the washer.
         - tt:Washer|Off - Request to stop the washer.
         - tt:WashingProcedure|On - Request to start the washing procedure.
-        - tt: WashingProcedure |Off - Request to stop the washing procedure.
+        - tt:WashingProcedure|Off - Request to stop the washing procedure.
         - tt:IRLamp|On - Request to turn ON an IR illuminator attached to the unit.
         - tt:IRLamp|Off - Request to turn OFF an IR illuminator attached to the unit.
-        - tt:IRLamp|Auto - Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.
+        - tt:IRLamp|Auto - Request to configure an IR illuminator attached to the unit
+            so that it automatically turns ON and OFF.
 
         A device that indicates auxiliary service capability shall support this command.
         """
@@ -307,7 +312,10 @@ class Device(ONVIFService):
         return self.operator.call("SetRemoteUser", RemoteUser=RemoteUser)
 
     def GetUserRoles(self, UserRole=None):
-        """This operation returns the editable user levels configured in the device.
+        """
+        <!-- md:version 0.2.7 -->
+
+        This operation returns the editable user levels configured in the device.
 
         Whenever an editable user level is passed in the request, information only about
         that level is returned.
@@ -315,7 +323,10 @@ class Device(ONVIFService):
         return self.operator.call("GetUserRoles", UserRole=UserRole)
 
     def SetUserRole(self, UserRole):
-        """This operation configures an editable user level in the device.
+        """
+        <!-- md:version 0.2.7 -->
+
+        This operation configures an editable user level in the device.
 
         If the level passed in UserRole already exists in the device, its configuration
         is overwritten. Otherwise, a new editable user level is created.
@@ -323,7 +334,11 @@ class Device(ONVIFService):
         return self.operator.call("SetUserRole", UserRole=UserRole)
 
     def DeleteUserRole(self, UserRole):
-        """This operation deletes an editable user level in the device."""
+        """
+        <!-- md:version 0.2.7 -->
+
+        This operation deletes an editable user level in the device.
+        """
         return self.operator.call("DeleteUserRole", UserRole=UserRole)
 
     def GetUsers(self):
@@ -880,7 +895,10 @@ class Device(ONVIFService):
         return self.operator.call("StartFirmwareUpgrade")
 
     def UpgradeFirmware(self, Version):
-        """This operation initiates a firmware upgrade using between the device and the
+        """
+        <!-- md:version 0.2.6 -->
+
+        This operation initiates a firmware upgrade using between the device and the
         MCS, without further actions from the client.
 
         Cloud firmware upgrade may be achieved using the following steps:

@@ -20,6 +20,7 @@ Note:
 import socket
 import struct
 import sys
+import traceback
 import uuid
 
 from lxml import etree
@@ -55,14 +56,14 @@ def get_network_interface():
         local_ip = s.getsockname()[0]
         s.close()
         return local_ip
-    except Exception:
+    except OSError:
         # Try alternative method to get local IP
         try:
             hostname = socket.gethostname()
             local_ip = socket.gethostbyname(hostname)
             if local_ip and not local_ip.startswith("127."):
                 return local_ip
-        except Exception:
+        except OSError:
             pass
 
         # Return empty string instead of "0.0.0.0"
@@ -158,7 +159,6 @@ def send_probe_and_get_responses(network_interface=None, timeout=WS_DISCOVERY_TI
 
     except Exception as e:
         print(f"Error during discovery: {e}")
-        import traceback
 
         traceback.print_exc()
 
@@ -346,9 +346,8 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\n\nDiscovery interrupted by user.")
         sys.exit(0)
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
         print(f"\nUnexpected error: {e}")
-        import traceback
 
         traceback.print_exc()
         sys.exit(1)

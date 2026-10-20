@@ -828,7 +828,7 @@ class TestCreateType:
             operator.create_type("GetProfiles")
 
 
-# pylint: disable=invalid-name,unnecessary-pass,too-few-public-methods
+# pylint: disable=unnecessary-pass
 class TestInitializeNestedTypes:
     """Tests for the _initialize_nested_types method of ONVIFOperator."""
 

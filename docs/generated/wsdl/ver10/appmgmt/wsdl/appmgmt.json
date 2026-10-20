@@ -1,0 +1,758 @@
+{
+  "source": "ver10/appmgmt/wsdl/appmgmt.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/appmgmt/wsdl",
+  "operations": [
+    {
+      "name": "Uninstall",
+      "port_type": "AppManagement",
+      "description": "Removes an app from a device. This method shall return immedeiately and not wait until the application is completely removed. On completion or failure the method shall generate an UninstallCompletion event.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}UninstallRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}Uninstall",
+            "schema": {
+              "name": "Uninstall",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AppID",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "App to be uninstalled. Possible failures during deinstallation will be delivered via an event."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}UninstallResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}UninstallResponse",
+            "schema": {
+              "name": "UninstallResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AppManagementBinding"
+    },
+    {
+      "name": "GetInstalledApps",
+      "port_type": "AppManagement",
+      "description": "List installed apps on the device.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetInstalledAppsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetInstalledApps",
+            "schema": {
+              "name": "GetInstalledApps",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetInstalledAppsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetInstalledAppsResponse",
+            "schema": {
+              "name": "GetInstalledAppsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "App",
+                    "definition": {
+                      "kind": "complexType",
+                      "fields": [
+                        {
+                          "name": "Name",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        },
+                        {
+                          "name": "AppID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "strict"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of installed apps providing both user readable name and token."
+                  }
+                ],
+                "any": {
+                  "namespace": "##any",
+                  "process_contents": "lax",
+                  "min_occurs": 0,
+                  "max_occurs": "unbounded"
+                },
+                "any_attribute": {
+                  "namespace": "##any",
+                  "process_contents": "strict"
+                }
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AppManagementBinding"
+    },
+    {
+      "name": "GetAppsInfo",
+      "port_type": "AppManagement",
+      "description": "The caller may provide an application ID to retrieve the information for a single application. If no application ID is provided the device shall report the information for all installed applications.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetAppsInfoRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetAppsInfo",
+            "schema": {
+              "name": "GetAppsInfo",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AppID",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Optional ID to only retrieve information for a single application."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetAppsInfoResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetAppsInfoResponse",
+            "schema": {
+              "name": "GetAppsInfoResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Info",
+                    "type": "{http://www.onvif.org/ver10/appmgmt/wsdl}AppInfo",
+                    "type_name": "AppInfo",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "AppInfo",
+                      "fields": [
+                        {
+                          "name": "AppID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Unique app identifier of the application instance."
+                        },
+                        {
+                          "name": "Name",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable application name"
+                        },
+                        {
+                          "name": "Version",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Version of the installed application. The details of the format are outside of the scope of this specificaton."
+                        },
+                        {
+                          "name": "Licenses",
+                          "type": "{http://www.onvif.org/ver10/appmgmt/wsdl}LicenseInfo",
+                          "type_name": "LicenseInfo",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "LicenseInfo",
+                            "fields": [
+                              {
+                                "name": "Name",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "type_name": "string",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Textual name of the license"
+                              },
+                              {
+                                "name": "ValidFrom",
+                                "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                                "type_name": "dateTime",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Start time of validity"
+                              },
+                              {
+                                "name": "ValidUntil",
+                                "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                                "type_name": "dateTime",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "End time of validity"
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "strict"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "Licenses associated with the application."
+                        },
+                        {
+                          "name": "Privileges",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "List of privileges granted to the application."
+                        },
+                        {
+                          "name": "InstallationDate",
+                          "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                          "type_name": "dateTime",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Date and time when the application has been installed."
+                        },
+                        {
+                          "name": "LastUpdate",
+                          "type": "{http://www.w3.org/2001/XMLSchema}dateTime",
+                          "type_name": "dateTime",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Time of last update to this app, i.e. the time when this particular version was installed."
+                        },
+                        {
+                          "name": "State",
+                          "type": "{http://www.onvif.org/ver10/appmgmt/wsdl}AppState",
+                          "type_name": "AppState",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "AppState",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "enumeration": [
+                              {
+                                "value": "Active"
+                              },
+                              {
+                                "value": "Inactive"
+                              },
+                              {
+                                "value": "Installing"
+                              },
+                              {
+                                "value": "Uninstalling"
+                              },
+                              {
+                                "value": "Removed"
+                              },
+                              {
+                                "value": "InstallationFailed"
+                              }
+                            ]
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "InstallationFailed state shall not be used here."
+                        },
+                        {
+                          "name": "Status",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Supplemental information why the application is in the current state. In error cases this field contains the error reason."
+                        },
+                        {
+                          "name": "Autostart",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "type_name": "boolean",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "If set the application will start automatically after booting of the device."
+                        },
+                        {
+                          "name": "Website",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Link to supplementary information about the application or its vendor."
+                        },
+                        {
+                          "name": "OpenSource",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Link to a list of open source licenses used by the application."
+                        },
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Optional Uri for backup and restore of the application configuration."
+                        },
+                        {
+                          "name": "InterfaceDescription",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "Optional reference to the interface definition of the application."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "strict"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AppManagementBinding"
+    },
+    {
+      "name": "Activate",
+      "port_type": "AppManagement",
+      "description": "Starts an application.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}ActivateRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}Activate",
+            "schema": {
+              "name": "Activate",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AppID",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "App identifier."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}ActivateResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}ActivateResponse",
+            "schema": {
+              "name": "ActivateResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AppManagementBinding"
+    },
+    {
+      "name": "Deactivate",
+      "port_type": "AppManagement",
+      "description": "Stops an application.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}DeactivateRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}Deactivate",
+            "schema": {
+              "name": "Deactivate",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AppID",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "App identifier."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}DeactivateResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}DeactivateResponse",
+            "schema": {
+              "name": "DeactivateResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AppManagementBinding"
+    },
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "AppManagement",
+      "description": "Returns the capabilities of the app management service.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/appmgmt/wsdl}Capabilities",
+                    "type_name": "Capabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Capabilities",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "optional",
+                          "name": "FormatsSupported",
+                          "type": "{http://www.onvif.org/ver10/schema}StringAttrList",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "StringAttrList",
+                            "item_type": "{http://www.w3.org/2001/XMLSchema}string"
+                          },
+                          "description": "List of supported app container formats that can be uploaded via this service."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "Licensing",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Signals support for licensing of applications."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "UploadPath",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "description": "Path part of the URI to which applications can be uploaded via http POST. \n                            Clients shall use protocol, hostname and port of the service address since the device may e.g. reside behind NAT translation firewall."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "EventTopicPrefix",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "description": "Optional Event Topic prefix used when delivering app events in eventservice."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capabilities of the service."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AppManagementBinding"
+    },
+    {
+      "name": "InstallLicense",
+      "port_type": "AppManagement",
+      "description": "Installs a license to the device. If the device requires PerApp licensing than the AppID parameter shall be provided.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}InstallLicenseRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}InstallLicense",
+            "schema": {
+              "name": "InstallLicense",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AppID",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Application the license shall be associated to."
+                  },
+                  {
+                    "name": "License",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Opaque machine readable license string."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}InstallLicenseResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}InstallLicenseResponse",
+            "schema": {
+              "name": "InstallLicenseResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AppManagementBinding"
+    },
+    {
+      "name": "GetDeviceId",
+      "port_type": "AppManagement",
+      "description": "Get the unique device id to which the licenses are issued.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetDeviceIdRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetDeviceId",
+            "schema": {
+              "name": "GetDeviceId",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetDeviceIdResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/appmgmt/wsdl}GetDeviceIdResponse",
+            "schema": {
+              "name": "GetDeviceIdResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "DeviceId",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AppManagementBinding"
+    }
+  ]
+}

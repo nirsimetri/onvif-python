@@ -13,7 +13,7 @@ from onvif import ONVIFClient, ONVIFOperationException
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
 try:
     client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)

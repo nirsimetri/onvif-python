@@ -1,13 +1,23 @@
+---
+hide:
+  - path
+comments: true
+---
+
 Below are simple examples to help you get started with the ONVIF Python library. These demonstrate how to discover and connect to ONVIF-compliant devices and retrieve basic device information.
 
-!!! tip "For beginners"
+!!! note "For beginners"
     If you're new to ONVIF and want to learn more, we highly recommend taking the official free online course provided by ONVIF at [Introduction to ONVIF Course](https://www.onvif.org/about/introduction-to-onvif-course).
     
-    Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](legal/legal_notice.md) for details.
+    Please note that we are not endorsed or sponsored by ONVIF, see [Legal Notice](legal/notice.md) for details.
 
 ### Discover ONVIF Devices
 
-Use [`ONVIFDiscovery`](api/core/onvif_discovery.md) (applied at [`>=v0.1.6`](releases.md/#v0.1.6)) to automatically find ONVIF devices on your local network:
+<!-- md:version 0.1.6 -->
+<!-- md:example_view device_discovery_raw.py -->
+<!-- md:example_view device_discovery.py -->
+
+Use [`ONVIFDiscovery`](api/utilities/onvif_discovery.md) to automatically find ONVIF devices on your local network:
 
 ```python linenums="1"
 from onvif import ONVIFDiscovery
@@ -63,12 +73,12 @@ client = ONVIFClient(
 
 [`ONVIFClient`](api/core/onvif_client.md) provides several main services that can be accessed via the following methods:
 
-- `client.devicemgmt()` — Device Management
-- `client.events()` — Events
-- `client.imaging()` — Imaging
-- `client.media()` — Media
-- `client.ptz()` — PTZ (Pan-Tilt-Zoom)
-- `client.analytics()` — Analytics
+- `client.devicemgmt()` → Device Management
+- `client.events()` → Events
+- `client.imaging()` → Imaging
+- `client.media()` → Media
+- `client.ptz()` → PTZ (Pan-Tilt-Zoom)
+- `client.analytics()` → Analytics
 
 and so on, check [`ONVIFClient`](api/core/onvif_client.md) for more details
 
@@ -80,16 +90,20 @@ media = client.media()            # Media
 
 ### Get Device Information
 
+<!-- md:example_file check_device.py type=default -->
+
 Retrieve basic information about the device, such as manufacturer, model, firmware version, and serial number using [`devicemgmt()`](api/services/device.md) service:
 
 ```python linenums="1"
 info = device.GetDeviceInformation()
 print(info)
 # Example output:
-# {'Manufacturer': '..', 'Model': '..', 'FirmwareVersion': '..', 'SerialNumber': '..'}
+# {'Manufacturer': '..', 'Model': '..', 'FirmwareVersion': '..', ...}
 ```
 
 ### Get RTSP URL
+
+<!-- md:example_file open_stream.py type=default -->
 
 Retrieve the RTSP stream URL for live video streaming from the device using [`media()`](api/services/media.md) service:
 

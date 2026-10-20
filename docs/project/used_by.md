@@ -1,6 +1,14 @@
-With <a href="https://pepy.tech/projects/onvif-python"><img src="https://img.shields.io/pepy/dt/onvif-python?label=Total Downloads&color=red&style=plastic" alt="Total Downloads" style="vertical-align: -3.5px;"></a>, the `onvif-python` library is already being used by several well-known open-source projects, including:
+---
+hide:
+  - path
+comments: true
+---
+
+With <a href="https://pepy.tech/projects/onvif-python" class="no-external-icon"><img src="https://img.shields.io/pepy/dt/onvif-python?label=Total Downloads&color=red&style=plastic" alt="Total Downloads" style="vertical-align: -3.5px;"></a>, the `onvif-python` library is already being used by several well-known open-source projects, including:
 
 ## Viseron
+
+<!-- md:demo https://github.com/roflcoopter/viseron/tree/dev/viseron/components/onvif type=default -->
 
 [Viseron](https://viseron.netlify.app/) is an open-source self-hosted, local only NVR and AI Computer Vision software with support for ONVIF cameras.
 
@@ -13,6 +21,8 @@ ONVIF cameras can be configured through Viseron's dashboard, while PTZ cameras c
 For more information, see the [Viseron ONVIF component](https://viseron.netlify.app/components-explorer/components/onvif).
 
 ## pwneye
+
+<!-- md:demo https://github.com/Hackerest/pwneye/blob/main/pwneye/core/network/onvif.py type=default -->
 
 [pwneye](https://github.com/Hackerest/pwneye) is an ONVIF and RTSP camera security testing companion focused on discovering, enumerating, and interacting with real-world security cameras.
 

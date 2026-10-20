@@ -5,7 +5,7 @@ from __future__ import annotations
 import getpass
 import sys
 import traceback as traceback_lib
-from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from argparse import ArgumentParser, Namespace, RawDescriptionHelpFormatter
 
 from onvif.cli.helpers import (
     discover_devices,
@@ -19,7 +19,7 @@ from onvif.cli.helpers.messages import CLI_EPILOG
 from onvif.cli.interactive import InteractiveShell
 from onvif.cli.utils import colorize
 from onvif.client import ONVIFClient
-from onvif.meta import __repository__, __version__
+from onvif.meta import __repository__, __terminal_name__, __version__
 from onvif.operator import CacheMode
 from onvif.utils import ONVIFOperationException
 
@@ -28,7 +28,10 @@ def _create_parser() -> ArgumentParser:
     """Create argument parser for ONVIF CLI."""
     parser = ArgumentParser(
         prog="onvif",
-        description=f"{colorize('ONVIF Terminal Client', 'yellow')} — v{__version__}\n{__repository__}",
+        description=(
+            f"{colorize(__terminal_name__, 'yellow')} — "
+            f"v{__version__}\n{__repository__}"
+        ),
         formatter_class=RawDescriptionHelpFormatter,
         epilog=CLI_EPILOG,
     )
@@ -163,7 +166,7 @@ def _create_parser() -> ArgumentParser:
     return parser
 
 
-def _handle_discovery_mode(parser, args) -> None:
+def _handle_discovery_mode(parser: ArgumentParser, args: Namespace) -> None:
     """Handle discovery mode."""
     if args.discover:
         if args.host:
@@ -199,7 +202,7 @@ def _handle_discovery_mode(parser, args) -> None:
         args.host, args.port, _ = selected
 
 
-def _handle_authentication(args) -> None:
+def _handle_authentication(args: Namespace) -> None:
     """Handle auth prompt."""
     # Handle username prompt (skip for search mode)
     if not args.search and not args.username:
@@ -220,7 +223,7 @@ def _handle_authentication(args) -> None:
             sys.exit(1)
 
 
-def _process_onvif_client(args) -> None:
+def _process_onvif_client(args: Namespace) -> None:
     """Process ONVIFClient initialization."""
     # Skip ONVIF client creation for search mode
     if args.search:
@@ -252,7 +255,8 @@ def _process_onvif_client(args) -> None:
             # Test connection before starting interactive shell
             try:
                 # Try to get device information to verify connection
-                client.devicemgmt().GetDeviceInformation()
+                device = client.devicemgmt()
+                device_data = device.to_dict(device.GetDeviceInformation())
             except ONVIFOperationException as e:
                 print(
                     f"{colorize('Error:', 'red')} Unable to connect to ONVIF device at "
@@ -265,7 +269,7 @@ def _process_onvif_client(args) -> None:
                 sys.exit(1)
 
             # Start interactive shell
-            shell = InteractiveShell(client, args)
+            shell = InteractiveShell(client=client, args=args, device_data=device_data)
             shell.run()
         else:
             # Execute direct command

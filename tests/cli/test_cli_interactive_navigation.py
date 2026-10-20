@@ -605,7 +605,7 @@ class TestNavigationCommandsEnterService:
         print_exc.assert_not_called()
 
 
-class TestNavigationCommandsExitService:  # pylint: disable=too-few-public-methods
+class TestNavigationCommandsExitService:
     """Test exit service alias."""
 
     def test_do_exit_service_delegates_to_do_up(self):

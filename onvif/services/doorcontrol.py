@@ -5,16 +5,19 @@ from onvif.utils.service import ONVIFService
 from onvif.utils.wsdl import ONVIFWSDL
 
 
-# pylint: disable=invalid-name
 class DoorControl(ONVIFService):
-    """DoorControl service client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:onvif_version 2.3 https://www.onvif.org/specs/DocMap-2.3.html -->
+
+    DoorControl service client.
 
     | Property | Details |
-    | --- | --- |
-    | **First introduced** | ONVIF Release 2.3 (May 2013) |
+    | -------- | ------- |
+    | **First introduced** | ONVIF 2.3 (May 2013) |
     | **Binding name** | `DoorControlBinding` (`ver10/pacs/doorcontrol.wsdl`) |
-    | **Operations** | [doorcontrol.wsdl](https://developer.onvif.org/pub/specs/branches/development/wsdl/ver10/pacs/doorcontrol.wsdl) |
-    | **Specification** | [DoorControl.xml](https://developer.onvif.org/pub/specs/branches/development/doc/DoorControl.xml) |
+    | **Operations** | [doorcontrol.wsdl](https://www.onvif.org/ver10/pacs/doorcontrol.wsdl) |
+    | **Spec** | [DoorControl](https://www.onvif.org/specs/srv/door/ONVIF-DoorControl-Service-Spec.pdf) |
     """
 
     def __init__(self, xaddr=None, **kwargs):

@@ -1,0 +1,230 @@
+
+{% extends "_base/function.html.jinja" %}
+
+{% macro has_schema_fields(definition) %}
+  {% set fields = definition.get("fields", []) or [] %}
+  {% set attributes = definition.get("attributes", []) or [] %}
+  {% set base_definition = definition.get("base_definition", {}) or {} %}
+  {% set inherited_fields = base_definition.get("fields", []) or [] %}
+  {{ "true" if fields or attributes or inherited_fields else "false" }}
+{% endmacro %}
+
+
+{% macro render_schema(node, depth=0) %}
+  {% set fields = node.get("fields", []) or [] %}
+  {% set base_definition = node.get("base_definition", {}) or {} %}
+  {% set inherited_fields = base_definition.get("fields", []) or [] %}
+
+  {% if fields or inherited_fields %}
+    <ul class="wsdl-schema__tree">
+      {% for field in inherited_fields %}
+        {{ render_schema_row(field, depth) }}
+      {% endfor %}
+      {% for field in fields %}
+        {{ render_schema_row(field, depth) }}
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
+
+
+{% macro render_schema_row(field, depth=0) %}
+  {% set definition = field.get("definition", {}) or {} %}
+  {% set field_name = field.get("name") or field.get("ref") or "—" %}
+  {% set type_name = field.get("type_name") or field.get("type") or definition.get("kind") %}
+  {% set nested_fields = definition.get("fields", []) or [] %}
+  {% set base_definition = definition.get("base_definition", {}) or {} %}
+  {% set inherited_fields = base_definition.get("fields", []) or [] %}
+  {% set enumeration = definition.get("enumeration", []) or [] %}
+  {% set minimum = field.get("min_occurs", 1) %}
+  {% set maximum = field.get("max_occurs", 1) %}
+  {% set use = field.get("use") %}
+
+  <li class="wsdl-schema__item">
+    <div class="wsdl-schema__node">
+      <div class="wsdl-schema__heading">
+        <code class="wsdl-schema__name">{{ field_name | e }}</code>
+
+        {% if use == "required" %}
+          <span> - required;</span>
+        {% elif minimum == 0 and maximum == "unbounded" %}
+          <span> - optional, unbounded;</span>
+        {% elif maximum == "unbounded" %}
+          <span> - unbounded;</span>
+        {% elif minimum == 0 %}
+          <span> - optional;</span>
+        {% endif %}
+
+        {% if type_name %}
+          {% set clean_type = type_name|string %}
+          <span>
+            [<code>{{ clean_type.split("}")[-1] | e }}</code>]
+          </span>
+        {% endif %}
+      </div>
+
+      {% if field.get("description") %}
+        <div class="wsdl-schema__description">
+          {{ field.get("description") | safe }}
+        </div>
+      {% endif %}
+
+      {% if field.get("default") is not none %}
+        <div class="wsdl-schema__meta">
+          Default: <code>{{ field.get("default") | e }}</code>
+        </div>
+      {% endif %}
+
+      {% if field.get("fixed") is not none %}
+        <div class="wsdl-schema__meta">
+          Fixed: <code>{{ field.get("fixed") | e }}</code>
+        </div>
+      {% endif %}
+
+      {% if enumeration %}
+        <div class="wsdl-schema__enum">
+          <table>
+            <thead>
+              <tr>
+                <th>Enum Value</th>
+                <th>Enum Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in enumeration %}
+                {% if item is mapping %}
+                  {% set enum_value = item.get("value", "") %}
+                  {% set enum_description = item.get("description", "—") %}
+                {% else %}
+                  {% set enum_value = item %}
+                  {% set enum_description = "—" %}
+                {% endif %}
+                <tr>
+                  <td><code>{{ enum_value | e }}</code></td>
+                  <td>{{ enum_description | safe }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+
+      {% for key, label in [
+        ("minLength", "Minimum length"),
+        ("maxLength", "Maximum length"),
+        ("length", "Exact length"),
+        ("pattern", "Pattern"),
+        ("minInclusive", "Minimum value"),
+        ("maxInclusive", "Maximum value"),
+        ("minExclusive", "Exclusive minimum"),
+        ("maxExclusive", "Exclusive maximum"),
+        ("totalDigits", "Total digits"),
+        ("fractionDigits", "Fraction digits"),
+        ("whiteSpace", "Whitespace")
+      ] %}
+        {% if definition.get(key) is not none %}
+          <div class="wsdl-schema__meta">
+            <i>{{ label }}:</i> <code>{{ definition.get(key) | e }}</code>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {% if definition.get("attributes") %}
+        <ul class="wsdl-schema__tree">
+          {% for attribute in definition.get("attributes", []) %}
+            {% set attribute_type = attribute.get("type") %}
+            <li class="wsdl-schema__item">
+              <div class="wsdl-schema__node">
+                <div class="wsdl-schema__heading">
+                  <code class="wsdl-schema__name">
+                    {{ attribute.get("name") or attribute.get("ref") or "—" | e }}
+                  </code>
+
+                  {% if attribute.get("use") == "required" %}
+                    <span> - required;</span>
+                  {% elif attribute.get("use") == "optional" %}
+                    <span> - optional;</span>
+                  {% endif %}
+
+                  {% if attribute_type %}
+                    {% set clean_attribute_type = attribute_type|string %}
+                    <span>
+                      [<code>{{ clean_attribute_type.split("}")[-1] | e }}</code>]
+                    </span>
+                  {% endif %}
+                </div>
+
+                {% if attribute.get("description") %}
+                  <div class="wsdl-schema__description">
+                    {{ attribute.get("description") | safe }}
+                  </div>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if nested_fields or inherited_fields %}
+        {{ render_schema(definition, depth + 1) }}
+      {% endif %}
+    </div>
+  </li>
+{% endmacro %}
+
+
+{% block contents scoped %}
+  {{ super() }}
+
+  {% set operation_schema = obj.extra.get("wsdl_schema") %}
+
+  {% if operation_schema %}
+    {% for section in ("input", "output") %}
+      {% set message = operation_schema.get(section, {}) or {} %}
+      {% set parts = message.get("parts", []) or [] %}
+      {% set visible_parts = [] %}
+
+      {% for part in parts %}
+        {% set schema = part.get("schema", {}) or {} %}
+        {% set definition = schema.get("definition", {}) or {} %}
+        {% set has_fields = has_schema_fields(definition) | trim %}
+
+        {% if has_fields == "true" %}
+          {% set _ = visible_parts.append(part) %}
+        {% endif %}
+      {% endfor %}
+
+      {% if visible_parts %}
+        <details class="wsdl-schema admonition {{ 'wsdl-input' if section == 'input' else 'wsdl-output' }}">
+          <summary class="wsdl-schema__title">
+            {{ section | title }}
+          </summary>
+
+          <div class="wsdl-schema__content">
+            {% for part in visible_parts %}
+              {% set part_schema = part.get("schema", {}) or {} %}
+              {% set part_definition = part_schema.get("definition", {}) or {} %}
+              {% set response_name = (
+                part_schema.get("name")
+                or part.get("name")
+                or part_schema.get("element")
+                or part_schema.get("type")
+              ) %}
+
+              {% if part_schema.get("description") %}
+                <p>{{ part_schema.get("description") | safe }}</p>
+              {% endif %}
+
+              {% if has_schema_fields(part_definition) | trim == "true" %}
+                {{ render_schema(part_definition) }}
+              {% elif response_name %}
+                {% set clean_response_name = response_name | string | replace("}", " ") %}
+                <code>{{ clean_response_name.split(" ")[-1] | e }}</code>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </details>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endblock contents %}

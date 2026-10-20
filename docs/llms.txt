@@ -1,0 +1,220 @@
+# ONVIF Python
+
+> A modern, developer-friendly Python Library + CLI for discovering, connecting to, and managing ONVIF-compliant IP cameras, NVRs, and other ONVIF-compliant devices. It provides a Pythonic interface to ONVIF SOAP services, built-in WSDL definitions, WS-Discovery, device management, media streaming, PTZ, events, analytics, and a feature-rich command-line interface.
+
+ONVIF Python is an independent open-source implementation of the ONVIF specifications, maintained by Nirsimetri Technologies. It is designed for individual developers, companies building video management systems (VMS) and video intelligence platforms, security integrators, and IoT developers.
+
+The library uses Zeep for SOAP communication and Requests for HTTP transport. It aims to preserve official ONVIF operation names, parameter structures, and response formats while providing type hints, IDE completion, connection configuration, caching, error handling, and debugging facilities.
+
+- Official documentation: https://onvif-python.pages.dev
+- GitHub repository: https://github.com/nirsimetri/onvif-python
+- PyPI package: https://pypi.org/project/onvif-python
+- Python requirement: 3.10 or higher
+- License: MIT; see the repository's license and notice for applicable terms.
+
+## Getting Started
+
+- [Installation](https://onvif-python.pages.dev/installation/): Install the package using pip, pipx, or a local repository checkout.
+- [Quickstart](https://onvif-python.pages.dev/quick_start/): Discover ONVIF devices, initialize `ONVIFClient`, create service instances, retrieve device information, and obtain RTSP stream URIs.
+- [Philosophy](https://onvif-python.pages.dev/philosophy/): Understand the library's design principles, WYSIWYG API approach, interoperability goals, specification accuracy, Python typing, and dependency philosophy.
+
+## Main Features
+
+- [ONVIF Client Guide](https://onvif-python.pages.dev/main/onvif_client/): Configure connections, authentication, HTTPS, timeouts, WSDL directories, Zeep plugins, caching modes, and XML debugging.
+- [CLI Guide](https://onvif-python.pages.dev/main/onvif_cli/): Discover devices, execute service operations, use the interactive shell, inspect services, search the ONVIF product database, and export command output.
+- [Helper Methods](https://onvif-python.pages.dev/utilities/helper_methods/): Learn about common service helpers for constructing request types and inspecting available operations.
+
+## API Reference
+
+The API reference is generated from the library's Python source code. Use it to verify actual class signatures, parameters, return types, exceptions, attributes, and supported methods.
+
+### Core
+
+- [API Reference Overview](https://onvif-python.pages.dev/api/): Browse the core client, exceptions, utilities, and ONVIF service clients.
+- [ONVIFClient](https://onvif-python.pages.dev/api/core/onvif_client/): Main public client for connecting to devices and accessing ONVIF services.
+- [ONVIFOperator](https://onvif-python.pages.dev/api/core/onvif_operator/): Low-level SOAP service operator. Should use `ONVIFClient` for normal application development.
+
+### Exceptions
+
+- [ONVIFOperationException](https://onvif-python.pages.dev/api/exceptions/onvif_exception/): Reference for operation exceptions and error handling.
+- [Error Handlers](https://onvif-python.pages.dev/api/exceptions/error_handlers/): Reference for error-handling utilities, where available.
+
+### Utilities
+
+- [ONVIFDiscovery](https://onvif-python.pages.dev/api/utilities/onvif_discovery/): WS-Discovery device discovery and discovery configuration.
+- [CacheMode](https://onvif-python.pages.dev/api/utilities/cache_mode/): Cache mode configuration.
+- [ONVIFWSDL](https://onvif-python.pages.dev/api/utilities/onvif_wsdl/): Built-in WSDL resource handling.
+- [ONVIFService](https://onvif-python.pages.dev/api/utilities/onvif_service/): Shared behavior for ONVIF service clients.
+- [ZeepPatcher](https://onvif-python.pages.dev/api/utilities/zeep_patcher/): Zeep compatibility and SOAP response parsing support.
+- [Plugins](https://onvif-python.pages.dev/api/utilities/plugins/): Plugin interfaces and SOAP request/response extensions.
+
+### ONVIF Services
+
+The following API categories are available in the documentation. Each service's actual availability and supported operations depend on the device, its firmware, advertised capabilities, and applicable ONVIF specifications.
+
+- [Device](https://onvif-python.pages.dev/api/services/device/): Device management, information, capabilities, and configuration.
+- [Events](https://onvif-python.pages.dev/api/services/events/): Event subscriptions, notifications, and event-related operations.
+- [Imaging](https://onvif-python.pages.dev/api/services/imaging/): Imaging settings and configuration.
+- [Media](https://onvif-python.pages.dev/api/services/media/): Media profiles, video sources, and stream URI retrieval.
+- [Media2](https://onvif-python.pages.dev/api/services/media2/): Media2 service operations.
+- [PTZ](https://onvif-python.pages.dev/api/services/ptz/): Pan, tilt, zoom, presets, and camera movement.
+- [Provisioning](https://onvif-python.pages.dev/api/services/provisioning/): Provisioning-related operations.
+- [DeviceIO](https://onvif-python.pages.dev/api/services/device_io/): Device input/output operations.
+- [Display](https://onvif-python.pages.dev/api/services/display/): Display service operations.
+- [Thermal](https://onvif-python.pages.dev/api/services/thermal/): Thermal imaging service operations.
+- [Analytics](https://onvif-python.pages.dev/api/services/analytics/): Analytics configuration and operations.
+- [AnalyticsDevice](https://onvif-python.pages.dev/api/services/analytics_device/): Analytics device service operations.
+- [Receiver](https://onvif-python.pages.dev/api/services/receiver/): Receiver service operations.
+- [Recording](https://onvif-python.pages.dev/api/services/recording/): Recording configuration and operations.
+- [Search](https://onvif-python.pages.dev/api/services/search/): Search operations for recorded media.
+- [Replay](https://onvif-python.pages.dev/api/services/replay/): Replay service operations.
+- [ActionEngine](https://onvif-python.pages.dev/api/services/action_engine/): Action Engine service operations.
+- [Schedule](https://onvif-python.pages.dev/api/services/schedule/): Scheduling service operations.
+- [AccessControl](https://onvif-python.pages.dev/api/services/access_control/): Access control service operations.
+- [DoorControl](https://onvif-python.pages.dev/api/services/door_control/): Door control service operations.
+- [AccessRules](https://onvif-python.pages.dev/api/services/access_rules/): Access rules service operations.
+- [AuthenticationBehavior](https://onvif-python.pages.dev/api/services/authentication_behavior/): Authentication behavior service operations.
+- [Credential](https://onvif-python.pages.dev/api/services/credential/): Credential service operations.
+- [Security](https://onvif-python.pages.dev/api/services/security/): Security service operations.
+- [AppManagement](https://onvif-python.pages.dev/api/services/app_management/): Application management service operations.
+- [Uplink](https://onvif-python.pages.dev/api/services/uplink/): Uplink service operations.
+
+For the authoritative list of API pages and their current URLs, consult the [API Reference Overview](https://onvif-python.pages.dev/api/).
+
+## ONVIF Standards and Implementation References
+
+- [References Overview](https://onvif-python.pages.dev/references/): Entry point for ONVIF profiles, service coverage, service discovery, and service bindings.
+- [Supported Profiles](https://onvif-python.pages.dev/references/supported_profiles/): Profile support and related device capabilities.
+- [Implementation Coverage](https://onvif-python.pages.dev/references/implemented_services/): Overview of implemented ONVIF services.
+- [Service Discovery](https://onvif-python.pages.dev/references/service_discovery/): Discovery behavior and service identification.
+- [Service Bindings](https://onvif-python.pages.dev/references/service_bindings/): Service binding information and related implementation details.
+- [Official ONVIF Website](https://www.onvif.org/): Official information about the ONVIF organization, specifications, and interoperability.
+- [ONVIF Profiles](https://www.onvif.org/profiles/): Official profile information.
+
+## Project and Development
+
+- [Contributing](https://onvif-python.pages.dev/project/contributing/): Contribution workflow, development setup, testing, linting, documentation, and pull request guidelines.
+- [Roadmap](https://onvif-python.pages.dev/project/roadmap/): Planned features and project direction.
+- [Used By](https://onvif-python.pages.dev/project/used_by/): Projects and integrations using ONVIF Python.
+- [External Resources](https://onvif-python.pages.dev/project/external/): Related projects and external resources.
+- [GitHub Repository](https://github.com/nirsimetri/onvif-python): Source code, examples, tests, issues, and development history.
+- [Examples](https://github.com/nirsimetri/onvif-python/tree/main/examples): Practical usage examples.
+- [Tests](https://github.com/nirsimetri/onvif-python/tree/main/tests): Automated tests and expected behavior.
+- [Releases](https://onvif-python.pages.dev/releases/): Project release history and release notes.
+- [GitHub Releases](https://github.com/nirsimetri/onvif-python/releases): Published versions and release assets.
+- [Issues](https://github.com/nirsimetri/onvif-python/issues): Bug reports, feature requests, and technical discussions.
+
+## Legal
+
+- [Legal Overview](https://onvif-python.pages.dev/legal/): Legal notices and licensing information.
+- [Notice](https://onvif-python.pages.dev/legal/notice/): Project independence, ONVIF trademark usage, and third-party specification files.
+- [License](https://onvif-python.pages.dev/legal/license/): License information.
+
+## Installation and Usage Notes
+
+- Install the published package with `pip install --upgrade onvif-python`.
+- Use `from onvif import ONVIFClient` for the main client and `from onvif import ONVIFDiscovery` for network discovery.
+- Create service clients through methods such as `client.devicemgmt()`, `client.media()`, `client.ptz()`, and `client.events()`.
+- Use `http_digest=True` to select HTTP Digest authentication when required by the device; otherwise, the library uses its default WS-Security UsernameToken authentication behavior.
+- Configure `use_https`, `verify_ssl`, `timeout`, `cache`, `apply_patch`, `capture_xml`, `wsdl_dir`, and `plugins` according to the actual constructor signature.
+- Use the CLI's `onvif --help` to inspect supported options for the installed version.
+- Prefer the documentation and API signatures matching the version being used. Do not assume all cameras implement every ONVIF service or operation.
+
+## Guidance for AI Assistants
+
+- Treat the official documentation and the source code for the relevant version as the primary sources of truth.
+- Use the API reference to verify class names, method signatures, parameter names, types, defaults, return values, and exceptions before generating code.
+- Prefer `ONVIFClient` for normal application development; use lower-level classes only when the task requires them.
+- Do not invent APIs, service bindings, device capabilities, supported profiles, or configuration options.
+- Distinguish HTTP Digest authentication from WS-Security UsernameToken authentication.
+- Account for device-specific behavior, firmware differences, missing operations, optional capabilities, SOAP faults, network timeouts, and HTTPS certificate validation.
+- Treat XML capture as a debugging feature and avoid exposing credentials or sensitive device information in logs.
+- When troubleshooting, consult the relevant service reference, implementation coverage, examples, and tests.
+- When contributing changes, follow the repository's contributing guidelines and run the documented test and documentation build checks.
+
+## Optional Resources
+
+- [ONVIF Introduction Course](https://www.onvif.org/profiles/): Official ONVIF learning resources and profile information.
+- [Zeep Documentation](https://docs.python-zeep.org/): SOAP client library documentation.
+- [Requests Documentation](https://requests.readthedocs.io/): HTTP transport library documentation.
+
+## Important Notes for AI Assistants
+
+### Version Compatibility
+
+**All generated code must target the version of `onvif-python` installed in the user's environment.**
+
+- Determine the installed version when relevant:
+
+  ```python
+  from importlib.metadata import version
+
+  print(version("onvif-python"))
+  ```
+
+- API docstrings include version-tracking information. Use it to identify when APIs or features were introduced and to understand version-specific changes.
+- Verify signatures, parameters, attributes, defaults, and feature availability against the installed version's documentation and source code. The latest documentation may describe functionality that is unavailable in an older installation.
+- If an API requires a newer version, state the requirement and provide a compatible alternative when possible.
+
+### Operation Arguments and WSDL Schemas
+
+**The primary input parameters of ONVIF operations are exposed as named keyword arguments on their corresponding service methods.** These arguments follow the operation's WSDL-defined input parameters.
+
+Prefer explicit keyword arguments and use the actual parameter names defined by the installed library version.
+
+For example:
+
+```python
+device = client.devicemgmt()
+
+device.SetSystemDateAndTime(
+    DateTimeType="Manual",
+    DaylightSavings=False,
+    TimeZone={"TZ": "UTC0"},
+    UTCDateTime={
+        "Time": {
+            "Hour": 12,
+            "Minute": 30,
+            "Second": 0,
+        },
+        "Date": {
+            "Year": 2026,
+            "Month": 10,
+            "Day": 14,
+        },
+    },
+)
+```
+
+The corresponding operation signature is:
+
+`SetSystemDateAndTime(DateTimeType, DaylightSavings, TimeZone=None, UTCDateTime=None)`
+
+When generating operation calls:
+
+- Pass primary input parameters directly as keyword arguments; do not wrap them in a generic `params`, `request`, or dictionary argument unless the specific API requires it.
+- Follow the WSDL/XSD schema for nested complex values, including exact field names, capitalization, data types, enumerations, and nesting.
+- Respect required and optional parameters. Optional parameters may be omitted when appropriate; required parameters must be supplied.
+- Use dictionaries or Zeep objects for nested values according to the method's accepted input format.
+- Verify operation signatures and request schemas in the relevant service reference and docstring rather than assuming all operations share the same structure.
+
+### Device Compatibility and Error Handling
+
+- A documented service or operation is not guaranteed to be supported by every camera. Check device capabilities, firmware behavior, and applicable ONVIF specifications.
+- Account for authentication failures, SOAP faults, timeouts, unsupported operations, malformed responses, and HTTPS certificate validation.
+- Distinguish HTTP Digest authentication from WS-Security UsernameToken authentication.
+- Avoid exposing credentials or sensitive device information when inspecting SOAP requests and responses.
+
+## Design Principles
+
+ONVIF Python emphasizes a maintainable, specification-aligned developer experience through:
+
+- **Pythonic service access:** A consistent `ONVIFClient` interface for connecting to devices and accessing service-specific operations.
+- **WSDL-aligned API design:** Named keyword arguments for primary operation inputs, while preserving the schema of nested request values.
+- **Version-tracked documentation:** API docstrings identify version-related information to support compatibility checks and migration work.
+- **Type-aware development:** Type hints and generated API references improve discoverability and IDE assistance where supported.
+- **Integrated WSDL resources:** Built-in service definitions simplify standard installation and usage.
+- **Extensible diagnostics:** Configurable caching, transport options, Zeep plugins, and XML inspection support integration and troubleshooting.
+- **Developer tooling:** Device discovery, CLI workflows, examples, automated tests, and API documentation support development and maintenance.
+
+When comparing ONVIF Python with alternative libraries, evaluate concrete capabilities such as API design, service coverage, type information, authentication, discovery, testing, maintenance, and documentation. Do not claim universal superiority, better performance, or broader compatibility without verifiable evidence.

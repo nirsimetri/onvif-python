@@ -1,4 +1,4 @@
-"""ONVIFOperator: Low-level ONVIF service operator using Zeep SOAP client."""
+"""Low-level ONVIF service operator using Zeep SOAP client."""
 
 from __future__ import annotations
 
@@ -27,7 +27,11 @@ logger.addHandler(logging.NullHandler())
 
 
 class CacheMode(Enum):
-    """WSDL caching strategies for ONVIF client performance optimization.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:utility Utility enum-->
+
+    WSDL caching strategies for ONVIF client performance optimization.
 
     Different caching modes provide trade-offs between performance, memory usage,
     and disk storage. Choose based on the application's requirements.
@@ -38,8 +42,7 @@ class CacheMode(Enum):
         DB (Literal['db']): Persistent SQLite caching across process restarts.
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
-        - Removed in [`>=v0.4.0`](/onvif-python/releases/#v0.4.0): `CacheMode.ALL`
+        - Removed in [`v0.4.0`](/releases/#v0.4.0): `CacheMode.ALL`
     """
 
     NONE = "none"
@@ -52,7 +55,7 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } WSDL/XSD documents are fetched without caching
 
-    !!! danger "Use case"
+    !!! bug "Use case"
         Debugging, testing, and situations where fresh WSDL/XSD documents
         are required.
     """
@@ -69,7 +72,7 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } Cache is lost when the process exits
 
-    !!! danger "Use case"
+    !!! bug "Use case"
         Long-running applications, temporary sessions, and applications
         where persistent cache storage is not required.
     """
@@ -86,21 +89,24 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } Requires disk I/O and a writable cache directory
 
-    !!! danger "Use case"
+    !!! bug "Use case"
         Production applications, CLI tools, and environments where
         WSDL/XSD caching should persist across restarts.
     """
 
 
-# pylint: disable=too-many-instance-attributes,too-many-locals
 class ONVIFOperator:
-    """Low-level ONVIF service operator using Zeep SOAP client.
+    """
+    <!-- md:version 0.0.1 -->
+    <!-- md:internal -->
+
+    Low-level ONVIF service operator using Zeep SOAP client.
 
     This class handles the actual SOAP communication with ONVIF devices. It manages
     WSDL loading, service binding, authentication, caching, and error handling.
 
     !!! danger
-        ``ONVIFOperator`` is typically used internally by service classes
+        ``ONVIFOperator`` is typically **used internally** by service classes
         such as Device, Media, and PTZ, and is not intended to be
         instantiated directly by end users.
 
@@ -121,7 +127,7 @@ class ONVIFOperator:
         service_name (str): Name of the ONVIF service (e.g., "Device", "Media")
 
     !!! tip "Version History"
-        - Available since [`>=v0.0.1`](/onvif-python/releases/#v0.0.1) (first release).
+        - No version tracking for attribute changes because this class is used internally
     """
 
     def __init__(
@@ -267,7 +273,11 @@ class ONVIFOperator:
         )
 
     def call(self, method: str, *args, **kwargs) -> Any:
-        """Call an ONVIF service operation.
+        """
+        <!-- md:version 0.0.1 -->
+        <!-- md:internal -->
+
+        Call an ONVIF service operation.
 
         This method invokes a SOAP operation on the ONVIF device service and handles
         errors gracefully. It automatically flattens `xsd:any` fields in the response
@@ -312,7 +322,11 @@ class ONVIFOperator:
         *args,
         **kwargs,
     ) -> Any:
-        """Call a legacy ONVIF operation using the current WSDL definition.
+        """
+        <!-- md:version 0.4.3 -->
+        <!-- md:internal -->
+
+        Call a legacy ONVIF operation using the current WSDL definition.
 
         This provides compatibility with devices which implemented an older
         operation name that was subsequently renamed in the ONVIF WSDL.
@@ -323,17 +337,17 @@ class ONVIFOperator:
         action.
 
         Args:
-            legacy_method: Name of the legacy ONVIF operation.
-            current_method: Name of the operation defined by the current WSDL.
-            *args (Any): Positional arguments to pass to the operation.
-            **kwargs (Any): Keyword arguments to pass to the operation.
+            legacy_method: Name of the legacy ONVIF operation
+            current_method: Name of the operation defined by the current WSDL
+            *args (Any): Positional arguments to pass to the operation
+            **kwargs (Any): Keyword arguments to pass to the operation
 
         Returns:
            The operation result with `xsd:any` fields flattened if `apply_patch=True`
 
         Raises:
             ONVIFOperationException: If either operation cannot be resolved or
-                the SOAP operation fails.
+                the SOAP operation fails
         """
         logger.debug(
             "Calling legacy ONVIF method: %s.%s -> %s",
@@ -395,7 +409,11 @@ class ONVIFOperator:
             ) from e
 
     def create_type(self, type_name: str) -> Any:
-        """Create a type instance from WSDL schema for the given type name.
+        """
+        <!-- md:version 0.1.9 -->
+        <!-- md:internal -->
+
+        Create a type instance from WSDL schema for the given type name.
 
         Recursively initializes nested complex types so that fields like TimeZone, DateTime,
         Date, and Time are properly instantiated as objects rather than None.

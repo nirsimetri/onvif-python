@@ -1,21 +1,87 @@
 {% extends "base.html" %}
 
+{% block announce %}
+  <div class="release-announcement">
+    <span class="release-announcement__icon">
+      {% include ".icons/material/source-pull.svg" %}
+    </span>
+
+    <span>
+      <span class="release-announcement__text">
+        Next Regular Release: <strong>December 2026</strong> 
+      </span>
+
+      &nbsp;&nbsp;/&nbsp;&nbsp;
+      <a
+        class="release-announcement__link"
+        href="{{ 'project/roadmap/' | url }}"
+      >
+        <strong>Roadmap →</strong>
+      </a>
+    </span>
+    
+  </div>
+{% endblock %}
+
 {% block extrahead %}
+  {{ super() }}
+
+  <link
+    rel="icon shortcut"
+    href="/assets/favicon.ico"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/favicon-32x32.png"
+    sizes="32x32"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/favicon-48x48.png"
+    sizes="48x48"
+  />
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    href="/assets/apple-touch-icon.png"
+    sizes="180x180"
+  />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ONVIF Python",
+    "alternateName": ["onvif python", "onvif library", "onvif zeep"],
+    "url": "https://onvif-python.pages.dev/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Nirsimetri Technologies",
+      "url": "https://github.com/nirsimetri",
+      "sameAs": [
+        "https://github.com/nirsimetri/onvif-python"
+      ]
+    }
+  }
+  </script>
+
   <!-- Open Graph -->
   <meta property="og:title" content="ONVIF Python / Python Library for ONVIF Devices" />
   <meta
     property="og:description"
-    content="A modern Python library for ONVIF-compliant IP cameras and devices."
+    content="A Python Library + CLI for ONVIF-compliant IP cameras and devices."
   />
   <meta property="og:site_name" content="ONVIF Python" />
   <meta property="og:type" content="website" />
   <meta
     property="og:url"
-    content="https://nirsimetri.github.io/onvif-python/"
+    content="https://onvif-python.pages.dev/"
   />
   <meta
     property="og:image"
-    content="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/carbon_onvif.png"
+    content="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png"
   />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -28,32 +94,47 @@
   />
   <meta
     name="twitter:description"
-    content="A modern Python library for ONVIF-compliant IP cameras and devices."
+    content="A Python Library + CLI for ONVIF-compliant IP cameras and devices."
   />
   <meta
     name="twitter:image"
-    content="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/carbon_onvif.png"
+    content="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png"
   />
 
   <!-- Google Search Console -->
-  <meta
-    name="google-site-verification"
-    content="7ceHA9OWIOPzaASzIzpsLwemT8FgwUKqup6EhLeTKE4"
-  />
+  {% if config.extra.google_site_verification %}
+    <meta
+      name="google-site-verification"
+      content="{{ config.extra.google_site_verification }}"
+    />
+  {% endif %}
 
   <!-- Google tag (gtag.js) -->
-  <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-MV7GBC2H6F"
-  ></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+  {% if config.extra.google_analytics_id %}
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.google_analytics_id }}"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+      function gtag() {
+        dataLayer.push(arguments);
+      }
 
-    gtag("js", new Date());
-    gtag("config", "G-MV7GBC2H6F");
-  </script>
+      gtag("js", new Date());
+      gtag("config", "{{ config.extra.google_analytics_id }}");
+    </script>
+  {% endif %}
+
+  <!-- Cloudflare Web Analytics -->
+  {% if config.extra.cloudflare_beacon %}
+    <script 
+      type='module' 
+      src='https://static.cloudflareinsights.com/beacon.min.js' 
+      data-cf-beacon='{"token": "{{ config.extra.cloudflare_beacon }}"}'
+    >
+    </script>
+  {% endif %}
+   <!-- End Cloudflare Web Analytics -->
 {% endblock %}

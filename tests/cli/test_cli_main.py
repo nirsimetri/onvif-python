@@ -465,6 +465,20 @@ class TestProcessOnvifClient:
         )
 
         client = Mock()
+        device = Mock()
+        device_info = Mock()
+
+        device_data = {
+            "Manufacturer": "Dahua",
+            "Model": "DH-H5D-5F",
+            "FirmwareVersion": "2.860.0000000.26.R",
+            "SerialNumber": "AM08C90PAG3C79B",
+            "HardwareId": "1.00",
+        }
+
+        client.devicemgmt.return_value = device
+        device.GetDeviceInformation.return_value = device_info
+        device.to_dict.return_value = device_data
 
         with (
             patch(
@@ -477,9 +491,16 @@ class TestProcessOnvifClient:
         ):
             _process_onvif_client(args)
 
-        client.devicemgmt().GetDeviceInformation.assert_called_once()
-        mock_shell.assert_called_once_with(client, args)
-        mock_shell.return_value.run.assert_called_once()
+        client.devicemgmt.assert_called_once_with()
+        device.GetDeviceInformation.assert_called_once_with()
+        device.to_dict.assert_called_once_with(device_info)
+
+        mock_shell.assert_called_once_with(
+            client=client,
+            args=args,
+            device_data=device_data,
+        )
+        mock_shell.return_value.run.assert_called_once_with()
 
     def test_connection_error(self):
         """Test interactive mode when the ONVIF connection fails."""

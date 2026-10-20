@@ -1,7 +1,14 @@
+[build-system]
+requires = [
+    "setuptools>=77.0.3",
+    "wheel>=0.48.0,<1.0.0",
+]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "onvif-python"
-version = "0.4.4"
-description = "A modern Python library for ONVIF-compliant devices"
+version = "0.4.5"
+description = "A Python Library + CLI for ONVIF-compliant devices"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
@@ -48,7 +55,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/nirsimetri/onvif-python"
-Documentation = "https://nirsimetri.github.io/onvif-python"
+Documentation = "https://onvif-python.pages.dev"
 Changelog = "https://github.com/nirsimetri/onvif-python/releases"
 Issues = "https://github.com/nirsimetri/onvif-python/issues"
 
@@ -71,17 +78,12 @@ docs = [
     "mkdocs-material>=9.7.7,<10.0.0",
     "mkdocstrings[python]>=1.0.0,<3.0.0",
     "mkdocs-git-authors-plugin>=0.10.0,<1.0.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.6.0,<2.0.0",
+    "mkdocs-minify-plugin>=0.8.0,<1.0.0",
 ]
 
 [project.scripts]
 onvif = "onvif.cli.main:main"
-
-[build-system]
-requires = [
-    "setuptools>=77.0.3",
-    "wheel>=0.48.0,<1.0.0",
-]
-build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 license-files = ["LICENSE", "NOTICE"]
@@ -96,6 +98,9 @@ exclude = [
     "build*",
     "site*",
     "device-test*",
+    "docs*",
+    "dist*",
+    "scripts*",
 ]
 
 [tool.setuptools.package-data]
@@ -120,11 +125,12 @@ skip  = [
     "^temp/",
     "^build/",
     "^site/",
+    "^dist/",
 ]
 
 [tool.docformatter]
-wrap-summaries = 150
-wrap-descriptions = 150
+wrap-summaries = 88  # --black
+wrap-descriptions = 88  # --black
 pre-summary-newline = true
 close-quotes-on-newline = true
 
@@ -138,17 +144,24 @@ ignore-paths = [
     "^temp/",
     "^build/",
     "^site/",
+    "^dist/",
 ]
 load-plugins = ["pylint_pytest"]
 
 [tool.pylint.format]
-max-line-length = 150
+max-line-length = 130
 
 [tool.pylint."messages control"]
 disable = [
-    "duplicate-code",
-    "R0917",  # too-many-positional-arguments
+    "C0103",  # invalid-name
+    "R0801",  # duplicate-code
+    "R0902",  # too-many-instance-attributes
+    "R0903",  # too-few-public-methods
+    "R0904",  # too-many-public-methods
     "R0913",  # too-many-arguments
+    "R0914",  # too-many-locals
+    "R0915",  # too-many-statements
+    "R0917",  # too-many-positional-arguments
 ]
 
 [tool.mypy]
@@ -159,6 +172,9 @@ exclude  = [
     "^temp/",
     "^build/",
     "^site/",
+    "^docs/",
+    "^scripts/",
+    "^dist/",
 ]
 
 [tool.coverage.run]
@@ -167,6 +183,8 @@ omit = [
     "device-test/*",
     "examples/*",
     "docs/*",
+    "scripts/*",
+    "dist/*",
 ]
 
 [tool.codespell]

@@ -18,9 +18,9 @@ from onvif import ONVIFClient
 HOST = "192.168.1.3"
 PORT = 80
 USERNAME = "admin"
-PASSWORD = "admin123"
+PASSWORD = "password"
 
-client = ONVIFClient(HOST, PORT, USERNAME, PASSWORD)
+client = ONVIFClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
 media = client.media()
 
 profile = media.GetProfiles()[0]  # use the first profile

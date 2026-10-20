@@ -1,12 +1,16 @@
 """CLI messages."""
 
+from __future__ import annotations
+
+from argparse import Namespace
+
 from onvif.cli.utils import (
     colorize,
 )
-from onvif.meta import __repository__, __version__
+from onvif.meta import __interactive_name__, __repository__, __version__
 
 
-def print_interactive_intro(args, device_info_text) -> str:
+def print_interactive_intro(args: Namespace, device_info_text: str | None) -> str:
     """Print interactive shell introduction."""
     # Welcome message with enhanced info
     banner_lines = [
@@ -91,7 +95,7 @@ def print_interactive_intro(args, device_info_text) -> str:
 
 
 INTERACTIVE_HELP = f"""
-{colorize(f'ONVIF Interactive Shell — v{__version__}', 'cyan')}\n{colorize(__repository__, 'white')}
+{colorize(f'{__interactive_name__} — v{__version__}', 'cyan')}\n{colorize(__repository__, 'white')}
 
 {colorize('Basic Commands:', 'yellow')}
   capabilities, caps       - Show device capabilities

@@ -1,4 +1,4 @@
-"""ONVIFWSDL: WSDL file manager for ONVIF services with support for built-in and custom WSDL dir."""
+"""WSDL file manager for ONVIF services with support for built-in and custom WSDL dir."""
 
 from __future__ import annotations
 
@@ -6,12 +6,18 @@ import logging
 import os
 from typing import Any
 
+from onvif.mappings import ONVIF_WSDL_MAP, WSDLMap
+
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 
 class ONVIFWSDL:
-    """WSDL file manager for ONVIF services.
+    """
+    <!-- md:version 0.1.0 -->
+    <!-- md:utility Utility class-->
+
+    WSDL file manager for ONVIF services.
 
     This class manages WSDL (Web Services Description Language) file paths, bindings,
     and namespaces for all ONVIF services. It provides a centralized mapping between
@@ -23,18 +29,6 @@ class ONVIFWSDL:
     Attributes:
         BASE_DIR (str): Default base directory for WSDL files (Built-in)
         WSDL_MAP (dict[str, dict[str, Any]] | None): Will be initialized when first accessed
-        _custom_wsdl_dir (str | None): Global custom WSDL directory
-
-    !!! tip "Version History"
-        - Available since [`>=v0.1.0`](/onvif-python/releases/#v0.1.0).
-
-    !!! abstract "Features"
-        - Centralized WSDL definition mapping for all ONVIF services
-        - Support for multiple ONVIF versions (ver10, ver20)
-        - Custom WSDL directory support (global and per-call)
-        - Automatic path resolution for built-in and custom WSDLs
-        - Service discovery with namespace and binding information
-        - File existence validation
 
     !!! warning "WSDL Structure"
         Built-in WSDLs are organized in the ONVIF standard directory structure:
@@ -66,14 +60,15 @@ class ONVIFWSDL:
             └── ptz.wsdl
         ```
 
-    !!! question "Service Definition Format"
+    !!! abstract "Service Definition Format"
         Each service has a definition containing:
 
+        - `filename` : WSDL file name
         - `path`: Full path to WSDL file
         - `binding`: SOAP binding name (e.g., "DeviceBinding")
         - `namespace`: XML namespace URI (e.g., "http://www.onvif.org/ver10/device/wsdl")
 
-    ??? tip "Custom WSDL Directory Priority"
+    ??? question "Custom WSDL Directory Priority"
         1. Per-call `custom_wsdl_dir` parameter (highest priority)
         2. Global `_custom_wsdl_dir` setting
         3. Built-in `BASE_DIR` (default)
@@ -99,8 +94,12 @@ class ONVIFWSDL:
     _custom_wsdl_dir: str | None = None
 
     @classmethod
-    def set_custom_wsdl_dir(cls, custom_dir) -> None:
-        """Set global custom WSDL directory for all services.
+    def set_custom_wsdl_dir(cls, custom_dir: str) -> None:
+        """
+        <!-- md:version 0.1.0 -->
+        <!-- md:utility -->
+
+        Set global custom WSDL directory for all services.
 
         Args:
             custom_dir (str): Path to directory containing custom WSDL files
@@ -118,10 +117,14 @@ class ONVIFWSDL:
 
     @classmethod
     def get_custom_wsdl_dir(cls) -> str | None:
-        """Get current global custom WSDL directory.
+        """
+        <!-- md:version 0.1.0 -->
+        <!-- md:utility -->
+
+        Get current global custom WSDL directory.
 
         Returns:
-            str or None: Current custom WSDL directory, or None if using built-in
+            Current custom WSDL directory, or None if using built-in
 
         Example:
             ```python linenums="1"
@@ -135,7 +138,11 @@ class ONVIFWSDL:
 
     @classmethod
     def clear_custom_wsdl_dir(cls) -> None:
-        """Clear custom WSDL directory, revert to built-in WSDLs.
+        """
+        <!-- md:version 0.1.0 -->
+        <!-- md:utility -->
+
+        Clear custom WSDL directory, revert to built-in WSDLs.
 
         Example:
             ```python linenums="1"
@@ -150,13 +157,13 @@ class ONVIFWSDL:
         cls._custom_wsdl_dir = None
 
     @classmethod
-    def _get_base_dir(cls, custom_wsdl_dir=None) -> str | Any:
+    def _get_base_dir(cls, custom_wsdl_dir: str | None = None) -> str | Any:
         """Get the base WSDL directory, using custom directory if provided.
 
         This method implements the priority chain for WSDL directory resolution.
 
         Args:
-            custom_wsdl_dir (str, optional): Per-call custom directory
+            custom_wsdl_dir (str | None): Per-call custom directory
 
         Returns:
             str: Resolved WSDL base directory path
@@ -176,14 +183,16 @@ class ONVIFWSDL:
         return cls.BASE_DIR
 
     @classmethod
-    def _get_wsdl_map(cls, custom_wsdl_dir=None) -> dict[str, dict[str, Any]] | None:
+    def _get_wsdl_map(
+        cls, custom_wsdl_dir: str | None = None
+    ) -> dict[str, dict[str, Any]] | None:
         """Get WSDL map with proper base directory.
 
         Generates a complete mapping of all ONVIF services to their WSDL definitions.
         The structure differs based on whether custom WSDLs are used.
 
         Args:
-            custom_wsdl_dir (str, optional): Custom WSDL directory path
+            custom_wsdl_dir (str | None): Custom WSDL directory path
 
         Returns:
             dict: Complete WSDL mapping for all services
@@ -192,6 +201,7 @@ class ONVIFWSDL:
                 {
                     "{service_name}": {
                         "{version}": {
+                            "filename": "service.wsdl",
                             "path": "/full/path/to/service.wsdl",
                             "binding": "ServiceBinding",
                             "namespace": "http://www.onvif.org/ver10/service/wsdl"
@@ -207,497 +217,26 @@ class ONVIFWSDL:
         """
         base_dir = cls._get_base_dir(custom_wsdl_dir)
 
-        # Determine if we should use flat structure
-        # Use flat structure if custom_wsdl_dir is explicitly provided OR if global custom dir is set
         use_flat = custom_wsdl_dir is not None or cls._custom_wsdl_dir is not None
 
         # Default structure for WSDL files
         # If custom_wsdl_dir is provided, use flat structure (direct filename)
         # Otherwise, use the standard ONVIF directory structure
-        return {
-            "devicemgmt": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "devicemgmt.wsdl"
-                            if use_flat
-                            else "ver10/device/wsdl/devicemgmt.wsdl"
-                        ),
-                    ),
-                    "binding": "DeviceBinding",
-                    "namespace": "http://www.onvif.org/ver10/device/wsdl",
+        wsdl_map: WSDLMap = {}
+
+        for service, versions in ONVIF_WSDL_MAP.items():
+            wsdl_map[service] = {}
+
+            for version, definition in versions.items():
+                filename = definition["filename"]
+                relative_path = filename if use_flat else definition["path"]
+
+                wsdl_map[service][version] = {
+                    **definition,
+                    "path": os.path.join(base_dir, relative_path),
                 }
-            },
-            "events": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "event-vs.wsdl"
-                            if use_flat
-                            else "ver10/events/wsdl/event-vs.wsdl"
-                        ),
-                    ),
-                    "binding": "EventBinding",
-                    "namespace": "http://www.onvif.org/ver10/events/wsdl",
-                }
-            },
-            "pullpoint": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "event-vs.wsdl"
-                            if use_flat
-                            else "ver10/events/wsdl/event-vs.wsdl"
-                        ),
-                    ),
-                    "binding": "PullPointSubscriptionBinding",
-                    "namespace": "http://www.onvif.org/ver10/events/wsdl",
-                }
-            },
-            "notification": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "event-vs.wsdl"
-                            if use_flat
-                            else "ver10/events/wsdl/event-vs.wsdl"
-                        ),
-                    ),
-                    "binding": "NotificationProducerBinding",
-                    "namespace": "http://www.onvif.org/ver10/events/wsdl",
-                }
-            },
-            "subscription": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "event-vs.wsdl"
-                            if use_flat
-                            else "ver10/events/wsdl/event-vs.wsdl"
-                        ),
-                    ),
-                    "binding": "SubscriptionManagerBinding",
-                    "namespace": "http://www.onvif.org/ver10/events/wsdl",
-                }
-            },
-            "pausable_subscription": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "event-vs.wsdl"
-                            if use_flat
-                            else "ver10/events/wsdl/event-vs.wsdl"
-                        ),
-                    ),
-                    "binding": "PausableSubscriptionManagerBinding",
-                    "namespace": "http://www.onvif.org/ver10/events/wsdl",
-                }
-            },
-            "accesscontrol": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "accesscontrol.wsdl"
-                            if use_flat
-                            else "ver10/pacs/accesscontrol.wsdl"
-                        ),
-                    ),
-                    "binding": "PACSBinding",
-                    "namespace": "http://www.onvif.org/ver10/accesscontrol/wsdl",
-                }
-            },
-            "accessrules": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "accessrules.wsdl"
-                            if use_flat
-                            else "ver10/accessrules/wsdl/accessrules.wsdl"
-                        ),
-                    ),
-                    "binding": "AccessRulesBinding",
-                    "namespace": "http://www.onvif.org/ver10/accessrules/wsdl",
-                }
-            },
-            "actionengine": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "actionengine.wsdl"
-                            if use_flat
-                            else "ver10/actionengine.wsdl"
-                        ),
-                    ),
-                    "binding": "ActionEngineBinding",
-                    "namespace": "http://www.onvif.org/ver10/actionengine/wsdl",
-                }
-            },
-            "advancedsecurity": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "advancedsecurity.wsdl"
-                            if use_flat
-                            else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
-                        ),
-                    ),
-                    "binding": "AdvancedSecurityServiceBinding",
-                    "namespace": "http://www.onvif.org/ver10/advancedsecurity/wsdl",
-                }
-            },
-            "jwt": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "advancedsecurity.wsdl"
-                            if use_flat
-                            else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
-                        ),
-                    ),
-                    "binding": "JWTBinding",
-                    "namespace": "http://www.onvif.org/ver10/advancedsecurity/wsdl",
-                }
-            },
-            "keystore": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "advancedsecurity.wsdl"
-                            if use_flat
-                            else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
-                        ),
-                    ),
-                    "binding": "KeystoreBinding",
-                    "namespace": "http://www.onvif.org/ver10/advancedsecurity/wsdl",
-                }
-            },
-            "tlsserver": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "advancedsecurity.wsdl"
-                            if use_flat
-                            else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
-                        ),
-                    ),
-                    "binding": "TLSServerBinding",
-                    "namespace": "http://www.onvif.org/ver10/advancedsecurity/wsdl",
-                }
-            },
-            "dot1x": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "advancedsecurity.wsdl"
-                            if use_flat
-                            else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
-                        ),
-                    ),
-                    "binding": "Dot1XBinding",
-                    "namespace": "http://www.onvif.org/ver10/advancedsecurity/wsdl",
-                }
-            },
-            "authorizationserver": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "advancedsecurity.wsdl"
-                            if use_flat
-                            else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
-                        ),
-                    ),
-                    "binding": "AuthorizationServerBinding",
-                    "namespace": "http://www.onvif.org/ver10/advancedsecurity/wsdl",
-                }
-            },
-            "mediasigning": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "advancedsecurity.wsdl"
-                            if use_flat
-                            else "ver10/advancedsecurity/wsdl/advancedsecurity.wsdl"
-                        ),
-                    ),
-                    "binding": "MediaSigningBinding",
-                    "namespace": "http://www.onvif.org/ver10/advancedsecurity/wsdl",
-                }
-            },
-            "analytics": {
-                "ver20": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "analytics.wsdl"
-                            if use_flat
-                            else "ver20/analytics/wsdl/analytics.wsdl"
-                        ),
-                    ),
-                    "binding": "AnalyticsEngineBinding",
-                    "namespace": "http://www.onvif.org/ver20/analytics/wsdl",
-                }
-            },
-            "ruleengine": {
-                "ver20": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "ruleengine.wsdl"
-                            if use_flat
-                            else "ver20/analytics/wsdl/analytics.wsdl"
-                        ),
-                    ),
-                    "binding": "RuleEngineBinding",
-                    "namespace": "http://www.onvif.org/ver20/analytics/wsdl",
-                }
-            },
-            "analyticsdevice": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "analyticsdevice.wsdl"
-                            if use_flat
-                            else "ver10/analyticsdevice.wsdl"
-                        ),
-                    ),
-                    "binding": "AnalyticsDeviceBinding",
-                    "namespace": "http://www.onvif.org/ver10/analyticsdevice/wsdl",
-                }
-            },
-            "appmgmt": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "appmgmt.wsdl"
-                            if use_flat
-                            else "ver10/appmgmt/wsdl/appmgmt.wsdl"
-                        ),
-                    ),
-                    "binding": "AppManagementBinding",
-                    "namespace": "http://www.onvif.org/ver10/appmgmt/wsdl",
-                }
-            },
-            "authenticationbehavior": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "authenticationbehavior.wsdl"
-                            if use_flat
-                            else "ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl"
-                        ),
-                    ),
-                    "binding": "AuthenticationBehaviorBinding",
-                    "namespace": "http://www.onvif.org/ver10/authenticationbehavior/wsdl",
-                }
-            },
-            "credential": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "credential.wsdl"
-                            if use_flat
-                            else "ver10/credential/wsdl/credential.wsdl"
-                        ),
-                    ),
-                    "binding": "CredentialBinding",
-                    "namespace": "http://www.onvif.org/ver10/credential/wsdl",
-                }
-            },
-            "deviceio": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        "deviceio.wsdl" if use_flat else "ver10/deviceio.wsdl",
-                    ),
-                    "binding": "DeviceIOBinding",
-                    "namespace": "http://www.onvif.org/ver10/deviceIO/wsdl",
-                }
-            },
-            "display": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        "display.wsdl" if use_flat else "ver10/display.wsdl",
-                    ),
-                    "binding": "DisplayBinding",
-                    "namespace": "http://www.onvif.org/ver10/display/wsdl",
-                }
-            },
-            "doorcontrol": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "doorcontrol.wsdl"
-                            if use_flat
-                            else "ver10/pacs/doorcontrol.wsdl"
-                        ),
-                    ),
-                    "binding": "DoorControlBinding",
-                    "namespace": "http://www.onvif.org/ver10/doorcontrol/wsdl",
-                }
-            },
-            "imaging": {
-                "ver20": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "imaging.wsdl"
-                            if use_flat
-                            else "ver20/imaging/wsdl/imaging.wsdl"
-                        ),
-                    ),
-                    "binding": "ImagingBinding",
-                    "namespace": "http://www.onvif.org/ver20/imaging/wsdl",
-                }
-            },
-            "media": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        ("media.wsdl" if use_flat else "ver10/media/wsdl/media.wsdl"),
-                    ),
-                    "binding": "MediaBinding",
-                    "namespace": "http://www.onvif.org/ver10/media/wsdl",
-                },
-            },
-            "media2": {
-                "ver20": {
-                    "path": os.path.join(
-                        base_dir,
-                        ("media2.wsdl" if use_flat else "ver20/media/wsdl/media.wsdl"),
-                    ),
-                    "binding": "Media2Binding",
-                    "namespace": "http://www.onvif.org/ver20/media/wsdl",
-                },
-            },
-            "provisioning": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "provisioning.wsdl"
-                            if use_flat
-                            else "ver10/provisioning/wsdl/provisioning.wsdl"
-                        ),
-                    ),
-                    "binding": "ProvisioningBinding",
-                    "namespace": "http://www.onvif.org/ver10/provisioning/wsdl",
-                },
-            },
-            "ptz": {
-                "ver20": {
-                    "path": os.path.join(
-                        base_dir,
-                        "ptz.wsdl" if use_flat else "ver20/ptz/wsdl/ptz.wsdl",
-                    ),
-                    "binding": "PTZBinding",
-                    "namespace": "http://www.onvif.org/ver20/ptz/wsdl",
-                },
-            },
-            "receiver": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        "receiver.wsdl" if use_flat else "ver10/receiver.wsdl",
-                    ),
-                    "binding": "ReceiverBinding",
-                    "namespace": "http://www.onvif.org/ver10/receiver/wsdl",
-                },
-            },
-            "recording": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        "recording.wsdl" if use_flat else "ver10/recording.wsdl",
-                    ),
-                    "binding": "RecordingBinding",
-                    "namespace": "http://www.onvif.org/ver10/recording/wsdl",
-                },
-            },
-            "replay": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        "replay.wsdl" if use_flat else "ver10/replay.wsdl",
-                    ),
-                    "binding": "ReplayBinding",
-                    "namespace": "http://www.onvif.org/ver10/replay/wsdl",
-                },
-            },
-            "schedule": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "schedule.wsdl"
-                            if use_flat
-                            else "ver10/schedule/wsdl/schedule.wsdl"
-                        ),
-                    ),
-                    "binding": "ScheduleBinding",
-                    "namespace": "http://www.onvif.org/ver10/schedule/wsdl",
-                },
-            },
-            "search": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        "search.wsdl" if use_flat else "ver10/search.wsdl",
-                    ),
-                    "binding": "SearchBinding",
-                    "namespace": "http://www.onvif.org/ver10/search/wsdl",
-                },
-            },
-            "thermal": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "thermal.wsdl"
-                            if use_flat
-                            else "ver10/thermal/wsdl/thermal.wsdl"
-                        ),
-                    ),
-                    "binding": "ThermalBinding",
-                    "namespace": "http://www.onvif.org/ver10/thermal/wsdl",
-                },
-            },
-            "uplink": {
-                "ver10": {
-                    "path": os.path.join(
-                        base_dir,
-                        (
-                            "uplink.wsdl"
-                            if use_flat
-                            else "ver10/uplink/wsdl/uplink.wsdl"
-                        ),
-                    ),
-                    "binding": "UplinkBinding",
-                    "namespace": "http://www.onvif.org/ver10/uplink/wsdl",
-                },
-            },
-        }
+
+        return wsdl_map
 
     WSDL_MAP: dict[str, dict[str, Any]] | None = (
         None  # Will be initialized when first accessed
@@ -715,7 +254,12 @@ class ONVIFWSDL:
 
     @classmethod
     def get_wsdl_map(cls) -> dict[str, dict[str, Any]]:
-        """Get the complete WSDL map for all services."""
+        """
+        <!-- md:version 0.2.11 -->
+        <!-- md:utility -->
+
+        Get the complete WSDL map for all services.
+        """
         cls._ensure_wsdl_map_initialized()
 
         if cls.WSDL_MAP is None:
@@ -727,7 +271,11 @@ class ONVIFWSDL:
     def get_definition(
         cls, service: str, version: str = "ver10", custom_wsdl_dir=None
     ) -> dict:
-        """Get WSDL definition for a specific ONVIF service.
+        """
+        <!-- md:version 0.1.0 -->
+        <!-- md:utility -->
+
+        Get WSDL definition for a specific ONVIF service.
 
         Returns complete WSDL definition including file path, SOAP binding name,
         and XML namespace for the requested service and version.
@@ -746,9 +294,13 @@ class ONVIFWSDL:
 
             | Key | Type | Description |
             | --- | ---- | ----------- |
+            | `filename` | `str`  | WSDL file name |
             | `path` | `str | None` | Full path to WSDL file |
             | `binding` | `str` | SOAP binding name |
             | `namespace` | `str` | XML namespace URI |
+
+            !!! tip "Version History"
+                - Added in [`v0.4.5`](/releases/#v0.4.5): `filename`
 
         ??? note
             - Most services use ver10, some newer ones use ver20

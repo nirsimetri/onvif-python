@@ -1,0 +1,1678 @@
+{
+  "source": "ver10/accessrules/wsdl/accessrules.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/accessrules/wsdl",
+  "operations": [
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "AccessRulesPort",
+      "description": "This operation returns the capabilities of the access rules service.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/accessrules/wsdl}ServiceCapabilities",
+                    "type_name": "ServiceCapabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ServiceCapabilities",
+                      "description": "The service capabilities reflect optional functionality of a service. The information is static\n\t\t\t\t\t\tand does not change during device operation. The following capabilities are available:",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "MaxLimit",
+                          "description": "The maximum number of entries returned by a single Get&lt;Entity&gt;List or Get&lt;Entity&gt;\n\t\t\t\t\t\t\trequest. The device shall never return more than this number of entities in a single\n\t\t\t\t\t\t\tresponse."
+                        },
+                        {
+                          "use": "required",
+                          "name": "MaxAccessProfiles",
+                          "description": "Indicates the maximum number of access profiles supported by the device."
+                        },
+                        {
+                          "use": "required",
+                          "name": "MaxAccessPoliciesPerAccessProfile",
+                          "description": "Indicates the maximum number of access policies per access profile supported by the device."
+                        },
+                        {
+                          "use": "required",
+                          "name": "MultipleSchedulesPerAccessPointSupported",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates whether or not several access policies can refer to the same access point in an\n\t\t\t\t\t\t\taccess profile."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "ClientSuppliedTokenSupported",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "default": "false",
+                          "description": "Indicates that the client is allowed to supply the token when creating access profiles. To\n\t\t\t\t\t\t\tenable the use of the command SetAccessProfile, the value must be set to true."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capability response message contains the requested access rules\n\t\t\t\t\t\t\t\t\tservice capabilities using a hierarchical XML capability structure."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    },
+    {
+      "name": "GetAccessProfileInfo",
+      "port_type": "AccessRulesPort",
+      "description": "This operation requests a list of AccessProfileInfo items matching the given tokens. The device shall ignore tokens it cannot resolve and shall return an empty list if there are no items matching the specified tokens. The device shall not return a fault in this case. If the number of requested items is greater than MaxLimit, a TooManyItems fault shall be returned.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileInfoRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileInfo",
+            "schema": {
+              "name": "GetAccessProfileInfo",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Tokens of AccessProfileInfo items to get."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileInfoResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileInfoResponse",
+            "schema": {
+              "name": "GetAccessProfileInfoResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AccessProfileInfo",
+                    "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileInfo",
+                    "type_name": "AccessProfileInfo",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "AccessProfileInfo",
+                      "description": "The AccessProfileInfo structure contains basic information about an access profile. The device\n\t\t\t\t\t\tshall provide the following fields for each access profile instance.",
+                      "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "DataEntity",
+                        "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                        "fields": [],
+                        "attributes": [
+                          {
+                            "use": "required",
+                            "name": "token",
+                            "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "ReferenceToken",
+                              "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "description": "A service-unique identifier of the item."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Name",
+                          "type": "{http://www.onvif.org/ver10/pacs}Name",
+                          "type_name": "Name",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Name",
+                            "description": "Type used for names of logical and physical entities.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "A user readable name. It shall be up to 64 characters."
+                        },
+                        {
+                          "name": "Description",
+                          "type": "{http://www.onvif.org/ver10/pacs}Description",
+                          "type_name": "Description",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Description",
+                            "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "1024"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable description for the access profile. It shall be up\n\t\t\t\t\t\t\t\t\t\tto 1024 characters."
+                        }
+                      ]
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of AccessProfileInfo items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    },
+    {
+      "name": "GetAccessProfileInfoList",
+      "port_type": "AccessRulesPort",
+      "description": "This operation requests a list of all of AccessProfileInfo items provided by the device. A call to this method shall return a StartReference when not all data is returned and more data is available. The reference shall be valid for retrieving the next set of data. The number of items returned shall not be greater than the Limit parameter.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileInfoListRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileInfoList",
+            "schema": {
+              "name": "GetAccessProfileInfoList",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Limit",
+                    "type": "{http://www.w3.org/2001/XMLSchema}int",
+                    "type_name": "int",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Maximum number of entries to return. If not specified, less than one\n\t\t\t\t\t\t\t\t\tor higher than what the device supports, the number of items is determined by the\n\t\t\t\t\t\t\t\t\tdevice."
+                  },
+                  {
+                    "name": "StartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Start returning entries from this start reference. If not specified,\n\t\t\t\t\t\t\t\t\tentries shall start from the beginning of the dataset."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileInfoListResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileInfoListResponse",
+            "schema": {
+              "name": "GetAccessProfileInfoListResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NextStartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "StartReference to use in next call to get the following items. If\n\t\t\t\t\t\t\t\t\tabsent, no more items to get."
+                  },
+                  {
+                    "name": "AccessProfileInfo",
+                    "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileInfo",
+                    "type_name": "AccessProfileInfo",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "AccessProfileInfo",
+                      "description": "The AccessProfileInfo structure contains basic information about an access profile. The device\n\t\t\t\t\t\tshall provide the following fields for each access profile instance.",
+                      "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "DataEntity",
+                        "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                        "fields": [],
+                        "attributes": [
+                          {
+                            "use": "required",
+                            "name": "token",
+                            "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "ReferenceToken",
+                              "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "description": "A service-unique identifier of the item."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "Name",
+                          "type": "{http://www.onvif.org/ver10/pacs}Name",
+                          "type_name": "Name",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Name",
+                            "description": "Type used for names of logical and physical entities.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "A user readable name. It shall be up to 64 characters."
+                        },
+                        {
+                          "name": "Description",
+                          "type": "{http://www.onvif.org/ver10/pacs}Description",
+                          "type_name": "Description",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Description",
+                            "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "minLength": "0",
+                            "maxLength": "1024"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "User readable description for the access profile. It shall be up\n\t\t\t\t\t\t\t\t\t\tto 1024 characters."
+                        }
+                      ]
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of AccessProfileInfo items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    },
+    {
+      "name": "GetAccessProfiles",
+      "port_type": "AccessRulesPort",
+      "description": "This operation returns the specified access profile item matching the given tokens. The device shall ignore tokens it cannot resolve and shall return an empty list if there are no items matching specified tokens. The device shall not return a fault in this case. If the number of requested items is greater than MaxLimit, a TooManyItems fault shall be returned.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfilesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfiles",
+            "schema": {
+              "name": "GetAccessProfiles",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "Tokens of AccessProfile items to get."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfilesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfilesResponse",
+            "schema": {
+              "name": "GetAccessProfilesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AccessProfile",
+                    "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfile",
+                    "type_name": "AccessProfile",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "AccessProfile",
+                      "description": "The access profile structure contains information about the collection of access policies. The\n\t\t\t\t\t\tdevice shall include all properties of the AccessProfileInfo structure and also a list of access\n\t\t\t\t\t\tpolicies.",
+                      "base": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "AccessProfileInfo",
+                        "description": "The AccessProfileInfo structure contains basic information about an access profile. The device\n\t\t\t\t\t\tshall provide the following fields for each access profile instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the access profile. It shall be up\n\t\t\t\t\t\t\t\t\t\tto 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "AccessPolicy",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicy",
+                          "type_name": "AccessPolicy",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessPolicy",
+                            "description": "The access policy is an association of an access point and a schedule. It defines when an access\n\t\t\t\t\t\tpoint can be accessed using an access profile which contains this access policy. If an access\n\t\t\t\t\t\tprofile contains several access policies specifying different schedules for the same access\n\t\t\t\t\t\tpoint will result in a union of the schedules.",
+                            "fields": [
+                              {
+                                "name": "ScheduleToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the schedule used by the access policy."
+                              },
+                              {
+                                "name": "Entity",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the entity used by the rule engine, the entity type may be specified by the\n\t\t\t\t\t\t\t\toptional EntityType field explained below but is typically an access point."
+                              },
+                              {
+                                "name": "EntityType",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "type_name": "QName",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Optional entity type; if missing, an access point type as defined by the ONVIF Access\n\t\t\t\t\t\t\t\tControl Service Specification should be assumed. This can also be represented by the\n\t\t\t\t\t\t\t\tQName value\t\"tac:AccessPoint\" where tac is the namespace of ONVIF Access Control\n\t\t\t\t\t\t\t\tService Specification. This field is provided for future extensions; it will allow an\n\t\t\t\t\t\t\t\taccess policy being\textended to cover entity types other than access points as well."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicyExtension",
+                                "type_name": "AccessPolicyExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AccessPolicyExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "A list of access policy structures, where each access policy\n\t\t\t\t\t\t\t\t\t\tdefines during which schedule an access point can be accessed."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileExtension",
+                          "type_name": "AccessProfileExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessProfileExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of Access Profile items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    },
+    {
+      "name": "GetAccessProfileList",
+      "port_type": "AccessRulesPort",
+      "description": "This operation requests a list of all of access profile items provided by the device. A call to this method shall return a StartReference when not all data is returned and more data is available. The reference shall be valid for retrieving the next set of data. The number of items returned shall not be greater than the Limit parameter.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileListRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileList",
+            "schema": {
+              "name": "GetAccessProfileList",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Limit",
+                    "type": "{http://www.w3.org/2001/XMLSchema}int",
+                    "type_name": "int",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Maximum number of entries to return. If not specified, less than one\n\t\t\t\t\t\t\t\t\tor higher than what the device supports, the number of items is determined by the\n\t\t\t\t\t\t\t\t\tdevice."
+                  },
+                  {
+                    "name": "StartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Start returning entries from this start reference. If not specified,\n\t\t\t\t\t\t\t\t\tentries shall start from the beginning of the dataset."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileListResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}GetAccessProfileListResponse",
+            "schema": {
+              "name": "GetAccessProfileListResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "NextStartReference",
+                    "type": "{http://www.w3.org/2001/XMLSchema}string",
+                    "type_name": "string",
+                    "min_occurs": 0,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "StartReference to use in next call to get the following items. If\n\t\t\t\t\t\t\t\t\tabsent, no more items to get."
+                  },
+                  {
+                    "name": "AccessProfile",
+                    "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfile",
+                    "type_name": "AccessProfile",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "AccessProfile",
+                      "description": "The access profile structure contains information about the collection of access policies. The\n\t\t\t\t\t\tdevice shall include all properties of the AccessProfileInfo structure and also a list of access\n\t\t\t\t\t\tpolicies.",
+                      "base": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "AccessProfileInfo",
+                        "description": "The AccessProfileInfo structure contains basic information about an access profile. The device\n\t\t\t\t\t\tshall provide the following fields for each access profile instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the access profile. It shall be up\n\t\t\t\t\t\t\t\t\t\tto 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "AccessPolicy",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicy",
+                          "type_name": "AccessPolicy",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessPolicy",
+                            "description": "The access policy is an association of an access point and a schedule. It defines when an access\n\t\t\t\t\t\tpoint can be accessed using an access profile which contains this access policy. If an access\n\t\t\t\t\t\tprofile contains several access policies specifying different schedules for the same access\n\t\t\t\t\t\tpoint will result in a union of the schedules.",
+                            "fields": [
+                              {
+                                "name": "ScheduleToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the schedule used by the access policy."
+                              },
+                              {
+                                "name": "Entity",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the entity used by the rule engine, the entity type may be specified by the\n\t\t\t\t\t\t\t\toptional EntityType field explained below but is typically an access point."
+                              },
+                              {
+                                "name": "EntityType",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "type_name": "QName",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Optional entity type; if missing, an access point type as defined by the ONVIF Access\n\t\t\t\t\t\t\t\tControl Service Specification should be assumed. This can also be represented by the\n\t\t\t\t\t\t\t\tQName value\t\"tac:AccessPoint\" where tac is the namespace of ONVIF Access Control\n\t\t\t\t\t\t\t\tService Specification. This field is provided for future extensions; it will allow an\n\t\t\t\t\t\t\t\taccess policy being\textended to cover entity types other than access points as well."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicyExtension",
+                                "type_name": "AccessPolicyExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AccessPolicyExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "A list of access policy structures, where each access policy\n\t\t\t\t\t\t\t\t\t\tdefines during which schedule an access point can be accessed."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileExtension",
+                          "type_name": "AccessProfileExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessProfileExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of Access Profile items."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    },
+    {
+      "name": "CreateAccessProfile",
+      "port_type": "AccessRulesPort",
+      "description": "This operation creates the specified access profile in the device. The token field of the access profile shall be empty, the service shall allocate a token for the access profile. The allocated token shall be returned in the response. If the client sends any value in the token field, the device shall return InvalidArgVal as generic fault code. In an access profile, if several access policies specifying different schedules for the same access point will result in a union of the schedules.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}CreateAccessProfileRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}CreateAccessProfile",
+            "schema": {
+              "name": "CreateAccessProfile",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AccessProfile",
+                    "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfile",
+                    "type_name": "AccessProfile",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "AccessProfile",
+                      "description": "The access profile structure contains information about the collection of access policies. The\n\t\t\t\t\t\tdevice shall include all properties of the AccessProfileInfo structure and also a list of access\n\t\t\t\t\t\tpolicies.",
+                      "base": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "AccessProfileInfo",
+                        "description": "The AccessProfileInfo structure contains basic information about an access profile. The device\n\t\t\t\t\t\tshall provide the following fields for each access profile instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the access profile. It shall be up\n\t\t\t\t\t\t\t\t\t\tto 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "AccessPolicy",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicy",
+                          "type_name": "AccessPolicy",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessPolicy",
+                            "description": "The access policy is an association of an access point and a schedule. It defines when an access\n\t\t\t\t\t\tpoint can be accessed using an access profile which contains this access policy. If an access\n\t\t\t\t\t\tprofile contains several access policies specifying different schedules for the same access\n\t\t\t\t\t\tpoint will result in a union of the schedules.",
+                            "fields": [
+                              {
+                                "name": "ScheduleToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the schedule used by the access policy."
+                              },
+                              {
+                                "name": "Entity",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the entity used by the rule engine, the entity type may be specified by the\n\t\t\t\t\t\t\t\toptional EntityType field explained below but is typically an access point."
+                              },
+                              {
+                                "name": "EntityType",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "type_name": "QName",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Optional entity type; if missing, an access point type as defined by the ONVIF Access\n\t\t\t\t\t\t\t\tControl Service Specification should be assumed. This can also be represented by the\n\t\t\t\t\t\t\t\tQName value\t\"tac:AccessPoint\" where tac is the namespace of ONVIF Access Control\n\t\t\t\t\t\t\t\tService Specification. This field is provided for future extensions; it will allow an\n\t\t\t\t\t\t\t\taccess policy being\textended to cover entity types other than access points as well."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicyExtension",
+                                "type_name": "AccessPolicyExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AccessPolicyExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "A list of access policy structures, where each access policy\n\t\t\t\t\t\t\t\t\t\tdefines during which schedule an access point can be accessed."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileExtension",
+                          "type_name": "AccessProfileExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessProfileExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The AccessProfile to create."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}CreateAccessProfileResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}CreateAccessProfileResponse",
+            "schema": {
+              "name": "CreateAccessProfileResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The Token of created AccessProfile."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    },
+    {
+      "name": "ModifyAccessProfile",
+      "port_type": "AccessRulesPort",
+      "description": "This operation will modify the access profile for the specified access profile token. The token of the access profile to modify is specified in the token field of the AccessProile structure and shall not be empty. All other fields in the structure shall overwrite the fields in the specified access profile. If several access policies specifying different schedules for the same access point will result in a union of the schedules. If the device could not store the access profile information then a fault will be generated.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}ModifyAccessProfileRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}ModifyAccessProfile",
+            "schema": {
+              "name": "ModifyAccessProfile",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AccessProfile",
+                    "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfile",
+                    "type_name": "AccessProfile",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "AccessProfile",
+                      "description": "The access profile structure contains information about the collection of access policies. The\n\t\t\t\t\t\tdevice shall include all properties of the AccessProfileInfo structure and also a list of access\n\t\t\t\t\t\tpolicies.",
+                      "base": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "AccessProfileInfo",
+                        "description": "The AccessProfileInfo structure contains basic information about an access profile. The device\n\t\t\t\t\t\tshall provide the following fields for each access profile instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the access profile. It shall be up\n\t\t\t\t\t\t\t\t\t\tto 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "AccessPolicy",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicy",
+                          "type_name": "AccessPolicy",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessPolicy",
+                            "description": "The access policy is an association of an access point and a schedule. It defines when an access\n\t\t\t\t\t\tpoint can be accessed using an access profile which contains this access policy. If an access\n\t\t\t\t\t\tprofile contains several access policies specifying different schedules for the same access\n\t\t\t\t\t\tpoint will result in a union of the schedules.",
+                            "fields": [
+                              {
+                                "name": "ScheduleToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the schedule used by the access policy."
+                              },
+                              {
+                                "name": "Entity",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the entity used by the rule engine, the entity type may be specified by the\n\t\t\t\t\t\t\t\toptional EntityType field explained below but is typically an access point."
+                              },
+                              {
+                                "name": "EntityType",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "type_name": "QName",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Optional entity type; if missing, an access point type as defined by the ONVIF Access\n\t\t\t\t\t\t\t\tControl Service Specification should be assumed. This can also be represented by the\n\t\t\t\t\t\t\t\tQName value\t\"tac:AccessPoint\" where tac is the namespace of ONVIF Access Control\n\t\t\t\t\t\t\t\tService Specification. This field is provided for future extensions; it will allow an\n\t\t\t\t\t\t\t\taccess policy being\textended to cover entity types other than access points as well."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicyExtension",
+                                "type_name": "AccessPolicyExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AccessPolicyExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "A list of access policy structures, where each access policy\n\t\t\t\t\t\t\t\t\t\tdefines during which schedule an access point can be accessed."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileExtension",
+                          "type_name": "AccessProfileExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessProfileExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The details of Access Profile"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}ModifyAccessProfileResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}ModifyAccessProfileResponse",
+            "schema": {
+              "name": "ModifyAccessProfileResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    },
+    {
+      "name": "SetAccessProfile",
+      "port_type": "AccessRulesPort",
+      "description": "This operation will synchronize an access profile in a client with the device. If an access profile with the specified token does not exist in the device, the access profile is created. If an access profile with the specified token exists, then the access profile is modified. A call to this method takes an access profile structure as input parameter. The token field of the access profile must not be empty. A device that signals support for the ClientSuppliedTokenSupported capability shall implement this command.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}SetAccessProfileRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}SetAccessProfile",
+            "schema": {
+              "name": "SetAccessProfile",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "AccessProfile",
+                    "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfile",
+                    "type_name": "AccessProfile",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "AccessProfile",
+                      "description": "The access profile structure contains information about the collection of access policies. The\n\t\t\t\t\t\tdevice shall include all properties of the AccessProfileInfo structure and also a list of access\n\t\t\t\t\t\tpolicies.",
+                      "base": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileInfo",
+                      "base_definition": {
+                        "kind": "complexType",
+                        "name": "AccessProfileInfo",
+                        "description": "The AccessProfileInfo structure contains basic information about an access profile. The device\n\t\t\t\t\t\tshall provide the following fields for each access profile instance.",
+                        "base": "{http://www.onvif.org/ver10/pacs}DataEntity",
+                        "base_definition": {
+                          "kind": "complexType",
+                          "name": "DataEntity",
+                          "description": "General data structure referenced by a token.\n\t\t\t\tShould be used as extension base.",
+                          "fields": [],
+                          "attributes": [
+                            {
+                              "use": "required",
+                              "name": "token",
+                              "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                              "definition": {
+                                "kind": "simpleType",
+                                "name": "ReferenceToken",
+                                "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                "minLength": "0",
+                                "maxLength": "64"
+                              },
+                              "description": "A service-unique identifier of the item."
+                            }
+                          ]
+                        },
+                        "fields": [
+                          {
+                            "name": "Name",
+                            "type": "{http://www.onvif.org/ver10/pacs}Name",
+                            "type_name": "Name",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Name",
+                              "description": "Type used for names of logical and physical entities.",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "64"
+                            },
+                            "min_occurs": 1,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "A user readable name. It shall be up to 64 characters."
+                          },
+                          {
+                            "name": "Description",
+                            "type": "{http://www.onvif.org/ver10/pacs}Description",
+                            "type_name": "Description",
+                            "definition": {
+                              "kind": "simpleType",
+                              "name": "Description",
+                              "description": "Description is optional and the maximum length is device specific.\n\t\t\t\tIf the length is more than maximum length, it is silently chopped to the maximum length\n\t\t\t\tsupported by the device/service (which may be 0).",
+                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                              "minLength": "0",
+                              "maxLength": "1024"
+                            },
+                            "min_occurs": 0,
+                            "max_occurs": 1,
+                            "nillable": false,
+                            "description": "User readable description for the access profile. It shall be up\n\t\t\t\t\t\t\t\t\t\tto 1024 characters."
+                          }
+                        ]
+                      },
+                      "fields": [
+                        {
+                          "name": "AccessPolicy",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicy",
+                          "type_name": "AccessPolicy",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessPolicy",
+                            "description": "The access policy is an association of an access point and a schedule. It defines when an access\n\t\t\t\t\t\tpoint can be accessed using an access profile which contains this access policy. If an access\n\t\t\t\t\t\tprofile contains several access policies specifying different schedules for the same access\n\t\t\t\t\t\tpoint will result in a union of the schedules.",
+                            "fields": [
+                              {
+                                "name": "ScheduleToken",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the schedule used by the access policy."
+                              },
+                              {
+                                "name": "Entity",
+                                "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                                "type_name": "ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "minLength": "0",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reference to the entity used by the rule engine, the entity type may be specified by the\n\t\t\t\t\t\t\t\toptional EntityType field explained below but is typically an access point."
+                              },
+                              {
+                                "name": "EntityType",
+                                "type": "{http://www.w3.org/2001/XMLSchema}QName",
+                                "type_name": "QName",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Optional entity type; if missing, an access point type as defined by the ONVIF Access\n\t\t\t\t\t\t\t\tControl Service Specification should be assumed. This can also be represented by the\n\t\t\t\t\t\t\t\tQName value\t\"tac:AccessPoint\" where tac is the namespace of ONVIF Access Control\n\t\t\t\t\t\t\t\tService Specification. This field is provided for future extensions; it will allow an\n\t\t\t\t\t\t\t\taccess policy being\textended to cover entity types other than access points as well."
+                              },
+                              {
+                                "name": "Extension",
+                                "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessPolicyExtension",
+                                "type_name": "AccessPolicyExtension",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "AccessPolicyExtension",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "A list of access policy structures, where each access policy\n\t\t\t\t\t\t\t\t\t\tdefines during which schedule an access point can be accessed."
+                        },
+                        {
+                          "name": "Extension",
+                          "type": "{http://www.onvif.org/ver10/accessrules/wsdl}AccessProfileExtension",
+                          "type_name": "AccessProfileExtension",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "AccessProfileExtension",
+                            "fields": [],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The AccessProfile item to create or modify"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}SetAccessProfileResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}SetAccessProfileResponse",
+            "schema": {
+              "name": "SetAccessProfileResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    },
+    {
+      "name": "DeleteAccessProfile",
+      "port_type": "AccessRulesPort",
+      "description": "This operation will delete the specified access profile. If the access profile is deleted, all access policies associated to the access profile will also be deleted. If it is associated with one or more entities some devices may not be able to delete the access profile, and consequently a ReferenceInUse fault shall be generated.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}DeleteAccessProfileRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}DeleteAccessProfile",
+            "schema": {
+              "name": "DeleteAccessProfile",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Token",
+                    "type": "{http://www.onvif.org/ver10/pacs}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Type used to reference logical and physical entities.\n\t\t\tToken may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating as a local token.\n\t\t\tSee \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "minLength": "0",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of the access profile to delete."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/accessrules/wsdl}DeleteAccessProfileResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/accessrules/wsdl}DeleteAccessProfileResponse",
+            "schema": {
+              "name": "DeleteAccessProfileResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "AccessRulesBinding"
+    }
+  ]
+}

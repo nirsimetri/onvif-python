@@ -10,65 +10,7 @@ from ctypes import wintypes
 from functools import lru_cache
 from typing import Any
 
-# ONVIF namespace to service name mapping (used globally)
-# Format: namespace -> list of (service_name, binding_pattern)
-# binding_pattern is used to identify specific binding in multi-binding services
-ONVIF_NAMESPACE_MAP = {
-    "http://www.onvif.org/ver10/device/wsdl": [("devicemgmt", "DeviceBinding")],
-    "http://www.onvif.org/ver10/events/wsdl": [
-        ("events", "EventBinding"),
-        ("pullpoint", "PullPointSubscriptionBinding"),
-        ("notification", "NotificationProducerBinding"),
-        ("subscription", "SubscriptionManagerBinding"),
-    ],
-    "http://www.onvif.org/ver20/imaging/wsdl": [("imaging", "ImagingBinding")],
-    "http://www.onvif.org/ver10/media/wsdl": [("media", "MediaBinding")],
-    "http://www.onvif.org/ver20/media/wsdl": [("media2", "Media2Binding")],
-    "http://www.onvif.org/ver20/ptz/wsdl": [("ptz", "PTZBinding")],
-    "http://www.onvif.org/ver10/deviceIO/wsdl": [("deviceio", "DeviceIOBinding")],
-    "http://www.onvif.org/ver10/display/wsdl": [("display", "DisplayBinding")],
-    "http://www.onvif.org/ver20/analytics/wsdl": [
-        ("analytics", "AnalyticsEngineBinding"),
-        ("ruleengine", "RuleEngineBinding"),
-    ],
-    "http://www.onvif.org/ver10/analyticsdevice/wsdl": [
-        ("analyticsdevice", "AnalyticsDeviceBinding")
-    ],
-    "http://www.onvif.org/ver10/accesscontrol/wsdl": [("accesscontrol", "PACSBinding")],
-    "http://www.onvif.org/ver10/doorcontrol/wsdl": [
-        ("doorcontrol", "DoorControlBinding")
-    ],
-    "http://www.onvif.org/ver10/accessrules/wsdl": [
-        ("accessrules", "AccessRulesBinding")
-    ],
-    "http://www.onvif.org/ver10/actionengine/wsdl": [
-        ("actionengine", "ActionEngineBinding")
-    ],
-    "http://www.onvif.org/ver10/provisioning/wsdl": [
-        ("provisioning", "ProvisioningBinding")
-    ],
-    "http://www.onvif.org/ver10/receiver/wsdl": [("receiver", "ReceiverBinding")],
-    "http://www.onvif.org/ver10/recording/wsdl": [("recording", "RecordingBinding")],
-    "http://www.onvif.org/ver10/replay/wsdl": [("replay", "ReplayBinding")],
-    "http://www.onvif.org/ver10/schedule/wsdl": [("schedule", "ScheduleBinding")],
-    "http://www.onvif.org/ver10/search/wsdl": [("search", "SearchBinding")],
-    "http://www.onvif.org/ver10/thermal/wsdl": [("thermal", "ThermalBinding")],
-    "http://www.onvif.org/ver10/uplink/wsdl": [("uplink", "UplinkBinding")],
-    "http://www.onvif.org/ver10/appmgmt/wsdl": [("appmgmt", "AppManagementBinding")],
-    "http://www.onvif.org/ver10/authenticationbehavior/wsdl": [
-        ("authenticationbehavior", "AuthenticationBehaviorBinding")
-    ],
-    "http://www.onvif.org/ver10/credential/wsdl": [("credential", "CredentialBinding")],
-    "http://www.onvif.org/ver10/advancedsecurity/wsdl": [
-        ("advancedsecurity", "AdvancedSecurityServiceBinding"),
-        ("jwt", "JWTBinding"),
-        ("keystore", "KeystoreBinding"),
-        ("tlsserver", "TLSServerBinding"),
-        ("dot1x", "Dot1XBinding"),
-        ("authorizationserver", "AuthorizationServerBinding"),
-        ("mediasigning", "MediaSigningBinding"),
-    ],
-}
+from onvif.mappings import ONVIF_NAMESPACE_MAP
 
 
 def _is_valid_json(s: str) -> bool:
@@ -80,7 +22,7 @@ def _is_valid_json(s: str) -> bool:
     return True
 
 
-# pylint: disable=too-many-statements,too-many-branches
+# pylint: disable=too-many-branches
 def parse_json_params(params_str: str) -> dict[str, Any]:
     """Parse parameters from a JSON string or key=value pairs into a dict.
 
@@ -200,15 +142,16 @@ def get_service_required_args(service_name: str) -> list[str] | None:
     """Get required arguments for services that need them.
 
     Returns list of required argument names, or None if service doesn't need args.
-        Services that require arguments:
-        - pullpoint, subscription: requires SubscriptionRef
+
+    Services that require arguments:
+        - pullpoint, subscription, pausable_subscription: requires SubscriptionRef
     """
-    if service_name in ["pullpoint", "subscription"]:
+    if service_name in ["pullpoint", "subscription", "pausable_subscription"]:
         return ["SubscriptionRef"]
     return None
 
 
-def get_service_methods(service_obj) -> list:
+def get_service_methods(service_obj: object) -> list:
     """Get list of available methods for a service."""
     methods = []
     for attr_name in dir(service_obj):
@@ -268,7 +211,7 @@ def colorize(text: str, color: str) -> str:
 
 
 def format_capabilities_as_services(capabilities) -> str:
-    """Format capabilities response as service list with XAddr."""
+    """Format GetCapabilities response as service list with XAddr."""
     services = []
 
     # Map of capability names to service function names
@@ -346,7 +289,7 @@ def format_capabilities_as_services(capabilities) -> str:
     return f"{colorize('No services found in capabilities', 'yellow')}"
 
 
-def format_services_list(services_list) -> str:
+def format_services_list(services_list: list) -> str:
     """Format GetServices response as service list with XAddr and binding support.
 
     Shows binding information for all services (single and multi-binding).
@@ -363,7 +306,9 @@ def format_services_list(services_list) -> str:
         version = getattr(service, "Version", {})
 
         # Get service mappings for this namespace
-        service_mappings = ONVIF_NAMESPACE_MAP.get(namespace, [])
+        service_mappings: tuple[tuple[str, str], ...] = ONVIF_NAMESPACE_MAP.get(
+            namespace, ()
+        )
 
         if not service_mappings:
             # Unknown namespace
@@ -407,7 +352,7 @@ def format_services_list(services_list) -> str:
     return result
 
 
-# pylint: disable=too-many-statements,too-many-branches
+# pylint: disable=too-many-branches
 def get_device_available_services(client) -> list:
     """Get list of services actually available on the connected device.
 
@@ -436,7 +381,13 @@ def get_device_available_services(client) -> list:
         if hasattr(caps, "Events") and caps.Events:
             # Events namespace has multiple bindings
             available_services.extend(
-                ["events", "pullpoint", "notification", "subscription"]
+                [
+                    "events",
+                    "pullpoint",
+                    "notification",
+                    "subscription",
+                    "pausable_subscription",
+                ]
             )
         if hasattr(caps, "Imaging") and caps.Imaging:
             available_services.append("imaging")

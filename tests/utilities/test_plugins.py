@@ -185,7 +185,6 @@ class TestONVIFParser:
         assert parser.get_extracted_texts("topic", 0) == []
 
 
-# pylint: disable=too-many-public-methods
 class TestXMLCapturePlugin:
     """Tests for the XMLCapturePlugin."""
 

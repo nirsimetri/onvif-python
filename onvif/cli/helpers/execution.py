@@ -1,5 +1,7 @@
 """ONVIF command execution helpers."""
 
+from __future__ import annotations
+
 import warnings
 from typing import Any
 
@@ -48,9 +50,7 @@ def execute_command(
 def setup_warning_format() -> None:
     """Setup custom warning format to show clean, concise warnings."""
 
-    def custom_warning_format(
-        message, category, filename, lineno, line=None
-    ):  # pylint: disable=unused-argument
+    def custom_warning_format(message, category, _filename, _lineno, _line=None):
         # Show only the warning message without file path and line number
         return f"{category.__name__}: {message}\n"
 
