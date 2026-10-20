@@ -3,6 +3,12 @@ name: Python Binary
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag to upload binaries to (e.g. v0.2.0)"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -115,5 +121,6 @@ jobs:
       - name: Upload to GitHub Release (${{ matrix.asset_name }})
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$GITHUB_REF_NAME" "dist/${{ matrix.asset_name }}.zip" --clobber
+          RELEASE_TAG: ${{ inputs.release_tag || github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" "dist/${{ matrix.asset_name }}.zip" --clobber
         shell: bash
