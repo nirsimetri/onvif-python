@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "onvif-python"
-version = "0.4.5"
+version = "0.4.6"
 description = "A Python Library + CLI for ONVIF-compliant devices"
 readme = "README.md"
 requires-python = ">=3.10"
