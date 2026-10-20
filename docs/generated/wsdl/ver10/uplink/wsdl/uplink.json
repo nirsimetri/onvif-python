@@ -1,0 +1,459 @@
+{
+  "source": "ver10/uplink/wsdl/uplink.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/uplink/wsdl",
+  "operations": [
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "UplinkPort",
+      "description": "Returns the capabilities of the uplink service.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/uplink/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/uplink/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/uplink/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/uplink/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/uplink/wsdl}Capabilities",
+                    "type_name": "Capabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Capabilities",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "optional",
+                          "name": "MaxUplinks",
+                          "type": "{http://www.w3.org/2001/XMLSchema}int",
+                          "description": "Maximum number of uplink connections that can be configured."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "Protocols",
+                          "type": "{http://www.onvif.org/ver10/schema}StringList",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "StringList",
+                            "item_type": "{http://www.w3.org/2001/XMLSchema}string"
+                          },
+                          "description": "Protocols supported by the device. Defined values are 'https' for native h2c-reverse and 'wss' for h2c-reverse over WebSocket as defined by tup:Protocols."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "AuthorizationModes",
+                          "type": "{http://www.onvif.org/ver10/schema}StringList",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "StringList",
+                            "item_type": "{http://www.w3.org/2001/XMLSchema}string"
+                          },
+                          "description": "Supported authorization mode [mTLS AccessToken] as defined by tup:AuthorizationModes."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "StreamingOverUplink",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Signals support for media streaming over uplink."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capabilities for the uplink service is returned in the Capabilities element."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "UplinkBinding"
+    },
+    {
+      "name": "GetUplinks",
+      "port_type": "UplinkPort",
+      "description": "A device supporting uplinks shall support this command to retrieve the configured uplink configurations. The Status field shall signal whether a connection is Offline, Connecting or Online.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/uplink/wsdl}GetUplinksRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/uplink/wsdl}GetUplinks",
+            "schema": {
+              "name": "GetUplinks",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/uplink/wsdl}GetUplinksResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/uplink/wsdl}GetUplinksResponse",
+            "schema": {
+              "name": "GetUplinksResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/uplink/wsdl}Configuration",
+                    "type_name": "Configuration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Configuration",
+                      "fields": [
+                        {
+                          "name": "RemoteAddress",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Uniform resource locator by which the remote client can be reached."
+                        },
+                        {
+                          "name": "CertificateID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "ID of the certificate to be used for client authentication."
+                        },
+                        {
+                          "name": "UserLevel",
+                          "type": "{http://www.onvif.org/ver10/schema}StringList",
+                          "type_name": "StringList",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "StringList",
+                            "item_type": "{http://www.w3.org/2001/XMLSchema}string"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "List of authorization levels and roles that will be used to restrict the commands that will be accepted through the uplink connection."
+                        },
+                        {
+                          "name": "Status",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current connection status (see tup:ConnectionStatus for possible values)."
+                        },
+                        {
+                          "name": "CertPathValidationPolicyID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "CertPathValidationPolicyID used to validate the uplink server certificate. If not configured, server certificate validation \n\t\t\t\t\t\t\t\tbehavior is undefined and the device may either apply a vendor specific default validation policy or skip validation at all."
+                        },
+                        {
+                          "name": "AuthorizationServer",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "type_name": "ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "AuthorizationServer token referring to the server that provides access tokens to authorize with the uplink server."
+                        },
+                        {
+                          "name": "Error",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Optional user readable error information (readonly)."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "List of configured uplinks."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "UplinkBinding"
+    },
+    {
+      "name": "SetUplink",
+      "port_type": "UplinkPort",
+      "description": "A device supporting uplinks shall support this command to add or modify an uplink configuration. The Status property of the UplinkConfiguration shall be ignored by the device. A device shall use the field RemoteAddress to decide whether to update an existing entry or create a new entry.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/uplink/wsdl}SetUplinkRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/uplink/wsdl}SetUplink",
+            "schema": {
+              "name": "SetUplink",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/uplink/wsdl}Configuration",
+                    "type_name": "Configuration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Configuration",
+                      "fields": [
+                        {
+                          "name": "RemoteAddress",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Uniform resource locator by which the remote client can be reached."
+                        },
+                        {
+                          "name": "CertificateID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "ID of the certificate to be used for client authentication."
+                        },
+                        {
+                          "name": "UserLevel",
+                          "type": "{http://www.onvif.org/ver10/schema}StringList",
+                          "type_name": "StringList",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "StringList",
+                            "item_type": "{http://www.w3.org/2001/XMLSchema}string"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "List of authorization levels and roles that will be used to restrict the commands that will be accepted through the uplink connection."
+                        },
+                        {
+                          "name": "Status",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current connection status (see tup:ConnectionStatus for possible values)."
+                        },
+                        {
+                          "name": "CertPathValidationPolicyID",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "CertPathValidationPolicyID used to validate the uplink server certificate. If not configured, server certificate validation \n\t\t\t\t\t\t\t\tbehavior is undefined and the device may either apply a vendor specific default validation policy or skip validation at all."
+                        },
+                        {
+                          "name": "AuthorizationServer",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "type_name": "ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "AuthorizationServer token referring to the server that provides access tokens to authorize with the uplink server."
+                        },
+                        {
+                          "name": "Error",
+                          "type": "{http://www.w3.org/2001/XMLSchema}string",
+                          "type_name": "string",
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Optional user readable error information (readonly)."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Configuration to be added or modified."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/uplink/wsdl}SetUplinkResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/uplink/wsdl}SetUplinkResponse",
+            "schema": {
+              "name": "SetUplinkResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "UplinkBinding"
+    },
+    {
+      "name": "DeleteUplink",
+      "port_type": "UplinkPort",
+      "description": "A device supporting uplinks shall support this command to remove an uplink configuration.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/uplink/wsdl}DeleteUplinkRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/uplink/wsdl}DeleteUplink",
+            "schema": {
+              "name": "DeleteUplink",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "RemoteAddress",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Uniform resource locator of the configuration to be deleted."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/uplink/wsdl}DeleteUplinkResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/uplink/wsdl}DeleteUplinkResponse",
+            "schema": {
+              "name": "DeleteUplinkResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "UplinkBinding"
+    }
+  ]
+}

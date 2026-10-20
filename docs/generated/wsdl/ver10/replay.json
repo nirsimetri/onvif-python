@@ -1,0 +1,454 @@
+{
+  "source": "ver10/replay.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/replay/wsdl",
+  "operations": [
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "ReplayPort",
+      "description": "Returns the capabilities of the replay service. The result is returned in a typed answer.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/replay/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/replay/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/replay/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/replay/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/replay/wsdl}Capabilities",
+                    "type_name": "Capabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Capabilities",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "optional",
+                          "name": "ReversePlayback",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicator that the Device supports reverse playback as defined in the ONVIF Streaming Specification."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "SessionTimeoutRange",
+                          "type": "{http://www.onvif.org/ver10/schema}FloatList",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "FloatList",
+                            "item_type": "{http://www.w3.org/2001/XMLSchema}float"
+                          },
+                          "description": "The list contains two elements defining the minimum and maximum valid values supported as session timeout in seconds."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "RTP_RTSP_TCP",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates support for RTP/RTSP/TCP."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "RTSPWebSocketUri",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "description": "If playback streaming over WebSocket is supported, this shall return the RTSP WebSocket URI as described in Streaming Specification Section 5.1.1.5."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capabilities for the replay service is returned in the Capabilities element."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReplayBinding"
+    },
+    {
+      "name": "GetReplayUri",
+      "port_type": "ReplayPort",
+      "description": "Requests a URI that can be used to initiate playback of a recorded stream using RTSP as the control protocol. The URI is valid only as it is specified in the response. A device supporting the Replay Service shall support the GetReplayUri command.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/replay/wsdl}GetReplayUriRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/replay/wsdl}GetReplayUri",
+            "schema": {
+              "name": "GetReplayUri",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "StreamSetup",
+                    "type": "{http://www.onvif.org/ver10/schema}StreamSetup",
+                    "type_name": "StreamSetup",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "StreamSetup",
+                      "fields": [
+                        {
+                          "name": "Stream",
+                          "type": "{http://www.onvif.org/ver10/schema}StreamType",
+                          "type_name": "StreamType",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "StreamType",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "enumeration": [
+                              {
+                                "value": "RTP-Unicast"
+                              },
+                              {
+                                "value": "RTP-Multicast"
+                              }
+                            ]
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Defines if a multicast or unicast stream is requested."
+                        },
+                        {
+                          "name": "Transport",
+                          "type": "{http://www.onvif.org/ver10/schema}Transport",
+                          "type_name": "Transport",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "Transport",
+                            "fields": [
+                              {
+                                "name": "Protocol",
+                                "type": "{http://www.onvif.org/ver10/schema}TransportProtocol",
+                                "type_name": "TransportProtocol",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "TransportProtocol",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "enumeration": [
+                                    {
+                                      "value": "UDP"
+                                    },
+                                    {
+                                      "value": "TCP",
+                                      "description": "This value is deprecated."
+                                    },
+                                    {
+                                      "value": "RTSP"
+                                    },
+                                    {
+                                      "value": "HTTP"
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Defines the network protocol for streaming, either UDP=RTP/UDP, RTSP=RTP/RTSP/TCP or HTTP=RTP/RTSP/HTTP/TCP."
+                              },
+                              {
+                                "name": "Tunnel",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "fields": [],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Deprecated: optional element to describe further tunnel options."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Specifies the connection parameters to be used for the stream. The URI that is returned may depend on these parameters."
+                  },
+                  {
+                    "name": "RecordingToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The identifier of the recording to be streamed."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/replay/wsdl}GetReplayUriResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/replay/wsdl}GetReplayUriResponse",
+            "schema": {
+              "name": "GetReplayUriResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Uri",
+                    "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                    "type_name": "anyURI",
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The URI to which the client should connect in order to stream the recording."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReplayBinding"
+    },
+    {
+      "name": "GetReplayConfiguration",
+      "port_type": "ReplayPort",
+      "description": "Returns the current configuration of the replay service. This operation is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/replay/wsdl}GetReplayConfigurationRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/replay/wsdl}GetReplayConfiguration",
+            "schema": {
+              "name": "GetReplayConfiguration",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/replay/wsdl}GetReplayConfigurationResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/replay/wsdl}GetReplayConfigurationResponse",
+            "schema": {
+              "name": "GetReplayConfigurationResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/schema}ReplayConfiguration",
+                    "type_name": "ReplayConfiguration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ReplayConfiguration",
+                      "description": "Configuration parameters for the replay service.",
+                      "fields": [
+                        {
+                          "name": "SessionTimeout",
+                          "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                          "type_name": "duration",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The RTSP session timeout."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The current replay configuration parameters."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReplayBinding"
+    },
+    {
+      "name": "SetReplayConfiguration",
+      "port_type": "ReplayPort",
+      "description": "Changes the current configuration of the replay service. This operation is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/replay/wsdl}SetReplayConfigurationRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/replay/wsdl}SetReplayConfiguration",
+            "schema": {
+              "name": "SetReplayConfiguration",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/schema}ReplayConfiguration",
+                    "type_name": "ReplayConfiguration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ReplayConfiguration",
+                      "description": "Configuration parameters for the replay service.",
+                      "fields": [
+                        {
+                          "name": "SessionTimeout",
+                          "type": "{http://www.w3.org/2001/XMLSchema}duration",
+                          "type_name": "duration",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The RTSP session timeout."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Description of the new replay configuration parameters."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/replay/wsdl}SetReplayConfigurationResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/replay/wsdl}SetReplayConfigurationResponse",
+            "schema": {
+              "name": "SetReplayConfigurationResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReplayBinding"
+    }
+  ]
+}

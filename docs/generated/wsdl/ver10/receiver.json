@@ -1,0 +1,1645 @@
+{
+  "source": "ver10/receiver.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/receiver/wsdl",
+  "operations": [
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "ReceiverPort",
+      "description": "Returns the capabilities of the receiver service. The result is returned in a typed answer.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/receiver/wsdl}Capabilities",
+                    "type_name": "Capabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Capabilities",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "optional",
+                          "name": "RTP_Multicast",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates that the device can receive RTP multicast streams."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "RTP_TCP",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates that the device can receive RTP/TCP streams"
+                        },
+                        {
+                          "use": "optional",
+                          "name": "RTP_RTSP_TCP",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates that the device can receive RTP/RTSP/TCP streams."
+                        },
+                        {
+                          "use": "required",
+                          "name": "SupportedReceivers",
+                          "type": "{http://www.w3.org/2001/XMLSchema}int",
+                          "description": "The maximum number of receivers supported by the device."
+                        },
+                        {
+                          "use": "optional",
+                          "name": "MaximumRTSPURILength",
+                          "type": "{http://www.w3.org/2001/XMLSchema}int",
+                          "description": "The maximum allowed length for RTSP URIs (Minimum and default value is 128 octet)."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capabilities for the receiver service is returned in the Capabilities element."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReceiverBinding"
+    },
+    {
+      "name": "GetReceivers",
+      "port_type": "ReceiverPort",
+      "description": "Lists all receivers currently present on a device. This operation is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiversRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceivers",
+            "schema": {
+              "name": "GetReceivers",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiversResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiversResponse",
+            "schema": {
+              "name": "GetReceiversResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Receivers",
+                    "type": "{http://www.onvif.org/ver10/schema}Receiver",
+                    "type_name": "Receiver",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Receiver",
+                      "description": "Description of a receiver, including its token and configuration.",
+                      "fields": [
+                        {
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "type_name": "ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Unique identifier of the receiver."
+                        },
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/schema}ReceiverConfiguration",
+                          "type_name": "ReceiverConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ReceiverConfiguration",
+                            "description": "Describes the configuration of a receiver.",
+                            "fields": [
+                              {
+                                "name": "Mode",
+                                "type": "{http://www.onvif.org/ver10/schema}ReceiverMode",
+                                "type_name": "ReceiverMode",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReceiverMode",
+                                  "description": "Specifies a receiver connection mode.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "enumeration": [
+                                    {
+                                      "value": "AutoConnect",
+                                      "description": "The receiver connects on demand, as required by consumers of the media streams."
+                                    },
+                                    {
+                                      "value": "AlwaysConnect",
+                                      "description": "The receiver attempts to maintain a persistent connection to the configured endpoint."
+                                    },
+                                    {
+                                      "value": "NeverConnect",
+                                      "description": "The receiver does not attempt to connect."
+                                    },
+                                    {
+                                      "value": "Unknown",
+                                      "description": "This case should never happen."
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "The following connection modes are defined:"
+                              },
+                              {
+                                "name": "MediaUri",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                "type_name": "anyURI",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Details of the URI to which the receiver should connect."
+                              },
+                              {
+                                "name": "StreamSetup",
+                                "type": "{http://www.onvif.org/ver10/schema}StreamSetup",
+                                "type_name": "StreamSetup",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "StreamSetup",
+                                  "fields": [
+                                    {
+                                      "name": "Stream",
+                                      "type": "{http://www.onvif.org/ver10/schema}StreamType",
+                                      "type_name": "StreamType",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "StreamType",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "enumeration": [
+                                          {
+                                            "value": "RTP-Unicast"
+                                          },
+                                          {
+                                            "value": "RTP-Multicast"
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Defines if a multicast or unicast stream is requested."
+                                    },
+                                    {
+                                      "name": "Transport",
+                                      "type": "{http://www.onvif.org/ver10/schema}Transport",
+                                      "type_name": "Transport",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "Transport",
+                                        "fields": [
+                                          {
+                                            "name": "Protocol",
+                                            "type": "{http://www.onvif.org/ver10/schema}TransportProtocol",
+                                            "type_name": "TransportProtocol",
+                                            "definition": {
+                                              "kind": "simpleType",
+                                              "name": "TransportProtocol",
+                                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                              "enumeration": [
+                                                {
+                                                  "value": "UDP"
+                                                },
+                                                {
+                                                  "value": "TCP",
+                                                  "description": "This value is deprecated."
+                                                },
+                                                {
+                                                  "value": "RTSP"
+                                                },
+                                                {
+                                                  "value": "HTTP"
+                                                }
+                                              ]
+                                            },
+                                            "min_occurs": 1,
+                                            "max_occurs": 1,
+                                            "nillable": false,
+                                            "description": "Defines the network protocol for streaming, either UDP=RTP/UDP, RTSP=RTP/RTSP/TCP or HTTP=RTP/RTSP/HTTP/TCP."
+                                          },
+                                          {
+                                            "name": "Tunnel",
+                                            "definition": {
+                                              "kind": "complexType",
+                                              "fields": [],
+                                              "any": {
+                                                "namespace": "##any",
+                                                "process_contents": "lax",
+                                                "min_occurs": 0,
+                                                "max_occurs": "unbounded"
+                                              }
+                                            },
+                                            "min_occurs": 0,
+                                            "max_occurs": 1,
+                                            "nillable": false,
+                                            "description": "Deprecated: optional element to describe further tunnel options."
+                                          }
+                                        ],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Stream connection parameters."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Describes the configuration of the receiver."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "A list of all receivers that currently exist on the device."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReceiverBinding"
+    },
+    {
+      "name": "GetReceiver",
+      "port_type": "ReceiverPort",
+      "description": "Retrieves the details of a specific receiver. This operation is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiverRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiver",
+            "schema": {
+              "name": "GetReceiver",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ReceiverToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of the receiver to be retrieved."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiverResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiverResponse",
+            "schema": {
+              "name": "GetReceiverResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Receiver",
+                    "type": "{http://www.onvif.org/ver10/schema}Receiver",
+                    "type_name": "Receiver",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Receiver",
+                      "description": "Description of a receiver, including its token and configuration.",
+                      "fields": [
+                        {
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "type_name": "ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Unique identifier of the receiver."
+                        },
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/schema}ReceiverConfiguration",
+                          "type_name": "ReceiverConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ReceiverConfiguration",
+                            "description": "Describes the configuration of a receiver.",
+                            "fields": [
+                              {
+                                "name": "Mode",
+                                "type": "{http://www.onvif.org/ver10/schema}ReceiverMode",
+                                "type_name": "ReceiverMode",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReceiverMode",
+                                  "description": "Specifies a receiver connection mode.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "enumeration": [
+                                    {
+                                      "value": "AutoConnect",
+                                      "description": "The receiver connects on demand, as required by consumers of the media streams."
+                                    },
+                                    {
+                                      "value": "AlwaysConnect",
+                                      "description": "The receiver attempts to maintain a persistent connection to the configured endpoint."
+                                    },
+                                    {
+                                      "value": "NeverConnect",
+                                      "description": "The receiver does not attempt to connect."
+                                    },
+                                    {
+                                      "value": "Unknown",
+                                      "description": "This case should never happen."
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "The following connection modes are defined:"
+                              },
+                              {
+                                "name": "MediaUri",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                "type_name": "anyURI",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Details of the URI to which the receiver should connect."
+                              },
+                              {
+                                "name": "StreamSetup",
+                                "type": "{http://www.onvif.org/ver10/schema}StreamSetup",
+                                "type_name": "StreamSetup",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "StreamSetup",
+                                  "fields": [
+                                    {
+                                      "name": "Stream",
+                                      "type": "{http://www.onvif.org/ver10/schema}StreamType",
+                                      "type_name": "StreamType",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "StreamType",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "enumeration": [
+                                          {
+                                            "value": "RTP-Unicast"
+                                          },
+                                          {
+                                            "value": "RTP-Multicast"
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Defines if a multicast or unicast stream is requested."
+                                    },
+                                    {
+                                      "name": "Transport",
+                                      "type": "{http://www.onvif.org/ver10/schema}Transport",
+                                      "type_name": "Transport",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "Transport",
+                                        "fields": [
+                                          {
+                                            "name": "Protocol",
+                                            "type": "{http://www.onvif.org/ver10/schema}TransportProtocol",
+                                            "type_name": "TransportProtocol",
+                                            "definition": {
+                                              "kind": "simpleType",
+                                              "name": "TransportProtocol",
+                                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                              "enumeration": [
+                                                {
+                                                  "value": "UDP"
+                                                },
+                                                {
+                                                  "value": "TCP",
+                                                  "description": "This value is deprecated."
+                                                },
+                                                {
+                                                  "value": "RTSP"
+                                                },
+                                                {
+                                                  "value": "HTTP"
+                                                }
+                                              ]
+                                            },
+                                            "min_occurs": 1,
+                                            "max_occurs": 1,
+                                            "nillable": false,
+                                            "description": "Defines the network protocol for streaming, either UDP=RTP/UDP, RTSP=RTP/RTSP/TCP or HTTP=RTP/RTSP/HTTP/TCP."
+                                          },
+                                          {
+                                            "name": "Tunnel",
+                                            "definition": {
+                                              "kind": "complexType",
+                                              "fields": [],
+                                              "any": {
+                                                "namespace": "##any",
+                                                "process_contents": "lax",
+                                                "min_occurs": 0,
+                                                "max_occurs": "unbounded"
+                                              }
+                                            },
+                                            "min_occurs": 0,
+                                            "max_occurs": 1,
+                                            "nillable": false,
+                                            "description": "Deprecated: optional element to describe further tunnel options."
+                                          }
+                                        ],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Stream connection parameters."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Describes the configuration of the receiver."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The details of the receiver."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReceiverBinding"
+    },
+    {
+      "name": "CreateReceiver",
+      "port_type": "ReceiverPort",
+      "description": "Creates a new receiver. This operation is mandatory, although the service may raise a fault if the receiver cannot be created.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}CreateReceiverRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}CreateReceiver",
+            "schema": {
+              "name": "CreateReceiver",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/schema}ReceiverConfiguration",
+                    "type_name": "ReceiverConfiguration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ReceiverConfiguration",
+                      "description": "Describes the configuration of a receiver.",
+                      "fields": [
+                        {
+                          "name": "Mode",
+                          "type": "{http://www.onvif.org/ver10/schema}ReceiverMode",
+                          "type_name": "ReceiverMode",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReceiverMode",
+                            "description": "Specifies a receiver connection mode.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "enumeration": [
+                              {
+                                "value": "AutoConnect",
+                                "description": "The receiver connects on demand, as required by consumers of the media streams."
+                              },
+                              {
+                                "value": "AlwaysConnect",
+                                "description": "The receiver attempts to maintain a persistent connection to the configured endpoint."
+                              },
+                              {
+                                "value": "NeverConnect",
+                                "description": "The receiver does not attempt to connect."
+                              },
+                              {
+                                "value": "Unknown",
+                                "description": "This case should never happen."
+                              }
+                            ]
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The following connection modes are defined:"
+                        },
+                        {
+                          "name": "MediaUri",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Details of the URI to which the receiver should connect."
+                        },
+                        {
+                          "name": "StreamSetup",
+                          "type": "{http://www.onvif.org/ver10/schema}StreamSetup",
+                          "type_name": "StreamSetup",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "StreamSetup",
+                            "fields": [
+                              {
+                                "name": "Stream",
+                                "type": "{http://www.onvif.org/ver10/schema}StreamType",
+                                "type_name": "StreamType",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "StreamType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "enumeration": [
+                                    {
+                                      "value": "RTP-Unicast"
+                                    },
+                                    {
+                                      "value": "RTP-Multicast"
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Defines if a multicast or unicast stream is requested."
+                              },
+                              {
+                                "name": "Transport",
+                                "type": "{http://www.onvif.org/ver10/schema}Transport",
+                                "type_name": "Transport",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "Transport",
+                                  "fields": [
+                                    {
+                                      "name": "Protocol",
+                                      "type": "{http://www.onvif.org/ver10/schema}TransportProtocol",
+                                      "type_name": "TransportProtocol",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "TransportProtocol",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "enumeration": [
+                                          {
+                                            "value": "UDP"
+                                          },
+                                          {
+                                            "value": "TCP",
+                                            "description": "This value is deprecated."
+                                          },
+                                          {
+                                            "value": "RTSP"
+                                          },
+                                          {
+                                            "value": "HTTP"
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Defines the network protocol for streaming, either UDP=RTP/UDP, RTSP=RTP/RTSP/TCP or HTTP=RTP/RTSP/HTTP/TCP."
+                                    },
+                                    {
+                                      "name": "Tunnel",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Deprecated: optional element to describe further tunnel options."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Stream connection parameters."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The initial configuration for the new receiver."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}CreateReceiverResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}CreateReceiverResponse",
+            "schema": {
+              "name": "CreateReceiverResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Receiver",
+                    "type": "{http://www.onvif.org/ver10/schema}Receiver",
+                    "type_name": "Receiver",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Receiver",
+                      "description": "Description of a receiver, including its token and configuration.",
+                      "fields": [
+                        {
+                          "name": "Token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "type_name": "ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Unique identifier of the receiver."
+                        },
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/schema}ReceiverConfiguration",
+                          "type_name": "ReceiverConfiguration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ReceiverConfiguration",
+                            "description": "Describes the configuration of a receiver.",
+                            "fields": [
+                              {
+                                "name": "Mode",
+                                "type": "{http://www.onvif.org/ver10/schema}ReceiverMode",
+                                "type_name": "ReceiverMode",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReceiverMode",
+                                  "description": "Specifies a receiver connection mode.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "enumeration": [
+                                    {
+                                      "value": "AutoConnect",
+                                      "description": "The receiver connects on demand, as required by consumers of the media streams."
+                                    },
+                                    {
+                                      "value": "AlwaysConnect",
+                                      "description": "The receiver attempts to maintain a persistent connection to the configured endpoint."
+                                    },
+                                    {
+                                      "value": "NeverConnect",
+                                      "description": "The receiver does not attempt to connect."
+                                    },
+                                    {
+                                      "value": "Unknown",
+                                      "description": "This case should never happen."
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "The following connection modes are defined:"
+                              },
+                              {
+                                "name": "MediaUri",
+                                "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                                "type_name": "anyURI",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Details of the URI to which the receiver should connect."
+                              },
+                              {
+                                "name": "StreamSetup",
+                                "type": "{http://www.onvif.org/ver10/schema}StreamSetup",
+                                "type_name": "StreamSetup",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "StreamSetup",
+                                  "fields": [
+                                    {
+                                      "name": "Stream",
+                                      "type": "{http://www.onvif.org/ver10/schema}StreamType",
+                                      "type_name": "StreamType",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "StreamType",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "enumeration": [
+                                          {
+                                            "value": "RTP-Unicast"
+                                          },
+                                          {
+                                            "value": "RTP-Multicast"
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Defines if a multicast or unicast stream is requested."
+                                    },
+                                    {
+                                      "name": "Transport",
+                                      "type": "{http://www.onvif.org/ver10/schema}Transport",
+                                      "type_name": "Transport",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "name": "Transport",
+                                        "fields": [
+                                          {
+                                            "name": "Protocol",
+                                            "type": "{http://www.onvif.org/ver10/schema}TransportProtocol",
+                                            "type_name": "TransportProtocol",
+                                            "definition": {
+                                              "kind": "simpleType",
+                                              "name": "TransportProtocol",
+                                              "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                              "enumeration": [
+                                                {
+                                                  "value": "UDP"
+                                                },
+                                                {
+                                                  "value": "TCP",
+                                                  "description": "This value is deprecated."
+                                                },
+                                                {
+                                                  "value": "RTSP"
+                                                },
+                                                {
+                                                  "value": "HTTP"
+                                                }
+                                              ]
+                                            },
+                                            "min_occurs": 1,
+                                            "max_occurs": 1,
+                                            "nillable": false,
+                                            "description": "Defines the network protocol for streaming, either UDP=RTP/UDP, RTSP=RTP/RTSP/TCP or HTTP=RTP/RTSP/HTTP/TCP."
+                                          },
+                                          {
+                                            "name": "Tunnel",
+                                            "definition": {
+                                              "kind": "complexType",
+                                              "fields": [],
+                                              "any": {
+                                                "namespace": "##any",
+                                                "process_contents": "lax",
+                                                "min_occurs": 0,
+                                                "max_occurs": "unbounded"
+                                              }
+                                            },
+                                            "min_occurs": 0,
+                                            "max_occurs": 1,
+                                            "nillable": false,
+                                            "description": "Deprecated: optional element to describe further tunnel options."
+                                          }
+                                        ],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Stream connection parameters."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Describes the configuration of the receiver."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The details of the receiver that was created."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReceiverBinding"
+    },
+    {
+      "name": "DeleteReceiver",
+      "port_type": "ReceiverPort",
+      "description": "Deletes an existing receiver. A receiver may be deleted only if it is not currently in use; otherwise a fault shall be raised. This operation is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}DeleteReceiverRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}DeleteReceiver",
+            "schema": {
+              "name": "DeleteReceiver",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ReceiverToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of the receiver to be deleted."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}DeleteReceiverResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}DeleteReceiverResponse",
+            "schema": {
+              "name": "DeleteReceiverResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReceiverBinding"
+    },
+    {
+      "name": "ConfigureReceiver",
+      "port_type": "ReceiverPort",
+      "description": "Configures an existing receiver. This operation is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}ConfigureReceiverRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}ConfigureReceiver",
+            "schema": {
+              "name": "ConfigureReceiver",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ReceiverToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of the receiver to be configured."
+                  },
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/schema}ReceiverConfiguration",
+                    "type_name": "ReceiverConfiguration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ReceiverConfiguration",
+                      "description": "Describes the configuration of a receiver.",
+                      "fields": [
+                        {
+                          "name": "Mode",
+                          "type": "{http://www.onvif.org/ver10/schema}ReceiverMode",
+                          "type_name": "ReceiverMode",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReceiverMode",
+                            "description": "Specifies a receiver connection mode.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "enumeration": [
+                              {
+                                "value": "AutoConnect",
+                                "description": "The receiver connects on demand, as required by consumers of the media streams."
+                              },
+                              {
+                                "value": "AlwaysConnect",
+                                "description": "The receiver attempts to maintain a persistent connection to the configured endpoint."
+                              },
+                              {
+                                "value": "NeverConnect",
+                                "description": "The receiver does not attempt to connect."
+                              },
+                              {
+                                "value": "Unknown",
+                                "description": "This case should never happen."
+                              }
+                            ]
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The following connection modes are defined:"
+                        },
+                        {
+                          "name": "MediaUri",
+                          "type": "{http://www.w3.org/2001/XMLSchema}anyURI",
+                          "type_name": "anyURI",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Details of the URI to which the receiver should connect."
+                        },
+                        {
+                          "name": "StreamSetup",
+                          "type": "{http://www.onvif.org/ver10/schema}StreamSetup",
+                          "type_name": "StreamSetup",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "StreamSetup",
+                            "fields": [
+                              {
+                                "name": "Stream",
+                                "type": "{http://www.onvif.org/ver10/schema}StreamType",
+                                "type_name": "StreamType",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "StreamType",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "enumeration": [
+                                    {
+                                      "value": "RTP-Unicast"
+                                    },
+                                    {
+                                      "value": "RTP-Multicast"
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Defines if a multicast or unicast stream is requested."
+                              },
+                              {
+                                "name": "Transport",
+                                "type": "{http://www.onvif.org/ver10/schema}Transport",
+                                "type_name": "Transport",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "Transport",
+                                  "fields": [
+                                    {
+                                      "name": "Protocol",
+                                      "type": "{http://www.onvif.org/ver10/schema}TransportProtocol",
+                                      "type_name": "TransportProtocol",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "TransportProtocol",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "enumeration": [
+                                          {
+                                            "value": "UDP"
+                                          },
+                                          {
+                                            "value": "TCP",
+                                            "description": "This value is deprecated."
+                                          },
+                                          {
+                                            "value": "RTSP"
+                                          },
+                                          {
+                                            "value": "HTTP"
+                                          }
+                                        ]
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Defines the network protocol for streaming, either UDP=RTP/UDP, RTSP=RTP/RTSP/TCP or HTTP=RTP/RTSP/HTTP/TCP."
+                                    },
+                                    {
+                                      "name": "Tunnel",
+                                      "definition": {
+                                        "kind": "complexType",
+                                        "fields": [],
+                                        "any": {
+                                          "namespace": "##any",
+                                          "process_contents": "lax",
+                                          "min_occurs": 0,
+                                          "max_occurs": "unbounded"
+                                        }
+                                      },
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Deprecated: optional element to describe further tunnel options."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Stream connection parameters."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The new configuration for the receiver."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}ConfigureReceiverResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}ConfigureReceiverResponse",
+            "schema": {
+              "name": "ConfigureReceiverResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReceiverBinding"
+    },
+    {
+      "name": "SetReceiverMode",
+      "port_type": "ReceiverPort",
+      "description": "Sets the mode of the receiver without affecting the rest of its configuration. This operation is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}SetReceiverModeRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}SetReceiverMode",
+            "schema": {
+              "name": "SetReceiverMode",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ReceiverToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of the receiver to be changed."
+                  },
+                  {
+                    "name": "Mode",
+                    "type": "{http://www.onvif.org/ver10/schema}ReceiverMode",
+                    "type_name": "ReceiverMode",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReceiverMode",
+                      "description": "Specifies a receiver connection mode.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "enumeration": [
+                        {
+                          "value": "AutoConnect",
+                          "description": "The receiver connects on demand, as required by consumers of the media streams."
+                        },
+                        {
+                          "value": "AlwaysConnect",
+                          "description": "The receiver attempts to maintain a persistent connection to the configured endpoint."
+                        },
+                        {
+                          "value": "NeverConnect",
+                          "description": "The receiver does not attempt to connect."
+                        },
+                        {
+                          "value": "Unknown",
+                          "description": "This case should never happen."
+                        }
+                      ]
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The new receiver mode. Options available are:"
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}SetReceiverModeResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}SetReceiverModeResponse",
+            "schema": {
+              "name": "SetReceiverModeResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReceiverBinding"
+    },
+    {
+      "name": "GetReceiverState",
+      "port_type": "ReceiverPort",
+      "description": "Determines whether the receiver is currently disconnected, connected or attempting to connect. This operation is mandatory.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiverStateRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiverState",
+            "schema": {
+              "name": "GetReceiverState",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ReceiverToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The token of the receiver to be queried."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiverStateResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/receiver/wsdl}GetReceiverStateResponse",
+            "schema": {
+              "name": "GetReceiverStateResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ReceiverState",
+                    "type": "{http://www.onvif.org/ver10/schema}ReceiverStateInformation",
+                    "type_name": "ReceiverStateInformation",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ReceiverStateInformation",
+                      "description": "Contains information about a receiver's current state.",
+                      "fields": [
+                        {
+                          "name": "State",
+                          "type": "{http://www.onvif.org/ver10/schema}ReceiverState",
+                          "type_name": "ReceiverState",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReceiverState",
+                            "description": "Specifies the current connection state of the receiver.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "enumeration": [
+                              {
+                                "value": "NotConnected",
+                                "description": "The receiver is not connected."
+                              },
+                              {
+                                "value": "Connecting",
+                                "description": "The receiver is attempting to connect."
+                              },
+                              {
+                                "value": "Connected",
+                                "description": "The receiver is connected."
+                              },
+                              {
+                                "value": "Unknown",
+                                "description": "This case should never happen."
+                              }
+                            ]
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "The connection state of the receiver may have one of the following states:"
+                        },
+                        {
+                          "name": "AutoCreated",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "type_name": "boolean",
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Indicates whether or not the receiver was created automatically."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Description of the current receiver state."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ReceiverBinding"
+    }
+  ]
+}

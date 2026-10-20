@@ -1,0 +1,1944 @@
+{
+  "source": "ver10/thermal/wsdl/thermal.wsdl",
+  "target_namespace": "http://www.onvif.org/ver10/thermal/wsdl",
+  "operations": [
+    {
+      "name": "GetServiceCapabilities",
+      "port_type": "ThermalPort",
+      "description": "Returns the capabilities of the thermal service. The result is returned in a typed answer.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetServiceCapabilitiesRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetServiceCapabilities",
+            "schema": {
+              "name": "GetServiceCapabilities",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetServiceCapabilitiesResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetServiceCapabilitiesResponse",
+            "schema": {
+              "name": "GetServiceCapabilitiesResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Capabilities",
+                    "type": "{http://www.onvif.org/ver10/thermal/wsdl}Capabilities",
+                    "type_name": "Capabilities",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Capabilities",
+                      "fields": [],
+                      "attributes": [
+                        {
+                          "use": "optional",
+                          "name": "Radiometry",
+                          "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                          "description": "Indicates whether or not radiometric thermal measurements are supported by the thermal device."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "The capabilities of the thermal service are returned in the Capabilities element."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ThermalBinding"
+    },
+    {
+      "name": "GetConfigurationOptions",
+      "port_type": "ThermalPort",
+      "description": "Gets the valid ranges for the Thermal parameters that have device specific ranges. This command is mandatory for all devices implementing the Thermal service. The command shall return all supported parameters and their ranges, such that these can be applied to the SetConfiguration command.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationOptionsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationOptions",
+            "schema": {
+              "name": "GetConfigurationOptions",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSourceToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Reference token to the VideoSource for which the Thermal Configuration Options are requested."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationOptionsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationOptionsResponse",
+            "schema": {
+              "name": "GetConfigurationOptionsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ConfigurationOptions",
+                    "type": "{http://www.onvif.org/ver10/thermal/wsdl}ConfigurationOptions",
+                    "type_name": "ConfigurationOptions",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "ConfigurationOptions",
+                      "fields": [
+                        {
+                          "name": "ColorPalette",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}ColorPalette",
+                          "type_name": "ColorPalette",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ColorPalette",
+                            "description": "Describes a Color Palette element.",
+                            "fields": [
+                              {
+                                "name": "Name",
+                                "type": "{http://www.onvif.org/ver10/schema}Name",
+                                "type_name": "Name",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "Name",
+                                  "description": "User readable name. Length up to 64 characters.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "User readable Color Palette name."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "token",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "description": "Unique identifier of this Color Palette."
+                              },
+                              {
+                                "use": "required",
+                                "name": "Type",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "description": "Indicates Color Palette Type. Use tth:ColorPaletteType. \n\t\t\t\t\t\tUsed for multi-language support and display."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "List of Color Palettes available for the requested Thermal VideoSource."
+                        },
+                        {
+                          "name": "NUCTable",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}NUCTable",
+                          "type_name": "NUCTable",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "NUCTable",
+                            "description": "Type describing a NUC Table element.",
+                            "fields": [
+                              {
+                                "name": "Name",
+                                "type": "{http://www.onvif.org/ver10/schema}Name",
+                                "type_name": "Name",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "Name",
+                                  "description": "User readable name. Length up to 64 characters.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "User reabable name for the Non-Uniformity Correction (NUC) Table."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "token",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "description": "Unique identifier of this NUC Table."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "LowTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "description": "Low Temperature limit for application of NUC Table, in Kelvin."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "HighTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "description": "High Temperature limit for application of NUC Table, in Kelvin."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": "unbounded",
+                          "nillable": false,
+                          "description": "List of Non-Uniformity Correction (NUC) Tables available for the requested Thermal VideoSource."
+                        },
+                        {
+                          "name": "CoolerOptions",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}CoolerOptions",
+                          "type_name": "CoolerOptions",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "CoolerOptions",
+                            "description": "Describes valid ranges for the thermal device cooler settings. \n\t\t\t\t\tOnly applicable to cooled thermal devices.",
+                            "fields": [
+                              {
+                                "name": "Enabled",
+                                "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                                "type_name": "boolean",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Indicates the Device allows cooler status to be changed from running (Enabled) to stopped (Disabled), and viceversa."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Specifies Cooler Options for cooled thermal devices."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Valid ranges for the Thermal configuration parameters that are categorized as device specific."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ThermalBinding"
+    },
+    {
+      "name": "GetConfiguration",
+      "port_type": "ThermalPort",
+      "description": "Gets the Thermal Configuration for the requested VideoSource.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfiguration",
+            "schema": {
+              "name": "GetConfiguration",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSourceToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Reference token to the VideoSource for which the Thermal Settings are requested."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationResponse",
+            "schema": {
+              "name": "GetConfigurationResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/thermal/wsdl}Configuration",
+                    "type_name": "Configuration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Configuration",
+                      "fields": [
+                        {
+                          "name": "ColorPalette",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}ColorPalette",
+                          "type_name": "ColorPalette",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ColorPalette",
+                            "description": "Describes a Color Palette element.",
+                            "fields": [
+                              {
+                                "name": "Name",
+                                "type": "{http://www.onvif.org/ver10/schema}Name",
+                                "type_name": "Name",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "Name",
+                                  "description": "User readable name. Length up to 64 characters.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "User readable Color Palette name."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "token",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "description": "Unique identifier of this Color Palette."
+                              },
+                              {
+                                "use": "required",
+                                "name": "Type",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "description": "Indicates Color Palette Type. Use tth:ColorPaletteType. \n\t\t\t\t\t\tUsed for multi-language support and display."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current Color Palette in use by the Thermal Device."
+                        },
+                        {
+                          "name": "Polarity",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}Polarity",
+                          "type_name": "Polarity",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Polarity",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "enumeration": [
+                              {
+                                "value": "WhiteHot"
+                              },
+                              {
+                                "value": "BlackHot"
+                              }
+                            ]
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Polarity configuration of the Thermal Device."
+                        },
+                        {
+                          "name": "NUCTable",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}NUCTable",
+                          "type_name": "NUCTable",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "NUCTable",
+                            "description": "Type describing a NUC Table element.",
+                            "fields": [
+                              {
+                                "name": "Name",
+                                "type": "{http://www.onvif.org/ver10/schema}Name",
+                                "type_name": "Name",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "Name",
+                                  "description": "User readable name. Length up to 64 characters.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "User reabable name for the Non-Uniformity Correction (NUC) Table."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "token",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "description": "Unique identifier of this NUC Table."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "LowTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "description": "Low Temperature limit for application of NUC Table, in Kelvin."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "HighTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "description": "High Temperature limit for application of NUC Table, in Kelvin."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current Non-Uniformity Correction (NUC) Table in use by the Thermal Device."
+                        },
+                        {
+                          "name": "Cooler",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}Cooler",
+                          "type_name": "Cooler",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "Cooler",
+                            "description": "Type describing the Cooler settings.",
+                            "fields": [
+                              {
+                                "name": "Enabled",
+                                "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                                "type_name": "boolean",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Indicates whether the Cooler is enabled (running) or not."
+                              },
+                              {
+                                "name": "RunTime",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Number of hours the Cooler has been running (unit: hours). Read-only."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Cooler settings of the Thermal Device."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Thermal Settings for the VideoSource that was requested."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ThermalBinding"
+    },
+    {
+      "name": "GetConfigurations",
+      "port_type": "ThermalPort",
+      "description": "Gets the Thermal Configuration for all thermal VideoSources of the Device.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurations",
+            "schema": {
+              "name": "GetConfigurations",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetConfigurationsResponse",
+            "schema": {
+              "name": "GetConfigurationsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Configurations",
+                    "type": "{http://www.onvif.org/ver10/thermal/wsdl}Configurations",
+                    "type_name": "Configurations",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Configurations",
+                      "fields": [
+                        {
+                          "name": "Configuration",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}Configuration",
+                          "type_name": "Configuration",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "Configuration",
+                            "fields": [
+                              {
+                                "name": "ColorPalette",
+                                "type": "{http://www.onvif.org/ver10/thermal/wsdl}ColorPalette",
+                                "type_name": "ColorPalette",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "ColorPalette",
+                                  "description": "Describes a Color Palette element.",
+                                  "fields": [
+                                    {
+                                      "name": "Name",
+                                      "type": "{http://www.onvif.org/ver10/schema}Name",
+                                      "type_name": "Name",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "Name",
+                                        "description": "User readable name. Length up to 64 characters.",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "maxLength": "64"
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "User readable Color Palette name."
+                                    }
+                                  ],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "token",
+                                      "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "ReferenceToken",
+                                        "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "maxLength": "64"
+                                      },
+                                      "description": "Unique identifier of this Color Palette."
+                                    },
+                                    {
+                                      "use": "required",
+                                      "name": "Type",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                      "description": "Indicates Color Palette Type. Use tth:ColorPaletteType. \n\t\t\t\t\t\tUsed for multi-language support and display."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Current Color Palette in use by the Thermal Device."
+                              },
+                              {
+                                "name": "Polarity",
+                                "type": "{http://www.onvif.org/ver10/thermal/wsdl}Polarity",
+                                "type_name": "Polarity",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "Polarity",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "enumeration": [
+                                    {
+                                      "value": "WhiteHot"
+                                    },
+                                    {
+                                      "value": "BlackHot"
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Polarity configuration of the Thermal Device."
+                              },
+                              {
+                                "name": "NUCTable",
+                                "type": "{http://www.onvif.org/ver10/thermal/wsdl}NUCTable",
+                                "type_name": "NUCTable",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "NUCTable",
+                                  "description": "Type describing a NUC Table element.",
+                                  "fields": [
+                                    {
+                                      "name": "Name",
+                                      "type": "{http://www.onvif.org/ver10/schema}Name",
+                                      "type_name": "Name",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "Name",
+                                        "description": "User readable name. Length up to 64 characters.",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "maxLength": "64"
+                                      },
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "User reabable name for the Non-Uniformity Correction (NUC) Table."
+                                    }
+                                  ],
+                                  "attributes": [
+                                    {
+                                      "use": "required",
+                                      "name": "token",
+                                      "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                      "definition": {
+                                        "kind": "simpleType",
+                                        "name": "ReferenceToken",
+                                        "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                        "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                        "maxLength": "64"
+                                      },
+                                      "description": "Unique identifier of this NUC Table."
+                                    },
+                                    {
+                                      "use": "optional",
+                                      "name": "LowTemperature",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "description": "Low Temperature limit for application of NUC Table, in Kelvin."
+                                    },
+                                    {
+                                      "use": "optional",
+                                      "name": "HighTemperature",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "description": "High Temperature limit for application of NUC Table, in Kelvin."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  },
+                                  "any_attribute": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Current Non-Uniformity Correction (NUC) Table in use by the Thermal Device."
+                              },
+                              {
+                                "name": "Cooler",
+                                "type": "{http://www.onvif.org/ver10/thermal/wsdl}Cooler",
+                                "type_name": "Cooler",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "Cooler",
+                                  "description": "Type describing the Cooler settings.",
+                                  "fields": [
+                                    {
+                                      "name": "Enabled",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                                      "type_name": "boolean",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Indicates whether the Cooler is enabled (running) or not."
+                                    },
+                                    {
+                                      "name": "RunTime",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 0,
+                                      "max_occurs": 1,
+                                      "nillable": false,
+                                      "description": "Number of hours the Cooler has been running (unit: hours). Read-only."
+                                    }
+                                  ],
+                                  "any": {
+                                    "namespace": "##any",
+                                    "process_contents": "lax",
+                                    "min_occurs": 0,
+                                    "max_occurs": "unbounded"
+                                  }
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Cooler settings of the Thermal Device."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current Thermal Settings for the VideoSource."
+                        }
+                      ],
+                      "attributes": [
+                        {
+                          "use": "required",
+                          "name": "token",
+                          "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "ReferenceToken",
+                            "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "maxLength": "64"
+                          },
+                          "description": "Reference token to the thermal VideoSource."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 0,
+                    "max_occurs": "unbounded",
+                    "nillable": false,
+                    "description": "This element contains a list of thermal VideoSource configurations."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ThermalBinding"
+    },
+    {
+      "name": "SetConfiguration",
+      "port_type": "ThermalPort",
+      "description": "Sets the Thermal Configuration for the requested VideoSource.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}SetConfigurationRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}SetConfiguration",
+            "schema": {
+              "name": "SetConfiguration",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSourceToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Reference token to the VideoSource for which the Thermal Settings are configured."
+                  },
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/thermal/wsdl}Configuration",
+                    "type_name": "Configuration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "Configuration",
+                      "fields": [
+                        {
+                          "name": "ColorPalette",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}ColorPalette",
+                          "type_name": "ColorPalette",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "ColorPalette",
+                            "description": "Describes a Color Palette element.",
+                            "fields": [
+                              {
+                                "name": "Name",
+                                "type": "{http://www.onvif.org/ver10/schema}Name",
+                                "type_name": "Name",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "Name",
+                                  "description": "User readable name. Length up to 64 characters.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "User readable Color Palette name."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "token",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "description": "Unique identifier of this Color Palette."
+                              },
+                              {
+                                "use": "required",
+                                "name": "Type",
+                                "type": "{http://www.w3.org/2001/XMLSchema}string",
+                                "description": "Indicates Color Palette Type. Use tth:ColorPaletteType. \n\t\t\t\t\t\tUsed for multi-language support and display."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current Color Palette in use by the Thermal Device."
+                        },
+                        {
+                          "name": "Polarity",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}Polarity",
+                          "type_name": "Polarity",
+                          "definition": {
+                            "kind": "simpleType",
+                            "name": "Polarity",
+                            "base": "{http://www.w3.org/2001/XMLSchema}string",
+                            "enumeration": [
+                              {
+                                "value": "WhiteHot"
+                              },
+                              {
+                                "value": "BlackHot"
+                              }
+                            ]
+                          },
+                          "min_occurs": 1,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Polarity configuration of the Thermal Device."
+                        },
+                        {
+                          "name": "NUCTable",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}NUCTable",
+                          "type_name": "NUCTable",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "NUCTable",
+                            "description": "Type describing a NUC Table element.",
+                            "fields": [
+                              {
+                                "name": "Name",
+                                "type": "{http://www.onvif.org/ver10/schema}Name",
+                                "type_name": "Name",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "Name",
+                                  "description": "User readable name. Length up to 64 characters.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "User reabable name for the Non-Uniformity Correction (NUC) Table."
+                              }
+                            ],
+                            "attributes": [
+                              {
+                                "use": "required",
+                                "name": "token",
+                                "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                                "definition": {
+                                  "kind": "simpleType",
+                                  "name": "ReferenceToken",
+                                  "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                                  "base": "{http://www.w3.org/2001/XMLSchema}string",
+                                  "maxLength": "64"
+                                },
+                                "description": "Unique identifier of this NUC Table."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "LowTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "description": "Low Temperature limit for application of NUC Table, in Kelvin."
+                              },
+                              {
+                                "use": "optional",
+                                "name": "HighTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "description": "High Temperature limit for application of NUC Table, in Kelvin."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Current Non-Uniformity Correction (NUC) Table in use by the Thermal Device."
+                        },
+                        {
+                          "name": "Cooler",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}Cooler",
+                          "type_name": "Cooler",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "Cooler",
+                            "description": "Type describing the Cooler settings.",
+                            "fields": [
+                              {
+                                "name": "Enabled",
+                                "type": "{http://www.w3.org/2001/XMLSchema}boolean",
+                                "type_name": "boolean",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Indicates whether the Cooler is enabled (running) or not."
+                              },
+                              {
+                                "name": "RunTime",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Number of hours the Cooler has been running (unit: hours). Read-only."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Cooler settings of the Thermal Device."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Thermal Settings to be configured."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}SetConfigurationResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}SetConfigurationResponse",
+            "schema": {
+              "name": "SetConfigurationResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ThermalBinding"
+    },
+    {
+      "name": "GetRadiometryConfigurationOptions",
+      "port_type": "ThermalPort",
+      "description": "Gets the valid ranges for the Radiometry parameters that have device specific ranges. The command shall return all supported parameters and their ranges, such that these can be applied to the SetRadiometryConfiguration command.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetRadiometryConfigurationOptionsRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetRadiometryConfigurationOptions",
+            "schema": {
+              "name": "GetRadiometryConfigurationOptions",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSourceToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Reference token to the VideoSource for which the Thermal Radiometry Options are requested."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetRadiometryConfigurationOptionsResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetRadiometryConfigurationOptionsResponse",
+            "schema": {
+              "name": "GetRadiometryConfigurationOptionsResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "ConfigurationOptions",
+                    "type": "{http://www.onvif.org/ver10/thermal/wsdl}RadiometryConfigurationOptions",
+                    "type_name": "RadiometryConfigurationOptions",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "RadiometryConfigurationOptions",
+                      "fields": [
+                        {
+                          "name": "RadiometryGlobalParameterOptions",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}RadiometryGlobalParameterOptions",
+                          "type_name": "RadiometryGlobalParameterOptions",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "RadiometryGlobalParameterOptions",
+                            "description": "Describes valid ranges for the different radiometry parameters required for accurate temperature calculation.",
+                            "fields": [
+                              {
+                                "name": "ReflectedAmbientTemperature",
+                                "type": "{http://www.onvif.org/ver10/schema}FloatRange",
+                                "type_name": "FloatRange",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "FloatRange",
+                                  "description": "Range of values greater equal Min value and less equal Max value.",
+                                  "fields": [
+                                    {
+                                      "name": "Min",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    },
+                                    {
+                                      "name": "Max",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Valid range of temperature values, in Kelvin."
+                              },
+                              {
+                                "name": "Emissivity",
+                                "type": "{http://www.onvif.org/ver10/schema}FloatRange",
+                                "type_name": "FloatRange",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "FloatRange",
+                                  "description": "Range of values greater equal Min value and less equal Max value.",
+                                  "fields": [
+                                    {
+                                      "name": "Min",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    },
+                                    {
+                                      "name": "Max",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Valid range of emissivity values for the objects to measure."
+                              },
+                              {
+                                "name": "DistanceToObject",
+                                "type": "{http://www.onvif.org/ver10/schema}FloatRange",
+                                "type_name": "FloatRange",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "FloatRange",
+                                  "description": "Range of values greater equal Min value and less equal Max value.",
+                                  "fields": [
+                                    {
+                                      "name": "Min",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    },
+                                    {
+                                      "name": "Max",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Valid range of distance between camera and object for a valid temperature reading, in meters."
+                              },
+                              {
+                                "name": "RelativeHumidity",
+                                "type": "{http://www.onvif.org/ver10/schema}FloatRange",
+                                "type_name": "FloatRange",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "FloatRange",
+                                  "description": "Range of values greater equal Min value and less equal Max value.",
+                                  "fields": [
+                                    {
+                                      "name": "Min",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    },
+                                    {
+                                      "name": "Max",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Valid range of relative humidity values, in percentage."
+                              },
+                              {
+                                "name": "AtmosphericTemperature",
+                                "type": "{http://www.onvif.org/ver10/schema}FloatRange",
+                                "type_name": "FloatRange",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "FloatRange",
+                                  "description": "Range of values greater equal Min value and less equal Max value.",
+                                  "fields": [
+                                    {
+                                      "name": "Min",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    },
+                                    {
+                                      "name": "Max",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Valid range of temperature values, in Kelvin."
+                              },
+                              {
+                                "name": "AtmosphericTransmittance",
+                                "type": "{http://www.onvif.org/ver10/schema}FloatRange",
+                                "type_name": "FloatRange",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "FloatRange",
+                                  "description": "Range of values greater equal Min value and less equal Max value.",
+                                  "fields": [
+                                    {
+                                      "name": "Min",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    },
+                                    {
+                                      "name": "Max",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Valid range of atmospheric transmittance values."
+                              },
+                              {
+                                "name": "ExtOpticsTemperature",
+                                "type": "{http://www.onvif.org/ver10/schema}FloatRange",
+                                "type_name": "FloatRange",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "FloatRange",
+                                  "description": "Range of values greater equal Min value and less equal Max value.",
+                                  "fields": [
+                                    {
+                                      "name": "Min",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    },
+                                    {
+                                      "name": "Max",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Valid range of temperature values, in Kelvin."
+                              },
+                              {
+                                "name": "ExtOpticsTransmittance",
+                                "type": "{http://www.onvif.org/ver10/schema}FloatRange",
+                                "type_name": "FloatRange",
+                                "definition": {
+                                  "kind": "complexType",
+                                  "name": "FloatRange",
+                                  "description": "Range of values greater equal Min value and less equal Max value.",
+                                  "fields": [
+                                    {
+                                      "name": "Min",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    },
+                                    {
+                                      "name": "Max",
+                                      "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                      "type_name": "float",
+                                      "min_occurs": 1,
+                                      "max_occurs": 1,
+                                      "nillable": false
+                                    }
+                                  ]
+                                },
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Valid range of external optics transmittance."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Specifies valid ranges and options for the global radiometry parameters used as default parameter values\n\t\t\t\t\t\t\t\tfor temperature measurement modules (spots and boxes)."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Valid ranges for the Thermal Radiometry parameters that are categorized as device specific."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ThermalBinding"
+    },
+    {
+      "name": "GetRadiometryConfiguration",
+      "port_type": "ThermalPort",
+      "description": "Gets the Radiometry Configuration for the requested VideoSource.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetRadiometryConfigurationRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetRadiometryConfiguration",
+            "schema": {
+              "name": "GetRadiometryConfiguration",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSourceToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Reference token to the VideoSource for which the Radiometry Configuration is requested."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}GetRadiometryConfigurationResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}GetRadiometryConfigurationResponse",
+            "schema": {
+              "name": "GetRadiometryConfigurationResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/thermal/wsdl}RadiometryConfiguration",
+                    "type_name": "RadiometryConfiguration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "RadiometryConfiguration",
+                      "fields": [
+                        {
+                          "name": "RadiometryGlobalParameters",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}RadiometryGlobalParameters",
+                          "type_name": "RadiometryGlobalParameters",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "RadiometryGlobalParameters",
+                            "description": "Holds default values that will be used in measurement modules when local parameters are not specified for the module (these are still required for valid temperature calculations). \n\t\t\t\t\t\tHaving ReflectedAmbientTemperature, Emissivity and DistanceToObject as mandatory ensures minimum parameters are available to obtain valid temperature values.",
+                            "fields": [
+                              {
+                                "name": "ReflectedAmbientTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reflected Ambient Temperature for the environment in which the thermal device and the object being measured is located."
+                              },
+                              {
+                                "name": "Emissivity",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Emissivity of the surface of the object on which temperature is being measured."
+                              },
+                              {
+                                "name": "DistanceToObject",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Distance from the thermal device to the measured object."
+                              },
+                              {
+                                "name": "RelativeHumidity",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Relative Humidity in the environment in which the measurement is located."
+                              },
+                              {
+                                "name": "AtmosphericTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Temperature of the atmosphere between the thermal device and the object being measured."
+                              },
+                              {
+                                "name": "AtmosphericTransmittance",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Transmittance value for the atmosphere between the thermal device and the object being measured."
+                              },
+                              {
+                                "name": "ExtOpticsTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Temperature of the optics elements between the thermal device and the object being measured."
+                              },
+                              {
+                                "name": "ExtOpticsTransmittance",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Transmittance value for the optics elements between the thermal device and the object being measured."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Global Parameters for Radiometry Measurements. Shall exist if Radiometry Capability is reported, \n\t\t\t\t\t\t\t\tand Global Parameters are supported by the device."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Radiometry Configuration for the VideoSource that was requested."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ThermalBinding"
+    },
+    {
+      "name": "SetRadiometryConfiguration",
+      "port_type": "ThermalPort",
+      "description": "Sets the Radiometry Configuration for the requested VideoSource.",
+      "input": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}SetRadiometryConfigurationRequest",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}SetRadiometryConfiguration",
+            "schema": {
+              "name": "SetRadiometryConfiguration",
+              "definition": {
+                "kind": "complexType",
+                "fields": [
+                  {
+                    "name": "VideoSourceToken",
+                    "type": "{http://www.onvif.org/ver10/schema}ReferenceToken",
+                    "type_name": "ReferenceToken",
+                    "definition": {
+                      "kind": "simpleType",
+                      "name": "ReferenceToken",
+                      "description": "Unique identifier for a physical or logical resource.\n\t\t\tTokens should be assigned such that they are unique within a device. Tokens must be at least unique within its class.\n\t\t\tLength up to 64 characters. Token may be extended by intermediate terminal with adding prefix to make it global unique.\n\t\t\tThe length should be within 36 characters for generating at local device. See \"Remote Token\" section in Resource Query specification.",
+                      "base": "{http://www.w3.org/2001/XMLSchema}string",
+                      "maxLength": "64"
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Reference token to the VideoSource for which the Radiometry settings are configured."
+                  },
+                  {
+                    "name": "Configuration",
+                    "type": "{http://www.onvif.org/ver10/thermal/wsdl}RadiometryConfiguration",
+                    "type_name": "RadiometryConfiguration",
+                    "definition": {
+                      "kind": "complexType",
+                      "name": "RadiometryConfiguration",
+                      "fields": [
+                        {
+                          "name": "RadiometryGlobalParameters",
+                          "type": "{http://www.onvif.org/ver10/thermal/wsdl}RadiometryGlobalParameters",
+                          "type_name": "RadiometryGlobalParameters",
+                          "definition": {
+                            "kind": "complexType",
+                            "name": "RadiometryGlobalParameters",
+                            "description": "Holds default values that will be used in measurement modules when local parameters are not specified for the module (these are still required for valid temperature calculations). \n\t\t\t\t\t\tHaving ReflectedAmbientTemperature, Emissivity and DistanceToObject as mandatory ensures minimum parameters are available to obtain valid temperature values.",
+                            "fields": [
+                              {
+                                "name": "ReflectedAmbientTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Reflected Ambient Temperature for the environment in which the thermal device and the object being measured is located."
+                              },
+                              {
+                                "name": "Emissivity",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Emissivity of the surface of the object on which temperature is being measured."
+                              },
+                              {
+                                "name": "DistanceToObject",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 1,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Distance from the thermal device to the measured object."
+                              },
+                              {
+                                "name": "RelativeHumidity",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Relative Humidity in the environment in which the measurement is located."
+                              },
+                              {
+                                "name": "AtmosphericTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Temperature of the atmosphere between the thermal device and the object being measured."
+                              },
+                              {
+                                "name": "AtmosphericTransmittance",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Transmittance value for the atmosphere between the thermal device and the object being measured."
+                              },
+                              {
+                                "name": "ExtOpticsTemperature",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Temperature of the optics elements between the thermal device and the object being measured."
+                              },
+                              {
+                                "name": "ExtOpticsTransmittance",
+                                "type": "{http://www.w3.org/2001/XMLSchema}float",
+                                "type_name": "float",
+                                "min_occurs": 0,
+                                "max_occurs": 1,
+                                "nillable": false,
+                                "description": "Transmittance value for the optics elements between the thermal device and the object being measured."
+                              }
+                            ],
+                            "any": {
+                              "namespace": "##any",
+                              "process_contents": "lax",
+                              "min_occurs": 0,
+                              "max_occurs": "unbounded"
+                            },
+                            "any_attribute": {
+                              "namespace": "##any",
+                              "process_contents": "lax"
+                            }
+                          },
+                          "min_occurs": 0,
+                          "max_occurs": 1,
+                          "nillable": false,
+                          "description": "Global Parameters for Radiometry Measurements. Shall exist if Radiometry Capability is reported, \n\t\t\t\t\t\t\t\tand Global Parameters are supported by the device."
+                        }
+                      ],
+                      "any": {
+                        "namespace": "##any",
+                        "process_contents": "lax",
+                        "min_occurs": 0,
+                        "max_occurs": "unbounded"
+                      },
+                      "any_attribute": {
+                        "namespace": "##any",
+                        "process_contents": "lax"
+                      }
+                    },
+                    "min_occurs": 1,
+                    "max_occurs": 1,
+                    "nillable": false,
+                    "description": "Radiometry settings to be configured."
+                  }
+                ]
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "output": {
+        "message": "{http://www.onvif.org/ver10/thermal/wsdl}SetRadiometryConfigurationResponse",
+        "parts": [
+          {
+            "name": "parameters",
+            "element": "{http://www.onvif.org/ver10/thermal/wsdl}SetRadiometryConfigurationResponse",
+            "schema": {
+              "name": "SetRadiometryConfigurationResponse",
+              "definition": {
+                "kind": "complexType",
+                "fields": []
+              },
+              "min_occurs": 1,
+              "max_occurs": 1,
+              "nillable": false
+            }
+          }
+        ]
+      },
+      "faults": [],
+      "binding": "ThermalBinding"
+    }
+  ]
+}
