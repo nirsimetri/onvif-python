@@ -13,7 +13,6 @@ Each release provides ZIP archives for supported operating systems and architect
 | Platform | Architecture | Download |
 |---|---|---|
 | :fontawesome-brands-linux: &nbsp;Linux | AMD64 (64-bit) | [onvif-linux-amd64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-amd64.zip) |
-| :fontawesome-brands-linux: &nbsp;Linux | i386 (32-bit) | [onvif-linux-i386.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-i386.zip) |
 | :fontawesome-brands-linux: &nbsp;Linux | ARM64 (aarch64) | [onvif-linux-arm64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-arm64.zip) |
 | :fontawesome-brands-windows: &nbsp;Windows | x64 (64-bit) | [onvif-windows-win64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-windows-win64.zip) |
 | :fontawesome-brands-windows: &nbsp;Windows | x86 (32-bit) | [onvif-windows-win32.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-windows-win32.zip) |
