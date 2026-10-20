@@ -98,6 +98,9 @@ exclude = [
     "build*",
     "site*",
     "device-test*",
+    "docs*",
+    "dist*",
+    "scripts*",
 ]
 
 [tool.setuptools.package-data]
@@ -122,6 +125,7 @@ skip  = [
     "^temp/",
     "^build/",
     "^site/",
+    "^dist/",
 ]
 
 [tool.docformatter]
@@ -140,6 +144,7 @@ ignore-paths = [
     "^temp/",
     "^build/",
     "^site/",
+    "^dist/",
 ]
 load-plugins = ["pylint_pytest"]
 
@@ -168,6 +173,8 @@ exclude  = [
     "^build/",
     "^site/",
     "^docs/",
+    "^scripts/",
+    "^dist/",
 ]
 
 [tool.coverage.run]
@@ -176,6 +183,8 @@ omit = [
     "device-test/*",
     "examples/*",
     "docs/*",
+    "scripts/*",
+    "dist/*",
 ]
 
 [tool.codespell]
