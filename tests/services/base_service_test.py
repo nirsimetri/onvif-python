@@ -282,7 +282,8 @@ class ONVIFServiceTestBase:
             assert False, error_msg
 
     def test_method_parameters_completeness(self):
-        """Test that all WSDL top-level parameters are included in method signature.
+        """
+        Test that all WSDL top-level parameters are included in method signature.
 
         This ensures that methods don't miss optional parameters from WSDL. For example,
         if WSDL has [CertificateID, Subject, Attributes], the method must have all three
@@ -463,7 +464,9 @@ class ONVIFServiceTestBase:
             assert not errors, "Operator call errors:\n" + "\n".join(errors)
 
     def test_legacy_call_uses_legacy_operation(self):
-        """Test that legacy_call temporarily registers and invokes a legacy operation."""
+        """Test that legacy_call temporarily registers and invokes a legacy
+        operation.
+        """
         operator = object.__new__(ONVIFOperator)
 
         current_operation = Mock()
@@ -558,7 +561,8 @@ class ONVIFServiceTestBase:
     # pylint: disable=too-many-branches,too-many-nested-blocks
     def test_parameter_forwarding_for_all_methods(self):
         """Test that all method parameters are correctly forwarded to
-        operator.call()."""
+        operator.call().
+        """
         if not self.SERVICE_CLASS:
             return
 

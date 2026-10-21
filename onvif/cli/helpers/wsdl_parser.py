@@ -42,7 +42,8 @@ class OperationTypeInfo(TypedDict):
 def get_method_documentation(
     service_obj: Any, method_name: str
 ) -> dict[str, Any] | None:
-    """Extracts documentation from WSDL and parameters from the Python method signature.
+    """
+    Extracts documentation from WSDL and parameters from the Python method signature.
 
     Returns a dictionary with 'doc', 'required', and 'optional' keys.
     """
@@ -177,7 +178,8 @@ def get_method_documentation(
 def get_operation_type_info(
     service_obj: Any, operation_name: str
 ) -> OperationTypeInfo | None:
-    """Extract input and output message types from WSDL for a given operation.
+    """
+    Extract input and output message types from WSDL for a given operation.
 
     Returns a dictionary with 'input' and 'output' keys containing message details.
     """
@@ -250,7 +252,8 @@ def get_operation_type_info(
 def parse_message_from_wsdl(
     root, message_name: str, namespaces: dict, schema_context: dict
 ) -> MessageInfo | None:
-    """Parse a WSDL message definition to extract parameter details.
+    """
+    Parse a WSDL message definition to extract parameter details.
 
     Returns a dictionary with message name and parameters.
     """
@@ -295,7 +298,8 @@ def parse_message_from_wsdl(
 
 
 def clean_documentation_html(doc_text: str) -> str:
-    """Clean HTML tags from documentation text and convert links to readable format.
+    """
+    Clean HTML tags from documentation text and convert links to readable format.
 
     Args:
         doc_text: Documentation text that may contain HTML tags
@@ -333,7 +337,8 @@ def clean_documentation_html(doc_text: str) -> str:
 
 
 def extract_documentation_text(doc_elem) -> str:
-    """Extract full text from xs:documentation element including child elements.
+    """
+    Extract full text from xs:documentation element including child elements.
 
     This handles cases where documentation contains HTML tags like <a href="">.
 
@@ -457,7 +462,8 @@ def resolve_element_type(
     depth: int = 0,
     visited: set[str] | None = None,
 ) -> list:
-    """Resolve an element definition from the schema to get its parameters recursively.
+    """
+    Resolve an element definition from the schema to get its parameters recursively.
 
     Args:
         element_name: Name of the element to resolve
@@ -620,7 +626,8 @@ def resolve_complex_type(
     depth: int = 0,
     visited: set[str] | None = None,
 ) -> list:
-    """Resolve a complexType definition to get its child elements.
+    """
+    Resolve a complexType definition to get its child elements.
 
     Args:
         type_name: Name of the complexType to resolve
@@ -810,7 +817,8 @@ def parse_inline_complex_type(
     depth: int = 0,
     visited: set[str] | None = None,
 ) -> list:
-    """Parse an inline complexType element (not referenced by name).
+    """
+    Parse an inline complexType element (not referenced by name).
 
     Args:
         complex_type: The xs:complexType element itself

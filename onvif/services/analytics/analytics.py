@@ -32,7 +32,8 @@ class Analytics(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the analytics service.
+        """
+        Returns the capabilities of the analytics service.
 
         The result is returned in a typed answer.
         """
@@ -40,13 +41,15 @@ class Analytics(ONVIFService):
 
     def GetSupportedAnalyticsModules(self, ConfigurationToken):
         """List all analytics modules that are supported by the given
-        VideoAnalyticsConfiguration."""
+        VideoAnalyticsConfiguration.
+        """
         return self.operator.call(
             "GetSupportedAnalyticsModules", ConfigurationToken=ConfigurationToken
         )
 
     def CreateAnalyticsModules(self, ConfigurationToken, AnalyticsModule):
-        """Add one or more analytics modules to an existing VideoAnalyticsConfiguration.
+        """
+        Add one or more analytics modules to an existing VideoAnalyticsConfiguration.
 
         The available supported types can be retrieved via GetSupportedAnalyticsModules,
         where the Name of the supported AnalyticsModules correspond to the type of an
@@ -78,7 +81,8 @@ class Analytics(ONVIFService):
 
     def DeleteAnalyticsModules(self, ConfigurationToken, AnalyticsModuleName):
         """Remove one or more analytics modules from a VideoAnalyticsConfiguration
-        referenced by their names."""
+        referenced by their names.
+        """
         return self.operator.call(
             "DeleteAnalyticsModules",
             ConfigurationToken=ConfigurationToken,
@@ -87,14 +91,16 @@ class Analytics(ONVIFService):
 
     def GetAnalyticsModules(self, ConfigurationToken):
         """List the currently assigned set of analytics modules of a
-        VideoAnalyticsConfiguration."""
+        VideoAnalyticsConfiguration.
+        """
         return self.operator.call(
             "GetAnalyticsModules", ConfigurationToken=ConfigurationToken
         )
 
     def GetAnalyticsModuleOptions(self, ConfigurationToken, Type=None):
         """Return the options for the supported analytics modules that specify an Option
-        attribute."""
+        attribute.
+        """
         return self.operator.call(
             "GetAnalyticsModuleOptions",
             Type=Type,
@@ -102,7 +108,8 @@ class Analytics(ONVIFService):
         )
 
     def ModifyAnalyticsModules(self, ConfigurationToken, AnalyticsModule):
-        """Modify the settings of one or more analytics modules of a
+        """
+        Modify the settings of one or more analytics modules of a
         VideoAnalyticsConfiguration.
 
         The modules are referenced by their names. It is allowed to pass only a subset
@@ -115,7 +122,8 @@ class Analytics(ONVIFService):
         )
 
     def GetSupportedMetadata(self, Type=None):
-        """This method provides a computer readable description of the metadata that the
+        """
+        This method provides a computer readable description of the metadata that the
         selected analytics modules can generate.
 
         The type parameter allows to select a single analytics module. By default the

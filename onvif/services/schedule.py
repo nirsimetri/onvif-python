@@ -37,11 +37,13 @@ class Schedule(ONVIFService):
 
     def GetScheduleState(self, Token):
         """This operation requests the ScheduleState for the schedule instance specified
-        by the given token."""
+        by the given token.
+        """
         return self.operator.call("GetScheduleState", Token=Token)
 
     def GetScheduleInfo(self, Token):
-        """This method returns a list of schedule info items, specified in the request.
+        """
+        This method returns a list of schedule info items, specified in the request.
 
         Only found schedules shall be returned, i.e., the returned numbers of elements
         can differ from the requested element. The device shall ignore tokens it cannot
@@ -52,7 +54,8 @@ class Schedule(ONVIFService):
         return self.operator.call("GetScheduleInfo", Token=Token)
 
     def GetScheduleInfoList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of ScheduleInfo items provided by the
+        """
+        This operation requests a list of all of ScheduleInfo items provided by the
         device.
 
         A call to this method shall return a StartReference when not all data is
@@ -65,7 +68,8 @@ class Schedule(ONVIFService):
         )
 
     def GetSchedules(self, Token):
-        """This operation returns the specified schedule item matching the given tokens.
+        """
+        This operation returns the specified schedule item matching the given tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
         if there are no items matching the specified tokens. If the number of requested
@@ -74,8 +78,8 @@ class Schedule(ONVIFService):
         return self.operator.call("GetSchedules", Token=Token)
 
     def GetScheduleList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of Schedule items provided by the
-        device.
+        """
+        This operation requests a list of all of Schedule items provided by the device.
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
@@ -87,7 +91,8 @@ class Schedule(ONVIFService):
         )
 
     def CreateSchedule(self, Schedule):
-        """This operation creates the specified schedule.
+        """
+        This operation creates the specified schedule.
 
         The token field of the schedule structure shall be empty, the device shall
         allocate a token for the schedule. The allocated token shall be returned in the
@@ -105,7 +110,8 @@ class Schedule(ONVIFService):
         return self.operator.call("ModifySchedule", Schedule=Schedule)
 
     def DeleteSchedule(self, Token):
-        """This operation will delete the specified schedule.
+        """
+        This operation will delete the specified schedule.
 
         If it is associated with one or more entities some devices may not be able to
         delete the schedule, and consequently a ReferenceInUse fault shall be generated.
@@ -113,8 +119,9 @@ class Schedule(ONVIFService):
         return self.operator.call("DeleteSchedule", Token=Token)
 
     def GetSpecialDayGroupInfo(self, Token):
-        """This operation requests a list of SpecialDayGroupInfo items matching the
-        given tokens.
+        """
+        This operation requests a list of SpecialDayGroupInfo items matching the given
+        tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
         if there are no items matching specified tokens. The device shall not return a
@@ -124,8 +131,9 @@ class Schedule(ONVIFService):
         return self.operator.call("GetSpecialDayGroupInfo", Token=Token)
 
     def GetSpecialDayGroupInfoList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of SpecialDayGroupInfo items provided
-        by the device.
+        """
+        This operation requests a list of all of SpecialDayGroupInfo items provided by
+        the device.
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
@@ -138,12 +146,14 @@ class Schedule(ONVIFService):
 
     def GetSpecialDayGroups(self, Token):
         """This operation returns the specified special day group item matching the
-        given token."""
+        given token.
+        """
         return self.operator.call("GetSpecialDayGroups", Token=Token)
 
     def GetSpecialDayGroupList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of SpecialDayGroupList items provided
-        by the device.
+        """
+        This operation requests a list of all of SpecialDayGroupList items provided by
+        the device.
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
@@ -155,7 +165,8 @@ class Schedule(ONVIFService):
         )
 
     def CreateSpecialDayGroup(self, SpecialDayGroup):
-        """This operation creates the specified special day group.
+        """
+        This operation creates the specified special day group.
 
         The token field of the SpecialDayGroup structure shall be empty, the device
         shall allocate a token for the special day group. The allocated token shall be
@@ -177,7 +188,8 @@ class Schedule(ONVIFService):
         )
 
     def DeleteSpecialDayGroup(self, Token):
-        """This method deletes the specified special day group.
+        """
+        This method deletes the specified special day group.
 
         If it is associated with one or more schedules some devices may not be able to
         delete the special day group, and consequently a ReferenceInUse fault must be

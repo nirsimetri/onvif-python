@@ -7,7 +7,8 @@ from .base_service_test import ONVIFServiceTestBase
 
 class TestAuthenticationBehaviorWSDLCompliance(ONVIFServiceTestBase):
     """Test that AuthenticationBehavior service implementation matches WSDL
-    specification."""
+    specification.
+    """
 
     # Service-specific configuration
     SERVICE_CLASS = AuthenticationBehavior

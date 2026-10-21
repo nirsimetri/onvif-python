@@ -32,13 +32,15 @@ class RuleEngine(ONVIFService):
 
     def GetSupportedRules(self, ConfigurationToken):
         """List all rules that are supported by the given
-        VideoAnalyticsConfiguration."""
+        VideoAnalyticsConfiguration.
+        """
         return self.operator.call(
             "GetSupportedRules", ConfigurationToken=ConfigurationToken
         )
 
     def CreateRules(self, ConfigurationToken, Rule):
-        """Add one or more rules to an existing VideoAnalyticsConfiguration.
+        """
+        Add one or more rules to an existing VideoAnalyticsConfiguration.
 
         The available supported types can be retrieved via GetSupportedRules, where the
         Name of the supported rule correspond to the type of an rule instance.
@@ -66,13 +68,15 @@ class RuleEngine(ONVIFService):
 
     def GetRuleOptions(self, ConfigurationToken, RuleType=None):
         """Return the options for the supported rules that specify an Option
-        attribute."""
+        attribute.
+        """
         return self.operator.call(
             "GetRuleOptions", RuleType=RuleType, ConfigurationToken=ConfigurationToken
         )
 
     def ModifyRules(self, ConfigurationToken, Rule):
-        """Modify one or more rules of a VideoAnalyticsConfiguration.
+        """
+        Modify one or more rules of a VideoAnalyticsConfiguration.
 
         The rules are referenced by their names.
         """

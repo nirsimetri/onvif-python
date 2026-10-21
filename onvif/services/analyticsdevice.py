@@ -33,6 +33,7 @@ class AnalyticsDevice(ONVIFService):
     | **Operations** | [analyticsdevice.wsdl](https://www.onvif.org/ver10/analyticsdevice.wsdl) |
     | **Spec** | [Video Analytics Device](https://www.onvif.org/specs/srv/analytics/ONVIF-VideoAnalyticsDevice-Service-Spec-v211.pdf) |
     """
+
     # pylint: enable=line-too-long
 
     def __init__(self, xaddr=None, **kwargs):
@@ -46,7 +47,8 @@ class AnalyticsDevice(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the analytics device service.
+        """
+        Returns the capabilities of the analytics device service.
 
         The result is returned in a typed answer.
         """
@@ -74,26 +76,30 @@ class AnalyticsDevice(ONVIFService):
 
     def GetAnalyticsEngineControl(self, ConfigurationToken):
         """The GetAnalyticsEngineControl command fetches the analytics engine control if
-        the analytics engine control token is known."""
+        the analytics engine control token is known.
+        """
         return self.operator.call(
             "GetAnalyticsEngineControl", ConfigurationToken=ConfigurationToken
         )
 
     def GetAnalyticsEngineControls(self):
         """This operation lists all available analytics engine controls for the
-        device."""
+        device.
+        """
         return self.operator.call("GetAnalyticsEngineControls")
 
     def GetAnalyticsEngine(self, ConfigurationToken):
         """The GetAnalyticsEngine command fetches the analytics engine configuration if
-        the token is known."""
+        the token is known.
+        """
         return self.operator.call(
             "GetAnalyticsEngine", ConfigurationToken=ConfigurationToken
         )
 
     def GetAnalyticsEngines(self):
         """This operation lists all available analytics engine configurations for the
-        device."""
+        device.
+        """
         return self.operator.call("GetAnalyticsEngines")
 
     def SetVideoAnalyticsConfiguration(self, Configuration, ForcePersistence):
@@ -114,20 +120,23 @@ class AnalyticsDevice(ONVIFService):
 
     def GetAnalyticsEngineInput(self, ConfigurationToken):
         """The GetAnalyticsEngineInput command fetches the input configuration if the
-        analytics engine input configuration token is known."""
+        analytics engine input configuration token is known.
+        """
         return self.operator.call(
             "GetAnalyticsEngineInput", ConfigurationToken=ConfigurationToken
         )
 
     def GetAnalyticsEngineInputs(self):
         """This operation lists all available analytics engine input configurations for
-        the device."""
+        the device.
+        """
         return self.operator.call("GetAnalyticsEngineInputs")
 
     def GetAnalyticsDeviceStreamUri(self, StreamSetup, AnalyticsEngineControlToken):
         """This operation requests a URI that can be used to initiate a live stream
         using RTSP as the control protocol if the token of the AnalyticsEngineControl is
-        known."""
+        known.
+        """
         return self.operator.call(
             "GetAnalyticsDeviceStreamUri",
             StreamSetup=StreamSetup,
@@ -136,7 +145,8 @@ class AnalyticsDevice(ONVIFService):
 
     def GetVideoAnalyticsConfiguration(self, ConfigurationToken):
         """The GetVideoAnalyticsConfiguration command fetches the video analytics
-        configuration if the video analytics configuration token is known."""
+        configuration if the video analytics configuration token is known.
+        """
         return self.operator.call(
             "GetVideoAnalyticsConfiguration", ConfigurationToken=ConfigurationToken
         )
@@ -151,14 +161,16 @@ class AnalyticsDevice(ONVIFService):
 
     def DeleteAnalyticsEngineInputs(self, ConfigurationToken):
         """This command deletes analytics engine input configurations if the tokens are
-        known."""
+        known.
+        """
         return self.operator.call(
             "DeleteAnalyticsEngineInputs", ConfigurationToken=ConfigurationToken
         )
 
     def GetAnalyticsState(self, AnalyticsEngineControlToken):
         """GetAnalyticsState returns status information of the referenced
-        AnalyticsEngineControl object."""
+        AnalyticsEngineControl object.
+        """
         return self.operator.call(
             "GetAnalyticsState", AnalyticsEngineControlToken=AnalyticsEngineControlToken
         )

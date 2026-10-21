@@ -32,14 +32,16 @@ class PTZ(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the PTZ service.
+        """
+        Returns the capabilities of the PTZ service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetConfigurations(self):
-        """Get all the existing PTZConfigurations from the device.
+        """
+        Get all the existing PTZConfigurations from the device.
 
         The default Position/Translation/Velocity Spaces are introduced to allow NVCs
         sending move requests without the need to specify a certain coordinate system.
@@ -62,7 +64,8 @@ class PTZ(ONVIFService):
         return self.operator.call("GetConfigurations")
 
     def GetPresets(self, ProfileToken):
-        """Operation to request all PTZ presets for the PTZNode in the selected profile.
+        """
+        Operation to request all PTZ presets for the PTZNode in the selected profile.
 
         The operation is supported if there is support for at least on PTZ preset by the
         PTZNode.
@@ -70,9 +73,9 @@ class PTZ(ONVIFService):
         return self.operator.call("GetPresets", ProfileToken=ProfileToken)
 
     def SetPreset(self, ProfileToken, PresetName=None, PresetToken=None):
-        """The SetPreset command saves the current device position parameters so that
-        the device can move to the saved preset position through the GotoPreset
-        operation.
+        """
+        The SetPreset command saves the current device position parameters so that the
+        device can move to the saved preset position through the GotoPreset operation.
 
         In order to create a new preset, the SetPresetRequest contains no PresetToken.
         If creation is successful, the Response contains the PresetToken which uniquely
@@ -91,7 +94,8 @@ class PTZ(ONVIFService):
         )
 
     def RemovePreset(self, ProfileToken, PresetToken):
-        """Operation to remove a PTZ preset for the Node in the selected profile.
+        """
+        Operation to remove a PTZ preset for the Node in the selected profile.
 
         The operation is supported if the PresetPosition capability exists for the Node
         in the selected profile.
@@ -101,7 +105,8 @@ class PTZ(ONVIFService):
         )
 
     def GotoPreset(self, ProfileToken, PresetToken, Speed=None):
-        """Operation to go to a saved preset position for the PTZNode in the selected
+        """
+        Operation to go to a saved preset position for the PTZNode in the selected
         profile.
 
         The operation is supported if there is support for at least on PTZ preset by the
@@ -119,7 +124,8 @@ class PTZ(ONVIFService):
         return self.operator.call("GetStatus", ProfileToken=ProfileToken)
 
     def GetConfiguration(self, PTZConfigurationToken):
-        """Get a specific PTZconfiguration from the device, identified by its reference
+        """
+        Get a specific PTZconfiguration from the device, identified by its reference
         token or name.
 
         The default Position/Translation/Velocity Spaces are introduced to allow NVCs
@@ -145,7 +151,8 @@ class PTZ(ONVIFService):
         )
 
     def GetNodes(self):
-        """Get the descriptions of the available PTZ Nodes.
+        """
+        Get the descriptions of the available PTZ Nodes.
 
         A PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent
         mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes
@@ -168,7 +175,8 @@ class PTZ(ONVIFService):
         )
 
     def GetConfigurationOptions(self, ConfigurationToken):
-        """List supported coordinate systems including their range limitations.
+        """
+        List supported coordinate systems including their range limitations.
 
         Therefore, the options MAY differ depending on whether the PTZ Configuration is
         assigned to a Profile containing a Video Source Configuration. In that case, the
@@ -182,7 +190,8 @@ class PTZ(ONVIFService):
         )
 
     def GotoHomePosition(self, ProfileToken, Speed=None):
-        """Operation to move the PTZ device to it's "home" position.
+        """
+        Operation to move the PTZ device to it's "home" position.
 
         The operation is supported if the HomeSupported element in the PTZNode is true.
         """
@@ -191,7 +200,8 @@ class PTZ(ONVIFService):
         )
 
     def SetHomePosition(self, ProfileToken):
-        """Operation to save current position as the home position.
+        """
+        Operation to save current position as the home position.
 
         The SetHomePosition command returns with a failure if the "home" position is
         fixed and cannot be overwritten. If the SetHomePosition is successful, it is
@@ -200,7 +210,8 @@ class PTZ(ONVIFService):
         return self.operator.call("SetHomePosition", ProfileToken=ProfileToken)
 
     def ContinuousMove(self, ProfileToken, Velocity, Timeout=None):
-        """Operation for continuous Pan/Tilt and Zoom movements.
+        """
+        Operation for continuous Pan/Tilt and Zoom movements.
 
         The operation is supported if the PTZNode supports at least one continuous
         Pan/Tilt or Zoom space. If the space argument is omitted, the default space set
@@ -214,7 +225,8 @@ class PTZ(ONVIFService):
         )
 
     def RelativeMove(self, ProfileToken, Translation, Speed=None):
-        """Operation for Relative Pan/Tilt and Zoom Move.
+        """
+        Operation for Relative Pan/Tilt and Zoom Move.
 
         The operation is supported if the PTZNode supports at least one relative
         Pan/Tilt or Zoom space.
@@ -232,7 +244,8 @@ class PTZ(ONVIFService):
         )
 
     def AbsoluteMove(self, ProfileToken, Position, Speed=None):
-        """Operation to move pan,tilt or zoom to a absolute destination.
+        """
+        Operation to move pan,tilt or zoom to a absolute destination.
 
         The speed argument is optional. If an x/y speed value is given it is up to the
         device to either use the x value as absolute resoluting speed vector or to map x
@@ -246,7 +259,8 @@ class PTZ(ONVIFService):
     def GeoMove(
         self, ProfileToken, Target, Speed=None, AreaHeight=None, AreaWidth=None
     ):
-        """Operation to move pan,tilt or zoom to point to a destination based on the
+        """
+        Operation to move pan,tilt or zoom to point to a destination based on the
         geolocation of the target.
 
         The speed argument is optional. If an x/y speed value is given it is up to the
@@ -266,8 +280,9 @@ class PTZ(ONVIFService):
         )
 
     def Stop(self, ProfileToken, PanTilt=None, Zoom=None):
-        """Operation to stop ongoing pan, tilt and zoom movements of absolute relative
-        and continuous type.
+        """
+        Operation to stop ongoing pan, tilt and zoom movements of absolute relative and
+        continuous type.
 
         If no stop argument for pan, tilt or zoom is set, the device will stop all
         ongoing pan, tilt and zoom movements.
@@ -277,8 +292,9 @@ class PTZ(ONVIFService):
         )
 
     def SendAuxiliaryCommand(self, ProfileToken, AuxiliaryData):
-        """Operation to send auxiliary commands to the PTZ device mapped by the PTZNode
-        in the selected profile.
+        """
+        Operation to send auxiliary commands to the PTZ device mapped by the PTZNode in
+        the selected profile.
 
         The operation is supported if the AuxiliarySupported element of the PTZNode is
         true
@@ -295,7 +311,8 @@ class PTZ(ONVIFService):
 
     def GetPresetTour(self, ProfileToken, PresetTourToken):
         """Operation to request a specific PTZ preset tour in the selected media
-        profile."""
+        profile.
+        """
         return self.operator.call(
             "GetPresetTour", ProfileToken=ProfileToken, PresetTourToken=PresetTourToken
         )
@@ -320,7 +337,8 @@ class PTZ(ONVIFService):
 
     def OperatePresetTour(self, ProfileToken, PresetTourToken, Operation):
         """Operation to perform specific operation on the preset tour in selected media
-        profile."""
+        profile.
+        """
         return self.operator.call(
             "OperatePresetTour",
             ProfileToken=ProfileToken,
@@ -337,7 +355,8 @@ class PTZ(ONVIFService):
         )
 
     def GetCompatibleConfigurations(self, ProfileToken):
-        """Operation to get all available PTZConfigurations that can be added to the
+        """
+        Operation to get all available PTZConfigurations that can be added to the
         referenced media profile.
 
         A device providing more than one PTZConfiguration or more than one
@@ -359,7 +378,8 @@ class PTZ(ONVIFService):
         TargetPosition=None,
         Speed=None,
     ):
-        """Operation to send an an atomic command to the device: move the camera to a
+        """
+        Operation to send an an atomic command to the device: move the camera to a
         wanted position and then delegate the PTZ control to the tracking algorithm.
 
         An existing Speed argument overrides DefaultSpeed of the corresponding PTZ

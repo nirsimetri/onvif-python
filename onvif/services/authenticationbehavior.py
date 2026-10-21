@@ -20,6 +20,7 @@ class AuthenticationBehavior(ONVIFService):
     | **Operations** | [authenticationbehavior.wsdl](https://www.onvif.org/ver10/authenticationbehavior/wsdl/authenticationbehavior.wsdl) |
     | **Spec** | [AuthenticationBehavior](https://www.onvif.org/specs/srv/access/ONVIF-AuthenticationBehavior-Service-Spec.pdf) |
     """
+
     # pylint: enable=line-too-long
 
     def __init__(self, xaddr=None, **kwargs):
@@ -34,12 +35,14 @@ class AuthenticationBehavior(ONVIFService):
 
     def GetServiceCapabilities(self):
         """This operation returns the capabilities of the authentication behavior
-        service."""
+        service.
+        """
         return self.operator.call("GetServiceCapabilities")
 
     def GetAuthenticationProfileInfo(self, Token):
-        """This operation requests a list of AuthenticationProfileInfo items matching
-        the given tokens.
+        """
+        This operation requests a list of AuthenticationProfileInfo items matching the
+        given tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
         if there are no items matching the specified tokens. The device shall not return
@@ -48,7 +51,8 @@ class AuthenticationBehavior(ONVIFService):
         return self.operator.call("GetAuthenticationProfileInfo", Token=Token)
 
     def GetAuthenticationProfileInfoList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of AuthenticationProfileInfo items
+        """
+        This operation requests a list of all of AuthenticationProfileInfo items
         provided by the device.
 
         A call to this method shall return a StartReference when not all data is
@@ -63,7 +67,8 @@ class AuthenticationBehavior(ONVIFService):
         )
 
     def GetAuthenticationProfiles(self, Token):
-        """This operation returns the specified AuthenticationProfile item matching the
+        """
+        This operation returns the specified AuthenticationProfile item matching the
         given tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
@@ -73,8 +78,9 @@ class AuthenticationBehavior(ONVIFService):
         return self.operator.call("GetAuthenticationProfiles", Token=Token)
 
     def GetAuthenticationProfileList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of AuthenticationProfile items provided
-        by the device.
+        """
+        This operation requests a list of all of AuthenticationProfile items provided by
+        the device.
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
@@ -86,7 +92,8 @@ class AuthenticationBehavior(ONVIFService):
         )
 
     def CreateAuthenticationProfile(self, AuthenticationProfile):
-        """This operation creates the specified authentication profile in the device.
+        """
+        This operation creates the specified authentication profile in the device.
 
         The token field of the AuthenticationProfile structure shall be empty and the
         device shall allocate a token for the authentication profile. The allocated
@@ -98,7 +105,8 @@ class AuthenticationBehavior(ONVIFService):
         )
 
     def SetAuthenticationProfile(self, AuthenticationProfile):
-        """This method is used to synchronize an authentication profile in a client with
+        """
+        This method is used to synchronize an authentication profile in a client with
         the device.
 
         If an authentication profile with the specified token does not exist in the
@@ -114,7 +122,8 @@ class AuthenticationBehavior(ONVIFService):
         )
 
     def ModifyAuthenticationProfile(self, AuthenticationProfile):
-        """This operation modifies the specified authentication profile.
+        """
+        This operation modifies the specified authentication profile.
 
         The token of the authentication profile to modify is specified in the token
         field of the AuthenticationProfile structure and shall not be empty. All other
@@ -126,7 +135,8 @@ class AuthenticationBehavior(ONVIFService):
         )
 
     def DeleteAuthenticationProfile(self, Token):
-        """This operation deletes the specified authentication profile.
+        """
+        This operation deletes the specified authentication profile.
 
         If the authentication profile is deleted, all authentication policies associated
         with the authentication profile will also be deleted. If it is associated with
@@ -136,7 +146,8 @@ class AuthenticationBehavior(ONVIFService):
         return self.operator.call("DeleteAuthenticationProfile", Token=Token)
 
     def GetSecurityLevelInfo(self, Token):
-        """This operation requests a list of SecurityLevelInfo items matching the given
+        """
+        This operation requests a list of SecurityLevelInfo items matching the given
         tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
@@ -146,8 +157,9 @@ class AuthenticationBehavior(ONVIFService):
         return self.operator.call("GetSecurityLevelInfo", Token=Token)
 
     def GetSecurityLevelInfoList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of SecurityLevelInfo items provided by
-        the device.
+        """
+        This operation requests a list of all of SecurityLevelInfo items provided by the
+        device.
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
@@ -159,7 +171,8 @@ class AuthenticationBehavior(ONVIFService):
         )
 
     def GetSecurityLevels(self, Token):
-        """This operation returns the specified SecurityLevel item matching the given
+        """
+        This operation returns the specified SecurityLevel item matching the given
         tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
@@ -169,7 +182,8 @@ class AuthenticationBehavior(ONVIFService):
         return self.operator.call("GetSecurityLevels", Token=Token)
 
     def GetSecurityLevelList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of SecurityLevel items provided by the
+        """
+        This operation requests a list of all of SecurityLevel items provided by the
         device.
 
         A call to this method shall return a StartReference when not all data is
@@ -182,7 +196,8 @@ class AuthenticationBehavior(ONVIFService):
         )
 
     def CreateSecurityLevel(self, SecurityLevel):
-        """This operation creates the specified security level in the device.
+        """
+        This operation creates the specified security level in the device.
 
         The token field of the SecurityLevel structure shall be empty and the device
         shall allocate a token for the security level. The allocated token shall be
@@ -192,7 +207,8 @@ class AuthenticationBehavior(ONVIFService):
         return self.operator.call("CreateSecurityLevel", SecurityLevel=SecurityLevel)
 
     def SetSecurityLevel(self, SecurityLevel):
-        """This method is used to synchronize an security level in a client with the
+        """
+        This method is used to synchronize an security level in a client with the
         device.
 
         If an security level with the specified token does not exist in the device, the
@@ -205,7 +221,8 @@ class AuthenticationBehavior(ONVIFService):
         return self.operator.call("SetSecurityLevel", SecurityLevel=SecurityLevel)
 
     def ModifySecurityLevel(self, SecurityLevel):
-        """This operation modifies the specified security level.
+        """
+        This operation modifies the specified security level.
 
         The token of the security level to modify is specified in the token field of the
         SecurityLevel structure and shall not be empty. All other fields in the
@@ -214,7 +231,8 @@ class AuthenticationBehavior(ONVIFService):
         return self.operator.call("ModifySecurityLevel", SecurityLevel=SecurityLevel)
 
     def DeleteSecurityLevel(self, Token):
-        """This operation deletes the specified security level.
+        """
+        This operation deletes the specified security level.
 
         If the security level is deleted, all authentication policies associated with
         the security level will also be deleted. If it is associated with one or more

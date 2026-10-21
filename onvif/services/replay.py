@@ -32,15 +32,17 @@ class Replay(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the replay service.
+        """
+        Returns the capabilities of the replay service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetReplayUri(self, StreamSetup, RecordingToken):
-        """Requests a URI that can be used to initiate playback of a recorded stream
-        using RTSP as the control protocol.
+        """
+        Requests a URI that can be used to initiate playback of a recorded stream using
+        RTSP as the control protocol.
 
         The URI is valid only as it is specified in the response. A device supporting
         the Replay Service shall support the GetReplayUri command.
@@ -50,14 +52,16 @@ class Replay(ONVIFService):
         )
 
     def GetReplayConfiguration(self):
-        """Returns the current configuration of the replay service.
+        """
+        Returns the current configuration of the replay service.
 
         This operation is mandatory.
         """
         return self.operator.call("GetReplayConfiguration")
 
     def SetReplayConfiguration(self, Configuration):
-        """Changes the current configuration of the replay service.
+        """
+        Changes the current configuration of the replay service.
 
         This operation is mandatory.
         """

@@ -35,7 +35,8 @@ class ActionEngine(ONVIFService):
         return self.operator.call("GetServiceCapabilities")
 
     def GetSupportedActions(self):
-        """The service provider returns the supported action types.
+        """
+        The service provider returns the supported action types.
 
         The response returns a list of Action Descriptions according to the Action
         Description Language.
@@ -52,7 +53,8 @@ class ActionEngine(ONVIFService):
         return self.operator.call("GetActions")
 
     def CreateActions(self, Action):
-        """The create action operation adds actions to configuration.
+        """
+        The create action operation adds actions to configuration.
 
         The create action operation is atomic. If a service provider can not create all
         of requested actions, the service provider responds with a fault message.
@@ -60,7 +62,8 @@ class ActionEngine(ONVIFService):
         return self.operator.call("CreateActions", Action=Action)
 
     def DeleteActions(self, Token):
-        """The delete operation deletes actions.
+        """
+        The delete operation deletes actions.
 
         The delete action operation is atomic. If a service provider can not delete all
         of requested actions, the service provider responds with a fault message.
@@ -68,7 +71,8 @@ class ActionEngine(ONVIFService):
         return self.operator.call("DeleteActions", Token=Token)
 
     def ModifyActions(self, Action):
-        """The modify action operation modifies action configurations.
+        """
+        The modify action operation modifies action configurations.
 
         The modify action operation is atomic. If a service provider can not modify all
         of requested action configurations, the service provider responds with a fault
@@ -85,7 +89,8 @@ class ActionEngine(ONVIFService):
         return self.operator.call("GetActionTriggers")
 
     def CreateActionTriggers(self, ActionTrigger):
-        """Creates action triggers.
+        """
+        Creates action triggers.
 
         The create action triggers operation is atomic. If a service provider can not
         create all of requested action triggers, the service provider responds with a
@@ -94,7 +99,8 @@ class ActionEngine(ONVIFService):
         return self.operator.call("CreateActionTriggers", ActionTrigger=ActionTrigger)
 
     def DeleteActionTriggers(self, Token):
-        """Deletes action triggers.
+        """
+        Deletes action triggers.
 
         The delete action triggers operation is atomic. If a service provider can not
         delete all of requested action triggers, the service provider responds with a
@@ -103,7 +109,8 @@ class ActionEngine(ONVIFService):
         return self.operator.call("DeleteActionTriggers", Token=Token)
 
     def ModifyActionTriggers(self, ActionTrigger):
-        """Modifies existing action triggers.
+        """
+        Modifies existing action triggers.
 
         The modify action triggers operation is atomic. If a service provider can not
         modify all of requested action trigger configurations, the service provider

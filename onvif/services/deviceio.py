@@ -31,14 +31,16 @@ class DeviceIO(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the device IO service.
+        """
+        Returns the capabilities of the device IO service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetRelayOutputOptions(self, RelayOutputToken=None):
-        """Request the available settings and ranges for one or all relay outputs.
+        """
+        Request the available settings and ranges for one or all relay outputs.
 
         A device that has one or more RelayOutputs should support this command.
 
@@ -68,7 +70,8 @@ class DeviceIO(ONVIFService):
         )
 
     def GetAudioSources(self):
-        """List all available audio sources for the device.
+        """
+        List all available audio sources for the device.
 
         The device that has one or more audio sources shall support the listing of
         available audio inputs through the GetAudioSources command.
@@ -76,7 +79,8 @@ class DeviceIO(ONVIFService):
         return self.operator.call("GetAudioSources")
 
     def GetAudioOutputs(self):
-        """List all available audio outputs of a device.
+        """
+        List all available audio outputs of a device.
 
         A device that has one or more physical audio outputs shall support listing of
         available audio outputs through the GetAudioOutputs command.
@@ -84,7 +88,8 @@ class DeviceIO(ONVIFService):
         return self.operator.call("GetAudioOutputs")
 
     def GetVideoSources(self):
-        """List all available video sources for the device.
+        """
+        List all available video sources for the device.
 
         The device that has one or more video inputs shall support the listing of
         available video sources through the GetVideoSources command.
@@ -92,7 +97,8 @@ class DeviceIO(ONVIFService):
         return self.operator.call("GetVideoSources")
 
     def GetVideoOutputs(self):
-        """List all available video outputs of a device.
+        """
+        List all available video outputs of a device.
 
         A device that has one or more physical video outputs shall support listing of
         available video outputs through the GetVideoOutputs command.
@@ -100,7 +106,8 @@ class DeviceIO(ONVIFService):
         return self.operator.call("GetVideoOutputs")
 
     def GetVideoSourceConfiguration(self, VideoSourceToken):
-        """Get the video source configurations of a VideoSource.
+        """
+        Get the video source configurations of a VideoSource.
 
         A device with one or more video sources shall support the
         GetVideoSourceConfigurations command.
@@ -112,7 +119,8 @@ class DeviceIO(ONVIFService):
         )
 
     def GetVideoOutputConfiguration(self, VideoOutputToken):
-        """Get the configuration of a Video Output.
+        """
+        Get the configuration of a Video Output.
 
         A device that has one or more Video Outputs shall support the retrieval of the
         VideoOutputConfiguration through this command.
@@ -122,7 +130,8 @@ class DeviceIO(ONVIFService):
         )
 
     def GetAudioSourceConfiguration(self, AudioSourceToken):
-        """List the configuration of an Audio Input.
+        """
+        List the configuration of an Audio Input.
 
         A device with one or more audio inputs shall support the
         GetAudioSourceConfiguration command.
@@ -134,7 +143,8 @@ class DeviceIO(ONVIFService):
         )
 
     def GetAudioOutputConfiguration(self, AudioOutputToken):
-        """Request the current configuration of a physical Audio output.
+        """
+        Request the current configuration of a physical Audio output.
 
         A device that has one or more AudioOutputs shall support the retrieval of the
         AudioOutputConfiguration through this command.
@@ -146,7 +156,8 @@ class DeviceIO(ONVIFService):
         )
 
     def SetVideoSourceConfiguration(self, Configuration, ForcePersistence):
-        """Modify a video input configuration.
+        """
+        Modify a video input configuration.
 
         A device that has one or more video sources shall support the setting of the
         VideoSourceConfiguration through this command.
@@ -160,7 +171,8 @@ class DeviceIO(ONVIFService):
         )
 
     def SetVideoOutputConfiguration(self, Configuration, ForcePersistence):
-        """Modify a video output configuration.
+        """
+        Modify a video output configuration.
 
         A device that has one or more video outputs shall support the setting of its
         video output configuration through this command.
@@ -172,7 +184,8 @@ class DeviceIO(ONVIFService):
         )
 
     def SetAudioSourceConfiguration(self, Configuration, ForcePersistence):
-        """Modify an audio source configuration.
+        """
+        Modify an audio source configuration.
 
         A device that has a one or more audio sources shall support the setting of the
         AudioSourceConfiguration through this command.
@@ -186,7 +199,8 @@ class DeviceIO(ONVIFService):
         )
 
     def SetAudioOutputConfiguration(self, Configuration, ForcePersistence):
-        """Modify an audio output configuration.
+        """
+        Modify an audio output configuration.
 
         A device that has one or more audio outputs shall support the setting of the
         AudioOutputConfiguration through this command.
@@ -200,7 +214,8 @@ class DeviceIO(ONVIFService):
         )
 
     def GetVideoSourceConfigurationOptions(self, VideoSourceToken):
-        """Request the VideoSourceConfigurationOptions of a VideoSource.
+        """
+        Request the VideoSourceConfigurationOptions of a VideoSource.
 
         A device with one or more video sources shall support this command.
 
@@ -211,7 +226,8 @@ class DeviceIO(ONVIFService):
         )
 
     def GetVideoOutputConfigurationOptions(self, VideoOutputToken):
-        """Request the VideoOutputConfigurationOptions of a VideoOutput.
+        """
+        Request the VideoOutputConfigurationOptions of a VideoOutput.
 
         A device that has one or more video outputs shall support the retrieval of
         VideoOutputConfigurationOptions through this command.
@@ -221,7 +237,8 @@ class DeviceIO(ONVIFService):
         )
 
     def GetAudioSourceConfigurationOptions(self, AudioSourceToken):
-        """Request the AudioSourceConfigurationOptions of an AudioSource.
+        """
+        Request the AudioSourceConfigurationOptions of an AudioSource.
 
         A device with one or more AudioSources shall support this command.
 
@@ -232,7 +249,8 @@ class DeviceIO(ONVIFService):
         )
 
     def GetAudioOutputConfigurationOptions(self, AudioOutputToken):
-        """Request the available settings and ranges for a physical Audio output.
+        """
+        Request the available settings and ranges for a physical Audio output.
 
         A device that has one or more AudioOutputs shall support this command.
 
@@ -244,11 +262,13 @@ class DeviceIO(ONVIFService):
 
     def GetRelayOutputs(self):
         """This operation gets a list of all available relay outputs and their
-        settings."""
+        settings.
+        """
         return self.operator.call("GetRelayOutputs")
 
     def SetRelayOutputSettings(self, RelayOutput, RelayOutputToken, Properties):
-        """This operation sets the settings of a relay output.
+        """
+        This operation sets the settings of a relay output.
 
         The relay can work in two relay modes:
 
@@ -320,7 +340,8 @@ class DeviceIO(ONVIFService):
         self, Token=None, SerialData=None, TimeOut=None, DataLength=None, Delimiter=None
     ):
         """This operation transmitting arbitrary data to the connected serial device and
-        then receiving its response data."""
+        then receiving its response data.
+        """
         return self.operator.call(
             "SendReceiveSerialCommand",
             Token=Token,

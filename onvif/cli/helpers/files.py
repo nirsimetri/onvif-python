@@ -15,7 +15,8 @@ from onvif.client import ONVIFClient
 def save_output_to_file(
     result: Any, output_path: str, debug_mode: bool, client: ONVIFClient
 ) -> None:
-    """Save command output to file in appropriate format based on file extension.
+    """
+    Save command output to file in appropriate format based on file extension.
 
     Args:
         result (Any): The ONVIF command result
@@ -106,7 +107,8 @@ def save_output_to_file(
 
 # pylint: disable=too-many-return-statements,too-many-branches,too-many-nested-blocks
 def _serialize_for_json(obj: Any) -> Any:
-    """Recursively serialize ONVIF objects for JSON output.
+    """
+    Recursively serialize ONVIF objects for JSON output.
 
     Args:
         obj: Object to serialize

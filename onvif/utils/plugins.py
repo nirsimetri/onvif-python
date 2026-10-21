@@ -1,4 +1,5 @@
-"""Auxiliary custom Zeep plugins outside the core scope.
+"""
+Auxiliary custom Zeep plugins outside the core scope.
 
 All classes in this module inherit from Zeep's Plugin (`zeep.Plugin`) class.
 """
@@ -18,8 +19,7 @@ logger.addHandler(logging.NullHandler())
 
 class XMLCapturePlugin(Plugin):
     """
-    <!-- md:version 0.0.6 -->
-    <!-- md:plugin -->
+    <!-- md:version 0.0.6 --> <!-- md:plugin -->
 
     Zeep plugin to capture and inspect SOAP XML requests and responses.
 
@@ -83,7 +83,8 @@ class XMLCapturePlugin(Plugin):
     """
 
     def __init__(self, pretty_print=True):
-        """Initialize XML capture plugin.
+        """
+        Initialize XML capture plugin.
 
         Args:
             pretty_print (bool): If True, format XML with indentation
@@ -96,7 +97,8 @@ class XMLCapturePlugin(Plugin):
         logger.debug("XMLCapturePlugin initialized (pretty_print=%s)", pretty_print)
 
     def _format_xml(self, element: etree._Element) -> str:
-        """Format XML element with proper indentation using lxml.
+        """
+        Format XML element with proper indentation using lxml.
 
         Args:
             element: lxml Element to format
@@ -134,8 +136,7 @@ class XMLCapturePlugin(Plugin):
         binding_options: dict[str, object],
     ) -> tuple[Any, dict[str, str]]:
         """
-        <!-- md:version 0.0.6 -->
-        <!-- md:internal -->
+        <!-- md:version 0.0.6 --> <!-- md:internal -->
 
         Capture a SOAP request before it is sent to the device.
 
@@ -190,8 +191,7 @@ class XMLCapturePlugin(Plugin):
         self, envelope: etree._Element, http_headers: dict[str, str], operation: Any
     ) -> tuple[Any, dict[str, str]]:
         """
-        <!-- md:version 0.0.6 -->
-        <!-- md:internal -->
+        <!-- md:version 0.0.6 --> <!-- md:internal -->
 
         Capture a SOAP response after it is received from the device.
 
@@ -241,8 +241,7 @@ class XMLCapturePlugin(Plugin):
 
     def get_last_request(self) -> str | None:
         """
-        <!-- md:version 0.0.6 -->
-        <!-- md:utility -->
+        <!-- md:version 0.0.6 --> <!-- md:utility -->
 
         Get the last captured request XML.
 
@@ -253,8 +252,7 @@ class XMLCapturePlugin(Plugin):
 
     def get_last_response(self) -> str | None:
         """
-        <!-- md:version 0.0.6 -->
-        <!-- md:utility -->
+        <!-- md:version 0.0.6 --> <!-- md:utility -->
 
         Get the last captured response XML.
 
@@ -265,8 +263,7 @@ class XMLCapturePlugin(Plugin):
 
     def get_history(self) -> list:
         """
-        <!-- md:version 0.0.6 -->
-        <!-- md:utility -->
+        <!-- md:version 0.0.6 --> <!-- md:utility -->
 
         Get all captured requests and responses.
 
@@ -277,8 +274,7 @@ class XMLCapturePlugin(Plugin):
 
     def clear_history(self) -> None:
         """
-        <!-- md:version 0.0.6 -->
-        <!-- md:utility -->
+        <!-- md:version 0.0.6 --> <!-- md:utility -->
 
         Clear the capture history.
         """
@@ -293,8 +289,7 @@ class XMLCapturePlugin(Plugin):
         self, request_file: str | None = None, response_file: str | None = None
     ) -> None:
         """
-        <!-- md:version 0.0.6 -->
-        <!-- md:utility -->
+        <!-- md:version 0.0.6 --> <!-- md:utility -->
 
         Save captured XML to files.
 
@@ -372,7 +367,8 @@ class ONVIFParser(Plugin):
     """
 
     def __init__(self, extract_xpaths: dict[str, str]):
-        """Initialize XML element parser.
+        """
+        Initialize XML element parser.
 
         Args:
             extract_xpaths: Dictionary mapping names to XPath expressions.
@@ -397,8 +393,7 @@ class ONVIFParser(Plugin):
         self, envelope: etree._Element, http_headers: dict[str, str], operation: Any
     ) -> tuple[Any, dict[str, str]]:
         """
-        <!-- md:version 0.2.2 -->
-        <!-- md:internal -->
+        <!-- md:version 0.2.2 --> <!-- md:internal -->
 
         Process a SOAP response before Zeep deserializes it.
 
@@ -444,8 +439,7 @@ class ONVIFParser(Plugin):
 
     def get_extracted_texts(self, name: str, count: int) -> list[str | None]:
         """
-        <!-- md:version 0.2.2 -->
-        <!-- md:utility -->
+        <!-- md:version 0.2.2 --> <!-- md:utility -->
 
         Get extracted element texts by name.
 
@@ -469,9 +463,7 @@ class ONVIFParser(Plugin):
 
 class ReferenceParametersPlugin(Plugin):
     """
-    <!-- md:version 0.3.1 -->
-    <!-- md:plugin -->
-    <!-- md:internal -->
+    <!-- md:version 0.3.1 --> <!-- md:plugin --> <!-- md:internal -->
 
     Zeep plugin for injecting WS-Addressing reference parameters.
 
@@ -497,7 +489,7 @@ class ReferenceParametersPlugin(Plugin):
     )
 
     def __init__(self, reference_parameters: list[etree._Element] | None = None):
-        """Initialize Reference Parameters injection"""
+        """Initialize Reference Parameters injection."""
         self.reference_parameters = reference_parameters or []
 
     def egress(
@@ -508,8 +500,7 @@ class ReferenceParametersPlugin(Plugin):
         binding_options: dict[str, object],
     ) -> tuple[Any, dict[str, str]]:
         """
-        <!-- md:version 0.3.1 -->
-        <!-- md:internal -->
+        <!-- md:version 0.3.1 --> <!-- md:internal -->
 
         Inject WS-Addressing reference parameters into a SOAP request.
 

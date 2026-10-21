@@ -15,7 +15,8 @@ def execute_command(
     method_name: str,
     params_str: str | None = None,
 ) -> Any:
-    """Execute a single ONVIF command.
+    """
+    Execute a single ONVIF command.
 
     Args:
         client (ONVIFClient): ONVIFClient instance

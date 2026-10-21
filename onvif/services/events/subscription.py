@@ -35,8 +35,9 @@ class Subscription(ONVIFService):
         )
 
     def Renew(self, TerminationTime=None):
-        """An ONVIF compliant device shall support this command if it signals support
-        for [WS-Base Notification] via the MaxNotificationProducers capability.
+        """
+        An ONVIF compliant device shall support this command if it signals support for
+        [WS-Base Notification] via the MaxNotificationProducers capability.
 
         The command shall at least support a Timeout of one minute. A device shall
         respond with both parameters CurrentTime and TerminationTime as utc using the
@@ -45,7 +46,8 @@ class Subscription(ONVIFService):
         return self.operator.call("Renew", TerminationTime=TerminationTime)
 
     def Unsubscribe(self):
-        """The device shall provide the following Unsubscribe command for all
+        """
+        The device shall provide the following Unsubscribe command for all
         SubscriptionManager endpoints returned by the CreatePullPointSubscription
         command.
 

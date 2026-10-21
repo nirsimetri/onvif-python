@@ -209,7 +209,8 @@ class InteractiveShell(
 
     def onecmd(self, line):
         """Override onecmd to handle service method calls without showing cmd.Cmd
-        traceback."""
+        traceback.
+        """
         line = line.strip()
         if not line:
             return self.emptyline()

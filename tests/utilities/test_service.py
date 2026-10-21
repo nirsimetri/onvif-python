@@ -141,7 +141,8 @@ class TestGetAttribute:
 
     def test_uppercase_method_exception_is_wrapped(self, service):
         """Test that exceptions raised by uppercase methods are wrapped in
-        ONVIFOperationException."""
+        ONVIFOperationException.
+        """
 
         def failing_method():
             raise ValueError("boom")
@@ -156,7 +157,8 @@ class TestGetAttribute:
 
     def test_uppercase_method_preserves_onvif_operation_exception(self, service):
         """Test that ONVIFOperationException raised by uppercase methods is
-        preserved."""
+        preserved.
+        """
         error = ONVIFOperationException(
             "GetDeviceInformation",
             RuntimeError("already wrapped"),
@@ -174,7 +176,8 @@ class TestGetAttribute:
 
     def test_uppercase_method_uses_unknown_service_name_when_missing(self):
         """Test that ONVIFOperationException uses "Unknown" service name when operator
-        has no name."""
+        has no name.
+        """
         service = object.__new__(TestService)
         service.operator = Mock(spec=[])
 
@@ -286,7 +289,8 @@ class TestZeepObjectConversion:
 
     def test_zeep_object_attribute_error_is_wrapped(self, service):
         """Test that AttributeError raised during Zeep object conversion is wrapped in
-        ONVIFOperationException."""
+        ONVIFOperationException.
+        """
 
         class Params:
             """Mock Zeep object with _xsd_type.elements that raises AttributeError."""
@@ -296,7 +300,8 @@ class TestZeepObjectConversion:
             @property
             def Missing(self):
                 """Mock property that raises AttributeError to simulate missing
-                attribute."""
+                attribute.
+                """
                 raise AttributeError("missing")
 
         params = Params()
@@ -333,7 +338,8 @@ class TestType:
 
     def test_type_wraps_exception(self, service):
         """Test that exceptions raised by operator.create_type are wrapped in
-        ONVIFOperationException."""
+        ONVIFOperationException.
+        """
         service.operator.create_type.side_effect = RuntimeError("creation failed")
 
         with pytest.raises(ONVIFOperationException) as exc_info:
@@ -346,7 +352,8 @@ class TestType:
 
     def test_type_wraps_exception_with_operation_name(self, service):
         """Test that ONVIFOperationException raised by operator.create_type includes
-        operation name."""
+        operation name.
+        """
         service.operator.create_type.side_effect = ValueError("invalid type")
 
         with pytest.raises(ONVIFOperationException) as exc_info:
@@ -377,7 +384,8 @@ class TestOperations:
 
     def test_operations_excludes_internal_methods(self, service):
         """Test that operations() excludes internal methods like private methods and
-        attributes."""
+        attributes.
+        """
         operations = service.operations()
 
         assert "regular_method" not in operations
@@ -388,7 +396,8 @@ class TestOperations:
 
     def test_operations_handles_exception(self, service):
         """Test that operations() handles exceptions raised by dir() and returns an
-        empty list."""
+        empty list.
+        """
         with patch(
             "onvif.utils.service.dir",
             side_effect=RuntimeError("failed"),
@@ -399,7 +408,8 @@ class TestOperations:
 
     def test_operations_handles_operator_without_service_name(self):
         """Test that operations() works even when the operator has no service_name
-        attribute."""
+        attribute.
+        """
         service = object.__new__(TestService)
         service.operator = Mock(spec=[])
 
@@ -416,7 +426,8 @@ class TestDesc:
 
     def test_desc_returns_method_metadata(self, service):
         """Test that desc() returns method metadata including documentation, required
-        and optional parameters."""
+        and optional parameters.
+        """
         with patch(
             "onvif.utils.service.get_method_documentation",
             return_value={"doc": "Get device information."},
@@ -436,7 +447,8 @@ class TestDesc:
         description_service,
     ):
         """Test that desc() correctly extracts required and optional parameters from
-        method signature."""
+        method signature.
+        """
         with patch(
             "onvif.utils.service.get_method_documentation",
             return_value={"doc": "Get profiles."},
@@ -462,7 +474,8 @@ class TestDesc:
 
     def test_desc_returns_none_for_default_documentation(self, service):
         """Test that desc() returns None for doc when the documentation is a default
-        placeholder."""
+        placeholder.
+        """
         with patch(
             "onvif.utils.service.get_method_documentation",
             return_value={
@@ -482,7 +495,8 @@ class TestDesc:
     )
     def test_desc_filters_default_documentation(self, service, doc):
         """Test that desc() filters out default documentation and returns None for
-        doc."""
+        doc.
+        """
         with patch(
             "onvif.utils.service.get_method_documentation",
             return_value={"doc": doc},
@@ -493,7 +507,8 @@ class TestDesc:
 
     def test_desc_accepts_missing_documentation(self, service):
         """Test that desc() handles missing documentation gracefully and returns None
-        for doc."""
+        for doc.
+        """
         with patch(
             "onvif.utils.service.get_method_documentation",
             return_value=None,
@@ -516,7 +531,8 @@ class TestDesc:
         exception,
     ):
         """Test that desc() handles documentation retrieval failures gracefully and
-        returns None for doc."""
+        returns None for doc.
+        """
         with patch(
             "onvif.utils.service.get_method_documentation",
             side_effect=exception,
@@ -528,7 +544,8 @@ class TestDesc:
 
     def test_desc_parameter_inspection_failure_is_non_fatal(self, service):
         """Test that desc() handles parameter inspection failures gracefully and returns
-        empty required/optional lists."""
+        empty required/optional lists.
+        """
         with (
             patch(
                 "onvif.utils.service.inspect.signature",
@@ -555,7 +572,8 @@ class TestDesc:
 
     def test_desc_unknown_method_includes_available_methods(self, service):
         """Test that desc() includes available methods in the exception message for
-        unknown methods."""
+        unknown methods.
+        """
         with pytest.raises(ONVIFOperationException) as exc_info:
             service.desc("DoesNotExist")
 
@@ -567,7 +585,8 @@ class TestDesc:
 
     def test_desc_truncates_long_available_method_list(self):
         """Test that desc() truncates long available method lists in the exception
-        message."""
+        message.
+        """
 
         class ManyMethods(ONVIFService):
             """Concrete test implementation of ONVIFService with many methods."""
@@ -613,7 +632,8 @@ class TestDesc:
 
     def test_desc_uses_unknown_service_name_when_operator_has_no_name(self):
         """Test that desc() uses "Unknown" service name when operator has no
-        service_name attribute."""
+        service_name attribute.
+        """
         service = object.__new__(TestService)
         service.operator = Mock(spec=[])
 

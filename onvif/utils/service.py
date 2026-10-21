@@ -22,7 +22,8 @@ R = TypeVar("R")
 
 
 def deprecated(reason: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
-    """Mark a function as deprecated and emit a warning when it is called.
+    """
+    Mark a function as deprecated and emit a warning when it is called.
 
     Args:
         reason: Explanation of why the function is deprecated and, when
@@ -52,7 +53,8 @@ def deprecated(reason: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
 
 
 def _is_zeep_object(obj):
-    """Check if an object is a Zeep-generated object.
+    """
+    Check if an object is a Zeep-generated object.
 
     Zeep objects have the _xsd_type attribute which is the XSD type definition.
     """
@@ -61,8 +63,7 @@ def _is_zeep_object(obj):
 
 class ONVIFService:
     """
-    <!-- md:version 0.1.8 -->
-    <!-- md:internal -->
+    <!-- md:version 0.1.8 --> <!-- md:internal -->
 
     Base class for all ONVIF service implementations.
 
@@ -102,8 +103,7 @@ class ONVIFService:
 
     def __getattribute__(self, name: str) -> Any:
         """
-        <!-- md:version 0.1.8 -->
-        <!-- md:internal -->
+        <!-- md:version 0.1.8 --> <!-- md:internal -->
 
         Intercept all method calls and wrap ONVIF operations with error handling.
 

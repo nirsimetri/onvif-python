@@ -140,7 +140,8 @@ class ZeepPatcher:
 
     @staticmethod
     def _parse_text_value(value):
-        """Parse text value with type conversion.
+        """
+        Parse text value with type conversion.
 
         Converts:
             - "true"/"false" → bool
@@ -170,7 +171,8 @@ class ZeepPatcher:
 
     @staticmethod
     def _parse_element_recursive(element):
-        """Recursively parse an XML element and its children into a dictionary.
+        """
+        Recursively parse an XML element and its children into a dictionary.
 
         Handles:
             - Elements with attributes only (converted to dict)
@@ -220,7 +222,8 @@ class ZeepPatcher:
     def _patched_parse_xmlelements(
         self, xmlelements, schema, name=None, context=None
     ):  # pylint: disable=bad-staticmethod-argument,unused-argument
-        """Patched version of zeep's Any.parse_xmlelements method.
+        """
+        Patched version of zeep's Any.parse_xmlelements method.
 
         This method parses `xsd:any` fields into structured dictionaries instead of
         leaving them as raw XML elements, making them easier to work with.
@@ -333,7 +336,8 @@ class ZeepPatcher:
 
     @staticmethod
     def _zeep_object_to_dict(obj):
-        """Convert zeep object to dictionary, including manually added attributes.
+        """
+        Convert zeep object to dictionary, including manually added attributes.
 
         Args:
             obj (Any): Zeep object or primitive value
@@ -371,8 +375,7 @@ class ZeepPatcher:
     @staticmethod
     def flatten_xsd_any_fields(obj, _visited=None) -> Any:
         """
-        <!-- md:version 0.0.4 -->
-        <!-- md:internal -->
+        <!-- md:version 0.0.4 --> <!-- md:internal -->
 
         Post-process zeep objects to flatten `xsd:any` fields (`_value_1`, `_value_2`,
         etc.) into the main object.
@@ -629,8 +632,7 @@ class ZeepPatcher:
     @classmethod
     def apply_patch(cls):
         """
-        <!-- md:version 0.0.4 -->
-        <!-- md:utility -->
+        <!-- md:version 0.0.4 --> <!-- md:utility -->
 
         Inject the custom `parse_xmlelements` method into `zeep.xsd.elements.any.Any`.
 
@@ -656,8 +658,7 @@ class ZeepPatcher:
     @classmethod
     def remove_patch(cls):
         """
-        <!-- md:version 0.0.4 -->
-        <!-- md:utility -->
+        <!-- md:version 0.0.4 --> <!-- md:utility -->
 
         Restore the original `parse_xmlelements` method.
 
@@ -681,8 +682,7 @@ class ZeepPatcher:
     @classmethod
     def is_patched(cls) -> bool:
         """
-        <!-- md:version 0.0.4 -->
-        <!-- md:utility -->
+        <!-- md:version 0.0.4 --> <!-- md:utility -->
 
         Check if the patch is currently applied.
 

@@ -1,8 +1,6 @@
 """
-<!-- md:version 0.4.0 -->
-<!-- md:error_handler -->
-<!-- md:example_file error_handling.py -->
-<!-- md:module utils/error_handlers.py -->
+<!-- md:version 0.4.0 --> <!-- md:error_handler --> <!-- md:example_file
+error_handling.py --> <!-- md:module utils/error_handlers.py -->
 
 Error handling utilities for ONVIF operations.
 

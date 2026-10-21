@@ -38,7 +38,8 @@ class Notification(ONVIFService):
         InitialTerminationTime=None,
         SubscriptionPolicy=None,
     ):
-        """Create a subscription for receiving event notifications.
+        """
+        Create a subscription for receiving event notifications.
 
         Registers a notification consumer with the NotificationProducer. Event
         notifications matching the optional filter are delivered to the consumer
@@ -53,7 +54,8 @@ class Notification(ONVIFService):
         )
 
     def GetCurrentMessage(self, Topic):
-        """Retrieve the current message for a notification topic.
+        """
+        Retrieve the current message for a notification topic.
 
         Requests the current state message associated with the specified topic from the
         NotificationProducer.

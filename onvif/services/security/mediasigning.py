@@ -32,12 +32,13 @@ class MediaSigning(ONVIFService):
         )
 
     def AddMediaSigningCertificateAssignment(self, CertificationPathID):
-        """This operation assigns certification path (certificate chain) to use for
-        media signing, replacing the one that is provisioned during factory production.
+        """
+        This operation assigns certification path (certificate chain) to use for media
+        signing, replacing the one that is provisioned during factory production.
 
         The leaf certificate in the chain and its associated private key shall be used
-        for signing media as described in the [Media Signing Spec]. This key
-        and certificate is referred to as user provisioned key and certificate in that
+        for signing media as described in the [Media Signing Spec]. This key and
+        certificate is referred to as user provisioned key and certificate in that
         specification.
 
         If this operation is called when there is already a user provisioned
@@ -53,8 +54,9 @@ class MediaSigning(ONVIFService):
         )
 
     def RemoveMediaSigningCertificateAssignment(self, CertificationPathID):
-        """This operation removes a certificate assignment (including certification
-        path) on the device that has been added by AddMediaSigningCertificateAssignment.
+        """
+        This operation removes a certificate assignment (including certification path)
+        on the device that has been added by AddMediaSigningCertificateAssignment.
 
         The factory provisioned certification path cannot be removed.
 
@@ -70,8 +72,9 @@ class MediaSigning(ONVIFService):
         )
 
     def GetAssignedMediaSigningCertificates(self):
-        """This operation returns the IDs of the certification paths that are assigned
-        for media signing on the device.
+        """
+        This operation returns the IDs of the certification paths that are assigned for
+        media signing on the device.
 
         This operation will always return the factory provisioned certification path and
         can additionally return a certification path that has been added by

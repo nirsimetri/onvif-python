@@ -18,7 +18,8 @@ class TestONVIFParser:
 
     def test_init_stores_extract_xpaths(self):
         """Test that the ONVIFParser initializes with the provided extract_xpaths and an
-        empty _extracted_elements dictionary."""
+        empty _extracted_elements dictionary.
+        """
         extract_xpaths = {
             "topic": ".//{urn:test}Topic",
             "custom": ".//{urn:test}Custom",
@@ -31,11 +32,13 @@ class TestONVIFParser:
 
     def test_ingress_extracts_matching_elements(self):
         """Test that the ONVIFParser extracts elements matching the provided XPath
-        expressions."""
+        expressions.
+        """
         parser = ONVIFParser({"topic": ".//{urn:test}Topic"})
         envelope = etree.fromstring(
             """<Envelope xmlns="urn:test"> <Topic>TopicA</Topic> <Topic>TopicB</Topic>
-            </Envelope>"""
+            </Envelope>
+            """
         )
         headers = {"Content-Type": "text/xml"}
         operation = Mock()
@@ -65,7 +68,8 @@ class TestONVIFParser:
 
     def test_ingress_ignores_xpath_without_matches(self):
         """Test that the ONVIFParser ignores XPath expressions that do not match any
-        elements."""
+        elements.
+        """
         parser = ONVIFParser(
             {
                 "topic": ".//{urn:test}Topic",
@@ -82,7 +86,8 @@ class TestONVIFParser:
 
     def test_ingress_clears_previous_extracted_elements(self):
         """Test that the ONVIFParser clears previously extracted elements when
-        processing a new envelope."""
+        processing a new envelope.
+        """
         parser = ONVIFParser({"topic": ".//{urn:test}Topic"})
 
         first_envelope = etree.fromstring(
@@ -101,7 +106,8 @@ class TestONVIFParser:
 
     def test_ingress_handles_elements_without_text(self):
         """Test that the ONVIFParser handles elements that do not contain text
-        content."""
+        content.
+        """
         parser = ONVIFParser({"topic": ".//{urn:test}Topic"})
         envelope = etree.fromstring(
             """<Envelope xmlns="urn:test"> <Topic /> </Envelope>"""
@@ -121,11 +127,13 @@ class TestONVIFParser:
 
     def test_get_extracted_texts_returns_available_values(self):
         """Test that the ONVIFParser returns the extracted text values for a given
-        name."""
+        name.
+        """
         parser = ONVIFParser({"topic": ".//{urn:test}Topic"})
         envelope = etree.fromstring(
             """<Envelope xmlns="urn:test"> <Topic>TopicA</Topic> <Topic>TopicB</Topic>
-            </Envelope>"""
+            </Envelope>
+            """
         )
 
         parser.ingress(envelope, {}, Mock())
@@ -137,11 +145,13 @@ class TestONVIFParser:
 
     def test_get_extracted_texts_limits_result_to_count(self):
         """Test that the ONVIFParser limits the number of returned extracted text values
-        to the specified count."""
+        to the specified count.
+        """
         parser = ONVIFParser({"topic": ".//{urn:test}Topic"})
         envelope = etree.fromstring(
             """<Envelope xmlns="urn:test"> <Topic>TopicA</Topic> <Topic>TopicB</Topic>
-            <Topic>TopicC</Topic> </Envelope>"""
+            <Topic>TopicC</Topic> </Envelope>
+            """
         )
 
         parser.ingress(envelope, {}, Mock())
@@ -153,7 +163,8 @@ class TestONVIFParser:
 
     def test_get_extracted_texts_pads_missing_values_with_none(self):
         """Test that the ONVIFParser pads the returned list with None for missing values
-        when the count exceeds the number of extracted elements."""
+        when the count exceeds the number of extracted elements.
+        """
         parser = ONVIFParser({"topic": ".//{urn:test}Topic"})
         envelope = etree.fromstring(
             """<Envelope xmlns="urn:test"> <Topic>TopicA</Topic> </Envelope>"""
@@ -169,7 +180,8 @@ class TestONVIFParser:
 
     def test_get_extracted_texts_returns_empty_list_for_unknown_name(self):
         """Test that the ONVIFParser returns a list of None values for an unknown
-        name."""
+        name.
+        """
         parser = ONVIFParser({})
 
         assert parser.get_extracted_texts("missing", 3) == [
@@ -190,7 +202,8 @@ class TestXMLCapturePlugin:
 
     def test_init_uses_pretty_print_by_default(self):
         """Test that the XMLCapturePlugin initializes with pretty_print enabled by
-        default and other attributes set to None or empty."""
+        default and other attributes set to None or empty.
+        """
         plugin = XMLCapturePlugin()
 
         assert plugin.pretty_print is True
@@ -201,14 +214,16 @@ class TestXMLCapturePlugin:
 
     def test_init_can_disable_pretty_print(self):
         """Test that the XMLCapturePlugin can be initialized with pretty_print
-        disabled."""
+        disabled.
+        """
         plugin = XMLCapturePlugin(pretty_print=False)
 
         assert plugin.pretty_print is False
 
     def test_format_xml_pretty_prints_element(self):
         """Test that the XMLCapturePlugin formats an XML element with pretty
-        printing."""
+        printing.
+        """
         plugin = XMLCapturePlugin()
         element = etree.fromstring(
             "<Envelope><Body><Value>test</Value></Body></Envelope>"
@@ -226,7 +241,8 @@ class TestXMLCapturePlugin:
         monkeypatch,
     ):
         """Test that the XMLCapturePlugin returns a fallback string when formatting
-        fails."""
+        fails.
+        """
         plugin = XMLCapturePlugin()
         element = etree.fromstring("<Envelope />")
 
@@ -245,7 +261,8 @@ class TestXMLCapturePlugin:
 
     def test_egress_captures_pretty_printed_request(self):
         """Test that the XMLCapturePlugin captures a SOAP request with pretty
-        printing."""
+        printing.
+        """
         plugin = XMLCapturePlugin()
         envelope = etree.fromstring(
             "<Envelope><Body><Value>test</Value></Body></Envelope>"
@@ -268,7 +285,8 @@ class TestXMLCapturePlugin:
 
     def test_egress_captures_request_without_pretty_print(self):
         """Test that the XMLCapturePlugin captures a SOAP request without pretty
-        printing."""
+        printing.
+        """
         plugin = XMLCapturePlugin(pretty_print=False)
         envelope = etree.fromstring(
             "<Envelope><Body><Value>test</Value></Body></Envelope>"
@@ -309,7 +327,8 @@ class TestXMLCapturePlugin:
 
     def test_egress_copies_http_headers(self):
         """Test that the XMLCapturePlugin copies the HTTP headers when capturing a SOAP
-        request."""
+        request.
+        """
         plugin = XMLCapturePlugin()
         envelope = etree.fromstring("<Envelope />")
         headers = {"Content-Type": "text/xml"}
@@ -324,7 +343,8 @@ class TestXMLCapturePlugin:
 
     def test_egress_handles_empty_http_headers(self):
         """Test that the XMLCapturePlugin handles empty HTTP headers when capturing a
-        SOAP request."""
+        SOAP request.
+        """
         plugin = XMLCapturePlugin()
         envelope = etree.fromstring("<Envelope />")
         operation = Mock()
@@ -336,7 +356,8 @@ class TestXMLCapturePlugin:
 
     def test_ingress_captures_pretty_printed_response(self):
         """Test that the XMLCapturePlugin captures a SOAP response with pretty
-        printing."""
+        printing.
+        """
         plugin = XMLCapturePlugin()
         envelope = etree.fromstring(
             "<Envelope><Body><Value>response</Value></Body></Envelope>"
@@ -353,7 +374,8 @@ class TestXMLCapturePlugin:
 
     def test_ingress_captures_response_without_pretty_print(self):
         """Test that the XMLCapturePlugin captures a SOAP response without pretty
-        printing."""
+        printing.
+        """
         plugin = XMLCapturePlugin(pretty_print=False)
         envelope = etree.fromstring(
             "<Envelope><Body><Value>response</Value></Body></Envelope>"
@@ -401,7 +423,8 @@ class TestXMLCapturePlugin:
 
     def test_get_last_request_returns_none_initially(self):
         """Test that the XMLCapturePlugin returns None for the last request when no
-        request has been captured."""
+        request has been captured.
+        """
         plugin = XMLCapturePlugin()
 
         assert plugin.get_last_request() is None
@@ -419,7 +442,8 @@ class TestXMLCapturePlugin:
 
     def test_get_last_response_returns_none_initially(self):
         """Test that the XMLCapturePlugin returns None for the last response when no
-        response has been captured."""
+        response has been captured.
+        """
         plugin = XMLCapturePlugin()
 
         assert plugin.get_last_response() is None
@@ -437,7 +461,8 @@ class TestXMLCapturePlugin:
 
     def test_clear_history_resets_all_state(self):
         """Test that the XMLCapturePlugin clears the capture history and resets all
-        state."""
+        state.
+        """
         plugin = XMLCapturePlugin()
         envelope = etree.fromstring("<Envelope />")
         operation = Mock()
@@ -460,7 +485,8 @@ class TestXMLCapturePlugin:
 
     def test_save_to_file_writes_request_xml(self, tmp_path):
         """Test that the XMLCapturePlugin saves the last captured SOAP request to a
-        file."""
+        file.
+        """
         plugin = XMLCapturePlugin()
         envelope = etree.fromstring("<Envelope><Request /></Envelope>")
         operation = Mock()
@@ -476,7 +502,8 @@ class TestXMLCapturePlugin:
 
     def test_save_to_file_writes_response_xml(self, tmp_path):
         """Test that the XMLCapturePlugin saves the last captured SOAP response to a
-        file."""
+        file.
+        """
         plugin = XMLCapturePlugin()
         envelope = etree.fromstring("<Envelope><Response /></Envelope>")
         operation = Mock()
@@ -496,7 +523,8 @@ class TestXMLCapturePlugin:
 
     def test_save_to_file_writes_both_request_and_response(self, tmp_path):
         """Test that the XMLCapturePlugin saves both the last captured SOAP request and
-        response to files."""
+        response to files.
+        """
         plugin = XMLCapturePlugin()
         envelope = etree.fromstring("<Envelope><Value>test</Value></Envelope>")
         operation = Mock()
@@ -521,7 +549,8 @@ class TestXMLCapturePlugin:
         tmp_path,
     ):
         """Test that the XMLCapturePlugin does not create files when there is no
-        captured request or response."""
+        captured request or response.
+        """
         plugin = XMLCapturePlugin()
 
         request_file = tmp_path / "request.xml"
@@ -541,14 +570,16 @@ class TestReferenceParametersPlugin:
 
     def test_init_uses_empty_reference_parameters_by_default(self):
         """Test that the ReferenceParametersPlugin initializes with an empty list of
-        reference parameters by default."""
+        reference parameters by default.
+        """
         plugin = ReferenceParametersPlugin()
 
         assert plugin.reference_parameters == []
 
     def test_init_stores_reference_parameters(self):
         """Test that the ReferenceParametersPlugin initializes with the provided
-        reference parameters."""
+        reference parameters.
+        """
         parameter = etree.Element("{urn:test}Parameter")
         plugin = ReferenceParametersPlugin([parameter])
 
@@ -556,7 +587,8 @@ class TestReferenceParametersPlugin:
 
     def test_egress_rejects_unsupported_soap_namespace(self):
         """Test that the ReferenceParametersPlugin raises a RuntimeError when the SOAP
-        envelope namespace is unsupported."""
+        envelope namespace is unsupported.
+        """
         plugin = ReferenceParametersPlugin()
         envelope = etree.Element("{urn:unsupported}Envelope")
 
@@ -575,7 +607,8 @@ class TestReferenceParametersPlugin:
     )
     def test_egress_supports_soap_namespaces(self, soap_namespace):
         """Test that the ReferenceParametersPlugin supports both SOAP 1.1 and SOAP 1.2
-        namespaces."""
+        namespaces.
+        """
         plugin = ReferenceParametersPlugin()
         envelope = etree.Element(f"{{{soap_namespace}}}Envelope")
 
@@ -589,7 +622,8 @@ class TestReferenceParametersPlugin:
 
     def test_egress_creates_header_when_missing(self):
         """Test that the ReferenceParametersPlugin creates a SOAP Header element when it
-        is missing from the envelope."""
+        is missing from the envelope.
+        """
         plugin = ReferenceParametersPlugin()
         envelope = etree.Element(f"{{{plugin.SOAP_NAMESPACES[0]}}}Envelope")
 
@@ -602,7 +636,8 @@ class TestReferenceParametersPlugin:
 
     def test_egress_preserves_existing_header(self):
         """Test that the ReferenceParametersPlugin preserves an existing SOAP Header
-        element."""
+        element.
+        """
         plugin = ReferenceParametersPlugin()
         namespace = plugin.SOAP_NAMESPACES[0]
 
@@ -624,7 +659,8 @@ class TestReferenceParametersPlugin:
 
     def test_egress_injects_reference_parameters(self):
         """Test that the ReferenceParametersPlugin injects the provided reference
-        parameters into the SOAP Header."""
+        parameters into the SOAP Header.
+        """
         namespace = "urn:test"
         parameter = etree.Element(f"{{{namespace}}}Reference")
         parameter.text = "value"
@@ -643,7 +679,8 @@ class TestReferenceParametersPlugin:
 
     def test_egress_deep_copies_reference_parameters(self):
         """Test that the ReferenceParametersPlugin deep copies the reference parameters
-        when injecting them into the SOAP Header."""
+        when injecting them into the SOAP Header.
+        """
         namespace = "urn:test"
         parameter = etree.Element(f"{{{namespace}}}Reference")
         parameter.text = "original"
@@ -664,7 +701,8 @@ class TestReferenceParametersPlugin:
 
     def test_egress_does_not_modify_reference_parameters(self):
         """Test that the ReferenceParametersPlugin does not modify the original
-        reference parameters when injecting them into the SOAP Header."""
+        reference parameters when injecting them into the SOAP Header.
+        """
         parameter = etree.Element("{urn:test}Reference")
         parameter.set("id", "123")
         parameter.text = "value"
@@ -680,7 +718,8 @@ class TestReferenceParametersPlugin:
 
     def test_egress_preserves_http_headers(self):
         """Test that the ReferenceParametersPlugin preserves the original HTTP headers
-        when processing a SOAP request."""
+        when processing a SOAP request.
+        """
         plugin = ReferenceParametersPlugin()
         envelope = etree.Element(f"{{{plugin.SOAP_NAMESPACES[0]}}}Envelope")
         headers = {"Content-Type": "text/xml"}

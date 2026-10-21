@@ -19,7 +19,8 @@ def test_repository():
 
 def test_metadata_annotations():
     """Test that the __version__ and __repository__ attributes have the correct type
-    annotations."""
+    annotations.
+    """
     annotations = get_type_hints(meta)
 
     assert annotations["__version__"] is Final[str]

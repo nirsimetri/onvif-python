@@ -136,7 +136,8 @@ class TestGetLocalIP:
 
     def test_get_local_ip_hostname_lookup_failure_returns_empty_string(self, discovery):
         """Test that get_local_ip returns an empty string when hostname resolution
-        fails."""
+        fails.
+        """
         sock = Mock()
         sock.connect.side_effect = OSError("network unavailable")
 
@@ -366,7 +367,8 @@ class TestParseSingleResponse:
 
     def test_parse_single_response_without_probe_match_returns_none(self, discovery):
         """Test that _parse_single_response returns None without a ProbeMatch
-        element."""
+        element.
+        """
         xml = """
         <soap:Envelope
             xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
@@ -387,7 +389,8 @@ class TestParseSingleResponse:
         discovery,
     ):
         """Test that a ProbeMatch without XAddrs returns default connection
-        information."""
+        information.
+        """
         xml = """
         <soap:Envelope
             xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
@@ -800,7 +803,8 @@ class TestProcessDevice:
 
     def test_process_device_adds_known_services(self, discovery):
         """Test that _process_device identifies services using the ONVIF namespace
-        map."""
+        map.
+        """
         device = {
             "host": "192.168.1.100",
             "port": 80,
@@ -893,7 +897,8 @@ class TestProcessDevice:
 
     def test_process_device_passes_host_and_port_without_auth(self, discovery):
         """Test that _process_device creates the ONVIF client with the device
-        endpoint."""
+        endpoint.
+        """
         device = {
             "host": "192.168.1.100",
             "port": 8080,
@@ -1008,7 +1013,8 @@ class TestDiscover:
         discovery,
     ):
         """Test that discover binds to an empty address when no local IP is
-        available."""
+        available.
+        """
         sock = Mock()
         sock.recvfrom.side_effect = [socket_timeout()]
 

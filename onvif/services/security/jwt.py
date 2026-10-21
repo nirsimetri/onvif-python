@@ -31,10 +31,12 @@ class JWT(ONVIFService):
 
     def GetJWTConfiguration(self):
         """This operation returns the parameters of the JWT authorization used by the
-        device."""
+        device.
+        """
         return self.operator.call("GetJWTConfiguration")
 
     def SetJWTConfiguration(self, Configuration):
         """This operation sets the parameters of the JWT authorization used by the
-        device."""
+        device.
+        """
         return self.operator.call("SetJWTConfiguration", Configuration=Configuration)

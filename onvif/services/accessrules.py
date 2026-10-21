@@ -35,7 +35,8 @@ class AccessRules(ONVIFService):
         return self.operator.call("GetServiceCapabilities")
 
     def GetAccessProfileInfo(self, Token):
-        """This operation requests a list of AccessProfileInfo items matching the given
+        """
+        This operation requests a list of AccessProfileInfo items matching the given
         tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
@@ -46,8 +47,9 @@ class AccessRules(ONVIFService):
         return self.operator.call("GetAccessProfileInfo", Token=Token)
 
     def GetAccessProfileInfoList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of AccessProfileInfo items provided by
-        the device.
+        """
+        This operation requests a list of all of AccessProfileInfo items provided by the
+        device.
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
@@ -59,7 +61,8 @@ class AccessRules(ONVIFService):
         )
 
     def GetAccessProfiles(self, Token):
-        """This operation returns the specified access profile item matching the given
+        """
+        This operation returns the specified access profile item matching the given
         tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
@@ -70,7 +73,8 @@ class AccessRules(ONVIFService):
         return self.operator.call("GetAccessProfiles", Token=Token)
 
     def GetAccessProfileList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all of access profile items provided by the
+        """
+        This operation requests a list of all of access profile items provided by the
         device.
 
         A call to this method shall return a StartReference when not all data is
@@ -83,7 +87,8 @@ class AccessRules(ONVIFService):
         )
 
     def CreateAccessProfile(self, AccessProfile):
-        """This operation creates the specified access profile in the device.
+        """
+        This operation creates the specified access profile in the device.
 
         The token field of the access profile shall be empty, the service shall allocate
         a token for the access profile. The allocated token shall be returned in the
@@ -95,8 +100,9 @@ class AccessRules(ONVIFService):
         return self.operator.call("CreateAccessProfile", AccessProfile=AccessProfile)
 
     def ModifyAccessProfile(self, AccessProfile):
-        """This operation will modify the access profile for the specified access
-        profile token.
+        """
+        This operation will modify the access profile for the specified access profile
+        token.
 
         The token of the access profile to modify is specified in the token field of the
         AccessProile structure and shall not be empty. All other fields in the structure
@@ -108,8 +114,8 @@ class AccessRules(ONVIFService):
         return self.operator.call("ModifyAccessProfile", AccessProfile=AccessProfile)
 
     def SetAccessProfile(self, AccessProfile):
-        """This operation will synchronize an access profile in a client with the
-        device.
+        """
+        This operation will synchronize an access profile in a client with the device.
 
         If an access profile with the specified token does not exist in the device, the
         access profile is created. If an access profile with the specified token exists,
@@ -121,7 +127,8 @@ class AccessRules(ONVIFService):
         return self.operator.call("SetAccessProfile", AccessProfile=AccessProfile)
 
     def DeleteAccessProfile(self, Token):
-        """This operation will delete the specified access profile.
+        """
+        This operation will delete the specified access profile.
 
         If the access profile is deleted, all access policies associated to the access
         profile will also be deleted. If it is associated with one or more entities some

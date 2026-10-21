@@ -190,7 +190,8 @@ class TestONVIFOperatorInitialization:
 
     def test_init_defaults_service_path_when_empty(self):
         """Test that ONVIFOperator defaults to the standard service path when
-        service_path is None."""
+        service_path is None.
+        """
         mock_client = Mock()
 
         with (
@@ -220,7 +221,8 @@ class TestONVIFOperatorInitialization:
 
     def test_init_creates_default_db_cache_path(self):
         """Test that ONVIFOperator creates the default database cache path when
-        CacheMode.DB is used."""
+        CacheMode.DB is used.
+        """
         mock_client = Mock()
 
         with (
@@ -302,7 +304,8 @@ class TestONVIFOperatorInitialization:
 
     def test_init_passes_configuration_to_client(self):
         """Test that ONVIFOperator passes the correct configuration to the Zeep
-        client."""
+        client.
+        """
         mock_client = Mock()
         mock_wsse = Mock()
         mock_transport = Mock()
@@ -370,7 +373,8 @@ class TestCreateSession:
 
     def test_create_session_sets_verify(self):
         """Test that ONVIFOperator creates a requests.Session with the correct SSL
-        verification setting."""
+        verification setting.
+        """
         operator = make_operator()
 
         with patch("onvif.operator.requests.Session") as mock_session_cls:
@@ -381,7 +385,8 @@ class TestCreateSession:
 
     def test_create_session_disables_ssl_verification(self):
         """Test that ONVIFOperator creates a requests.Session with SSL verification
-        disabled."""
+        disabled.
+        """
         operator = make_operator()
 
         with (patch("onvif.operator.warnings.simplefilter") as mock_filter,):
@@ -398,7 +403,8 @@ class TestCreateSession:
 
     def test_create_session_configures_digest_auth(self):
         """Test that ONVIFOperator creates a requests.Session with HTTP Digest
-        authentication when enabled."""
+        authentication when enabled.
+        """
         operator = make_operator(
             username="admin",
             password="secret",
@@ -430,7 +436,8 @@ class TestCreateSession:
         password,
     ):
         """Test that ONVIFOperator creates a requests.Session without HTTP Digest
-        authentication when not enabled or credentials are missing."""
+        authentication when not enabled or credentials are missing.
+        """
         operator = make_operator(
             http_digest=http_digest,
             username=username,
@@ -449,7 +456,8 @@ class TestCreateWsse:
 
     def test_create_wsse_returns_none_for_http_digest(self):
         """Test that ONVIFOperator._create_wsse returns None when HTTP Digest
-        authentication is enabled."""
+        authentication is enabled.
+        """
         operator = make_operator(
             http_digest=True,
             username="admin",
@@ -476,7 +484,8 @@ class TestCreateWsse:
         password,
     ):
         """Test that ONVIFOperator._create_wsse returns None when username or password
-        is missing."""
+        is missing.
+        """
         operator = make_operator(
             http_digest=False,
             username=username,
@@ -491,7 +500,8 @@ class TestCreateWsse:
 
     def test_create_wsse_creates_username_token(self):
         """Test that ONVIFOperator._create_wsse creates a UsernameToken when HTTP Digest
-        is disabled and credentials are provided."""
+        is disabled and credentials are provided.
+        """
         operator = make_operator(
             http_digest=False,
             username="admin",
@@ -514,7 +524,8 @@ class TestCall:
 
     def test_call_returns_service_result_and_flattens_result(self):
         """Test that ONVIFOperator.call returns the result from the service and flattens
-        it using ZeepPatcher."""
+        it using ZeepPatcher.
+        """
         service = Mock()
         service.GetDeviceInformation.return_value = {"raw": "value"}
 
@@ -546,7 +557,8 @@ class TestCall:
 
     def test_call_skips_flatten_when_patch_disabled(self):
         """Test that ONVIFOperator.call skips flattening the result when apply_patch is
-        False."""
+        False.
+        """
         service = Mock()
         service.GetDeviceInformation.return_value = "result"
 
@@ -565,7 +577,8 @@ class TestCall:
 
     def test_call_wraps_missing_method(self):
         """Test that ONVIFOperator.call raises ONVIFOperationException when the service
-        method is missing."""
+        method is missing.
+        """
         service = Mock(spec=[])
 
         operator = make_operator(
@@ -581,7 +594,8 @@ class TestCall:
 
     def test_call_wraps_zeep_fault(self):
         """Test that ONVIFOperator.call raises ONVIFOperationException when the service
-        method raises a Zeep Fault."""
+        method raises a Zeep Fault.
+        """
         service = Mock()
         fault = Fault("SOAP fault")
         service.GetDeviceInformation.side_effect = fault
@@ -598,7 +612,8 @@ class TestCall:
 
     def test_call_wraps_generic_exception(self):
         """Test that ONVIFOperator.call raises ONVIFOperationException when the service
-        method raises a generic exception."""
+        method raises a generic exception.
+        """
         service = Mock()
         error = RuntimeError("connection failed")
         service.GetDeviceInformation.side_effect = error
@@ -615,7 +630,8 @@ class TestCall:
 
     def test_call_passes_positional_and_keyword_arguments(self):
         """Test that ONVIFOperator.call correctly passes positional and keyword
-        arguments to the service method."""
+        arguments to the service method.
+        """
         service = Mock()
         service.GetProfiles.return_value = "result"
 
@@ -642,7 +658,8 @@ class TestCreateType:
 
     def test_create_type_succeeds_with_first_namespace(self):
         """Test that ONVIFOperator.create_type successfully creates a type using the
-        first namespace when available."""
+        first namespace when available.
+        """
         operator = make_operator()
         element = Mock()
         instance = Mock()
@@ -666,7 +683,8 @@ class TestCreateType:
 
     def test_create_type_tries_next_namespace_after_failure(self):
         """Test that ONVIFOperator.create_type tries the next namespace if the first one
-        fails."""
+        fails.
+        """
         operator = make_operator()
         element = Mock()
         instance = Mock()
@@ -697,7 +715,8 @@ class TestCreateType:
 
     def test_create_type_falls_back_to_unqualified_element(self):
         """Test that ONVIFOperator.create_type falls back to an unqualified element if
-        namespaced elements are not found."""
+        namespaced elements are not found.
+        """
         operator = make_operator()
         element = Mock()
         instance = Mock()
@@ -724,7 +743,8 @@ class TestCreateType:
 
     def test_create_type_falls_back_to_namespaced_complex_type(self):
         """Test that ONVIFOperator.create_type falls back to a namespaced complex type
-        if elements are not found."""
+        if elements are not found.
+        """
         operator = make_operator()
         type_obj = Mock()
         instance = Mock()
@@ -755,7 +775,8 @@ class TestCreateType:
 
     def test_create_type_falls_back_to_second_complex_type_namespace(self):
         """Test that ONVIFOperator.create_type falls back to the second complex type
-        namespace if the first one fails."""
+        namespace if the first one fails.
+        """
         operator = make_operator()
         type_obj = Mock()
         instance = Mock()
@@ -788,7 +809,8 @@ class TestCreateType:
 
     def test_create_type_falls_back_to_unqualified_complex_type(self):
         """Test that ONVIFOperator.create_type falls back to an unqualified complex type
-        if namespaced types are not found."""
+        if namespaced types are not found.
+        """
         operator = make_operator()
         type_obj = Mock()
         instance = Mock()
@@ -815,7 +837,8 @@ class TestCreateType:
 
     def test_create_type_raises_when_all_lookup_methods_fail(self):
         """Test that ONVIFOperator.create_type raises AttributeError when all lookup
-        methods fail."""
+        methods fail.
+        """
         operator = make_operator()
         operator.client = Mock()
         operator.client.get_element.side_effect = AttributeError
@@ -834,7 +857,8 @@ class TestInitializeNestedTypes:
 
     def test_initialize_nested_types_returns_instance_without_xsd_type(self):
         """Test that _initialize_nested_types returns the instance unchanged when it has
-        no _xsd_type attribute."""
+        no _xsd_type attribute.
+        """
         operator = make_operator()
         instance = object()
 
@@ -844,7 +868,8 @@ class TestInitializeNestedTypes:
 
     def test_initialize_nested_types_does_not_replace_existing_value(self):
         """Test that _initialize_nested_types does not replace an existing value of a
-        nested type attribute."""
+        nested type attribute.
+        """
         operator = make_operator()
 
         existing = object()
@@ -884,7 +909,8 @@ class TestInitializeNestedTypes:
 
     def test_initialize_nested_types_ignores_simple_type(self):
         """Test that _initialize_nested_types does not replace a nested type attribute
-        if it is a simple type."""
+        if it is a simple type.
+        """
         operator = make_operator()
 
         class SimpleType:
@@ -922,12 +948,14 @@ class TestInitializeNestedTypes:
 
     def test_initialize_nested_types_handles_xsd_processing_error(self):
         """Test that _initialize_nested_types handles an AttributeError when accessing
-        elements of the XSD type."""
+        elements of the XSD type.
+        """
         operator = make_operator()
 
         class BrokenXsd:
             """Simulate an XSD type that raises an AttributeError when accessing
-            elements."""
+            elements.
+            """
 
             @property
             def elements(self):

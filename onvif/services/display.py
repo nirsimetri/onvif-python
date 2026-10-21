@@ -31,14 +31,16 @@ class Display(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the display service.
+        """
+        Returns the capabilities of the display service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetLayout(self, VideoOutput):
-        """Return the current layout of a video output.
+        """
+        Return the current layout of a video output.
 
         The Layout assigns a pane configuration to a certain area of the display. The
         layout settings directly affect a specific video output. The layout consists of
@@ -47,7 +49,8 @@ class Display(ONVIFService):
         return self.operator.call("GetLayout", VideoOutput=VideoOutput)
 
     def SetLayout(self, VideoOutput, Layout):
-        """Change the layout of a display (e.g. change from single view to split screen
+        """
+        Change the layout of a display (e.g. change from single view to split screen
         view).The Layout assigns a pane configuration to a certain area of the display.
 
         The layout settings directly affect a specific video output. The layout consists
@@ -60,7 +63,8 @@ class Display(ONVIFService):
         return self.operator.call("SetLayout", VideoOutput=VideoOutput, Layout=Layout)
 
     def GetDisplayOptions(self, VideoOutput):
-        """The Display Options contain the supported layouts (LayoutOptions) and the
+        """
+        The Display Options contain the supported layouts (LayoutOptions) and the
         decoding and encoding capabilities (CodingCapabilities) of the device.
 
         The GetDisplayOptions command returns both, Layout and Coding Capabilities, of a
@@ -69,7 +73,8 @@ class Display(ONVIFService):
         return self.operator.call("GetDisplayOptions", VideoOutput=VideoOutput)
 
     def GetPaneConfigurations(self, VideoOutput):
-        """List all currently defined panes of a device for a specified video output
+        """
+        List all currently defined panes of a device for a specified video output
         (regardless if this pane is visible at a moment).
 
         A Pane is a display area on the monitor that is attached to a video output. A
@@ -87,7 +92,8 @@ class Display(ONVIFService):
         )
 
     def SetPaneConfigurations(self, VideoOutput, PaneConfiguration):
-        """Modify one or more configurations of the specified video output.
+        """
+        Modify one or more configurations of the specified video output.
 
         This method will only modify the provided configurations and leave the others
         unchanged. Use DeletePaneConfiguration to remove pane configurations.
@@ -107,8 +113,9 @@ class Display(ONVIFService):
         )
 
     def CreatePaneConfiguration(self, VideoOutput, PaneConfiguration):
-        """Create a new pane configuration describing the streaming and coding settings
-        for a display area.
+        """
+        Create a new pane configuration describing the streaming and coding settings for
+        a display area.
 
         This optional method is only supported by devices that signal support of dynamic
         pane creation via their capabilities.
@@ -122,7 +129,8 @@ class Display(ONVIFService):
         )
 
     def DeletePaneConfiguration(self, VideoOutput, PaneToken):
-        """Delete a pane configuration.
+        """
+        Delete a pane configuration.
 
         A service must respond with an error if the pane configuration is in use by the
         current layout.
