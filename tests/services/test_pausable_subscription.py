@@ -7,7 +7,8 @@ from .base_service_test import ONVIFServiceTestBase
 
 class TestPausableSubscriptionWSDLCompliance(ONVIFServiceTestBase):
     """Test that PausableSubscription service implementation matches WSDL
-    specification."""
+    specification.
+    """
 
     # Service-specific configuration
     SERVICE_CLASS = PausableSubscription

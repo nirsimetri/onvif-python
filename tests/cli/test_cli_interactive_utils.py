@@ -33,7 +33,8 @@ def create_args(**overrides):
 
 
 def create_context(**overrides):
-    """Create a mocked shell context for utility tests.
+    """
+    Create a mocked shell context for utility tests.
 
     Args:
         **overrides: Optional context values that should override defaults.
@@ -73,7 +74,8 @@ def create_context(**overrides):
 
 
 def create_utilities():
-    """Create a minimally initialized ``ShellUtilities`` instance.
+    """
+    Create a minimally initialized ``ShellUtilities`` instance.
 
     Returns:
         A shell utility instance with a mocked shell context.

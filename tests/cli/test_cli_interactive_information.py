@@ -119,7 +119,9 @@ class TestInformationCommandsInfo:
         assert "DEVICE INFO" in output
 
     def test_do_info_displays_ws_username_token_when_digest_disabled(self, capsys):
-        """Verify WS-UsernameToken is displayed when digest authentication is disabled."""
+        """Verify WS-UsernameToken is displayed when digest authentication is
+        disabled.
+        """
         commands = create_commands(digest=False)
 
         commands.do_info("")

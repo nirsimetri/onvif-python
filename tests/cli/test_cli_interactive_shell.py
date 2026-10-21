@@ -35,7 +35,8 @@ def create_args(**overrides):
 
 
 def create_client():
-    """Create a mock ONVIF client with the responses required by the shell.
+    """
+    Create a mock ONVIF client with the responses required by the shell.
 
     Returns:
         A mock ONVIF client configured with basic device information and
@@ -70,7 +71,6 @@ def create_client():
 
 def create_device_data():
     """Create device information data as dict."""
-
     return {
         "Manufacturer": "Dahua",
         "Model": "DH-H5D-5F",
@@ -164,7 +164,9 @@ class TestInteractiveShellInitialization:
         assert shell.intro == "Interactive ONVIF shell"
 
     def test_starts_health_check_after_initialization(self, client, args, device_data):
-        """Verify that the background health-check thread starts after initialization."""
+        """Verify that the background health-check thread starts after
+        initialization.
+        """
         with patch("onvif.cli.interactive.utils.threading.Thread") as thread_cls:
             health_thread = thread_cls.return_value
 
