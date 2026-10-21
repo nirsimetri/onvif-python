@@ -31,15 +31,16 @@ class Search(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the search service.
+        """
+        Returns the capabilities of the search service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetRecordingSummary(self):
-        """GetRecordingSummary is used to get a summary description of all recorded
-        data.
+        """
+        GetRecordingSummary is used to get a summary description of all recorded data.
 
         This operation is mandatory to support for a device implementing the recording
         search service.
@@ -47,7 +48,8 @@ class Search(ONVIFService):
         return self.operator.call("GetRecordingSummary")
 
     def GetRecordingInformation(self, RecordingToken):
-        """Returns information about a single Recording specified by a RecordingToken.
+        """
+        Returns information about a single Recording specified by a RecordingToken.
 
         This operation is mandatory to support for a device implementing the recording
         search service.
@@ -57,8 +59,9 @@ class Search(ONVIFService):
         )
 
     def GetMediaAttributes(self, Time, RecordingTokens=None):
-        """Returns a set of media attributes for all tracks of the specified recordings
-        at a specified point in time.
+        """
+        Returns a set of media attributes for all tracks of the specified recordings at
+        a specified point in time.
 
         Clients using this operation shall be able to use it as a non blocking
         operation. A device shall set the starttime and endtime of the MediaAttributes
@@ -71,8 +74,9 @@ class Search(ONVIFService):
         )
 
     def FindRecordings(self, Scope, KeepAliveTime, MaxMatches=None):
-        """FindRecordings starts a search session, looking for recordings that matches
-        the scope (See 20.2.4) defined in the request.
+        """
+        FindRecordings starts a search session, looking for recordings that matches the
+        scope (See 20.2.4) defined in the request.
 
         Results from the search are acquired using the GetRecordingSearchResults
         request, specifying the search token returned from this request. The device
@@ -98,8 +102,9 @@ class Search(ONVIFService):
     def GetRecordingSearchResults(
         self, SearchToken, MinResults=None, MaxResults=None, WaitTime=None
     ):
-        """GetRecordingSearchResults acquires the results from a recording search
-        session previously initiated by a FindRecordings operation.
+        """
+        GetRecordingSearchResults acquires the results from a recording search session
+        previously initiated by a FindRecordings operation.
 
         The response shall not include results already returned in previous requests for
         the same session. If MaxResults is specified, the response shall not contain
@@ -135,8 +140,9 @@ class Search(ONVIFService):
         EndPoint=None,
         MaxMatches=None,
     ):
-        """FindEvents starts a search session, looking for recording events (in the
-        scope that matches the search filter defined in the request.
+        """
+        FindEvents starts a search session, looking for recording events (in the scope
+        that matches the search filter defined in the request.
 
         Results from the search are acquired using the GetEventSearchResults request,
         specifying the search token returned from this request.
@@ -167,8 +173,9 @@ class Search(ONVIFService):
     def GetEventSearchResults(
         self, SearchToken, MinResults=None, MaxResults=None, WaitTime=None
     ):
-        """GetEventSearchResults acquires the results from a recording event search
-        session previously initiated by a FindEvents operation.
+        """
+        GetEventSearchResults acquires the results from a recording event search session
+        previously initiated by a FindEvents operation.
 
         The response shall not include results already returned in previous requests for
         the same session. If MaxResults is specified, the response shall not contain
@@ -201,8 +208,9 @@ class Search(ONVIFService):
         EndPoint=None,
         MaxMatches=None,
     ):
-        """FindPTZPosition starts a search session, looking for ptz positions in the
-        scope (See 20.2.4) that matches the search filter defined in the request.
+        """
+        FindPTZPosition starts a search session, looking for ptz positions in the scope
+        (See 20.2.4) that matches the search filter defined in the request.
 
         Results from the search are acquired using the GetPTZPositionSearchResults
         request, specifying the search token returned from this request.
@@ -231,7 +239,8 @@ class Search(ONVIFService):
     def GetPTZPositionSearchResults(
         self, SearchToken, MinResults=None, MaxResults=None, WaitTime=None
     ):
-        """GetPTZPositionSearchResults acquires the results from a ptz position search
+        """
+        GetPTZPositionSearchResults acquires the results from a ptz position search
         session previously initiated by a FindPTZPosition operation.
 
         The response shall not include results already returned in previous requests for
@@ -257,15 +266,17 @@ class Search(ONVIFService):
         )
 
     def GetSearchState(self, SearchToken):
-        """GetSearchState returns the current state of the specified search session.
+        """
+        GetSearchState returns the current state of the specified search session.
 
         This command is deprecated .
         """
         return self.operator.call("GetSearchState", SearchToken=SearchToken)
 
     def EndSearch(self, SearchToken):
-        """EndSearch stops and ongoing search session, causing any blocking result
-        request to return and the SearchToken to become invalid.
+        """
+        EndSearch stops and ongoing search session, causing any blocking result request
+        to return and the SearchToken to become invalid.
 
         If the search was interrupted before completion, the point in time that the
         search had reached shall be returned. If the search had not yet begun, the
@@ -286,7 +297,8 @@ class Search(ONVIFService):
         EndPoint=None,
         MaxMatches=None,
     ):
-        """FindMetadata starts a search session, looking for metadata in the scope (See
+        """
+        FindMetadata starts a search session, looking for metadata in the scope (See
         20.2.4) that matches the search filter defined in the request.
 
         Results from the search are acquired using the GetMetadataSearchResults request,
@@ -317,7 +329,8 @@ class Search(ONVIFService):
     def GetMetadataSearchResults(
         self, SearchToken, MinResults=None, MaxResults=None, WaitTime=None
     ):
-        """GetMetadataSearchResults acquires the results from a recording search session
+        """
+        GetMetadataSearchResults acquires the results from a recording search session
         previously initiated by a FindMetadata operation.
 
         The response shall not include results already returned in previous requests for
@@ -356,8 +369,7 @@ class Search(ONVIFService):
         """
         <!-- md:version 0.2.11 -->
 
-        Starts a natural language search session and specifies the search
-        parameters.
+        Starts a natural language search session and specifies the search parameters.
         """
         return self.operator.call(
             "SearchImageByNL",

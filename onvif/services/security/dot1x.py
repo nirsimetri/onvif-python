@@ -30,7 +30,8 @@ class Dot1X(ONVIFService):
         )
 
     def AddDot1XConfiguration(self, Dot1XConfiguration):
-        """This operation adds an IEEE 802.1X configuration to the device.
+        """
+        This operation adds an IEEE 802.1X configuration to the device.
 
         Configurations are uniquely identified using IEEE 802.1X configuration IDs. The
         device shall ignore Dot1XID in the request, if present, and shall generate a
@@ -62,8 +63,9 @@ class Dot1X(ONVIFService):
         )
 
     def GetAllDot1XConfigurations(self):
-        """This operation returns details of all IEEE 802.1X configurations that are on
-        the device.
+        """
+        This operation returns details of all IEEE 802.1X configurations that are on the
+        device.
 
         This operation may be used, e.g., if a client lost track of which IEEE 802.1X
         configurations are present on the device. If no IEEE 802.1X configurations exist
@@ -74,7 +76,8 @@ class Dot1X(ONVIFService):
         return self.operator.call("GetAllDot1XConfigurations")
 
     def GetDot1XConfiguration(self, Dot1XID):
-        """This operation returns details of a specific IEEE 802.1X configuration on the
+        """
+        This operation returns details of a specific IEEE 802.1X configuration on the
         device.
 
         If the device cannot process the provided IEEE 802.1X configuration ID, the
@@ -85,7 +88,8 @@ class Dot1X(ONVIFService):
         return self.operator.call("GetDot1XConfiguration", Dot1XID=Dot1XID)
 
     def DeleteDot1XConfiguration(self, Dot1XID):
-        """This operation deletes an IEEE 802.1X configuration from the device.
+        """
+        This operation deletes an IEEE 802.1X configuration from the device.
 
         If the device cannot process the provided IEEE 802.1X configuration ID, the
         device shall produce a Dot1XConfigurationID fault. If a reference exists for the
@@ -98,8 +102,9 @@ class Dot1X(ONVIFService):
         return self.operator.call("DeleteDot1XConfiguration", Dot1XID=Dot1XID)
 
     def SetNetworkInterfaceDot1XConfiguration(self, token, Dot1XID):
-        """This operation binds an IEEE 802.1X configuration to a network interface on
-        the device.
+        """
+        This operation binds an IEEE 802.1X configuration to a network interface on the
+        device.
 
         This operation shall either create a new binding or replace an existing binding.
         On failure when an existing binding already exists, the existing binding shall
@@ -124,7 +129,8 @@ class Dot1X(ONVIFService):
         )
 
     def GetNetworkInterfaceDot1XConfiguration(self, token):
-        """This operation returns the IEEE 802.1X ID and configuration associated with a
+        """
+        This operation returns the IEEE 802.1X ID and configuration associated with a
         network interface on the device.
 
         If there is no IEEE 802.1X configuration associated with the specified network
@@ -140,8 +146,9 @@ class Dot1X(ONVIFService):
         return self.operator.call("GetNetworkInterfaceDot1XConfiguration", token=token)
 
     def DeleteNetworkInterfaceDot1XConfiguration(self, token):
-        """This operation unbinds the IEEE 802.1X configuration associated with a
-        network interface on the device.
+        """
+        This operation unbinds the IEEE 802.1X configuration associated with a network
+        interface on the device.
 
         If there is no IEEE 802.1X configuration associated with the specified network
         interface, then the operation does nothing. The Device Management

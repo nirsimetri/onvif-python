@@ -30,11 +30,12 @@ class TLSServer(ONVIFService):
         )
 
     def AddServerCertificateAssignment(self, CertificationPathID):
-        """This operation assigns a key pair and certificate along with a certification
+        """
+        This operation assigns a key pair and certificate along with a certification
         path (certificate chain) to the TLS server on the device.
 
-        The TLS server shall use this information for key exchange during the TLS handshake,
-        particularly for constructing server certificate messages.
+        The TLS server shall use this information for key exchange during the TLS
+        handshake, particularly for constructing server certificate messages.
 
         Certification paths are identified by their certification path IDs in the
         keystore. The first certificate in the certification path must be the TLS server
@@ -46,12 +47,13 @@ class TLSServer(ONVIFService):
 
         If a device chooses to perform a TLS key exchange based on the supplied
         certification path, it shall use the key pair that is associated with the server
-        certificate for key exchange and transmit the certification path to TLS clients as-is.
-        In order to use the server certificate during the TLS handshake, the corresponding
-        private key is required. Therefore, if the key pair that is associated with the server
-        certificate, i.e., the first certificate in the certification path, does not have an
-        associated private key, the NoPrivateKey fault is produced and the certification path
-        is not associated to the TLS server.
+        certificate for key exchange and transmit the certification path to TLS clients
+        as-is. In order to use the server certificate during the TLS handshake, the
+        corresponding private key is required. Therefore, if the key pair that is
+        associated with the server certificate, i.e., the first certificate in the
+        certification path, does not have an associated private key, the NoPrivateKey
+        fault is produced and the certification path is not associated to the TLS
+        server.
 
         A TLS server may present different certification paths to different clients
         during the TLS handshake instead of presenting the same certification path to
@@ -68,7 +70,8 @@ class TLSServer(ONVIFService):
         )
 
     def RemoveServerCertificateAssignment(self, CertificationPathID):
-        """This operation removes a key pair and certificate assignment (including
+        """
+        This operation removes a key pair and certificate assignment (including
         certification path) to the TLS server on the device.
 
         Certification paths are identified using certification path IDs. If the supplied
@@ -82,9 +85,10 @@ class TLSServer(ONVIFService):
     def ReplaceServerCertificateAssignment(
         self, OldCertificationPathID, NewCertificationPathID
     ):
-        """This operation replaces an existing key pair and certificate assignment to
-        the TLS server on the device by a new key pair and certificate assignment
-        (including certification paths).
+        """
+        This operation replaces an existing key pair and certificate assignment to the
+        TLS server on the device by a new key pair and certificate assignment (including
+        certification paths).
 
         After the replacement, the TLS server shall use the new certificate and
         certification path exactly in those cases in which it would have used the old
@@ -123,7 +127,8 @@ class TLSServer(ONVIFService):
         )
 
     def GetAssignedServerCertificates(self):
-        """This operation returns the IDs of all key pairs and certificates (including
+        """
+        This operation returns the IDs of all key pairs and certificates (including
         certification paths) that are assigned to the TLS server on the device.
 
         This operation may be used, e.g., if a client lost track of the certification
@@ -133,12 +138,13 @@ class TLSServer(ONVIFService):
         return self.operator.call("GetAssignedServerCertificates")
 
     def SetEnabledTLSVersions(self, Versions):
-        """This operation sets the version(s) of TLS which the device shall use.
+        """
+        This operation sets the version(s) of TLS which the device shall use.
 
         Valid values are taken from the TLSServerSupported capability. A client
-        initiates a TLS session by sending a ClientHello with the highest TLS version
-        it supports. This suggests to the server that the client can accept any TLS
-        version up to and including that version.
+        initiates a TLS session by sending a ClientHello with the highest TLS version it
+        supports. This suggests to the server that the client can accept any TLS version
+        up to and including that version.
 
         The server then chooses the TLS version to use. This is generally the highest
         TLS version the server supports that is within the range of the client. For
@@ -162,11 +168,13 @@ class TLSServer(ONVIFService):
 
     def GetEnabledTLSVersions(self):
         """This operation retrieves the version(s) of TLS which are currently enabled on
-        the device."""
+        the device.
+        """
         return self.operator.call("GetEnabledTLSVersions")
 
     def SetClientAuthenticationRequired(self, clientAuthenticationRequired):
-        """This operation activates or deactivates TLS client authentication for the TLS
+        """
+        This operation activates or deactivates TLS client authentication for the TLS
         server on the device.
 
         The TLS server on the device shall require client authentication if and only if
@@ -187,8 +195,9 @@ class TLSServer(ONVIFService):
         return self.operator.call("GetClientAuthenticationRequired")
 
     def SetCnMapsToUser(self, cnMapsToUser):
-        """This operation enables or disables mapping of the Common Name present in the
-        TLS client certificate to an existing user name in the device.
+        """
+        This operation enables or disables mapping of the Common Name present in the TLS
+        client certificate to an existing user name in the device.
 
         The TLS server on the device shall perform mapping if parameter
         clientAuthenticationRequired is set to true.
@@ -200,8 +209,9 @@ class TLSServer(ONVIFService):
         return self.operator.call("GetCnMapsToUser")
 
     def AddCertPathValidationPolicyAssignment(self, CertPathValidationPolicyID):
-        """This operation assigns a certification path validation policy to the TLS
-        server on the device.
+        """
+        This operation assigns a certification path validation policy to the TLS server
+        on the device.
 
         The TLS server shall enforce the policy when authenticating TLS clients and
         consider a client authentic if and only if the algorithm returns valid. If no
@@ -221,7 +231,8 @@ class TLSServer(ONVIFService):
         )
 
     def RemoveCertPathValidationPolicyAssignment(self, CertPathValidationPolicyID):
-        """This operation removes a certification path validation policy assignment from
+        """
+        This operation removes a certification path validation policy assignment from
         the TLS server on the device.
 
         If the certification path validation policy identified by the requested
@@ -236,8 +247,9 @@ class TLSServer(ONVIFService):
     def ReplaceCertPathValidationPolicyAssignment(
         self, OldCertPathValidationPolicyID, NewCertPathValidationPolicyID
     ):
-        """This operation replaces a certification path validation policy assignment to
-        the TLS server on the device with another certification path validation policy
+        """
+        This operation replaces a certification path validation policy assignment to the
+        TLS server on the device with another certification path validation policy
         assignment.
 
         If the certification path validation policy identified by the requested
@@ -258,5 +270,6 @@ class TLSServer(ONVIFService):
 
     def GetAssignedCertPathValidationPolicies(self):
         """This operation returns the IDs of all certification path validation policies
-        that are assigned to the TLS server on the device."""
+        that are assigned to the TLS server on the device.
+        """
         return self.operator.call("GetAssignedCertPathValidationPolicies")

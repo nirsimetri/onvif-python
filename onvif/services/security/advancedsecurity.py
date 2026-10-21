@@ -31,7 +31,8 @@ class AdvancedSecurity(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the security configuration service.
+        """
+        Returns the capabilities of the security configuration service.
 
         The result is returned in a typed answer.
         """

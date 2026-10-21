@@ -31,14 +31,16 @@ class Thermal(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the thermal service.
+        """
+        Returns the capabilities of the thermal service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetConfigurationOptions(self, VideoSourceToken):
-        """Gets the valid ranges for the Thermal parameters that have device specific
+        """
+        Gets the valid ranges for the Thermal parameters that have device specific
         ranges.
 
         This command is mandatory for all devices implementing the Thermal service. The
@@ -66,7 +68,8 @@ class Thermal(ONVIFService):
         )
 
     def GetRadiometryConfigurationOptions(self, VideoSourceToken):
-        """Gets the valid ranges for the Radiometry parameters that have device specific
+        """
+        Gets the valid ranges for the Radiometry parameters that have device specific
         ranges.
 
         The command shall return all supported parameters and their ranges, such that

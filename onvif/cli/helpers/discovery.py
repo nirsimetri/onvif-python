@@ -14,7 +14,8 @@ def discover_devices(
     prefer_https: bool = False,
     filter_term: str | None = None,
 ) -> list:
-    """Discover ONVIF devices on the network using WS-Discovery.
+    """
+    Discover ONVIF devices on the network using WS-Discovery.
 
     Args:
         timeout (int): Discovery timeout in seconds
@@ -42,7 +43,8 @@ def discover_devices(
 
 
 def select_device_interactive(devices: list) -> tuple[str, int, bool] | None:
-    """Display devices and allow user to select one interactively.
+    """
+    Display devices and allow user to select one interactively.
 
     Args:
         devices (list): Discovered devices

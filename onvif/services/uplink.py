@@ -35,7 +35,8 @@ class Uplink(ONVIFService):
         return self.operator.call("GetServiceCapabilities")
 
     def GetUplinks(self):
-        """A device supporting uplinks shall support this command to retrieve the
+        """
+        A device supporting uplinks shall support this command to retrieve the
         configured uplink configurations.
 
         The Status field shall signal whether a connection is Offline, Connecting or
@@ -44,7 +45,8 @@ class Uplink(ONVIFService):
         return self.operator.call("GetUplinks")
 
     def SetUplink(self, Configuration):
-        """A device supporting uplinks shall support this command to add or modify an
+        """
+        A device supporting uplinks shall support this command to add or modify an
         uplink configuration.
 
         The Status property of the UplinkConfiguration shall be ignored by the device. A
@@ -55,5 +57,6 @@ class Uplink(ONVIFService):
 
     def DeleteUplink(self, RemoteAddress):
         """A device supporting uplinks shall support this command to remove an uplink
-        configuration."""
+        configuration.
+        """
         return self.operator.call("DeleteUplink", RemoteAddress=RemoteAddress)

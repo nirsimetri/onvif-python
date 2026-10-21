@@ -31,7 +31,8 @@ class DoorControl(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """This operation returns the capabilities of the service.
+        """
+        This operation returns the capabilities of the service.
 
         An ONVIF compliant device which provides the Door Control service shall
         implement this method.
@@ -39,7 +40,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("GetServiceCapabilities")
 
     def GetDoorInfoList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all DoorInfo items provided by the device.
+        """
+        This operation requests a list of all DoorInfo items provided by the device.
 
         An ONVIF compliant device that provides Door Control service shall implement
         this method. A call to this method shall return a StartReference when not all
@@ -52,7 +54,8 @@ class DoorControl(ONVIFService):
         )
 
     def GetDoorInfo(self, Token):
-        """This operation requests a list of DoorInfo items matching the given tokens.
+        """
+        This operation requests a list of DoorInfo items matching the given tokens.
 
         An ONVIF-compliant device that provides Door Control service shall implement
         this method. The device shall ignore tokens it cannot resolve and shall return
@@ -63,7 +66,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("GetDoorInfo", Token=Token)
 
     def GetDoorList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all Door items provided by the device.
+        """
+        This operation requests a list of all Door items provided by the device.
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
@@ -76,7 +80,8 @@ class DoorControl(ONVIFService):
         )
 
     def GetDoors(self, Token):
-        """This operation requests a list of Door items matching the given tokens.
+        """
+        This operation requests a list of Door items matching the given tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
         if there are no items matching specified tokens. The device shall not return a
@@ -86,7 +91,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("GetDoors", Token=Token)
 
     def CreateDoor(self, Door):
-        """This operation creates the specified door in the device.
+        """
+        This operation creates the specified door in the device.
 
         The token field of the Door structure shall be empty and the device shall
         allocate a token for the door. The allocated token shall be returned in the
@@ -96,7 +102,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("CreateDoor", Door=Door)
 
     def SetDoor(self, Door):
-        """This method is used to synchronize a door in a client with the device.
+        """
+        This method is used to synchronize a door in a client with the device.
 
         If a door with the specified token does not exist in the device, the door is
         created. If a door with the specified token exists, then the door is modified. A
@@ -109,7 +116,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("SetDoor", Door=Door)
 
     def ModifyDoor(self, Door):
-        """This operation modifies the specified door.
+        """
+        This operation modifies the specified door.
 
         The token of the door to modify is specified in the token field of the Door
         structure and shall not be empty. All other fields in the structure shall
@@ -119,7 +127,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("ModifyDoor", Door=Door)
 
     def DeleteDoor(self, Token):
-        """This operation deletes the specified door.
+        """
+        This operation deletes the specified door.
 
         If it is associated with one or more entities some devices may not be able to
         delete the door, and consequently a ReferenceInUse fault shall be generated. If
@@ -129,7 +138,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("DeleteDoor", Token=Token)
 
     def GetDoorState(self, Token):
-        """This operation requests the state of a Door specified by the Token.
+        """
+        This operation requests the state of a Door specified by the Token.
 
         A device implementing the Door Control service shall be capable of reporting the
         status of a door using a DoorState structure available from the GetDoorState
@@ -146,7 +156,8 @@ class DoorControl(ONVIFService):
         PreAlarmTime=None,
         Extension=None,
     ):
-        """This operation allows momentarily accessing a Door.
+        """
+        This operation allows momentarily accessing a Door.
 
         It invokes the functionality typically used when a card holder presents a card
         to a card reader at the door and is granted access. The DoorMode shall change to
@@ -174,7 +185,8 @@ class DoorControl(ONVIFService):
         )
 
     def LockDoor(self, Token):
-        """This operation allows locking a Door.
+        """
+        This operation allows locking a Door.
 
         The DoorMode shall change to Locked state. Please refer to Locked mode in
         section [DoorMode] for more details. A device that signals support for Lock
@@ -185,7 +197,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("LockDoor", Token=Token)
 
     def UnlockDoor(self, Token):
-        """This operation allows unlocking a Door.
+        """
+        This operation allows unlocking a Door.
 
         The DoorMode shall change to Unlocked state. Please refer to Unlocked mode in
         section [DoorMode] for more details. A device that signals support for Unlock
@@ -196,7 +209,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("UnlockDoor", Token=Token)
 
     def BlockDoor(self, Token):
-        """This operation allows blocking a Door and preventing momentary access
+        """
+        This operation allows blocking a Door and preventing momentary access
         (AccessDoor command).
 
         The DoorMode shall change to Blocked state. Please refer to Blocked mode in
@@ -208,7 +222,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("BlockDoor", Token=Token)
 
     def LockDownDoor(self, Token):
-        """This operation allows locking and preventing other actions until a
+        """
+        This operation allows locking and preventing other actions until a
         LockDownRelease command is invoked.
 
         The DoorMode shall change to LockedDown state. Please refer to LockedDown mode
@@ -223,7 +238,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("LockDownDoor", Token=Token)
 
     def LockDownReleaseDoor(self, Token):
-        """This operation allows releasing the LockedDown state of a Door.
+        """
+        This operation allows releasing the LockedDown state of a Door.
 
         The DoorMode shall change back to its previous/next state. It is not defined
         what the previous/next state shall be, but typically - Locked. This method shall
@@ -232,7 +248,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("LockDownReleaseDoor", Token=Token)
 
     def LockOpenDoor(self, Token):
-        """This operation allows unlocking a Door and preventing other actions until
+        """
+        This operation allows unlocking a Door and preventing other actions until
         LockOpenRelease method is invoked.
 
         The DoorMode shall change to LockedOpen state. Please refer to LockedOpen mode
@@ -246,7 +263,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("LockOpenDoor", Token=Token)
 
     def LockOpenReleaseDoor(self, Token):
-        """This operation allows releasing the LockedOpen state of a Door.
+        """
+        This operation allows releasing the LockedOpen state of a Door.
 
         The DoorMode shall change state from the LockedOpen state back to its
         previous/next state. It is not defined what the previous/next state shall be,
@@ -257,7 +275,8 @@ class DoorControl(ONVIFService):
         return self.operator.call("LockOpenReleaseDoor", Token=Token)
 
     def DoubleLockDoor(self, Token):
-        """This operation is used for securely locking a Door.
+        """
+        This operation is used for securely locking a Door.
 
         A call to this method shall change DoorMode state to DoubleLocked. Please refer
         to DoubleLocked mode in section [DoorMode] for more details. A device that

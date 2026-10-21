@@ -31,11 +31,13 @@ class AuthorizationServer(ONVIFService):
 
     def GetAuthorizationServerConfigurations(self, Token=None):
         """This operation lists all existing authorization server configurations for the
-        device."""
+        device.
+        """
         return self.operator.call("GetAuthorizationServerConfigurations", Token=Token)
 
     def CreateAuthorizationServerConfiguration(self, Configuration):
-        """This operation creates a new authorization server configuration.
+        """
+        This operation creates a new authorization server configuration.
 
         The configuration data shall be created in the device and shall be persistent
         (remain after reboot).
@@ -52,5 +54,6 @@ class AuthorizationServer(ONVIFService):
 
     def DeleteAuthorizationServerConfiguration(self, Token):
         """This operation deletes the given authorization server configuration and
-        configuration change shall always be persistent."""
+        configuration change shall always be persistent.
+        """
         return self.operator.call("DeleteAuthorizationServerConfiguration", Token=Token)

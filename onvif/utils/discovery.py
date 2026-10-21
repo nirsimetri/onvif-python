@@ -25,10 +25,8 @@ DEFAULT_MAX_WORKERS = 10
 
 class ONVIFDiscovery:
     """
-    <!-- md:version 0.1.6 -->
-    <!-- md:utility Utility class-->
-    <!-- md:example_view device_discovery.py -->
-    <!-- md:example_view device_discovery_raw.py -->
+    <!-- md:version 0.1.6 --> <!-- md:utility Utility class--> <!-- md:example_view
+    device_discovery.py --> <!-- md:example_view device_discovery_raw.py -->
 
     Discover ONVIF devices using the WS-Discovery protocol.
 
@@ -82,7 +80,8 @@ class ONVIFDiscovery:
         timeout: int = 4,
         interface: str | None = None,
     ):
-        """Initialize ONVIF Discovery.
+        """
+        Initialize ONVIF Discovery.
 
         Args:
             timeout (int): Discovery timeout in seconds
@@ -94,8 +93,7 @@ class ONVIFDiscovery:
 
     def get_local_ip(self) -> str:
         """
-        <!-- md:version 0.1.6 -->
-        <!-- md:utility -->
+        <!-- md:version 0.1.6 --> <!-- md:utility -->
 
         Get local network interface IP address.
 
@@ -139,8 +137,7 @@ class ONVIFDiscovery:
         self, prefer_https: bool = False, search: str | None = None
     ) -> list[dict[str, Any]]:
         """
-        <!-- md:version 0.1.6 -->
-        <!-- md:utility -->
+        <!-- md:version 0.1.6 --> <!-- md:utility -->
 
         Discover ONVIF devices on the network.
 
@@ -263,7 +260,8 @@ class ONVIFDiscovery:
     def _filter_devices(
         self, devices: list[dict[str, Any]], search_term: str
     ) -> list[dict[str, Any]]:
-        """Filter devices based on search term in types or scopes.
+        """
+        Filter devices based on search term in types or scopes.
 
         Args:
             devices (list[dict[str, Any]]): List of discovered devices
@@ -297,7 +295,8 @@ class ONVIFDiscovery:
         return filtered
 
     def _process_single_device(self, device: dict[str, Any]) -> dict[str, Any]:
-        """Enrich a single discovered device with unauthenticated information.
+        """
+        Enrich a single discovered device with unauthenticated information.
 
         Connects to the discovered device without authentication and attempts to
         retrieve information that is available without credentials, including the
@@ -384,7 +383,8 @@ class ONVIFDiscovery:
     def _process_device(
         self, discovered_devices: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
-        """Enrich discovered devices with unauthenticated device information.
+        """
+        Enrich discovered devices with unauthenticated device information.
 
         Connects to each discovered device without authentication and processes
         devices concurrently using a thread pool. Information that is available
@@ -419,7 +419,8 @@ class ONVIFDiscovery:
     def _parse_single_response(
         self, xml_data: str, prefer_https: bool = False
     ) -> dict[str, Any] | None:
-        """Parse a single WS-Discovery response.
+        """
+        Parse a single WS-Discovery response.
 
         Args:
             xml_data (str): Raw XML response data
@@ -497,7 +498,8 @@ class ONVIFDiscovery:
     def _parse_responses(
         self, responses: list[dict[str, str]], prefer_https: bool = False
     ) -> list[dict[str, Any]]:
-        """Parse WS-Discovery responses into device information.
+        """
+        Parse WS-Discovery responses into device information.
 
         Args:
             responses (list[dict[str, str]]): List of raw XML responses
@@ -528,7 +530,8 @@ class ONVIFDiscovery:
     def _parse_xaddr(
         self, device_info: dict[str, Any], prefer_https: bool = False
     ) -> None:
-        """Parse XAddr to extract host, port, and protocol.
+        """
+        Parse XAddr to extract host, port, and protocol.
 
         Args:
             device_info (dict[str, Any]): Device information dictionary to update

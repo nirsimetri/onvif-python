@@ -32,14 +32,16 @@ class Device(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the device service.
+        """
+        Returns the capabilities of the device service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetCapabilities(self, Category=None):
-        """This method has been replaced by the more generic GetServices method.
+        """
+        This method has been replaced by the more generic GetServices method.
 
         For capabilities of individual services refer to the GetServiceCapabilities
         methods.
@@ -55,9 +57,9 @@ class Device(ONVIFService):
         return self.operator.call("GetDeviceInformation")
 
     def SendAuxiliaryCommand(self, AuxiliaryCommand):
-        """Manage auxiliary commands supported by a device, such as controlling an
-        Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to
-        the device.
+        """
+        Manage auxiliary commands supported by a device, such as controlling an Infrared
+        (IR) lamp, a heater or a wiper or a thermometer that is connected to the device.
 
         The supported commands can be retrieved via the AuxiliaryCommands capability.
 
@@ -85,7 +87,8 @@ class Device(ONVIFService):
     def SetSystemDateAndTime(
         self, DateTimeType, DaylightSavings, TimeZone=None, UTCDateTime=None
     ):
-        """This operation sets the device system date and time.
+        """
+        This operation sets the device system date and time.
 
         The device shall support the configuration of the daylight saving setting and of
         the manual system date and time (if applicable) or indication of NTP time (if
@@ -110,7 +113,8 @@ class Device(ONVIFService):
         )
 
     def GetSystemDateAndTime(self):
-        """This operation gets the device system date and time.
+        """
+        This operation gets the device system date and time.
 
         The device shall support the return of the daylight saving setting and of the
         manual system date and time (if applicable) or indication of NTP time (if
@@ -122,13 +126,15 @@ class Device(ONVIFService):
 
     def SetSystemFactoryDefault(self, FactoryDefault):
         """This operation reloads the parameters on the device to their factory default
-        values."""
+        values.
+        """
         return self.operator.call(
             "SetSystemFactoryDefault", FactoryDefault=FactoryDefault
         )
 
     def UpgradeSystemFirmware(self, Firmware):
-        """This operation upgrades a device firmware version.
+        """
+        This operation upgrades a device firmware version.
 
         After a successful upgrade the response message is sent before the device
         reboots. The device should support firmware upgrade through the
@@ -142,7 +148,8 @@ class Device(ONVIFService):
         return self.operator.call("SystemReboot")
 
     def RestoreSystem(self, BackupFiles):
-        """This operation restores the system backup configuration files(s) previously
+        """
+        This operation restores the system backup configuration files(s) previously
         retrieved from a device.
 
         The device should support restore of backup configuration file(s) through the
@@ -153,8 +160,8 @@ class Device(ONVIFService):
         return self.operator.call("RestoreSystem", BackupFiles=BackupFiles)
 
     def GetSystemBackup(self):
-        """This operation is retrieves system backup configuration file(s) from a
-        device.
+        """
+        This operation is retrieves system backup configuration file(s) from a device.
 
         The device should support return of back up configuration file(s) through the
         GetSystemBackup command. The backup is returned with reference to a name and
@@ -164,7 +171,8 @@ class Device(ONVIFService):
         return self.operator.call("GetSystemBackup")
 
     def GetSystemLog(self, LogType):
-        """This operation gets a system log from the device.
+        """
+        This operation gets a system log from the device.
 
         The exact format of the system logs is outside the scope of this standard.
         """
@@ -172,11 +180,13 @@ class Device(ONVIFService):
 
     def GetSystemSupportInformation(self):
         """This operation gets arbitrary device diagnostics information from the
-        device."""
+        device.
+        """
         return self.operator.call("GetSystemSupportInformation")
 
     def GetScopes(self):
-        """This operation requests the scope parameters of a device.
+        """
+        This operation requests the scope parameters of a device.
 
         The scope parameters are used in the device discovery to match a probe message,
         see Section 7.
@@ -196,7 +206,8 @@ class Device(ONVIFService):
         return self.operator.call("GetScopes")
 
     def SetScopes(self, Scopes):
-        """This operation sets the scope parameters of a device.
+        """
+        This operation sets the scope parameters of a device.
 
         The scope parameters are used in the device discovery to match a probe message.
         This operation replaces all existing configurable scope parameters (not fixed
@@ -207,7 +218,8 @@ class Device(ONVIFService):
         return self.operator.call("SetScopes", Scopes=Scopes)
 
     def AddScopes(self, ScopeItem):
-        """This operation adds new configurable scope parameters to a device.
+        """
+        This operation adds new configurable scope parameters to a device.
 
         The scope parameters are used in the device discovery to match a probe message.
         The device shall support addition of discovery scope parameters through the
@@ -216,7 +228,8 @@ class Device(ONVIFService):
         return self.operator.call("AddScopes", ScopeItem=ScopeItem)
 
     def RemoveScopes(self, ScopeItem):
-        """This operation deletes scope-configurable scope parameters from a device.
+        """
+        This operation deletes scope-configurable scope parameters from a device.
 
         The scope parameters are used in the device discovery to match a probe message,
         see Section 7. The device shall support deletion of discovery scope parameters
@@ -225,7 +238,8 @@ class Device(ONVIFService):
         return self.operator.call("RemoveScopes", ScopeItem=ScopeItem)
 
     def GetDiscoveryMode(self):
-        """This operation gets the discovery mode of a device.
+        """
+        This operation gets the discovery mode of a device.
 
         See Section 7.2 for the definition of the different device discovery modes. The
         device shall support retrieval of the discovery mode setting through the
@@ -234,7 +248,8 @@ class Device(ONVIFService):
         return self.operator.call("GetDiscoveryMode")
 
     def SetDiscoveryMode(self, DiscoveryMode):
-        """This operation sets the discovery mode operation of a device.
+        """
+        This operation sets the discovery mode operation of a device.
 
         See Section 7.2 for the definition of the different device discovery modes. The
         device shall support configuration of the discovery mode setting through the
@@ -243,7 +258,8 @@ class Device(ONVIFService):
         return self.operator.call("SetDiscoveryMode", DiscoveryMode=DiscoveryMode)
 
     def GetRemoteDiscoveryMode(self):
-        """This operation gets the remote discovery mode of a device.
+        """
+        This operation gets the remote discovery mode of a device.
 
         See Section 7.4 for the definition of remote discovery extensions. A device that
         supports remote discovery shall support retrieval of the remote discovery mode
@@ -252,7 +268,8 @@ class Device(ONVIFService):
         return self.operator.call("GetRemoteDiscoveryMode")
 
     def SetRemoteDiscoveryMode(self, RemoteDiscoveryMode):
-        """This operation sets the remote discovery mode of operation of a device.
+        """
+        This operation sets the remote discovery mode of operation of a device.
 
         See Section 7.4 for the definition of remote discovery remote extensions. A
         device that supports remote discovery shall support configuration of the
@@ -263,7 +280,8 @@ class Device(ONVIFService):
         )
 
     def GetDPAddresses(self):
-        """This operation gets the remote DP address or addresses from a device.
+        """
+        This operation gets the remote DP address or addresses from a device.
 
         If the device supports remote discovery, as specified in Section
         7.4, the device shall support retrieval of the remote DP
@@ -272,8 +290,9 @@ class Device(ONVIFService):
         return self.operator.call("GetDPAddresses")
 
     def GetEndpointReference(self):
-        """A client can ask for the device service endpoint reference address property
-        that can be used to derive the password equivalent for remote user operation.
+        """
+        A client can ask for the device service endpoint reference address property that
+        can be used to derive the password equivalent for remote user operation.
 
         The device shall support the GetEndpointReference command returning the address
         property of the device service endpoint reference.
@@ -281,7 +300,8 @@ class Device(ONVIFService):
         return self.operator.call("GetEndpointReference")
 
     def GetRemoteUser(self):
-        """This operation returns the configured remote user (if any).
+        """
+        This operation returns the configured remote user (if any).
 
         A device supporting remote user handling shall support this operation. The user
         is only valid for the WS-UserToken profile or as an HTTP / RTSP user.
@@ -292,7 +312,8 @@ class Device(ONVIFService):
         return self.operator.call("GetRemoteUser")
 
     def SetRemoteUser(self, RemoteUser=None):
-        """This operation sets the remote user.
+        """
+        This operation sets the remote user.
 
         A device supporting remote user handling shall support this
         operation. The user is only valid for the WS-UserToken profile
@@ -342,7 +363,8 @@ class Device(ONVIFService):
         return self.operator.call("DeleteUserRole", UserRole=UserRole)
 
     def GetUsers(self):
-        """This operation lists the registered users and corresponding credentials on a
+        """
+        This operation lists the registered users and corresponding credentials on a
         device.
 
         The device shall support retrieval of registered device users and their
@@ -351,7 +373,8 @@ class Device(ONVIFService):
         return self.operator.call("GetUsers")
 
     def CreateUsers(self, User):
-        """This operation creates new device users and corresponding credentials on a
+        """
+        This operation creates new device users and corresponding credentials on a
         device for authentication purposes.
 
         The device shall support creation of device users and their credentials through
@@ -366,7 +389,8 @@ class Device(ONVIFService):
         return self.operator.call("CreateUsers", User=User)
 
     def DeleteUsers(self, Username):
-        """This operation deletes users on a device.
+        """
+        This operation deletes users on a device.
 
         The device shall support deletion of device users and their credentials through
         the DeleteUsers command. A device may have one or more fixed users that cannot
@@ -376,7 +400,8 @@ class Device(ONVIFService):
         return self.operator.call("DeleteUsers", Username=Username)
 
     def SetUser(self, User):
-        """This operation updates the settings for one or several users on a device for
+        """
+        This operation updates the settings for one or several users on a device for
         authentication purposes.
 
         The device shall support update of device users and their credentials through
@@ -386,7 +411,8 @@ class Device(ONVIFService):
         return self.operator.call("SetUser", User=User)
 
     def GetWsdlUrl(self):
-        """This method allows to provide a URL where product specific WSDL and schema
+        """
+        This method allows to provide a URL where product specific WSDL and schema
         definitions can be retrieved.
 
         This method is deprecated.
@@ -395,12 +421,14 @@ class Device(ONVIFService):
 
     def GetPasswordComplexityOptions(self):
         """This method allows retrieval of all the available parameters and their valid
-        ranges for the password complexity configuration."""
+        ranges for the password complexity configuration.
+        """
         return self.operator.call("GetPasswordComplexityOptions")
 
     def GetPasswordComplexityConfiguration(self):
         """This method allows retrieval of the current password complexity configuration
-        settings."""
+        settings.
+        """
         return self.operator.call("GetPasswordComplexityConfiguration")
 
     def SetPasswordComplexityConfiguration(
@@ -425,7 +453,8 @@ class Device(ONVIFService):
 
     def GetPasswordHistoryConfiguration(self):
         """This method allows retrieval of the current password history configuration
-        settings."""
+        settings.
+        """
         return self.operator.call("GetPasswordHistoryConfiguration")
 
     def SetPasswordHistoryConfiguration(self, Enabled, Length):
@@ -436,19 +465,22 @@ class Device(ONVIFService):
 
     def GetAuthFailureWarningOptions(self):
         """This method allows retrieval of all the available parameters and their valid
-        ranges for the authentication failure warning configuration."""
+        ranges for the authentication failure warning configuration.
+        """
         return self.operator.call("GetAuthFailureWarningOptions")
 
     def GetAuthFailureWarningConfiguration(self):
         """This method allows retrieval of the current authentication failure warning
-        configuration settings."""
+        configuration settings.
+        """
         return self.operator.call("GetAuthFailureWarningConfiguration")
 
     def SetAuthFailureWarningConfiguration(
         self, Enabled, MonitorPeriod, MaxAuthFailures
     ):
         """This method allows setting of the authentication failure warning
-        configuration."""
+        configuration.
+        """
         return self.operator.call(
             "SetAuthFailureWarningConfiguration",
             Enabled=Enabled,
@@ -458,11 +490,13 @@ class Device(ONVIFService):
 
     def SetHashingAlgorithm(self, Algorithm):
         """This operation sets the hashing algorithm(s) used in HTTP and RTSP Digest
-        Authentication."""
+        Authentication.
+        """
         return self.operator.call("SetHashingAlgorithm", Algorithm=Algorithm)
 
     def SetDPAddresses(self, DPAddress=None):
-        """This operation sets the remote DP address or addresses on a device.
+        """
+        This operation sets the remote DP address or addresses on a device.
 
         If the device supports remote discovery, as specified in Section
         7.4, the device shall support configuration of the remote DP
@@ -471,7 +505,8 @@ class Device(ONVIFService):
         return self.operator.call("SetDPAddresses", DPAddress=DPAddress)
 
     def GetHostname(self):
-        """This operation is used by an endpoint to get the hostname from a device.
+        """
+        This operation is used by an endpoint to get the hostname from a device.
 
         The device shall return its hostname configurations through the GetHostname
         command.
@@ -479,7 +514,8 @@ class Device(ONVIFService):
         return self.operator.call("GetHostname")
 
     def SetHostname(self, Name):
-        """This operation sets the hostname on a device.
+        """
+        This operation sets the hostname on a device.
 
         It shall be possible to set the device hostname configurations through the
         SetHostname command.
@@ -491,18 +527,21 @@ class Device(ONVIFService):
 
     def SetHostnameFromDHCP(self, FromDHCP):
         """This operation controls whether the hostname is set manually or retrieved via
-        DHCP."""
+        DHCP.
+        """
         return self.operator.call("SetHostnameFromDHCP", FromDHCP=FromDHCP)
 
     def GetDNS(self):
-        """This operation gets the DNS settings from a device.
+        """
+        This operation gets the DNS settings from a device.
 
         The device shall return its DNS configurations through the GetDNS command.
         """
         return self.operator.call("GetDNS")
 
     def SetDNS(self, FromDHCP, SearchDomain=None, DNSManual=None):
-        """This operation sets the DNS settings on a device.
+        """
+        This operation sets the DNS settings on a device.
 
         It shall be possible to set the device DNS configurations through the SetDNS
         command.
@@ -512,7 +551,8 @@ class Device(ONVIFService):
         )
 
     def GetNTP(self):
-        """This operation gets the NTP settings from a device.
+        """
+        This operation gets the NTP settings from a device.
 
         If the device supports NTP, it shall be possible to get the NTP server settings
         through the GetNTP command.
@@ -520,7 +560,8 @@ class Device(ONVIFService):
         return self.operator.call("GetNTP")
 
     def SetNTP(self, FromDHCP, NTPManual=None):
-        """This operation sets the NTP settings on a device.
+        """
+        This operation sets the NTP settings on a device.
 
         If the device supports NTP, it shall be possible to set the NTP server settings
         through the SetNTP command.
@@ -534,7 +575,8 @@ class Device(ONVIFService):
         return self.operator.call("SetNTP", FromDHCP=FromDHCP, NTPManual=NTPManual)
 
     def GetDynamicDNS(self):
-        """This operation gets the dynamic DNS settings from a device.
+        """
+        This operation gets the dynamic DNS settings from a device.
 
         If the device supports dynamic DNS as specified in [RFC 2136] and [RFC 4702], it
         shall be possible to get the type, name and TTL through the GetDynamicDNS
@@ -543,7 +585,8 @@ class Device(ONVIFService):
         return self.operator.call("GetDynamicDNS")
 
     def SetDynamicDNS(self, Type, Name=None, TTL=None):
-        """This operation sets the dynamic DNS settings on a device.
+        """
+        This operation sets the dynamic DNS settings on a device.
 
         If the device supports dynamic DNS as specified in [RFC 2136] and [RFC 4702], it
         shall be possible to set the type, name and TTL through the SetDynamicDNS
@@ -552,7 +595,8 @@ class Device(ONVIFService):
         return self.operator.call("SetDynamicDNS", Type=Type, Name=Name, TTL=TTL)
 
     def GetNetworkInterfaces(self):
-        """This operation gets the network interface configuration from a device.
+        """
+        This operation gets the network interface configuration from a device.
 
         The device shall support return of network interface configuration settings as
         defined by the NetworkInterface type through the GetNetworkInterfaces command.
@@ -560,7 +604,8 @@ class Device(ONVIFService):
         return self.operator.call("GetNetworkInterfaces")
 
     def SetNetworkInterfaces(self, InterfaceToken, NetworkInterface):
-        """This operation sets the network interface configuration on a device.
+        """
+        This operation sets the network interface configuration on a device.
 
         The device shall support network configuration of supported network interfaces
         through the SetNetworkInterfaces command.
@@ -576,7 +621,8 @@ class Device(ONVIFService):
         )
 
     def GetNetworkProtocols(self):
-        """This operation gets defined network protocols from a device.
+        """
+        This operation gets defined network protocols from a device.
 
         The device shall support the GetNetworkProtocols command returning configured
         network protocols.
@@ -584,7 +630,8 @@ class Device(ONVIFService):
         return self.operator.call("GetNetworkProtocols")
 
     def SetNetworkProtocols(self, NetworkProtocols):
-        """This operation configures defined network protocols on a device.
+        """
+        This operation configures defined network protocols on a device.
 
         The device shall support configuration of defined network protocols through the
         SetNetworkProtocols command.
@@ -594,7 +641,8 @@ class Device(ONVIFService):
         )
 
     def GetNetworkDefaultGateway(self):
-        """This operation gets the default gateway settings from a device.
+        """
+        This operation gets the default gateway settings from a device.
 
         The device shall support the GetNetworkDefaultGateway command returning
         configured default gateway address(es).
@@ -602,7 +650,8 @@ class Device(ONVIFService):
         return self.operator.call("GetNetworkDefaultGateway")
 
     def SetNetworkDefaultGateway(self, IPv4Address=None, IPv6Address=None):
-        """This operation sets the default gateway settings on a device.
+        """
+        This operation sets the default gateway settings on a device.
 
         The device shall support configuration of default gateway through the
         SetNetworkDefaultGateway command.
@@ -612,7 +661,8 @@ class Device(ONVIFService):
         )
 
     def GetZeroConfiguration(self):
-        """This operation gets the zero-configuration from a device.
+        """
+        This operation gets the zero-configuration from a device.
 
         If the device supports dynamic IP configuration according to [RFC3927], it shall
         support the return of IPv4 zero configuration address and status through the
@@ -624,7 +674,8 @@ class Device(ONVIFService):
         return self.operator.call("GetZeroConfiguration")
 
     def SetZeroConfiguration(self, InterfaceToken, Enabled):
-        """This operation sets the zero-configuration.
+        """
+        This operation sets the zero-configuration.
 
         Use GetCapabilities to get if zero-configuration is supported or not.
         """
@@ -633,7 +684,8 @@ class Device(ONVIFService):
         )
 
     def GetIPAddressFilter(self):
-        """This operation gets the IP address filter settings from a device.
+        """
+        This operation gets the IP address filter settings from a device.
 
         If the device supports device access control based on IP filtering rules (denied
         or accepted ranges of IP addresses), the device shall support the
@@ -642,7 +694,8 @@ class Device(ONVIFService):
         return self.operator.call("GetIPAddressFilter")
 
     def SetIPAddressFilter(self, IPAddressFilter):
-        """This operation sets the IP address filter settings on a device.
+        """
+        This operation sets the IP address filter settings on a device.
 
         If the device supports device access control based on IP filtering rules (denied
         or accepted ranges of IP addresses), the device shall support configuration of
@@ -651,7 +704,8 @@ class Device(ONVIFService):
         return self.operator.call("SetIPAddressFilter", IPAddressFilter=IPAddressFilter)
 
     def AddIPAddressFilter(self, IPAddressFilter):
-        """This operation adds an IP filter address to a device.
+        """
+        This operation adds an IP filter address to a device.
 
         If the device supports device access control based on IP filtering rules (denied
         or accepted ranges of IP addresses), the device shall support adding of IP
@@ -660,7 +714,8 @@ class Device(ONVIFService):
         return self.operator.call("AddIPAddressFilter", IPAddressFilter=IPAddressFilter)
 
     def RemoveIPAddressFilter(self, IPAddressFilter):
-        """This operation deletes an IP filter address from a device.
+        """
+        This operation deletes an IP filter address from a device.
 
         If the device supports device access control based on IP filtering rules (denied
         or accepted ranges of IP addresses), the device shall support deletion of IP
@@ -671,7 +726,8 @@ class Device(ONVIFService):
         )
 
     def GetAccessPolicy(self):
-        """Access to different services and sub-sets of services should be subject to
+        """
+        Access to different services and sub-sets of services should be subject to
         access control.
 
         The WS-Security framework gives the prerequisite for end-point authentication.
@@ -686,7 +742,8 @@ class Device(ONVIFService):
         return self.operator.call("GetAccessPolicy")
 
     def SetAccessPolicy(self, PolicyFile):
-        """This command sets the device access security policy (for more details on the
+        """
+        This command sets the device access security policy (for more details on the
         access security policy see the Get command).
 
         If the device supports access policy settings based on WS- Security
@@ -767,14 +824,16 @@ class Device(ONVIFService):
         return self.operator.call("LoadCACertificates", CACertificate=CACertificate)
 
     def GetRelayOutputs(self):
-        """This operation gets a list of all available relay outputs and their settings.
+        """
+        This operation gets a list of all available relay outputs and their settings.
 
         This method has been deprecated with version 2.0. Refer to the DeviceIO service.
         """
         return self.operator.call("GetRelayOutputs")
 
     def SetRelayOutputSettings(self, RelayOutputToken, Properties):
-        """This operation sets the settings of a relay output.
+        """
+        This operation sets the settings of a relay output.
 
         This method has been deprecated with version 2.0. Refer to the DeviceIO service.
         """
@@ -785,7 +844,8 @@ class Device(ONVIFService):
         )
 
     def SetRelayOutputState(self, RelayOutputToken, LogicalState):
-        """This operation sets the state of a relay output.
+        """
+        This operation sets the state of a relay output.
 
         This method has been deprecated with version 2.0. Refer to the DeviceIO service.
         """
@@ -824,22 +884,24 @@ class Device(ONVIFService):
         )
 
     def GetDot11Capabilities(self):
-        """This operation returns the IEEE802.11 capabilities.
+        """
+        This operation returns the IEEE802.11 capabilities.
 
         The device shall support this operation.
         """
         return self.operator.call("GetDot11Capabilities")
 
     def GetDot11Status(self, InterfaceToken):
-        """This operation returns the status of a wireless network interface.
+        """
+        This operation returns the status of a wireless network interface.
 
         The device shall support this command.
         """
         return self.operator.call("GetDot11Status", InterfaceToken=InterfaceToken)
 
     def ScanAvailableDot11Networks(self, InterfaceToken):
-        """This operation returns a lists of the wireless networks in range of the
-        device.
+        """
+        This operation returns a lists of the wireless networks in range of the device.
 
         A device should support this operation.
         """
@@ -848,7 +910,8 @@ class Device(ONVIFService):
         )
 
     def GetSystemUris(self):
-        """This operation is used to retrieve URIs from which system information may be
+        """
+        This operation is used to retrieve URIs from which system information may be
         downloaded using HTTP.
 
         URIs may be returned for the following system information:
@@ -869,7 +932,8 @@ class Device(ONVIFService):
         return self.operator.call("GetSystemUris")
 
     def StartFirmwareUpgrade(self):
-        """This operation initiates a firmware upgrade using the HTTP POST mechanism.
+        """
+        This operation initiates a firmware upgrade using the HTTP POST mechanism.
 
         The response to the command includes an HTTP URL to which the upgrade file may
         be uploaded. The actual upgrade takes place as soon as the HTTP POST operation
@@ -918,7 +982,8 @@ class Device(ONVIFService):
         return self.operator.call("UpgradeFirmware", Version=Version)
 
     def StartSystemRestore(self):
-        """This operation initiates a system restore from backed up configuration data
+        """
+        This operation initiates a system restore from backed up configuration data
         using the HTTP POST mechanism.
 
         The response to the command includes an HTTP URL to which the backup file may be
@@ -949,7 +1014,8 @@ class Device(ONVIFService):
         return self.operator.call("GetStorageConfigurations")
 
     def CreateStorageConfiguration(self, StorageConfiguration):
-        """This operation creates a new storage configuration.
+        """
+        This operation creates a new storage configuration.
 
         The configuration data shall be created in the device and shall be persistent
         (remain after reboot).
@@ -960,7 +1026,8 @@ class Device(ONVIFService):
 
     def GetStorageConfiguration(self, Token):
         """This operation retrieves the Storage configuration associated with the given
-        storage configuration token."""
+        storage configuration token.
+        """
         return self.operator.call("GetStorageConfiguration", Token=Token)
 
     def SetStorageConfiguration(self, StorageConfiguration):
@@ -971,12 +1038,14 @@ class Device(ONVIFService):
 
     def DeleteStorageConfiguration(self, Token):
         """This operation deletes the given storage configuration and configuration
-        change shall always be persistent."""
+        change shall always be persistent.
+        """
         return self.operator.call("DeleteStorageConfiguration", Token=Token)
 
     def GetGeoLocation(self):
         """This operation lists all existing geo location configurations for the
-        device."""
+        device.
+        """
         return self.operator.call("GetGeoLocation")
 
     def SetGeoLocation(self, Location):

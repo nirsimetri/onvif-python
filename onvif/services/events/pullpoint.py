@@ -30,7 +30,8 @@ class PullPoint(ONVIFService):
         )
 
     def PullMessages(self, Timeout, MessageLimit):
-        """This method pulls one or more messages from a PullPoint.
+        """
+        This method pulls one or more messages from a PullPoint.
 
         The device shall provide the following PullMessages command for all
         SubscriptionManager endpoints returned by the CreatePullPointSubscription
@@ -46,7 +47,8 @@ class PullPoint(ONVIFService):
         )
 
     def Seek(self, UtcTime, Reverse=None):
-        """This method readjusts the pull pointer into the past.
+        """
+        This method readjusts the pull pointer into the past.
 
         A device supporting persistent notification storage shall provide the following
         Seek command for all SubscriptionManager endpoints returned by the
@@ -59,7 +61,8 @@ class PullPoint(ONVIFService):
         return self.operator.call("Seek", UtcTime=UtcTime, Reverse=Reverse)
 
     def SetSynchronizationPoint(self):
-        """Properties inform a client about property creation, changes and deletion in a
+        """
+        Properties inform a client about property creation, changes and deletion in a
         uniform way.
 
         When a client wants to synchronize its properties with the properties of the
@@ -74,7 +77,8 @@ class PullPoint(ONVIFService):
         return self.operator.call("SetSynchronizationPoint")
 
     def Unsubscribe(self):
-        """The device shall provide the following Unsubscribe command for all
+        """
+        The device shall provide the following Unsubscribe command for all
         SubscriptionManager endpoints returned by the CreatePullPointSubscription
         command.
 

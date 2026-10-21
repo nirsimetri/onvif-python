@@ -32,7 +32,8 @@ class Events(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the event service.
+        """
+        Returns the capabilities of the event service.
 
         The result is returned in a typed answer.
         """
@@ -41,7 +42,8 @@ class Events(ONVIFService):
     def CreatePullPointSubscription(
         self, Filter=None, InitialTerminationTime=None, SubscriptionPolicy=None
     ):
-        """This method returns a PullPointSubscription that can be polled using
+        """
+        This method returns a PullPointSubscription that can be polled using
         PullMessages.
 
         This message contains the same elements as the SubscriptionRequest of the WS-
@@ -60,7 +62,8 @@ class Events(ONVIFService):
         )
 
     def GetEventProperties(self):
-        """The WS-BaseNotification specification defines a set of OPTIONAL WS-
+        """
+        The WS-BaseNotification specification defines a set of OPTIONAL WS-
         ResouceProperties.
 
         This specification does not require the implementation of the WS-
@@ -71,7 +74,8 @@ class Events(ONVIFService):
         return self.operator.call("GetEventProperties")
 
     def AddEventBroker(self, EventBroker):
-        """The AddEventBroker command allows an ONVIF client to add an event broker
+        """
+        The AddEventBroker command allows an ONVIF client to add an event broker
         configuration to device to enable ONVIF events to be transferred to an event
         broker.
 
@@ -82,10 +86,12 @@ class Events(ONVIFService):
 
     def DeleteEventBroker(self, Address):
         """The DeleteEventBroker allows an ONVIF client to delete an event broker
-        configuration from an ONVIF device."""
+        configuration from an ONVIF device.
+        """
         return self.operator.call("DeleteEventBroker", Address=Address)
 
     def GetEventBrokers(self, Address=None):
         """The GetEventBrokers command lets a client retrieve event broker
-        configurations from the device."""
+        configurations from the device.
+        """
         return self.operator.call("GetEventBrokers", Address=Address)

@@ -36,14 +36,16 @@ class Credential(ONVIFService):
 
     def GetSupportedFormatTypes(self, CredentialIdentifierTypeName):
         """This method returns all the supported format types of a specified identifier
-        type that is supported by the device."""
+        type that is supported by the device.
+        """
         return self.operator.call(
             "GetSupportedFormatTypes",
             CredentialIdentifierTypeName=CredentialIdentifierTypeName,
         )
 
     def GetCredentialInfo(self, Token):
-        """This operation requests a list of CredentialInfo items matching the given
+        """
+        This operation requests a list of CredentialInfo items matching the given
         tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
@@ -54,7 +56,8 @@ class Credential(ONVIFService):
         return self.operator.call("GetCredentialInfo", Token=Token)
 
     def GetCredentialInfoList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all CredentialInfo items provided by the
+        """
+        This operation requests a list of all CredentialInfo items provided by the
         device.
 
         A call to this method shall return a StartReference when not all data is
@@ -68,8 +71,8 @@ class Credential(ONVIFService):
         )
 
     def GetCredentials(self, Token):
-        """This operation returns the specified credential items matching the given
-        tokens.
+        """
+        This operation returns the specified credential items matching the given tokens.
 
         The device shall ignore tokens it cannot resolve and shall return an empty list
         if there are no items matching specified tokens. The device shall not return a
@@ -79,8 +82,8 @@ class Credential(ONVIFService):
         return self.operator.call("GetCredentials", Token=Token)
 
     def GetCredentialList(self, Limit=None, StartReference=None):
-        """This operation requests a list of all credential items provided by the
-        device.
+        """
+        This operation requests a list of all credential items provided by the device.
 
         A call to this method shall return a StartReference when not all data is
         returned and more data is available. The reference shall be valid for retrieving
@@ -95,7 +98,8 @@ class Credential(ONVIFService):
     def CreateCredential(
         self, Credential, State
     ):  # pylint: disable=redefined-outer-name
-        """This operation creates a credential.
+        """
+        This operation creates a credential.
 
         A call to this method takes a credential structure and a credential state
         structure as input parameters. The credential state can be created in disabled
@@ -110,11 +114,13 @@ class Credential(ONVIFService):
 
     def SetCredential(self, CredentialData):
         """This method is used to synchronize a credential in a client with the
-        device."""
+        device.
+        """
         return self.operator.call("SetCredential", CredentialData=CredentialData)
 
     def ModifyCredential(self, Credential):  # pylint: disable=redefined-outer-name
-        """This operation modifies the specified credential.
+        """
+        This operation modifies the specified credential.
 
         The token of the credential to modify is specified in the token field of the
         Credential structure and shall not be empty. All other fields in the structure
@@ -128,7 +134,8 @@ class Credential(ONVIFService):
         return self.operator.call("ModifyCredential", Credential=Credential)
 
     def DeleteCredential(self, Token):
-        """This method deletes the specified credential.
+        """
+        This method deletes the specified credential.
 
         If it is associated with one or more entities some devices may not be able to
         delete the credential, and consequently a ReferenceInUse fault shall be
@@ -137,7 +144,8 @@ class Credential(ONVIFService):
         return self.operator.call("DeleteCredential", Token=Token)
 
     def GetCredentialState(self, Token):
-        """This method returns the state for the specified credential.
+        """
+        This method returns the state for the specified credential.
 
         If the capability ResetAntipassbackSupported is set to true, then the device
         shall supply the anti-passback state in the returned credential state structure.
@@ -154,7 +162,8 @@ class Credential(ONVIFService):
 
     def ResetAntipassbackViolation(self, CredentialToken):
         """This method is used to reset anti-passback violations for a specified
-        credential."""
+        credential.
+        """
         return self.operator.call(
             "ResetAntipassbackViolation", CredentialToken=CredentialToken
         )
@@ -166,7 +175,8 @@ class Credential(ONVIFService):
         )
 
     def SetCredentialIdentifier(self, CredentialToken, CredentialIdentifier):
-        """This operation creates or updates a credential identifier for a credential.
+        """
+        This operation creates or updates a credential identifier for a credential.
 
         If the type of specified credential identifier already exists, the current
         credential identifier of that type is replaced. Otherwise the credential
@@ -179,7 +189,8 @@ class Credential(ONVIFService):
         )
 
     def DeleteCredentialIdentifier(self, CredentialToken, CredentialIdentifierTypeName):
-        """This method deletes all the identifier values for the specified type.
+        """
+        This method deletes all the identifier values for the specified type.
 
         However, if the identifier type name doesn’t exist in the device, it will be
         silently ignored without any response.
@@ -197,8 +208,8 @@ class Credential(ONVIFService):
         )
 
     def SetCredentialAccessProfiles(self, CredentialToken, CredentialAccessProfile):
-        """This operation add or updates the credential access profiles for a
-        credential.
+        """
+        This operation add or updates the credential access profiles for a credential.
 
         The device shall update the credential access profile if the access profile
         token in the specified credential access profile matches. Otherwise the
@@ -211,8 +222,8 @@ class Credential(ONVIFService):
         )
 
     def DeleteCredentialAccessProfiles(self, CredentialToken, AccessProfileToken):
-        """This method deletes all the credential access profiles for the specified
-        tokens.
+        """
+        This method deletes all the credential access profiles for the specified tokens.
 
         However, if no matching credential access profiles are found, the corresponding
         access profile tokens are silently ignored without any response.
@@ -231,7 +242,8 @@ class Credential(ONVIFService):
         FormatType=None,
         Value=None,
     ):
-        """This command requests a list of all whitelisted credential identifiers in the
+        """
+        This command requests a list of all whitelisted credential identifiers in the
         device.
 
         A device with capability MaxWhitelistedItems greater than zero, shall implement
@@ -247,7 +259,8 @@ class Credential(ONVIFService):
         )
 
     def AddToWhitelist(self, Identifier):
-        """This command adds the specified credential identifiers to the whitelist.
+        """
+        This command adds the specified credential identifiers to the whitelist.
 
         A device with capability MaxWhitelistedItems greater than zero, shall implement
         this command. If a specified whitelist item also is blacklisted, the item shall
@@ -256,7 +269,8 @@ class Credential(ONVIFService):
         return self.operator.call("AddToWhitelist", Identifier=Identifier)
 
     def RemoveFromWhitelist(self, Identifier):
-        """This command removes the specified credential identifiers from the whitelist.
+        """
+        This command removes the specified credential identifiers from the whitelist.
 
         A device with capability MaxWhitelistedItems greater than zero, shall implement
         this command. This command is idempotent and is safe to repeat even if the
@@ -265,7 +279,8 @@ class Credential(ONVIFService):
         return self.operator.call("RemoveFromWhitelist", Identifier=Identifier)
 
     def DeleteWhitelist(self):
-        """This command deletes all credential identifiers from the whitelist.
+        """
+        This command deletes all credential identifiers from the whitelist.
 
         A device with capability MaxWhitelistedItems greater than zero, shall implement
         this command. This command is idempotent and is safe to repeat even if the
@@ -281,7 +296,8 @@ class Credential(ONVIFService):
         FormatType=None,
         Value=None,
     ):
-        """This command requests a list of all blacklisted credential identifiers in the
+        """
+        This command requests a list of all blacklisted credential identifiers in the
         device.
 
         A device with capability MaxBlacklistedItems greater than zero, shall implement
@@ -297,7 +313,8 @@ class Credential(ONVIFService):
         )
 
     def AddToBlacklist(self, Identifier):
-        """This command adds the specified credential identifiers to the blacklist.
+        """
+        This command adds the specified credential identifiers to the blacklist.
 
         A device with capability MaxBlacklistedItems greater than zero, shall implement
         this command. If a specified blacklist item also is whitelisted, the item shall
@@ -306,7 +323,8 @@ class Credential(ONVIFService):
         return self.operator.call("AddToBlacklist", Identifier=Identifier)
 
     def RemoveFromBlacklist(self, Identifier):
-        """This command removes the specified credential identifiers from the blacklist.
+        """
+        This command removes the specified credential identifiers from the blacklist.
 
         A device with capability MaxBlacklistedItems greater than zero, shall implement
         this command. This command is idempotent and is safe to repeat even if the
@@ -315,7 +333,8 @@ class Credential(ONVIFService):
         return self.operator.call("RemoveFromBlacklist", Identifier=Identifier)
 
     def DeleteBlacklist(self):
-        """This command deletes all credential identifiers from the blacklist.
+        """
+        This command deletes all credential identifiers from the blacklist.
 
         A device with capability MaxBlacklistedItems greater than zero, shall implement
         this command. This command is idempotent and is safe to repeat even if the

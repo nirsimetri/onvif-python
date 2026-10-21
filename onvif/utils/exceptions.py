@@ -10,8 +10,7 @@ from zeep.exceptions import Fault
 class ONVIFOperationException(Exception):
     # pylint: disable=line-too-long
     """
-    <!-- md:version 0.0.1 -->
-    <!-- md:exception Exception type -->
+    <!-- md:version 0.0.1 --> <!-- md:exception Exception type -->
 
     Enhanced exception wrapper for ONVIF operation failures.
 
@@ -89,6 +88,7 @@ class ONVIFOperationException(Exception):
         - `zeep.exceptions.Fault`: Base SOAP fault exception
         - `requests.exceptions.RequestException`: Base HTTP error
     """
+
     # pylint: enable=line-too-long
 
     def __init__(self, operation: str, original_exception: Exception):

@@ -32,28 +32,32 @@ class Receiver(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the receiver service.
+        """
+        Returns the capabilities of the receiver service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetReceivers(self):
-        """Lists all receivers currently present on a device.
+        """
+        Lists all receivers currently present on a device.
 
         This operation is mandatory.
         """
         return self.operator.call("GetReceivers")
 
     def GetReceiver(self, ReceiverToken):
-        """Retrieves the details of a specific receiver.
+        """
+        Retrieves the details of a specific receiver.
 
         This operation is mandatory.
         """
         return self.operator.call("GetReceiver", ReceiverToken=ReceiverToken)
 
     def CreateReceiver(self, Configuration):
-        """Creates a new receiver.
+        """
+        Creates a new receiver.
 
         This operation is mandatory, although the service may raise a fault if the
         receiver cannot be created.
@@ -61,7 +65,8 @@ class Receiver(ONVIFService):
         return self.operator.call("CreateReceiver", Configuration=Configuration)
 
     def DeleteReceiver(self, ReceiverToken):
-        """Deletes an existing receiver.
+        """
+        Deletes an existing receiver.
 
         A receiver may be deleted only if it is not currently in use; otherwise a fault
         shall be raised. This operation is mandatory.
@@ -69,7 +74,8 @@ class Receiver(ONVIFService):
         return self.operator.call("DeleteReceiver", ReceiverToken=ReceiverToken)
 
     def ConfigureReceiver(self, ReceiverToken, Configuration):
-        """Configures an existing receiver.
+        """
+        Configures an existing receiver.
 
         This operation is mandatory.
         """
@@ -80,8 +86,8 @@ class Receiver(ONVIFService):
         )
 
     def SetReceiverMode(self, ReceiverToken, Mode):
-        """Sets the mode of the receiver without affecting the rest of its
-        configuration.
+        """
+        Sets the mode of the receiver without affecting the rest of its configuration.
 
         This operation is mandatory.
         """
@@ -90,7 +96,8 @@ class Receiver(ONVIFService):
         )
 
     def GetReceiverState(self, ReceiverToken):
-        """Determines whether the receiver is currently disconnected, connected or
+        """
+        Determines whether the receiver is currently disconnected, connected or
         attempting to connect.
 
         This operation is mandatory.

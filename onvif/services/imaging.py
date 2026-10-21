@@ -32,15 +32,17 @@ class Imaging(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the imaging service.
+        """
+        Returns the capabilities of the imaging service.
 
         The result is returned in a typed answer.
         """
         return self.operator.call("GetServiceCapabilities")
 
     def GetOptions(self, VideoSourceToken):
-        """This operation gets the valid ranges for the imaging parameters that have
-        device specific ranges.
+        """
+        This operation gets the valid ranges for the imaging parameters that have device
+        specific ranges.
 
         This command is mandatory for all device implementing the imaging service. The
         command returns all supported parameters and their ranges such that these can be
@@ -73,7 +75,8 @@ class Imaging(ONVIFService):
         return self.operator.call("GetMoveOptions", VideoSourceToken=VideoSourceToken)
 
     def Move(self, VideoSourceToken, Focus):
-        """The Move command moves the focus lens in an absolute, a relative or in a
+        """
+        The Move command moves the focus lens in an absolute, a relative or in a
         continuous manner from its current position.
 
         The speed argument is optional for absolute and relative control, but required
@@ -101,7 +104,8 @@ class Imaging(ONVIFService):
         )
 
     def GetStatus(self, VideoSourceToken):
-        """Via this command the current status of the Move operation can be requested.
+        """
+        Via this command the current status of the Move operation can be requested.
 
         Supported for this command is available if the support for the Move operation is
         signalled via GetMoveOptions.
@@ -109,7 +113,8 @@ class Imaging(ONVIFService):
         return self.operator.call("GetStatus", VideoSourceToken=VideoSourceToken)
 
     def Stop(self, VideoSourceToken):
-        """The Stop command stops all ongoing focus movements of the lense.
+        """
+        The Stop command stops all ongoing focus movements of the lense.
 
         A device with support for remote focus control as signalled via the
         GetMoveOptions supports this command.
@@ -123,7 +128,8 @@ class Imaging(ONVIFService):
         return self.operator.call("GetPresets", VideoSourceToken=VideoSourceToken)
 
     def GetCurrentPreset(self, VideoSourceToken):
-        """Via this command the last Imaging Preset applied can be requested.
+        """
+        Via this command the last Imaging Preset applied can be requested.
 
         If the camera configuration does not match any of the existing Imaging Presets,
         the output of GetCurrentPreset shall be Empty. GetCurrentPreset shall return 0
@@ -132,8 +138,9 @@ class Imaging(ONVIFService):
         return self.operator.call("GetCurrentPreset", VideoSourceToken=VideoSourceToken)
 
     def SetCurrentPreset(self, VideoSourceToken, PresetToken):
-        """The SetCurrentPreset command shall request a given Imaging Preset to be
-        applied to the specified Video Source.
+        """
+        The SetCurrentPreset command shall request a given Imaging Preset to be applied
+        to the specified Video Source.
 
         SetCurrentPreset shall only be available for Video Sources with Imaging Presets
         Capability. Imaging Presets are defined by the Manufacturer, and offered as a

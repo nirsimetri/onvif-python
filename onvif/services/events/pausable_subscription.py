@@ -35,8 +35,9 @@ class PausableSubscription(ONVIFService):
         )
 
     def Renew(self, TerminationTime=None):
-        """An ONVIF compliant device shall support this command if it signals support
-        for [WS-Base Notification] via the MaxNotificationProducers capability.
+        """
+        An ONVIF compliant device shall support this command if it signals support for
+        [WS-Base Notification] via the MaxNotificationProducers capability.
 
         The command shall at least support a Timeout of one minute. A device shall
         respond with both parameters CurrentTime and TerminationTime as utc using the
@@ -45,7 +46,8 @@ class PausableSubscription(ONVIFService):
         return self.operator.call("Renew", TerminationTime=TerminationTime)
 
     def Unsubscribe(self):
-        """The device shall provide the following Unsubscribe command for all
+        """
+        The device shall provide the following Unsubscribe command for all
         SubscriptionManager endpoints returned by the CreatePullPointSubscription
         command.
 
@@ -57,10 +59,11 @@ class PausableSubscription(ONVIFService):
         return self.operator.call("Unsubscribe")
 
     def PauseSubscription(self):
-        """Temporarily suspend notification delivery for the subscription.
+        """
+        Temporarily suspend notification delivery for the subscription.
 
         Successfully processing this request places the subscription in a paused
-        state. Notifications can be resumed by calling ResumeSubscription().
+        state. Notifications can be resumed by calling ResumeSubscription.
 
         Note:
             Notifications may continue to be produced while the pause request is
@@ -69,7 +72,8 @@ class PausableSubscription(ONVIFService):
         return self.operator.call("PauseSubscription")
 
     def ResumeSubscription(self):
-        """Resume notification delivery for a paused subscription.
+        """
+        Resume notification delivery for a paused subscription.
 
         Successfully processing this request returns the subscription to its active
         state and resumes the production of notifications.

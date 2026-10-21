@@ -1,4 +1,6 @@
-"""WSDL file manager for ONVIF services with support for built-in and custom WSDL dir."""
+"""WSDL file manager for ONVIF services with support for built-in and custom WSDL
+dir.
+"""
 
 from __future__ import annotations
 
@@ -14,8 +16,7 @@ logger.addHandler(logging.NullHandler())
 
 class ONVIFWSDL:
     """
-    <!-- md:version 0.1.0 -->
-    <!-- md:utility Utility class-->
+    <!-- md:version 0.1.0 --> <!-- md:utility Utility class-->
 
     WSDL file manager for ONVIF services.
 
@@ -96,8 +97,7 @@ class ONVIFWSDL:
     @classmethod
     def set_custom_wsdl_dir(cls, custom_dir: str) -> None:
         """
-        <!-- md:version 0.1.0 -->
-        <!-- md:utility -->
+        <!-- md:version 0.1.0 --> <!-- md:utility -->
 
         Set global custom WSDL directory for all services.
 
@@ -118,8 +118,7 @@ class ONVIFWSDL:
     @classmethod
     def get_custom_wsdl_dir(cls) -> str | None:
         """
-        <!-- md:version 0.1.0 -->
-        <!-- md:utility -->
+        <!-- md:version 0.1.0 --> <!-- md:utility -->
 
         Get current global custom WSDL directory.
 
@@ -139,8 +138,7 @@ class ONVIFWSDL:
     @classmethod
     def clear_custom_wsdl_dir(cls) -> None:
         """
-        <!-- md:version 0.1.0 -->
-        <!-- md:utility -->
+        <!-- md:version 0.1.0 --> <!-- md:utility -->
 
         Clear custom WSDL directory, revert to built-in WSDLs.
 
@@ -158,7 +156,8 @@ class ONVIFWSDL:
 
     @classmethod
     def _get_base_dir(cls, custom_wsdl_dir: str | None = None) -> str | Any:
-        """Get the base WSDL directory, using custom directory if provided.
+        """
+        Get the base WSDL directory, using custom directory if provided.
 
         This method implements the priority chain for WSDL directory resolution.
 
@@ -186,7 +185,8 @@ class ONVIFWSDL:
     def _get_wsdl_map(
         cls, custom_wsdl_dir: str | None = None
     ) -> dict[str, dict[str, Any]] | None:
-        """Get WSDL map with proper base directory.
+        """
+        Get WSDL map with proper base directory.
 
         Generates a complete mapping of all ONVIF services to their WSDL definitions.
         The structure differs based on whether custom WSDLs are used.
@@ -244,7 +244,8 @@ class ONVIFWSDL:
 
     @classmethod
     def _ensure_wsdl_map_initialized(cls) -> None:
-        """Ensure WSDL_MAP is initialized with default values.
+        """
+        Ensure WSDL_MAP is initialized with default values.
 
         Lazy initialization of the default WSDL map. This is called automatically before
         accessing WSDL_MAP to ensure it's not None.
@@ -255,8 +256,7 @@ class ONVIFWSDL:
     @classmethod
     def get_wsdl_map(cls) -> dict[str, dict[str, Any]]:
         """
-        <!-- md:version 0.2.11 -->
-        <!-- md:utility -->
+        <!-- md:version 0.2.11 --> <!-- md:utility -->
 
         Get the complete WSDL map for all services.
         """
@@ -272,8 +272,7 @@ class ONVIFWSDL:
         cls, service: str, version: str = "ver10", custom_wsdl_dir=None
     ) -> dict:
         """
-        <!-- md:version 0.1.0 -->
-        <!-- md:utility -->
+        <!-- md:version 0.1.0 --> <!-- md:utility -->
 
         Get WSDL definition for a specific ONVIF service.
 

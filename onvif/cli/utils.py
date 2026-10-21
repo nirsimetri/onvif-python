@@ -24,7 +24,8 @@ def _is_valid_json(s: str) -> bool:
 
 # pylint: disable=too-many-branches
 def parse_json_params(params_str: str) -> dict[str, Any]:
-    """Parse parameters from a JSON string or key=value pairs into a dict.
+    """
+    Parse parameters from a JSON string or key=value pairs into a dict.
 
     Supports:
       - JSON: '{"a": 1, "b": 2}'
@@ -139,7 +140,8 @@ def parse_json_params(params_str: str) -> dict[str, Any]:
 
 
 def get_service_required_args(service_name: str) -> list[str] | None:
-    """Get required arguments for services that need them.
+    """
+    Get required arguments for services that need them.
 
     Returns list of required argument names, or None if service doesn't need args.
 
@@ -290,7 +292,8 @@ def format_capabilities_as_services(capabilities) -> str:
 
 
 def format_services_list(services_list: list) -> str:
-    """Format GetServices response as service list with XAddr and binding support.
+    """
+    Format GetServices response as service list with XAddr and binding support.
 
     Shows binding information for all services (single and multi-binding).
     """
@@ -354,7 +357,8 @@ def format_services_list(services_list: list) -> str:
 
 # pylint: disable=too-many-branches
 def get_device_available_services(client) -> list:
-    """Get list of services actually available on the connected device.
+    """
+    Get list of services actually available on the connected device.
 
     For multi-binding services, returns all available service names.
     """

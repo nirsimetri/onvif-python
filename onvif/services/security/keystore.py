@@ -30,7 +30,8 @@ class Keystore(ONVIFService):
         )
 
     def CreateRSAKeyPair(self, KeyLength, Alias=None):
-        """This operation triggers the asynchronous generation of an RSA key pair of a
+        """
+        This operation triggers the asynchronous generation of an RSA key pair of a
         particular key length (specified as the number of bits) as specified in [RFC
         3447], with a suitable key generation mechanism on the device.
 
@@ -58,8 +59,9 @@ class Keystore(ONVIFService):
         return self.operator.call("CreateRSAKeyPair", KeyLength=KeyLength, Alias=Alias)
 
     def CreateECCKeyPair(self, EllipticCurve, Alias=None):
-        """This operation triggers the asynchronous generation of an ECC key pair using
-        a particular elliptic curve as specified in [RFC 8422], with a suitable key
+        """
+        This operation triggers the asynchronous generation of an ECC key pair using a
+        particular elliptic curve as specified in [RFC 8422], with a suitable key
         generation mechanism on the device.
 
         Keys, especially ECC key pairs, are uniquely identified using key IDs.
@@ -94,7 +96,8 @@ class Keystore(ONVIFService):
         EncryptionPassphraseID=None,
         EncryptionPassphrase=None,
     ):
-        """Deprecated method for uploading a key pair in a PKCS#8 data structure as
+        """
+        Deprecated method for uploading a key pair in a PKCS#8 data structure as
         specified in [RFC 5958, RFC 5959].
 
         If an encryption passphrase ID is supplied in the request, the device shall
@@ -124,9 +127,10 @@ class Keystore(ONVIFService):
         EncryptionPassphraseID=None,
         Passphrase=None,
     ):
-        """This operation uploads a certification path consisting of X.509 certificates
-        as specified by [RFC 5280] in DER encoding along with a private key to a
-        device’s keystore.
+        """
+        This operation uploads a certification path consisting of X.509 certificates as
+        specified by [RFC 5280] in DER encoding along with a private key to a device’s
+        keystore.
 
         Certificates and private key are supplied in the form of a PKCS#12 file as
         specified in [PKCS#12].
@@ -167,7 +171,8 @@ class Keystore(ONVIFService):
         )
 
     def GetKeyStatus(self, KeyID):
-        """This operation returns the status of a key.
+        """
+        This operation returns the status of a key.
 
         Keys are uniquely identified using key IDs. If no key is stored under the
         requested key ID in the keystore, an InvalidKeyID fault is produced. Otherwise,
@@ -176,7 +181,8 @@ class Keystore(ONVIFService):
         return self.operator.call("GetKeyStatus", KeyID=KeyID)
 
     def GetPrivateKeyStatus(self, KeyID):
-        """This operation returns whether a key pair contains a private key.
+        """
+        This operation returns whether a key pair contains a private key.
 
         Keys are uniquely identified using key IDs. If no key is stored under the
         requested key ID in the keystore or the key identified by the requested key ID
@@ -187,7 +193,8 @@ class Keystore(ONVIFService):
         return self.operator.call("GetPrivateKeyStatus", KeyID=KeyID)
 
     def GetAllKeys(self):
-        """This operation returns information about all keys that are stored in the
+        """
+        This operation returns information about all keys that are stored in the
         device’s keystore.
 
         This operation may be used, e.g., if a client lost track of which keys are
@@ -197,7 +204,8 @@ class Keystore(ONVIFService):
         return self.operator.call("GetAllKeys")
 
     def DeleteKey(self, KeyID):
-        """This operation deletes a key from the device’s keystore.
+        """
+        This operation deletes a key from the device’s keystore.
 
         Keys are uniquely identified using key IDs. If no key is stored under the
         requested key ID in the keystore, a device shall produce an InvalidArgVal fault.
@@ -212,7 +220,8 @@ class Keystore(ONVIFService):
         return self.operator.call("DeleteKey", KeyID=KeyID)
 
     def CreatePKCS10CSR(self, Subject, KeyID, SignatureAlgorithm, CSRAttribute=None):
-        """This operation generates a DER-encoded PKCS#10 v1.7 certification request
+        """
+        This operation generates a DER-encoded PKCS#10 v1.7 certification request
         (sometimes also called certificate signing request or CSR) as specified in RFC
         2986 for a public key on the device.
 
@@ -252,7 +261,8 @@ class Keystore(ONVIFService):
         notValidAfter=None,
         Extension=None,
     ):
-        """This operation generates for a public key on the device a self-signed X.509
+        """
+        This operation generates for a public key on the device a self-signed X.509
         certificate that complies to RFC 5280.
 
         The X509Version parameter specifies the version of X.509 that the generated
@@ -297,7 +307,8 @@ class Keystore(ONVIFService):
     def UploadCertificate(
         self, Certificate, Alias=None, KeyAlias=None, PrivateKeyRequired=None
     ):
-        """This operation uploads an X.509 certificate as specified by [RFC 5280] in DER
+        """
+        This operation uploads an X.509 certificate as specified by [RFC 5280] in DER
         encoding and the public key in the certificate to a device’s keystore.
 
         A device that supports this command shall be able to handle X.509v3 certificates
@@ -359,7 +370,8 @@ class Keystore(ONVIFService):
         )
 
     def GetCertificate(self, CertificateID):
-        """This operation returns a specific certificate from the device’s keystore.
+        """
+        This operation returns a specific certificate from the device’s keystore.
 
         Certificates are uniquely identified using certificate IDs. If no certificate is
         stored under the requested certificate ID in the keystore, an InvalidArgVal
@@ -369,7 +381,8 @@ class Keystore(ONVIFService):
         return self.operator.call("GetCertificate", CertificateID=CertificateID)
 
     def GetAllCertificates(self):
-        """This operation returns the IDs of all certificates that are stored in the
+        """
+        This operation returns the IDs of all certificates that are stored in the
         device’s keystore.
 
         This operation may be used, e.g., if a client lost track of which certificates
@@ -379,7 +392,8 @@ class Keystore(ONVIFService):
         return self.operator.call("GetAllCertificates")
 
     def DeleteCertificate(self, CertificateID):
-        """This operation deletes a certificate from the device’s keystore.
+        """
+        This operation deletes a certificate from the device’s keystore.
 
         The operation shall not delete the public key that is contained in the
         certificate from the keystore. Certificates are uniquely identified using
@@ -394,7 +408,8 @@ class Keystore(ONVIFService):
         return self.operator.call("DeleteCertificate", CertificateID=CertificateID)
 
     def CreateCertificationPath(self, CertificateIDs, Alias=None):
-        """This operation creates a sequence of certificates that may be used, e.g., for
+        """
+        This operation creates a sequence of certificates that may be used, e.g., for
         certification path validation or for TLS server authentication.
 
         Certification paths are uniquely identified using certification path IDs.
@@ -417,8 +432,8 @@ class Keystore(ONVIFService):
         )
 
     def GetCertificationPath(self, CertificationPathID):
-        """This operation returns a specific certification path from the device’s
-        keystore.
+        """
+        This operation returns a specific certification path from the device’s keystore.
 
         Certification paths are uniquely identified using certification path IDs. If no
         certification path is stored under the requested ID in the keystore, an
@@ -429,8 +444,9 @@ class Keystore(ONVIFService):
         )
 
     def GetAllCertificationPaths(self):
-        """This operation returns the IDs of all certification paths that are stored in
-        the device’s keystore.
+        """
+        This operation returns the IDs of all certification paths that are stored in the
+        device’s keystore.
 
         This operation may be used, e.g., if a client lost track of which certificates
         are present on the device. If no certification path is stored on the device, an
@@ -447,7 +463,8 @@ class Keystore(ONVIFService):
         )
 
     def DeleteCertificationPath(self, CertificationPathID):
-        """This operation deletes a certification path from the device’s keystore.
+        """
+        This operation deletes a certification path from the device’s keystore.
 
         This operation shall not delete the certificates that are referenced by the
         certification path. Certification paths are uniquely identified using
@@ -472,8 +489,9 @@ class Keystore(ONVIFService):
         )
 
     def GetAllPassphrases(self):
-        """This operation returns information about all passphrases that are stored in
-        the keystore of the device.
+        """
+        This operation returns information about all passphrases that are stored in the
+        keystore of the device.
 
         This operation may be used, e.g., if a client lost track of which passphrases
         are present on the device. If no passphrase is stored on the device, the device
@@ -486,8 +504,9 @@ class Keystore(ONVIFService):
         return self.operator.call("DeletePassphrase", PassphraseID=PassphraseID)
 
     def UploadCRL(self, Crl, Alias=None, anyParameters=None):
-        """This operation uploads a certificate revocation list (CRL) as specified in
-        [RFC 5280] to the keystore on the device.
+        """
+        This operation uploads a certificate revocation list (CRL) as specified in [RFC
+        5280] to the keystore on the device.
 
         If the device does not have enough storage space to store the CRL to be
         uploaded, the device shall produce a MaximumNumberOfCRLsReached fault and shall
@@ -502,7 +521,8 @@ class Keystore(ONVIFService):
         )
 
     def GetCRL(self, CrlID):
-        """This operation returns a specific certificate revocation list (CRL) from the
+        """
+        This operation returns a specific certificate revocation list (CRL) from the
         keystore on the device.
 
         Certification revocation lists are uniquely identified using CRLIDs. If no CRL
@@ -511,8 +531,9 @@ class Keystore(ONVIFService):
         return self.operator.call("GetCRL", CrlID=CrlID)
 
     def GetAllCRLs(self):
-        """This operation returns all certificate revocation lists (CRLs) that are
-        stored in the keystore on the device.
+        """
+        This operation returns all certificate revocation lists (CRLs) that are stored
+        in the keystore on the device.
 
         If no certificate revocation list is stored in the device’s keystore, an empty
         list is returned.
@@ -520,8 +541,9 @@ class Keystore(ONVIFService):
         return self.operator.call("GetAllCRLs")
 
     def DeleteCRL(self, CrlID):
-        """This operation deletes a certificate revocation list (CRL) from the keystore
-        on the device.
+        """
+        This operation deletes a certificate revocation list (CRL) from the keystore on
+        the device.
 
         Certification revocation lists are uniquely identified using CRLIDs. If no CRL
         is stored under the requested CRLID, the device shall produce a CRLID fault. If
@@ -534,7 +556,8 @@ class Keystore(ONVIFService):
     def CreateCertPathValidationPolicy(
         self, Parameters, TrustAnchor, Alias=None, anyParameters=None
     ):
-        """This operation creates a certification path validation policy.
+        """
+        This operation creates a certification path validation policy.
 
         Certification path validation policies are uniquely identified using
         certification path validation policy IDs. The device shall generate a new
@@ -562,8 +585,9 @@ class Keystore(ONVIFService):
         )
 
     def GetCertPathValidationPolicy(self, CertPathValidationPolicyID):
-        """This operation returns a certification path validation policy from the
-        keystore on the device.
+        """
+        This operation returns a certification path validation policy from the keystore
+        on the device.
 
         Certification path validation policies are uniquely identified using
         certification path validation policy IDs. If no certification path validation
@@ -576,7 +600,8 @@ class Keystore(ONVIFService):
         )
 
     def GetAllCertPathValidationPolicies(self):
-        """This operation returns all certification path validation policies that are
+        """
+        This operation returns all certification path validation policies that are
         stored in the keystore on the device.
 
         If no certification path validation policy is stored in the device’s keystore,
@@ -588,7 +613,8 @@ class Keystore(ONVIFService):
         self, CertPathValidationPolicy, CertPathValidationPolicyID=None
     ):
         """This operation allows to modify an existing certification path validation
-        policy."""
+        policy.
+        """
         return self.operator.call(
             "SetCertPathValidationPolicy",
             CertPathValidationPolicyID=CertPathValidationPolicyID,
@@ -596,8 +622,9 @@ class Keystore(ONVIFService):
         )
 
     def DeleteCertPathValidationPolicy(self, CertPathValidationPolicyID):
-        """This operation deletes a certification path validation policy from the
-        keystore on the device.
+        """
+        This operation deletes a certification path validation policy from the keystore
+        on the device.
 
         Certification path validation policies are uniquely identified using
         certification path validation policy IDs. If no certification path validation

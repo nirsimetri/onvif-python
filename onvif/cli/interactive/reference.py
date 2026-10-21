@@ -66,7 +66,8 @@ class ReferenceCommands:
 
     def do_show(self, line) -> None:
         """Show stored data: show <name> or show <name>.<attribute> or show
-        <name>[index]"""
+        <name>[index]
+        """
         if not line:
             print(colorize("Stored data:", "green"))
             for name in self.context.stored_data:
@@ -91,7 +92,8 @@ class ReferenceCommands:
             print(f"{colorize('Error:', 'red')} Cannot resolve '{line}'")
 
     def _substitute_stored_references(self, params_str: str) -> str:
-        """Substitute $variable references in parameter string with stored data.
+        """
+        Substitute $variable references in parameter string with stored data.
 
         Args:
             params_str: Parameter string that may contain $variable references
@@ -124,7 +126,8 @@ class ReferenceCommands:
         return re.sub(pattern, replace_reference, params_str)
 
     def _resolve_stored_reference(self, reference: str) -> Any | None:
-        """Resolve stored data reference like 'profiles[0].token' or 'profiles.Token'.
+        """
+        Resolve stored data reference like 'profiles[0].token' or 'profiles.Token'.
 
         Args:
             reference: String reference like 'profiles[0]' or 'profiles.Token'

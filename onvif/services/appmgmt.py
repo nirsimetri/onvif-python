@@ -35,7 +35,8 @@ class AppManagement(ONVIFService):
         return self.operator.call("GetServiceCapabilities")
 
     def Uninstall(self, AppID):
-        """Removes an app from a device.
+        """
+        Removes an app from a device.
 
         This method shall return immedeiately and not wait until the application is
         completely removed. On completion or failure the method shall generate an
@@ -48,7 +49,8 @@ class AppManagement(ONVIFService):
         return self.operator.call("GetInstalledApps")
 
     def GetAppsInfo(self, AppID=None):
-        """The caller may provide an application ID to retrieve the information for a
+        """
+        The caller may provide an application ID to retrieve the information for a
         single application.
 
         If no application ID is provided the device shall report the information for all
@@ -65,7 +67,8 @@ class AppManagement(ONVIFService):
         return self.operator.call("Deactivate", AppID=AppID)
 
     def InstallLicense(self, License, AppID=None):
-        """Installs a license to the device.
+        """
+        Installs a license to the device.
 
         If the device requires PerApp licensing than the AppID parameter shall be
         provided.

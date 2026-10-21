@@ -253,8 +253,9 @@ class ShellUtilities:
         sys.exit(1)
 
     def _split_multi_commands(self, s: str) -> list:
-        """Split a command string by top-level '&&' separators while ignoring
-        occurrences inside quotes or bracketed structures.
+        """
+        Split a command string by top-level '&&' separators while ignoring occurrences
+        inside quotes or bracketed structures.
 
         Returns a list of command strings (trimmed).
         """

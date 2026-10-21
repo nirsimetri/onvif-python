@@ -28,8 +28,7 @@ logger.addHandler(logging.NullHandler())
 
 class CacheMode(Enum):
     """
-    <!-- md:version 0.0.1 -->
-    <!-- md:utility Utility enum-->
+    <!-- md:version 0.0.1 --> <!-- md:utility Utility enum-->
 
     WSDL caching strategies for ONVIF client performance optimization.
 
@@ -55,9 +54,8 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } WSDL/XSD documents are fetched without caching
 
-    !!! bug "Use case"
-        Debugging, testing, and situations where fresh WSDL/XSD documents
-        are required.
+    !!! bug "Use case"     Debugging, testing, and situations where fresh WSDL/XSD
+    documents     are required.
     """
 
     MEM = "mem"
@@ -72,9 +70,8 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } Cache is lost when the process exits
 
-    !!! bug "Use case"
-        Long-running applications, temporary sessions, and applications
-        where persistent cache storage is not required.
+    !!! bug "Use case"     Long-running applications, temporary sessions, and
+    applications     where persistent cache storage is not required.
     """
 
     DB = "db"
@@ -89,16 +86,14 @@ class CacheMode(Enum):
 
     :material-alert-circle:{ .danger } Requires disk I/O and a writable cache directory
 
-    !!! bug "Use case"
-        Production applications, CLI tools, and environments where
-        WSDL/XSD caching should persist across restarts.
+    !!! bug "Use case"     Production applications, CLI tools, and environments where
+    WSDL/XSD caching should persist across restarts.
     """
 
 
 class ONVIFOperator:
     """
-    <!-- md:version 0.0.1 -->
-    <!-- md:internal -->
+    <!-- md:version 0.0.1 --> <!-- md:internal -->
 
     Low-level ONVIF service operator using Zeep SOAP client.
 
@@ -221,7 +216,8 @@ class ONVIFOperator:
         self,
         verify_ssl: bool,
     ) -> Session:
-        """Create and configure the HTTP session.
+        """
+        Create and configure the HTTP session.
 
         Args:
             verify_ssl: Whether SSL certificates should be verified.
@@ -253,7 +249,8 @@ class ONVIFOperator:
     def _create_wsse(
         self,
     ) -> UsernameToken | None:
-        """Create WS-Security authentication configuration.
+        """
+        Create WS-Security authentication configuration.
 
         Returns:
             Zeep WS-Security UsernameToken or None.
@@ -274,8 +271,7 @@ class ONVIFOperator:
 
     def call(self, method: str, *args, **kwargs) -> Any:
         """
-        <!-- md:version 0.0.1 -->
-        <!-- md:internal -->
+        <!-- md:version 0.0.1 --> <!-- md:internal -->
 
         Call an ONVIF service operation.
 
@@ -323,8 +319,7 @@ class ONVIFOperator:
         **kwargs,
     ) -> Any:
         """
-        <!-- md:version 0.4.3 -->
-        <!-- md:internal -->
+        <!-- md:version 0.4.3 --> <!-- md:internal -->
 
         Call a legacy ONVIF operation using the current WSDL definition.
 
@@ -410,8 +405,7 @@ class ONVIFOperator:
 
     def create_type(self, type_name: str) -> Any:
         """
-        <!-- md:version 0.1.9 -->
-        <!-- md:internal -->
+        <!-- md:version 0.1.9 --> <!-- md:internal -->
 
         Create a type instance from WSDL schema for the given type name.
 
@@ -500,7 +494,8 @@ class ONVIFOperator:
         raise AttributeError(f"Type '{type_name}' not found in WSDL schema.")
 
     def _initialize_nested_types(self, instance):
-        """Recursively initialize nested complex types in a Zeep object.
+        """
+        Recursively initialize nested complex types in a Zeep object.
 
         This ensures that fields like TimeZone, DateTime, Date, and Time are
         properly instantiated as objects rather than None values.

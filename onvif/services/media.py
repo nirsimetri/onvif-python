@@ -33,7 +33,8 @@ class Media(ONVIFService):
         )
 
     def GetServiceCapabilities(self):
-        """Returns the capabilities of the media service.
+        """
+        Returns the capabilities of the media service.
 
         The result is returned in a typed answer.
         """
@@ -52,7 +53,8 @@ class Media(ONVIFService):
         return self.operator.call("GetAudioOutputs")
 
     def CreateProfile(self, Name, Token=None):
-        """This operation creates a new empty media profile.
+        """
+        This operation creates a new empty media profile.
 
         The media profile shall be created in the device and shall be persistent (remain
         after reboot). A created profile shall be deletable and a device shall set the
@@ -62,11 +64,13 @@ class Media(ONVIFService):
 
     def GetProfile(self, ProfileToken):
         """If the profile token is already known, a profile can be fetched through the
-        GetProfile command."""
+        GetProfile command.
+        """
         return self.operator.call("GetProfile", ProfileToken=ProfileToken)
 
     def GetProfiles(self):
-        """Any endpoint can ask for the existing media profiles of a device using the
+        """
+        Any endpoint can ask for the existing media profiles of a device using the
         GetProfiles command.
 
         Pre-configured or dynamically configured profiles can be retrieved using this
@@ -76,7 +80,8 @@ class Media(ONVIFService):
         return self.operator.call("GetProfiles")
 
     def AddVideoEncoderConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds a VideoEncoderConfiguration to an existing media profile.
+        """
+        This operation adds a VideoEncoderConfiguration to an existing media profile.
 
         If a configuration exists in the media profile, it will be replaced. The change
         shall be persistent. A device shall support adding a compatible
@@ -90,7 +95,8 @@ class Media(ONVIFService):
         )
 
     def AddVideoSourceConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds a VideoSourceConfiguration to an existing media profile.
+        """
+        This operation adds a VideoSourceConfiguration to an existing media profile.
 
         If such a configuration exists in the media profile, it will be replaced. The
         change shall be persistent.
@@ -102,8 +108,8 @@ class Media(ONVIFService):
         )
 
     def AddAudioEncoderConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds an AudioEncoderConfiguration to an existing media
-        profile.
+        """
+        This operation adds an AudioEncoderConfiguration to an existing media profile.
 
         If a configuration exists in the media profile, it will be replaced. The change
         shall be persistent. A device shall support adding a compatible
@@ -117,7 +123,8 @@ class Media(ONVIFService):
         )
 
     def AddAudioSourceConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds an AudioSourceConfiguration to an existing media profile.
+        """
+        This operation adds an AudioSourceConfiguration to an existing media profile.
 
         If a configuration exists in the media profile, it will be replaced. The change
         shall be persistent.
@@ -129,7 +136,8 @@ class Media(ONVIFService):
         )
 
     def AddPTZConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds a PTZConfiguration to an existing media profile.
+        """
+        This operation adds a PTZConfiguration to an existing media profile.
 
         If a configuration exists in the media profile, it will be replaced. The change
         shall be persistent. Adding a PTZConfiguration to a media profile means that
@@ -143,8 +151,8 @@ class Media(ONVIFService):
         )
 
     def AddVideoAnalyticsConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds a VideoAnalytics configuration to an existing media
-        profile.
+        """
+        This operation adds a VideoAnalytics configuration to an existing media profile.
 
         If a configuration exists in the media profile, it will be replaced. The change
         shall be persistent. Adding a VideoAnalyticsConfiguration to a media profile
@@ -163,7 +171,8 @@ class Media(ONVIFService):
         )
 
     def AddMetadataConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds a Metadata configuration to an existing media profile.
+        """
+        This operation adds a Metadata configuration to an existing media profile.
 
         If a configuration exists in the media profile, it will be replaced. The change
         shall be persistent. Adding a MetadataConfiguration to a Profile means that
@@ -177,7 +186,8 @@ class Media(ONVIFService):
         )
 
     def AddAudioOutputConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds an AudioOutputConfiguration to an existing media profile.
+        """
+        This operation adds an AudioOutputConfiguration to an existing media profile.
 
         If a configuration exists in the media profile, it will be replaced. The change
         shall be persistent.
@@ -189,8 +199,8 @@ class Media(ONVIFService):
         )
 
     def AddAudioDecoderConfiguration(self, ProfileToken, ConfigurationToken):
-        """This operation adds an AudioDecoderConfiguration to an existing media
-        profile.
+        """
+        This operation adds an AudioDecoderConfiguration to an existing media profile.
 
         If a configuration exists in the media profile, it shall be replaced. The change
         shall be persistent.
@@ -202,7 +212,8 @@ class Media(ONVIFService):
         )
 
     def RemoveVideoEncoderConfiguration(self, ProfileToken):
-        """This operation removes a VideoEncoderConfiguration from an existing media
+        """
+        This operation removes a VideoEncoderConfiguration from an existing media
         profile.
 
         If the media profile does not contain a VideoEncoderConfiguration, the operation
@@ -213,7 +224,8 @@ class Media(ONVIFService):
         )
 
     def RemoveVideoSourceConfiguration(self, ProfileToken):
-        """This operation removes a VideoSourceConfiguration from an existing media
+        """
+        This operation removes a VideoSourceConfiguration from an existing media
         profile.
 
         If the media profile does not contain a VideoSourceConfiguration, the operation
@@ -226,7 +238,8 @@ class Media(ONVIFService):
         )
 
     def RemoveAudioEncoderConfiguration(self, ProfileToken):
-        """This operation removes an AudioEncoderConfiguration from an existing media
+        """
+        This operation removes an AudioEncoderConfiguration from an existing media
         profile.
 
         If the media profile does not contain an AudioEncoderConfiguration, the
@@ -237,7 +250,8 @@ class Media(ONVIFService):
         )
 
     def RemoveAudioSourceConfiguration(self, ProfileToken):
-        """This operation removes an AudioSourceConfiguration from an existing media
+        """
+        This operation removes an AudioSourceConfiguration from an existing media
         profile.
 
         If the media profile does not contain an AudioSourceConfiguration, the operation
@@ -250,7 +264,8 @@ class Media(ONVIFService):
         )
 
     def RemovePTZConfiguration(self, ProfileToken):
-        """This operation removes a PTZConfiguration from an existing media profile.
+        """
+        This operation removes a PTZConfiguration from an existing media profile.
 
         If the media profile does not contain a PTZConfiguration, the operation has no
         effect. The removal shall be persistent.
@@ -258,7 +273,8 @@ class Media(ONVIFService):
         return self.operator.call("RemovePTZConfiguration", ProfileToken=ProfileToken)
 
     def RemoveVideoAnalyticsConfiguration(self, ProfileToken):
-        """This operation removes a VideoAnalyticsConfiguration from an existing media
+        """
+        This operation removes a VideoAnalyticsConfiguration from an existing media
         profile.
 
         If the media profile does not contain a VideoAnalyticsConfiguration, the
@@ -269,8 +285,8 @@ class Media(ONVIFService):
         )
 
     def RemoveMetadataConfiguration(self, ProfileToken):
-        """This operation removes a MetadataConfiguration from an existing media
-        profile.
+        """
+        This operation removes a MetadataConfiguration from an existing media profile.
 
         If the media profile does not contain a MetadataConfiguration, the operation has
         no effect. The removal shall be persistent.
@@ -280,7 +296,8 @@ class Media(ONVIFService):
         )
 
     def RemoveAudioOutputConfiguration(self, ProfileToken):
-        """This operation removes an AudioOutputConfiguration from an existing media
+        """
+        This operation removes an AudioOutputConfiguration from an existing media
         profile.
 
         If the media profile does not contain an AudioOutputConfiguration, the operation
@@ -291,7 +308,8 @@ class Media(ONVIFService):
         )
 
     def RemoveAudioDecoderConfiguration(self, ProfileToken):
-        """This operation removes an AudioDecoderConfiguration from an existing media
+        """
+        This operation removes an AudioDecoderConfiguration from an existing media
         profile.
 
         If the media profile does not contain an AudioDecoderConfiguration, the
@@ -302,7 +320,8 @@ class Media(ONVIFService):
         )
 
     def DeleteProfile(self, ProfileToken):
-        """This operation deletes a profile.
+        """
+        This operation deletes a profile.
 
         This change shall always be persistent. Deletion of a profile is only possible
         for non-fixed profiles
@@ -310,7 +329,8 @@ class Media(ONVIFService):
         return self.operator.call("DeleteProfile", ProfileToken=ProfileToken)
 
     def GetVideoSourceConfigurations(self):
-        """This operation lists all existing video source configurations for a device.
+        """
+        This operation lists all existing video source configurations for a device.
 
         The client need not know anything about the video source configurations in order
         to use the command.
@@ -318,7 +338,8 @@ class Media(ONVIFService):
         return self.operator.call("GetVideoSourceConfigurations")
 
     def GetVideoEncoderConfigurations(self):
-        """This operation lists all existing video encoder configurations of a device.
+        """
+        This operation lists all existing video encoder configurations of a device.
 
         This command lists all configured video encoder configurations in a device. The
         client need not know anything apriori about the video encoder configurations in
@@ -327,7 +348,8 @@ class Media(ONVIFService):
         return self.operator.call("GetVideoEncoderConfigurations")
 
     def GetAudioSourceConfigurations(self):
-        """This operation lists all existing audio source configurations of a device.
+        """
+        This operation lists all existing audio source configurations of a device.
 
         This command lists all audio source configurations in a device. The client need
         not know anything apriori about the audio source configurations in order to use
@@ -336,7 +358,8 @@ class Media(ONVIFService):
         return self.operator.call("GetAudioSourceConfigurations")
 
     def GetAudioEncoderConfigurations(self):
-        """This operation lists all existing device audio encoder configurations.
+        """
+        This operation lists all existing device audio encoder configurations.
 
         The client need not know anything apriori about the audio encoder configurations
         in order to use the command.
@@ -344,7 +367,8 @@ class Media(ONVIFService):
         return self.operator.call("GetAudioEncoderConfigurations")
 
     def GetVideoAnalyticsConfigurations(self):
-        """This operation lists all video analytics configurations of a device.
+        """
+        This operation lists all video analytics configurations of a device.
 
         This command lists all configured video analytics in a device. The client need
         not know anything apriori about the video analytics in order to use the command.
@@ -352,7 +376,8 @@ class Media(ONVIFService):
         return self.operator.call("GetVideoAnalyticsConfigurations")
 
     def GetMetadataConfigurations(self):
-        """This operation lists all existing metadata configurations.
+        """
+        This operation lists all existing metadata configurations.
 
         The client need not know anything apriori about the metadata in order to use the
         command.
@@ -360,7 +385,8 @@ class Media(ONVIFService):
         return self.operator.call("GetMetadataConfigurations")
 
     def GetAudioOutputConfigurations(self):
-        """This command lists all existing AudioOutputConfigurations of a device.
+        """
+        This command lists all existing AudioOutputConfigurations of a device.
 
         The NVC need not know anything apriori about the audio configurations to use
         this command.
@@ -368,7 +394,8 @@ class Media(ONVIFService):
         return self.operator.call("GetAudioOutputConfigurations")
 
     def GetAudioDecoderConfigurations(self):
-        """This command lists all existing AudioDecoderConfigurations of a device.
+        """
+        This command lists all existing AudioDecoderConfigurations of a device.
 
         The NVC need not know anything apriori about the audio decoder configurations in
         order to use this command.
@@ -377,7 +404,8 @@ class Media(ONVIFService):
 
     def GetVideoSourceConfiguration(self, ConfigurationToken):
         """If the video source configuration token is already known, the video source
-        configuration can be fetched through the GetVideoSourceConfiguration command."""
+        configuration can be fetched through the GetVideoSourceConfiguration command.
+        """
         return self.operator.call(
             "GetVideoSourceConfiguration", ConfigurationToken=ConfigurationToken
         )
@@ -385,42 +413,48 @@ class Media(ONVIFService):
     def GetVideoEncoderConfiguration(self, ConfigurationToken):
         """If the video encoder configuration token is already known, the encoder
         configuration can be fetched through the GetVideoEncoderConfiguration
-        command."""
+        command.
+        """
         return self.operator.call(
             "GetVideoEncoderConfiguration", ConfigurationToken=ConfigurationToken
         )
 
     def GetAudioSourceConfiguration(self, ConfigurationToken):
         """The GetAudioSourceConfiguration command fetches the audio source
-        configurations if the audio source configuration token is already known."""
+        configurations if the audio source configuration token is already known.
+        """
         return self.operator.call(
             "GetAudioSourceConfiguration", ConfigurationToken=ConfigurationToken
         )
 
     def GetAudioEncoderConfiguration(self, ConfigurationToken):
         """The GetAudioEncoderConfiguration command fetches the encoder configuration if
-        the audio encoder configuration token is known."""
+        the audio encoder configuration token is known.
+        """
         return self.operator.call(
             "GetAudioEncoderConfiguration", ConfigurationToken=ConfigurationToken
         )
 
     def GetVideoAnalyticsConfiguration(self, ConfigurationToken):
         """The GetVideoAnalyticsConfiguration command fetches the video analytics
-        configuration if the video analytics token is known."""
+        configuration if the video analytics token is known.
+        """
         return self.operator.call(
             "GetVideoAnalyticsConfiguration", ConfigurationToken=ConfigurationToken
         )
 
     def GetMetadataConfiguration(self, ConfigurationToken):
         """The GetMetadataConfiguration command fetches the metadata configuration if
-        the metadata token is known."""
+        the metadata token is known.
+        """
         return self.operator.call(
             "GetMetadataConfiguration", ConfigurationToken=ConfigurationToken
         )
 
     def GetAudioOutputConfiguration(self, ConfigurationToken):
         """If the audio output configuration token is already known, the output
-        configuration can be fetched through the GetAudioOutputConfiguration command."""
+        configuration can be fetched through the GetAudioOutputConfiguration command.
+        """
         return self.operator.call(
             "GetAudioOutputConfiguration", ConfigurationToken=ConfigurationToken
         )
@@ -428,14 +462,16 @@ class Media(ONVIFService):
     def GetAudioDecoderConfiguration(self, ConfigurationToken):
         """If the audio decoder configuration token is already known, the decoder
         configuration can be fetched through the GetAudioDecoderConfiguration
-        command."""
+        command.
+        """
         return self.operator.call(
             "GetAudioDecoderConfiguration", ConfigurationToken=ConfigurationToken
         )
 
     def GetCompatibleVideoEncoderConfigurations(self, ProfileToken):
-        """This operation lists all the video encoder configurations of the device that
-        are compatible with a certain media profile.
+        """
+        This operation lists all the video encoder configurations of the device that are
+        compatible with a certain media profile.
 
         Each of the returned configurations shall be a valid input parameter for the
         AddVideoEncoderConfiguration command on the media profile. The result will vary
@@ -446,8 +482,9 @@ class Media(ONVIFService):
         )
 
     def GetCompatibleVideoSourceConfigurations(self, ProfileToken):
-        """This operation requests all the video source configurations of the device
-        that are compatible with a certain media profile.
+        """
+        This operation requests all the video source configurations of the device that
+        are compatible with a certain media profile.
 
         Each of the returned configurations shall be a valid input parameter for the
         AddVideoSourceConfiguration command on the media profile. The result will vary
@@ -458,7 +495,8 @@ class Media(ONVIFService):
         )
 
     def GetCompatibleAudioEncoderConfigurations(self, ProfileToken):
-        """This operation requests all audio encoder configurations of a device that are
+        """
+        This operation requests all audio encoder configurations of a device that are
         compatible with a certain media profile.
 
         Each of the returned configurations shall be a valid input parameter for the
@@ -470,8 +508,9 @@ class Media(ONVIFService):
         )
 
     def GetCompatibleAudioSourceConfigurations(self, ProfileToken):
-        """This operation requests all audio source configurations of the device that
-        are compatible with a certain media profile.
+        """
+        This operation requests all audio source configurations of the device that are
+        compatible with a certain media profile.
 
         Each of the returned configurations shall be a valid input parameter for the
         AddAudioEncoderConfiguration command on the media profile. The result varies
@@ -482,8 +521,9 @@ class Media(ONVIFService):
         )
 
     def GetCompatibleVideoAnalyticsConfigurations(self, ProfileToken):
-        """This operation requests all video analytic configurations of the device that
-        are compatible with a certain media profile.
+        """
+        This operation requests all video analytic configurations of the device that are
+        compatible with a certain media profile.
 
         Each of the returned configurations shall be a valid input parameter for the
         AddVideoAnalyticsConfiguration command on the media profile. The result varies
@@ -494,8 +534,9 @@ class Media(ONVIFService):
         )
 
     def GetCompatibleMetadataConfigurations(self, ProfileToken):
-        """This operation requests all the metadata configurations of the device that
-        are compatible with a certain media profile.
+        """
+        This operation requests all the metadata configurations of the device that are
+        compatible with a certain media profile.
 
         Each of the returned configurations shall be a valid input parameter for the
         AddMetadataConfiguration command on the media profile. The result varies
@@ -506,7 +547,8 @@ class Media(ONVIFService):
         )
 
     def GetCompatibleAudioOutputConfigurations(self, ProfileToken):
-        """This command lists all audio output configurations of a device that are
+        """
+        This command lists all audio output configurations of a device that are
         compatible with a certain media profile.
 
         Each returned configuration shall be a valid input for the
@@ -517,8 +559,9 @@ class Media(ONVIFService):
         )
 
     def GetCompatibleAudioDecoderConfigurations(self, ProfileToken):
-        """This operation lists all the audio decoder configurations of the device that
-        are compatible with a certain media profile.
+        """
+        This operation lists all the audio decoder configurations of the device that are
+        compatible with a certain media profile.
 
         Each of the returned configurations shall be a valid input parameter for the
         AddAudioDecoderConfiguration command on the media profile.
@@ -528,7 +571,8 @@ class Media(ONVIFService):
         )
 
     def SetVideoSourceConfiguration(self, Configuration, ForcePersistence):
-        """This operation modifies a video source configuration.
+        """
+        This operation modifies a video source configuration.
 
         The ForcePersistence flag indicates if the changes shall remain after reboot of
         the device. Running streams using this configuration may be immediately updated
@@ -544,7 +588,8 @@ class Media(ONVIFService):
         )
 
     def SetVideoEncoderConfiguration(self, Configuration, ForcePersistence):
-        """This operation modifies a video encoder configuration.
+        """
+        This operation modifies a video encoder configuration.
 
         The ForcePersistence flag indicates if the changes shall remain after reboot of
         the device. Changes in the Multicast settings shall always be persistent.
@@ -565,7 +610,8 @@ class Media(ONVIFService):
         )
 
     def SetAudioSourceConfiguration(self, Configuration, ForcePersistence):
-        """This operation modifies an audio source configuration.
+        """
+        This operation modifies an audio source configuration.
 
         The ForcePersistence flag indicates if the changes shall remain after reboot of
         the device. Running streams using this configuration may be immediately updated
@@ -580,7 +626,8 @@ class Media(ONVIFService):
         )
 
     def SetAudioEncoderConfiguration(self, Configuration, ForcePersistence):
-        """This operation modifies an audio encoder configuration.
+        """
+        This operation modifies an audio encoder configuration.
 
         The ForcePersistence flag indicates if the changes shall remain after reboot of
         the device. Running streams using this configuration may be immediately updated
@@ -596,7 +643,8 @@ class Media(ONVIFService):
         )
 
     def SetVideoAnalyticsConfiguration(self, Configuration, ForcePersistence):
-        """A video analytics configuration is modified using this command.
+        """
+        A video analytics configuration is modified using this command.
 
         The ForcePersistence flag indicates if the changes shall remain after reboot of
         the device or not. Running streams using this configuration shall be immediately
@@ -612,7 +660,8 @@ class Media(ONVIFService):
         )
 
     def SetMetadataConfiguration(self, Configuration, ForcePersistence):
-        """This operation modifies a metadata configuration.
+        """
+        This operation modifies a metadata configuration.
 
         The ForcePersistence flag indicates if the changes shall remain after reboot of
         the device. Changes in the Multicast settings shall always be persistent.
@@ -628,7 +677,8 @@ class Media(ONVIFService):
         )
 
     def SetAudioOutputConfiguration(self, Configuration, ForcePersistence):
-        """This operation modifies an audio output configuration.
+        """
+        This operation modifies an audio output configuration.
 
         The ForcePersistence flag indicates if the changes shall remain after reboot of
         the device.
@@ -640,7 +690,8 @@ class Media(ONVIFService):
         )
 
     def SetAudioDecoderConfiguration(self, Configuration, ForcePersistence):
-        """This operation modifies an audio decoder configuration.
+        """
+        This operation modifies an audio decoder configuration.
 
         The ForcePersistence flag indicates if the changes shall remain after reboot of
         the device.
@@ -654,7 +705,8 @@ class Media(ONVIFService):
     def GetVideoSourceConfigurationOptions(
         self, ConfigurationToken=None, ProfileToken=None
     ):
-        """This operation returns the available options (supported values and ranges for
+        """
+        This operation returns the available options (supported values and ranges for
         video source configuration parameters) when the video source parameters are
         reconfigured If a video source configuration is specified, the options shall
         concern that particular configuration.
@@ -671,7 +723,8 @@ class Media(ONVIFService):
     def GetVideoEncoderConfigurationOptions(
         self, ConfigurationToken=None, ProfileToken=None
     ):
-        """This operation returns the available options (supported values and ranges for
+        """
+        This operation returns the available options (supported values and ranges for
         video encoder configuration parameters) when the video encoder parameters are
         reconfigured.
 
@@ -695,7 +748,8 @@ class Media(ONVIFService):
     def GetAudioSourceConfigurationOptions(
         self, ConfigurationToken=None, ProfileToken=None
     ):
-        """This operation returns the available options (supported values and ranges for
+        """
+        This operation returns the available options (supported values and ranges for
         audio source configuration parameters) when the audio source parameters are
         reconfigured.
 
@@ -714,7 +768,8 @@ class Media(ONVIFService):
     ):
         """This operation returns the available options (supported values and ranges for
         audio encoder configuration parameters) when the audio encoder parameters are
-        reconfigured."""
+        reconfigured.
+        """
         return self.operator.call(
             "GetAudioEncoderConfigurationOptions",
             ConfigurationToken=ConfigurationToken,
@@ -725,7 +780,8 @@ class Media(ONVIFService):
         self, ConfigurationToken=None, ProfileToken=None
     ):
         """This operation returns the available options (supported values and ranges for
-        metadata configuration parameters) for changing the metadata configuration."""
+        metadata configuration parameters) for changing the metadata configuration.
+        """
         return self.operator.call(
             "GetMetadataConfigurationOptions",
             ConfigurationToken=ConfigurationToken,
@@ -736,7 +792,8 @@ class Media(ONVIFService):
         self, ConfigurationToken=None, ProfileToken=None
     ):
         """This operation returns the available options (supported values and ranges for
-        audio output configuration parameters) for configuring an audio output."""
+        audio output configuration parameters) for configuring an audio output.
+        """
         return self.operator.call(
             "GetAudioOutputConfigurationOptions",
             ConfigurationToken=ConfigurationToken,
@@ -747,7 +804,8 @@ class Media(ONVIFService):
         self, ConfigurationToken=None, ProfileToken=None
     ):
         """This command list the audio decoding capabilities for a given profile and
-        configuration of a device."""
+        configuration of a device.
+        """
         return self.operator.call(
             "GetAudioDecoderConfigurationOptions",
             ConfigurationToken=ConfigurationToken,
@@ -757,7 +815,8 @@ class Media(ONVIFService):
     def GetGuaranteedNumberOfVideoEncoderInstances(self, ConfigurationToken):
         """The GetGuaranteedNumberOfVideoEncoderInstances command can be used to request
         the minimum number of guaranteed video encoder instances (applications) per
-        Video Source Configuration."""
+        Video Source Configuration.
+        """
         return self.operator.call(
             "GetGuaranteedNumberOfVideoEncoderInstances",
             ConfigurationToken=ConfigurationToken,
@@ -790,7 +849,8 @@ class Media(ONVIFService):
         )
 
     def StartMulticastStreaming(self, ProfileToken):
-        """This command starts multicast streaming using a specified media profile of a
+        """
+        This command starts multicast streaming using a specified media profile of a
         device.
 
         Streaming continues until StopMulticastStreaming is called for the same Profile.
@@ -803,12 +863,14 @@ class Media(ONVIFService):
 
     def StopMulticastStreaming(self, ProfileToken):
         """This command stop multicast streaming using a specified media profile of a
-        device."""
+        device.
+        """
         return self.operator.call("StopMulticastStreaming", ProfileToken=ProfileToken)
 
     def SetSynchronizationPoint(self, ProfileToken):
-        """Synchronization points allow clients to decode and correctly use all data
-        after the synchronization point.
+        """
+        Synchronization points allow clients to decode and correctly use all data after
+        the synchronization point.
 
         For example, if a video stream is configured with a large I-frame distance and a
         client loses a single packet, the client does not display video until the next
@@ -825,7 +887,8 @@ class Media(ONVIFService):
         return self.operator.call("SetSynchronizationPoint", ProfileToken=ProfileToken)
 
     def GetSnapshotUri(self, ProfileToken):
-        """A client uses the GetSnapshotUri command to obtain a JPEG snapshot from the
+        """
+        A client uses the GetSnapshotUri command to obtain a JPEG snapshot from the
         device.
 
         The returned URI shall remain valid indefinitely even if the profile is changed.
@@ -840,7 +903,8 @@ class Media(ONVIFService):
         return self.operator.call("GetSnapshotUri", ProfileToken=ProfileToken)
 
     def GetVideoSourceModes(self, VideoSourceToken):
-        """A device returns the information for current video source mode and settable
+        """
+        A device returns the information for current video source mode and settable
         video source modes of specified video source.
 
         A device that indicates a capability of VideoSourceModes shall support this
@@ -851,8 +915,9 @@ class Media(ONVIFService):
         )
 
     def SetVideoSourceMode(self, VideoSourceToken, VideoSourceModeToken):
-        """SetVideoSourceMode changes the media profile structure relating to video
-        source for the specified video source mode.
+        """
+        SetVideoSourceMode changes the media profile structure relating to video source
+        for the specified video source mode.
 
         A device that indicates a capability of VideoSourceModes shall support this
         command. The behavior after changing the mode is not defined in this

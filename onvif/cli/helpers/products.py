@@ -14,8 +14,8 @@ from onvif.cli.utils import colorize
 
 
 def search_products(search_term: str, page: int = 1, per_page: int = 20) -> None:
-    """Search ONVIF products database and display results in table format with
-    pagination.
+    """
+    Search ONVIF products database and display results in table format with pagination.
 
     Args:
         search_term (str): Search term to match against model, post_title, and company_name fields
@@ -244,7 +244,7 @@ def _format_date_width(value: str) -> str:
 
 
 def _print_data_header(headers: list[str], col_widths: list[int]) -> None:
-    """Print table header"""
+    """Print table header."""
     header_line = " | ".join(
         header.ljust(col_widths[i]) for i, header in enumerate(headers)
     )
@@ -254,7 +254,7 @@ def _print_data_header(headers: list[str], col_widths: list[int]) -> None:
 
 # pylint: disable=too-many-branches,too-many-nested-blocks
 def _print_data_rows(results: list[Any], col_widths: list[int]) -> None:
-    """Print data table rows"""
+    """Print data table rows."""
     for row in results:
         formatted_row = []
         for i, value in enumerate(row):
@@ -322,7 +322,7 @@ def _print_data_rows(results: list[Any], col_widths: list[int]) -> None:
 
 
 def _print_data_pagination(page: int, total_pages: int) -> None:
-    """Print pagination information"""
+    """Print pagination information."""
     print()
     newline = "\n" if total_pages == 1 else ""
     print(f"{colorize(f'Page {page} of {total_pages}', 'cyan')} {newline}")
