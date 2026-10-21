@@ -102,8 +102,9 @@ isort .
 # Spelling check
 codespell .
 
-# Format docstring with docformatter
-docformatter --recursive --black --in-place .
+# Format docstring with docformatter 
+# (for onvif, tests, and docs folders only)
+docformatter --recursive --black --in-place onvif tests docs
    
 # Format code with black
 black .
@@ -216,13 +217,16 @@ The documentation source is located in the [`docs/`](https://github.com/nirsimet
 ```text
 docs/
 ├── assets/
+├── generated/
 ├── hooks/
 ├── javascripts/
 ├── stylesheets/
 ├── overrides/
+├── templates/
 ├── includes/
 ├── api/
 ├── main/
+├── misc/
 ├── references/
 ├── utilities/
 ├── project/
