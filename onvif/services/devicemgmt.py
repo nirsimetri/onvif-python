@@ -1,3 +1,4 @@
+# pylint: disable=too-many-lines
 """Device (Core) service implementation."""
 
 from onvif.operator import ONVIFOperator
