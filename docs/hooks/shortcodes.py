@@ -1,4 +1,5 @@
-"""Shortcodes hook.
+"""
+Shortcodes hook.
 
 Origin source:
 https://github.com/squidfunk/mkdocs-material/blob/master/src/overrides/hooks/shortcodes.py
@@ -112,7 +113,6 @@ def on_page_markdown(
 
 def replace(match: Match, page: Page | None = None, files: Files | None = None):
     """Shortcodes replacer."""
-
     type, args = match.groups()
     args = args.strip()
 
