@@ -83,6 +83,10 @@ Python **3.10 or higher** is required.
 - [requests](https://github.com/psf/requests) → HTTP library for network requests.
 - [pyreadline3](https://github.com/pyreadline3/pyreadline3) → Only installed on Windows (`win32`) for CLI auto-completion.
 
+## Documentation
+
+For complete guide, including usage examples and API references, please visit the [Documentation Site](https://onvif-python.pages.dev/).
+
 ## Installation
 
 From official [PyPI](https://pypi.org/project/onvif-python/):
@@ -110,23 +114,21 @@ onvif --help
 
 ## Prebuilt Binaries (No Python Required)
 
-To use the [ONVIF CLI](https://onvif-python.pages.dev/main/onvif_cli/) without installing Python or additional dependencies, download a prebuilt binary for your platform from the [GitHub Releases](https://github.com/nirsimetri/onvif-python/releases) page.
+To use the [ONVIF CLI](https://onvif-python.pages.dev/main/onvif_cli/) without installing Python or additional dependencies, download a prebuilt binary distribution for your platform from the [GitHub Releases](https://github.com/nirsimetri/onvif-python/releases) page.
 
-Each release includes downloadable binary assets for supported platforms and architectures. Choose the appropriate binary from the table below:
+Each release includes platform-specific archives containing the [ONVIF CLI](https://onvif-python.pages.dev/main/onvif_cli/) executable and its required runtime files. Alternatively, download the latest archive for your platform and architecture from the table below.
 
 | Platform | Architecture | Download |
 |---|---|---|
-| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/linux.svg" width="20" height="20" valign="middle"/> &nbsp;Linux | AMD64 (64-bit) | [onvif-linux-amd64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-amd64.zip) |
-| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/linux.svg" width="20" height="20" valign="middle"/> &nbsp;Linux | ARM64 (aarch64) | [onvif-linux-arm64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-arm64.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/linux.svg" width="20" height="20" valign="middle"/> &nbsp;Linux | AMD64 (64-bit) | [onvif-linux-amd64.tar.gz](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-amd64.tar.gz) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/linux.svg" width="20" height="20" valign="middle"/> &nbsp;Linux | ARM64 (aarch64) | [onvif-linux-arm64.tar.gz](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-linux-arm64.tar.gz) |
 | <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/windows.svg" width="20" height="20" valign="middle"/> &nbsp;Windows | x64 (64-bit) | [onvif-windows-win64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-windows-win64.zip) |
 | <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/windows.svg" width="20" height="20" valign="middle"/> &nbsp;Windows | x86 (32-bit) | [onvif-windows-win32.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-windows-win32.zip) |
 | <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/windows.svg" width="20" height="20" valign="middle"/> &nbsp;Windows | ARM64 | [onvif-windows-arm64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-windows-arm64.zip) |
-| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/apple.svg" width="20" height="20" valign="middle"/> &nbsp;macOS | Intel (AMD64) | [onvif-macos-amd64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-macos-amd64.zip) |
-| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/apple.svg" width="20" height="20" valign="middle"/> &nbsp;macOS | Apple Silicon (ARM64) | [onvif-macos-arm64.zip](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-macos-arm64.zip) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/apple.svg" width="20" height="20" valign="middle"/> &nbsp;macOS | Intel (AMD64) | [onvif-macos-amd64.tar.gz](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-macos-amd64.tar.gz) |
+| <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/svgs/brands/apple.svg" width="20" height="20" valign="middle"/> &nbsp;macOS | Apple Silicon (ARM64) | [onvif-macos-arm64.tar.gz](https://github.com/nirsimetri/onvif-python/releases/latest/download/onvif-macos-arm64.tar.gz) |
 
-## Documentation
-
-For complete guide, including usage examples and API references, please visit the [Documentation Site](https://onvif-python.pages.dev/).
+For further information regarding the usage and local installation, please refer to the [Prebuilt Binaries](https://onvif-python.pages.dev/misc/binaries/) documentation.
 
 ## License
 
