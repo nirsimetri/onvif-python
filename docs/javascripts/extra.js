@@ -31,4 +31,38 @@ document$.subscribe(() => {
 
     editButton.after(reportButton);
   });
+
+  document.querySelectorAll(
+    '.md-search [role="dialog"], .md-search[role="dialog"]'
+  ).forEach((dialog) => {
+    if (
+      !dialog.hasAttribute("aria-label") &&
+      !dialog.hasAttribute("aria-labelledby")
+    ) {
+      dialog.setAttribute("aria-label", "Search");
+    }
+  });
+
+  document.querySelectorAll(".md-progress[role='progressbar']").forEach(
+    (progress) => {
+      if (
+        !progress.hasAttribute("aria-label") &&
+        !progress.hasAttribute("aria-labelledby")
+      ) {
+        progress.setAttribute("aria-label", "Page loading progress");
+      }
+    }
+  );
+  document.querySelectorAll(".md-content__button.md-icon").forEach((button) => {
+    if (
+      !button.hasAttribute("aria-label") &&
+      !button.hasAttribute("aria-labelledby")
+    ) {
+      if (button.href?.includes("/edit/")) {
+        button.setAttribute("aria-label", "Edit this page");
+      } else if (button.href?.includes("/raw/")) {
+        button.setAttribute("aria-label", "View source");
+      }
+    }
+  });
 });

@@ -40,10 +40,14 @@ This library includes a powerful command-line interface (CLI) for interacting wi
   </tr>
   <tr>
     <td width="35%">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png" />
+      <a href="/assets/images/onvif_cli.png" class="no-external-icon" rel="noopener noreferrer" target="_blank">
+        <img src="/assets/images/onvif_cli.png" />
+      </a>
     </td>
     <td width="65%">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_operations.png" />
+      <a href="/assets/images/onvif_operations.png" class="no-external-icon" rel="noopener noreferrer" target="_blank">
+        <img src="/assets/images/onvif_operations.png" />
+      </a>
     </td>
   </tr>
 </table>
