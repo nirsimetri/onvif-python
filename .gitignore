@@ -13,6 +13,7 @@ build/
 dist/
 *.egg-info/
 site/
+onvif.spec
 
 # SQLite database files
 *.sqlite
