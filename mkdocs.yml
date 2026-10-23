@@ -251,10 +251,8 @@ validation:
 
 extra:
   generator: false
-  analytics:
-    provider: google
-    property: !ENV [GOOGLE_ANALYTICS_PROPERTY, ""]
   google_site_verification: !ENV [GOOGLE_SITE_VERIFICATION, ""]
+  google_analytics_id: !ENV [GOOGLE_ANALYTICS_PROPERTY, ""]
   cloudflare_beacon: !ENV [CF_BEACON, ""]
   social:
     - icon: fontawesome/solid/globe
