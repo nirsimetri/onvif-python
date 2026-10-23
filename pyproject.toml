@@ -1,13 +1,12 @@
 [build-system]
 requires = [
     "setuptools>=77.0.3",
-    "wheel>=0.48.0,<1.0.0",
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "onvif-python"
-version = "0.4.7"
+dynamic = ["version"]
 description = "A Python Library + CLI for ONVIF-compliant devices"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -88,25 +87,24 @@ onvif = "onvif.cli.main:main"
 [tool.setuptools]
 license-files = ["LICENSE", "NOTICE"]
 
+[tool.setuptools.dynamic]
+version = { attr = "onvif.meta.__version__" }
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["onvif*"]
-exclude = [
-    "examples*",
-    "tests*",
-    "assets*",
-    "build*",
-    "site*",
-    "device-test*",
-    "docs*",
-    "dist*",
-    "scripts*",
-]
 
 [tool.setuptools.package-data]
 onvif = [
     "wsdl/**/*",
     "db/**/*",
+]
+
+[tool.setuptools.exclude-package-data]
+"*" = [
+    "*.html",
+    "*.htm",
+    "*.xsl",
 ]
 
 [tool.black]
