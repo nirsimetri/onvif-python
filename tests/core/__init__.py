@@ -1,1 +1,1 @@
-"""ONVIF Python tests suite."""
+"""ONVIF Python Core tests suite."""
