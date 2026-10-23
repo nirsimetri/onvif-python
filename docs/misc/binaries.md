@@ -6,9 +6,12 @@ comments: true
 
 # Prebuilt Binaries (No Python Required)
 
+[![Python Binary](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-binary.yml?style=plastic&logo=github&label=Python%20Binary
+&cacheSeconds=3600)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-binary.yml){ .no-external-icon }
+
 To use the [ONVIF CLI](../main/onvif_cli.md) without installing Python or additional dependencies, download a prebuilt binary distribution for your platform from the [GitHub Releases](https://github.com/nirsimetri/onvif-python/releases) page.
 
-Each release includes platform-specific archives containing the [ONVIF CLI](../main/onvif_cli.md) executable and its required runtime files. Alternatively, download the latest archive for your platform and architecture from the table below.
+Each release includes platform-specific archives containing the [ONVIF CLI](../main/onvif_cli.md) executable and its required runtime files. Alternatively, download the latest archive for your platform and architecture from the table below:
 
 | Platform | Architecture | Download |
 |---|---|---|
@@ -22,7 +25,7 @@ Each release includes platform-specific archives containing the [ONVIF CLI](../m
 
 ## Installation
 
-### :fontawesome-brands-linux: Linux
+### :fontawesome-brands-linux: Linux {: .platform-heading }
 
 1. Download the TAR.GZ archive matching your Linux architecture.
 2. Extract the archive into a permanent location.
@@ -51,7 +54,7 @@ onvif --help
 
 Replace `onvif-linux-amd64.tar.gz` with the archive matching your system.
 
-### :fontawesome-brands-windows: Windows
+### :fontawesome-brands-windows: Windows {: .platform-heading }
 
 1. Download the ZIP archive matching your Windows architecture.
 2. Extract the archive. It contains an `onvif` directory with the executable and its bundled dependencies.
@@ -72,7 +75,7 @@ onvif --help
 
 You can now invoke `onvif` from any working directory in PowerShell or Command Prompt.
 
-### :fontawesome-brands-apple: macOS
+### :fontawesome-brands-apple: macOS {: .platform-heading }
 
 1. Download the TAR.GZ archive matching your Mac's processor: Intel or Apple Silicon.
 2. Extract the archive into a permanent location.
@@ -101,12 +104,12 @@ onvif --help
 
 For Intel Macs, use `onvif-macos-amd64.tar.gz` instead.
 
-## Understanding the Distribution
+## Inside the Distribution
 
 !!! info
     The `LICENSE` and `NOTICE` files provide licensing and attribution information for the distribution.
 
-The prebuilt binaries use PyInstaller's `--onedir` mode. Each archive contains the executable, bundled runtime dependencies, and project license documents.
+The prebuilt binaries use [PyInstaller](https://pyinstaller.org/en/stable/) `--onedir` mode. Each archive contains the executable, bundled runtime dependencies, and project license documents.
 
 The extracted directory has the following structure:
 

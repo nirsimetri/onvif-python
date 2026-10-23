@@ -3,9 +3,20 @@
   --md-code-font: "Geist Mono"
 }
 
+.platform-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.platform-heading span {
+  display: inline-flex;
+  align-items: center;
+}
+
 [data-md-color-scheme="default"] {
   /* Background */
-  --md-default-bg-color: #ebebeb;
+  --md-default-bg-color: #FCFCFC;
 
   /* Primary */
   --md-primary-fg-color: #003399;

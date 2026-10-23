@@ -3,17 +3,17 @@ hide:
   - navigation
 ---
 
-# ONVIF Python &nbsp;[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&style=plastic)](https://pepy.tech/projects/onvif-python){ .no-external-icon }
+# ONVIF Python &nbsp;[![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&style=plastic&cacheSeconds=3600)](https://pepy.tech/projects/onvif-python){ .no-external-icon }
 
 
-[![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python)](https://pypi.org/project/onvif-python){ .no-external-icon }
-[![PyPI Version](https://img.shields.io/pypi/v/onvif-python?logo=pypi&logoColor=white&color=blue&style=plastic&label=PyPI)](https://pypi.org/project/onvif-python/){ .no-external-icon }
-[![Quality](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Quality)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard){ .no-external-icon }
-[![Coverage](https://img.shields.io/codacy/coverage/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Coverage)](https://app.codacy.com/gh/nirsimetri/onvif-python/coverage){ .no-external-icon }
+[![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python&cacheSeconds=3600)](https://pypi.org/project/onvif-python){ .no-external-icon }
+[![PyPI Version](https://img.shields.io/pypi/v/onvif-python?logo=pypi&logoColor=white&color=blue&style=plastic&label=PyPI&cacheSeconds=3600)](https://pypi.org/project/onvif-python/){ .no-external-icon }
+[![Quality](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Quality&cacheSeconds=3600)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard){ .no-external-icon }
+[![Coverage](https://img.shields.io/codacy/coverage/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Coverage&cacheSeconds=3600)](https://app.codacy.com/gh/nirsimetri/onvif-python/coverage){ .no-external-icon }
 <br>
-[![Build](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-app.yml?logo=github&style=plastic&label=Build)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml){ .no-external-icon }
-[![Upload Python](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-publish.yml?logo=github&style=plastic&label=Upload%20Package)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml){ .no-external-icon }
-[![CLI Cross-Platform](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/cli-cross-platform.yml?logo=github&style=plastic&label=CLI%20Cross-Platform)](https://github.com/nirsimetri/onvif-python/actions/workflows/cli-cross-platform.yml){ .no-external-icon }
+[![Build](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-app.yml?logo=github&style=plastic&label=Build&cacheSeconds=3600)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml){ .no-external-icon }
+[![Upload Python](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-publish.yml?logo=github&style=plastic&label=Upload%20Package&cacheSeconds=3600)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml){ .no-external-icon }
+[![CLI Cross-Platform](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/cli-cross-platform.yml?logo=github&style=plastic&label=CLI%20Cross-Platform&cacheSeconds=3600)](https://github.com/nirsimetri/onvif-python/actions/workflows/cli-cross-platform.yml){ .no-external-icon }
 
 
 **[ONVIF](https://www.onvif.org) (Open Network Video Interface Forum)** is a global standard for the interface of IP-based physical security products, including network cameras, video recorders, and related systems.  

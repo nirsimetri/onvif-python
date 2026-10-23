@@ -11,7 +11,7 @@ hide:
 
 # Stay tuned and star :star: this repo
 
-[![GitHub stars](https://img.shields.io/github/stars/nirsimetri/onvif-python?style=social)](https://github.com/nirsimetri/onvif-python){ .no-external-icon }
+[![GitHub stars](https://img.shields.io/github/stars/nirsimetri/onvif-python?style=social&cacheSeconds=3600)](https://github.com/nirsimetri/onvif-python){ .no-external-icon }
 
 !!! info "Release Cycle"
     Starting with [`v0.4.5`](../releases.md/#v0.4.5), this library will follow a **quarterly release cycle**, with regular releases **every 3 months**. Bug fixes, documentation, and security updates may be released outside the regular schedule when necessary.
