@@ -9,6 +9,7 @@ name = "onvif-python"
 dynamic = ["version"]
 description = "A Python Library + CLI for ONVIF-compliant devices"
 readme = "README.md"
+license = { text = "MIT" }
 requires-python = ">=3.10"
 authors = [
     {name = "Nirsimetri Technologies®", email = "open@nirsimetri.com"},
@@ -28,6 +29,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: Information Technology",
     "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
@@ -44,7 +46,6 @@ classifiers = [
     "Topic :: Communications",
     "Topic :: Text Processing :: Markup :: XML",
 ]
-license = "MIT"
 
 dependencies = [
     "zeep>=4.3.0,<4.4.0",
