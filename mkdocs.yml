@@ -286,6 +286,8 @@ extra_css:
 extra_javascript:
   - javascripts/vendor/marked.umd.js
   - javascripts/vendor/purify.min.js
+  - javascripts/vendor/timeago_mkdocs_material.js
+  - javascripts/vendor/timeago.min.js
   - javascripts/github-releases.js
   - javascripts/external-links.js
   - javascripts/section-flash.js
