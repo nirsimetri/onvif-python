@@ -1,6 +1,22 @@
+:root {
+  --md-text-font: "Geist"; 
+  --md-code-font: "Geist Mono"
+}
+
+.platform-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.platform-heading span {
+  display: inline-flex;
+  align-items: center;
+}
+
 [data-md-color-scheme="default"] {
   /* Background */
-  --md-default-bg-color: #ebebeb;
+  --md-default-bg-color: #FCFCFC;
 
   /* Primary */
   --md-primary-fg-color: #003399;
@@ -327,6 +343,7 @@
   color: var(--color-muted);
 }
 
+/* Search bar */
 [data-md-toggle="search"]:not(:checked) ~ .md-header .md-search__form::after {
   position: absolute;
   top: .3rem;

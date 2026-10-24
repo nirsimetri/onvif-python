@@ -7,10 +7,10 @@ comments: true
 <!-- md:version 0.1.1 -->
 <!-- md:module cli -->
 
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=plastic&logo=gitforwindows&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=plastic&logo=linux&logoColor=black)
-![macOS](https://img.shields.io/badge/macOS-1A9FEE?style=plastic&logo=apple&logoColor=white)
-![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=plastic&logo=raspberrypi&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=plastic&logo=gitforwindows&logoColor=white&cacheSeconds=3600)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=plastic&logo=linux&logoColor=black&cacheSeconds=3600)
+![macOS](https://img.shields.io/badge/macOS-1A9FEE?style=plastic&logo=apple&logoColor=white&cacheSeconds=3600)
+![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=plastic&logo=raspberrypi&logoColor=white&cacheSeconds=3600)
 
 This library includes a powerful command-line interface (CLI) for interacting with ONVIF devices directly from your terminal. It supports both direct command execution and an interactive shell mode, providing a flexible and efficient way to manage and debug ONVIF devices.
 
@@ -40,10 +40,14 @@ This library includes a powerful command-line interface (CLI) for interacting wi
   </tr>
   <tr>
     <td width="35%">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_cli.png" />
+      <a href="/assets/images/onvif_cli.png" class="no-external-icon" rel="noopener noreferrer" target="_blank">
+        <img src="/assets/images/onvif_cli.png" />
+      </a>
     </td>
     <td width="65%">
-        <img src="https://raw.githubusercontent.com/nirsimetri/onvif-python/refs/heads/main/assets/images/onvif_operations.png" />
+      <a href="/assets/images/onvif_operations.png" class="no-external-icon" rel="noopener noreferrer" target="_blank">
+        <img src="/assets/images/onvif_operations.png" />
+      </a>
     </td>
   </tr>
 </table>

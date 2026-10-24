@@ -1,9 +1,9 @@
-# ONVIF Python [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&style=plastic)](https://pepy.tech/projects/onvif-python)
+# ONVIF Python [![Downloads](https://img.shields.io/pypi/dm/onvif-python?label=Downloads&style=plastic&cacheSeconds=3600)](https://pepy.tech/projects/onvif-python)
 
-[![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python)](https://pypi.org/project/onvif-python)
-[![PyPI Version](https://img.shields.io/pypi/v/onvif-python?logo=pypi&logoColor=white&color=blue&style=plastic&label=PyPI)](https://pypi.org/project/onvif-python/)
-[![Quality](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Quality)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard)
-[![Coverage](https://img.shields.io/codacy/coverage/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Coverage)](https://app.codacy.com/gh/nirsimetri/onvif-python/coverage)
+[![Python Version](https://img.shields.io/pypi/pyversions/onvif-python?logo=python&logoColor=white&color=blue&style=plastic&label=Python&cacheSeconds=3600)](https://pypi.org/project/onvif-python)
+[![PyPI Version](https://img.shields.io/pypi/v/onvif-python?logo=pypi&logoColor=white&color=blue&style=plastic&label=PyPI&cacheSeconds=3600)](https://pypi.org/project/onvif-python/)
+[![Quality](https://img.shields.io/codacy/grade/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Quality&cacheSeconds=3600)](https://app.codacy.com/gh/nirsimetri/onvif-python/dashboard)
+[![Coverage](https://img.shields.io/codacy/coverage/bff08a94e4d447b690cea49c6594826d?style=plastic&logo=codacy&label=Coverage&cacheSeconds=3600)](https://app.codacy.com/gh/nirsimetri/onvif-python/coverage)
 <br>
 [![Build](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-app.yml?logo=github&style=plastic&label=Build)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-app.yml)
 [![Upload Python](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-publish.yml?logo=github&style=plastic&label=Upload%20Package)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-publish.yml)
@@ -114,9 +114,12 @@ onvif --help
 
 ## Prebuilt Binaries (No Python Required)
 
+[![Python Binary](https://img.shields.io/github/actions/workflow/status/nirsimetri/onvif-python/python-binary.yml?style=plastic&logo=github&label=Python%20Binary
+)](https://github.com/nirsimetri/onvif-python/actions/workflows/python-binary.yml)
+
 To use the [ONVIF CLI](https://onvif-python.pages.dev/main/onvif_cli/) without installing Python or additional dependencies, download a prebuilt binary distribution for your platform from the [GitHub Releases](https://github.com/nirsimetri/onvif-python/releases) page.
 
-Each release includes platform-specific archives containing the [ONVIF CLI](https://onvif-python.pages.dev/main/onvif_cli/) executable and its required runtime files. Alternatively, download the latest archive for your platform and architecture from the table below.
+Each release includes platform-specific archives containing the [ONVIF CLI](https://onvif-python.pages.dev/main/onvif_cli/) executable and its required runtime files. Alternatively, download the latest archive for your platform and architecture from the table below:
 
 | Platform | Architecture | Download |
 |---|---|---|
